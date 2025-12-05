@@ -1,0 +1,4 @@
+project_id = "iacjtvvlyxkmrzaxkedk"
+
+[functions.quran-search]
+verify_jwt = false
