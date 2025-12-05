@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Search, BookOpen, Bookmark, ChevronRight } from "lucide-react";
 import { surahs } from "@/data/surahs";
 import { cn } from "@/lib/utils";
@@ -27,6 +28,7 @@ export const AppSidebar = ({ language, activeTab, onTabChange }: AppSidebarProps
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedSurah, setSelectedSurah] = useState<number | null>(null);
   const { state } = useSidebar();
+  const navigate = useNavigate();
   const isCollapsed = state === "collapsed";
 
   const filteredSurahs = surahs.filter((surah) => {
@@ -38,6 +40,11 @@ export const AppSidebar = ({ language, activeTab, onTabChange }: AppSidebarProps
       surah.number.toString().includes(query)
     );
   });
+
+  const handleSurahClick = (surahNumber: number) => {
+    setSelectedSurah(surahNumber);
+    navigate(`/surah/${surahNumber}`);
+  };
 
   return (
     <Sidebar collapsible="icon" className="border-r border-sidebar-border">
@@ -166,7 +173,7 @@ export const AppSidebar = ({ language, activeTab, onTabChange }: AppSidebarProps
                 {filteredSurahs.map((surah) => (
                   <SidebarMenuItem key={surah.number}>
                     <SidebarMenuButton
-                      onClick={() => setSelectedSurah(surah.number)}
+                      onClick={() => handleSurahClick(surah.number)}
                       isActive={selectedSurah === surah.number}
                       tooltip={`${surah.number}. ${surah.nameEnglish}`}
                       className="group h-auto py-2"
