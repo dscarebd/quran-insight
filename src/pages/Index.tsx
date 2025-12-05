@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { Sidebar } from "@/components/Sidebar";
+import { AppSidebar } from "@/components/AppSidebar";
 import { Header } from "@/components/Header";
 import { SearchSection } from "@/components/SearchSection";
 import { DailyVerse } from "@/components/DailyVerse";
 import { useToast } from "@/hooks/use-toast";
+import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 
 const Index = () => {
   const [language, setLanguage] = useState<"bn" | "en">("bn");
@@ -27,22 +28,20 @@ const Index = () => {
   };
 
   return (
-    <div className="flex h-screen bg-background">
-      {/* Sidebar */}
-      <Sidebar
+    <SidebarProvider defaultOpen={true}>
+      <AppSidebar
         language={language}
         activeTab={activeTab}
         onTabChange={setActiveTab}
       />
 
-      {/* Main Content */}
-      <main className="flex flex-1 flex-col overflow-hidden">
+      <SidebarInset>
         {/* Header */}
         <Header language={language} onLanguageChange={setLanguage} />
 
         {/* Content Area */}
         <div className="flex-1 overflow-y-auto islamic-pattern">
-          <div className="mx-auto max-w-4xl px-6 py-12">
+          <div className="mx-auto max-w-4xl px-4 py-8 md:px-6 md:py-12">
             <SearchSection
               language={language}
               onSearch={handleSearch}
@@ -52,8 +51,8 @@ const Index = () => {
             <DailyVerse language={language} />
           </div>
         </div>
-      </main>
-    </div>
+      </SidebarInset>
+    </SidebarProvider>
   );
 };
 
