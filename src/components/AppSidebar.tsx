@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Search, BookOpen, Bookmark, ChevronRight } from "lucide-react";
 import { surahs } from "@/data/surahs";
+import { paras } from "@/data/paras";
 import { cn } from "@/lib/utils";
 import {
   Sidebar,
@@ -27,6 +28,7 @@ export const AppSidebar = ({ language, activeTab, onTabChange }: AppSidebarProps
   const [viewMode, setViewMode] = useState<ViewMode>("surah");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedSurah, setSelectedSurah] = useState<number | null>(null);
+  const [selectedPara, setSelectedPara] = useState<number | null>(null);
   const { state } = useSidebar();
   const navigate = useNavigate();
   const isCollapsed = state === "collapsed";
@@ -41,9 +43,25 @@ export const AppSidebar = ({ language, activeTab, onTabChange }: AppSidebarProps
     );
   });
 
+  const filteredParas = paras.filter((para) => {
+    const query = searchQuery.toLowerCase();
+    return (
+      para.nameEnglish.toLowerCase().includes(query) ||
+      para.nameBengali.includes(query) ||
+      para.nameArabic.includes(query) ||
+      para.number.toString().includes(query)
+    );
+  });
+
   const handleSurahClick = (surahNumber: number) => {
     setSelectedSurah(surahNumber);
     navigate(`/surah/${surahNumber}`);
+  };
+
+  const handleParaClick = (paraNumber: number) => {
+    setSelectedPara(paraNumber);
+    // Navigate to para page (can be implemented later)
+    navigate(`/para/${paraNumber}`);
   };
 
   return (
@@ -167,41 +185,78 @@ export const AppSidebar = ({ language, activeTab, onTabChange }: AppSidebarProps
               </>
             )}
 
-            {/* Surah List */}
+            {/* Surah/Para List */}
             <SidebarGroupContent className={cn(!isCollapsed && "px-2 pb-4")}>
               <SidebarMenu>
-                {filteredSurahs.map((surah) => (
-                  <SidebarMenuItem key={surah.number}>
-                    <SidebarMenuButton
-                      onClick={() => handleSurahClick(surah.number)}
-                      isActive={selectedSurah === surah.number}
-                      tooltip={`${surah.number}. ${surah.nameEnglish}`}
-                      className="group h-auto py-2"
-                    >
-                      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-sidebar-accent text-sm font-semibold text-sidebar-accent-foreground">
-                        {surah.number}
-                      </div>
-                      {!isCollapsed && (
-                        <>
-                          <div className="flex-1 min-w-0">
-                            <div className="flex items-center justify-between gap-2">
-                              <span className="font-medium truncate">
-                                {language === "bn" ? surah.nameBengali : surah.nameEnglish}
-                              </span>
-                              <span className="font-arabic text-sm text-muted-foreground shrink-0">
-                                {surah.nameArabic}
+                {viewMode === "surah" ? (
+                  filteredSurahs.map((surah) => (
+                    <SidebarMenuItem key={surah.number}>
+                      <SidebarMenuButton
+                        onClick={() => handleSurahClick(surah.number)}
+                        isActive={selectedSurah === surah.number}
+                        tooltip={`${surah.number}. ${surah.nameEnglish}`}
+                        className="group h-auto py-2"
+                      >
+                        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-sidebar-accent text-sm font-semibold text-sidebar-accent-foreground">
+                          {surah.number}
+                        </div>
+                        {!isCollapsed && (
+                          <>
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center justify-between gap-2">
+                                <span className="font-medium truncate">
+                                  {language === "bn" ? surah.nameBengali : surah.nameEnglish}
+                                </span>
+                                <span className="font-arabic text-sm text-muted-foreground shrink-0">
+                                  {surah.nameArabic}
+                                </span>
+                              </div>
+                              <span className="text-xs text-muted-foreground">
+                                {language === "bn" ? surah.meaningBengali : surah.meaningEnglish}
                               </span>
                             </div>
-                            <span className="text-xs text-muted-foreground">
-                              {language === "bn" ? surah.meaningBengali : surah.meaningEnglish}
-                            </span>
-                          </div>
-                          <ChevronRight className="h-4 w-4 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100 shrink-0" />
-                        </>
-                      )}
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ))}
+                            <ChevronRight className="h-4 w-4 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100 shrink-0" />
+                          </>
+                        )}
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  ))
+                ) : (
+                  filteredParas.map((para) => (
+                    <SidebarMenuItem key={para.number}>
+                      <SidebarMenuButton
+                        onClick={() => handleParaClick(para.number)}
+                        isActive={selectedPara === para.number}
+                        tooltip={`${para.number}. ${para.nameEnglish}`}
+                        className="group h-auto py-2"
+                      >
+                        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-sidebar-accent text-sm font-semibold text-sidebar-accent-foreground">
+                          {para.number}
+                        </div>
+                        {!isCollapsed && (
+                          <>
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center justify-between gap-2">
+                                <span className="font-medium truncate">
+                                  {language === "bn" ? para.nameBengali : para.nameEnglish}
+                                </span>
+                                <span className="font-arabic text-sm text-muted-foreground shrink-0">
+                                  {para.nameArabic}
+                                </span>
+                              </div>
+                              <span className="text-xs text-muted-foreground">
+                                {language === "bn" 
+                                  ? `সূরা ${para.startSurah}:${para.startVerse} - ${para.endSurah}:${para.endVerse}`
+                                  : `Surah ${para.startSurah}:${para.startVerse} - ${para.endSurah}:${para.endVerse}`}
+                              </span>
+                            </div>
+                            <ChevronRight className="h-4 w-4 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100 shrink-0" />
+                          </>
+                        )}
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  ))
+                )}
               </SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>
