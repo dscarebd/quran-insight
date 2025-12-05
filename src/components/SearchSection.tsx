@@ -34,10 +34,10 @@ export const SearchSection = ({ language, onSearch, isLoading }: SearchSectionPr
       </div>
 
       {/* Title */}
-      <h1 className="mb-3 text-center font-bengali text-4xl font-bold text-foreground md:text-5xl">
+      <h1 className="mb-3 text-center font-bengali text-2xl font-bold text-foreground sm:text-3xl md:text-5xl">
         {language === "bn" ? "কুরআন জিজ্ঞাসা করুন" : "Ask the Quran"}
       </h1>
-      <p className="mb-8 text-center text-muted-foreground">
+      <p className="mb-6 px-2 text-center text-sm text-muted-foreground sm:mb-8 sm:px-0 sm:text-base">
         {language === "bn"
           ? "বাংলা বা ইংরেজিতে অনুসন্ধান করুন। এআই এর মাধ্যমে জানুন সঠিক তথ্য।"
           : "Search in Bengali or English. Get accurate information through AI."}
@@ -60,7 +60,7 @@ export const SearchSection = ({ language, onSearch, isLoading }: SearchSectionPr
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
             placeholder={placeholderText}
-            className="flex-1 bg-transparent px-6 py-4 text-lg placeholder:text-muted-foreground focus:outline-none"
+            className="min-w-0 flex-1 bg-transparent px-3 py-3 text-sm placeholder:text-muted-foreground focus:outline-none sm:px-6 sm:py-4 sm:text-lg"
             disabled={isLoading}
           />
           

@@ -40,8 +40,8 @@ const Index = () => {
         <Header language={language} onLanguageChange={setLanguage} />
 
         {/* Content Area */}
-        <div className="flex-1 overflow-y-auto islamic-pattern">
-          <div className="mx-auto max-w-4xl px-4 py-8 md:px-6 md:py-12">
+        <div className="flex-1 overflow-y-auto overflow-x-hidden islamic-pattern">
+          <div className="mx-auto max-w-4xl px-3 py-6 sm:px-4 md:px-6 md:py-12">
             <SearchSection
               language={language}
               onSearch={handleSearch}
