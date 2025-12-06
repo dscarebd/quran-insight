@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { ArrowLeft, BookOpen } from "lucide-react";
 import { paras } from "@/data/paras";
@@ -6,10 +5,14 @@ import { surahs } from "@/data/surahs";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-const ParaDetail = () => {
+interface ParaDetailProps {
+  language: "bn" | "en";
+  onLanguageChange: (lang: "bn" | "en") => void;
+}
+
+const ParaDetail = ({ language, onLanguageChange }: ParaDetailProps) => {
   const { paraNumber } = useParams<{ paraNumber: string }>();
   const navigate = useNavigate();
-  const [language, setLanguage] = useState<"bn" | "en">("bn");
 
   const paraNum = parseInt(paraNumber || "1", 10);
   const para = paras.find(p => p.number === paraNum);
@@ -47,7 +50,7 @@ const ParaDetail = () => {
           {/* Language Toggle */}
           <div className="flex rounded-full bg-secondary p-1">
             <button
-              onClick={() => setLanguage("bn")}
+              onClick={() => onLanguageChange("bn")}
               className={cn(
                 "rounded-full px-3 py-1.5 text-sm font-medium transition-all",
                 language === "bn"
@@ -58,7 +61,7 @@ const ParaDetail = () => {
               বাংলা
             </button>
             <button
-              onClick={() => setLanguage("en")}
+              onClick={() => onLanguageChange("en")}
               className={cn(
                 "rounded-full px-3 py-1.5 text-sm font-medium transition-all",
                 language === "en"

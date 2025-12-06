@@ -7,7 +7,8 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 interface SurahDetailProps {
-  language?: "bn" | "en";
+  language: "bn" | "en";
+  onLanguageChange: (lang: "bn" | "en") => void;
 }
 
 const VerseCard = ({ verse, language, index }: { verse: Verse; language: "bn" | "en"; index: number }) => {
@@ -68,10 +69,9 @@ const VerseCard = ({ verse, language, index }: { verse: Verse; language: "bn" | 
   );
 };
 
-const SurahDetail = ({ language: propLanguage }: SurahDetailProps) => {
+const SurahDetail = ({ language, onLanguageChange }: SurahDetailProps) => {
   const { surahNumber } = useParams<{ surahNumber: string }>();
   const navigate = useNavigate();
-  const [language, setLanguage] = useState<"bn" | "en">(propLanguage || "bn");
 
   const surahNum = parseInt(surahNumber || "1", 10);
   const surah = surahs.find(s => s.number === surahNum);
@@ -105,7 +105,7 @@ const SurahDetail = ({ language: propLanguage }: SurahDetailProps) => {
           {/* Language Toggle */}
           <div className="flex rounded-full bg-secondary p-1">
             <button
-              onClick={() => setLanguage("bn")}
+              onClick={() => onLanguageChange("bn")}
               className={cn(
                 "rounded-full px-3 py-1.5 text-sm font-medium transition-all",
                 language === "bn"
@@ -116,7 +116,7 @@ const SurahDetail = ({ language: propLanguage }: SurahDetailProps) => {
               বাংলা
             </button>
             <button
-              onClick={() => setLanguage("en")}
+              onClick={() => onLanguageChange("en")}
               className={cn(
                 "rounded-full px-3 py-1.5 text-sm font-medium transition-all",
                 language === "en"
