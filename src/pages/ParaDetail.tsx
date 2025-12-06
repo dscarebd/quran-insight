@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { ArrowLeft, BookOpen } from "lucide-react";
+import { ArrowLeft, BookOpen, ChevronLeft, ChevronRight } from "lucide-react";
 import { paras } from "@/data/paras";
 import { surahs } from "@/data/surahs";
 import { Button } from "@/components/ui/button";
@@ -16,6 +16,9 @@ const ParaDetail = ({ language, onLanguageChange }: ParaDetailProps) => {
 
   const paraNum = parseInt(paraNumber || "1", 10);
   const para = paras.find(p => p.number === paraNum);
+
+  const prevPara = paras.find(p => p.number === paraNum - 1);
+  const nextPara = paras.find(p => p.number === paraNum + 1);
 
   if (!para) {
     return (
@@ -44,8 +47,33 @@ const ParaDetail = ({ language, onLanguageChange }: ParaDetailProps) => {
             className="gap-2"
           >
             <ArrowLeft className="h-4 w-4" />
-            {language === "bn" ? "ফিরে যান" : "Back"}
+            <span className="hidden sm:inline">{language === "bn" ? "ফিরে যান" : "Back"}</span>
           </Button>
+
+          {/* Para Navigation for Mobile */}
+          <div className="flex items-center gap-1 sm:hidden">
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={() => prevPara && navigate(`/para/${prevPara.number}`)}
+              disabled={!prevPara}
+              className="h-8 w-8"
+            >
+              <ChevronLeft className="h-4 w-4" />
+            </Button>
+            <span className="min-w-[3rem] text-center text-sm font-medium">
+              {paraNum}/30
+            </span>
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={() => nextPara && navigate(`/para/${nextPara.number}`)}
+              disabled={!nextPara}
+              className="h-8 w-8"
+            >
+              <ChevronRight className="h-4 w-4" />
+            </Button>
+          </div>
 
           {/* Language Toggle */}
           <div className="flex rounded-full bg-secondary p-1">
@@ -97,7 +125,7 @@ const ParaDetail = ({ language, onLanguageChange }: ParaDetailProps) => {
       </div>
 
       {/* Included Surahs */}
-      <div className="mx-auto max-w-4xl px-3 py-6 sm:px-4 md:px-6">
+      <div className="mx-auto max-w-4xl px-3 py-6 pb-24 sm:pb-6 sm:px-4 md:px-6">
         <h3 className="mb-4 font-bengali text-lg font-semibold text-foreground">
           {language === "bn" ? "এই পারায় অন্তর্ভুক্ত সূরাসমূহ" : "Surahs in this Para"}
         </h3>
@@ -138,6 +166,58 @@ const ParaDetail = ({ language, onLanguageChange }: ParaDetailProps) => {
             </p>
           </div>
         )}
+      </div>
+
+      {/* Mobile Bottom Navigation */}
+      <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sm:hidden">
+        <div className="flex items-center justify-between px-4 py-3">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => prevPara && navigate(`/para/${prevPara.number}`)}
+            disabled={!prevPara}
+            className="gap-2"
+          >
+            <ChevronLeft className="h-4 w-4" />
+            <div className="text-left">
+              <div className="text-xs text-muted-foreground">
+                {language === "bn" ? "পূর্ববর্তী" : "Previous"}
+              </div>
+              {prevPara && (
+                <div className="text-xs font-medium truncate max-w-[80px]">
+                  {language === "bn" ? prevPara.nameBengali : prevPara.nameEnglish}
+                </div>
+              )}
+            </div>
+          </Button>
+
+          <div className="text-center">
+            <div className="text-xs text-muted-foreground">
+              {language === "bn" ? "পারা" : "Para"}
+            </div>
+            <div className="text-sm font-semibold">{paraNum}/30</div>
+          </div>
+
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => nextPara && navigate(`/para/${nextPara.number}`)}
+            disabled={!nextPara}
+            className="gap-2"
+          >
+            <div className="text-right">
+              <div className="text-xs text-muted-foreground">
+                {language === "bn" ? "পরবর্তী" : "Next"}
+              </div>
+              {nextPara && (
+                <div className="text-xs font-medium truncate max-w-[80px]">
+                  {language === "bn" ? nextPara.nameBengali : nextPara.nameEnglish}
+                </div>
+              )}
+            </div>
+            <ChevronRight className="h-4 w-4" />
+          </Button>
+        </div>
       </div>
     </div>
   );
