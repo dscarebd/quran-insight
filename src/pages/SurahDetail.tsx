@@ -5,6 +5,7 @@ import { surahs } from "@/data/surahs";
 import { getVersesBySurah, Verse } from "@/data/verses";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { useSidebar } from "@/components/ui/sidebar";
 
 interface SurahDetailProps {
   language: "bn" | "en";
@@ -72,6 +73,7 @@ const VerseCard = ({ verse, language, index }: { verse: Verse; language: "bn" | 
 const SurahDetail = ({ language, onLanguageChange }: SurahDetailProps) => {
   const { surahNumber } = useParams<{ surahNumber: string }>();
   const navigate = useNavigate();
+  const { isMobile, setOpenMobile } = useSidebar();
 
   const surahNum = parseInt(surahNumber || "1", 10);
   const surah = surahs.find(s => s.number === surahNum);
@@ -79,6 +81,14 @@ const SurahDetail = ({ language, onLanguageChange }: SurahDetailProps) => {
 
   const prevSurah = surahs.find(s => s.number === surahNum - 1);
   const nextSurah = surahs.find(s => s.number === surahNum + 1);
+
+  const handleBack = () => {
+    if (isMobile) {
+      setOpenMobile(true);
+    } else {
+      navigate("/");
+    }
+  };
 
   if (!surah) {
     return (
@@ -98,11 +108,11 @@ const SurahDetail = ({ language, onLanguageChange }: SurahDetailProps) => {
           <Button 
             variant="ghost" 
             size="sm" 
-            onClick={() => navigate(-1)}
+            onClick={handleBack}
             className="gap-2"
           >
             <ArrowLeft className="h-4 w-4" />
-            <span className="hidden sm:inline">{language === "bn" ? "ফিরে যান" : "Back"}</span>
+            {language === "bn" ? "ফিরে যান" : "Back"}
           </Button>
 
           {/* Language Toggle */}

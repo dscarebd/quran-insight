@@ -4,6 +4,7 @@ import { paras } from "@/data/paras";
 import { surahs } from "@/data/surahs";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { useSidebar } from "@/components/ui/sidebar";
 
 interface ParaDetailProps {
   language: "bn" | "en";
@@ -13,12 +14,21 @@ interface ParaDetailProps {
 const ParaDetail = ({ language, onLanguageChange }: ParaDetailProps) => {
   const { paraNumber } = useParams<{ paraNumber: string }>();
   const navigate = useNavigate();
+  const { isMobile, setOpenMobile } = useSidebar();
 
   const paraNum = parseInt(paraNumber || "1", 10);
   const para = paras.find(p => p.number === paraNum);
 
   const prevPara = paras.find(p => p.number === paraNum - 1);
   const nextPara = paras.find(p => p.number === paraNum + 1);
+
+  const handleBack = () => {
+    if (isMobile) {
+      setOpenMobile(true);
+    } else {
+      navigate("/");
+    }
+  };
 
   if (!para) {
     return (
@@ -43,11 +53,11 @@ const ParaDetail = ({ language, onLanguageChange }: ParaDetailProps) => {
           <Button 
             variant="ghost" 
             size="sm" 
-            onClick={() => navigate(-1)}
+            onClick={handleBack}
             className="gap-2"
           >
             <ArrowLeft className="h-4 w-4" />
-            <span className="hidden sm:inline">{language === "bn" ? "ফিরে যান" : "Back"}</span>
+            {language === "bn" ? "ফিরে যান" : "Back"}
           </Button>
 
           {/* Language Toggle */}
