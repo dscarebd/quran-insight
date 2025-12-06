@@ -115,7 +115,7 @@ export const AppSidebar = ({ language, activeTab, onTabChange }: AppSidebarProps
               )}
             >
               <Search className="h-4 w-4" />
-              {language === "bn" ? "এআই অনুসন্ধান" : "AI Search"}
+              {language === "bn" ? "অনুসন্ধান" : "Search"}
             </button>
             <button
               onClick={() => onTabChange("bookmarks")}
@@ -143,7 +143,7 @@ export const AppSidebar = ({ language, activeTab, onTabChange }: AppSidebarProps
                   ? "bg-primary text-primary-foreground"
                   : "text-muted-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
               )}
-              title={language === "bn" ? "এআই অনুসন্ধান" : "AI Search"}
+              title={language === "bn" ? "অনুসন্ধান" : "Search"}
             >
               <Search className="h-4 w-4" />
             </button>
