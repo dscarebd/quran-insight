@@ -105,31 +105,6 @@ const SurahDetail = ({ language, onLanguageChange }: SurahDetailProps) => {
             <span className="hidden sm:inline">{language === "bn" ? "ফিরে যান" : "Back"}</span>
           </Button>
 
-          {/* Surah Navigation for Mobile */}
-          <div className="flex items-center gap-1 sm:hidden">
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={() => prevSurah && navigate(`/surah/${prevSurah.number}`)}
-              disabled={!prevSurah}
-              className="h-8 w-8"
-            >
-              <ChevronLeft className="h-4 w-4" />
-            </Button>
-            <span className="min-w-[3rem] text-center text-sm font-medium">
-              {surahNum}/114
-            </span>
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={() => nextSurah && navigate(`/surah/${nextSurah.number}`)}
-              disabled={!nextSurah}
-              className="h-8 w-8"
-            >
-              <ChevronRight className="h-4 w-4" />
-            </Button>
-          </div>
-
           {/* Language Toggle */}
           <div className="flex rounded-full bg-secondary p-1">
             <button
@@ -160,27 +135,76 @@ const SurahDetail = ({ language, onLanguageChange }: SurahDetailProps) => {
 
       {/* Surah Info Banner */}
       <div className="border-b border-border bg-gradient-to-br from-primary/5 to-accent/30 py-8">
-        <div className="mx-auto max-w-4xl px-4 text-center">
-          <div className="mb-2 inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-sm text-primary">
-            <span>{surah.revelationType === "Meccan" ? (language === "bn" ? "মক্কী" : "Meccan") : (language === "bn" ? "মাদানী" : "Medinan")}</span>
-            <span>•</span>
-            <span>{surah.totalVerses} {language === "bn" ? "আয়াত" : "verses"}</span>
+        <div className="mx-auto max-w-4xl px-4">
+          <div className="text-center mb-4">
+            <div className="mb-2 inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-sm text-primary">
+              <span>{surah.revelationType === "Meccan" ? (language === "bn" ? "মক্কী" : "Meccan") : (language === "bn" ? "মাদানী" : "Medinan")}</span>
+              <span>•</span>
+              <span>{surah.totalVerses} {language === "bn" ? "আয়াত" : "verses"}</span>
+            </div>
           </div>
           
-          <h1 className="mb-1 font-arabic text-4xl text-foreground sm:text-5xl">
-            {surah.nameArabic}
-          </h1>
-          <h2 className="mb-2 font-bengali text-xl font-semibold text-foreground">
-            {language === "bn" ? surah.nameBengali : surah.nameEnglish}
-          </h2>
-          <p className="text-muted-foreground">
+          {/* Surah Name with Navigation */}
+          <div className="flex items-center justify-center gap-4">
+            {/* Previous Surah */}
+            <button
+              onClick={() => prevSurah && navigate(`/surah/${prevSurah.number}`)}
+              disabled={!prevSurah}
+              className={cn(
+                "flex flex-col items-center gap-1 rounded-lg px-3 py-2 transition-all",
+                prevSurah 
+                  ? "text-muted-foreground hover:bg-primary/10 hover:text-primary cursor-pointer" 
+                  : "opacity-30 cursor-not-allowed"
+              )}
+            >
+              <ChevronLeft className="h-5 w-5" />
+              <span className="text-xs font-medium hidden sm:block">
+                {prevSurah ? (language === "bn" ? prevSurah.nameBengali : prevSurah.nameEnglish) : ""}
+              </span>
+              <span className="text-xs sm:hidden">
+                {prevSurah?.number || ""}
+              </span>
+            </button>
+
+            {/* Current Surah Name */}
+            <div className="text-center">
+              <h1 className="mb-1 font-arabic text-4xl text-foreground sm:text-5xl">
+                {surah.nameArabic}
+              </h1>
+              <h2 className="font-bengali text-xl font-semibold text-foreground">
+                {language === "bn" ? surah.nameBengali : surah.nameEnglish}
+              </h2>
+            </div>
+
+            {/* Next Surah */}
+            <button
+              onClick={() => nextSurah && navigate(`/surah/${nextSurah.number}`)}
+              disabled={!nextSurah}
+              className={cn(
+                "flex flex-col items-center gap-1 rounded-lg px-3 py-2 transition-all",
+                nextSurah 
+                  ? "text-muted-foreground hover:bg-primary/10 hover:text-primary cursor-pointer" 
+                  : "opacity-30 cursor-not-allowed"
+              )}
+            >
+              <ChevronRight className="h-5 w-5" />
+              <span className="text-xs font-medium hidden sm:block">
+                {nextSurah ? (language === "bn" ? nextSurah.nameBengali : nextSurah.nameEnglish) : ""}
+              </span>
+              <span className="text-xs sm:hidden">
+                {nextSurah?.number || ""}
+              </span>
+            </button>
+          </div>
+
+          <p className="text-center mt-2 text-muted-foreground">
             {language === "bn" ? surah.meaningBengali : surah.meaningEnglish}
           </p>
         </div>
       </div>
 
       {/* Verses List */}
-      <div className="mx-auto max-w-4xl px-3 py-6 pb-24 sm:pb-6 sm:px-4 md:px-6">
+      <div className="mx-auto max-w-4xl px-3 py-6 sm:px-4 md:px-6">
         {verses.length > 0 ? (
           verses.map((verse, index) => (
             <VerseCard 
@@ -203,58 +227,6 @@ const SurahDetail = ({ language, onLanguageChange }: SurahDetailProps) => {
             </p>
           </div>
         )}
-      </div>
-
-      {/* Mobile Bottom Navigation */}
-      <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sm:hidden">
-        <div className="flex items-center justify-between px-4 py-3">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => prevSurah && navigate(`/surah/${prevSurah.number}`)}
-            disabled={!prevSurah}
-            className="gap-2"
-          >
-            <ChevronLeft className="h-4 w-4" />
-            <div className="text-left">
-              <div className="text-xs text-muted-foreground">
-                {language === "bn" ? "পূর্ববর্তী" : "Previous"}
-              </div>
-              {prevSurah && (
-                <div className="text-xs font-medium truncate max-w-[80px]">
-                  {language === "bn" ? prevSurah.nameBengali : prevSurah.nameEnglish}
-                </div>
-              )}
-            </div>
-          </Button>
-
-          <div className="text-center">
-            <div className="text-xs text-muted-foreground">
-              {language === "bn" ? "সূরা" : "Surah"}
-            </div>
-            <div className="text-sm font-semibold">{surahNum}/114</div>
-          </div>
-
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => nextSurah && navigate(`/surah/${nextSurah.number}`)}
-            disabled={!nextSurah}
-            className="gap-2"
-          >
-            <div className="text-right">
-              <div className="text-xs text-muted-foreground">
-                {language === "bn" ? "পরবর্তী" : "Next"}
-              </div>
-              {nextSurah && (
-                <div className="text-xs font-medium truncate max-w-[80px]">
-                  {language === "bn" ? nextSurah.nameBengali : nextSurah.nameEnglish}
-                </div>
-              )}
-            </div>
-            <ChevronRight className="h-4 w-4" />
-          </Button>
-        </div>
       </div>
     </div>
   );
