@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect, useRef } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Search, BookOpen, Bookmark, ChevronRight } from "lucide-react";
 import { surahs } from "@/data/surahs";
 import { paras } from "@/data/paras";
@@ -27,11 +27,39 @@ type ViewMode = "surah" | "para";
 export const AppSidebar = ({ language, activeTab, onTabChange }: AppSidebarProps) => {
   const [viewMode, setViewMode] = useState<ViewMode>("surah");
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedSurah, setSelectedSurah] = useState<number | null>(null);
-  const [selectedPara, setSelectedPara] = useState<number | null>(null);
   const { state } = useSidebar();
   const navigate = useNavigate();
+  const location = useLocation();
   const isCollapsed = state === "collapsed";
+  const surahRefs = useRef<{ [key: number]: HTMLLIElement | null }>({});
+  const paraRefs = useRef<{ [key: number]: HTMLLIElement | null }>({});
+  const hasScrolledRef = useRef(false);
+
+  // Extract current surah/para number from URL
+  const surahMatch = location.pathname.match(/\/surah\/(\d+)/);
+  const paraMatch = location.pathname.match(/\/para\/(\d+)/);
+  const currentSurahNumber = surahMatch ? parseInt(surahMatch[1], 10) : null;
+  const currentParaNumber = paraMatch ? parseInt(paraMatch[1], 10) : null;
+
+  // Scroll to active surah/para when component mounts or URL changes
+  useEffect(() => {
+    // Small delay to ensure refs are set
+    const timer = setTimeout(() => {
+      if (currentSurahNumber && surahRefs.current[currentSurahNumber]) {
+        surahRefs.current[currentSurahNumber]?.scrollIntoView({
+          block: "center",
+          behavior: "auto"
+        });
+      } else if (currentParaNumber && paraRefs.current[currentParaNumber]) {
+        paraRefs.current[currentParaNumber]?.scrollIntoView({
+          block: "center",
+          behavior: "auto"
+        });
+      }
+    }, 100);
+    
+    return () => clearTimeout(timer);
+  }, [currentSurahNumber, currentParaNumber]);
 
   const filteredSurahs = surahs.filter((surah) => {
     const query = searchQuery.toLowerCase();
@@ -54,13 +82,10 @@ export const AppSidebar = ({ language, activeTab, onTabChange }: AppSidebarProps
   });
 
   const handleSurahClick = (surahNumber: number) => {
-    setSelectedSurah(surahNumber);
     navigate(`/surah/${surahNumber}`);
   };
 
   const handleParaClick = (paraNumber: number) => {
-    setSelectedPara(paraNumber);
-    // Navigate to para page (can be implemented later)
     navigate(`/para/${paraNumber}`);
   };
 
@@ -190,10 +215,13 @@ export const AppSidebar = ({ language, activeTab, onTabChange }: AppSidebarProps
               <SidebarMenu>
                 {viewMode === "surah" ? (
                   filteredSurahs.map((surah) => (
-                    <SidebarMenuItem key={surah.number}>
+                    <SidebarMenuItem 
+                      key={surah.number}
+                      ref={(el) => { surahRefs.current[surah.number] = el; }}
+                    >
                       <SidebarMenuButton
                         onClick={() => handleSurahClick(surah.number)}
-                        isActive={selectedSurah === surah.number}
+                        isActive={currentSurahNumber === surah.number}
                         tooltip={`${surah.number}. ${surah.nameEnglish}`}
                         className="group h-auto py-2"
                       >
@@ -223,10 +251,13 @@ export const AppSidebar = ({ language, activeTab, onTabChange }: AppSidebarProps
                   ))
                 ) : (
                   filteredParas.map((para) => (
-                    <SidebarMenuItem key={para.number}>
+                    <SidebarMenuItem 
+                      key={para.number}
+                      ref={(el) => { paraRefs.current[para.number] = el; }}
+                    >
                       <SidebarMenuButton
                         onClick={() => handleParaClick(para.number)}
-                        isActive={selectedPara === para.number}
+                        isActive={currentParaNumber === para.number}
                         tooltip={`${para.number}. ${para.nameEnglish}`}
                         className="group h-auto py-2"
                       >

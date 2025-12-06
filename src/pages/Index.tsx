@@ -1,15 +1,16 @@
 import { useState, useRef } from "react";
-import { AppSidebar } from "@/components/AppSidebar";
 import { Header } from "@/components/Header";
 import { SearchSection } from "@/components/SearchSection";
 import { DailyVerse } from "@/components/DailyVerse";
 import { SearchResults } from "@/components/SearchResults";
 import { useToast } from "@/hooks/use-toast";
-import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 
-const Index = () => {
-  const [language, setLanguage] = useState<"bn" | "en">("bn");
-  const [activeTab, setActiveTab] = useState<"search" | "bookmarks">("search");
+interface IndexProps {
+  language: "bn" | "en";
+  onLanguageChange: (lang: "bn" | "en") => void;
+}
+
+const Index = ({ language, onLanguageChange }: IndexProps) => {
   const [isSearching, setIsSearching] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [aiResponse, setAiResponse] = useState("");
@@ -105,38 +106,30 @@ const Index = () => {
   };
 
   return (
-    <SidebarProvider defaultOpen={true}>
-      <AppSidebar
-        language={language}
-        activeTab={activeTab}
-        onTabChange={setActiveTab}
-      />
+    <>
+      {/* Header */}
+      <Header language={language} onLanguageChange={onLanguageChange} />
 
-      <SidebarInset>
-        {/* Header */}
-        <Header language={language} onLanguageChange={setLanguage} />
-
-        {/* Content Area */}
-        <div className="flex-1 overflow-y-auto overflow-x-hidden islamic-pattern">
-          <div className="mx-auto max-w-4xl px-3 py-6 sm:px-4 md:px-6 md:py-12">
-            <SearchSection
-              language={language}
-              onSearch={handleSearch}
-              isLoading={isSearching}
-            />
-            
-            <SearchResults
-              query={searchQuery}
-              response={aiResponse}
-              isLoading={isSearching}
-              language={language}
-            />
-            
-            {!searchQuery && <DailyVerse language={language} />}
-          </div>
+      {/* Content Area */}
+      <div className="flex-1 overflow-y-auto overflow-x-hidden islamic-pattern">
+        <div className="mx-auto max-w-4xl px-3 py-6 sm:px-4 md:px-6 md:py-12">
+          <SearchSection
+            language={language}
+            onSearch={handleSearch}
+            isLoading={isSearching}
+          />
+          
+          <SearchResults
+            query={searchQuery}
+            response={aiResponse}
+            isLoading={isSearching}
+            language={language}
+          />
+          
+          {!searchQuery && <DailyVerse language={language} />}
         </div>
-      </SidebarInset>
-    </SidebarProvider>
+      </div>
+    </>
   );
 };
 
