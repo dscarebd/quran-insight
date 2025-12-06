@@ -256,6 +256,82 @@ export const surahAsrVerses: Verse[] = [
   }
 ];
 
+// Surah Al-Humaza (104)
+export const surahHumazaVerses: Verse[] = [
+  {
+    surahNumber: 104, verseNumber: 1,
+    arabic: "وَيْلٌ لِّكُلِّ هُمَزَةٍ لُّمَزَةٍ",
+    bengali: "দুর্ভোগ প্রত্যেক পরনিন্দাকারী ও দোষান্বেষীর জন্য।",
+    english: "Woe to every scorner and mocker.",
+    tafsirBengali: "হুমাযা অর্থ যে ব্যক্তি অন্যদের দোষ খুঁজে বেড়ায় এবং লুমাযা অর্থ যে পেছনে গীবত করে। এই সূরায় তাদের কঠোর শাস্তির কথা বলা হয়েছে। এটি এমন ব্যক্তিদের প্রতি সতর্কতা যারা অন্যদের সম্মানহানি করে এবং তাদের দোষ-ত্রুটি প্রকাশ করে বেড়ায়।",
+    tafsirEnglish: "Humaza means one who constantly finds faults in others, and Lumaza means one who backbites. This surah warns of severe punishment for such people. It is a warning to those who harm others' honor and expose their faults."
+  },
+  {
+    surahNumber: 104, verseNumber: 2,
+    arabic: "الَّذِي جَمَعَ مَالًا وَعَدَّدَهُ",
+    bengali: "যে সম্পদ জমা করেছে এবং তা গুণে গুণে রাখে।",
+    english: "Who collects wealth and [continuously] counts it.",
+    tafsirBengali: "এই ব্যক্তি শুধু ধন-সম্পদ জমা করতে এবং তা গুণতে ব্যস্ত থাকে। সে আল্লাহর পথে খরচ করে না এবং গরীব-দুঃখীদের সাহায্য করে না। সম্পদের প্রতি তার অত্যধিক মোহ তাকে আখিরাতের কথা ভুলিয়ে দিয়েছে।",
+    tafsirEnglish: "This person is obsessed with accumulating and counting wealth. He does not spend in Allah's way and does not help the poor. His excessive love for wealth has made him forget the Hereafter."
+  },
+  {
+    surahNumber: 104, verseNumber: 3,
+    arabic: "يَحْسَبُ أَنَّ مَالَهُ أَخْلَدَهُ",
+    bengali: "সে মনে করে যে তার সম্পদ তাকে অমর করে রাখবে।",
+    english: "He thinks that his wealth will make him immortal.",
+    tafsirBengali: "এই মূর্খ ব্যক্তি মনে করে যে তার জমানো সম্পদ তাকে মৃত্যু থেকে বাঁচাবে বা চিরস্থায়ী করবে। কিন্তু মৃত্যু সবার জন্য অবধারিত এবং সম্পদ কোনো কাজে আসবে না।",
+    tafsirEnglish: "This foolish person thinks his accumulated wealth will save him from death or make him live forever. But death is inevitable for everyone and wealth will be of no use."
+  },
+  {
+    surahNumber: 104, verseNumber: 4,
+    arabic: "كَلَّا ۖ لَيُنبَذَنَّ فِي الْحُطَمَةِ",
+    bengali: "কখনো না! সে অবশ্যই নিক্ষিপ্ত হবে হুতামায়।",
+    english: "No! He will surely be thrown into the Crusher.",
+    tafsirBengali: "আল্লাহ তার ধারণা খণ্ডন করছেন এবং বলছেন যে সে অবশ্যই হুতামায় (জাহান্নামের একটি স্তর) নিক্ষিপ্ত হবে। হুতামা এমন আগুন যা সবকিছু চূর্ণ-বিচূর্ণ করে দেয়।",
+    tafsirEnglish: "Allah refutes his assumption and says he will surely be thrown into Hutama (a level of Hell). Hutama is a fire that crushes and shatters everything."
+  },
+  {
+    surahNumber: 104, verseNumber: 5,
+    arabic: "وَمَا أَدْرَاكَ مَا الْحُطَمَةُ",
+    bengali: "আপনি কি জানেন হুতামা কী?",
+    english: "And what can make you know what is the Crusher?",
+    tafsirBengali: "এই প্রশ্নের মাধ্যমে হুতামার ভয়াবহতা তুলে ধরা হয়েছে। এটি এত ভয়ঙ্কর যে মানুষের পক্ষে তা কল্পনা করাও সম্ভব নয়।",
+    tafsirEnglish: "This question highlights the severity of Hutama. It is so terrifying that humans cannot even imagine it."
+  },
+  {
+    surahNumber: 104, verseNumber: 6,
+    arabic: "نَارُ اللَّهِ الْمُوقَدَةُ",
+    bengali: "এটা আল্লাহর প্রজ্বলিত আগুন।",
+    english: "It is the fire of Allah, [eternally] fueled.",
+    tafsirBengali: "এই আগুন আল্লাহর প্রজ্বলিত আগুন যা কখনো নিভে না। দুনিয়ার আগুন থেকে এটি সত্তর গুণ বেশি তীব্র এবং এর জ্বালানি হলো মানুষ ও পাথর।",
+    tafsirEnglish: "This is Allah's kindled fire that never extinguishes. It is seventy times more intense than worldly fire and its fuel is men and stones."
+  },
+  {
+    surahNumber: 104, verseNumber: 7,
+    arabic: "الَّتِي تَطَّلِعُ عَلَى الْأَفْئِدَةِ",
+    bengali: "যা হৃদয় পর্যন্ত পৌঁছে যায়।",
+    english: "Which mounts directed at the hearts.",
+    tafsirBengali: "এই আগুন শুধু শরীরের বাইরের অংশ পোড়ায় না, বরং এটি অন্তর পর্যন্ত পৌঁছে যায়। কারণ অন্তরেই কুফর, অহংকার এবং পাপের উৎস ছিল।",
+    tafsirEnglish: "This fire does not just burn the outer body, but reaches the heart. Because the heart was the source of disbelief, arrogance and sin."
+  },
+  {
+    surahNumber: 104, verseNumber: 8,
+    arabic: "إِنَّهَا عَلَيْهِم مُّؤْصَدَةٌ",
+    bengali: "নিশ্চয়ই এটা তাদের উপর আবদ্ধ থাকবে।",
+    english: "Indeed, it [i.e., Hellfire] will be closed down upon them.",
+    tafsirBengali: "জাহান্নামের দরজা তাদের উপর বন্ধ করে দেওয়া হবে। তারা সেখান থেকে বের হতে পারবে না এবং তাদের শাস্তি চিরস্থায়ী হবে।",
+    tafsirEnglish: "The gates of Hell will be closed upon them. They will not be able to escape and their punishment will be eternal."
+  },
+  {
+    surahNumber: 104, verseNumber: 9,
+    arabic: "فِي عَمَدٍ مُّمَدَّدَةٍ",
+    bengali: "দীর্ঘায়িত স্তম্ভসমূহে।",
+    english: "In extended columns.",
+    tafsirBengali: "তাদেরকে লম্বা লম্বা স্তম্ভে বেঁধে রাখা হবে যাতে তারা পালাতে না পারে। এটি তাদের অসহায়ত্ব এবং শাস্তির তীব্রতা বোঝায়।",
+    tafsirEnglish: "They will be bound to extended pillars so they cannot escape. This signifies their helplessness and the intensity of their punishment."
+  }
+];
+
 // Surah Al-Kafirun (109)
 export const surahKafirunVerses: Verse[] = [
   {
@@ -524,6 +600,7 @@ export const surahMaunVerses: Verse[] = [
 const allVerses: { [key: number]: Verse[] } = {
   1: surahFatihaVerses,
   103: surahAsrVerses,
+  104: surahHumazaVerses,
   105: surahFilVerses,
   106: surahQurayshVerses,
   107: surahMaunVerses,
