@@ -1101,6 +1101,12 @@ export const surahZalzalaVerses: Verse[] = [
 // All verses collection
 const allVerses: { [key: number]: Verse[] } = {
   1: surahFatihaVerses,
+  81: surahTakwirVerses,
+  82: surahInfitarVerses,
+  83: surahMutaffifinVerses,
+  84: surahInshiqaqVerses,
+  85: surahBurujVerses,
+  86: surahTariqVerses,
   87: surahAlaVerses,
   88: surahGhashiyaVerses,
   89: surahFajrVerses,
