@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { ArrowLeft, BookOpen, ChevronDown, ChevronUp, Play, Bookmark } from "lucide-react";
+import { ArrowLeft, BookOpen, ChevronDown, ChevronUp, Play, Bookmark, ChevronLeft, ChevronRight } from "lucide-react";
 import { surahs } from "@/data/surahs";
 import { getVersesBySurah, Verse } from "@/data/verses";
 import { Button } from "@/components/ui/button";
@@ -77,6 +77,9 @@ const SurahDetail = ({ language, onLanguageChange }: SurahDetailProps) => {
   const surah = surahs.find(s => s.number === surahNum);
   const verses = getVersesBySurah(surahNum);
 
+  const prevSurah = surahs.find(s => s.number === surahNum - 1);
+  const nextSurah = surahs.find(s => s.number === surahNum + 1);
+
   if (!surah) {
     return (
       <div className="flex min-h-screen items-center justify-center">
@@ -99,8 +102,33 @@ const SurahDetail = ({ language, onLanguageChange }: SurahDetailProps) => {
             className="gap-2"
           >
             <ArrowLeft className="h-4 w-4" />
-            {language === "bn" ? "ফিরে যান" : "Back"}
+            <span className="hidden sm:inline">{language === "bn" ? "ফিরে যান" : "Back"}</span>
           </Button>
+
+          {/* Surah Navigation for Mobile */}
+          <div className="flex items-center gap-1 sm:hidden">
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={() => prevSurah && navigate(`/surah/${prevSurah.number}`)}
+              disabled={!prevSurah}
+              className="h-8 w-8"
+            >
+              <ChevronLeft className="h-4 w-4" />
+            </Button>
+            <span className="min-w-[3rem] text-center text-sm font-medium">
+              {surahNum}/114
+            </span>
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={() => nextSurah && navigate(`/surah/${nextSurah.number}`)}
+              disabled={!nextSurah}
+              className="h-8 w-8"
+            >
+              <ChevronRight className="h-4 w-4" />
+            </Button>
+          </div>
 
           {/* Language Toggle */}
           <div className="flex rounded-full bg-secondary p-1">
@@ -152,7 +180,7 @@ const SurahDetail = ({ language, onLanguageChange }: SurahDetailProps) => {
       </div>
 
       {/* Verses List */}
-      <div className="mx-auto max-w-4xl px-3 py-6 sm:px-4 md:px-6">
+      <div className="mx-auto max-w-4xl px-3 py-6 pb-24 sm:pb-6 sm:px-4 md:px-6">
         {verses.length > 0 ? (
           verses.map((verse, index) => (
             <VerseCard 
@@ -175,6 +203,58 @@ const SurahDetail = ({ language, onLanguageChange }: SurahDetailProps) => {
             </p>
           </div>
         )}
+      </div>
+
+      {/* Mobile Bottom Navigation */}
+      <div className="fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sm:hidden">
+        <div className="flex items-center justify-between px-4 py-3">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => prevSurah && navigate(`/surah/${prevSurah.number}`)}
+            disabled={!prevSurah}
+            className="gap-2"
+          >
+            <ChevronLeft className="h-4 w-4" />
+            <div className="text-left">
+              <div className="text-xs text-muted-foreground">
+                {language === "bn" ? "পূর্ববর্তী" : "Previous"}
+              </div>
+              {prevSurah && (
+                <div className="text-xs font-medium truncate max-w-[80px]">
+                  {language === "bn" ? prevSurah.nameBengali : prevSurah.nameEnglish}
+                </div>
+              )}
+            </div>
+          </Button>
+
+          <div className="text-center">
+            <div className="text-xs text-muted-foreground">
+              {language === "bn" ? "সূরা" : "Surah"}
+            </div>
+            <div className="text-sm font-semibold">{surahNum}/114</div>
+          </div>
+
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => nextSurah && navigate(`/surah/${nextSurah.number}`)}
+            disabled={!nextSurah}
+            className="gap-2"
+          >
+            <div className="text-right">
+              <div className="text-xs text-muted-foreground">
+                {language === "bn" ? "পরবর্তী" : "Next"}
+              </div>
+              {nextSurah && (
+                <div className="text-xs font-medium truncate max-w-[80px]">
+                  {language === "bn" ? nextSurah.nameBengali : nextSurah.nameEnglish}
+                </div>
+              )}
+            </div>
+            <ChevronRight className="h-4 w-4" />
+          </Button>
+        </div>
       </div>
     </div>
   );
