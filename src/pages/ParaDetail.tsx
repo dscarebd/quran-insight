@@ -43,7 +43,7 @@ const ParaDetail = ({ language, onLanguageChange }: ParaDetailProps) => {
           <Button 
             variant="ghost" 
             size="sm" 
-            onClick={() => navigate("/")}
+            onClick={() => navigate(-1)}
             className="gap-2"
           >
             <ArrowLeft className="h-4 w-4" />
