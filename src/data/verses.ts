@@ -228,6 +228,258 @@ export const surahKawtharVerses: Verse[] = [
   }
 ];
 
+// Surah Al-Aadiyaat (100)
+export const surahAadiyaatVerses: Verse[] = [
+  {
+    surahNumber: 100, verseNumber: 1,
+    arabic: "وَالْعَادِيَاتِ ضَبْحًا",
+    bengali: "শপথ সেই অশ্বগুলোর, যারা হাঁপাতে হাঁপাতে ছুটে চলে।",
+    english: "By the racers, panting.",
+    tafsirBengali: "আল্লাহ জিহাদে ব্যবহৃত ঘোড়াগুলোর শপথ করছেন যারা দ্রুত ছুটে চলে এবং হাঁপায়। এটি জিহাদের গুরুত্ব এবং আল্লাহর পথে সংগ্রামের মর্যাদা বোঝায়।",
+    tafsirEnglish: "Allah swears by the horses used in jihad that run swiftly and pant. This indicates the importance of jihad and the honor of striving in Allah's way."
+  },
+  {
+    surahNumber: 100, verseNumber: 2,
+    arabic: "فَالْمُورِيَاتِ قَدْحًا",
+    bengali: "অতঃপর যারা (পাথরে খুর মেরে) আগুন ঝরায়।",
+    english: "And the producers of sparks [when] striking.",
+    tafsirBengali: "ঘোড়ার খুর পাথরে লেগে যখন স্ফুলিঙ্গ বের হয়। এটি তাদের গতি ও শক্তির প্রমাণ।",
+    tafsirEnglish: "When the horses' hooves strike against stones, sparks fly. This demonstrates their speed and power."
+  },
+  {
+    surahNumber: 100, verseNumber: 3,
+    arabic: "فَالْمُغِيرَاتِ صُبْحًا",
+    bengali: "অতঃপর যারা ভোরবেলা আক্রমণ করে।",
+    english: "And the chargers at dawn.",
+    tafsirBengali: "ভোরবেলা শত্রুর উপর আক্রমণ করা যুদ্ধের একটি কৌশল ছিল।",
+    tafsirEnglish: "Attacking enemies at dawn was a military strategy in warfare."
+  },
+  {
+    surahNumber: 100, verseNumber: 4,
+    arabic: "فَأَثَرْنَ بِهِ نَقْعًا",
+    bengali: "অতঃপর তার দ্বারা ধুলো উড়ায়।",
+    english: "And stirring up thereby [clouds of] dust.",
+    tafsirBengali: "ঘোড়াগুলো দৌড়ানোর সময় ধুলোর মেঘ তৈরি করে। এটি যুদ্ধক্ষেত্রের দৃশ্য বর্ণনা করছে।",
+    tafsirEnglish: "The horses create clouds of dust while running. This describes the battlefield scene."
+  },
+  {
+    surahNumber: 100, verseNumber: 5,
+    arabic: "فَوَسَطْنَ بِهِ جَمْعًا",
+    bengali: "অতঃপর তার দ্বারা শত্রুদলের মধ্যে ঢুকে পড়ে।",
+    english: "Arriving thereby in the center collectively.",
+    tafsirBengali: "ঘোড়াগুলো শত্রু সেনাদলের মাঝখানে ঢুকে পড়ে। এটি বীরত্ব ও সাহসিকতার প্রতীক।",
+    tafsirEnglish: "The horses penetrate into the middle of enemy forces. This symbolizes bravery and courage."
+  },
+  {
+    surahNumber: 100, verseNumber: 6,
+    arabic: "إِنَّ الْإِنسَانَ لِرَبِّهِ لَكَنُودٌ",
+    bengali: "নিশ্চয়ই মানুষ তার রবের প্রতি অকৃতজ্ঞ।",
+    english: "Indeed mankind, to his Lord, is ungrateful.",
+    tafsirBengali: "মানুষ আল্লাহর অসংখ্য নিয়ামত পাওয়া সত্ত্বেও অকৃতজ্ঞ। সে বিপদে পড়লে আল্লাহকে ডাকে কিন্তু সুখে ভুলে যায়।",
+    tafsirEnglish: "Despite receiving countless blessings from Allah, man is ungrateful. He calls upon Allah in distress but forgets Him in comfort."
+  },
+  {
+    surahNumber: 100, verseNumber: 7,
+    arabic: "وَإِنَّهُ عَلَىٰ ذَٰلِكَ لَشَهِيدٌ",
+    bengali: "এবং সে নিজেই এর সাক্ষী।",
+    english: "And indeed, he is to that a witness.",
+    tafsirBengali: "মানুষ নিজেই তার অকৃতজ্ঞতার সাক্ষী। তার বিবেক জানে যে সে আল্লাহর নিয়ামতের শুকরিয়া আদায় করে না।",
+    tafsirEnglish: "Man himself is a witness to his ingratitude. His conscience knows that he does not give thanks for Allah's blessings."
+  },
+  {
+    surahNumber: 100, verseNumber: 8,
+    arabic: "وَإِنَّهُ لِحُبِّ الْخَيْرِ لَشَدِيدٌ",
+    bengali: "এবং সে ধন-সম্পদের ভালোবাসায় অত্যন্ত আসক্ত।",
+    english: "And indeed he is, in love of wealth, intense.",
+    tafsirBengali: "মানুষ ধন-সম্পদের প্রতি অত্যন্ত লোভী। এই লোভ তাকে আখিরাতের কথা ভুলিয়ে দেয়।",
+    tafsirEnglish: "Man is extremely greedy for wealth. This greed makes him forget the Hereafter."
+  },
+  {
+    surahNumber: 100, verseNumber: 9,
+    arabic: "أَفَلَا يَعْلَمُ إِذَا بُعْثِرَ مَا فِي الْقُبُورِ",
+    bengali: "সে কি জানে না যখন কবরে যা আছে তা উত্থিত করা হবে?",
+    english: "But does he not know that when the contents of the graves are scattered.",
+    tafsirBengali: "কিয়ামতের দিন কবর থেকে সকল মানুষকে পুনরুত্থিত করা হবে হিসাব-নিকাশের জন্য।",
+    tafsirEnglish: "On the Day of Judgment, all people will be resurrected from their graves for accountability."
+  },
+  {
+    surahNumber: 100, verseNumber: 10,
+    arabic: "وَحُصِّلَ مَا فِي الصُّدُورِ",
+    bengali: "এবং অন্তরে যা আছে তা প্রকাশ করা হবে?",
+    english: "And that within the breasts is obtained.",
+    tafsirBengali: "অন্তরের সব গোপন বিষয় প্রকাশ করা হবে। কোনো কিছুই লুকানো থাকবে না।",
+    tafsirEnglish: "All secrets of the heart will be revealed. Nothing will remain hidden."
+  },
+  {
+    surahNumber: 100, verseNumber: 11,
+    arabic: "إِنَّ رَبَّهُم بِهِمْ يَوْمَئِذٍ لَّخَبِيرٌ",
+    bengali: "নিশ্চয়ই সেদিন তাদের রব তাদের সম্পর্কে সম্যক অবগত।",
+    english: "Indeed, their Lord with them, that Day, is [fully] Aware.",
+    tafsirBengali: "আল্লাহ সেদিন সবকিছু জানবেন এবং প্রত্যেককে তার কর্ম অনুযায়ী বিচার করবেন।",
+    tafsirEnglish: "Allah will know everything that Day and will judge everyone according to their deeds."
+  }
+];
+
+// Surah Al-Qaari'a (101)
+export const surahQaariaVerses: Verse[] = [
+  {
+    surahNumber: 101, verseNumber: 1,
+    arabic: "الْقَارِعَةُ",
+    bengali: "মহাবিপদ।",
+    english: "The Striking Calamity.",
+    tafsirBengali: "কারিয়া কিয়ামতের একটি নাম। এটি এমন এক মহাবিপদ যা সবকিছু তছনছ করে দেবে।",
+    tafsirEnglish: "Al-Qaari'a is one of the names of the Day of Judgment. It is a great calamity that will destroy everything."
+  },
+  {
+    surahNumber: 101, verseNumber: 2,
+    arabic: "مَا الْقَارِعَةُ",
+    bengali: "মহাবিপদ কী?",
+    english: "What is the Striking Calamity?",
+    tafsirBengali: "এই প্রশ্নের মাধ্যমে কিয়ামতের ভয়াবহতা তুলে ধরা হয়েছে।",
+    tafsirEnglish: "This question emphasizes the severity of the Day of Judgment."
+  },
+  {
+    surahNumber: 101, verseNumber: 3,
+    arabic: "وَمَا أَدْرَاكَ مَا الْقَارِعَةُ",
+    bengali: "আপনি কি জানেন মহাবিপদ কী?",
+    english: "And what can make you know what is the Striking Calamity?",
+    tafsirBengali: "এই প্রশ্ন আরও জোর দিয়ে বোঝাচ্ছে যে এর ভয়াবহতা মানুষের কল্পনার বাইরে।",
+    tafsirEnglish: "This question further emphasizes that its severity is beyond human imagination."
+  },
+  {
+    surahNumber: 101, verseNumber: 4,
+    arabic: "يَوْمَ يَكُونُ النَّاسُ كَالْفَرَاشِ الْمَبْثُوثِ",
+    bengali: "সেদিন মানুষ হবে বিক্ষিপ্ত পতঙ্গের মতো।",
+    english: "It is the Day when people will be like moths, dispersed.",
+    tafsirBengali: "কিয়ামতের দিন মানুষ এতটাই ভীত ও বিচলিত হবে যে তারা আলোর দিকে ছুটে যাওয়া পতঙ্গের মতো ছড়িয়ে-ছিটিয়ে থাকবে।",
+    tafsirEnglish: "On the Day of Judgment, people will be so frightened and disturbed that they will be scattered like moths rushing towards light."
+  },
+  {
+    surahNumber: 101, verseNumber: 5,
+    arabic: "وَتَكُونُ الْجِبَالُ كَالْعِهْنِ الْمَنفُوشِ",
+    bengali: "এবং পাহাড়গুলো হবে ধুনিত রঙিন পশমের মতো।",
+    english: "And the mountains will be like wool, fluffed up.",
+    tafsirBengali: "বিশাল পাহাড়গুলোও সেদিন ধুনা তুলার মতো হালকা হয়ে উড়তে থাকবে। এটি কিয়ামতের প্রচণ্ডতা বোঝায়।",
+    tafsirEnglish: "Even the massive mountains will become light like carded wool and fly about. This shows the intensity of the Day of Judgment."
+  },
+  {
+    surahNumber: 101, verseNumber: 6,
+    arabic: "فَأَمَّا مَن ثَقُلَتْ مَوَازِينُهُ",
+    bengali: "অতঃপর যার পাল্লা ভারী হবে।",
+    english: "Then as for one whose scales are heavy [with good deeds].",
+    tafsirBengali: "যাদের নেক আমলের পাল্লা ভারী হবে তারা সফল হবে।",
+    tafsirEnglish: "Those whose scales are heavy with good deeds will be successful."
+  },
+  {
+    surahNumber: 101, verseNumber: 7,
+    arabic: "فَهُوَ فِي عِيشَةٍ رَّاضِيَةٍ",
+    bengali: "সে সন্তোষজনক জীবনে থাকবে।",
+    english: "He will be in a pleasant life.",
+    tafsirBengali: "তারা জান্নাতে সুখী ও সন্তুষ্ট জীবন যাপন করবে।",
+    tafsirEnglish: "They will live a happy and satisfied life in Paradise."
+  },
+  {
+    surahNumber: 101, verseNumber: 8,
+    arabic: "وَأَمَّا مَنْ خَفَّتْ مَوَازِينُهُ",
+    bengali: "এবং যার পাল্লা হালকা হবে।",
+    english: "But as for one whose scales are light.",
+    tafsirBengali: "যাদের নেক আমলের পাল্লা হালকা হবে তাদের পরিণতি ভয়াবহ।",
+    tafsirEnglish: "Those whose scales of good deeds are light will face a terrible fate."
+  },
+  {
+    surahNumber: 101, verseNumber: 9,
+    arabic: "فَأُمُّهُ هَاوِيَةٌ",
+    bengali: "তার আশ্রয়স্থল হবে হাবিয়া।",
+    english: "His refuge will be an abyss.",
+    tafsirBengali: "হাবিয়া জাহান্নামের গভীরতম স্তর। 'উম্মুহু' বলে বোঝানো হয়েছে যে জাহান্নাম তার জন্য মায়ের কোলের মতো আশ্রয়স্থল হবে।",
+    tafsirEnglish: "Hawiyah is the deepest level of Hell. 'His mother' is used to indicate that Hell will be his shelter like a mother's lap."
+  },
+  {
+    surahNumber: 101, verseNumber: 10,
+    arabic: "وَمَا أَدْرَاكَ مَا هِيَهْ",
+    bengali: "আপনি কি জানেন তা কী?",
+    english: "And what can make you know what that is?",
+    tafsirBengali: "হাবিয়ার ভয়াবহতা সম্পর্কে প্রশ্ন করা হয়েছে।",
+    tafsirEnglish: "A question about the severity of Hawiyah."
+  },
+  {
+    surahNumber: 101, verseNumber: 11,
+    arabic: "نَارٌ حَامِيَةٌ",
+    bengali: "এটা উত্তপ্ত আগুন।",
+    english: "It is a Fire, intensely hot.",
+    tafsirBengali: "হাবিয়া হলো অত্যন্ত উত্তপ্ত আগুন যার তাপ অসহনীয়।",
+    tafsirEnglish: "Hawiyah is an extremely hot fire whose heat is unbearable."
+  }
+];
+
+// Surah At-Takaathur (102)
+export const surahTakaathurVerses: Verse[] = [
+  {
+    surahNumber: 102, verseNumber: 1,
+    arabic: "أَلْهَاكُمُ التَّكَاثُرُ",
+    bengali: "প্রাচুর্যের প্রতিযোগিতা তোমাদের গাফেল করে রেখেছে।",
+    english: "Competition in [worldly] increase diverts you.",
+    tafsirBengali: "মানুষ ধন-সম্পদ, সন্তান-সন্ততি এবং পার্থিব জিনিসের প্রতিযোগিতায় এতটাই মত্ত যে আখিরাতের কথা ভুলে গেছে।",
+    tafsirEnglish: "People are so engrossed in competing for wealth, children and worldly things that they have forgotten the Hereafter."
+  },
+  {
+    surahNumber: 102, verseNumber: 2,
+    arabic: "حَتَّىٰ زُرْتُمُ الْمَقَابِرَ",
+    bengali: "যতক্ষণ না তোমরা কবরে পৌঁছে যাও।",
+    english: "Until you visit the graveyards.",
+    tafsirBengali: "এই প্রতিযোগিতা চলতেই থাকে মৃত্যু পর্যন্ত। তখন বুঝতে পারে যে সব কিছু ফেলে যেতে হবে।",
+    tafsirEnglish: "This competition continues until death. Only then does one realize that everything must be left behind."
+  },
+  {
+    surahNumber: 102, verseNumber: 3,
+    arabic: "كَلَّا سَوْفَ تَعْلَمُونَ",
+    bengali: "কখনো না! তোমরা শীঘ্রই জানতে পারবে।",
+    english: "No! You are going to know.",
+    tafsirBengali: "এটি সতর্কতা যে মৃত্যুর পর সত্য জানা যাবে।",
+    tafsirEnglish: "This is a warning that the truth will be known after death."
+  },
+  {
+    surahNumber: 102, verseNumber: 4,
+    arabic: "ثُمَّ كَلَّا سَوْفَ تَعْلَمُونَ",
+    bengali: "আবারও বলছি, কখনো না! তোমরা শীঘ্রই জানতে পারবে।",
+    english: "Then no! You are going to know.",
+    tafsirBengali: "এই সতর্কতা আবার পুনরাবৃত্তি করা হয়েছে জোর দেওয়ার জন্য।",
+    tafsirEnglish: "This warning is repeated for emphasis."
+  },
+  {
+    surahNumber: 102, verseNumber: 5,
+    arabic: "كَلَّا لَوْ تَعْلَمُونَ عِلْمَ الْيَقِينِ",
+    bengali: "কখনো না! যদি তোমরা নিশ্চিত জ্ঞানে জানতে।",
+    english: "No! If you only knew with knowledge of certainty.",
+    tafsirBengali: "যদি তারা আখিরাতের বাস্তবতা সম্পর্কে নিশ্চিতভাবে জানত, তাহলে তাদের আচরণ ভিন্ন হত।",
+    tafsirEnglish: "If they knew the reality of the Hereafter with certainty, their behavior would be different."
+  },
+  {
+    surahNumber: 102, verseNumber: 6,
+    arabic: "لَتَرَوُنَّ الْجَحِيمَ",
+    bengali: "তোমরা অবশ্যই জাহান্নাম দেখবে।",
+    english: "You will surely see the Hellfire.",
+    tafsirBengali: "কিয়ামতের দিন সবাই জাহান্নাম দেখতে পাবে।",
+    tafsirEnglish: "On the Day of Judgment, everyone will see Hellfire."
+  },
+  {
+    surahNumber: 102, verseNumber: 7,
+    arabic: "ثُمَّ لَتَرَوُنَّهَا عَيْنَ الْيَقِينِ",
+    bengali: "অতঃপর তোমরা তা নিশ্চিত চোখে দেখবে।",
+    english: "Then you will surely see it with the eye of certainty.",
+    tafsirBengali: "স্বচক্ষে জাহান্নাম দেখা হবে, তখন আর কোনো সন্দেহ থাকবে না।",
+    tafsirEnglish: "Hellfire will be seen with one's own eyes, then there will be no doubt left."
+  },
+  {
+    surahNumber: 102, verseNumber: 8,
+    arabic: "ثُمَّ لَتُسْأَلُنَّ يَوْمَئِذٍ عَنِ النَّعِيمِ",
+    bengali: "অতঃপর সেদিন তোমাদের নিয়ামত সম্পর্কে জিজ্ঞাসা করা হবে।",
+    english: "Then you will surely be asked that Day about pleasure.",
+    tafsirBengali: "আল্লাহ প্রদত্ত প্রতিটি নিয়ামত সম্পর্কে জিজ্ঞাসা করা হবে - সুস্বাস্থ্য, নিরাপত্তা, খাদ্য, পানীয় সবকিছু। এগুলো কীভাবে ব্যবহার করা হয়েছে তার হিসাব দিতে হবে।",
+    tafsirEnglish: "You will be asked about every blessing Allah gave - health, security, food, drink, everything. You will have to account for how these were used."
+  }
+];
+
 // Surah Al-Asr (103)
 export const surahAsrVerses: Verse[] = [
   {
@@ -599,6 +851,9 @@ export const surahMaunVerses: Verse[] = [
 // All verses collection
 const allVerses: { [key: number]: Verse[] } = {
   1: surahFatihaVerses,
+  100: surahAadiyaatVerses,
+  101: surahQaariaVerses,
+  102: surahTakaathurVerses,
   103: surahAsrVerses,
   104: surahHumazaVerses,
   105: surahFilVerses,
