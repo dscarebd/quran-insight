@@ -14,16 +14,168 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      admin_emails: {
+        Row: {
+          created_at: string | null
+          email: string
+          id: string
+        }
+        Insert: {
+          created_at?: string | null
+          email: string
+          id?: string
+        }
+        Update: {
+          created_at?: string | null
+          email?: string
+          id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string | null
+          email: string
+          id: string
+        }
+        Insert: {
+          created_at?: string | null
+          email: string
+          id: string
+        }
+        Update: {
+          created_at?: string | null
+          email?: string
+          id?: string
+        }
+        Relationships: []
+      }
+      surahs: {
+        Row: {
+          created_at: string | null
+          id: number
+          meaning_bengali: string
+          meaning_english: string
+          name_arabic: string
+          name_bengali: string
+          name_english: string
+          number: number
+          revelation_type: string
+          total_verses: number
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: number
+          meaning_bengali: string
+          meaning_english: string
+          name_arabic: string
+          name_bengali: string
+          name_english: string
+          number: number
+          revelation_type: string
+          total_verses: number
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: number
+          meaning_bengali?: string
+          meaning_english?: string
+          name_arabic?: string
+          name_bengali?: string
+          name_english?: string
+          number?: number
+          revelation_type?: string
+          total_verses?: number
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string | null
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
+      verses: {
+        Row: {
+          arabic: string
+          bengali: string
+          created_at: string | null
+          english: string
+          id: number
+          surah_number: number
+          tafsir_bengali: string | null
+          tafsir_english: string | null
+          updated_at: string | null
+          verse_number: number
+        }
+        Insert: {
+          arabic: string
+          bengali: string
+          created_at?: string | null
+          english: string
+          id?: number
+          surah_number: number
+          tafsir_bengali?: string | null
+          tafsir_english?: string | null
+          updated_at?: string | null
+          verse_number: number
+        }
+        Update: {
+          arabic?: string
+          bengali?: string
+          created_at?: string | null
+          english?: string
+          id?: number
+          surah_number?: number
+          tafsir_bengali?: string | null
+          tafsir_english?: string | null
+          updated_at?: string | null
+          verse_number?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "verses_surah_number_fkey"
+            columns: ["surah_number"]
+            isOneToOne: false
+            referencedRelation: "surahs"
+            referencedColumns: ["number"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
+      is_admin_email: { Args: { _email: string }; Returns: boolean }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "user"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +302,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "user"],
+    },
   },
 } as const
