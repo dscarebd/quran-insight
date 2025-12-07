@@ -102,6 +102,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setIsAdmin(false);
   };
 
+  // Don't block rendering for public pages - always render children
   return (
     <AuthContext.Provider value={{ user, session, isAdmin, isLoading, signIn, signUp, signOut }}>
       {children}
@@ -112,7 +113,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (context === undefined) {
-    throw new Error("useAuth must be used within an AuthProvider");
+    // Return a default state instead of throwing to prevent crashes on public pages
+    return {
+      user: null,
+      session: null,
+      isAdmin: false,
+      isLoading: false,
+      signIn: async () => ({ error: new Error("Auth not initialized") }),
+      signUp: async () => ({ error: new Error("Auth not initialized") }),
+      signOut: async () => {},
+    };
   }
   return context;
 };
