@@ -2903,7 +2903,6 @@ const allVerses: { [key: number]: Verse[] } = {
   43: surahZukhrufVerses,
   44: surahDukhanVerses,
   45: surahJathiyahVerses,
-  45: surahJathiyahVerses,
   46: surahAhqafVerses,
   47: surahMuhammadVerses,
   48: surahFathVerses,
