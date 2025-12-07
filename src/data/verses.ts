@@ -3104,6 +3104,7 @@ export const surahHashrVerses: Verse[] = [
 // All verses collection
 const allVerses: { [key: number]: Verse[] } = {
   1: surahFatihaVerses,
+  40: surahGhafirVerses,
   41: surahFussilatVerses,
   42: surahShuraVerses,
   43: surahZukhrufVerses,
