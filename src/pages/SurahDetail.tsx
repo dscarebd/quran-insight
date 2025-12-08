@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { ArrowLeft, BookOpen, ChevronDown, ChevronUp, Play, Bookmark, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowLeft, BookOpen, ChevronDown, ChevronUp, Play, Bookmark, ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
 import { surahs } from "@/data/surahs";
-import { getVersesBySurah, Verse } from "@/data/verses";
+import { Verse } from "@/data/verses";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useSidebar } from "@/components/ui/sidebar";
+import { supabase } from "@/integrations/supabase/client";
 
 interface SurahDetailProps {
   language: "bn" | "en";
@@ -74,13 +75,45 @@ const SurahDetail = ({ language, onLanguageChange }: SurahDetailProps) => {
   const { surahNumber } = useParams<{ surahNumber: string }>();
   const navigate = useNavigate();
   const { isMobile, setOpenMobile } = useSidebar();
+  const [verses, setVerses] = useState<Verse[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const surahNum = parseInt(surahNumber || "1", 10);
   const surah = surahs.find(s => s.number === surahNum);
-  const verses = getVersesBySurah(surahNum);
 
   const prevSurah = surahs.find(s => s.number === surahNum - 1);
   const nextSurah = surahs.find(s => s.number === surahNum + 1);
+
+  useEffect(() => {
+    const fetchVerses = async () => {
+      setIsLoading(true);
+      const { data, error } = await supabase
+        .from('verses')
+        .select('*')
+        .eq('surah_number', surahNum)
+        .order('verse_number', { ascending: true });
+
+      if (error) {
+        console.error('Error fetching verses:', error);
+        setVerses([]);
+      } else {
+        // Map database fields to Verse interface
+        const mappedVerses: Verse[] = (data || []).map(v => ({
+          surahNumber: v.surah_number,
+          verseNumber: v.verse_number,
+          arabic: v.arabic,
+          bengali: v.bengali,
+          english: v.english,
+          tafsirBengali: v.tafsir_bengali || undefined,
+          tafsirEnglish: v.tafsir_english || undefined,
+        }));
+        setVerses(mappedVerses);
+      }
+      setIsLoading(false);
+    };
+
+    fetchVerses();
+  }, [surahNum]);
 
   const handleBack = () => {
     if (isMobile) {
@@ -215,7 +248,11 @@ const SurahDetail = ({ language, onLanguageChange }: SurahDetailProps) => {
 
       {/* Verses List */}
       <div className="mx-auto max-w-4xl px-3 py-6 sm:px-4 md:px-6">
-        {verses.length > 0 ? (
+        {isLoading ? (
+          <div className="flex items-center justify-center py-12">
+            <Loader2 className="h-8 w-8 animate-spin text-primary" />
+          </div>
+        ) : verses.length > 0 ? (
           verses.map((verse, index) => (
             <VerseCard 
               key={verse.verseNumber} 
