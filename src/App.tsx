@@ -15,6 +15,7 @@ import Bookmarks from "./pages/Bookmarks";
 import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
 import ReadPage from "./pages/ReadPage";
+import Dua from "./pages/Dua";
 
 // Lazy load admin pages
 const Admin = lazy(() => import("./pages/Admin"));
@@ -75,6 +76,9 @@ const AppContent = () => {
         <Layout language={language} onLanguageChange={setLanguage}>
           <Bookmarks language={language} onLanguageChange={setLanguage} readingMode={readingMode} />
         </Layout>
+      } />
+      <Route path="/dua" element={
+        <Dua language={language} />
       } />
       <Route path="/settings" element={
         <Settings language={language} onLanguageChange={setLanguage} readingMode={readingMode} onReadingModeChange={setReadingMode} />
