@@ -2,6 +2,7 @@ import { useState, useRef } from "react";
 import { Header } from "@/components/Header";
 import { SearchSection } from "@/components/SearchSection";
 import { DailyVerse } from "@/components/DailyVerse";
+import { DailyDua } from "@/components/DailyDua";
 import { SearchResults } from "@/components/SearchResults";
 import { ContinueReading } from "@/components/ContinueReading";
 import { useToast } from "@/hooks/use-toast";
@@ -130,6 +131,7 @@ const Index = ({ language, onLanguageChange }: IndexProps) => {
           {!searchQuery && (
             <>
               <DailyVerse language={language} />
+              <DailyDua language={language} />
               <ContinueReading language={language} />
             </>
           )}
