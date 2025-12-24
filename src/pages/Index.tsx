@@ -129,8 +129,8 @@ const Index = ({ language, onLanguageChange }: IndexProps) => {
           
           {!searchQuery && (
             <>
-              <ContinueReading language={language} />
               <DailyVerse language={language} />
+              <ContinueReading language={language} />
             </>
           )}
         </div>
