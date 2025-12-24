@@ -28,12 +28,16 @@ export const ContinueReading = ({ language }: ContinueReadingProps) => {
       let surahNumber = pageData?.startSurah || 1;
       let verseNumber = pageData?.startVerse || 1;
       
-      // If we have a more specific last read verse, use it
+      // Only use the specific verse if it's from the same page
       if (lastReadVerse) {
         const parts = lastReadVerse.split("-");
         if (parts.length >= 3) {
-          surahNumber = parseInt(parts[1]);
-          verseNumber = parseInt(parts[2]);
+          const versePage = parseInt(parts[0]);
+          // Only use this verse info if it matches the current last read page
+          if (versePage === page) {
+            surahNumber = parseInt(parts[1]);
+            verseNumber = parseInt(parts[2]);
+          }
         }
       }
       
