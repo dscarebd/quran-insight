@@ -34,10 +34,10 @@ export const SearchSection = ({ language, onSearch, isLoading }: SearchSectionPr
       </div>
 
       {/* Title */}
-      <h1 className="mb-3 text-center font-bengali text-2xl font-bold text-foreground sm:text-3xl md:text-5xl">
+      <h1 className={cn("mb-3 text-center text-2xl font-bold text-foreground sm:text-3xl md:text-5xl", language === "bn" && "font-bengali")}>
         {language === "bn" ? "কুরআন জিজ্ঞাসা করুন" : "Ask the Quran"}
       </h1>
-      <p className="mb-6 px-2 text-center text-sm text-muted-foreground sm:mb-8 sm:px-0 sm:text-base">
+      <p className={cn("mb-6 px-2 text-center text-sm text-muted-foreground sm:mb-8 sm:px-0 sm:text-base", language === "bn" && "font-bengali")}>
         {language === "bn"
           ? "বাংলা বা ইংরেজিতে অনুসন্ধান করুন। এআই এর মাধ্যমে জানুন সঠিক তথ্য।"
           : "Search in Bengali or English. Get accurate information through AI."}

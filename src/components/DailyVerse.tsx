@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Sparkles, ChevronRight, Bookmark } from "lucide-react";
 import { dailyVerses } from "@/data/surahs";
+import { cn } from "@/lib/utils";
 
 interface DailyVerseProps {
   language: "bn" | "en";
@@ -25,7 +26,7 @@ export const DailyVerse = ({ language }: DailyVerseProps) => {
       {/* Label */}
       <div className="mb-4 flex items-center justify-center gap-2 text-primary">
         <Sparkles className="h-4 w-4" />
-        <span className="text-sm font-medium">
+        <span className={cn("text-sm font-medium", language === "bn" && "font-bengali")}>
           {language === "bn" ? "আজকের আয়াত" : "Verse of the Day"}
         </span>
       </div>
@@ -46,7 +47,7 @@ export const DailyVerse = ({ language }: DailyVerseProps) => {
         </p>
 
         {/* Translation */}
-        <p className="mb-4 text-center font-bengali text-muted-foreground">
+        <p className={cn("mb-4 text-center text-muted-foreground", language === "bn" && "font-bengali")}>
           {language === "bn" ? verse.bengali : verse.english}
         </p>
 

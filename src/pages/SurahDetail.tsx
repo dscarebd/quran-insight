@@ -42,7 +42,7 @@ const VerseCard = ({ verse, language, index }: { verse: Verse; language: "bn" | 
       </p>
 
       {/* Translation */}
-      <p className="mb-2 font-bengali text-base leading-relaxed text-foreground sm:text-lg">
+      <p className={cn("mb-2 text-base leading-relaxed text-foreground sm:text-lg", language === "bn" && "font-bengali")}>
         {language === "bn" ? verse.bengali : verse.english}
       </p>
 
@@ -53,7 +53,7 @@ const VerseCard = ({ verse, language, index }: { verse: Verse; language: "bn" | 
             onClick={() => setShowTafsir(!showTafsir)}
             className="flex w-full items-center justify-between text-sm font-medium text-primary hover:text-primary/80"
           >
-            <span className="flex items-center gap-2">
+            <span className={cn("flex items-center gap-2", language === "bn" && "font-bengali")}>
               <BookOpen className="h-4 w-4" />
               {language === "bn" ? "তাফসীর দেখুন" : "View Tafsir"}
             </span>
@@ -61,7 +61,7 @@ const VerseCard = ({ verse, language, index }: { verse: Verse; language: "bn" | 
           </button>
           
           {showTafsir && (
-            <div className="mt-3 rounded-lg bg-accent/50 p-4 text-sm leading-relaxed text-muted-foreground">
+            <div className={cn("mt-3 rounded-lg bg-accent/50 p-4 text-sm leading-relaxed text-muted-foreground", language === "bn" && "font-bengali")}>
               {language === "bn" ? verse.tafsirBengali : verse.tafsirEnglish}
             </div>
           )}
@@ -126,7 +126,7 @@ const SurahDetail = ({ language, onLanguageChange }: SurahDetailProps) => {
   if (!surah) {
     return (
       <div className="flex min-h-screen items-center justify-center">
-        <p className="text-muted-foreground">
+        <p className={cn("text-muted-foreground", language === "bn" && "font-bengali")}>
           {language === "bn" ? "সূরা পাওয়া যায়নি" : "Surah not found"}
         </p>
       </div>
@@ -145,7 +145,7 @@ const SurahDetail = ({ language, onLanguageChange }: SurahDetailProps) => {
             className="gap-2"
           >
             <ArrowLeft className="h-4 w-4" />
-            {language === "bn" ? "ফিরে যান" : "Back"}
+            <span className={language === "bn" ? "font-bengali" : ""}>{language === "bn" ? "ফিরে যান" : "Back"}</span>
           </Button>
 
           {/* Language Toggle */}
@@ -159,7 +159,7 @@ const SurahDetail = ({ language, onLanguageChange }: SurahDetailProps) => {
                   : "text-muted-foreground hover:text-foreground"
               )}
             >
-              বাংলা
+              <span className="font-bengali">বাংলা</span>
             </button>
             <button
               onClick={() => onLanguageChange("en")}
@@ -180,7 +180,7 @@ const SurahDetail = ({ language, onLanguageChange }: SurahDetailProps) => {
       <div className="border-b border-border bg-gradient-to-br from-primary/5 to-accent/30 py-8">
         <div className="mx-auto max-w-4xl px-4">
           <div className="text-center mb-4">
-            <div className="mb-2 inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-sm text-primary">
+            <div className={cn("mb-2 inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-sm text-primary", language === "bn" && "font-bengali")}>
               <span>{surah.revelationType === "Meccan" ? (language === "bn" ? "মক্কী" : "Meccan") : (language === "bn" ? "মাদানী" : "Medinan")}</span>
               <span>•</span>
               <span>{surah.totalVerses} {language === "bn" ? "আয়াত" : "verses"}</span>
@@ -201,7 +201,7 @@ const SurahDetail = ({ language, onLanguageChange }: SurahDetailProps) => {
               )}
             >
               <ChevronLeft className="h-5 w-5" />
-              <span className="text-xs font-medium hidden sm:block">
+              <span className={cn("text-xs font-medium hidden sm:block", language === "bn" && "font-bengali")}>
                 {prevSurah ? (language === "bn" ? prevSurah.nameBengali : prevSurah.nameEnglish) : ""}
               </span>
               <span className="text-xs sm:hidden">
@@ -214,7 +214,7 @@ const SurahDetail = ({ language, onLanguageChange }: SurahDetailProps) => {
               <h1 className="mb-1 font-arabic text-4xl text-foreground sm:text-5xl">
                 {surah.nameArabic}
               </h1>
-              <h2 className="font-bengali text-xl font-semibold text-foreground">
+              <h2 className={cn("text-xl font-semibold text-foreground", language === "bn" && "font-bengali")}>
                 {language === "bn" ? surah.nameBengali : surah.nameEnglish}
               </h2>
             </div>
@@ -231,7 +231,7 @@ const SurahDetail = ({ language, onLanguageChange }: SurahDetailProps) => {
               )}
             >
               <ChevronRight className="h-5 w-5" />
-              <span className="text-xs font-medium hidden sm:block">
+              <span className={cn("text-xs font-medium hidden sm:block", language === "bn" && "font-bengali")}>
                 {nextSurah ? (language === "bn" ? nextSurah.nameBengali : nextSurah.nameEnglish) : ""}
               </span>
               <span className="text-xs sm:hidden">
@@ -240,7 +240,7 @@ const SurahDetail = ({ language, onLanguageChange }: SurahDetailProps) => {
             </button>
           </div>
 
-          <p className="text-center mt-2 text-muted-foreground">
+          <p className={cn("text-center mt-2 text-muted-foreground", language === "bn" && "font-bengali")}>
             {language === "bn" ? surah.meaningBengali : surah.meaningEnglish}
           </p>
         </div>
@@ -264,10 +264,10 @@ const SurahDetail = ({ language, onLanguageChange }: SurahDetailProps) => {
         ) : (
           <div className="rounded-2xl border border-dashed border-border bg-card p-8 text-center">
             <BookOpen className="mx-auto mb-4 h-12 w-12 text-muted-foreground/50" />
-            <h3 className="mb-2 font-bengali text-lg font-semibold text-foreground">
+            <h3 className={cn("mb-2 text-lg font-semibold text-foreground", language === "bn" && "font-bengali")}>
               {language === "bn" ? "শীঘ্রই আসছে" : "Coming Soon"}
             </h3>
-            <p className="text-sm text-muted-foreground">
+            <p className={cn("text-sm text-muted-foreground", language === "bn" && "font-bengali")}>
               {language === "bn" 
                 ? "এই সূরার আয়াতগুলো শীঘ্রই যোগ করা হবে।" 
                 : "Verses for this Surah will be added soon."}

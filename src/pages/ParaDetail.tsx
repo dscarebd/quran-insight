@@ -33,7 +33,7 @@ const ParaDetail = ({ language, onLanguageChange }: ParaDetailProps) => {
   if (!para) {
     return (
       <div className="flex min-h-screen items-center justify-center">
-        <p className="text-muted-foreground">
+        <p className={cn("text-muted-foreground", language === "bn" && "font-bengali")}>
           {language === "bn" ? "পারা পাওয়া যায়নি" : "Para not found"}
         </p>
       </div>
@@ -57,7 +57,7 @@ const ParaDetail = ({ language, onLanguageChange }: ParaDetailProps) => {
             className="gap-2"
           >
             <ArrowLeft className="h-4 w-4" />
-            {language === "bn" ? "ফিরে যান" : "Back"}
+            <span className={language === "bn" ? "font-bengali" : ""}>{language === "bn" ? "ফিরে যান" : "Back"}</span>
           </Button>
 
           {/* Language Toggle */}
@@ -71,7 +71,7 @@ const ParaDetail = ({ language, onLanguageChange }: ParaDetailProps) => {
                   : "text-muted-foreground hover:text-foreground"
               )}
             >
-              বাংলা
+              <span className="font-bengali">বাংলা</span>
             </button>
             <button
               onClick={() => onLanguageChange("en")}
@@ -92,7 +92,7 @@ const ParaDetail = ({ language, onLanguageChange }: ParaDetailProps) => {
       <div className="border-b border-border bg-gradient-to-br from-primary/5 to-accent/30 py-8">
         <div className="mx-auto max-w-4xl px-4">
           <div className="text-center mb-4">
-            <div className="mb-2 inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-sm text-primary">
+            <div className={cn("mb-2 inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-sm text-primary", language === "bn" && "font-bengali")}>
               <span>{language === "bn" ? "পারা" : "Para"} {para.number}/30</span>
             </div>
           </div>
@@ -111,7 +111,7 @@ const ParaDetail = ({ language, onLanguageChange }: ParaDetailProps) => {
               )}
             >
               <ChevronLeft className="h-5 w-5" />
-              <span className="text-xs font-medium hidden sm:block">
+              <span className={cn("text-xs font-medium hidden sm:block", language === "bn" && "font-bengali")}>
                 {prevPara ? (language === "bn" ? prevPara.nameBengali : prevPara.nameEnglish) : ""}
               </span>
               <span className="text-xs sm:hidden">
@@ -124,7 +124,7 @@ const ParaDetail = ({ language, onLanguageChange }: ParaDetailProps) => {
               <h1 className="mb-1 font-arabic text-4xl text-foreground sm:text-5xl">
                 {para.nameArabic}
               </h1>
-              <h2 className="font-bengali text-xl font-semibold text-foreground">
+              <h2 className={cn("text-xl font-semibold text-foreground", language === "bn" && "font-bengali")}>
                 {language === "bn" ? para.nameBengali : para.nameEnglish}
               </h2>
             </div>
@@ -141,7 +141,7 @@ const ParaDetail = ({ language, onLanguageChange }: ParaDetailProps) => {
               )}
             >
               <ChevronRight className="h-5 w-5" />
-              <span className="text-xs font-medium hidden sm:block">
+              <span className={cn("text-xs font-medium hidden sm:block", language === "bn" && "font-bengali")}>
                 {nextPara ? (language === "bn" ? nextPara.nameBengali : nextPara.nameEnglish) : ""}
               </span>
               <span className="text-xs sm:hidden">
@@ -150,7 +150,7 @@ const ParaDetail = ({ language, onLanguageChange }: ParaDetailProps) => {
             </button>
           </div>
 
-          <p className="text-center mt-2 text-muted-foreground">
+          <p className={cn("text-center mt-2 text-muted-foreground", language === "bn" && "font-bengali")}>
             {language === "bn" 
               ? `সূরা ${para.startSurah} আয়াত ${para.startVerse} থেকে সূরা ${para.endSurah} আয়াত ${para.endVerse} পর্যন্ত`
               : `From Surah ${para.startSurah} Verse ${para.startVerse} to Surah ${para.endSurah} Verse ${para.endVerse}`}
@@ -160,7 +160,7 @@ const ParaDetail = ({ language, onLanguageChange }: ParaDetailProps) => {
 
       {/* Included Surahs */}
       <div className="mx-auto max-w-4xl px-3 py-6 sm:px-4 md:px-6">
-        <h3 className="mb-4 font-bengali text-lg font-semibold text-foreground">
+        <h3 className={cn("mb-4 text-lg font-semibold text-foreground", language === "bn" && "font-bengali")}>
           {language === "bn" ? "এই পারায় অন্তর্ভুক্ত সূরাসমূহ" : "Surahs in this Para"}
         </h3>
         
@@ -177,14 +177,14 @@ const ParaDetail = ({ language, onLanguageChange }: ParaDetailProps) => {
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center justify-between gap-2">
-                  <span className="font-medium truncate text-foreground">
+                  <span className={cn("font-medium truncate text-foreground", language === "bn" && "font-bengali")}>
                     {language === "bn" ? surah.nameBengali : surah.nameEnglish}
                   </span>
                   <span className="font-arabic text-sm text-muted-foreground shrink-0">
                     {surah.nameArabic}
                   </span>
                 </div>
-                <span className="text-xs text-muted-foreground">
+                <span className={cn("text-xs text-muted-foreground", language === "bn" && "font-bengali")}>
                   {surah.totalVerses} {language === "bn" ? "আয়াত" : "verses"} • {surah.revelationType === "Meccan" ? (language === "bn" ? "মক্কী" : "Meccan") : (language === "bn" ? "মাদানী" : "Medinan")}
                 </span>
               </div>
@@ -195,7 +195,7 @@ const ParaDetail = ({ language, onLanguageChange }: ParaDetailProps) => {
         {includedSurahs.length === 0 && (
           <div className="rounded-2xl border border-dashed border-border bg-card p-8 text-center">
             <BookOpen className="mx-auto mb-4 h-12 w-12 text-muted-foreground/50" />
-            <p className="text-sm text-muted-foreground">
+            <p className={cn("text-sm text-muted-foreground", language === "bn" && "font-bengali")}>
               {language === "bn" ? "কোনো সূরা পাওয়া যায়নি" : "No surahs found"}
             </p>
           </div>
