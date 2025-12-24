@@ -1,40 +1,23 @@
 import { useState } from "react";
-import { Search, Mic, Sparkles, ChevronDown } from "lucide-react";
+import { Search, Mic, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-
-export type GPTModel = "gpt-4o-mini" | "gpt-4o" | "gpt-4-turbo";
 
 interface SearchSectionProps {
   language: "bn" | "en";
-  onSearch: (query: string, model: GPTModel) => void;
+  onSearch: (query: string) => void;
   isLoading?: boolean;
 }
-
-const models: { id: GPTModel; name: string; description: string }[] = [
-  { id: "gpt-4o-mini", name: "GPT-4o Mini", description: "Fast & cost-effective" },
-  { id: "gpt-4o", name: "GPT-4o", description: "Higher quality" },
-  { id: "gpt-4-turbo", name: "GPT-4 Turbo", description: "Complex reasoning" },
-];
 
 export const SearchSection = ({ language, onSearch, isLoading }: SearchSectionProps) => {
   const [query, setQuery] = useState("");
   const [isFocused, setIsFocused] = useState(false);
-  const [selectedModel, setSelectedModel] = useState<GPTModel>("gpt-4o-mini");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (query.trim()) {
-      onSearch(query.trim(), selectedModel);
+      onSearch(query.trim());
     }
   };
-
-  const selectedModelInfo = models.find(m => m.id === selectedModel);
 
   const placeholderText = language === "bn" 
     ? "উদাহরণ: ধৈর্য্য সম্পর্কে কুরআন কি বলে?" 
@@ -54,37 +37,11 @@ export const SearchSection = ({ language, onSearch, isLoading }: SearchSectionPr
       <h1 className={cn("mb-3 text-center text-2xl font-bold text-foreground sm:text-3xl md:text-5xl", language === "bn" && "font-bengali")}>
         {language === "bn" ? "কুরআন জিজ্ঞাসা করুন" : "Ask the Quran"}
       </h1>
-      <p className={cn("mb-4 px-2 text-center text-sm text-muted-foreground sm:mb-6 sm:px-0 sm:text-base", language === "bn" && "font-bengali")}>
+      <p className={cn("mb-6 px-2 text-center text-sm text-muted-foreground sm:mb-8 sm:px-0 sm:text-base", language === "bn" && "font-bengali")}>
         {language === "bn"
           ? "বাংলা বা ইংরেজিতে অনুসন্ধান করুন। এআই এর মাধ্যমে জানুন সঠিক তথ্য।"
           : "Search in Bengali or English. Get accurate information through AI."}
       </p>
-
-      {/* Model Selector */}
-      <div className="mb-4 flex justify-center">
-        <DropdownMenu>
-          <DropdownMenuTrigger className="flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2 text-sm text-foreground transition-colors hover:bg-accent">
-            <span className="text-muted-foreground">{language === "bn" ? "মডেল:" : "Model:"}</span>
-            <span className="font-medium">{selectedModelInfo?.name}</span>
-            <ChevronDown className="h-4 w-4 text-muted-foreground" />
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="center" className="w-56">
-            {models.map((model) => (
-              <DropdownMenuItem
-                key={model.id}
-                onClick={() => setSelectedModel(model.id)}
-                className={cn(
-                  "flex flex-col items-start gap-0.5 cursor-pointer",
-                  selectedModel === model.id && "bg-accent"
-                )}
-              >
-                <span className="font-medium">{model.name}</span>
-                <span className="text-xs text-muted-foreground">{model.description}</span>
-              </DropdownMenuItem>
-            ))}
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
 
       {/* Search Form */}
       <form onSubmit={handleSubmit} className="mx-auto max-w-2xl">

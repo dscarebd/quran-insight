@@ -13,9 +13,8 @@ serve(async (req) => {
   }
 
   try {
-    const { query, language, model } = await req.json();
-    const selectedModel = model || "gpt-4o-mini";
-    console.log("Received search query:", query, "Language:", language, "Model:", selectedModel);
+    const { query, language } = await req.json();
+    console.log("Received search query:", query, "Language:", language);
 
     const OPENAI_API_KEY = Deno.env.get("OPENAI_API_KEY");
     if (!OPENAI_API_KEY) {
@@ -41,7 +40,7 @@ Rules:
 - Add explanations from Tafsir
 - Answer in English`;
 
-    console.log("Making request to OpenAI API with model:", selectedModel);
+    console.log("Making request to OpenAI API...");
 
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
@@ -50,7 +49,7 @@ Rules:
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: selectedModel,
+        model: "gpt-4o-mini",
         messages: [
           { role: "system", content: systemPrompt },
           { role: "user", content: query }
