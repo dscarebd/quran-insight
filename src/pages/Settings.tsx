@@ -129,7 +129,7 @@ const Settings = ({ language, onLanguageChange }: SettingsProps) => {
                   </div>
                   <div className="text-left">
                     <p className="font-medium">English</p>
-                    <p className="text-sm text-muted-foreground">ইংরেজি</p>
+                    <p className="text-sm text-muted-foreground font-bengali">ইংরেজি</p>
                   </div>
                 </div>
                 {language === "en" && (
