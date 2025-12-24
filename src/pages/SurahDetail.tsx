@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { ArrowLeft, BookOpen, ChevronDown, ChevronUp, Play, Bookmark, ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
+import { ArrowLeft, BookOpen, ChevronDown, ChevronUp, Bookmark, ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
 import { surahs } from "@/data/surahs";
 import { Verse } from "@/data/verses";
 import { Button } from "@/components/ui/button";
@@ -27,9 +27,6 @@ const VerseCard = ({ verse, language, index }: { verse: Verse; language: "bn" | 
           {verse.verseNumber}
         </div>
         <div className="flex gap-2">
-          <Button variant="ghost" size="icon" className="h-9 w-9 text-muted-foreground hover:text-primary">
-            <Play className="h-4 w-4" />
-          </Button>
           <Button variant="ghost" size="icon" className="h-9 w-9 text-muted-foreground hover:text-primary">
             <Bookmark className="h-4 w-4" />
           </Button>
