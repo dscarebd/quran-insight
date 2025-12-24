@@ -54,7 +54,9 @@ const AppContent = () => {
         </Layout>
       } />
       <Route path="/read/:pageNumber" element={
-        <ReadPage language={language} />
+        <Layout language={language} onLanguageChange={setLanguage}>
+          <ReadPage language={language} />
+        </Layout>
       } />
       <Route path="/bookmarks" element={
         <Layout language={language} onLanguageChange={setLanguage}>
