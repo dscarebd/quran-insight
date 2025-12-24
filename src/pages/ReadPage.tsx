@@ -100,7 +100,9 @@ const ReadPage = ({ language }: ReadPageProps) => {
     setFontSizeIndex(DEFAULT_FONT_INDEX);
     setShowZoomIndicator(true);
     setTimeout(() => setShowZoomIndicator(false), 1500);
-    toast.success(language === "bn" ? "ফন্ট সাইজ রিসেট হয়েছে" : "Font size reset");
+    toast.success(language === "bn" ? "ফন্ট সাইজ রিসেট হয়েছে" : "Font size reset", {
+      className: language === "bn" ? "font-bengali" : "",
+    });
   }, [language]);
 
   // Navigate to page
