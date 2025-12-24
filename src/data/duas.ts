@@ -303,6 +303,268 @@ export const duaCategories: DuaCategory[] = [
         reference: "সূরা আলে ইমরান ৩:১৪৭"
       }
     ]
+  },
+
+  // ============ PHASE 2: Spiritual & Knowledge Duas (5 Categories) ============
+
+  // 6. Duas from the Sunnah (Hadith)
+  {
+    id: "sunnah-duas",
+    nameEnglish: "Duas from the Sunnah",
+    nameBengali: "হাদীসের দোয়া",
+    icon: "BookMarked",
+    duas: [
+      {
+        id: "sunnah-1",
+        arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْهُدَى وَالتُّقَى وَالْعَفَافَ وَالْغِنَى",
+        bengali: "হে আল্লাহ! আমি তোমার কাছে হিদায়াত, তাকওয়া, পবিত্রতা এবং অভাবমুক্তি প্রার্থনা করি।",
+        english: "O Allah, I ask You for guidance, piety, chastity and self-sufficiency.",
+        reference: "সহীহ মুসলিম"
+      },
+      {
+        id: "sunnah-2",
+        arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ عِلْمًا نَافِعًا، وَرِزْقًا طَيِّبًا، وَعَمَلًا مُتَقَبَّلًا",
+        bengali: "হে আল্লাহ! আমি তোমার কাছে উপকারী জ্ঞান, পবিত্র রিজিক এবং কবুলযোগ্য আমল প্রার্থনা করি।",
+        english: "O Allah, I ask You for beneficial knowledge, good provision, and accepted deeds.",
+        reference: "ইবনে মাজাহ"
+      },
+      {
+        id: "sunnah-3",
+        arabic: "اللَّهُمَّ أَصْلِحْ لِي دِينِي الَّذِي هُوَ عِصْمَةُ أَمْرِي، وَأَصْلِحْ لِي دُنْيَايَ الَّتِي فِيهَا مَعَاشِي، وَأَصْلِحْ لِي آخِرَتِي الَّتِي فِيهَا مَعَادِي",
+        bengali: "হে আল্লাহ! আমার দ্বীনকে সংশোধন করে দাও যা আমার সকল বিষয়ের রক্ষাকবচ। আমার দুনিয়াকে সংশোধন করে দাও যেখানে আমার জীবিকা। আমার আখিরাতকে সংশোধন করে দাও যেখানে আমার প্রত্যাবর্তন।",
+        english: "O Allah, set right for me my religion which is the safeguard of my affairs. Set right for me my worldly life wherein is my livelihood. Set right for me my Hereafter which is my return.",
+        reference: "সহীহ মুসলিম"
+      },
+      {
+        id: "sunnah-4",
+        arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ زَوَالِ نِعْمَتِكَ، وَتَحَوُّلِ عَافِيَتِكَ، وَفُجَاءَةِ نِقْمَتِكَ، وَجَمِيعِ سَخَطِكَ",
+        bengali: "হে আল্লাহ! আমি তোমার কাছে আশ্রয় চাই তোমার নিয়ামত চলে যাওয়া থেকে, তোমার দেওয়া সুস্থতা বদলে যাওয়া থেকে, আকস্মিক আযাব থেকে এবং তোমার সকল অসন্তুষ্টি থেকে।",
+        english: "O Allah, I seek refuge in You from the removal of Your blessings, the change of Your protection, Your sudden punishment, and all of Your displeasure.",
+        reference: "সহীহ মুসলিম"
+      },
+      {
+        id: "sunnah-5",
+        arabic: "اللَّهُمَّ أَعِنِّي عَلَى ذِكْرِكَ وَشُكْرِكَ وَحُسْنِ عِبَادَتِكَ",
+        bengali: "হে আল্লাহ! তোমার যিকর, শুকর এবং সুন্দরভাবে তোমার ইবাদত করতে আমাকে সাহায্য কর।",
+        english: "O Allah, help me to remember You, thank You, and worship You in the best manner.",
+        reference: "আবু দাউদ, নাসাঈ"
+      },
+      {
+        id: "sunnah-6",
+        arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ مِنَ الْخَيْرِ كُلِّهِ عَاجِلِهِ وَآجِلِهِ، مَا عَلِمْتُ مِنْهُ وَمَا لَمْ أَعْلَمْ",
+        bengali: "হে আল্লাহ! আমি তোমার কাছে সকল কল্যাণ প্রার্থনা করি, এখনকার এবং পরবর্তীর, যা আমি জানি এবং যা জানি না।",
+        english: "O Allah, I ask You for all good, immediate and later, that which I know and that which I do not know.",
+        reference: "ইবনে মাজাহ"
+      }
+    ]
+  },
+
+  // 7. Guidance & Iman Duas
+  {
+    id: "guidance-iman",
+    nameEnglish: "Guidance & Iman",
+    nameBengali: "ঈমান ও হিদায়াত",
+    icon: "Compass",
+    duas: [
+      {
+        id: "guidance-1",
+        arabic: "اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ",
+        bengali: "আমাদেরকে সরল পথ দেখাও।",
+        english: "Guide us to the straight path.",
+        reference: "সূরা ফাতিহা ১:৬"
+      },
+      {
+        id: "guidance-2",
+        arabic: "اللَّهُمَّ اهْدِنِي وَسَدِّدْنِي",
+        bengali: "হে আল্লাহ! আমাকে হিদায়াত দাও এবং সঠিক পথে পরিচালিত কর।",
+        english: "O Allah, guide me and keep me on the right path.",
+        reference: "সহীহ মুসলিম"
+      },
+      {
+        id: "guidance-3",
+        arabic: "يَا مُقَلِّبَ الْقُلُوبِ ثَبِّتْ قَلْبِي عَلَى دِينِكَ",
+        bengali: "হে অন্তর পরিবর্তনকারী! আমার অন্তরকে তোমার দ্বীনের উপর স্থির রাখ।",
+        english: "O Turner of hearts, make my heart firm upon Your religion.",
+        reference: "তিরমিযী"
+      },
+      {
+        id: "guidance-4",
+        arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ الثَّبَاتَ فِي الأَمْرِ، وَالْعَزِيمَةَ عَلَى الرُّشْدِ",
+        bengali: "হে আল্লাহ! আমি তোমার কাছে দ্বীনের উপর অটল থাকা এবং সঠিক পথে চলার দৃঢ় সংকল্প প্রার্থনা করি।",
+        english: "O Allah, I ask You for steadfastness in the matter and determination upon guidance.",
+        reference: "নাসাঈ"
+      },
+      {
+        id: "guidance-5",
+        arabic: "اللَّهُمَّ أَرِنَا الْحَقَّ حَقًّا وَارْزُقْنَا اتِّبَاعَهُ، وَأَرِنَا الْبَاطِلَ بَاطِلًا وَارْزُقْنَا اجْتِنَابَهُ",
+        bengali: "হে আল্লাহ! আমাদেরকে সত্যকে সত্য হিসেবে দেখাও এবং তা অনুসরণ করার তাওফীক দাও। বাতিলকে বাতিল হিসেবে দেখাও এবং তা থেকে বিরত থাকার তাওফীক দাও।",
+        english: "O Allah, show us the truth as truth and grant us the ability to follow it. Show us falsehood as falsehood and grant us the ability to avoid it.",
+        reference: "বায়হাকী"
+      },
+      {
+        id: "guidance-6",
+        arabic: "اللَّهُمَّ زَيِّنَّا بِزِينَةِ الإِيمَانِ وَاجْعَلْنَا هُدَاةً مُهْتَدِينَ",
+        bengali: "হে আল্লাহ! আমাদেরকে ঈমানের সৌন্দর্যে সুশোভিত কর এবং আমাদেরকে হিদায়াতপ্রাপ্ত পথপ্রদর্শক বানাও।",
+        english: "O Allah, beautify us with the adornment of faith and make us guides who are rightly guided.",
+        reference: "নাসাঈ"
+      }
+    ]
+  },
+
+  // 8. Knowledge & Wisdom Duas
+  {
+    id: "knowledge-wisdom",
+    nameEnglish: "Knowledge & Wisdom",
+    nameBengali: "ইলমের দোয়া",
+    icon: "GraduationCap",
+    duas: [
+      {
+        id: "knowledge-1",
+        arabic: "رَبِّ زِدْنِي عِلْمًا",
+        bengali: "হে আমার রব! আমার জ্ঞান বৃদ্ধি করে দাও।",
+        english: "My Lord, increase me in knowledge.",
+        reference: "সূরা ত্বহা ২০:১১৪"
+      },
+      {
+        id: "knowledge-2",
+        arabic: "اللَّهُمَّ انْفَعْنِي بِمَا عَلَّمْتَنِي، وَعَلِّمْنِي مَا يَنْفَعُنِي، وَزِدْنِي عِلْمًا",
+        bengali: "হে আল্লাহ! তুমি আমাকে যা শিখিয়েছ তা দিয়ে আমাকে উপকৃত কর, আমাকে এমন কিছু শেখাও যা আমার উপকারে আসবে এবং আমার জ্ঞান বৃদ্ধি কর।",
+        english: "O Allah, benefit me with what You have taught me, teach me that which will benefit me, and increase me in knowledge.",
+        reference: "তিরমিযী, ইবনে মাজাহ"
+      },
+      {
+        id: "knowledge-3",
+        arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ عِلْمٍ لاَ يَنْفَعُ",
+        bengali: "হে আল্লাহ! আমি এমন জ্ঞান থেকে তোমার আশ্রয় চাই যা উপকারে আসে না।",
+        english: "O Allah, I seek refuge in You from knowledge that does not benefit.",
+        reference: "সহীহ মুসলিম"
+      },
+      {
+        id: "knowledge-4",
+        arabic: "اللَّهُمَّ فَقِّهْنِي فِي الدِّينِ",
+        bengali: "হে আল্লাহ! আমাকে দ্বীনের গভীর জ্ঞান দান কর।",
+        english: "O Allah, grant me understanding of the religion.",
+        reference: "সহীহ বুখারী, সহীহ মুসলিম"
+      },
+      {
+        id: "knowledge-5",
+        arabic: "رَبِّ اشْرَحْ لِي صَدْرِي، وَيَسِّرْ لِي أَمْرِي، وَاحْلُلْ عُقْدَةً مِّن لِّسَانِي، يَفْقَهُوا قَوْلِي",
+        bengali: "হে আমার রব! আমার বক্ষ প্রশস্ত করে দাও, আমার কাজ সহজ করে দাও এবং আমার জিহ্বার জড়তা দূর করে দাও, যাতে তারা আমার কথা বুঝতে পারে।",
+        english: "My Lord, expand for me my breast, ease my task for me, and untie the knot from my tongue, that they may understand my speech.",
+        reference: "সূরা ত্বহা ২০:২৫-২৮"
+      },
+      {
+        id: "knowledge-6",
+        arabic: "اللَّهُمَّ عَلِّمْنِي مَا جَهِلْتُ، وَذَكِّرْنِي مَا نَسِيتُ، وَافْتَحْ عَلَيَّ مِنْ فُتُوحِ الْعَارِفِينَ",
+        bengali: "হে আল্লাহ! আমি যা জানি না তা শেখাও, যা ভুলে গেছি তা স্মরণ করিয়ে দাও এবং আমার জন্য জ্ঞানীদের মতো জ্ঞানের দরজা খুলে দাও।",
+        english: "O Allah, teach me what I do not know, remind me of what I have forgotten, and open for me the openings of those who have knowledge.",
+        reference: "আল-আযকার"
+      }
+    ]
+  },
+
+  // 9. Success & Ease Duas
+  {
+    id: "success-ease",
+    nameEnglish: "Success & Ease",
+    nameBengali: "সফলতার দোয়া",
+    icon: "Trophy",
+    duas: [
+      {
+        id: "success-1",
+        arabic: "اللَّهُمَّ لاَ سَهْلَ إِلاَّ مَا جَعَلْتَهُ سَهْلًا، وَأَنْتَ تَجْعَلُ الْحَزْنَ إِذَا شِئْتَ سَهْلًا",
+        bengali: "হে আল্লাহ! তুমি যা সহজ কর তা ছাড়া কিছুই সহজ নয়। তুমি চাইলে কঠিন বিষয়কেও সহজ করে দাও।",
+        english: "O Allah, there is nothing easy except what You make easy. And You make the difficult easy if You wish.",
+        reference: "ইবনে হিব্বান"
+      },
+      {
+        id: "success-2",
+        arabic: "رَبِّ يَسِّرْ وَلاَ تُعَسِّرْ، وَتَمِّمْ بِالْخَيْرِ",
+        bengali: "হে আমার রব! সহজ কর, কঠিন করো না এবং কল্যাণের সাথে সমাপ্ত কর।",
+        english: "My Lord, make it easy and do not make it difficult, and complete it with goodness.",
+        reference: "আল-আযকার"
+      },
+      {
+        id: "success-3",
+        arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ التَّوْفِيقَ وَالسَّدَادَ",
+        bengali: "হে আল্লাহ! আমি তোমার কাছে তাওফীক ও সঠিক পথ প্রার্থনা করি।",
+        english: "O Allah, I ask You for success and correct guidance.",
+        reference: "তাবারানী"
+      },
+      {
+        id: "success-4",
+        arabic: "رَبَّنَا آتِنَا مِن لَّدُنكَ رَحْمَةً وَهَيِّئْ لَنَا مِنْ أَمْرِنَا رَشَدًا",
+        bengali: "হে আমাদের রব! তোমার পক্ষ থেকে আমাদের রহমত দাও এবং আমাদের কাজকে সঠিকভাবে পরিচালিত কর।",
+        english: "Our Lord, grant us from Yourself mercy and prepare for us from our affair right guidance.",
+        reference: "সূরা কাহফ ১৮:১০"
+      },
+      {
+        id: "success-5",
+        arabic: "اللَّهُمَّ خِرْ لِي وَاخْتَرْ لِي",
+        bengali: "হে আল্লাহ! আমার জন্য যা ভালো তা নির্ধারণ কর এবং আমার জন্য তা বেছে নাও।",
+        english: "O Allah, choose for me what is best and select it for me.",
+        reference: "তিরমিযী"
+      },
+      {
+        id: "success-6",
+        arabic: "اللَّهُمَّ أَلْهِمْنِي رُشْدِي، وَأَعِذْنِي مِنْ شَرِّ نَفْسِي",
+        bengali: "হে আল্লাহ! আমাকে সঠিক পথের ইলহাম দাও এবং আমার নফসের অনিষ্ট থেকে রক্ষা কর।",
+        english: "O Allah, inspire me with right guidance and protect me from the evil of my soul.",
+        reference: "তিরমিযী"
+      }
+    ]
+  },
+
+  // 10. Rizq & Wealth Duas
+  {
+    id: "rizq-wealth",
+    nameEnglish: "Rizq & Wealth",
+    nameBengali: "রিজিকের দোয়া",
+    icon: "Wallet",
+    duas: [
+      {
+        id: "rizq-1",
+        arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ رِزْقًا طَيِّبًا، وَعِلْمًا نَافِعًا، وَعَمَلًا مُتَقَبَّلًا",
+        bengali: "হে আল্লাহ! আমি তোমার কাছে পবিত্র রিজিক, উপকারী জ্ঞান এবং কবুলযোগ্য আমল প্রার্থনা করি।",
+        english: "O Allah, I ask You for good provision, beneficial knowledge, and accepted deeds.",
+        reference: "ইবনে মাজাহ"
+      },
+      {
+        id: "rizq-2",
+        arabic: "اللَّهُمَّ اكْفِنِي بِحَلاَلِكَ عَنْ حَرَامِكَ، وَأَغْنِنِي بِفَضْلِكَ عَمَّنْ سِوَاكَ",
+        bengali: "হে আল্লাহ! তোমার হালাল দিয়ে আমাকে হারাম থেকে বাঁচাও এবং তোমার অনুগ্রহ দিয়ে আমাকে তোমা ছাড়া অন্যদের থেকে মুক্ত রাখ।",
+        english: "O Allah, suffice me with Your lawful against Your prohibited and make me independent of all those besides You by Your bounty.",
+        reference: "তিরমিযী"
+      },
+      {
+        id: "rizq-3",
+        arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْفَقْرِ، وَالْقِلَّةِ، وَالذِّلَّةِ",
+        bengali: "হে আল্লাহ! আমি তোমার কাছে দারিদ্র্য, অভাব এবং অপমান থেকে আশ্রয় চাই।",
+        english: "O Allah, I seek refuge in You from poverty, scarcity, and humiliation.",
+        reference: "আবু দাউদ"
+      },
+      {
+        id: "rizq-4",
+        arabic: "اللَّهُمَّ بَارِكْ لَنَا فِيمَا رَزَقْتَنَا وَقِنَا عَذَابَ النَّارِ",
+        bengali: "হে আল্লাহ! তুমি আমাদেরকে যা রিজিক দিয়েছ তাতে বরকত দাও এবং জাহান্নামের আযাব থেকে আমাদের রক্ষা কর।",
+        english: "O Allah, bless us in what You have provided us and protect us from the punishment of the Fire.",
+        reference: "সহীহ মুসলিম"
+      },
+      {
+        id: "rizq-5",
+        arabic: "اللَّهُمَّ أَوْسِعْ لِي فِي رِزْقِي، وَبَارِكْ لِي فِيمَا أَعْطَيْتَنِي",
+        bengali: "হে আল্লাহ! আমার রিজিক প্রশস্ত কর এবং তুমি আমাকে যা দিয়েছ তাতে বরকত দাও।",
+        english: "O Allah, expand my provision and bless me in what You have given me.",
+        reference: "তাবারানী"
+      },
+      {
+        id: "rizq-6",
+        arabic: "رَبِّ إِنِّي لِمَا أَنزَلْتَ إِلَيَّ مِنْ خَيْرٍ فَقِيرٌ",
+        bengali: "হে আমার রব! তুমি আমার প্রতি যে কল্যাণ নাযিল করবে আমি তার মুখাপেক্ষী।",
+        english: "My Lord, indeed I am, for whatever good You would send down to me, in need.",
+        reference: "সূরা কাসাস ২৮:২৪"
+      }
+    ]
   }
 ];
 
