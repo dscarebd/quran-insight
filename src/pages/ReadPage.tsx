@@ -431,8 +431,8 @@ const ReadPage = ({ language }: ReadPageProps) => {
         )}
       </main>
 
-      {/* Navigation Footer */}
-      <footer className="fixed bottom-16 md:bottom-0 left-0 right-0 bg-background/95 backdrop-blur border-t border-border">
+      {/* Navigation Footer - positioned above mobile nav */}
+      <footer className="fixed bottom-16 left-0 right-0 bg-background/95 backdrop-blur border-t border-border md:bottom-0 z-40">
         <div className="flex items-center justify-between px-4 py-3 max-w-screen-md mx-auto">
           <Button
             variant="outline"
