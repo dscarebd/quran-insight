@@ -302,6 +302,8 @@ export const duaCategories: DuaCategory[] = [
     duas: [
       {
         id: "quran-1",
+        titleBengali: "দুনিয়া ও আখিরাতের কল্যাণ",
+        titleEnglish: "Good in This World & Hereafter",
         arabic: "رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ",
         bengali: "হে আমাদের রব! আমাদেরকে দুনিয়াতে কল্যাণ দাও এবং আখিরাতেও কল্যাণ দাও এবং আমাদেরকে জাহান্নামের আযাব থেকে রক্ষা কর।",
         english: "Our Lord, give us in this world that which is good and in the Hereafter that which is good and protect us from the punishment of the Fire.",
@@ -309,6 +311,8 @@ export const duaCategories: DuaCategory[] = [
       },
       {
         id: "quran-2",
+        titleBengali: "ভুল ও সীমালঙ্ঘন থেকে ক্ষমা",
+        titleEnglish: "Forgiveness for Mistakes",
         arabic: "رَبَّنَا لاَ تُؤَاخِذْنَا إِن نَّسِينَا أَوْ أَخْطَأْنَا، رَبَّنَا وَلاَ تَحْمِلْ عَلَيْنَا إِصْرًا كَمَا حَمَلْتَهُ عَلَى الَّذِينَ مِن قَبْلِنَا، رَبَّنَا وَلاَ تُحَمِّلْنَا مَا لاَ طَاقَةَ لَنَا بِهِ، وَاعْفُ عَنَّا وَاغْفِرْ لَنَا وَارْحَمْنَا، أَنتَ مَوْلاَنَا فَانصُرْنَا عَلَى الْقَوْمِ الْكَافِرِينَ",
         bengali: "হে আমাদের রব! আমরা যদি ভুলে যাই অথবা ভুল করি তাহলে আমাদের পাকড়াও করো না। হে আমাদের রব! আমাদের পূর্ববর্তীদের উপর যেমন বোঝা চাপিয়েছিলে আমাদের উপর তেমন বোঝা চাপিও না। হে আমাদের রব! আমাদের সামর্থ্যের বাইরে কিছু আমাদের উপর চাপিও না। আমাদের মাফ কর, আমাদের ক্ষমা কর এবং আমাদের প্রতি দয়া কর। তুমিই আমাদের অভিভাবক। অতএব, কাফির সম্প্রদায়ের বিরুদ্ধে আমাদের সাহায্য কর।",
         english: "Our Lord, do not impose blame upon us if we have forgotten or erred. Our Lord, and lay not upon us a burden like that which You laid upon those before us. Our Lord, and burden us not with that which we have no ability to bear. And pardon us; and forgive us; and have mercy upon us. You are our protector, so give us victory over the disbelieving people.",
@@ -316,6 +320,8 @@ export const duaCategories: DuaCategory[] = [
       },
       {
         id: "quran-3",
+        titleBengali: "মূসা (আ.) এর কাজ সহজ করার দোয়া",
+        titleEnglish: "Dua of Musa for Ease",
         arabic: "رَبِّ اشْرَحْ لِي صَدْرِي، وَيَسِّرْ لِي أَمْرِي، وَاحْلُلْ عُقْدَةً مِّن لِّسَانِي، يَفْقَهُوا قَوْلِي",
         bengali: "হে আমার রব! আমার বক্ষ প্রশস্ত করে দাও, আমার কাজ সহজ করে দাও এবং আমার জিহ্বার জড়তা দূর করে দাও, যাতে তারা আমার কথা বুঝতে পারে।",
         english: "My Lord, expand for me my breast, ease my task for me, and untie the knot from my tongue, that they may understand my speech.",
@@ -323,6 +329,8 @@ export const duaCategories: DuaCategory[] = [
       },
       {
         id: "quran-4",
+        titleBengali: "জ্ঞান বৃদ্ধির দোয়া",
+        titleEnglish: "Increase in Knowledge",
         arabic: "رَبِّ زِدْنِي عِلْمًا",
         bengali: "হে আমার রব! আমার জ্ঞান বৃদ্ধি করে দাও।",
         english: "My Lord, increase me in knowledge.",
@@ -330,6 +338,8 @@ export const duaCategories: DuaCategory[] = [
       },
       {
         id: "quran-5",
+        titleBengali: "সন্তান ও পরিবারের জন্য দোয়া",
+        titleEnglish: "For Spouse & Children",
         arabic: "رَبَّنَا هَبْ لَنَا مِنْ أَزْوَاجِنَا وَذُرِّيَّاتِنَا قُرَّةَ أَعْيُنٍ وَاجْعَلْنَا لِلْمُتَّقِينَ إِمَامًا",
         bengali: "হে আমাদের রব! আমাদের স্ত্রীদের পক্ষ থেকে এবং আমাদের সন্তানদের পক্ষ থেকে আমাদের চোখ শীতল কর এবং আমাদেরকে মুত্তাকীদের জন্য আদর্শ বানাও।",
         english: "Our Lord, grant us from among our wives and offspring comfort to our eyes and make us an example for the righteous.",
@@ -337,6 +347,8 @@ export const duaCategories: DuaCategory[] = [
       },
       {
         id: "quran-6",
+        titleBengali: "ধৈর্য ও বিজয়ের দোয়া",
+        titleEnglish: "For Patience & Victory",
         arabic: "رَبَّنَا أَفْرِغْ عَلَيْنَا صَبْرًا وَثَبِّتْ أَقْدَامَنَا وَانصُرْنَا عَلَى الْقَوْمِ الْكَافِرِينَ",
         bengali: "হে আমাদের রব! আমাদের উপর ধৈর্য ঢেলে দাও, আমাদের পা স্থির রাখ এবং কাফির সম্প্রদায়ের বিরুদ্ধে আমাদের সাহায্য কর।",
         english: "Our Lord, pour upon us patience and plant firmly our feet and give us victory over the disbelieving people.",
@@ -344,6 +356,8 @@ export const duaCategories: DuaCategory[] = [
       },
       {
         id: "quran-7",
+        titleBengali: "অন্তরের স্থিরতার দোয়া",
+        titleEnglish: "Steadfastness of Heart",
         arabic: "رَبَّنَا لاَ تُزِغْ قُلُوبَنَا بَعْدَ إِذْ هَدَيْتَنَا وَهَبْ لَنَا مِن لَّدُنكَ رَحْمَةً إِنَّكَ أَنتَ الْوَهَّابُ",
         bengali: "হে আমাদের রব! হিদায়াত দেওয়ার পর আমাদের অন্তরকে বক্র করো না এবং তোমার পক্ষ থেকে আমাদেরকে রহমত দান কর। নিশ্চয়ই তুমি মহাদাতা।",
         english: "Our Lord, let not our hearts deviate after You have guided us and grant us from Yourself mercy. Indeed, You are the Bestower.",
@@ -351,6 +365,8 @@ export const duaCategories: DuaCategory[] = [
       },
       {
         id: "quran-8",
+        titleBengali: "ক্ষমা ও সাহায্যের দোয়া",
+        titleEnglish: "Forgiveness & Help",
         arabic: "رَبَّنَا اغْفِرْ لَنَا ذُنُوبَنَا وَإِسْرَافَنَا فِي أَمْرِنَا وَثَبِّتْ أَقْدَامَنَا وَانصُرْنَا عَلَى الْقَوْمِ الْكَافِرِينَ",
         bengali: "হে আমাদের রব! আমাদের গুনাহ ক্ষমা কর এবং আমাদের কাজে যে সীমালঙ্ঘন হয়েছে তা মাফ কর, আমাদের পা স্থির রাখ এবং কাফির সম্প্রদায়ের বিরুদ্ধে আমাদের সাহায্য কর।",
         english: "Our Lord, forgive us our sins and the excess in our affairs and plant firmly our feet and give us victory over the disbelieving people.",
@@ -370,6 +386,8 @@ export const duaCategories: DuaCategory[] = [
     duas: [
       {
         id: "sunnah-1",
+        titleBengali: "হিদায়াত ও তাকওয়ার দোয়া",
+        titleEnglish: "For Guidance & Piety",
         arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْهُدَى وَالتُّقَى وَالْعَفَافَ وَالْغِنَى",
         bengali: "হে আল্লাহ! আমি তোমার কাছে হিদায়াত, তাকওয়া, পবিত্রতা এবং অভাবমুক্তি প্রার্থনা করি।",
         english: "O Allah, I ask You for guidance, piety, chastity and self-sufficiency.",
@@ -377,6 +395,8 @@ export const duaCategories: DuaCategory[] = [
       },
       {
         id: "sunnah-2",
+        titleBengali: "উপকারী জ্ঞানের দোয়া",
+        titleEnglish: "For Beneficial Knowledge",
         arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ عِلْمًا نَافِعًا، وَرِزْقًا طَيِّبًا، وَعَمَلًا مُتَقَبَّلًا",
         bengali: "হে আল্লাহ! আমি তোমার কাছে উপকারী জ্ঞান, পবিত্র রিজিক এবং কবুলযোগ্য আমল প্রার্থনা করি।",
         english: "O Allah, I ask You for beneficial knowledge, good provision, and accepted deeds.",
@@ -384,6 +404,8 @@ export const duaCategories: DuaCategory[] = [
       },
       {
         id: "sunnah-3",
+        titleBengali: "দ্বীন-দুনিয়া-আখিরাত সংশোধন",
+        titleEnglish: "For Rectifying All Affairs",
         arabic: "اللَّهُمَّ أَصْلِحْ لِي دِينِي الَّذِي هُوَ عِصْمَةُ أَمْرِي، وَأَصْلِحْ لِي دُنْيَايَ الَّتِي فِيهَا مَعَاشِي، وَأَصْلِحْ لِي آخِرَتِي الَّتِي فِيهَا مَعَادِي",
         bengali: "হে আল্লাহ! আমার দ্বীনকে সংশোধন করে দাও যা আমার সকল বিষয়ের রক্ষাকবচ। আমার দুনিয়াকে সংশোধন করে দাও যেখানে আমার জীবিকা। আমার আখিরাতকে সংশোধন করে দাও যেখানে আমার প্রত্যাবর্তন।",
         english: "O Allah, set right for me my religion which is the safeguard of my affairs. Set right for me my worldly life wherein is my livelihood. Set right for me my Hereafter which is my return.",
@@ -391,6 +413,8 @@ export const duaCategories: DuaCategory[] = [
       },
       {
         id: "sunnah-4",
+        titleBengali: "নিয়ামত রক্ষার দোয়া",
+        titleEnglish: "Protection of Blessings",
         arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ زَوَالِ نِعْمَتِكَ، وَتَحَوُّلِ عَافِيَتِكَ، وَفُجَاءَةِ نِقْمَتِكَ، وَجَمِيعِ سَخَطِكَ",
         bengali: "হে আল্লাহ! আমি তোমার কাছে আশ্রয় চাই তোমার নিয়ামত চলে যাওয়া থেকে, তোমার দেওয়া সুস্থতা বদলে যাওয়া থেকে, আকস্মিক আযাব থেকে এবং তোমার সকল অসন্তুষ্টি থেকে।",
         english: "O Allah, I seek refuge in You from the removal of Your blessings, the change of Your protection, Your sudden punishment, and all of Your displeasure.",
@@ -398,6 +422,8 @@ export const duaCategories: DuaCategory[] = [
       },
       {
         id: "sunnah-5",
+        titleBengali: "যিকর-শুকর-ইবাদতের দোয়া",
+        titleEnglish: "For Remembrance & Worship",
         arabic: "اللَّهُمَّ أَعِنِّي عَلَى ذِكْرِكَ وَشُكْرِكَ وَحُسْنِ عِبَادَتِكَ",
         bengali: "হে আল্লাহ! তোমার যিকর, শুকর এবং সুন্দরভাবে তোমার ইবাদত করতে আমাকে সাহায্য কর।",
         english: "O Allah, help me to remember You, thank You, and worship You in the best manner.",
@@ -405,6 +431,8 @@ export const duaCategories: DuaCategory[] = [
       },
       {
         id: "sunnah-6",
+        titleBengali: "সকল কল্যাণের দোয়া",
+        titleEnglish: "For All Goodness",
         arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ مِنَ الْخَيْرِ كُلِّهِ عَاجِلِهِ وَآجِلِهِ، مَا عَلِمْتُ مِنْهُ وَمَا لَمْ أَعْلَمْ",
         bengali: "হে আল্লাহ! আমি তোমার কাছে সকল কল্যাণ প্রার্থনা করি, এখনকার এবং পরবর্তীর, যা আমি জানি এবং যা জানি না।",
         english: "O Allah, I ask You for all good, immediate and later, that which I know and that which I do not know.",
@@ -422,6 +450,8 @@ export const duaCategories: DuaCategory[] = [
     duas: [
       {
         id: "guidance-1",
+        titleBengali: "সরল পথের দোয়া",
+        titleEnglish: "The Straight Path",
         arabic: "اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ",
         bengali: "আমাদেরকে সরল পথ দেখাও।",
         english: "Guide us to the straight path.",
@@ -429,6 +459,8 @@ export const duaCategories: DuaCategory[] = [
       },
       {
         id: "guidance-2",
+        titleBengali: "হিদায়াত ও সঠিক পথ",
+        titleEnglish: "Guidance & Right Direction",
         arabic: "اللَّهُمَّ اهْدِنِي وَسَدِّدْنِي",
         bengali: "হে আল্লাহ! আমাকে হিদায়াত দাও এবং সঠিক পথে পরিচালিত কর।",
         english: "O Allah, guide me and keep me on the right path.",
@@ -436,6 +468,8 @@ export const duaCategories: DuaCategory[] = [
       },
       {
         id: "guidance-3",
+        titleBengali: "অন্তর স্থির রাখার দোয়া",
+        titleEnglish: "Steadfast Heart on Deen",
         arabic: "يَا مُقَلِّبَ الْقُلُوبِ ثَبِّتْ قَلْبِي عَلَى دِينِكَ",
         bengali: "হে অন্তর পরিবর্তনকারী! আমার অন্তরকে তোমার দ্বীনের উপর স্থির রাখ।",
         english: "O Turner of hearts, make my heart firm upon Your religion.",
@@ -443,127 +477,29 @@ export const duaCategories: DuaCategory[] = [
       },
       {
         id: "guidance-4",
+        titleBengali: "দ্বীনে স্থিরতার দোয়া",
+        titleEnglish: "Steadfastness in Faith",
         arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ الثَّبَاتَ فِي الأَمْرِ، وَالْعَزِيمَةَ عَلَى الرُّشْدِ",
-        bengali: "হে আল্লাহ! আমি তোমার কাছে দ্বীনের উপর অটল থাকা এবং সঠিক পথে চলার দৃঢ় সংকল্প প্রার্থনা করি।",
-        english: "O Allah, I ask You for steadfastness in the matter and determination upon guidance.",
-        reference: "নাসাঈ"
-      },
-      {
-        id: "guidance-5",
-        arabic: "اللَّهُمَّ أَرِنَا الْحَقَّ حَقًّا وَارْزُقْنَا اتِّبَاعَهُ، وَأَرِنَا الْبَاطِلَ بَاطِلًا وَارْزُقْنَا اجْتِنَابَهُ",
-        bengali: "হে আল্লাহ! আমাদেরকে সত্যকে সত্য হিসেবে দেখাও এবং তা অনুসরণ করার তাওফীক দাও। বাতিলকে বাতিল হিসেবে দেখাও এবং তা থেকে বিরত থাকার তাওফীক দাও।",
-        english: "O Allah, show us the truth as truth and grant us the ability to follow it. Show us falsehood as falsehood and grant us the ability to avoid it.",
-        reference: "বায়হাকী"
-      },
-      {
-        id: "guidance-6",
-        arabic: "اللَّهُمَّ زَيِّنَّا بِزِينَةِ الإِيمَانِ وَاجْعَلْنَا هُدَاةً مُهْتَدِينَ",
-        bengali: "হে আল্লাহ! আমাদেরকে ঈমানের সৌন্দর্যে সুশোভিত কর এবং আমাদেরকে হিদায়াতপ্রাপ্ত পথপ্রদর্শক বানাও।",
-        english: "O Allah, beautify us with the adornment of faith and make us guides who are rightly guided.",
-        reference: "নাসাঈ"
-      }
-    ]
-  },
-
-  // 8. Knowledge & Wisdom Duas
-  {
-    id: "knowledge-wisdom",
-    nameEnglish: "Knowledge & Wisdom",
-    nameBengali: "ইলমের দোয়া",
-    icon: "GraduationCap",
-    duas: [
-      {
-        id: "knowledge-1",
-        arabic: "رَبِّ زِدْنِي عِلْمًا",
-        bengali: "হে আমার রব! আমার জ্ঞান বৃদ্ধি করে দাও।",
-        english: "My Lord, increase me in knowledge.",
-        reference: "সূরা ত্বহা ২০:১১৪"
-      },
-      {
-        id: "knowledge-2",
-        arabic: "اللَّهُمَّ انْفَعْنِي بِمَا عَلَّمْتَنِي، وَعَلِّمْنِي مَا يَنْفَعُنِي، وَزِدْنِي عِلْمًا",
-        bengali: "হে আল্লাহ! তুমি আমাকে যা শিখিয়েছ তা দিয়ে আমাকে উপকৃত কর, আমাকে এমন কিছু শেখাও যা আমার উপকারে আসবে এবং আমার জ্ঞান বৃদ্ধি কর।",
-        english: "O Allah, benefit me with what You have taught me, teach me that which will benefit me, and increase me in knowledge.",
-        reference: "তিরমিযী, ইবনে মাজাহ"
-      },
-      {
-        id: "knowledge-3",
-        arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ عِلْمٍ لاَ يَنْفَعُ",
-        bengali: "হে আল্লাহ! আমি এমন জ্ঞান থেকে তোমার আশ্রয় চাই যা উপকারে আসে না।",
-        english: "O Allah, I seek refuge in You from knowledge that does not benefit.",
-        reference: "সহীহ মুসলিম"
-      },
-      {
-        id: "knowledge-4",
-        arabic: "اللَّهُمَّ فَقِّهْنِي فِي الدِّينِ",
-        bengali: "হে আল্লাহ! আমাকে দ্বীনের গভীর জ্ঞান দান কর।",
-        english: "O Allah, grant me understanding of the religion.",
-        reference: "সহীহ বুখারী, সহীহ মুসলিম"
-      },
-      {
-        id: "knowledge-5",
-        arabic: "رَبِّ اشْرَحْ لِي صَدْرِي، وَيَسِّرْ لِي أَمْرِي، وَاحْلُلْ عُقْدَةً مِّن لِّسَانِي، يَفْقَهُوا قَوْلِي",
-        bengali: "হে আমার রব! আমার বক্ষ প্রশস্ত করে দাও, আমার কাজ সহজ করে দাও এবং আমার জিহ্বার জড়তা দূর করে দাও, যাতে তারা আমার কথা বুঝতে পারে।",
-        english: "My Lord, expand for me my breast, ease my task for me, and untie the knot from my tongue, that they may understand my speech.",
-        reference: "সূরা ত্বহা ২০:২৫-২৮"
-      },
-      {
-        id: "knowledge-6",
-        arabic: "اللَّهُمَّ عَلِّمْنِي مَا جَهِلْتُ، وَذَكِّرْنِي مَا نَسِيتُ، وَافْتَحْ عَلَيَّ مِنْ فُتُوحِ الْعَارِفِينَ",
-        bengali: "হে আল্লাহ! আমি যা জানি না তা শেখাও, যা ভুলে গেছি তা স্মরণ করিয়ে দাও এবং আমার জন্য জ্ঞানীদের মতো জ্ঞানের দরজা খুলে দাও।",
-        english: "O Allah, teach me what I do not know, remind me of what I have forgotten, and open for me the openings of those who have knowledge.",
-        reference: "আল-আযকার"
-      }
-    ]
-  },
-
-  // 9. Success & Ease Duas
-  {
-    id: "success-ease",
-    nameEnglish: "Success & Ease",
-    nameBengali: "সফলতার দোয়া",
-    icon: "Trophy",
-    duas: [
-      {
-        id: "success-1",
-        arabic: "اللَّهُمَّ لاَ سَهْلَ إِلاَّ مَا جَعَلْتَهُ سَهْلًا، وَأَنْتَ تَجْعَلُ الْحَزْنَ إِذَا شِئْتَ سَهْلًا",
-        bengali: "হে আল্লাহ! তুমি যা সহজ কর তা ছাড়া কিছুই সহজ নয়। তুমি চাইলে কঠিন বিষয়কেও সহজ করে দাও।",
-        english: "O Allah, there is nothing easy except what You make easy. And You make the difficult easy if You wish.",
-        reference: "ইবনে হিব্বান"
-      },
-      {
-        id: "success-2",
-        arabic: "رَبِّ يَسِّرْ وَلاَ تُعَسِّرْ، وَتَمِّمْ بِالْخَيْرِ",
-        bengali: "হে আমার রব! সহজ কর, কঠিন করো না এবং কল্যাণের সাথে সমাপ্ত কর।",
-        english: "My Lord, make it easy and do not make it difficult, and complete it with goodness.",
-        reference: "আল-আযকার"
-      },
-      {
-        id: "success-3",
-        arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ التَّوْفِيقَ وَالسَّدَادَ",
-        bengali: "হে আল্লাহ! আমি তোমার কাছে তাওফীক ও সঠিক পথ প্রার্থনা করি।",
-        english: "O Allah, I ask You for success and correct guidance.",
-        reference: "তাবারানী"
-      },
-      {
-        id: "success-4",
-        arabic: "رَبَّنَا آتِنَا مِن لَّدُنكَ رَحْمَةً وَهَيِّئْ لَنَا مِنْ أَمْرِنَا رَشَدًا",
-        bengali: "হে আমাদের রব! তোমার পক্ষ থেকে আমাদের রহমত দাও এবং আমাদের কাজকে সঠিকভাবে পরিচালিত কর।",
-        english: "Our Lord, grant us from Yourself mercy and prepare for us from our affair right guidance.",
-        reference: "সূরা কাহফ ১৮:১০"
-      },
-      {
-        id: "success-5",
-        arabic: "اللَّهُمَّ خِرْ لِي وَاخْتَرْ لِي",
-        bengali: "হে আল্লাহ! আমার জন্য যা ভালো তা নির্ধারণ কর এবং আমার জন্য তা বেছে নাও।",
-        english: "O Allah, choose for me what is best and select it for me.",
+        bengali: "হে আল্লাহ! আমি তোমার কাছে দ্বীনে স্থিরতা এবং সঠিক পথে দৃঢ়তা প্রার্থনা করি।",
+        english: "O Allah, I ask You for steadfastness in the matter and determination upon the right guidance.",
         reference: "তিরমিযী"
       },
       {
-        id: "success-6",
-        arabic: "اللَّهُمَّ أَلْهِمْنِي رُشْدِي، وَأَعِذْنِي مِنْ شَرِّ نَفْسِي",
-        bengali: "হে আল্লাহ! আমাকে সঠিক পথের ইলহাম দাও এবং আমার নফসের অনিষ্ট থেকে রক্ষা কর।",
-        english: "O Allah, inspire me with right guidance and protect me from the evil of my soul.",
+        id: "guidance-5",
+        titleBengali: "ঈমান বৃদ্ধির দোয়া",
+        titleEnglish: "Increase in Faith",
+        arabic: "رَبَّنَا لاَ تُزِغْ قُلُوبَنَا بَعْدَ إِذْ هَدَيْتَنَا وَهَبْ لَنَا مِن لَّدُنكَ رَحْمَةً إِنَّكَ أَنتَ الْوَهَّابُ",
+        bengali: "হে আমাদের রব! হিদায়াত দেওয়ার পর আমাদের অন্তরকে বক্র করো না এবং তোমার পক্ষ থেকে আমাদেরকে রহমত দান কর। নিশ্চয়ই তুমি মহাদাতা।",
+        english: "Our Lord, let not our hearts deviate after You have guided us and grant us from Yourself mercy. Indeed, You are the Bestower.",
+        reference: "সূরা আলে ইমরান ৩:৮"
+      },
+      {
+        id: "guidance-6",
+        titleBengali: "নূর ও হিদায়াতের দোয়া",
+        titleEnglish: "For Light & Guidance",
+        arabic: "اللَّهُمَّ اجْعَلْ فِي قَلْبِي نُورًا، وَفِي بَصَرِي نُورًا، وَفِي سَمْعِي نُورًا",
+        bengali: "হে আল্লাহ! আমার অন্তরে নূর দাও, আমার দৃষ্টিতে নূর দাও এবং আমার শ্রবণে নূর দাও।",
+        english: "O Allah, place light in my heart, light in my sight, and light in my hearing.",
         reference: "তিরমিযী"
       }
     ]
@@ -578,6 +514,8 @@ export const duaCategories: DuaCategory[] = [
     duas: [
       {
         id: "rizq-1",
+        titleBengali: "পবিত্র রিজিকের দোয়া",
+        titleEnglish: "For Pure Provision",
         arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ رِزْقًا طَيِّبًا، وَعِلْمًا نَافِعًا، وَعَمَلًا مُتَقَبَّلًا",
         bengali: "হে আল্লাহ! আমি তোমার কাছে পবিত্র রিজিক, উপকারী জ্ঞান এবং কবুলযোগ্য আমল প্রার্থনা করি।",
         english: "O Allah, I ask You for good provision, beneficial knowledge, and accepted deeds.",
@@ -585,6 +523,8 @@ export const duaCategories: DuaCategory[] = [
       },
       {
         id: "rizq-2",
+        titleBengali: "হালাল রিজিকের দোয়া",
+        titleEnglish: "For Halal Sustenance",
         arabic: "اللَّهُمَّ اكْفِنِي بِحَلاَلِكَ عَنْ حَرَامِكَ، وَأَغْنِنِي بِفَضْلِكَ عَمَّنْ سِوَاكَ",
         bengali: "হে আল্লাহ! তোমার হালাল দিয়ে আমাকে হারাম থেকে বাঁচাও এবং তোমার অনুগ্রহ দিয়ে আমাকে তোমা ছাড়া অন্যদের থেকে মুক্ত রাখ।",
         english: "O Allah, suffice me with Your lawful against Your prohibited and make me independent of all those besides You by Your bounty.",
@@ -592,6 +532,8 @@ export const duaCategories: DuaCategory[] = [
       },
       {
         id: "rizq-3",
+        titleBengali: "দারিদ্র্য থেকে আশ্রয়",
+        titleEnglish: "Refuge from Poverty",
         arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْفَقْرِ، وَالْقِلَّةِ، وَالذِّلَّةِ",
         bengali: "হে আল্লাহ! আমি তোমার কাছে দারিদ্র্য, অভাব এবং অপমান থেকে আশ্রয় চাই।",
         english: "O Allah, I seek refuge in You from poverty, scarcity, and humiliation.",
@@ -599,6 +541,8 @@ export const duaCategories: DuaCategory[] = [
       },
       {
         id: "rizq-4",
+        titleBengali: "রিজিকে বরকতের দোয়া",
+        titleEnglish: "Blessings in Provision",
         arabic: "اللَّهُمَّ بَارِكْ لَنَا فِيمَا رَزَقْتَنَا وَقِنَا عَذَابَ النَّارِ",
         bengali: "হে আল্লাহ! তুমি আমাদেরকে যা রিজিক দিয়েছ তাতে বরকত দাও এবং জাহান্নামের আযাব থেকে আমাদের রক্ষা কর।",
         english: "O Allah, bless us in what You have provided us and protect us from the punishment of the Fire.",
@@ -606,6 +550,8 @@ export const duaCategories: DuaCategory[] = [
       },
       {
         id: "rizq-5",
+        titleBengali: "রিজিক প্রশস্ত করার দোয়া",
+        titleEnglish: "For Expanded Provision",
         arabic: "اللَّهُمَّ أَوْسِعْ لِي فِي رِزْقِي، وَبَارِكْ لِي فِيمَا أَعْطَيْتَنِي",
         bengali: "হে আল্লাহ! আমার রিজিক প্রশস্ত কর এবং তুমি আমাকে যা দিয়েছ তাতে বরকত দাও।",
         english: "O Allah, expand my provision and bless me in what You have given me.",
@@ -613,6 +559,8 @@ export const duaCategories: DuaCategory[] = [
       },
       {
         id: "rizq-6",
+        titleBengali: "মূসা (আ.) এর রিজিকের দোয়া",
+        titleEnglish: "Dua of Musa for Good",
         arabic: "رَبِّ إِنِّي لِمَا أَنزَلْتَ إِلَيَّ مِنْ خَيْرٍ فَقِيرٌ",
         bengali: "হে আমার রব! তুমি আমার প্রতি যে কল্যাণ নাযিল করবে আমি তার মুখাপেক্ষী।",
         english: "My Lord, indeed I am, for whatever good You would send down to me, in need.",
@@ -632,6 +580,8 @@ export const duaCategories: DuaCategory[] = [
     duas: [
       {
         id: "health-1",
+        titleBengali: "রোগ সুস্থতার দোয়া",
+        titleEnglish: "For Complete Healing",
         arabic: "اللَّهُمَّ رَبَّ النَّاسِ، أَذْهِبِ الْبَأْسَ، اشْفِ أَنْتَ الشَّافِي، لاَ شِفَاءَ إِلاَّ شِفَاؤُكَ، شِفَاءً لاَ يُغَادِرُ سَقَمًا",
         bengali: "হে আল্লাহ! মানুষের রব! কষ্ট দূর কর, সুস্থতা দান কর। তুমিই সুস্থতা দানকারী। তোমার সুস্থতা ছাড়া কোন সুস্থতা নেই। এমন সুস্থতা দাও যা কোন রোগ রেখে যায় না।",
         english: "O Allah, Lord of mankind, remove the hardship. Cure, for You are the Healer. There is no cure except Your cure, a cure that leaves no illness.",
@@ -639,6 +589,8 @@ export const duaCategories: DuaCategory[] = [
       },
       {
         id: "health-2",
+        titleBengali: "অসুস্থ ব্যক্তির জন্য দোয়া",
+        titleEnglish: "For the Sick Person",
         arabic: "أَسْأَلُ اللهَ الْعَظِيمَ رَبَّ الْعَرْشِ الْعَظِيمِ أَنْ يَشْفِيَكَ",
         bengali: "আমি মহান আল্লাহর কাছে প্রার্থনা করি, যিনি মহান আরশের রব, তিনি যেন তোমাকে সুস্থ করে দেন। (৭ বার পড়ুন)",
         english: "I ask Allah, the Mighty, the Lord of the Mighty Throne, to cure you. (Recite 7 times)",
@@ -646,6 +598,8 @@ export const duaCategories: DuaCategory[] = [
       },
       {
         id: "health-3",
+        titleBengali: "ঝাড়ফুঁকের দোয়া (রুকইয়াহ)",
+        titleEnglish: "Ruqyah for Healing",
         arabic: "بِسْمِ اللهِ أَرْقِيكَ، مِنْ كُلِّ شَيْءٍ يُؤْذِيكَ، مِنْ شَرِّ كُلِّ نَفْسٍ أَوْ عَيْنِ حَاسِدٍ، اللهُ يَشْفِيكَ، بِسْمِ اللهِ أَرْقِيكَ",
         bengali: "আল্লাহর নামে তোমাকে ঝাড়ফুঁক করছি, প্রতিটি কষ্টদায়ক বিষয় থেকে, প্রতিটি হিংসুক আত্মা বা বদনজর থেকে। আল্লাহ তোমাকে সুস্থ করুন, আল্লাহর নামে তোমাকে ঝাড়ফুঁক করছি।",
         english: "In the name of Allah I perform ruqyah for you, from everything that is harming you, from the evil of every soul or envious eye. May Allah cure you, in the name of Allah I perform ruqyah for you.",
@@ -653,6 +607,8 @@ export const duaCategories: DuaCategory[] = [
       },
       {
         id: "health-4",
+        titleBengali: "শরীর-কান-চোখের সুস্থতা",
+        titleEnglish: "Health of Body, Hearing & Sight",
         arabic: "اللَّهُمَّ عَافِنِي فِي بَدَنِي، اللَّهُمَّ عَافِنِي فِي سَمْعِي، اللَّهُمَّ عَافِنِي فِي بَصَرِي",
         bengali: "হে আল্লাহ! আমার শরীরে সুস্থতা দাও। হে আল্লাহ! আমার শ্রবণশক্তিতে সুস্থতা দাও। হে আল্লাহ! আমার দৃষ্টিশক্তিতে সুস্থতা দাও।",
         english: "O Allah, grant me health in my body. O Allah, grant me health in my hearing. O Allah, grant me health in my sight.",
@@ -660,6 +616,8 @@ export const duaCategories: DuaCategory[] = [
       },
       {
         id: "health-5",
+        titleBengali: "ব্যথা থেকে আশ্রয়",
+        titleEnglish: "Relief from Pain",
         arabic: "أَعُوذُ بِعِزَّةِ اللهِ وَقُدْرَتِهِ مِنْ شَرِّ مَا أَجِدُ وَأُحَاذِرُ",
         bengali: "আমি আল্লাহর ইজ্জত ও কুদরতের আশ্রয় নিচ্ছি আমার অনুভূত ও আশঙ্কিত অনিষ্ট থেকে। (৭ বার পড়ুন)",
         english: "I seek refuge in the might of Allah and His power from the evil of what I feel and fear. (Recite 7 times)",
@@ -667,6 +625,8 @@ export const duaCategories: DuaCategory[] = [
       },
       {
         id: "health-6",
+        titleBengali: "দুনিয়া-আখিরাতে সুস্থতা",
+        titleEnglish: "Well-being in Both Worlds",
         arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَافِيَةَ فِي الدُّنْيَا وَالآخِرَةِ",
         bengali: "হে আল্লাহ! আমি তোমার কাছে দুনিয়া ও আখিরাতে সুস্থতা প্রার্থনা করি।",
         english: "O Allah, I ask You for well-being in this world and the Hereafter.",
@@ -684,6 +644,8 @@ export const duaCategories: DuaCategory[] = [
     duas: [
       {
         id: "stress-1",
+        titleBengali: "বিপদে পড়ার দোয়া",
+        titleEnglish: "In Times of Distress",
         arabic: "لاَ إِلَهَ إِلاَّ اللهُ الْعَظِيمُ الْحَلِيمُ، لاَ إِلَهَ إِلاَّ اللهُ رَبُّ الْعَرْشِ الْعَظِيمِ، لاَ إِلَهَ إِلاَّ اللهُ رَبُّ السَّمَوَاتِ وَرَبُّ الأَرْضِ وَرَبُّ الْعَرْشِ الْكَرِيمِ",
         bengali: "আল্লাহ ছাড়া কোন ইলাহ নেই, তিনি মহান, সহনশীল। আল্লাহ ছাড়া কোন ইলাহ নেই, তিনি মহান আরশের রব। আল্লাহ ছাড়া কোন ইলাহ নেই, তিনি আসমানসমূহের রব, জমিনের রব এবং সম্মানিত আরশের রব।",
         english: "There is no deity except Allah, the Magnificent, the Forbearing. There is no deity except Allah, Lord of the Mighty Throne. There is no deity except Allah, Lord of the heavens, Lord of the earth, and Lord of the Noble Throne.",
@@ -691,6 +653,8 @@ export const duaCategories: DuaCategory[] = [
       },
       {
         id: "stress-2",
+        titleBengali: "দুশ্চিন্তা থেকে আশ্রয়",
+        titleEnglish: "Refuge from Anxiety",
         arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ، وَأَعُوذُ بِكَ مِنَ الْعَجْزِ وَالْكَسَلِ، وَأَعُوذُ بِكَ مِنَ الْجُبْنِ وَالْبُخْلِ، وَأَعُوذُ بِكَ مِنْ غَلَبَةِ الدَّيْنِ وَقَهْرِ الرِّجَالِ",
         bengali: "হে আল্লাহ! আমি তোমার আশ্রয় চাই দুশ্চিন্তা ও দুঃখ থেকে, অক্ষমতা ও অলসতা থেকে, কাপুরুষতা ও কৃপণতা থেকে এবং ঋণের বোঝা ও মানুষের দমন থেকে।",
         english: "O Allah, I seek refuge in You from anxiety and sorrow, weakness and laziness, miserliness and cowardice, the burden of debts and from being overpowered by men.",
@@ -698,6 +662,8 @@ export const duaCategories: DuaCategory[] = [
       },
       {
         id: "stress-3",
+        titleBengali: "রহমত ও সাহায্যের দোয়া",
+        titleEnglish: "For Mercy & Help",
         arabic: "اللَّهُمَّ رَحْمَتَكَ أَرْجُو فَلاَ تَكِلْنِي إِلَى نَفْسِي طَرْفَةَ عَيْنٍ، وَأَصْلِحْ لِي شَأْنِي كُلَّهُ، لاَ إِلَهَ إِلاَّ أَنْتَ",
         bengali: "হে আল্লাহ! আমি তোমার রহমতের আশা করি। এক পলকের জন্যও আমাকে আমার নিজের উপর ছেড়ে দিও না এবং আমার সব বিষয় ঠিক করে দাও। তুমি ছাড়া কোন ইলাহ নেই।",
         english: "O Allah, I hope for Your mercy. Do not leave me to myself even for the blink of an eye. Correct all of my affairs for me. There is no deity except You.",
@@ -705,6 +671,8 @@ export const duaCategories: DuaCategory[] = [
       },
       {
         id: "stress-4",
+        titleBengali: "সাহায্য প্রার্থনা",
+        titleEnglish: "Seeking Divine Help",
         arabic: "يَا حَيُّ يَا قَيُّومُ بِرَحْمَتِكَ أَسْتَغِيثُ",
         bengali: "হে চিরঞ্জীব! হে সবকিছুর ধারক! তোমার রহমতের মাধ্যমে আমি সাহায্য প্রার্থনা করি।",
         english: "O Ever-Living, O Self-Sustaining, by Your mercy I seek help.",
@@ -712,6 +680,8 @@ export const duaCategories: DuaCategory[] = [
       },
       {
         id: "stress-5",
+        titleBengali: "আল্লাহই যথেষ্ট",
+        titleEnglish: "Allah is Sufficient",
         arabic: "حَسْبِيَ اللهُ لاَ إِلَهَ إِلاَّ هُوَ عَلَيْهِ تَوَكَّلْتُ وَهُوَ رَبُّ الْعَرْشِ الْعَظِيمِ",
         bengali: "আল্লাহই আমার জন্য যথেষ্ট, তিনি ছাড়া কোন ইলাহ নেই। তাঁর উপরই আমি ভরসা করি এবং তিনি মহান আরশের রব। (৭ বার পড়ুন)",
         english: "Allah is sufficient for me. There is no deity except Him. On Him I have relied, and He is the Lord of the Great Throne. (Recite 7 times)",
@@ -719,6 +689,8 @@ export const duaCategories: DuaCategory[] = [
       },
       {
         id: "stress-6",
+        titleBengali: "দুঃখ দূর করার দোয়া",
+        titleEnglish: "Removing Grief & Sorrow",
         arabic: "اللَّهُمَّ إِنِّي عَبْدُكَ، ابْنُ عَبْدِكَ، ابْنُ أَمَتِكَ، نَاصِيَتِي بِيَدِكَ، مَاضٍ فِيَّ حُكْمُكَ، عَدْلٌ فِيَّ قَضَاؤُكَ",
         bengali: "হে আল্লাহ! আমি তোমার বান্দা, তোমার বান্দার সন্তান, তোমার বান্দির সন্তান। আমার কপাল তোমার হাতে, তোমার নির্দেশ আমার উপর কার্যকর, তোমার ফায়সালা আমার জন্য ন্যায়সঙ্গত।",
         english: "O Allah, I am Your slave, son of Your male slave, son of Your female slave. My forelock is in Your Hand. Your command concerning me prevails, and Your judgment concerning me is just.",
@@ -736,6 +708,8 @@ export const duaCategories: DuaCategory[] = [
     duas: [
       {
         id: "family-1",
+        titleBengali: "স্ত্রী-সন্তানের জন্য দোয়া",
+        titleEnglish: "For Spouse & Children",
         arabic: "رَبَّنَا هَبْ لَنَا مِنْ أَزْوَاجِنَا وَذُرِّيَّاتِنَا قُرَّةَ أَعْيُنٍ وَاجْعَلْنَا لِلْمُتَّقِينَ إِمَامًا",
         bengali: "হে আমাদের রব! আমাদের স্ত্রীদের পক্ষ থেকে এবং আমাদের সন্তানদের পক্ষ থেকে আমাদের চোখ শীতল কর এবং আমাদেরকে মুত্তাকীদের জন্য আদর্শ বানাও।",
         english: "Our Lord, grant us from among our wives and offspring comfort to our eyes and make us an example for the righteous.",
@@ -743,6 +717,8 @@ export const duaCategories: DuaCategory[] = [
       },
       {
         id: "family-2",
+        titleBengali: "পিতা-মাতা ও মুমিনদের জন্য",
+        titleEnglish: "For Parents & Believers",
         arabic: "رَبِّ اغْفِرْ لِي وَلِوَالِدَيَّ وَلِمَن دَخَلَ بَيْتِيَ مُؤْمِنًا وَلِلْمُؤْمِنِينَ وَالْمُؤْمِنَاتِ",
         bengali: "হে আমার রব! আমাকে ক্ষমা কর, আমার পিতা-মাতাকে ক্ষমা কর, যারা মুমিন হয়ে আমার ঘরে প্রবেশ করে তাদের ক্ষমা কর এবং সকল মুমিন পুরুষ ও মুমিন নারীদের ক্ষমা কর।",
         english: "My Lord, forgive me and my parents and whoever enters my house a believer and the believing men and believing women.",
@@ -750,6 +726,8 @@ export const duaCategories: DuaCategory[] = [
       },
       {
         id: "family-3",
+        titleBengali: "পিতা-মাতার জন্য রহমতের দোয়া",
+        titleEnglish: "Mercy for Parents",
         arabic: "رَّبِّ ارْحَمْهُمَا كَمَا رَبَّيَانِي صَغِيرًا",
         bengali: "হে আমার রব! তাদের প্রতি রহম কর, যেমন তারা আমাকে শৈশবে লালন-পালন করেছেন।",
         english: "My Lord, have mercy upon them as they brought me up when I was small.",
@@ -757,6 +735,8 @@ export const duaCategories: DuaCategory[] = [
       },
       {
         id: "family-4",
+        titleBengali: "পরিবারে সম্প্রীতির দোয়া",
+        titleEnglish: "Family Harmony",
         arabic: "اللَّهُمَّ أَلِّفْ بَيْنَ قُلُوبِنَا، وَأَصْلِحْ ذَاتَ بَيْنِنَا، وَاهْدِنَا سُبُلَ السَّلاَمِ",
         bengali: "হে আল্লাহ! আমাদের অন্তরে ভালোবাসা সৃষ্টি কর, আমাদের মধ্যকার সম্পর্ক ঠিক করে দাও এবং আমাদের শান্তির পথ দেখাও।",
         english: "O Allah, bring our hearts together, reconcile between us, and guide us to the ways of peace.",
@@ -764,6 +744,8 @@ export const duaCategories: DuaCategory[] = [
       },
       {
         id: "family-5",
+        titleBengali: "বরকতের দোয়া",
+        titleEnglish: "Prayer for Blessings",
         arabic: "اللَّهُمَّ بَارِكْ لَهُ، وَبَارِكْ عَلَيْهِ",
         bengali: "হে আল্লাহ! তার জন্য বরকত দাও এবং তার উপর বরকত দাও।",
         english: "O Allah, bless him and send blessings upon him.",
@@ -771,6 +753,8 @@ export const duaCategories: DuaCategory[] = [
       },
       {
         id: "family-6",
+        titleBengali: "নিয়ামতের শুকরিয়া ও সন্তান",
+        titleEnglish: "Gratitude & Righteous Offspring",
         arabic: "رَبِّ أَوْزِعْنِي أَنْ أَشْكُرَ نِعْمَتَكَ الَّتِي أَنْعَمْتَ عَلَيَّ وَعَلَىٰ وَالِدَيَّ وَأَنْ أَعْمَلَ صَالِحًا تَرْضَاهُ وَأَصْلِحْ لِي فِي ذُرِّيَّتِي",
         bengali: "হে আমার রব! আমাকে সামর্থ্য দাও যেন আমি তোমার সেই নিয়ামতের শুকরিয়া আদায় করি যা তুমি আমাকে ও আমার পিতা-মাতাকে দান করেছ এবং আমি যেন এমন সৎকর্ম করি যা তুমি পছন্দ কর এবং আমার সন্তানদের মধ্যে আমার জন্য সংশোধন করে দাও।",
         english: "My Lord, enable me to be grateful for Your favor which You have bestowed upon me and upon my parents and to do righteousness of which You approve. And make righteous for me my offspring.",
