@@ -22,19 +22,15 @@ interface VerseCardProps {
   isBookmarked: boolean;
   onToggleBookmark: (surahNumber: number, verseNumber: number) => void;
   isLoggedIn: boolean;
+  onLoginRequired: () => void;
 }
 
-const VerseCard = ({ verse, language, index, isBookmarked, onToggleBookmark, isLoggedIn }: VerseCardProps) => {
+const VerseCard = ({ verse, language, index, isBookmarked, onToggleBookmark, isLoggedIn, onLoginRequired }: VerseCardProps) => {
   const [showTafsir, setShowTafsir] = useState(false);
-  const { toast } = useToast();
 
   const handleBookmarkClick = () => {
     if (!isLoggedIn) {
-      toast({
-        title: language === "bn" ? "লগইন প্রয়োজন" : "Login Required",
-        description: language === "bn" ? "বুকমার্ক করতে লগইন করুন" : "Please login to bookmark verses",
-        variant: "destructive",
-      });
+      onLoginRequired();
       return;
     }
     onToggleBookmark(verse.surahNumber, verse.verseNumber);
@@ -381,6 +377,13 @@ const SurahDetail = ({ language, onLanguageChange }: SurahDetailProps) => {
               isBookmarked={bookmarkedVerses.has(`${verse.surahNumber}-${verse.verseNumber}`)}
               onToggleBookmark={handleToggleBookmark}
               isLoggedIn={!!user}
+              onLoginRequired={() => {
+                toast({
+                  title: language === "bn" ? "লগইন প্রয়োজন" : "Login Required",
+                  description: language === "bn" ? "বুকমার্ক করতে লগইন করুন" : "Please login to bookmark verses",
+                  variant: "destructive",
+                });
+              }}
             />
           ))
         ) : (
