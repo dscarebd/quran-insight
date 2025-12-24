@@ -48,6 +48,9 @@ const ReadPage = ({ language }: ReadPageProps) => {
   const touchStartY = useRef<number>(0);
   const initialPinchDistance = useRef<number>(0);
   const isPinching = useRef<boolean>(false);
+  
+  // Page list refs for auto-scroll
+  const pageListRefs = useRef<{ [key: number]: HTMLButtonElement | null }>({});
 
   const pageData = getPageByNumber(currentPage);
   const juzNumber = getJuzForPage(currentPage);
@@ -57,6 +60,22 @@ const ReadPage = ({ language }: ReadPageProps) => {
   useEffect(() => {
     localStorage.setItem("quran-font-size-index", fontSizeIndex.toString());
   }, [fontSizeIndex]);
+
+  // Scroll to current page when sheet opens
+  useEffect(() => {
+    if (sheetOpen && currentPage && !pageSearch) {
+      const timer = setTimeout(() => {
+        const element = pageListRefs.current[currentPage];
+        if (element) {
+          element.scrollIntoView({
+            behavior: 'instant',
+            block: 'center'
+          });
+        }
+      }, 300);
+      return () => clearTimeout(timer);
+    }
+  }, [sheetOpen, currentPage, pageSearch]);
 
   // Format number based on language
   const formatNumber = (num: number, lang: "bn" | "en"): string => {
@@ -430,6 +449,7 @@ const ReadPage = ({ language }: ReadPageProps) => {
                   {filteredPages.map((page) => (
                     <Button
                       key={page.pageNumber}
+                      ref={(el) => { pageListRefs.current[page.pageNumber] = el; }}
                       variant={page.pageNumber === currentPage ? "default" : "outline"}
                       size="sm"
                       className={cn(
