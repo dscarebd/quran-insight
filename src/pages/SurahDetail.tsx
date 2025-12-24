@@ -6,8 +6,7 @@ import { Verse } from "@/data/verses";
 import { Button } from "@/components/ui/button";
 import { cn, formatNumber } from "@/lib/utils";
 import { supabase } from "@/integrations/supabase/client";
-import { useAuth } from "@/hooks/useAuth";
-import { useToast } from "@/hooks/use-toast";
+import { useLocalBookmarks } from "@/hooks/useLocalBookmarks";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Input } from "@/components/ui/input";
@@ -25,18 +24,12 @@ interface VerseCardProps {
   index: number;
   isBookmarked: boolean;
   onToggleBookmark: (surahNumber: number, verseNumber: number) => void;
-  isLoggedIn: boolean;
-  onLoginRequired: () => void;
 }
 
-const VerseCard = ({ verse, language, index, isBookmarked, onToggleBookmark, isLoggedIn, onLoginRequired }: VerseCardProps) => {
+const VerseCard = ({ verse, language, index, isBookmarked, onToggleBookmark }: VerseCardProps) => {
   const [showTafsir, setShowTafsir] = useState(false);
 
   const handleBookmarkClick = () => {
-    if (!isLoggedIn) {
-      onLoginRequired();
-      return;
-    }
     onToggleBookmark(verse.surahNumber, verse.verseNumber);
   };
 
@@ -110,15 +103,13 @@ const SurahDetail = ({ language, onLanguageChange, readingMode = "normal" }: Sur
   const navigate = useNavigate();
   const location = useLocation();
   const isMobile = useIsMobile();
+  const { isBookmarked, toggleBookmark, getBookmarkedVerseKeys } = useLocalBookmarks();
   const [surahSheetOpen, setSurahSheetOpen] = useState(false);
   const [surahSearchQuery, setSurahSearchQuery] = useState("");
   const [verses, setVerses] = useState<Verse[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const [bookmarkedVerses, setBookmarkedVerses] = useState<Set<string>>(new Set());
   const [highlightedVerse, setHighlightedVerse] = useState<number | null>(null);
-  const { user } = useAuth();
-  const { toast } = useToast();
   const verseRefs = useRef<{ [key: number]: HTMLDivElement | null }>({});
   const surahListRefs = useRef<{ [key: number]: HTMLButtonElement | null }>({});
 
@@ -226,89 +217,8 @@ const SurahDetail = ({ language, onLanguageChange, readingMode = "normal" }: Sur
     }
   }, [isLoading, verses, location.hash]);
 
-  // Fetch user's bookmarks for this surah
-  useEffect(() => {
-    const fetchBookmarks = async () => {
-      if (!user) {
-        setBookmarkedVerses(new Set());
-        return;
-      }
-
-      const { data, error } = await supabase
-        .from('bookmarks')
-        .select('surah_number, verse_number')
-        .eq('user_id', user.id)
-        .eq('surah_number', surahNum);
-
-      if (error) {
-        console.error('Error fetching bookmarks:', error);
-      } else {
-        const bookmarkSet = new Set(
-          (data || []).map(b => `${b.surah_number}-${b.verse_number}`)
-        );
-        setBookmarkedVerses(bookmarkSet);
-      }
-    };
-
-    fetchBookmarks();
-  }, [user, surahNum]);
-
-  const handleToggleBookmark = async (surahNumber: number, verseNumber: number) => {
-    if (!user) return;
-
-    const key = `${surahNumber}-${verseNumber}`;
-    const isCurrentlyBookmarked = bookmarkedVerses.has(key);
-
-    if (isCurrentlyBookmarked) {
-      // Remove bookmark
-      const { error } = await supabase
-        .from('bookmarks')
-        .delete()
-        .eq('user_id', user.id)
-        .eq('surah_number', surahNumber)
-        .eq('verse_number', verseNumber);
-
-      if (error) {
-        console.error('Error removing bookmark:', error);
-        toast({
-          title: language === "bn" ? "ত্রুটি" : "Error",
-          description: language === "bn" ? "বুকমার্ক মুছতে সমস্যা হয়েছে" : "Failed to remove bookmark",
-          variant: "destructive",
-        });
-      } else {
-        setBookmarkedVerses(prev => {
-          const newSet = new Set(prev);
-          newSet.delete(key);
-          return newSet;
-        });
-        toast({
-          title: language === "bn" ? "বুকমার্ক মুছে ফেলা হয়েছে" : "Bookmark Removed",
-        });
-      }
-    } else {
-      // Add bookmark
-      const { error } = await supabase
-        .from('bookmarks')
-        .insert({
-          user_id: user.id,
-          surah_number: surahNumber,
-          verse_number: verseNumber,
-        });
-
-      if (error) {
-        console.error('Error adding bookmark:', error);
-        toast({
-          title: language === "bn" ? "ত্রুটি" : "Error",
-          description: language === "bn" ? "বুকমার্ক করতে সমস্যা হয়েছে" : "Failed to add bookmark",
-          variant: "destructive",
-        });
-      } else {
-        setBookmarkedVerses(prev => new Set(prev).add(key));
-        toast({
-          title: language === "bn" ? "বুকমার্ক করা হয়েছে" : "Bookmarked",
-        });
-      }
-    }
+  const handleToggleBookmark = (surahNumber: number, verseNumber: number) => {
+    toggleBookmark(surahNumber, verseNumber, language);
   };
 
   const filteredSurahs = useMemo(() => {
@@ -489,16 +399,8 @@ const SurahDetail = ({ language, onLanguageChange, readingMode = "normal" }: Sur
                 verse={verse} 
                 language={language}
                 index={index}
-                isBookmarked={bookmarkedVerses.has(`${verse.surahNumber}-${verse.verseNumber}`)}
+                isBookmarked={isBookmarked(verse.surahNumber, verse.verseNumber)}
                 onToggleBookmark={handleToggleBookmark}
-                isLoggedIn={!!user}
-                onLoginRequired={() => {
-                  toast({
-                    title: language === "bn" ? "লগইন প্রয়োজন" : "Login Required",
-                    description: language === "bn" ? "বুকমার্ক করতে লগইন করুন" : "Please login to bookmark verses",
-                    variant: "destructive",
-                  });
-                }}
               />
             </div>
           ))
