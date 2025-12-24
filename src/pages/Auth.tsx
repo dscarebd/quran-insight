@@ -18,6 +18,7 @@ const Auth = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [mode, setMode] = useState<"login" | "signup">("login");
   const { user, signIn, signUp } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -28,7 +29,7 @@ const Auth = () => {
     }
   }, [user, navigate]);
 
-  const handleSubmit = async (mode: "login" | "signup") => {
+  const handleSubmit = async () => {
     // Validate inputs
     const validation = authSchema.safeParse({ email, password });
     if (!validation.success) {
@@ -65,6 +66,7 @@ const Auth = () => {
           title: "Account Created",
           description: "You can now log in with your credentials.",
         });
+        setMode("login");
       }
     } catch (error) {
       toast({
@@ -86,14 +88,20 @@ const Auth = () => {
               <Book className="h-8 w-8 text-primary" />
             </div>
           </div>
-          <CardTitle className="text-2xl font-bold">Admin Access</CardTitle>
-          <CardDescription>Sign in to access the admin panel</CardDescription>
+          <CardTitle className="text-2xl font-bold">
+            {mode === "login" ? "Admin Access" : "Create Account"}
+          </CardTitle>
+          <CardDescription>
+            {mode === "login" 
+              ? "Sign in to access the admin panel" 
+              : "Create a new account to get started"}
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="login-email">Email</Label>
+            <Label htmlFor="auth-email">Email</Label>
             <Input
-              id="login-email"
+              id="auth-email"
               type="email"
               placeholder="admin@example.com"
               value={email}
@@ -102,36 +110,47 @@ const Auth = () => {
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="login-password">Password</Label>
+            <Label htmlFor="auth-password">Password</Label>
             <Input
-              id="login-password"
+              id="auth-password"
               type="password"
               placeholder="••••••••"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               disabled={isSubmitting}
-              onKeyDown={(e) => e.key === "Enter" && handleSubmit("login")}
+              onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
             />
           </div>
           <Button 
             className="w-full" 
-            onClick={() => handleSubmit("login")}
+            onClick={handleSubmit}
             disabled={isSubmitting}
           >
             {isSubmitting ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Signing in...
+                {mode === "login" ? "Signing in..." : "Creating account..."}
               </>
             ) : (
-              "Sign In"
+              mode === "login" ? "Sign In" : "Sign Up"
             )}
           </Button>
           
-          <div className="text-center">
-            <Button variant="link" onClick={() => navigate("/")}>
-              Back to Home
+          <div className="text-center space-y-2">
+            <Button 
+              variant="ghost" 
+              className="text-sm"
+              onClick={() => setMode(mode === "login" ? "signup" : "login")}
+            >
+              {mode === "login" 
+                ? "Don't have an account? Sign up" 
+                : "Already have an account? Sign in"}
             </Button>
+            <div>
+              <Button variant="link" onClick={() => navigate("/")}>
+                Back to Home
+              </Button>
+            </div>
           </div>
         </CardContent>
       </Card>
