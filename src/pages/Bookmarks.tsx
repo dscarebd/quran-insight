@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, Bookmark, BookOpen, Trash2, Loader2, Copy, Share2 } from "lucide-react";
+import { ArrowLeft, Bookmark, BookOpen, Trash2, Loader2, Copy, Share2, Facebook, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { supabase } from "@/integrations/supabase/client";
@@ -300,15 +300,17 @@ const Bookmarks = ({ language, onLanguageChange }: BookmarksProps) => {
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
                         <DropdownMenuItem onClick={() => handleShareFacebook(bookmark)}>
-                          <span className="mr-2">📘</span>
+                          <Facebook className="mr-2 h-4 w-4 text-[#1877F2]" />
                           Facebook
                         </DropdownMenuItem>
                         <DropdownMenuItem onClick={() => handleShareTwitter(bookmark)}>
-                          <span className="mr-2">𝕏</span>
-                          Twitter / X
+                          <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                          </svg>
+                          X
                         </DropdownMenuItem>
                         <DropdownMenuItem onClick={() => handleShareWhatsApp(bookmark)}>
-                          <span className="mr-2">💬</span>
+                          <MessageCircle className="mr-2 h-4 w-4 text-[#25D366]" />
                           WhatsApp
                         </DropdownMenuItem>
                       </DropdownMenuContent>
