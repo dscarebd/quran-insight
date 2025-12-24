@@ -15,10 +15,10 @@ export const LanguageToggle = ({ language, onToggle }: LanguageToggleProps) => {
           language === "bn"
             ? "bg-primary text-primary-foreground shadow-sm"
             : "text-muted-foreground hover:text-foreground"
-        )}
-      >
-        বাংলা
-      </button>
+          )}
+        >
+          <span className="font-bengali">বাংলা</span>
+        </button>
       <button
         onClick={() => onToggle("en")}
         className={cn(

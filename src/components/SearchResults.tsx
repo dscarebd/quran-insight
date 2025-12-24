@@ -1,5 +1,6 @@
 import { Bot, Sparkles } from "lucide-react";
 import ReactMarkdown from "react-markdown";
+import { cn } from "@/lib/utils";
 
 interface SearchResultsProps {
   query: string;
@@ -16,12 +17,12 @@ export const SearchResults = ({ query, response, isLoading, language }: SearchRe
       {/* User Query */}
       <div className="mb-4 flex items-start gap-3">
         <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-secondary">
-          <span className="text-sm font-medium">
+          <span className={cn("text-sm font-medium", language === "bn" && "font-bengali")}>
             {language === "bn" ? "আপনি" : "You"}
           </span>
         </div>
         <div className="rounded-2xl bg-secondary px-4 py-3">
-          <p className="font-bengali text-foreground">{query}</p>
+          <p className={cn("text-foreground", language === "bn" && "font-bengali")}>{query}</p>
         </div>
       </div>
 
@@ -34,14 +35,14 @@ export const SearchResults = ({ query, response, isLoading, language }: SearchRe
           {isLoading && !response && (
             <div className="flex items-center gap-2 text-muted-foreground">
               <Sparkles className="h-4 w-4 animate-pulse" />
-              <span className="font-bengali text-sm">
+              <span className={cn("text-sm", language === "bn" && "font-bengali")}>
                 {language === "bn" ? "উত্তর খুঁজছি..." : "Searching for answer..."}
               </span>
             </div>
           )}
           
           {response && (
-            <div className="prose prose-sm max-w-none font-bengali dark:prose-invert prose-p:leading-relaxed prose-pre:bg-muted">
+            <div className={cn("prose prose-sm max-w-none dark:prose-invert prose-p:leading-relaxed prose-pre:bg-muted", language === "bn" && "font-bengali")}>
               <ReactMarkdown
                 components={{
                   p: ({ children }) => <p className="mb-3 last:mb-0">{children}</p>,
