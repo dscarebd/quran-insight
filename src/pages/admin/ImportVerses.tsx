@@ -55,7 +55,7 @@ const ImportVerses = () => {
     setArabicProgress(0);
     
     const totalSurahs = 114;
-    const batchSize = 10; // Process 10 surahs at a time
+    const batchSize = 3; // Process 3 surahs at a time to prevent timeouts
     let totalUpdated = 0;
     const errors: string[] = [];
 
