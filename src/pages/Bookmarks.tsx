@@ -31,6 +31,12 @@ interface BookmarkedVerse {
   tafsir_english?: string;
 }
 
+// Convert English numbers to Bengali numerals
+const toBengaliNumber = (num: number): string => {
+  const bengaliDigits = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
+  return num.toString().split('').map(digit => bengaliDigits[parseInt(digit)] || digit).join('');
+};
+
 const Bookmarks = ({ language, onLanguageChange }: BookmarksProps) => {
   const navigate = useNavigate();
   const { user, isLoading: authLoading } = useAuth();
@@ -263,7 +269,7 @@ const Bookmarks = ({ language, onLanguageChange }: BookmarksProps) => {
           </h1>
           <p className={cn("mt-2 text-muted-foreground", language === "bn" && "font-bengali")}>
             {language === "bn" 
-              ? `${bookmarks.length}টি আয়াত সংরক্ষিত` 
+              ? `${toBengaliNumber(bookmarks.length)} টি আয়াত সংরক্ষিত` 
               : `${bookmarks.length} verse${bookmarks.length !== 1 ? 's' : ''} saved`}
           </p>
         </div>
