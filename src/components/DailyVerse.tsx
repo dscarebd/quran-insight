@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Sparkles, ChevronRight, Bookmark } from "lucide-react";
 import { dailyVerses } from "@/data/surahs";
 import { cn } from "@/lib/utils";
@@ -10,6 +11,7 @@ interface DailyVerseProps {
 export const DailyVerse = ({ language }: DailyVerseProps) => {
   const [verse, setVerse] = useState(dailyVerses[0]);
   const [isBookmarked, setIsBookmarked] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Get a "random" verse based on the day
@@ -20,6 +22,10 @@ export const DailyVerse = ({ language }: DailyVerseProps) => {
     const verseIndex = dayOfYear % dailyVerses.length;
     setVerse(dailyVerses[verseIndex]);
   }, []);
+
+  const handleReferenceClick = () => {
+    navigate(`/surah/${verse.surahNumber}?verse=${verse.verseNumber}`);
+  };
 
   return (
     <div className="mx-auto mt-10 max-w-2xl animate-fade-in" style={{ animationDelay: "0.3s" }}>
@@ -52,8 +58,14 @@ export const DailyVerse = ({ language }: DailyVerseProps) => {
         </p>
 
         {/* Reference */}
-        <button className="mx-auto flex items-center gap-1 rounded-full bg-accent px-4 py-2 text-sm font-medium text-accent-foreground transition-colors hover:bg-primary hover:text-primary-foreground">
-          {verse.reference}
+        <button 
+          onClick={handleReferenceClick}
+          className={cn(
+            "mx-auto flex items-center gap-1 rounded-full bg-accent px-4 py-2 text-sm font-medium text-accent-foreground transition-colors hover:bg-primary hover:text-primary-foreground",
+            language === "bn" && "font-bengali"
+          )}
+        >
+          {language === "bn" ? verse.referenceBengali : verse.referenceEnglish}
           <ChevronRight className="h-4 w-4" />
         </button>
       </div>
