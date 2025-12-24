@@ -827,6 +827,268 @@ export const duaCategories: DuaCategory[] = [
         reference: "সহীহ বুখারী"
       }
     ]
+  },
+
+  // ============ PHASE 4: Travel, Akhirah & Special Occasions (5 Categories) ============
+
+  // 16. Travel Duas
+  {
+    id: "travel-duas",
+    nameEnglish: "Travel Duas",
+    nameBengali: "সফরের দোয়া",
+    icon: "Plane",
+    duas: [
+      {
+        id: "travel-1",
+        arabic: "اللهُ أَكْبَرُ، اللهُ أَكْبَرُ، اللهُ أَكْبَرُ، سُبْحَانَ الَّذِي سَخَّرَ لَنَا هَذَا وَمَا كُنَّا لَهُ مُقْرِنِينَ، وَإِنَّا إِلَى رَبِّنَا لَمُنْقَلِبُونَ",
+        bengali: "আল্লাহ সবচেয়ে বড়, আল্লাহ সবচেয়ে বড়, আল্লাহ সবচেয়ে বড়। পবিত্র সেই সত্তা যিনি একে আমাদের বশীভূত করে দিয়েছেন, অন্যথায় আমরা একে বশ করতে সক্ষম ছিলাম না। আর নিশ্চয়ই আমরা আমাদের রবের কাছে প্রত্যাবর্তনকারী।",
+        english: "Allah is the greatest, Allah is the greatest, Allah is the greatest. How perfect He is, The One Who has placed this at our service, and we ourselves would not have been capable of that, and to our Lord is our final destiny.",
+        reference: "সহীহ মুসলিম, তিরমিযী"
+      },
+      {
+        id: "travel-2",
+        arabic: "اللَّهُمَّ إِنَّا نَسْأَلُكَ فِي سَفَرِنَا هَذَا الْبِرَّ وَالتَّقْوَى، وَمِنَ الْعَمَلِ مَا تَرْضَى",
+        bengali: "হে আল্লাহ! আমরা আমাদের এই সফরে তোমার কাছে নেকী ও তাকওয়া এবং এমন আমল প্রার্থনা করছি যা তুমি পছন্দ কর।",
+        english: "O Allah, we ask You on this our journey for goodness and piety, and for works that are pleasing to You.",
+        reference: "সহীহ মুসলিম"
+      },
+      {
+        id: "travel-3",
+        arabic: "اللَّهُمَّ هَوِّنْ عَلَيْنَا سَفَرَنَا هَذَا وَاطْوِ عَنَّا بُعْدَهُ",
+        bengali: "হে আল্লাহ! আমাদের এই সফর আমাদের জন্য সহজ করে দাও এবং এর দূরত্ব সংক্ষেপ করে দাও।",
+        english: "O Allah, make this journey easy for us and shorten its distance for us.",
+        reference: "সহীহ মুসলিম"
+      },
+      {
+        id: "travel-4",
+        arabic: "اللَّهُمَّ أَنْتَ الصَّاحِبُ فِي السَّفَرِ، وَالْخَلِيفَةُ فِي الأَهْلِ",
+        bengali: "হে আল্লাহ! তুমি সফরে আমার সাথী এবং পরিবারে আমার প্রতিনিধি।",
+        english: "O Allah, You are the Companion on the journey and the Guardian of the family.",
+        reference: "সহীহ মুসলিম"
+      },
+      {
+        id: "travel-5",
+        arabic: "أَعُوذُ بِكَلِمَاتِ اللهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ",
+        bengali: "আমি আল্লাহর পরিপূর্ণ বাণীসমূহের মাধ্যমে তাঁর সৃষ্টির সকল অনিষ্ট থেকে আশ্রয় চাই। (নতুন জায়গায় নামার সময়)",
+        english: "I seek refuge in the perfect words of Allah from the evil of what He has created. (When stopping at a new place)",
+        reference: "সহীহ মুসলিম"
+      },
+      {
+        id: "travel-6",
+        arabic: "آيِبُونَ، تَائِبُونَ، عَابِدُونَ، لِرَبِّنَا حَامِدُونَ",
+        bengali: "আমরা প্রত্যাবর্তনকারী, তাওবাকারী, ইবাদতকারী এবং আমাদের রবের প্রশংসাকারী। (সফর থেকে ফেরার সময়)",
+        english: "We are returning, repenting, worshipping, and praising our Lord. (When returning from travel)",
+        reference: "সহীহ বুখারী, সহীহ মুসলিম"
+      }
+    ]
+  },
+
+  // 17. Fear, Hardship & Trials Duas
+  {
+    id: "fear-hardship",
+    nameEnglish: "Fear, Hardship & Trials",
+    nameBengali: "বিপদের দোয়া",
+    icon: "AlertTriangle",
+    duas: [
+      {
+        id: "hardship-1",
+        arabic: "إِنَّا لِلَّهِ وَإِنَّا إِلَيْهِ رَاجِعُونَ، اللَّهُمَّ أْجُرْنِي فِي مُصِيبَتِي وَأَخْلِفْ لِي خَيْرًا مِنْهَا",
+        bengali: "নিশ্চয়ই আমরা আল্লাহর জন্য এবং তাঁর কাছেই আমাদের ফিরে যেতে হবে। হে আল্লাহ! আমার এই বিপদে আমাকে সওয়াব দাও এবং এর বিনিময়ে আমাকে এর চেয়ে উত্তম কিছু দাও।",
+        english: "Indeed we belong to Allah and to Him we shall return. O Allah, reward me in my affliction and replace it for me with something better.",
+        reference: "সহীহ মুসলিম"
+      },
+      {
+        id: "hardship-2",
+        arabic: "حَسْبُنَا اللهُ وَنِعْمَ الْوَكِيلُ",
+        bengali: "আল্লাহই আমাদের জন্য যথেষ্ট এবং তিনি কতই না উত্তম অভিভাবক।",
+        english: "Allah is sufficient for us and He is the best Disposer of affairs.",
+        reference: "সূরা আলে ইমরান ৩:১৭৩"
+      },
+      {
+        id: "hardship-3",
+        arabic: "لاَ حَوْلَ وَلاَ قُوَّةَ إِلاَّ بِاللهِ",
+        bengali: "আল্লাহর সাহায্য ছাড়া কোন উপায় নেই এবং কোন শক্তি নেই।",
+        english: "There is no power and no strength except with Allah.",
+        reference: "সহীহ বুখারী, সহীহ মুসলিম"
+      },
+      {
+        id: "hardship-4",
+        arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ جَهْدِ الْبَلاَءِ، وَدَرَكِ الشَّقَاءِ، وَسُوءِ الْقَضَاءِ، وَشَمَاتَةِ الأَعْدَاءِ",
+        bengali: "হে আল্লাহ! আমি তোমার কাছে আশ্রয় চাই কঠিন বিপদ থেকে, দুর্ভাগ্যে পতিত হওয়া থেকে, মন্দ তাকদীর থেকে এবং শত্রুদের আনন্দ থেকে।",
+        english: "O Allah, I seek refuge in You from severe trials, from falling into misfortune, from bad fate, and from the gloating of enemies.",
+        reference: "সহীহ বুখারী, সহীহ মুসলিম"
+      },
+      {
+        id: "hardship-5",
+        arabic: "اللَّهُمَّ لاَ سَهْلَ إِلاَّ مَا جَعَلْتَهُ سَهْلًا، وَأَنْتَ تَجْعَلُ الْحَزْنَ إِذَا شِئْتَ سَهْلًا",
+        bengali: "হে আল্লাহ! তুমি যা সহজ কর তা ছাড়া কিছুই সহজ নয়। তুমি চাইলে কঠিন বিষয়কেও সহজ করে দাও।",
+        english: "O Allah, there is nothing easy except what You make easy. And You make the difficult easy if You wish.",
+        reference: "ইবনে হিব্বান"
+      },
+      {
+        id: "hardship-6",
+        arabic: "يَا حَيُّ يَا قَيُّومُ بِرَحْمَتِكَ أَسْتَغِيثُ، أَصْلِحْ لِي شَأْنِي كُلَّهُ، وَلاَ تَكِلْنِي إِلَى نَفْسِي طَرْفَةَ عَيْنٍ",
+        bengali: "হে চিরঞ্জীব! হে সবকিছুর ধারক! তোমার রহমতের মাধ্যমে আমি সাহায্য প্রার্থনা করি। আমার সব বিষয় ঠিক করে দাও এবং এক পলকের জন্যও আমাকে আমার উপর ছেড়ে দিও না।",
+        english: "O Ever-Living, O Self-Sustaining, by Your mercy I seek help. Correct all of my affairs for me and do not leave me to myself even for the blink of an eye.",
+        reference: "মুসতাদরাক হাকিম"
+      }
+    ]
+  },
+
+  // 18. Hereafter & Akhirah Duas
+  {
+    id: "akhirah-duas",
+    nameEnglish: "Hereafter & Akhirah",
+    nameBengali: "আখিরাতের দোয়া",
+    icon: "Sunrise",
+    duas: [
+      {
+        id: "akhirah-1",
+        arabic: "رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ",
+        bengali: "হে আমাদের রব! আমাদেরকে দুনিয়াতে কল্যাণ দাও এবং আখিরাতেও কল্যাণ দাও এবং আমাদেরকে জাহান্নামের আযাব থেকে রক্ষা কর।",
+        english: "Our Lord, give us in this world that which is good and in the Hereafter that which is good and protect us from the punishment of the Fire.",
+        reference: "সূরা বাকারা ২:২০১"
+      },
+      {
+        id: "akhirah-2",
+        arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْجَنَّةَ وَأَعُوذُ بِكَ مِنَ النَّارِ",
+        bengali: "হে আল্লাহ! আমি তোমার কাছে জান্নাত প্রার্থনা করি এবং জাহান্নাম থেকে তোমার আশ্রয় চাই।",
+        english: "O Allah, I ask You for Paradise and I seek refuge in You from the Fire.",
+        reference: "আবু দাউদ"
+      },
+      {
+        id: "akhirah-3",
+        arabic: "اللَّهُمَّ أَجِرْنِي مِنَ النَّارِ",
+        bengali: "হে আল্লাহ! আমাকে জাহান্নাম থেকে রক্ষা কর। (৭ বার পড়ুন)",
+        english: "O Allah, save me from the Fire. (Recite 7 times)",
+        reference: "আবু দাউদ"
+      },
+      {
+        id: "akhirah-4",
+        arabic: "رَبَّنَا اصْرِفْ عَنَّا عَذَابَ جَهَنَّمَ إِنَّ عَذَابَهَا كَانَ غَرَامًا",
+        bengali: "হে আমাদের রব! জাহান্নামের আযাব আমাদের থেকে দূরে রাখ। নিশ্চয়ই এর আযাব অবিচ্ছেদ্য।",
+        english: "Our Lord, avert from us the punishment of Hell. Indeed, its punishment is ever adhering.",
+        reference: "সূরা ফুরকান ২৫:৬৫"
+      },
+      {
+        id: "akhirah-5",
+        arabic: "اللَّهُمَّ حَاسِبْنِي حِسَابًا يَسِيرًا",
+        bengali: "হে আল্লাহ! আমার হিসাব সহজ করে দাও।",
+        english: "O Allah, make my reckoning easy.",
+        reference: "মুসনাদ আহমাদ"
+      },
+      {
+        id: "akhirah-6",
+        arabic: "رَبَّنَا أَتْمِمْ لَنَا نُورَنَا وَاغْفِرْ لَنَا إِنَّكَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ",
+        bengali: "হে আমাদের রব! আমাদের জন্য আমাদের নূর পূর্ণ করে দাও এবং আমাদের ক্ষমা কর। নিশ্চয়ই তুমি সবকিছুর উপর সক্ষম।",
+        english: "Our Lord, perfect for us our light and forgive us. Indeed, You are over all things competent.",
+        reference: "সূরা তাহরীম ৬৬:৮"
+      }
+    ]
+  },
+
+  // 19. Death & Funeral Duas
+  {
+    id: "death-funeral",
+    nameEnglish: "Death & Funeral",
+    nameBengali: "মৃত্যু ও জানাজা",
+    icon: "Moon",
+    duas: [
+      {
+        id: "death-1",
+        arabic: "اللَّهُمَّ اغْفِرْ لَهُ وَارْحَمْهُ، وَعَافِهِ وَاعْفُ عَنْهُ، وَأَكْرِمْ نُزُلَهُ، وَوَسِّعْ مُدْخَلَهُ، وَاغْسِلْهُ بِالْمَاءِ وَالثَّلْجِ وَالْبَرَدِ",
+        bengali: "হে আল্লাহ! তাকে ক্ষমা কর ও রহম কর। তাকে নিরাপদ রাখ ও মাফ কর। তার আতিথেয়তা সম্মানজনক কর, তার প্রবেশস্থান প্রশস্ত কর এবং তাকে পানি, বরফ ও শিশির দিয়ে ধৌত কর।",
+        english: "O Allah, forgive him and have mercy on him. Keep him safe and pardon him. Honor his reception and make his entrance spacious. Wash him with water, snow and ice.",
+        reference: "সহীহ মুসলিম"
+      },
+      {
+        id: "death-2",
+        arabic: "اللَّهُمَّ اغْفِرْ لِحَيِّنَا وَمَيِّتِنَا، وَشَاهِدِنَا وَغَائِبِنَا، وَصَغِيرِنَا وَكَبِيرِنَا، وَذَكَرِنَا وَأُنْثَانَا",
+        bengali: "হে আল্লাহ! আমাদের জীবিত ও মৃত, উপস্থিত ও অনুপস্থিত, ছোট ও বড় এবং পুরুষ ও নারী সকলকে ক্ষমা কর।",
+        english: "O Allah, forgive our living and our dead, those present and those absent, our young and our old, our males and our females.",
+        reference: "ইবনে মাজাহ, আবু দাউদ"
+      },
+      {
+        id: "death-3",
+        arabic: "اللَّهُمَّ مَنْ أَحْيَيْتَهُ مِنَّا فَأَحْيِهِ عَلَى الإِسْلاَمِ، وَمَنْ تَوَفَّيْتَهُ مِنَّا فَتَوَفَّهُ عَلَى الإِيمَانِ",
+        bengali: "হে আল্লাহ! আমাদের মধ্যে যাকে তুমি জীবিত রাখ তাকে ইসলামের উপর জীবিত রাখ এবং যাকে মৃত্যু দাও তাকে ঈমানের উপর মৃত্যু দাও।",
+        english: "O Allah, whoever You keep alive from among us, let him live upon Islam, and whoever You cause to die, let him die upon faith.",
+        reference: "ইবনে মাজাহ, আবু দাউদ"
+      },
+      {
+        id: "death-4",
+        arabic: "اللَّهُمَّ لاَ تَحْرِمْنَا أَجْرَهُ، وَلاَ تَفْتِنَّا بَعْدَهُ",
+        bengali: "হে আল্লাহ! আমাদেরকে তার সওয়াব থেকে বঞ্চিত করো না এবং তার পরে আমাদেরকে ফিতনায় ফেলো না।",
+        english: "O Allah, do not deprive us of his reward and do not put us in trial after him.",
+        reference: "সহীহ মুসলিম"
+      },
+      {
+        id: "death-5",
+        arabic: "اللَّهُمَّ أَبْدِلْهُ دَارًا خَيْرًا مِنْ دَارِهِ، وَأَهْلًا خَيْرًا مِنْ أَهْلِهِ، وَأَدْخِلْهُ الْجَنَّةَ",
+        bengali: "হে আল্লাহ! তার ঘরের বদলে তাকে উত্তম ঘর দাও, তার পরিবারের বদলে উত্তম পরিবার দাও এবং তাকে জান্নাতে প্রবেশ করাও।",
+        english: "O Allah, replace his home with a better home, and his family with a better family, and admit him to Paradise.",
+        reference: "সহীহ মুসলিম"
+      },
+      {
+        id: "death-6",
+        arabic: "اللَّهُمَّ إِنَّ فُلاَنَ بْنَ فُلاَنٍ فِي ذِمَّتِكَ وَحَبْلِ جِوَارِكَ، فَقِهِ مِنْ فِتْنَةِ الْقَبْرِ وَعَذَابِ النَّارِ",
+        bengali: "হে আল্লাহ! অমুকের সন্তান অমুক তোমার জিম্মায় ও তোমার প্রতিবেশিত্বের রশিতে। তাকে কবরের ফিতনা ও জাহান্নামের আযাব থেকে রক্ষা কর।",
+        english: "O Allah, so-and-so son of so-and-so is in Your protection and covenant. Protect him from the trial of the grave and the punishment of the Fire.",
+        reference: "ইবনে মাজাহ, আবু দাউদ"
+      }
+    ]
+  },
+
+  // 20. Special Occasions Duas
+  {
+    id: "special-occasions",
+    nameEnglish: "Special Occasions",
+    nameBengali: "বিশেষ উপলক্ষ",
+    icon: "Star",
+    duas: [
+      {
+        id: "special-1",
+        arabic: "تَقَبَّلَ اللهُ مِنَّا وَمِنْكُمْ",
+        bengali: "আল্লাহ আমাদের ও আপনাদের থেকে কবুল করুন। (ঈদের দিনে)",
+        english: "May Allah accept from us and from you. (On Eid day)",
+        reference: "ফাতহুল বারী"
+      },
+      {
+        id: "special-2",
+        arabic: "اللَّهُمَّ بَارِكْ لَهُ فِيمَا رَزَقْتَهُ، وَتُبْ عَلَيْهِ، وَأَطِلْ عُمُرَهُ فِي طَاعَتِكَ",
+        bengali: "হে আল্লাহ! তুমি তাকে যা দিয়েছ তাতে বরকত দাও, তার তাওবা কবুল কর এবং তোমার আনুগত্যে তার আয়ু দীর্ঘ কর। (জন্মদিনে)",
+        english: "O Allah, bless him in what You have provided him, accept his repentance, and lengthen his life in Your obedience. (On birthday)",
+        reference: "আল-আযকার"
+      },
+      {
+        id: "special-3",
+        arabic: "بَارَكَ اللهُ لَكَ فِي الْمَوْهُوبِ لَكَ، وَشَكَرْتَ الْوَاهِبَ، وَبَلَغَ أَشُدَّهُ، وَرُزِقْتَ بِرَّهُ",
+        bengali: "আল্লাহ তোমাকে যা দান করেছেন তাতে বরকত দিন। তুমি দাতার শুকরিয়া আদায় কর। সে যেন পূর্ণ বয়সে পৌঁছে এবং তুমি তার সেবা পাও। (নবজাতকের জন্য)",
+        english: "May Allah bless you in what He has given you. May you give thanks to the Giver. May he reach maturity and may you be granted his righteousness. (For newborn)",
+        reference: "নাসাঈ"
+      },
+      {
+        id: "special-4",
+        arabic: "اللَّهُمَّ اجْعَلْهُ يَوْمَ خَيْرٍ وَبَرَكَةٍ",
+        bengali: "হে আল্লাহ! এই দিনকে কল্যাণ ও বরকতের দিন বানাও। (নতুন বছর/রমজান শুরু)",
+        english: "O Allah, make this a day of goodness and blessings. (New year/Ramadan start)",
+        reference: "আল-আযকার"
+      },
+      {
+        id: "special-5",
+        arabic: "اللَّهُمَّ أَهِلَّهُ عَلَيْنَا بِالْأَمْنِ وَالإِيمَانِ، وَالسَّلاَمَةِ وَالإِسْلاَمِ، رَبِّي وَرَبُّكَ اللهُ",
+        bengali: "হে আল্লাহ! এই চাঁদকে আমাদের উপর নিরাপত্তা, ঈমান, শান্তি ও ইসলামের সাথে উদিত কর। আমার ও তোমার রব আল্লাহ। (নতুন চাঁদ দেখলে)",
+        english: "O Allah, let this moon appear on us with security, faith, safety and Islam. My Lord and your Lord is Allah. (Upon sighting the new moon)",
+        reference: "তিরমিযী"
+      },
+      {
+        id: "special-6",
+        arabic: "اللَّهُمَّ صَيِّبًا نَافِعًا",
+        bengali: "হে আল্লাহ! উপকারী বৃষ্টি বর্ষণ কর। (বৃষ্টির সময়)",
+        english: "O Allah, may it be a beneficial rain. (During rain)",
+        reference: "সহীহ বুখারী"
+      }
+    ]
   }
 ];
 
