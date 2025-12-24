@@ -1,4 +1,4 @@
-import { ArrowLeft, Info, Moon, Sun, Monitor, Globe, Mail, Heart } from "lucide-react";
+import { ArrowLeft, Info, Moon, Sun, BookOpen, Globe, Mail, Heart } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
@@ -26,7 +26,7 @@ const Settings = ({ language, onLanguageChange }: SettingsProps) => {
   const themeOptions = [
     { value: "light", labelEn: "Light", labelBn: "লাইট", icon: Sun },
     { value: "dark", labelEn: "Dark", labelBn: "ডার্ক", icon: Moon },
-    { value: "system", labelEn: "System", labelBn: "সিস্টেম", icon: Monitor },
+    { value: "sepia", labelEn: "Read", labelBn: "রিড", icon: BookOpen },
   ];
 
   return (
