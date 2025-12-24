@@ -20,13 +20,14 @@ interface Verse {
 
 interface ReadPageProps {
   language: "bn" | "en";
+  readingMode?: "normal" | "sepia";
 }
 
 // Font size presets
 const FONT_SIZES = [20, 24, 28, 32, 36, 40, 44, 48];
 const DEFAULT_FONT_INDEX = 2; // 28px default
 
-const ReadPage = ({ language }: ReadPageProps) => {
+const ReadPage = ({ language, readingMode = "normal" }: ReadPageProps) => {
   const { pageNumber } = useParams();
   const navigate = useNavigate();
   const currentPage = parseInt(pageNumber || "1");
@@ -309,9 +310,15 @@ const ReadPage = ({ language }: ReadPageProps) => {
   }, {} as Record<number, Verse[]>);
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
+    <div className={cn(
+      "min-h-screen flex flex-col",
+      readingMode === "sepia" ? "sepia" : "bg-background"
+    )}>
       {/* Header */}
-      <header className="sticky top-0 z-10 bg-background/95 backdrop-blur border-b border-border">
+      <header className={cn(
+        "sticky top-0 z-10 backdrop-blur border-b border-border",
+        readingMode === "sepia" ? "bg-[hsl(35,30%,94%)]/95" : "bg-background/95"
+      )}>
         <div className="flex items-center justify-between px-4 py-3">
           <Button
             variant="ghost"

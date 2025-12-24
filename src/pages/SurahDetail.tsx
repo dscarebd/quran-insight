@@ -16,6 +16,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 interface SurahDetailProps {
   language: "bn" | "en";
   onLanguageChange: (lang: "bn" | "en") => void;
+  readingMode?: "normal" | "sepia";
 }
 
 interface VerseCardProps {
@@ -104,7 +105,7 @@ const VerseCard = ({ verse, language, index, isBookmarked, onToggleBookmark, isL
 // Cache for storing previously fetched verses
 const versesCache = new Map<number, Verse[]>();
 
-const SurahDetail = ({ language, onLanguageChange }: SurahDetailProps) => {
+const SurahDetail = ({ language, onLanguageChange, readingMode = "normal" }: SurahDetailProps) => {
   const { surahNumber } = useParams<{ surahNumber: string }>();
   const navigate = useNavigate();
   const location = useLocation();
@@ -346,9 +347,15 @@ const SurahDetail = ({ language, onLanguageChange }: SurahDetailProps) => {
   }
 
   return (
-    <div className="min-h-screen bg-background islamic-pattern">
+    <div className={cn(
+      "min-h-screen islamic-pattern",
+      readingMode === "sepia" ? "sepia" : "bg-background"
+    )}>
       {/* Header */}
-      <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <header className={cn(
+        "sticky top-0 z-50 border-b border-border backdrop-blur supports-[backdrop-filter]:bg-background/60",
+        readingMode === "sepia" ? "bg-[hsl(35,30%,94%)]/95" : "bg-background/95"
+      )}>
         <div className="mx-auto flex max-w-4xl items-center justify-between px-4 py-3">
           <Button 
             variant="ghost" 

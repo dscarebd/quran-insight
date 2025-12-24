@@ -17,16 +17,22 @@ const TelegramIcon = ({ className }: { className?: string }) => (
 interface SettingsProps {
   language: "bn" | "en";
   onLanguageChange: (lang: "bn" | "en") => void;
+  readingMode?: "normal" | "sepia";
+  onReadingModeChange?: (mode: "normal" | "sepia") => void;
 }
 
-const Settings = ({ language, onLanguageChange }: SettingsProps) => {
+const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadingModeChange }: SettingsProps) => {
   const navigate = useNavigate();
   const { theme, setTheme } = useTheme();
 
   const themeOptions = [
     { value: "light", labelEn: "Light", labelBn: "লাইট", icon: Sun },
     { value: "dark", labelEn: "Dark", labelBn: "ডার্ক", icon: Moon },
-    { value: "sepia", labelEn: "Read", labelBn: "রিড", icon: BookOpen },
+  ];
+
+  const readingModeOptions = [
+    { value: "normal", labelEn: "Normal", labelBn: "সাধারণ", icon: Sun },
+    { value: "sepia", labelEn: "Sepia", labelBn: "সেপিয়া", icon: BookOpen },
   ];
 
   return (
@@ -136,7 +142,7 @@ const Settings = ({ language, onLanguageChange }: SettingsProps) => {
             )}>
               {language === "bn" ? "থিম" : "Theme"}
             </h2>
-            <div className="grid grid-cols-3 gap-2">
+            <div className="grid grid-cols-2 gap-2">
               {themeOptions.map((option) => (
                 <button
                   key={option.value}
@@ -156,6 +162,39 @@ const Settings = ({ language, onLanguageChange }: SettingsProps) => {
                 </button>
               ))}
             </div>
+          </section>
+
+          {/* Reading Mode Section */}
+          <section>
+            <h2 className={cn(
+              "mb-3 text-sm font-medium text-muted-foreground uppercase tracking-wider",
+              language === "bn" && "font-bengali"
+            )}>
+              {language === "bn" ? "রিডিং মোড" : "Reading Mode"}
+            </h2>
+            <div className="grid grid-cols-2 gap-2">
+              {readingModeOptions.map((option) => (
+                <button
+                  key={option.value}
+                  onClick={() => onReadingModeChange?.(option.value as "normal" | "sepia")}
+                  className={cn(
+                    "flex items-center justify-center gap-1.5 rounded-lg border border-border bg-card px-2 py-2.5 transition-colors",
+                    readingMode === option.value ? "border-primary bg-primary/5" : "hover:bg-muted/50"
+                  )}
+                >
+                  <option.icon className="h-4 w-4" />
+                  <p className={cn("text-xs font-medium", language === "bn" && "font-bengali")}>
+                    {language === "bn" ? option.labelBn : option.labelEn}
+                  </p>
+                  {readingMode === option.value && (
+                    <div className="h-1.5 w-1.5 rounded-full bg-primary" />
+                  )}
+                </button>
+              ))}
+            </div>
+            <p className={cn("mt-2 text-xs text-muted-foreground", language === "bn" && "font-bengali")}>
+              {language === "bn" ? "শুধুমাত্র পড়ার পৃষ্ঠায় প্রযোজ্য" : "Applies only to reading pages"}
+            </p>
           </section>
 
           {/* Developer Section */}

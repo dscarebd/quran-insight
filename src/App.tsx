@@ -36,6 +36,15 @@ const LoadingFallback = () => (
 
 const AppContent = () => {
   const [language, setLanguage] = useState<"bn" | "en">("bn");
+  const [readingMode, setReadingMode] = useState<"normal" | "sepia">(() => {
+    const saved = localStorage.getItem("quran-reading-mode");
+    return (saved as "normal" | "sepia") || "normal";
+  });
+  
+  // Save reading mode to localStorage
+  useEffect(() => {
+    localStorage.setItem("quran-reading-mode", readingMode);
+  }, [readingMode]);
   
   // Enable content protection
   useContentProtection();
@@ -49,26 +58,26 @@ const AppContent = () => {
       } />
       <Route path="/surah/:surahNumber" element={
         <Layout language={language} onLanguageChange={setLanguage}>
-          <SurahDetail language={language} onLanguageChange={setLanguage} />
+          <SurahDetail language={language} onLanguageChange={setLanguage} readingMode={readingMode} />
         </Layout>
       } />
       <Route path="/para/:paraNumber" element={
         <Layout language={language} onLanguageChange={setLanguage}>
-          <ParaDetail language={language} onLanguageChange={setLanguage} />
+          <ParaDetail language={language} onLanguageChange={setLanguage} readingMode={readingMode} />
         </Layout>
       } />
       <Route path="/read/:pageNumber" element={
         <Layout language={language} onLanguageChange={setLanguage}>
-          <ReadPage language={language} />
+          <ReadPage language={language} readingMode={readingMode} />
         </Layout>
       } />
       <Route path="/bookmarks" element={
         <Layout language={language} onLanguageChange={setLanguage}>
-          <Bookmarks language={language} onLanguageChange={setLanguage} />
+          <Bookmarks language={language} onLanguageChange={setLanguage} readingMode={readingMode} />
         </Layout>
       } />
       <Route path="/settings" element={
-        <Settings language={language} onLanguageChange={setLanguage} />
+        <Settings language={language} onLanguageChange={setLanguage} readingMode={readingMode} onReadingModeChange={setReadingMode} />
       } />
       <Route path="/auth" element={
         <Suspense fallback={<LoadingFallback />}>
