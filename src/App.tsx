@@ -13,6 +13,7 @@ import ParaDetail from "./pages/ParaDetail";
 import Bookmarks from "./pages/Bookmarks";
 import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
+import ReadPage from "./pages/ReadPage";
 
 // Lazy load admin pages
 const Admin = lazy(() => import("./pages/Admin"));
@@ -51,6 +52,9 @@ const AppContent = () => {
         <Layout language={language} onLanguageChange={setLanguage}>
           <ParaDetail language={language} onLanguageChange={setLanguage} />
         </Layout>
+      } />
+      <Route path="/read/:pageNumber" element={
+        <ReadPage language={language} />
       } />
       <Route path="/bookmarks" element={
         <Layout language={language} onLanguageChange={setLanguage}>

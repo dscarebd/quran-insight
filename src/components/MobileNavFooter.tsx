@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Home, BookOpen, Layers, Bookmark, ChevronRight, Search } from "lucide-react";
+import { Home, BookOpen, Layers, Bookmark, ChevronRight, Search, BookText } from "lucide-react";
 import { cn, formatNumber } from "@/lib/utils";
 import { surahs } from "@/data/surahs";
 import { paras } from "@/data/paras";
@@ -40,6 +40,14 @@ export const MobileNavFooter = ({ language }: MobileNavFooterProps) => {
         setSurahSearch("");
         setActiveSheet("surah");
       },
+    },
+    {
+      icon: BookText,
+      labelEn: "Read",
+      labelBn: "পড়ুন",
+      path: "/read",
+      isActive: location.pathname.startsWith("/read"),
+      action: () => navigate("/read/1"),
     },
     {
       icon: Layers,
