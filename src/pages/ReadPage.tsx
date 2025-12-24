@@ -181,10 +181,10 @@ const ReadPage = ({ language }: ReadPageProps) => {
       // Only handle horizontal swipes (ignore vertical scrolling)
       if (Math.abs(diffX) > 80 && Math.abs(diffX) > Math.abs(diffY) * 1.5) {
         if (diffX > 0) {
-          // Swipe right - previous page (RTL, so go to next page number for Arabic)
+          // Swipe right → go to previous page
           goToPage(currentPage - 1);
         } else {
-          // Swipe left - next page
+          // Swipe left → go to next page
           goToPage(currentPage + 1);
         }
       }
