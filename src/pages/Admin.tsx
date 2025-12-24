@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate, Outlet, useLocation } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
-import { Loader2, Book, Users, Mail, FileText, LogOut, Home } from "lucide-react";
+import { Loader2, Book, Users, Mail, FileText, LogOut, Home, Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { NavLink } from "@/components/NavLink";
 import {
@@ -21,6 +21,7 @@ const adminNavItems = [
   { title: "Dashboard", url: "/admin", icon: Home },
   { title: "Surahs", url: "/admin/surahs", icon: Book },
   { title: "Verses", url: "/admin/verses", icon: FileText },
+  { title: "Import Verses", url: "/admin/import-verses", icon: Upload },
   { title: "Users", url: "/admin/users", icon: Users },
   { title: "Admin Emails", url: "/admin/admin-emails", icon: Mail },
 ];
