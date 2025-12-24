@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import { Header } from "@/components/Header";
-import { SearchSection } from "@/components/SearchSection";
+import { SearchSection, GPTModel } from "@/components/SearchSection";
 import { DailyVerse } from "@/components/DailyVerse";
 import { SearchResults } from "@/components/SearchResults";
 import { useToast } from "@/hooks/use-toast";
@@ -17,7 +17,7 @@ const Index = ({ language, onLanguageChange }: IndexProps) => {
   const { toast } = useToast();
   const abortControllerRef = useRef<AbortController | null>(null);
 
-  const handleSearch = async (query: string) => {
+  const handleSearch = async (query: string, model: GPTModel) => {
     // Cancel any ongoing request
     if (abortControllerRef.current) {
       abortControllerRef.current.abort();
@@ -37,7 +37,7 @@ const Index = ({ language, onLanguageChange }: IndexProps) => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
           },
-          body: JSON.stringify({ query, language }),
+          body: JSON.stringify({ query, language, model }),
           signal: abortControllerRef.current.signal,
         }
       );
