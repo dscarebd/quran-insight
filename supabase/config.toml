@@ -8,6 +8,3 @@ verify_jwt = false
 
 [functions.import-verses]
 verify_jwt = false
-
-[functions.elevenlabs-tts]
-verify_jwt = false

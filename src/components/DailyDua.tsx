@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { HandHeart, ChevronRight, Heart, Copy, Check, Volume2, VolumeX, Loader2 } from "lucide-react";
+import { HandHeart, ChevronRight, Heart, Copy, Check } from "lucide-react";
 import { duaCategories, Dua, DuaCategory } from "@/data/duas";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
-import { useTextToSpeech } from "@/hooks/useTextToSpeech";
 
 interface DailyDuaProps {
   language: "bn" | "en";
@@ -25,7 +24,6 @@ export const DailyDua = ({ language }: DailyDuaProps) => {
   const [duaData, setDuaData] = useState<{ dua: Dua; category: DuaCategory } | null>(null);
   const [isCopied, setIsCopied] = useState(false);
   const navigate = useNavigate();
-  const { play, stop, isPlaying, isLoading } = useTextToSpeech(language);
 
   useEffect(() => {
     const allDuas = getAllDuas();
@@ -59,12 +57,6 @@ export const DailyDua = ({ language }: DailyDuaProps) => {
     }
   };
 
-  const handlePlayAudio = () => {
-    if (!duaData) return;
-    const textToRead = `${duaData.dua.arabic}. ${language === "bn" ? duaData.dua.bengali : duaData.dua.english}`;
-    play(textToRead);
-  };
-
   if (!duaData) return null;
 
   const { dua, category } = duaData;
@@ -81,34 +73,17 @@ export const DailyDua = ({ language }: DailyDuaProps) => {
 
       {/* Dua Card */}
       <div className="verse-card group relative">
-        {/* Action Buttons */}
-        <div className="absolute right-4 top-4 flex items-center gap-2 opacity-0 transition-all group-hover:opacity-100">
-          {/* TTS Button */}
-          <button
-            onClick={handlePlayAudio}
-            disabled={isLoading}
-            className="flex h-8 w-8 items-center justify-center rounded-full bg-background/80 text-muted-foreground transition-all hover:bg-background hover:text-primary disabled:opacity-50"
-          >
-            {isLoading ? (
-              <Loader2 className="h-4 w-4 animate-spin" />
-            ) : isPlaying ? (
-              <VolumeX className="h-4 w-4 text-primary" />
-            ) : (
-              <Volume2 className="h-4 w-4" />
-            )}
-          </button>
-          {/* Copy Button */}
-          <button
-            onClick={handleCopy}
-            className="flex h-8 w-8 items-center justify-center rounded-full bg-background/80 text-muted-foreground transition-all hover:bg-background hover:text-primary"
-          >
-            {isCopied ? (
-              <Check className="h-4 w-4 text-green-500" />
-            ) : (
-              <Copy className="h-4 w-4" />
-            )}
-          </button>
-        </div>
+        {/* Copy Button */}
+        <button
+          onClick={handleCopy}
+          className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full bg-background/80 text-muted-foreground opacity-0 transition-all hover:bg-background hover:text-primary group-hover:opacity-100"
+        >
+          {isCopied ? (
+            <Check className="h-4 w-4 text-green-500" />
+          ) : (
+            <Copy className="h-4 w-4" />
+          )}
+        </button>
 
         {/* Title */}
         {(dua.titleBengali || dua.titleEnglish) && (
