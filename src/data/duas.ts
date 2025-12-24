@@ -15,392 +15,297 @@ export interface DuaCategory {
 }
 
 export const duaCategories: DuaCategory[] = [
+  // ============ PHASE 1: Core Daily Duas (5 Categories) ============
+  
+  // 1. Daily Life Duas
   {
-    id: "morning",
-    nameEnglish: "Morning Duas",
-    nameBengali: "সকালের দোয়া",
-    icon: "Sunrise",
+    id: "daily-life",
+    nameEnglish: "Daily Life Duas",
+    nameBengali: "দৈনন্দিন দোয়া",
+    icon: "Calendar",
     duas: [
       {
-        id: "morning-1",
-        arabic: "أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لاَ إِلَـهَ إِلاَّ اللهُ وَحْدَهُ لاَ شَرِيكَ لَهُ",
-        bengali: "আমরা সকালে উপনীত হলাম এবং সকালে উপনীত হল আল্লাহর রাজত্ব। সমস্ত প্রশংসা আল্লাহর জন্য। একমাত্র আল্লাহ ছাড়া কোন ইলাহ নেই, তাঁর কোন শরীক নেই।",
-        english: "We have reached the morning and at this very time all sovereignty belongs to Allah. All praise is for Allah. None has the right to be worshipped except Allah, alone, without partner.",
-        reference: "Muslim"
+        id: "daily-1",
+        arabic: "بِسْمِ اللهِ",
+        bengali: "আল্লাহর নামে শুরু করছি।",
+        english: "In the name of Allah.",
+        reference: "সহীহ বুখারী"
       },
       {
-        id: "morning-2",
-        arabic: "اللَّهُمَّ بِكَ أَصْبَحْنَا، وَبِكَ أَمْسَيْنَا، وَبِكَ نَحْيَا، وَبِكَ نَمُوتُ، وَإِلَيْكَ النُّشُورُ",
-        bengali: "হে আল্লাহ! তোমারই অনুগ্রহে আমরা সকালে উপনীত হয়েছি, তোমারই অনুগ্রহে সন্ধ্যায় উপনীত হই, তোমারই ইচ্ছায় জীবিত থাকি, তোমারই ইচ্ছায় মৃত্যুবরণ করি এবং তোমার কাছেই পুনরুত্থিত হব।",
-        english: "O Allah, by Your leave we have reached the morning and by Your leave we have reached the evening, by Your leave we live and die and unto You is our resurrection.",
-        reference: "Tirmidhi"
+        id: "daily-2",
+        arabic: "الْحَمْدُ لِلَّهِ",
+        bengali: "সকল প্রশংসা আল্লাহর জন্য।",
+        english: "All praise is due to Allah.",
+        reference: "সূরা ফাতিহা ১:২"
       },
       {
-        id: "morning-3",
-        arabic: "سُبْحَانَ اللهِ وَبِحَمْدِهِ",
-        bengali: "আল্লাহ পবিত্র এবং তাঁর জন্যই সকল প্রশংসা।",
-        english: "Glory is to Allah and praise is to Him. (100 times)",
-        reference: "Bukhari, Muslim"
+        id: "daily-3",
+        arabic: "بِسْمِ اللهِ وَعَلَى بَرَكَةِ اللهِ",
+        bengali: "আল্লাহর নামে এবং আল্লাহর বরকতে শুরু করছি।",
+        english: "In the name of Allah and with the blessings of Allah.",
+        reference: "আবু দাউদ"
+      },
+      {
+        id: "daily-4",
+        arabic: "الْحَمْدُ لِلَّهِ الَّذِي أَطْعَمَنَا وَسَقَانَا وَجَعَلَنَا مُسْلِمِينَ",
+        bengali: "সকল প্রশংসা আল্লাহর জন্য যিনি আমাদের খাওয়ালেন, পান করালেন এবং মুসলিম বানিয়েছেন।",
+        english: "All praise is for Allah who fed us and gave us drink, and made us Muslims.",
+        reference: "আবু দাউদ, তিরমিযী"
+      },
+      {
+        id: "daily-5",
+        arabic: "بِسْمِ اللهِ، تَوَكَّلْتُ عَلَى اللهِ، لاَ حَوْلَ وَلاَ قُوَّةَ إِلاَّ بِاللهِ",
+        bengali: "আল্লাহর নামে বের হচ্ছি, আল্লাহর উপর ভরসা করলাম, আল্লাহর সাহায্য ছাড়া কোন উপায় নেই এবং কোন শক্তি নেই।",
+        english: "In the name of Allah, I place my trust in Allah, and there is no might nor power except with Allah.",
+        reference: "আবু দাউদ, তিরমিযী"
+      },
+      {
+        id: "daily-6",
+        arabic: "بِسْمِ اللهِ وَلَجْنَا، وَبِسْمِ اللهِ خَرَجْنَا، وَعَلَى اللهِ رَبِّنَا تَوَكَّلْنَا",
+        bengali: "আল্লাহর নামে প্রবেশ করলাম, আল্লাহর নামে বের হলাম এবং আমাদের রব আল্লাহর উপর ভরসা করলাম।",
+        english: "In the name of Allah we enter and in the name of Allah we leave, and upon our Lord we place our trust.",
+        reference: "আবু দাউদ"
       }
     ]
   },
+
+  // 2. Morning & Evening Duas (Adhkar)
   {
-    id: "evening",
-    nameEnglish: "Evening Duas",
-    nameBengali: "সন্ধ্যার দোয়া",
-    icon: "Sunset",
-    duas: [
-      {
-        id: "evening-1",
-        arabic: "أَمْسَيْنَا وَأَمْسَى الْمُلْكُ للهِ، وَالْحَمْدُ للهِ، لَا إِلَهَ إِلاَّ اللهُ وَحْدَهُ لَا شَرِيكَ لَهُ",
-        bengali: "আমরা সন্ধ্যায় উপনীত হলাম এবং সন্ধ্যায় উপনীত হল আল্লাহর রাজত্ব। সমস্ত প্রশংসা আল্লাহর জন্য। একমাত্র আল্লাহ ছাড়া কোন ইলাহ নেই, তাঁর কোন শরীক নেই।",
-        english: "We have reached the evening and at this very time all sovereignty belongs to Allah. All praise is for Allah. None has the right to be worshipped except Allah, alone, without partner.",
-        reference: "Muslim"
-      },
-      {
-        id: "evening-2",
-        arabic: "اللَّهُمَّ بِكَ أَمْسَيْنَا، وَبِكَ أَصْبَحْنَا، وَبِكَ نَحْيَا، وَبِكَ نَمُوتُ، وَإِلَيْكَ الْمَصِيرُ",
-        bengali: "হে আল্লাহ! তোমারই অনুগ্রহে আমরা সন্ধ্যায় উপনীত হয়েছি, তোমারই অনুগ্রহে সকালে উপনীত হই, তোমারই ইচ্ছায় জীবিত থাকি, তোমারই ইচ্ছায় মৃত্যুবরণ করি এবং তোমার কাছেই প্রত্যাবর্তন।",
-        english: "O Allah, by Your leave we have reached the evening and by Your leave we have reached the morning, by Your leave we live and die and unto You is our return.",
-        reference: "Tirmidhi"
-      }
-    ]
-  },
-  {
-    id: "before-sleep",
-    nameEnglish: "Before Sleeping",
-    nameBengali: "ঘুমানোর আগে",
-    icon: "Moon",
-    duas: [
-      {
-        id: "sleep-1",
-        arabic: "بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا",
-        bengali: "হে আল্লাহ! তোমার নামে মৃত্যুবরণ করি এবং জীবিত হই।",
-        english: "In Your name O Allah, I die and I live.",
-        reference: "Bukhari"
-      },
-      {
-        id: "sleep-2",
-        arabic: "اللَّهُمَّ قِنِي عَذَابَكَ يَوْمَ تَبْعَثُ عِبَادَكَ",
-        bengali: "হে আল্লাহ! যেদিন তুমি তোমার বান্দাদের পুনরুত্থিত করবে সেদিন আমাকে তোমার আযাব থেকে রক্ষা কর।",
-        english: "O Allah, protect me from Your punishment on the Day You resurrect Your servants.",
-        reference: "Abu Dawud, Tirmidhi"
-      },
-      {
-        id: "sleep-3",
-        arabic: "اللَّهُمَّ بِاسْـمِكَ أَمُوتُ وَأَحْيَا",
-        bengali: "হে আল্লাহ! তোমার নামেই আমি মৃত্যুবরণ করি এবং জীবিত থাকি।",
-        english: "O Allah, in Your name I die and I live.",
-        reference: "Bukhari"
-      }
-    ]
-  },
-  {
-    id: "after-waking",
-    nameEnglish: "After Waking Up",
-    nameBengali: "ঘুম থেকে উঠে",
+    id: "morning-evening",
+    nameEnglish: "Morning & Evening Adhkar",
+    nameBengali: "সকাল-সন্ধ্যার যিকর",
     icon: "Sun",
     duas: [
       {
-        id: "wake-1",
+        id: "adhkar-1",
+        arabic: "أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لاَ إِلَـهَ إِلاَّ اللهُ وَحْدَهُ لاَ شَرِيكَ لَهُ",
+        bengali: "আমরা সকালে উপনীত হলাম এবং সকালে উপনীত হল আল্লাহর রাজত্ব। সমস্ত প্রশংসা আল্লাহর জন্য। একমাত্র আল্লাহ ছাড়া কোন ইলাহ নেই, তাঁর কোন শরীক নেই।",
+        english: "We have reached the morning and at this very time all sovereignty belongs to Allah. All praise is for Allah. None has the right to be worshipped except Allah, alone, without partner.",
+        reference: "সহীহ মুসলিম"
+      },
+      {
+        id: "adhkar-2",
+        arabic: "اللَّهُمَّ بِكَ أَصْبَحْنَا، وَبِكَ أَمْسَيْنَا، وَبِكَ نَحْيَا، وَبِكَ نَمُوتُ، وَإِلَيْكَ النُّشُورُ",
+        bengali: "হে আল্লাহ! তোমার অনুগ্রহে আমরা সকালে উপনীত হয়েছি, তোমার অনুগ্রহে সন্ধ্যায় উপনীত হই, তোমার ইচ্ছায় জীবিত থাকি, তোমার ইচ্ছায় মৃত্যুবরণ করি এবং তোমার কাছেই পুনরুত্থিত হব।",
+        english: "O Allah, by Your leave we have reached the morning and by Your leave we have reached the evening, by Your leave we live and die and unto You is our resurrection.",
+        reference: "তিরমিযী"
+      },
+      {
+        id: "adhkar-3",
+        arabic: "أَمْسَيْنَا وَأَمْسَى الْمُلْكُ للهِ، وَالْحَمْدُ للهِ، لَا إِلَهَ إِلاَّ اللهُ وَحْدَهُ لَا شَرِيكَ لَهُ",
+        bengali: "আমরা সন্ধ্যায় উপনীত হলাম এবং সন্ধ্যায় উপনীত হল আল্লাহর রাজত্ব। সমস্ত প্রশংসা আল্লাহর জন্য। একমাত্র আল্লাহ ছাড়া কোন ইলাহ নেই, তাঁর কোন শরীক নেই।",
+        english: "We have reached the evening and at this very time all sovereignty belongs to Allah. All praise is for Allah. None has the right to be worshipped except Allah, alone, without partner.",
+        reference: "সহীহ মুসলিম"
+      },
+      {
+        id: "adhkar-4",
+        arabic: "سُبْحَانَ اللهِ وَبِحَمْدِهِ",
+        bengali: "আল্লাহ পবিত্র এবং তাঁর জন্যই সকল প্রশংসা। (১০০ বার পড়ুন)",
+        english: "Glory is to Allah and praise is to Him. (Recite 100 times)",
+        reference: "সহীহ বুখারী, সহীহ মুসলিম"
+      },
+      {
+        id: "adhkar-5",
+        arabic: "لاَ إِلَهَ إِلاَّ اللهُ وَحْدَهُ لاَ شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ",
+        bengali: "আল্লাহ ছাড়া কোন ইলাহ নেই, তিনি একক, তাঁর কোন শরীক নেই। রাজত্ব তাঁরই, প্রশংসাও তাঁর এবং তিনি সবকিছুর উপর ক্ষমতাবান। (১০ বার বা ১০০ বার)",
+        english: "None has the right to be worshipped except Allah, alone, without partner. To Him belongs all sovereignty and praise and He is over all things omnipotent. (10 or 100 times)",
+        reference: "সহীহ বুখারী, সহীহ মুসলিম"
+      },
+      {
+        id: "adhkar-6",
+        arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَافِيَةَ فِي الدُّنْيَا وَالآخِرَةِ",
+        bengali: "হে আল্লাহ! আমি তোমার কাছে দুনিয়া ও আখিরাতে সুস্থতা প্রার্থনা করি।",
+        english: "O Allah, I ask You for well-being in this world and the Hereafter.",
+        reference: "ইবনে মাজাহ"
+      },
+      {
+        id: "adhkar-7",
         arabic: "الْحَمْدُ للهِ الَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا وَإِلَيْهِ النُّشُورُ",
         bengali: "সমস্ত প্রশংসা সেই আল্লাহর জন্য যিনি মৃত্যুর পর আমাদের জীবিত করেছেন এবং তাঁরই কাছে পুনরুত্থান।",
         english: "All praise is for Allah who gave us life after having taken it from us and unto Him is the resurrection.",
-        reference: "Bukhari"
-      }
-    ]
-  },
-  {
-    id: "before-eating",
-    nameEnglish: "Before Eating",
-    nameBengali: "খাওয়ার আগে",
-    icon: "Utensils",
-    duas: [
-      {
-        id: "eat-before-1",
-        arabic: "بِسْمِ اللهِ",
-        bengali: "আল্লাহর নামে (শুরু করছি)।",
-        english: "In the name of Allah.",
-        reference: "Abu Dawud, Tirmidhi"
+        reference: "সহীহ বুখারী"
       },
       {
-        id: "eat-before-2",
-        arabic: "بِسْمِ اللهِ وَعَلَى بَرَكَةِ اللهِ",
-        bengali: "আল্লাহর নামে এবং আল্লাহর বরকতে (শুরু করছি)।",
-        english: "In the name of Allah and with the blessings of Allah.",
-        reference: "Abu Dawud"
+        id: "adhkar-8",
+        arabic: "بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا",
+        bengali: "হে আল্লাহ! তোমার নামে মৃত্যুবরণ করি এবং জীবিত হই।",
+        english: "In Your name O Allah, I die and I live.",
+        reference: "সহীহ বুখারী"
       }
     ]
   },
-  {
-    id: "after-eating",
-    nameEnglish: "After Eating",
-    nameBengali: "খাওয়ার পরে",
-    icon: "UtensilsCrossed",
-    duas: [
-      {
-        id: "eat-after-1",
-        arabic: "الْحَمْدُ لِلَّهِ الَّذِي أَطْعَمَنَا وَسَقَانَا وَجَعَلَنَا مُسْلِمِينَ",
-        bengali: "সকল প্রশংসা আল্লাহর জন্য যিনি আমাদের খাওয়ালেন ও পান করালেন এবং আমাদেরকে মুসলিম বানিয়েছেন।",
-        english: "All praise is for Allah who fed us and gave us drink, and made us Muslims.",
-        reference: "Abu Dawud, Tirmidhi"
-      }
-    ]
-  },
-  {
-    id: "entering-masjid",
-    nameEnglish: "Entering Masjid",
-    nameBengali: "মসজিদে প্রবেশ",
-    icon: "Building",
-    duas: [
-      {
-        id: "masjid-enter-1",
-        arabic: "اللَّهُمَّ افْتَحْ لِي أَبْوَابَ رَحْمَتِكَ",
-        bengali: "হে আল্লাহ! আমার জন্য তোমার রহমতের দরজাসমূহ খুলে দাও।",
-        english: "O Allah, open the gates of Your mercy for me.",
-        reference: "Muslim"
-      },
-      {
-        id: "masjid-enter-2",
-        arabic: "أَعُوذُ بِاللهِ الْعَظِيمِ، وَبِوَجْهِهِ الْكَرِيمِ، وَسُلْطَانِهِ الْقَدِيمِ، مِنَ الشَّيْطَانِ الرَّجِيمِ",
-        bengali: "আমি মহান আল্লাহর, তাঁর সম্মানিত চেহারার এবং তাঁর চিরন্তন কর্তৃত্বের আশ্রয় নিচ্ছি বিতাড়িত শয়তান থেকে।",
-        english: "I take refuge with Allah, The Supreme and with His Noble Face, and His eternal authority from the accursed devil.",
-        reference: "Abu Dawud"
-      }
-    ]
-  },
-  {
-    id: "leaving-masjid",
-    nameEnglish: "Leaving Masjid",
-    nameBengali: "মসজিদ থেকে বের হওয়া",
-    icon: "DoorOpen",
-    duas: [
-      {
-        id: "masjid-leave-1",
-        arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ مِنْ فَضْلِكَ",
-        bengali: "হে আল্লাহ! আমি তোমার কাছে তোমার অনুগ্রহ প্রার্থনা করি।",
-        english: "O Allah, I ask You from Your favor.",
-        reference: "Muslim"
-      }
-    ]
-  },
-  {
-    id: "before-travel",
-    nameEnglish: "Before Traveling",
-    nameBengali: "সফরে বের হওয়ার আগে",
-    icon: "Plane",
-    duas: [
-      {
-        id: "travel-before-1",
-        arabic: "اللهُ أَكْبَرُ، اللهُ أَكْبَرُ، اللهُ أَكْبَرُ، سُبْحَانَ الَّذِي سَخَّرَ لَنَا هَذَا وَمَا كُنَّا لَهُ مُقْرِنِينَ، وَإِنَّا إِلَى رَبِّنَا لَمُنْقَلِبُونَ",
-        bengali: "আল্লাহ সবচেয়ে বড়, আল্লাহ সবচেয়ে বড়, আল্লাহ সবচেয়ে বড়। পবিত্র সেই সত্তা যিনি একে আমাদের বশীভূত করে দিয়েছেন, অন্যথায় আমরা একে বশ করতে সক্ষম ছিলাম না। আর নিশ্চয়ই আমরা আমাদের রবের কাছে প্রত্যাবর্তনকারী।",
-        english: "Allah is the greatest, Allah is the greatest, Allah is the greatest. How perfect He is, The One Who has placed this at our service, and we ourselves would not have been capable of that, and to our Lord is our final destiny.",
-        reference: "Muslim, Tirmidhi"
-      }
-    ]
-  },
-  {
-    id: "during-travel",
-    nameEnglish: "During Travel",
-    nameBengali: "সফরের সময়",
-    icon: "Car",
-    duas: [
-      {
-        id: "travel-during-1",
-        arabic: "اللَّهُمَّ إِنَّا نَسْأَلُكَ فِي سَفَرِنَا هَذَا الْبِرَّ وَالتَّقْوَى، وَمِنَ الْعَمَلِ مَا تَرْضَى",
-        bengali: "হে আল্লাহ! আমরা আমাদের এই সফরে তোমার কাছে নেকী ও তাকওয়া এবং এমন আমল প্রার্থনা করছি যা তুমি পছন্দ কর।",
-        english: "O Allah, we ask You on this our journey for goodness and piety, and for works that are pleasing to You.",
-        reference: "Muslim"
-      }
-    ]
-  },
-  {
-    id: "entering-home",
-    nameEnglish: "Entering Home",
-    nameBengali: "ঘরে প্রবেশ",
-    icon: "Home",
-    duas: [
-      {
-        id: "home-enter-1",
-        arabic: "بِسْمِ اللهِ وَلَجْنَا، وَبِسْمِ اللهِ خَرَجْنَا، وَعَلَى اللهِ رَبِّنَا تَوَكَّلْنَا",
-        bengali: "আল্লাহর নামে আমরা প্রবেশ করলাম, আল্লাহর নামে আমরা বের হলাম এবং আমাদের রব আল্লাহর উপর আমরা ভরসা করলাম।",
-        english: "In the name of Allah we enter and in the name of Allah we leave, and upon our Lord we place our trust.",
-        reference: "Abu Dawud"
-      }
-    ]
-  },
-  {
-    id: "leaving-home",
-    nameEnglish: "Leaving Home",
-    nameBengali: "ঘর থেকে বের হওয়া",
-    icon: "LogOut",
-    duas: [
-      {
-        id: "home-leave-1",
-        arabic: "بِسْمِ اللهِ، تَوَكَّلْتُ عَلَى اللهِ، لاَ حَوْلَ وَلاَ قُوَّةَ إِلاَّ بِاللهِ",
-        bengali: "আল্লাহর নামে (বের হচ্ছি), আল্লাহর উপর ভরসা করলাম, আল্লাহর সাহায্য ছাড়া কোন উপায় নেই এবং কোন শক্তি নেই।",
-        english: "In the name of Allah, I place my trust in Allah, and there is no might nor power except with Allah.",
-        reference: "Abu Dawud, Tirmidhi"
-      }
-    ]
-  },
-  {
-    id: "before-wudu",
-    nameEnglish: "Before Wudu",
-    nameBengali: "অযুর আগে",
-    icon: "Droplets",
-    duas: [
-      {
-        id: "wudu-before-1",
-        arabic: "بِسْمِ اللهِ",
-        bengali: "আল্লাহর নামে (শুরু করছি)।",
-        english: "In the name of Allah.",
-        reference: "Abu Dawud, Ibn Majah"
-      }
-    ]
-  },
-  {
-    id: "after-wudu",
-    nameEnglish: "After Wudu",
-    nameBengali: "অযুর পরে",
-    icon: "Sparkles",
-    duas: [
-      {
-        id: "wudu-after-1",
-        arabic: "أَشْهَدُ أَنْ لاَ إِلَهَ إِلاَّ اللهُ وَحْدَهُ لاَ شَرِيكَ لَهُ، وَأَشْهَدُ أَنَّ مُحَمَّداً عَبْدُهُ وَرَسُولُهُ",
-        bengali: "আমি সাক্ষ্য দিচ্ছি যে, আল্লাহ ছাড়া কোন ইলাহ নেই, তিনি একক, তাঁর কোন শরীক নেই। আমি আরও সাক্ষ্য দিচ্ছি যে, মুহাম্মাদ তাঁর বান্দা ও রাসূল।",
-        english: "I bear witness that none has the right to be worshipped except Allah, alone, without partner, and I bear witness that Muhammad is His slave and Messenger.",
-        reference: "Muslim"
-      },
-      {
-        id: "wudu-after-2",
-        arabic: "اللَّهُمَّ اجْعَلْنِي مِنَ التَّوَّابِينَ وَاجْعَلْنِي مِنَ الْمُتَطَهِّرِينَ",
-        bengali: "হে আল্লাহ! আমাকে তাওবাকারীদের অন্তর্ভুক্ত কর এবং পবিত্রতা অর্জনকারীদের অন্তর্ভুক্ত কর।",
-        english: "O Allah, make me of those who return to You often in repentance and make me of those who remain clean and pure.",
-        reference: "Tirmidhi"
-      }
-    ]
-  },
-  {
-    id: "entering-bathroom",
-    nameEnglish: "Entering Bathroom",
-    nameBengali: "বাথরুমে প্রবেশ",
-    icon: "Bath",
-    duas: [
-      {
-        id: "bathroom-enter-1",
-        arabic: "بِسْمِ اللهِ، اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْخُبْثِ وَالْخَبَائِثِ",
-        bengali: "আল্লাহর নামে (প্রবেশ করছি)। হে আল্লাহ! আমি তোমার কাছে আশ্রয় চাই পুরুষ ও মহিলা শয়তান থেকে।",
-        english: "In the name of Allah. O Allah, I take refuge with You from all evil and evil-doers.",
-        reference: "Bukhari, Muslim"
-      }
-    ]
-  },
-  {
-    id: "leaving-bathroom",
-    nameEnglish: "Leaving Bathroom",
-    nameBengali: "বাথরুম থেকে বের হওয়া",
-    icon: "DoorClosed",
-    duas: [
-      {
-        id: "bathroom-leave-1",
-        arabic: "غُفْرَانَكَ",
-        bengali: "(হে আল্লাহ!) তোমার ক্ষমা চাই।",
-        english: "(O Allah) I seek Your forgiveness.",
-        reference: "Abu Dawud, Tirmidhi"
-      }
-    ]
-  },
-  {
-    id: "during-rain",
-    nameEnglish: "During Rain",
-    nameBengali: "বৃষ্টির সময়",
-    icon: "CloudRain",
-    duas: [
-      {
-        id: "rain-1",
-        arabic: "اللَّهُمَّ صَيِّبًا نَافِعًا",
-        bengali: "হে আল্লাহ! উপকারী বৃষ্টি বর্ষণ কর।",
-        english: "O Allah, may it be a beneficial rain.",
-        reference: "Bukhari"
-      },
-      {
-        id: "rain-2",
-        arabic: "مُطِرْنَا بِفَضْلِ اللهِ وَرَحْمَتِهِ",
-        bengali: "আল্লাহর অনুগ্রহ ও রহমতে আমাদের উপর বৃষ্টি বর্ষিত হয়েছে।",
-        english: "We have been given rain by the grace and mercy of Allah.",
-        reference: "Bukhari, Muslim"
-      }
-    ]
-  },
-  {
-    id: "when-sick",
-    nameEnglish: "When Sick",
-    nameBengali: "অসুস্থতায়",
-    icon: "Heart",
-    duas: [
-      {
-        id: "sick-1",
-        arabic: "اللَّهُمَّ رَبَّ النَّاسِ أَذْهِبِ الْبَاسَ، اشْفِهِ وَأَنْتَ الشَّافِي، لاَ شِفَاءَ إِلاَّ شِفَاؤُكَ، شِفَاءً لاَ يُغَادِرُ سَقَمًا",
-        bengali: "হে আল্লাহ! মানুষের রব! কষ্ট দূর কর, আরোগ্য দান কর। তুমিই আরোগ্যদানকারী। তোমার আরোগ্য ছাড়া কোন আরোগ্য নেই। এমন আরোগ্য দান কর যা কোন রোগ অবশিষ্ট রাখে না।",
-        english: "O Allah, Lord of mankind, remove the affliction. Cure him, You are the One who cures. There is no cure except Your cure. Grant a cure that leaves no illness.",
-        reference: "Bukhari, Muslim"
-      },
-      {
-        id: "sick-2",
-        arabic: "أَسْأَلُ اللهَ الْعَظِيمَ رَبَّ الْعَرْشِ الْعَظِيمِ أَنْ يَشْفِيَكَ",
-        bengali: "আমি মহান আল্লাহর কাছে, যিনি মহান আরশের রব, তোমাকে সুস্থ করার জন্য দোয়া করি। (৭ বার)",
-        english: "I ask Allah, the Mighty, the Lord of the Mighty Throne, to cure you. (7 times)",
-        reference: "Abu Dawud, Tirmidhi"
-      }
-    ]
-  },
-  {
-    id: "istikhara",
-    nameEnglish: "Istikhara",
-    nameBengali: "ইস্তেখারা",
-    icon: "HelpCircle",
-    duas: [
-      {
-        id: "istikhara-1",
-        arabic: "اللَّهُمَّ إِنِّي أَسْتَخِيرُكَ بِعِلْمِكَ، وَأَسْتَقْدِرُكَ بِقُدْرَتِكَ، وَأَسْأَلُكَ مِنْ فَضْلِكَ الْعَظِيمِ، فَإِنَّكَ تَقْدِرُ وَلاَ أَقْدِرُ، وَتَعْلَمُ وَلاَ أَعْلَمُ، وَأَنْتَ عَلاَّمُ الْغُيُوبِ",
-        bengali: "হে আল্লাহ! আমি তোমার জ্ঞানের মাধ্যমে তোমার কাছে কল্যাণ চাই, তোমার ক্ষমতার মাধ্যমে শক্তি চাই এবং তোমার মহান অনুগ্রহ থেকে চাই। কেননা, তুমি সক্ষম আর আমি সক্ষম নই, তুমি জান আর আমি জানি না এবং তুমিই গায়েবের জ্ঞাতা।",
-        english: "O Allah, I seek Your guidance by virtue of Your knowledge, and I seek ability by virtue of Your power, and I ask You of Your great bounty. You have power; I have none. And You know; I know not. You are the Knower of hidden things.",
-        reference: "Bukhari"
-      }
-    ]
-  },
+
+  // 3. Forgiveness & Repentance
   {
     id: "forgiveness",
-    nameEnglish: "Seeking Forgiveness",
-    nameBengali: "ক্ষমা প্রার্থনা",
-    icon: "RefreshCw",
+    nameEnglish: "Forgiveness & Repentance",
+    nameBengali: "ইসতিগফার ও তাওবা",
+    icon: "HeartHandshake",
     duas: [
       {
         id: "forgive-1",
-        arabic: "أَسْتَغْفِرُ اللهَ الَّذِي لاَ إِلَهَ إِلاَّ هُوَ الْحَيُّ الْقَيُّومُ وَأَتُوبُ إِلَيْهِ",
-        bengali: "আমি আল্লাহর কাছে ক্ষমা চাই, যিনি ছাড়া কোন ইলাহ নেই, তিনি চিরঞ্জীব, চিরস্থায়ী এবং আমি তাঁর কাছে তাওবা করছি।",
-        english: "I seek the forgiveness of Allah, there is no deity except Him, the Ever-Living, the Sustainer of existence, and I repent to Him.",
-        reference: "Abu Dawud, Tirmidhi"
+        arabic: "أَسْتَغْفِرُ اللهَ",
+        bengali: "আমি আল্লাহর কাছে ক্ষমা চাই।",
+        english: "I seek forgiveness from Allah.",
+        reference: "সহীহ মুসলিম"
       },
       {
         id: "forgive-2",
-        arabic: "اللَّهُمَّ أَنْتَ رَبِّي لاَ إِلَهَ إِلاَّ أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ، وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ",
-        bengali: "হে আল্লাহ! তুমি আমার রব। তুমি ছাড়া কোন ইলাহ নেই। তুমি আমাকে সৃষ্টি করেছ এবং আমি তোমার বান্দা। আমি সাধ্যমত তোমার প্রতিশ্রুতি ও অঙ্গীকারের উপর আছি।",
-        english: "O Allah, You are my Lord, none has the right to be worshipped except You. You created me and I am Your servant, and I abide to Your covenant and promise as best I can.",
-        reference: "Bukhari"
+        arabic: "أَسْتَغْفِرُ اللهَ الَّذِي لاَ إِلَهَ إِلاَّ هُوَ الْحَيُّ الْقَيُّومُ وَأَتُوبُ إِلَيْهِ",
+        bengali: "আমি আল্লাহর কাছে ক্ষমা চাই, যিনি ছাড়া কোন ইলাহ নেই, তিনি চিরঞ্জীব, সবকিছুর ধারক এবং তাঁর কাছেই তাওবা করছি।",
+        english: "I seek forgiveness from Allah, besides whom there is none worthy of worship, the Ever Living, the Self-Subsisting, and I repent to Him.",
+        reference: "আবু দাউদ, তিরমিযী"
       },
       {
         id: "forgive-3",
+        arabic: "اللَّهُمَّ أَنْتَ رَبِّي لاَ إِلَهَ إِلاَّ أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ، وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ، أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ، أَبُوءُ لَكَ بِنِعْمَتِكَ عَلَيَّ، وَأَبُوءُ لَكَ بِذَنْبِي فَاغْفِرْ لِي فَإِنَّهُ لاَ يَغْفِرُ الذُّنُوبَ إِلاَّ أَنْتَ",
+        bengali: "হে আল্লাহ! তুমি আমার রব, তুমি ছাড়া কোন ইলাহ নেই। তুমি আমাকে সৃষ্টি করেছ এবং আমি তোমার বান্দা। আমি সাধ্যমত তোমার সাথে কৃত অঙ্গীকার ও প্রতিশ্রুতির উপর আছি। আমি আমার কৃতকর্মের অনিষ্ট থেকে তোমার আশ্রয় চাই। আমি আমার প্রতি তোমার নিয়ামতের স্বীকৃতি দিচ্ছি এবং আমার গুনাহের স্বীকৃতি দিচ্ছি। অতএব, তুমি আমাকে ক্ষমা কর, কেননা তুমি ছাড়া কেউ গুনাহ ক্ষমা করতে পারে না।",
+        english: "O Allah, You are my Lord, there is none worthy of worship but You. You created me and I am Your slave. I keep Your covenant and promise as best I can. I seek refuge in You from the evil I have done. I acknowledge Your blessings upon me and I acknowledge my sins. So forgive me, for none forgives sins but You.",
+        reference: "সহীহ বুখারী (সাইয়িদুল ইসতিগফার)"
+      },
+      {
+        id: "forgive-4",
         arabic: "رَبِّ اغْفِرْ لِي وَتُبْ عَلَيَّ إِنَّكَ أَنْتَ التَّوَّابُ الرَّحِيمُ",
-        bengali: "হে আমার রব! আমাকে ক্ষমা কর এবং আমার তাওবা কবুল কর। নিশ্চয়ই তুমি তাওবা কবুলকারী, দয়ালু।",
-        english: "My Lord, forgive me and accept my repentance. Indeed, You are the Accepting of Repentance, the Merciful.",
-        reference: "Tirmidhi"
+        bengali: "হে আমার রব! আমাকে ক্ষমা কর এবং আমার তাওবা কবুল কর। নিশ্চয়ই তুমি তাওবা কবুলকারী, অতি দয়ালু।",
+        english: "My Lord, forgive me and accept my repentance. Indeed, You are the Acceptor of repentance, the Most Merciful.",
+        reference: "আবু দাউদ, তিরমিযী"
+      },
+      {
+        id: "forgive-5",
+        arabic: "رَبَّنَا ظَلَمْنَا أَنفُسَنَا وَإِن لَّمْ تَغْفِرْ لَنَا وَتَرْحَمْنَا لَنَكُونَنَّ مِنَ الْخَاسِرِينَ",
+        bengali: "হে আমাদের রব! আমরা নিজেদের প্রতি যুলুম করেছি। তুমি যদি আমাদের ক্ষমা না কর এবং রহম না কর তাহলে আমরা ক্ষতিগ্রস্তদের অন্তর্ভুক্ত হব।",
+        english: "Our Lord, we have wronged ourselves, and if You do not forgive us and have mercy upon us, we will surely be among the losers.",
+        reference: "সূরা আরাফ ৭:২৩"
+      },
+      {
+        id: "forgive-6",
+        arabic: "رَبِّ إِنِّي ظَلَمْتُ نَفْسِي فَاغْفِرْ لِي",
+        bengali: "হে আমার রব! আমি নিজের প্রতি যুলুম করেছি, অতএব আমাকে ক্ষমা কর।",
+        english: "My Lord, indeed I have wronged myself, so forgive me.",
+        reference: "সূরা কাসাস ২৮:১৬"
+      }
+    ]
+  },
+
+  // 4. Protection & Safety Duas
+  {
+    id: "protection",
+    nameEnglish: "Protection & Safety",
+    nameBengali: "হিফাজতের দোয়া",
+    icon: "Shield",
+    duas: [
+      {
+        id: "protect-1",
+        arabic: "بِسْمِ اللهِ الَّذِي لاَ يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الأَرْضِ وَلاَ فِي السَّمَاءِ وَهُوَ السَّمِيعُ الْعَلِيمُ",
+        bengali: "আল্লাহর নামে, যাঁর নামের সাথে আসমান ও জমিনে কোন কিছুই ক্ষতি করতে পারে না এবং তিনি সর্বশ্রোতা, সর্বজ্ঞ। (৩ বার পড়ুন)",
+        english: "In the name of Allah, with whose name nothing can cause harm in the earth nor in the heavens, and He is the All-Hearing, the All-Knowing. (Recite 3 times)",
+        reference: "আবু দাউদ, তিরমিযী"
+      },
+      {
+        id: "protect-2",
+        arabic: "أَعُوذُ بِكَلِمَاتِ اللهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ",
+        bengali: "আমি আল্লাহর পরিপূর্ণ বাণীসমূহের মাধ্যমে তাঁর সৃষ্টির সকল অনিষ্ট থেকে আশ্রয় চাই। (৩ বার পড়ুন)",
+        english: "I seek refuge in the perfect words of Allah from the evil of what He has created. (Recite 3 times)",
+        reference: "সহীহ মুসলিম"
+      },
+      {
+        id: "protect-3",
+        arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ، وَأَعُوذُ بِكَ مِنَ الْعَجْزِ وَالْكَسَلِ، وَأَعُوذُ بِكَ مِنَ الْجُبْنِ وَالْبُخْلِ، وَأَعُوذُ بِكَ مِنْ غَلَبَةِ الدَّيْنِ وَقَهْرِ الرِّجَالِ",
+        bengali: "হে আল্লাহ! আমি তোমার আশ্রয় চাই দুশ্চিন্তা ও দুঃখ থেকে, অক্ষমতা ও অলসতা থেকে, কাপুরুষতা ও কৃপণতা থেকে এবং ঋণের বোঝা ও মানুষের দমন থেকে।",
+        english: "O Allah, I seek refuge in You from anxiety and sorrow, weakness and laziness, miserliness and cowardice, the burden of debts and from being overpowered by men.",
+        reference: "সহীহ বুখারী"
+      },
+      {
+        id: "protect-4",
+        arabic: "اللَّهُمَّ احْفَظْنِي مِنْ بَيْنِ يَدَيَّ، وَمِنْ خَلْفِي، وَعَنْ يَمِينِي، وَعَنْ شِمَالِي، وَمِنْ فَوْقِي، وَأَعُوذُ بِعَظَمَتِكَ أَنْ أُغْتَالَ مِنْ تَحْتِي",
+        bengali: "হে আল্লাহ! আমাকে হিফাজত কর আমার সামনে থেকে, পেছন থেকে, ডান দিক থেকে, বাম দিক থেকে এবং উপর থেকে। আমি তোমার মহত্ত্বের আশ্রয় নিচ্ছি যেন আমাকে নিচ থেকে হঠাৎ ধ্বংস করা না হয়।",
+        english: "O Allah, protect me from my front, from behind me, from my right, from my left, and from above me, and I seek refuge in Your Greatness from being unexpectedly destroyed from beneath me.",
+        reference: "আবু দাউদ, ইবনে মাজাহ"
+      },
+      {
+        id: "protect-5",
+        arabic: "أَعُوذُ بِاللهِ مِنَ الشَّيْطَانِ الرَّجِيمِ",
+        bengali: "আমি বিতাড়িত শয়তান থেকে আল্লাহর আশ্রয় চাই।",
+        english: "I seek refuge in Allah from the accursed Satan.",
+        reference: "সূরা নাহল ১৬:৯৮"
+      },
+      {
+        id: "protect-6",
+        arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ شَرِّ نَفْسِي وَمِنْ شَرِّ كُلِّ دَابَّةٍ أَنْتَ آخِذٌ بِنَاصِيَتِهَا",
+        bengali: "হে আল্লাহ! আমি তোমার কাছে আশ্রয় চাই আমার নফসের অনিষ্ট থেকে এবং প্রতিটি প্রাণীর অনিষ্ট থেকে যার নিয়ন্ত্রণ তোমার হাতে।",
+        english: "O Allah, I seek refuge in You from the evil of my soul and from the evil of every creature whose forelock is in Your Hand.",
+        reference: "তিরমিযী"
+      }
+    ]
+  },
+
+  // 5. Duas from the Qur'an
+  {
+    id: "quran-duas",
+    nameEnglish: "Duas from the Qur'an",
+    nameBengali: "কুরআনের দোয়া",
+    icon: "BookOpen",
+    duas: [
+      {
+        id: "quran-1",
+        arabic: "رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ",
+        bengali: "হে আমাদের রব! আমাদেরকে দুনিয়াতে কল্যাণ দাও এবং আখিরাতেও কল্যাণ দাও এবং আমাদেরকে জাহান্নামের আযাব থেকে রক্ষা কর।",
+        english: "Our Lord, give us in this world that which is good and in the Hereafter that which is good and protect us from the punishment of the Fire.",
+        reference: "সূরা বাকারা ২:২০১"
+      },
+      {
+        id: "quran-2",
+        arabic: "رَبَّنَا لاَ تُؤَاخِذْنَا إِن نَّسِينَا أَوْ أَخْطَأْنَا، رَبَّنَا وَلاَ تَحْمِلْ عَلَيْنَا إِصْرًا كَمَا حَمَلْتَهُ عَلَى الَّذِينَ مِن قَبْلِنَا، رَبَّنَا وَلاَ تُحَمِّلْنَا مَا لاَ طَاقَةَ لَنَا بِهِ، وَاعْفُ عَنَّا وَاغْفِرْ لَنَا وَارْحَمْنَا، أَنتَ مَوْلاَنَا فَانصُرْنَا عَلَى الْقَوْمِ الْكَافِرِينَ",
+        bengali: "হে আমাদের রব! আমরা যদি ভুলে যাই অথবা ভুল করি তাহলে আমাদের পাকড়াও করো না। হে আমাদের রব! আমাদের পূর্ববর্তীদের উপর যেমন বোঝা চাপিয়েছিলে আমাদের উপর তেমন বোঝা চাপিও না। হে আমাদের রব! আমাদের সামর্থ্যের বাইরে কিছু আমাদের উপর চাপিও না। আমাদের মাফ কর, আমাদের ক্ষমা কর এবং আমাদের প্রতি দয়া কর। তুমিই আমাদের অভিভাবক। অতএব, কাফির সম্প্রদায়ের বিরুদ্ধে আমাদের সাহায্য কর।",
+        english: "Our Lord, do not impose blame upon us if we have forgotten or erred. Our Lord, and lay not upon us a burden like that which You laid upon those before us. Our Lord, and burden us not with that which we have no ability to bear. And pardon us; and forgive us; and have mercy upon us. You are our protector, so give us victory over the disbelieving people.",
+        reference: "সূরা বাকারা ২:২৮৬"
+      },
+      {
+        id: "quran-3",
+        arabic: "رَبِّ اشْرَحْ لِي صَدْرِي، وَيَسِّرْ لِي أَمْرِي، وَاحْلُلْ عُقْدَةً مِّن لِّسَانِي، يَفْقَهُوا قَوْلِي",
+        bengali: "হে আমার রব! আমার বক্ষ প্রশস্ত করে দাও, আমার কাজ সহজ করে দাও এবং আমার জিহ্বার জড়তা দূর করে দাও, যাতে তারা আমার কথা বুঝতে পারে।",
+        english: "My Lord, expand for me my breast, ease my task for me, and untie the knot from my tongue, that they may understand my speech.",
+        reference: "সূরা ত্বহা ২০:২৫-২৮"
+      },
+      {
+        id: "quran-4",
+        arabic: "رَبِّ زِدْنِي عِلْمًا",
+        bengali: "হে আমার রব! আমার জ্ঞান বৃদ্ধি করে দাও।",
+        english: "My Lord, increase me in knowledge.",
+        reference: "সূরা ত্বহা ২০:১১৪"
+      },
+      {
+        id: "quran-5",
+        arabic: "رَبَّنَا هَبْ لَنَا مِنْ أَزْوَاجِنَا وَذُرِّيَّاتِنَا قُرَّةَ أَعْيُنٍ وَاجْعَلْنَا لِلْمُتَّقِينَ إِمَامًا",
+        bengali: "হে আমাদের রব! আমাদের স্ত্রীদের পক্ষ থেকে এবং আমাদের সন্তানদের পক্ষ থেকে আমাদের চোখ শীতল কর এবং আমাদেরকে মুত্তাকীদের জন্য আদর্শ বানাও।",
+        english: "Our Lord, grant us from among our wives and offspring comfort to our eyes and make us an example for the righteous.",
+        reference: "সূরা ফুরকান ২৫:৭৪"
+      },
+      {
+        id: "quran-6",
+        arabic: "رَبَّنَا أَفْرِغْ عَلَيْنَا صَبْرًا وَثَبِّتْ أَقْدَامَنَا وَانصُرْنَا عَلَى الْقَوْمِ الْكَافِرِينَ",
+        bengali: "হে আমাদের রব! আমাদের উপর ধৈর্য ঢেলে দাও, আমাদের পা স্থির রাখ এবং কাফির সম্প্রদায়ের বিরুদ্ধে আমাদের সাহায্য কর।",
+        english: "Our Lord, pour upon us patience and plant firmly our feet and give us victory over the disbelieving people.",
+        reference: "সূরা বাকারা ২:২৫০"
+      },
+      {
+        id: "quran-7",
+        arabic: "رَبَّنَا لاَ تُزِغْ قُلُوبَنَا بَعْدَ إِذْ هَدَيْتَنَا وَهَبْ لَنَا مِن لَّدُنكَ رَحْمَةً إِنَّكَ أَنتَ الْوَهَّابُ",
+        bengali: "হে আমাদের রব! হিদায়াত দেওয়ার পর আমাদের অন্তরকে বক্র করো না এবং তোমার পক্ষ থেকে আমাদেরকে রহমত দান কর। নিশ্চয়ই তুমি মহাদাতা।",
+        english: "Our Lord, let not our hearts deviate after You have guided us and grant us from Yourself mercy. Indeed, You are the Bestower.",
+        reference: "সূরা আলে ইমরান ৩:৮"
+      },
+      {
+        id: "quran-8",
+        arabic: "رَبَّنَا اغْفِرْ لَنَا ذُنُوبَنَا وَإِسْرَافَنَا فِي أَمْرِنَا وَثَبِّتْ أَقْدَامَنَا وَانصُرْنَا عَلَى الْقَوْمِ الْكَافِرِينَ",
+        bengali: "হে আমাদের রব! আমাদের গুনাহ ক্ষমা কর এবং আমাদের কাজে যে সীমালঙ্ঘন হয়েছে তা মাফ কর, আমাদের পা স্থির রাখ এবং কাফির সম্প্রদায়ের বিরুদ্ধে আমাদের সাহায্য কর।",
+        english: "Our Lord, forgive us our sins and the excess in our affairs and plant firmly our feet and give us victory over the disbelieving people.",
+        reference: "সূরা আলে ইমরান ৩:১৪৭"
       }
     ]
   }
 ];
 
 export const getDuaCategory = (categoryId: string): DuaCategory | undefined => {
-  return duaCategories.find(cat => cat.id === categoryId);
+  return duaCategories.find(category => category.id === categoryId);
 };
