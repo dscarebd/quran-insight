@@ -2,3 +2,9 @@ project_id = "iacjtvvlyxkmrzaxkedk"
 
 [functions.quran-search]
 verify_jwt = false
+
+[functions.update-arabic-verses]
+verify_jwt = false
+
+[functions.import-verses]
+verify_jwt = false
