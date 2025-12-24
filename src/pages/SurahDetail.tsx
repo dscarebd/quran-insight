@@ -46,7 +46,7 @@ const VerseCard = ({ verse, language, index, isBookmarked, onToggleBookmark, isL
     >
       {/* Verse Number Badge */}
       <div className="mb-4 flex items-center justify-between">
-        <div className={cn("flex h-10 w-10 items-center justify-center rounded-full bg-primary text-primary-foreground font-semibold", language === "bn" && "font-bengali")}>
+        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-primary-foreground font-semibold font-bengali">
           {formatNumber(verse.verseNumber, language)}
         </div>
         <div className="flex gap-2">
@@ -527,7 +527,7 @@ const SurahDetail = ({ language, onLanguageChange }: SurahDetailProps) => {
                   )}
                 >
                   <div className={cn(
-                    "flex h-8 w-8 items-center justify-center rounded-full text-sm font-semibold",
+                    "flex h-8 w-8 items-center justify-center rounded-full text-sm font-semibold font-bengali",
                     s.number === surahNum
                       ? "bg-primary-foreground/20 text-primary-foreground"
                       : "bg-primary/10 text-primary"
@@ -539,7 +539,7 @@ const SurahDetail = ({ language, onLanguageChange }: SurahDetailProps) => {
                       {language === "bn" ? s.nameBengali : s.nameEnglish}
                     </div>
                     <div className={cn(
-                      "text-xs truncate",
+                      "text-xs truncate font-bengali",
                       s.number === surahNum ? "text-primary-foreground/70" : "text-muted-foreground"
                     )}>
                       {s.nameArabic} • {formatNumber(s.totalVerses, language)} {language === "bn" ? "আয়াত" : "verses"}

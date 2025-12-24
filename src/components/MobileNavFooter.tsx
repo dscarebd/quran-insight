@@ -171,7 +171,7 @@ export const MobileNavFooter = ({ language }: MobileNavFooterProps) => {
                   )}
                 >
                   <div className={cn(
-                    "flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-sm font-semibold",
+                    "flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-sm font-semibold font-bengali",
                     currentSurahNumber === surah.number
                       ? "bg-primary text-primary-foreground"
                       : "bg-muted text-muted-foreground"
@@ -234,7 +234,7 @@ export const MobileNavFooter = ({ language }: MobileNavFooterProps) => {
                   )}
                 >
                   <div className={cn(
-                    "flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-sm font-semibold",
+                    "flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-sm font-semibold font-bengali",
                     currentParaNumber === para.number
                       ? "bg-primary text-primary-foreground"
                       : "bg-muted text-muted-foreground"

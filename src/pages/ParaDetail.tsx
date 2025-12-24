@@ -200,7 +200,7 @@ const ParaDetail = ({ language, onLanguageChange }: ParaDetailProps) => {
               className="animate-fade-in flex items-center gap-3 rounded-xl border border-border bg-card p-4 text-left transition-all hover:border-primary/30 hover:shadow-card"
               style={{ animationDelay: `${index * 0.05}s` }}
             >
-              <div className={cn("flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-sm font-semibold text-primary", language === "bn" && "font-bengali")}>
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-sm font-semibold text-primary font-bengali">
                 {formatNumber(surah.number, language)}
               </div>
               <div className="flex-1 min-w-0">
@@ -265,7 +265,7 @@ const ParaDetail = ({ language, onLanguageChange }: ParaDetailProps) => {
                   )}
                 >
                   <div className={cn(
-                    "flex h-8 w-8 items-center justify-center rounded-full text-sm font-semibold",
+                    "flex h-8 w-8 items-center justify-center rounded-full text-sm font-semibold font-bengali",
                     p.number === paraNum
                       ? "bg-primary-foreground/20 text-primary-foreground"
                       : "bg-primary/10 text-primary"
