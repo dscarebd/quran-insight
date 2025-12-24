@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useState, useEffect, useRef } from "react";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { ArrowLeft, BookOpen, ChevronDown, ChevronUp, Bookmark, ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
 import { surahs } from "@/data/surahs";
 import { Verse } from "@/data/verses";
@@ -101,12 +101,14 @@ const VerseCard = ({ verse, language, index, isBookmarked, onToggleBookmark, isL
 const SurahDetail = ({ language, onLanguageChange }: SurahDetailProps) => {
   const { surahNumber } = useParams<{ surahNumber: string }>();
   const navigate = useNavigate();
+  const location = useLocation();
   const { isMobile, setOpenMobile } = useSidebar();
   const [verses, setVerses] = useState<Verse[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [bookmarkedVerses, setBookmarkedVerses] = useState<Set<string>>(new Set());
   const { user } = useAuth();
   const { toast } = useToast();
+  const verseRefs = useRef<{ [key: number]: HTMLDivElement | null }>({});
 
   const surahNum = parseInt(surahNumber || "1", 10);
   const surah = surahs.find(s => s.number === surahNum);
@@ -144,6 +146,24 @@ const SurahDetail = ({ language, onLanguageChange }: SurahDetailProps) => {
 
     fetchVerses();
   }, [surahNum]);
+
+  // Scroll to verse if hash is present
+  useEffect(() => {
+    if (!isLoading && verses.length > 0 && location.hash) {
+      const match = location.hash.match(/#verse-(\d+)/);
+      if (match) {
+        const verseNumber = parseInt(match[1], 10);
+        setTimeout(() => {
+          if (verseRefs.current[verseNumber]) {
+            verseRefs.current[verseNumber]?.scrollIntoView({
+              behavior: 'smooth',
+              block: 'center'
+            });
+          }
+        }, 100);
+      }
+    }
+  }, [isLoading, verses, location.hash]);
 
   // Fetch user's bookmarks for this surah
   useEffect(() => {
@@ -369,22 +389,27 @@ const SurahDetail = ({ language, onLanguageChange }: SurahDetailProps) => {
           </div>
         ) : verses.length > 0 ? (
           verses.map((verse, index) => (
-            <VerseCard 
-              key={verse.verseNumber} 
-              verse={verse} 
-              language={language}
-              index={index}
-              isBookmarked={bookmarkedVerses.has(`${verse.surahNumber}-${verse.verseNumber}`)}
-              onToggleBookmark={handleToggleBookmark}
-              isLoggedIn={!!user}
-              onLoginRequired={() => {
-                toast({
-                  title: language === "bn" ? "লগইন প্রয়োজন" : "Login Required",
-                  description: language === "bn" ? "বুকমার্ক করতে লগইন করুন" : "Please login to bookmark verses",
-                  variant: "destructive",
-                });
-              }}
-            />
+            <div
+              key={verse.verseNumber}
+              ref={(el) => { verseRefs.current[verse.verseNumber] = el; }}
+              id={`verse-${verse.verseNumber}`}
+            >
+              <VerseCard 
+                verse={verse} 
+                language={language}
+                index={index}
+                isBookmarked={bookmarkedVerses.has(`${verse.surahNumber}-${verse.verseNumber}`)}
+                onToggleBookmark={handleToggleBookmark}
+                isLoggedIn={!!user}
+                onLoginRequired={() => {
+                  toast({
+                    title: language === "bn" ? "লগইন প্রয়োজন" : "Login Required",
+                    description: language === "bn" ? "বুকমার্ক করতে লগইন করুন" : "Please login to bookmark verses",
+                    variant: "destructive",
+                  });
+                }}
+              />
+            </div>
           ))
         ) : (
           <div className="rounded-2xl border border-dashed border-border bg-card p-8 text-center">
