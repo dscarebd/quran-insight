@@ -33,15 +33,20 @@ const ParaDetail = ({ language, onLanguageChange }: ParaDetailProps) => {
 
   // Scroll to current para when sheet opens
   useEffect(() => {
-    if (paraSheetOpen && paraListRefs.current[paraNum]) {
-      setTimeout(() => {
-        paraListRefs.current[paraNum]?.scrollIntoView({
-          behavior: 'smooth',
-          block: 'center'
-        });
-      }, 100);
+    if (paraSheetOpen && !paraSearchQuery) {
+      // Wait for sheet animation and content to render
+      const timer = setTimeout(() => {
+        const element = paraListRefs.current[paraNum];
+        if (element) {
+          element.scrollIntoView({
+            behavior: 'instant',
+            block: 'center'
+          });
+        }
+      }, 300);
+      return () => clearTimeout(timer);
     }
-  }, [paraSheetOpen, paraNum]);
+  }, [paraSheetOpen, paraNum, paraSearchQuery]);
 
   const prevPara = paras.find(p => p.number === paraNum - 1);
   const nextPara = paras.find(p => p.number === paraNum + 1);

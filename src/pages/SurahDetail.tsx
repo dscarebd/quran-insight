@@ -129,15 +129,20 @@ const SurahDetail = ({ language, onLanguageChange }: SurahDetailProps) => {
 
   // Scroll to current surah when sheet opens
   useEffect(() => {
-    if (surahSheetOpen && surahListRefs.current[surahNum]) {
-      setTimeout(() => {
-        surahListRefs.current[surahNum]?.scrollIntoView({
-          behavior: 'smooth',
-          block: 'center'
-        });
-      }, 100);
+    if (surahSheetOpen && !surahSearchQuery) {
+      // Wait for sheet animation and content to render
+      const timer = setTimeout(() => {
+        const element = surahListRefs.current[surahNum];
+        if (element) {
+          element.scrollIntoView({
+            behavior: 'instant',
+            block: 'center'
+          });
+        }
+      }, 300);
+      return () => clearTimeout(timer);
     }
-  }, [surahSheetOpen, surahNum]);
+  }, [surahSheetOpen, surahNum, surahSearchQuery]);
 
   // Fetch verses with caching and smooth transition
   useEffect(() => {
