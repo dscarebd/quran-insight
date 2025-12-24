@@ -79,6 +79,42 @@ export const duaCategories: DuaCategory[] = [
         bengali: "আল্লাহর নামে প্রবেশ করলাম, আল্লাহর নামে বের হলাম এবং আমাদের রব আল্লাহর উপর ভরসা করলাম।",
         english: "In the name of Allah we enter and in the name of Allah we leave, and upon our Lord we place our trust.",
         reference: "আবু দাউদ"
+      },
+      {
+        id: "daily-7",
+        titleBengali: "টয়লেটে প্রবেশের দোয়া",
+        titleEnglish: "When Entering Toilet",
+        arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْخُبُثِ وَالْخَبَائِثِ",
+        bengali: "হে আল্লাহ! আমি তোমার কাছে পুরুষ ও মহিলা জিন-শয়তান থেকে আশ্রয় চাই।",
+        english: "O Allah, I seek refuge in You from the male and female evil beings (devils).",
+        reference: "সহীহ বুখারী, সহীহ মুসলিম"
+      },
+      {
+        id: "daily-8",
+        titleBengali: "টয়লেট থেকে বের হওয়ার দোয়া",
+        titleEnglish: "When Leaving Toilet",
+        arabic: "غُفْرَانَكَ",
+        bengali: "হে আল্লাহ! আমি তোমার ক্ষমা চাই।",
+        english: "I seek Your forgiveness.",
+        reference: "আবু দাউদ, তিরমিযী, ইবনে মাজাহ"
+      },
+      {
+        id: "daily-9",
+        titleBengali: "খাওয়ার আগে দোয়া",
+        titleEnglish: "Before Eating",
+        arabic: "بِسْمِ اللهِ، وَعَلَى بَرَكَةِ اللهِ",
+        bengali: "আল্লাহর নামে শুরু করছি এবং আল্লাহর বরকতে।",
+        english: "In the name of Allah and with the blessings of Allah.",
+        reference: "আবু দাউদ"
+      },
+      {
+        id: "daily-10",
+        titleBengali: "নতুন কাপড় পরার দোয়া",
+        titleEnglish: "When Wearing New Clothes",
+        arabic: "اللَّهُمَّ لَكَ الْحَمْدُ أَنْتَ كَسَوْتَنِيهِ، أَسْأَلُكَ خَيْرَهُ وَخَيْرَ مَا صُنِعَ لَهُ، وَأَعُوذُ بِكَ مِنْ شَرِّهِ وَشَرِّ مَا صُنِعَ لَهُ",
+        bengali: "হে আল্লাহ! তোমার জন্য সকল প্রশংসা। তুমি আমাকে এটি পরিয়েছ। আমি তোমার কাছে এর কল্যাণ এবং যে উদ্দেশ্যে এটি তৈরি হয়েছে তার কল্যাণ চাই। আমি তোমার কাছে এর অনিষ্ট এবং যে উদ্দেশ্যে এটি তৈরি হয়েছে তার অনিষ্ট থেকে আশ্রয় চাই।",
+        english: "O Allah, praise is to You. You have clothed me with it. I ask You for its good and the good of what it was made for, and I seek refuge in You from its evil and the evil of what it was made for.",
+        reference: "আবু দাউদ, তিরমিযী"
       }
     ]
   },
@@ -161,6 +197,24 @@ export const duaCategories: DuaCategory[] = [
         bengali: "হে আল্লাহ! তোমার নামে মৃত্যুবরণ করি এবং জীবিত হই।",
         english: "In Your name O Allah, I die and I live.",
         reference: "সহীহ বুখারী"
+      },
+      {
+        id: "adhkar-9",
+        titleBengali: "বদ নযর থেকে সুরক্ষা",
+        titleEnglish: "Protection from Evil Eye",
+        arabic: "أَعُوذُ بِكَلِمَاتِ اللهِ التَّامَّةِ مِنْ كُلِّ شَيْطَانٍ وَهَامَّةٍ، وَمِنْ كُلِّ عَيْنٍ لَامَّةٍ",
+        bengali: "আমি আল্লাহর পরিপূর্ণ বাণীসমূহের মাধ্যমে প্রত্যেক শয়তান ও বিষাক্ত প্রাণী থেকে এবং প্রত্যেক ক্ষতিকর চোখ (বদ নযর) থেকে আশ্রয় চাই।",
+        english: "I seek refuge in the perfect words of Allah from every devil, poisonous creature, and every evil eye.",
+        reference: "সহীহ বুখারী"
+      },
+      {
+        id: "adhkar-10",
+        titleBengali: "ঈমানের সাথে দিন শুরু",
+        titleEnglish: "Starting Day with Faith",
+        arabic: "أَصْبَحْنَا عَلَى فِطْرَةِ الإِسْلاَمِ، وَعَلَى كَلِمَةِ الإِخْلاَصِ، وَعَلَى دِينِ نَبِيِّنَا مُحَمَّدٍ صَلَّى اللهُ عَلَيْهِ وَسَلَّمَ، وَعَلَى مِلَّةِ أَبِينَا إِبْرَاهِيمَ حَنِيفًا مُسْلِمًا وَمَا كَانَ مِنَ الْمُشْرِكِينَ",
+        bengali: "আমরা ইসলামের স্বভাবের উপর সকালে উপনীত হলাম, ইখলাসের কালিমার উপর, আমাদের নবী মুহাম্মদ (সা.) এর দ্বীনের উপর এবং আমাদের পিতা ইবরাহীম (আ.) এর মিল্লাতের উপর যিনি ছিলেন একনিষ্ঠ মুসলিম এবং মুশরিকদের অন্তর্ভুক্ত ছিলেন না।",
+        english: "We have reached the morning upon the natural way of Islam, upon the word of sincerity, upon the religion of our Prophet Muhammad (ﷺ), and upon the way of our father Ibrahim who was a Muslim and was not of the polytheists.",
+        reference: "মুসনাদে আহমাদ"
       }
     ]
   },
@@ -225,6 +279,42 @@ export const duaCategories: DuaCategory[] = [
         bengali: "হে আমার রব! আমি নিজের প্রতি যুলুম করেছি, অতএব আমাকে ক্ষমা কর।",
         english: "My Lord, indeed I have wronged myself, so forgive me.",
         reference: "সূরা কাসাস ২৮:১৬"
+      },
+      {
+        id: "forgive-7",
+        titleBengali: "ইউনুস (আ.) এর দোয়া",
+        titleEnglish: "Dua of Prophet Yunus",
+        arabic: "لَا إِلَهَ إِلَّا أَنْتَ سُبْحَانَكَ إِنِّي كُنْتُ مِنَ الظَّالِمِينَ",
+        bengali: "তুমি ছাড়া কোন ইলাহ নেই, তুমি পবিত্র। নিশ্চয়ই আমি যালিমদের অন্তর্ভুক্ত ছিলাম।",
+        english: "There is no deity except You; exalted are You. Indeed, I have been of the wrongdoers.",
+        reference: "সূরা আম্বিয়া ২১:৮৭"
+      },
+      {
+        id: "forgive-8",
+        titleBengali: "১০০ বার ইসতিগফার",
+        titleEnglish: "100 Times Istighfar",
+        arabic: "أَسْتَغْفِرُ اللهَ وَأَتُوبُ إِلَيْهِ",
+        bengali: "আমি আল্লাহর কাছে ক্ষমা চাই এবং তাঁর কাছে তাওবা করি। (প্রতিদিন ১০০ বার পড়ুন)",
+        english: "I seek forgiveness from Allah and repent to Him. (Recite 100 times daily)",
+        reference: "সহীহ বুখারী, সহীহ মুসলিম"
+      },
+      {
+        id: "forgive-9",
+        titleBengali: "গোপন গুনাহের জন্য",
+        titleEnglish: "For Hidden Sins",
+        arabic: "اللَّهُمَّ اغْفِرْ لِي خَطِيئَتِي وَجَهْلِي وَإِسْرَافِي فِي أَمْرِي وَمَا أَنْتَ أَعْلَمُ بِهِ مِنِّي",
+        bengali: "হে আল্লাহ! আমার ভুল, অজ্ঞতা, কাজে সীমালঙ্ঘন এবং যা তুমি আমার চেয়ে ভালো জানো সেসব ক্ষমা কর।",
+        english: "O Allah, forgive my sins, my ignorance, my excess in my affairs, and what You know better than me about myself.",
+        reference: "সহীহ বুখারী, সহীহ মুসলিম"
+      },
+      {
+        id: "forgive-10",
+        titleBengali: "রাতে ক্ষমা প্রার্থনা",
+        titleEnglish: "Night Forgiveness Prayer",
+        arabic: "اللَّهُمَّ إِنَّكَ عَفُوٌّ تُحِبُّ الْعَفْوَ فَاعْفُ عَنِّي",
+        bengali: "হে আল্লাহ! নিশ্চয়ই তুমি ক্ষমাশীল, ক্ষমা করতে ভালোবাস, অতএব আমাকে ক্ষমা কর।",
+        english: "O Allah, You are the Pardoner, You love to pardon, so pardon me.",
+        reference: "তিরমিযী (লাইলাতুল কদরের দোয়া)"
       }
     ]
   },
@@ -289,6 +379,42 @@ export const duaCategories: DuaCategory[] = [
         bengali: "হে আল্লাহ! আমি তোমার কাছে আশ্রয় চাই আমার নফসের অনিষ্ট থেকে এবং প্রতিটি প্রাণীর অনিষ্ট থেকে যার নিয়ন্ত্রণ তোমার হাতে।",
         english: "O Allah, I seek refuge in You from the evil of my soul and from the evil of every creature whose forelock is in Your Hand.",
         reference: "তিরমিযী"
+      },
+      {
+        id: "protect-7",
+        titleBengali: "হিংসা থেকে সুরক্ষা",
+        titleEnglish: "Protection from Jealousy",
+        arabic: "قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ مِنْ شَرِّ مَا خَلَقَ وَمِنْ شَرِّ غَاسِقٍ إِذَا وَقَبَ وَمِنْ شَرِّ النَّفَّاثَاتِ فِي الْعُقَدِ وَمِنْ شَرِّ حَاسِدٍ إِذَا حَسَدَ",
+        bengali: "বল, আমি আশ্রয় চাই প্রভাতের রবের, তিনি যা সৃষ্টি করেছেন তার অনিষ্ট থেকে, আঁধার রাতের অনিষ্ট থেকে যখন তা গভীর হয়, গিরায় ফুঁক দানকারিণীদের অনিষ্ট থেকে এবং হিংসুকের অনিষ্ট থেকে যখন সে হিংসা করে।",
+        english: "Say: I seek refuge in the Lord of daybreak, from the evil of that which He created, from the evil of darkness when it settles, from the evil of those who blow on knots, and from the evil of an envier when he envies.",
+        reference: "সূরা ফালাক ১১৩:১-৫"
+      },
+      {
+        id: "protect-8",
+        titleBengali: "বিপদ-আপদ থেকে রক্ষা",
+        titleEnglish: "Protection from Calamities",
+        arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ جَهْدِ الْبَلَاءِ، وَدَرَكِ الشَّقَاءِ، وَسُوءِ الْقَضَاءِ، وَشَمَاتَةِ الْأَعْدَاءِ",
+        bengali: "হে আল্লাহ! আমি তোমার কাছে আশ্রয় চাই কঠিন বিপদ থেকে, দুর্ভাগ্যের শিকার হওয়া থেকে, মন্দ তাকদীর থেকে এবং শত্রুদের উপহাস থেকে।",
+        english: "O Allah, I seek refuge in You from severe calamity, from misery, from bad fate, and from the mockery of enemies.",
+        reference: "সহীহ বুখারী"
+      },
+      {
+        id: "protect-9",
+        titleBengali: "রাতের সুরক্ষা দোয়া",
+        titleEnglish: "Nighttime Protection",
+        arabic: "أَعُوذُ بِكَلِمَاتِ اللهِ التَّامَّاتِ مِنْ غَضَبِهِ وَعِقَابِهِ، وَشَرِّ عِبَادِهِ، وَمِنْ هَمَزَاتِ الشَّيَاطِينِ وَأَنْ يَحْضُرُونِ",
+        bengali: "আমি আল্লাহর পরিপূর্ণ বাণীসমূহের মাধ্যমে আশ্রয় চাই তাঁর ক্রোধ ও শাস্তি থেকে, তাঁর বান্দাদের অনিষ্ট থেকে এবং শয়তানদের প্ররোচনা ও তাদের উপস্থিতি থেকে।",
+        english: "I seek refuge in the perfect words of Allah from His anger and punishment, from the evil of His servants, and from the whispers of the devils and their presence.",
+        reference: "আবু দাউদ, তিরমিযী"
+      },
+      {
+        id: "protect-10",
+        titleBengali: "জিন-শয়তান থেকে রক্ষা",
+        titleEnglish: "Protection from Jinn & Devils",
+        arabic: "قُلْ أَعُوذُ بِرَبِّ النَّاسِ مَلِكِ النَّاسِ إِلَٰهِ النَّاسِ مِنْ شَرِّ الْوَسْوَاسِ الْخَنَّاسِ الَّذِي يُوَسْوِسُ فِي صُدُورِ النَّاسِ مِنَ الْجِنَّةِ وَالنَّاسِ",
+        bengali: "বল, আমি আশ্রয় চাই মানুষের রবের, মানুষের অধিপতির, মানুষের ইলাহের, কুমন্ত্রণাদাতা আত্মগোপনকারীর অনিষ্ট থেকে, যে মানুষের অন্তরে কুমন্ত্রণা দেয়, জিন ও মানুষের মধ্য থেকে।",
+        english: "Say: I seek refuge in the Lord of mankind, the Sovereign of mankind, the God of mankind, from the evil of the retreating whisperer, who whispers into the breasts of mankind, from among the jinn and mankind.",
+        reference: "সূরা নাস ১১৪:১-৬"
       }
     ]
   },
@@ -371,6 +497,24 @@ export const duaCategories: DuaCategory[] = [
         bengali: "হে আমাদের রব! আমাদের গুনাহ ক্ষমা কর এবং আমাদের কাজে যে সীমালঙ্ঘন হয়েছে তা মাফ কর, আমাদের পা স্থির রাখ এবং কাফির সম্প্রদায়ের বিরুদ্ধে আমাদের সাহায্য কর।",
         english: "Our Lord, forgive us our sins and the excess in our affairs and plant firmly our feet and give us victory over the disbelieving people.",
         reference: "সূরা আলে ইমরান ৩:১৪৭"
+      },
+      {
+        id: "quran-9",
+        titleBengali: "সুলাইমান (আ.) এর শুকরিয়ার দোয়া",
+        titleEnglish: "Dua of Sulaiman for Gratitude",
+        arabic: "رَبِّ أَوْزِعْنِي أَنْ أَشْكُرَ نِعْمَتَكَ الَّتِي أَنْعَمْتَ عَلَيَّ وَعَلَىٰ وَالِدَيَّ وَأَنْ أَعْمَلَ صَالِحًا تَرْضَاهُ وَأَدْخِلْنِي بِرَحْمَتِكَ فِي عِبَادِكَ الصَّالِحِينَ",
+        bengali: "হে আমার রব! আমাকে সামর্থ্য দাও যেন আমি তোমার নিয়ামতের শুকরিয়া আদায় করতে পারি যা তুমি আমাকে ও আমার পিতা-মাতাকে দান করেছ এবং যেন আমি এমন সৎকর্ম করতে পারি যা তুমি পছন্দ কর। আর তোমার রহমতে আমাকে তোমার সৎকর্মপরায়ণ বান্দাদের অন্তর্ভুক্ত কর।",
+        english: "My Lord, enable me to be grateful for Your favor which You have bestowed upon me and upon my parents and to do righteousness of which You approve. And admit me by Your mercy into [the ranks of] Your righteous servants.",
+        reference: "সূরা নামল ২৭:১৯"
+      },
+      {
+        id: "quran-10",
+        titleBengali: "ইবরাহীম (আ.) এর হিদায়াতের দোয়া",
+        titleEnglish: "Dua of Ibrahim for Guidance",
+        arabic: "رَبَّنَا وَاجْعَلْنَا مُسْلِمَيْنِ لَكَ وَمِن ذُرِّيَّتِنَا أُمَّةً مُّسْلِمَةً لَّكَ وَأَرِنَا مَنَاسِكَنَا وَتُبْ عَلَيْنَا إِنَّكَ أَنتَ التَّوَّابُ الرَّحِيمُ",
+        bengali: "হে আমাদের রব! আমাদের উভয়কে তোমার অনুগত কর এবং আমাদের বংশধরদের মধ্যে থেকেও তোমার অনুগত একটি উম্মত তৈরি কর। আমাদেরকে ইবাদতের নিয়ম-কানুন শিখাও এবং আমাদের তাওবা কবুল কর। নিশ্চয়ই তুমি তাওবা কবুলকারী, অতি দয়ালু।",
+        english: "Our Lord, and make us Muslims [in submission] to You and from our descendants a Muslim nation [in submission] to You. And show us our rites and accept our repentance. Indeed, You are the Accepting of Repentance, the Merciful.",
+        reference: "সূরা বাকারা ২:১২৮"
       }
     ]
   },
