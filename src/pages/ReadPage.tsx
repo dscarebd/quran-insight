@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { quranPages, getPageByNumber, getJuzForPage } from "@/data/pages";
 import { surahs } from "@/data/surahs";
-import { ChevronLeft, ChevronRight, Book, List, ZoomIn, ZoomOut, RotateCcw } from "lucide-react";
+import { ChevronLeft, ChevronRight, Book, ZoomIn, ZoomOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -288,49 +288,6 @@ const ReadPage = ({ language }: ReadPageProps) => {
             >
               <ZoomIn className="h-4 w-4" />
             </Button>
-
-            {/* Page Selector */}
-            <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
-              <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" className="h-9 w-9">
-                  <List className="h-5 w-5" />
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="right" className="w-[300px] sm:w-[400px] p-0">
-                <SheetHeader className="p-4 border-b border-border">
-                  <SheetTitle className={cn(language === "bn" && "font-bengali")}>
-                    {language === "bn" ? "পৃষ্ঠা নির্বাচন করুন" : "Select Page"}
-                  </SheetTitle>
-                  <Input
-                    placeholder={language === "bn" ? "পৃষ্ঠা নম্বর খুঁজুন..." : "Search page number..."}
-                    value={pageSearch}
-                    onChange={(e) => setPageSearch(e.target.value)}
-                    className={cn("mt-2", language === "bn" && "font-bengali")}
-                  />
-                </SheetHeader>
-                <ScrollArea className="h-[calc(100vh-120px)]">
-                  <div className="p-2 grid grid-cols-5 gap-2">
-                    {filteredPages.map((page) => (
-                      <Button
-                        key={page.pageNumber}
-                        variant={page.pageNumber === currentPage ? "default" : "outline"}
-                        size="sm"
-                        className={cn(
-                          "h-10 text-sm font-bengali",
-                          page.pageNumber === currentPage && "bg-primary text-primary-foreground"
-                        )}
-                        onClick={() => {
-                          goToPage(page.pageNumber);
-                          setSheetOpen(false);
-                        }}
-                      >
-                        {formatNumber(page.pageNumber, language)}
-                      </Button>
-                    ))}
-                  </div>
-                </ScrollArea>
-              </SheetContent>
-            </Sheet>
           </div>
         </div>
       </header>
@@ -447,21 +404,50 @@ const ReadPage = ({ language }: ReadPageProps) => {
             {language === "bn" ? "পূর্ববর্তী" : "Previous"}
           </Button>
 
-          <div className="flex items-center gap-2">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={resetZoom}
-              className="h-8 w-8"
-              title={language === "bn" ? "রিসেট" : "Reset zoom"}
-            >
-              <RotateCcw className="h-4 w-4" />
-            </Button>
-            <Book className="h-4 w-4 text-muted-foreground" />
-            <span className={cn("text-sm font-medium", language === "bn" && "font-bengali")}>
-              {formatNumber(currentPage, language)} / {formatNumber(604, language)}
-            </span>
-          </div>
+          <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
+            <SheetTrigger asChild>
+              <button className="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-muted transition-colors">
+                <Book className="h-4 w-4 text-muted-foreground" />
+                <span className={cn("text-sm font-medium", language === "bn" && "font-bengali")}>
+                  {formatNumber(currentPage, language)} / {formatNumber(604, language)}
+                </span>
+              </button>
+            </SheetTrigger>
+            <SheetContent side="bottom" className="h-[75vh] rounded-t-2xl px-0">
+              <SheetHeader className="px-4 pb-3 border-b border-border space-y-3">
+                <SheetTitle className={cn("text-center", language === "bn" && "font-bengali")}>
+                  {language === "bn" ? "পৃষ্ঠা নির্বাচন করুন" : "Select Page"}
+                </SheetTitle>
+                <Input
+                  placeholder={language === "bn" ? "পৃষ্ঠা নম্বর খুঁজুন..." : "Search page number..."}
+                  value={pageSearch}
+                  onChange={(e) => setPageSearch(e.target.value)}
+                  className={cn(language === "bn" && "font-bengali")}
+                />
+              </SheetHeader>
+              <ScrollArea className="h-[calc(75vh-110px)]">
+                <div className="p-2 grid grid-cols-5 gap-2">
+                  {filteredPages.map((page) => (
+                    <Button
+                      key={page.pageNumber}
+                      variant={page.pageNumber === currentPage ? "default" : "outline"}
+                      size="sm"
+                      className={cn(
+                        "h-10 text-sm font-bengali",
+                        page.pageNumber === currentPage && "bg-primary text-primary-foreground"
+                      )}
+                      onClick={() => {
+                        goToPage(page.pageNumber);
+                        setSheetOpen(false);
+                      }}
+                    >
+                      {formatNumber(page.pageNumber, language)}
+                    </Button>
+                  ))}
+                </div>
+              </ScrollArea>
+            </SheetContent>
+          </Sheet>
 
           <Button
             variant="outline"
