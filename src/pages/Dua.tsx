@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ArrowLeft, ChevronRight, Search, Heart, Bookmark } from "lucide-react";
+import { ArrowLeft, ChevronRight, Search, Heart, Copy, Check } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { cn, formatNumber } from "@/lib/utils";
 import { MobileNavFooter } from "@/components/MobileNavFooter";
@@ -10,6 +10,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sh
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useDuaBookmarks } from "@/hooks/useDuaBookmarks";
 import { useAuth } from "@/hooks/useAuth";
+import { toast } from "sonner";
 import * as LucideIcons from "lucide-react";
 
 interface DuaProps {
@@ -33,6 +34,7 @@ const Dua = ({ language }: DuaProps) => {
   const [selectedCategory, setSelectedCategory] = useState<DuaCategory | null>(null);
   const [selectedDua, setSelectedDua] = useState<DuaType | null>(null);
   const [activeTab, setActiveTab] = useState<"all" | "favorites">("all");
+  const [copiedId, setCopiedId] = useState<string | null>(null);
 
   // Filter categories based on search
   const filteredCategories = duaCategories.filter(category => {
@@ -62,6 +64,19 @@ const Dua = ({ language }: DuaProps) => {
   const handleFavoriteClick = (e: React.MouseEvent, categoryId: string, duaId: string) => {
     e.stopPropagation();
     toggleBookmark(categoryId, duaId);
+  };
+
+  const handleCopyDua = async (dua: DuaType) => {
+    const textToCopy = `${dua.arabic}\n\n${dua.bengali}\n\n${dua.english}${dua.reference ? `\n\n(${dua.reference})` : ""}`;
+    
+    try {
+      await navigator.clipboard.writeText(textToCopy);
+      setCopiedId(dua.id);
+      toast.success(language === "bn" ? "কপি করা হয়েছে" : "Copied to clipboard");
+      setTimeout(() => setCopiedId(null), 2000);
+    } catch (error) {
+      toast.error(language === "bn" ? "কপি করতে ব্যর্থ" : "Failed to copy");
+    }
   };
 
   return (
@@ -266,24 +281,39 @@ const Dua = ({ language }: DuaProps) => {
       <Sheet open={!!selectedDua} onOpenChange={(open) => !open && setSelectedDua(null)}>
         <SheetContent side="bottom" className="h-[90vh] rounded-t-2xl px-0">
           <SheetHeader className="px-4 pb-3 border-b border-border">
-            <div className="flex items-center justify-center gap-3">
+            <div className="flex items-center justify-center gap-2">
               <SheetTitle className={cn("text-center", language === "bn" && "font-bengali")}>
                 {language === "bn" ? "দোয়া" : "Dua"}
               </SheetTitle>
-              {selectedCategory && selectedDua && (
-                <button
-                  onClick={(e) => handleFavoriteClick(e, selectedCategory.id, selectedDua.id)}
-                  className="p-2 rounded-full hover:bg-accent"
-                >
-                  <Heart 
-                    className={cn(
-                      "h-5 w-5 transition-colors",
-                      isBookmarked(selectedCategory.id, selectedDua.id) 
-                        ? "text-red-500 fill-red-500" 
-                        : "text-muted-foreground"
-                    )} 
-                  />
-                </button>
+              {selectedDua && (
+                <>
+                  <button
+                    onClick={() => handleCopyDua(selectedDua)}
+                    className="p-2 rounded-full hover:bg-accent"
+                    title={language === "bn" ? "কপি করুন" : "Copy"}
+                  >
+                    {copiedId === selectedDua.id ? (
+                      <Check className="h-5 w-5 text-green-500" />
+                    ) : (
+                      <Copy className="h-5 w-5 text-muted-foreground" />
+                    )}
+                  </button>
+                  {selectedCategory && (
+                    <button
+                      onClick={(e) => handleFavoriteClick(e, selectedCategory.id, selectedDua.id)}
+                      className="p-2 rounded-full hover:bg-accent"
+                    >
+                      <Heart 
+                        className={cn(
+                          "h-5 w-5 transition-colors",
+                          isBookmarked(selectedCategory.id, selectedDua.id) 
+                            ? "text-red-500 fill-red-500" 
+                            : "text-muted-foreground"
+                        )} 
+                      />
+                    </button>
+                  )}
+                </>
               )}
             </div>
           </SheetHeader>
@@ -332,6 +362,29 @@ const Dua = ({ language }: DuaProps) => {
                     {language === "bn" ? "সূত্র: " : "Reference: "}{selectedDua.reference}
                   </span>
                 </div>
+              )}
+
+              {/* Copy Button at Bottom */}
+              {selectedDua && (
+                <button
+                  onClick={() => handleCopyDua(selectedDua)}
+                  className={cn(
+                    "w-full flex items-center justify-center gap-2 py-3 rounded-xl border border-border bg-card hover:bg-accent transition-colors",
+                    language === "bn" && "font-bengali"
+                  )}
+                >
+                  {copiedId === selectedDua.id ? (
+                    <>
+                      <Check className="h-5 w-5 text-green-500" />
+                      <span className="text-green-500">{language === "bn" ? "কপি হয়েছে" : "Copied!"}</span>
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="h-5 w-5 text-muted-foreground" />
+                      <span>{language === "bn" ? "দোয়া কপি করুন" : "Copy Dua"}</span>
+                    </>
+                  )}
+                </button>
               )}
             </div>
           </ScrollArea>
