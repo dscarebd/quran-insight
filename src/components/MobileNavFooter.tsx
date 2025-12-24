@@ -1,12 +1,13 @@
 import { useState, useMemo, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Home, BookOpen, Layers, Bookmark, ChevronRight, Search, BookText } from "lucide-react";
+import { Home, BookOpen, Bookmark, ChevronRight, Search, BookText, HandHelping } from "lucide-react";
 import { cn, formatNumber } from "@/lib/utils";
 import { surahs } from "@/data/surahs";
 import { paras } from "@/data/paras";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Input } from "@/components/ui/input";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 interface MobileNavFooterProps {
   language: "bn" | "en";
@@ -15,7 +16,8 @@ interface MobileNavFooterProps {
 export const MobileNavFooter = ({ language }: MobileNavFooterProps) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [activeSheet, setActiveSheet] = useState<"surah" | "para" | null>(null);
+  const [quranSheetOpen, setQuranSheetOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState<"surah" | "para">("surah");
   const [surahSearch, setSurahSearch] = useState("");
   const [paraSearch, setParaSearch] = useState("");
   const surahListRefs = useRef<{ [key: number]: HTMLButtonElement | null }>({});
@@ -32,13 +34,14 @@ export const MobileNavFooter = ({ language }: MobileNavFooterProps) => {
     },
     {
       icon: BookOpen,
-      labelEn: "Surahs",
-      labelBn: "সূরা",
+      labelEn: "Quran",
+      labelBn: "কুরআন",
       path: "/surah",
-      isActive: location.pathname.startsWith("/surah"),
+      isActive: location.pathname.startsWith("/surah") || location.pathname.startsWith("/para"),
       action: () => {
         setSurahSearch("");
-        setActiveSheet("surah");
+        setParaSearch("");
+        setQuranSheetOpen(true);
       },
     },
     {
@@ -53,15 +56,12 @@ export const MobileNavFooter = ({ language }: MobileNavFooterProps) => {
       },
     },
     {
-      icon: Layers,
-      labelEn: "Paras",
-      labelBn: "পারা",
-      path: "/para",
-      isActive: location.pathname.startsWith("/para"),
-      action: () => {
-        setParaSearch("");
-        setActiveSheet("para");
-      },
+      icon: HandHelping,
+      labelEn: "Dua",
+      labelBn: "দোয়া",
+      path: "/dua",
+      isActive: location.pathname.startsWith("/dua"),
+      action: () => navigate("/dua"),
     },
     {
       icon: Bookmark,
@@ -74,12 +74,12 @@ export const MobileNavFooter = ({ language }: MobileNavFooterProps) => {
   ];
 
   const handleSurahClick = (surahNumber: number) => {
-    setActiveSheet(null);
+    setQuranSheetOpen(false);
     navigate(`/surah/${surahNumber}`);
   };
 
   const handleParaClick = (paraNumber: number) => {
-    setActiveSheet(null);
+    setQuranSheetOpen(false);
     navigate(`/para/${paraNumber}`);
   };
 
@@ -91,7 +91,7 @@ export const MobileNavFooter = ({ language }: MobileNavFooterProps) => {
 
   // Scroll to current surah when sheet opens
   useEffect(() => {
-    if (activeSheet === "surah" && currentSurahNumber && !surahSearch) {
+    if (quranSheetOpen && activeTab === "surah" && currentSurahNumber && !surahSearch) {
       const timer = setTimeout(() => {
         const element = surahListRefs.current[currentSurahNumber];
         if (element) {
@@ -103,11 +103,11 @@ export const MobileNavFooter = ({ language }: MobileNavFooterProps) => {
       }, 300);
       return () => clearTimeout(timer);
     }
-  }, [activeSheet, currentSurahNumber, surahSearch]);
+  }, [quranSheetOpen, activeTab, currentSurahNumber, surahSearch]);
 
   // Scroll to current para when sheet opens
   useEffect(() => {
-    if (activeSheet === "para" && currentParaNumber && !paraSearch) {
+    if (quranSheetOpen && activeTab === "para" && currentParaNumber && !paraSearch) {
       const timer = setTimeout(() => {
         const element = paraListRefs.current[currentParaNumber];
         if (element) {
@@ -119,7 +119,7 @@ export const MobileNavFooter = ({ language }: MobileNavFooterProps) => {
       }, 300);
       return () => clearTimeout(timer);
     }
-  }, [activeSheet, currentParaNumber, paraSearch]);
+  }, [quranSheetOpen, activeTab, currentParaNumber, paraSearch]);
 
   // Filter surahs based on search
   const filteredSurahs = useMemo(() => {
@@ -181,133 +181,143 @@ export const MobileNavFooter = ({ language }: MobileNavFooterProps) => {
         <div className="h-safe-area-inset-bottom bg-background" />
       </nav>
 
-      {/* Surah List Sheet */}
-      <Sheet open={activeSheet === "surah"} onOpenChange={(open) => !open && setActiveSheet(null)}>
+      {/* Quran Sheet with Tabs for Surah and Para */}
+      <Sheet open={quranSheetOpen} onOpenChange={setQuranSheetOpen}>
         <SheetContent side="bottom" className="h-[75vh] rounded-t-2xl px-0">
-          <SheetHeader className="px-4 pb-3 border-b border-border space-y-3">
+          <SheetHeader className="px-4 pb-3 border-b border-border">
             <SheetTitle className={cn("text-center", language === "bn" && "font-bengali")}>
-              {language === "bn" ? "সূরা নির্বাচন করুন" : "Select Surah"}
+              {language === "bn" ? "কুরআন" : "Quran"}
             </SheetTitle>
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-              <Input
-                type="text"
-                value={surahSearch}
-                onChange={(e) => setSurahSearch(e.target.value)}
-                placeholder={language === "bn" ? "সূরা খুঁজুন..." : "Search surah..."}
-                className={cn(
-                  "pl-9",
-                  language === "bn" && "font-bengali placeholder:font-bengali"
-                )}
-              />
-            </div>
           </SheetHeader>
-          <ScrollArea className="h-[calc(75vh-110px)]">
-            <div className="py-2">
-              {filteredSurahs.map((surah) => (
-                <button
-                  key={surah.number}
-                  ref={(el) => { surahListRefs.current[surah.number] = el; }}
-                  onClick={() => handleSurahClick(surah.number)}
-                  className={cn(
-                    "flex items-center gap-3 w-full px-4 py-3 transition-colors",
-                    currentSurahNumber === surah.number
-                      ? "bg-primary/10 text-primary"
-                      : "hover:bg-muted"
-                  )}
-                >
-                  <div className={cn(
-                    "flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-sm font-semibold font-bengali",
-                    currentSurahNumber === surah.number
-                      ? "bg-primary text-primary-foreground"
-                      : "bg-muted text-muted-foreground"
-                  )}>
-                    {formatNumber(surah.number, language)}
-                  </div>
-                  <div className="flex-1 min-w-0 text-left">
-                    <div className="flex items-center justify-between gap-2">
-                      <span className={cn("font-medium truncate", language === "bn" && "font-bengali")}>
-                        {language === "bn" ? surah.nameBengali : surah.nameEnglish}
-                      </span>
-                      <span className="font-arabic text-sm text-muted-foreground shrink-0">
-                        {surah.nameArabic}
-                      </span>
-                    </div>
-                    <span className={cn("text-xs text-muted-foreground font-bengali")}>
-                      {surah.nameArabic} • {formatNumber(surah.totalVerses, language)} {language === "bn" ? "আয়াত" : "verses"}
-                    </span>
-                  </div>
-                  <ChevronRight className="h-4 w-4 text-muted-foreground shrink-0" />
-                </button>
-              ))}
-            </div>
-          </ScrollArea>
-        </SheetContent>
-      </Sheet>
+          
+          <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as "surah" | "para")} className="flex flex-col h-[calc(75vh-60px)]">
+            <TabsList className="grid w-full grid-cols-2 mx-4 mt-3" style={{ width: 'calc(100% - 32px)' }}>
+              <TabsTrigger value="surah" className={language === "bn" ? "font-bengali" : ""}>
+                {language === "bn" ? "সূরা" : "Surah"}
+              </TabsTrigger>
+              <TabsTrigger value="para" className={language === "bn" ? "font-bengali" : ""}>
+                {language === "bn" ? "পারা" : "Para"}
+              </TabsTrigger>
+            </TabsList>
 
-      {/* Para List Sheet */}
-      <Sheet open={activeSheet === "para"} onOpenChange={(open) => !open && setActiveSheet(null)}>
-        <SheetContent side="bottom" className="h-[75vh] rounded-t-2xl px-0">
-          <SheetHeader className="px-4 pb-3 border-b border-border space-y-3">
-            <SheetTitle className={cn("text-center", language === "bn" && "font-bengali")}>
-              {language === "bn" ? "পারা নির্বাচন করুন" : "Select Para"}
-            </SheetTitle>
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-              <Input
-                type="text"
-                value={paraSearch}
-                onChange={(e) => setParaSearch(e.target.value)}
-                placeholder={language === "bn" ? "পারা খুঁজুন..." : "Search para..."}
-                className={cn(
-                  "pl-9",
-                  language === "bn" && "font-bengali placeholder:font-bengali"
-                )}
-              />
-            </div>
-          </SheetHeader>
-          <ScrollArea className="h-[calc(75vh-110px)]">
-            <div className="py-2">
-              {filteredParas.map((para) => (
-                <button
-                  key={para.number}
-                  ref={(el) => { paraListRefs.current[para.number] = el; }}
-                  onClick={() => handleParaClick(para.number)}
-                  className={cn(
-                    "flex items-center gap-3 w-full px-4 py-3 transition-colors",
-                    currentParaNumber === para.number
-                      ? "bg-primary/10 text-primary"
-                      : "hover:bg-muted"
-                  )}
-                >
-                  <div className={cn(
-                    "flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-sm font-semibold font-bengali",
-                    currentParaNumber === para.number
-                      ? "bg-primary text-primary-foreground"
-                      : "bg-muted text-muted-foreground"
-                  )}>
-                    {formatNumber(para.number, language)}
-                  </div>
-                  <div className="flex-1 min-w-0 text-left">
-                    <div className="flex items-center justify-between gap-2">
-                      <span className={cn("font-medium truncate", language === "bn" && "font-bengali")}>
-                        {language === "bn" ? para.nameBengali : para.nameEnglish}
-                      </span>
-                      <span className="font-arabic text-sm text-muted-foreground shrink-0">
-                        {para.nameArabic}
-                      </span>
-                    </div>
-                    <span className={cn("text-xs text-muted-foreground font-bengali")}>
-                      {para.nameArabic} • {language === "bn"
-                        ? `সূরা ${formatNumber(para.startSurah, language)}:${formatNumber(para.startVerse, language)} - ${formatNumber(para.endSurah, language)}:${formatNumber(para.endVerse, language)}`
-                        : `Surah ${para.startSurah}:${para.startVerse} - ${para.endSurah}:${para.endVerse}`}
-                    </span>
-                  </div>
-                  <ChevronRight className="h-4 w-4 text-muted-foreground shrink-0" />
-                </button>
-              ))}
-            </div>
-          </ScrollArea>
+            <TabsContent value="surah" className="flex-1 mt-0 overflow-hidden">
+              <div className="px-4 py-3">
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                  <Input
+                    type="text"
+                    value={surahSearch}
+                    onChange={(e) => setSurahSearch(e.target.value)}
+                    placeholder={language === "bn" ? "সূরা খুঁজুন..." : "Search surah..."}
+                    className={cn(
+                      "pl-9",
+                      language === "bn" && "font-bengali placeholder:font-bengali"
+                    )}
+                  />
+                </div>
+              </div>
+              <ScrollArea className="h-[calc(75vh-200px)]">
+                <div className="py-2">
+                  {filteredSurahs.map((surah) => (
+                    <button
+                      key={surah.number}
+                      ref={(el) => { surahListRefs.current[surah.number] = el; }}
+                      onClick={() => handleSurahClick(surah.number)}
+                      className={cn(
+                        "flex items-center gap-3 w-full px-4 py-3 transition-colors",
+                        currentSurahNumber === surah.number
+                          ? "bg-primary/10 text-primary"
+                          : "hover:bg-muted"
+                      )}
+                    >
+                      <div className={cn(
+                        "flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-sm font-semibold font-bengali",
+                        currentSurahNumber === surah.number
+                          ? "bg-primary text-primary-foreground"
+                          : "bg-muted text-muted-foreground"
+                      )}>
+                        {formatNumber(surah.number, language)}
+                      </div>
+                      <div className="flex-1 min-w-0 text-left">
+                        <div className="flex items-center justify-between gap-2">
+                          <span className={cn("font-medium truncate", language === "bn" && "font-bengali")}>
+                            {language === "bn" ? surah.nameBengali : surah.nameEnglish}
+                          </span>
+                          <span className="font-arabic text-sm text-muted-foreground shrink-0">
+                            {surah.nameArabic}
+                          </span>
+                        </div>
+                        <span className={cn("text-xs text-muted-foreground font-bengali")}>
+                          {surah.nameArabic} • {formatNumber(surah.totalVerses, language)} {language === "bn" ? "আয়াত" : "verses"}
+                        </span>
+                      </div>
+                      <ChevronRight className="h-4 w-4 text-muted-foreground shrink-0" />
+                    </button>
+                  ))}
+                </div>
+              </ScrollArea>
+            </TabsContent>
+
+            <TabsContent value="para" className="flex-1 mt-0 overflow-hidden">
+              <div className="px-4 py-3">
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                  <Input
+                    type="text"
+                    value={paraSearch}
+                    onChange={(e) => setParaSearch(e.target.value)}
+                    placeholder={language === "bn" ? "পারা খুঁজুন..." : "Search para..."}
+                    className={cn(
+                      "pl-9",
+                      language === "bn" && "font-bengali placeholder:font-bengali"
+                    )}
+                  />
+                </div>
+              </div>
+              <ScrollArea className="h-[calc(75vh-200px)]">
+                <div className="py-2">
+                  {filteredParas.map((para) => (
+                    <button
+                      key={para.number}
+                      ref={(el) => { paraListRefs.current[para.number] = el; }}
+                      onClick={() => handleParaClick(para.number)}
+                      className={cn(
+                        "flex items-center gap-3 w-full px-4 py-3 transition-colors",
+                        currentParaNumber === para.number
+                          ? "bg-primary/10 text-primary"
+                          : "hover:bg-muted"
+                      )}
+                    >
+                      <div className={cn(
+                        "flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-sm font-semibold font-bengali",
+                        currentParaNumber === para.number
+                          ? "bg-primary text-primary-foreground"
+                          : "bg-muted text-muted-foreground"
+                      )}>
+                        {formatNumber(para.number, language)}
+                      </div>
+                      <div className="flex-1 min-w-0 text-left">
+                        <div className="flex items-center justify-between gap-2">
+                          <span className={cn("font-medium truncate", language === "bn" && "font-bengali")}>
+                            {language === "bn" ? para.nameBengali : para.nameEnglish}
+                          </span>
+                          <span className="font-arabic text-sm text-muted-foreground shrink-0">
+                            {para.nameArabic}
+                          </span>
+                        </div>
+                        <span className={cn("text-xs text-muted-foreground font-bengali")}>
+                          {para.nameArabic} • {language === "bn"
+                            ? `সূরা ${formatNumber(para.startSurah, language)}:${formatNumber(para.startVerse, language)} - ${formatNumber(para.endSurah, language)}:${formatNumber(para.endVerse, language)}`
+                            : `Surah ${para.startSurah}:${para.startVerse} - ${para.endSurah}:${para.endVerse}`}
+                        </span>
+                      </div>
+                      <ChevronRight className="h-4 w-4 text-muted-foreground shrink-0" />
+                    </button>
+                  ))}
+                </div>
+              </ScrollArea>
+            </TabsContent>
+          </Tabs>
         </SheetContent>
       </Sheet>
     </>
