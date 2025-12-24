@@ -119,12 +119,25 @@ const SurahDetail = ({ language, onLanguageChange }: SurahDetailProps) => {
   const { user } = useAuth();
   const { toast } = useToast();
   const verseRefs = useRef<{ [key: number]: HTMLDivElement | null }>({});
+  const surahListRefs = useRef<{ [key: number]: HTMLButtonElement | null }>({});
 
   const surahNum = parseInt(surahNumber || "1", 10);
   const surah = surahs.find(s => s.number === surahNum);
 
   const prevSurah = surahs.find(s => s.number === surahNum - 1);
   const nextSurah = surahs.find(s => s.number === surahNum + 1);
+
+  // Scroll to current surah when sheet opens
+  useEffect(() => {
+    if (surahSheetOpen && surahListRefs.current[surahNum]) {
+      setTimeout(() => {
+        surahListRefs.current[surahNum]?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center'
+        });
+      }, 100);
+    }
+  }, [surahSheetOpen, surahNum]);
 
   // Fetch verses with caching and smooth transition
   useEffect(() => {
@@ -518,6 +531,7 @@ const SurahDetail = ({ language, onLanguageChange }: SurahDetailProps) => {
               {filteredSurahs.map((s) => (
                 <button
                   key={s.number}
+                  ref={(el) => { surahListRefs.current[s.number] = el; }}
                   onClick={() => handleSurahClick(s.number)}
                   className={cn(
                     "flex w-full items-center gap-3 rounded-lg p-3 text-left transition-colors",

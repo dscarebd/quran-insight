@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { ArrowLeft, BookOpen, ChevronLeft, ChevronRight, Search } from "lucide-react";
 import { paras } from "@/data/paras";
@@ -21,6 +21,7 @@ const ParaDetail = ({ language, onLanguageChange }: ParaDetailProps) => {
   const isMobile = useIsMobile();
   const [paraSheetOpen, setParaSheetOpen] = useState(false);
   const [paraSearchQuery, setParaSearchQuery] = useState("");
+  const paraListRefs = useRef<{ [key: number]: HTMLButtonElement | null }>({});
 
   const paraNum = parseInt(paraNumber || "1", 10);
   const para = paras.find(p => p.number === paraNum);
@@ -29,6 +30,18 @@ const ParaDetail = ({ language, onLanguageChange }: ParaDetailProps) => {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [paraNum]);
+
+  // Scroll to current para when sheet opens
+  useEffect(() => {
+    if (paraSheetOpen && paraListRefs.current[paraNum]) {
+      setTimeout(() => {
+        paraListRefs.current[paraNum]?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center'
+        });
+      }, 100);
+    }
+  }, [paraSheetOpen, paraNum]);
 
   const prevPara = paras.find(p => p.number === paraNum - 1);
   const nextPara = paras.find(p => p.number === paraNum + 1);
@@ -256,6 +269,7 @@ const ParaDetail = ({ language, onLanguageChange }: ParaDetailProps) => {
               {filteredParas.map((p) => (
                 <button
                   key={p.number}
+                  ref={(el) => { paraListRefs.current[p.number] = el; }}
                   onClick={() => handleParaClick(p.number)}
                   className={cn(
                     "flex w-full items-center gap-3 rounded-lg p-3 text-left transition-colors",
