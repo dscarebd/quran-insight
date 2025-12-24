@@ -3,6 +3,7 @@ import { Header } from "@/components/Header";
 import { SearchSection } from "@/components/SearchSection";
 import { DailyVerse } from "@/components/DailyVerse";
 import { SearchResults } from "@/components/SearchResults";
+import { ContinueReading } from "@/components/ContinueReading";
 import { useToast } from "@/hooks/use-toast";
 
 interface IndexProps {
@@ -126,7 +127,12 @@ const Index = ({ language, onLanguageChange }: IndexProps) => {
             language={language}
           />
           
-          {!searchQuery && <DailyVerse language={language} />}
+          {!searchQuery && (
+            <>
+              <ContinueReading language={language} />
+              <DailyVerse language={language} />
+            </>
+          )}
         </div>
       </div>
     </>
