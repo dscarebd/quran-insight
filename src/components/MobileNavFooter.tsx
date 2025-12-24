@@ -47,7 +47,10 @@ export const MobileNavFooter = ({ language }: MobileNavFooterProps) => {
       labelBn: "পড়ুন",
       path: "/read",
       isActive: location.pathname.startsWith("/read"),
-      action: () => navigate("/read/1"),
+      action: () => {
+        const lastReadPage = localStorage.getItem("quran-last-read-page") || "1";
+        navigate(`/read/${lastReadPage}`);
+      },
     },
     {
       icon: Layers,
