@@ -130,6 +130,7 @@
   .verse-card {
     @apply relative overflow-hidden rounded-2xl border border-primary/20 bg-gradient-to-br from-card to-accent/30 p-6;
     box-shadow: var(--shadow-card);
+    isolation: isolate;
   }
 
   .verse-card::before {
@@ -137,6 +138,13 @@
     @apply absolute -right-8 -top-8 h-32 w-32 rounded-full opacity-20;
     background: var(--gradient-primary);
     filter: blur(40px);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .verse-card > * {
+    position: relative;
+    z-index: 1;
   }
 
   .search-input {
