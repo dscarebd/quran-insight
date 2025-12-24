@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ArrowLeft, ChevronRight, Search, Heart, Copy, Check } from "lucide-react";
+import { ArrowLeft, ChevronRight, Search, Heart, Copy, Check, Share2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { cn, formatNumber } from "@/lib/utils";
 import { MobileNavFooter } from "@/components/MobileNavFooter";
@@ -76,6 +76,33 @@ const Dua = ({ language }: DuaProps) => {
       setTimeout(() => setCopiedId(null), 2000);
     } catch (error) {
       toast.error(language === "bn" ? "কপি করতে ব্যর্থ" : "Failed to copy");
+    }
+  };
+
+  const handleShareDua = async (dua: DuaType) => {
+    const shareText = `${dua.arabic}\n\n${dua.bengali}\n\n${dua.english}${dua.reference ? `\n\n📖 ${dua.reference}` : ""}`;
+    
+    // Check if Web Share API is supported
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: language === "bn" ? "দোয়া শেয়ার করুন" : "Share Dua",
+          text: shareText,
+        });
+      } catch (error) {
+        // User cancelled or share failed - don't show error for cancel
+        if ((error as Error).name !== "AbortError") {
+          toast.error(language === "bn" ? "শেয়ার করতে ব্যর্থ" : "Failed to share");
+        }
+      }
+    } else {
+      // Fallback: copy to clipboard
+      try {
+        await navigator.clipboard.writeText(shareText);
+        toast.success(language === "bn" ? "কপি করা হয়েছে - এখন পেস্ট করে শেয়ার করুন" : "Copied! You can now paste and share");
+      } catch (error) {
+        toast.error(language === "bn" ? "শেয়ার করতে ব্যর্থ" : "Failed to share");
+      }
     }
   };
 
@@ -298,6 +325,13 @@ const Dua = ({ language }: DuaProps) => {
                       <Copy className="h-5 w-5 text-muted-foreground" />
                     )}
                   </button>
+                  <button
+                    onClick={() => handleShareDua(selectedDua)}
+                    className="p-2 rounded-full hover:bg-accent"
+                    title={language === "bn" ? "শেয়ার করুন" : "Share"}
+                  >
+                    <Share2 className="h-5 w-5 text-muted-foreground" />
+                  </button>
                   {selectedCategory && (
                     <button
                       onClick={(e) => handleFavoriteClick(e, selectedCategory.id, selectedDua.id)}
@@ -364,27 +398,39 @@ const Dua = ({ language }: DuaProps) => {
                 </div>
               )}
 
-              {/* Copy Button at Bottom */}
+              {/* Action Buttons at Bottom */}
               {selectedDua && (
-                <button
-                  onClick={() => handleCopyDua(selectedDua)}
-                  className={cn(
-                    "w-full flex items-center justify-center gap-2 py-3 rounded-xl border border-border bg-card hover:bg-accent transition-colors",
-                    language === "bn" && "font-bengali"
-                  )}
-                >
-                  {copiedId === selectedDua.id ? (
-                    <>
-                      <Check className="h-5 w-5 text-green-500" />
-                      <span className="text-green-500">{language === "bn" ? "কপি হয়েছে" : "Copied!"}</span>
-                    </>
-                  ) : (
-                    <>
-                      <Copy className="h-5 w-5 text-muted-foreground" />
-                      <span>{language === "bn" ? "দোয়া কপি করুন" : "Copy Dua"}</span>
-                    </>
-                  )}
-                </button>
+                <div className="flex gap-3">
+                  <button
+                    onClick={() => handleCopyDua(selectedDua)}
+                    className={cn(
+                      "flex-1 flex items-center justify-center gap-2 py-3 rounded-xl border border-border bg-card hover:bg-accent transition-colors",
+                      language === "bn" && "font-bengali"
+                    )}
+                  >
+                    {copiedId === selectedDua.id ? (
+                      <>
+                        <Check className="h-5 w-5 text-green-500" />
+                        <span className="text-green-500">{language === "bn" ? "কপি হয়েছে" : "Copied!"}</span>
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="h-5 w-5 text-muted-foreground" />
+                        <span>{language === "bn" ? "কপি" : "Copy"}</span>
+                      </>
+                    )}
+                  </button>
+                  <button
+                    onClick={() => handleShareDua(selectedDua)}
+                    className={cn(
+                      "flex-1 flex items-center justify-center gap-2 py-3 rounded-xl border border-primary bg-primary text-primary-foreground hover:bg-primary/90 transition-colors",
+                      language === "bn" && "font-bengali"
+                    )}
+                  >
+                    <Share2 className="h-5 w-5" />
+                    <span>{language === "bn" ? "শেয়ার করুন" : "Share"}</span>
+                  </button>
+                </div>
               )}
             </div>
           </ScrollArea>
