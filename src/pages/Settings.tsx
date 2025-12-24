@@ -94,41 +94,35 @@ const Settings = ({ language, onLanguageChange }: SettingsProps) => {
             )}>
               {language === "bn" ? "ভাষা" : "Language"}
             </h2>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-2 gap-2">
               <button
                 onClick={() => onLanguageChange("bn")}
                 className={cn(
-                  "flex flex-col items-center justify-center gap-2 rounded-xl border border-border bg-card px-4 py-4 transition-colors",
+                  "flex items-center justify-center gap-2 rounded-lg border border-border bg-card px-3 py-2.5 transition-colors",
                   language === "bn" ? "border-primary bg-primary/5" : "hover:bg-muted/50"
                 )}
               >
-                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-muted">
-                  <span className="font-bengali text-lg">ব</span>
+                <div className="flex h-7 w-7 items-center justify-center rounded-full bg-muted">
+                  <span className="font-bengali text-sm">ব</span>
                 </div>
-                <div className="text-center">
-                  <p className="font-bengali font-medium">বাংলা</p>
-                  <p className="text-xs text-muted-foreground">Bengali</p>
-                </div>
+                <p className="font-bengali text-sm font-medium">বাংলা</p>
                 {language === "bn" && (
-                  <div className="h-2 w-2 rounded-full bg-primary" />
+                  <div className="h-1.5 w-1.5 rounded-full bg-primary" />
                 )}
               </button>
               <button
                 onClick={() => onLanguageChange("en")}
                 className={cn(
-                  "flex flex-col items-center justify-center gap-2 rounded-xl border border-border bg-card px-4 py-4 transition-colors",
+                  "flex items-center justify-center gap-2 rounded-lg border border-border bg-card px-3 py-2.5 transition-colors",
                   language === "en" ? "border-primary bg-primary/5" : "hover:bg-muted/50"
                 )}
               >
-                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-muted">
-                  <span className="text-lg font-medium">A</span>
+                <div className="flex h-7 w-7 items-center justify-center rounded-full bg-muted">
+                  <span className="text-sm font-medium">A</span>
                 </div>
-                <div className="text-center">
-                  <p className="font-medium">English</p>
-                  <p className="text-xs text-muted-foreground font-bengali">ইংরেজি</p>
-                </div>
+                <p className="text-sm font-medium">English</p>
                 {language === "en" && (
-                  <div className="h-2 w-2 rounded-full bg-primary" />
+                  <div className="h-1.5 w-1.5 rounded-full bg-primary" />
                 )}
               </button>
             </div>
@@ -142,24 +136,22 @@ const Settings = ({ language, onLanguageChange }: SettingsProps) => {
             )}>
               {language === "bn" ? "থিম" : "Theme"}
             </h2>
-            <div className="grid grid-cols-3 gap-3">
+            <div className="grid grid-cols-3 gap-2">
               {themeOptions.map((option) => (
                 <button
                   key={option.value}
                   onClick={() => setTheme(option.value)}
                   className={cn(
-                    "flex flex-col items-center justify-center gap-2 rounded-xl border border-border bg-card px-3 py-4 transition-colors",
+                    "flex items-center justify-center gap-1.5 rounded-lg border border-border bg-card px-2 py-2.5 transition-colors",
                     theme === option.value ? "border-primary bg-primary/5" : "hover:bg-muted/50"
                   )}
                 >
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-muted">
-                    <option.icon className="h-5 w-5" />
-                  </div>
-                  <p className={cn("text-sm font-medium", language === "bn" && "font-bengali")}>
+                  <option.icon className="h-4 w-4" />
+                  <p className={cn("text-xs font-medium", language === "bn" && "font-bengali")}>
                     {language === "bn" ? option.labelBn : option.labelEn}
                   </p>
                   {theme === option.value && (
-                    <div className="h-2 w-2 rounded-full bg-primary" />
+                    <div className="h-1.5 w-1.5 rounded-full bg-primary" />
                   )}
                 </button>
               ))}
