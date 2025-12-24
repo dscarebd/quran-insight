@@ -43,7 +43,7 @@ const VerseCard = ({ verse, language, index, isBookmarked, onToggleBookmark, isL
     >
       {/* Verse Number Badge */}
       <div className="mb-4 flex items-center justify-between">
-        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-primary-foreground font-semibold">
+        <div className={cn("flex h-10 w-10 items-center justify-center rounded-full bg-primary text-primary-foreground font-semibold", language === "bn" && "font-bengali")}>
           {formatNumber(verse.verseNumber, language)}
         </div>
         <div className="flex gap-2">
@@ -346,7 +346,7 @@ const SurahDetail = ({ language, onLanguageChange }: SurahDetailProps) => {
               <span className={cn("text-xs font-medium hidden sm:block", language === "bn" && "font-bengali")}>
                 {prevSurah ? (language === "bn" ? prevSurah.nameBengali : prevSurah.nameEnglish) : ""}
               </span>
-              <span className="text-xs sm:hidden">
+              <span className={cn("text-xs sm:hidden", language === "bn" && "font-bengali")}>
                 {prevSurah ? formatNumber(prevSurah.number, language) : ""}
               </span>
             </button>
@@ -376,7 +376,7 @@ const SurahDetail = ({ language, onLanguageChange }: SurahDetailProps) => {
               <span className={cn("text-xs font-medium hidden sm:block", language === "bn" && "font-bengali")}>
                 {nextSurah ? (language === "bn" ? nextSurah.nameBengali : nextSurah.nameEnglish) : ""}
               </span>
-              <span className="text-xs sm:hidden">
+              <span className={cn("text-xs sm:hidden", language === "bn" && "font-bengali")}>
                 {nextSurah ? formatNumber(nextSurah.number, language) : ""}
               </span>
             </button>

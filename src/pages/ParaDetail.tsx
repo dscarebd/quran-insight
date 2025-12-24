@@ -114,7 +114,7 @@ const ParaDetail = ({ language, onLanguageChange }: ParaDetailProps) => {
               <span className={cn("text-xs font-medium hidden sm:block", language === "bn" && "font-bengali")}>
                 {prevPara ? (language === "bn" ? prevPara.nameBengali : prevPara.nameEnglish) : ""}
               </span>
-              <span className="text-xs sm:hidden">
+              <span className={cn("text-xs sm:hidden", language === "bn" && "font-bengali")}>
                 {prevPara ? formatNumber(prevPara.number, language) : ""}
               </span>
             </button>
@@ -144,7 +144,7 @@ const ParaDetail = ({ language, onLanguageChange }: ParaDetailProps) => {
               <span className={cn("text-xs font-medium hidden sm:block", language === "bn" && "font-bengali")}>
                 {nextPara ? (language === "bn" ? nextPara.nameBengali : nextPara.nameEnglish) : ""}
               </span>
-              <span className="text-xs sm:hidden">
+              <span className={cn("text-xs sm:hidden", language === "bn" && "font-bengali")}>
                 {nextPara ? formatNumber(nextPara.number, language) : ""}
               </span>
             </button>
@@ -172,7 +172,7 @@ const ParaDetail = ({ language, onLanguageChange }: ParaDetailProps) => {
               className="animate-fade-in flex items-center gap-3 rounded-xl border border-border bg-card p-4 text-left transition-all hover:border-primary/30 hover:shadow-card"
               style={{ animationDelay: `${index * 0.05}s` }}
             >
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-sm font-semibold text-primary">
+              <div className={cn("flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-sm font-semibold text-primary", language === "bn" && "font-bengali")}>
                 {formatNumber(surah.number, language)}
               </div>
               <div className="flex-1 min-w-0">

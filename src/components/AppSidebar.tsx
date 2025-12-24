@@ -228,7 +228,7 @@ export const AppSidebar = ({ language, activeTab, onTabChange }: AppSidebarProps
                         tooltip={`${surah.number}. ${surah.nameEnglish}`}
                         className="group h-auto py-2"
                       >
-                        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-sidebar-accent text-sm font-semibold text-sidebar-accent-foreground">
+                        <div className={cn("flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-sidebar-accent text-sm font-semibold text-sidebar-accent-foreground", language === "bn" && "font-bengali")}>
                           {formatNumber(surah.number, language)}
                         </div>
                         {!isCollapsed && (
@@ -264,7 +264,7 @@ export const AppSidebar = ({ language, activeTab, onTabChange }: AppSidebarProps
                         tooltip={`${para.number}. ${para.nameEnglish}`}
                         className="group h-auto py-2"
                       >
-                        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-sidebar-accent text-sm font-semibold text-sidebar-accent-foreground">
+                        <div className={cn("flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-sidebar-accent text-sm font-semibold text-sidebar-accent-foreground", language === "bn" && "font-bengali")}>
                           {formatNumber(para.number, language)}
                         </div>
                         {!isCollapsed && (
