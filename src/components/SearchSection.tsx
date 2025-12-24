@@ -1,6 +1,7 @@
-import { useState } from "react";
-import { Search, Mic, Sparkles } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import { Search, Mic, MicOff, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { toast } from "sonner";
 
 interface SearchSectionProps {
   language: "bn" | "en";
@@ -8,14 +9,86 @@ interface SearchSectionProps {
   isLoading?: boolean;
 }
 
+// Check if browser supports speech recognition
+const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+
 export const SearchSection = ({ language, onSearch, isLoading }: SearchSectionProps) => {
   const [query, setQuery] = useState("");
   const [isFocused, setIsFocused] = useState(false);
+  const [isListening, setIsListening] = useState(false);
+  const recognitionRef = useRef<any>(null);
+
+  // Initialize speech recognition
+  useEffect(() => {
+    if (SpeechRecognition) {
+      recognitionRef.current = new SpeechRecognition();
+      recognitionRef.current.continuous = false;
+      recognitionRef.current.interimResults = true;
+      recognitionRef.current.lang = language === "bn" ? "bn-BD" : "en-US";
+
+      recognitionRef.current.onresult = (event: any) => {
+        const transcript = Array.from(event.results)
+          .map((result: any) => result[0].transcript)
+          .join("");
+        setQuery(transcript);
+      };
+
+      recognitionRef.current.onerror = (event: any) => {
+        console.error("Speech recognition error:", event.error);
+        setIsListening(false);
+        if (event.error === "not-allowed") {
+          toast.error(language === "bn" ? "মাইক্রোফোন অনুমতি দিন" : "Please allow microphone access");
+        } else if (event.error !== "aborted") {
+          toast.error(language === "bn" ? "ভয়েস সার্চে সমস্যা হয়েছে" : "Voice search error");
+        }
+      };
+
+      recognitionRef.current.onend = () => {
+        setIsListening(false);
+      };
+    }
+
+    return () => {
+      if (recognitionRef.current) {
+        recognitionRef.current.abort();
+      }
+    };
+  }, [language]);
+
+  // Update recognition language when language changes
+  useEffect(() => {
+    if (recognitionRef.current) {
+      recognitionRef.current.lang = language === "bn" ? "bn-BD" : "en-US";
+    }
+  }, [language]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (query.trim()) {
       onSearch(query.trim());
+    }
+  };
+
+  const toggleVoiceSearch = () => {
+    if (!SpeechRecognition) {
+      toast.error(language === "bn" ? "আপনার ব্রাউজার ভয়েস সার্চ সাপোর্ট করে না" : "Your browser doesn't support voice search");
+      return;
+    }
+
+    if (isListening) {
+      recognitionRef.current?.stop();
+      setIsListening(false);
+    } else {
+      try {
+        recognitionRef.current?.start();
+        setIsListening(true);
+        toast.info(language === "bn" ? "শুনছি... বলুন" : "Listening... speak now", {
+          duration: 2000,
+        });
+      } catch (error) {
+        console.error("Error starting speech recognition:", error);
+        toast.error(language === "bn" ? "ভয়েস সার্চ শুরু করতে সমস্যা" : "Failed to start voice search");
+      }
     }
   };
 
@@ -50,7 +123,8 @@ export const SearchSection = ({ language, onSearch, isLoading }: SearchSectionPr
             "relative flex items-center rounded-full border-2 bg-card transition-all duration-300",
             isFocused
               ? "border-primary shadow-glow ring-2 ring-primary/20"
-              : "border-border shadow-card hover:border-primary/30"
+              : "border-border shadow-card hover:border-primary/30",
+            isListening && "border-red-500 ring-2 ring-red-500/20"
           )}
         >
           {/* Decorative accent line */}
@@ -75,10 +149,17 @@ export const SearchSection = ({ language, onSearch, isLoading }: SearchSectionPr
           <div className="flex items-center gap-2 pr-2">
             <button
               type="button"
-              className="flex h-10 w-10 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
-              title={language === "bn" ? "ভয়েস সার্চ" : "Voice search"}
+              onClick={toggleVoiceSearch}
+              disabled={isLoading}
+              className={cn(
+                "flex h-9 w-9 items-center justify-center rounded-full transition-all",
+                isListening 
+                  ? "bg-red-500 text-white animate-pulse" 
+                  : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+              )}
+              title={language === "bn" ? (isListening ? "থামান" : "ভয়েস সার্চ") : (isListening ? "Stop" : "Voice search")}
             >
-              <Mic className="h-5 w-5" />
+              {isListening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
             </button>
             
             <button
