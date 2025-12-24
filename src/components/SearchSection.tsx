@@ -66,8 +66,7 @@ export const SearchSection = ({ language, onSearch, isLoading }: SearchSectionPr
             onBlur={() => setIsFocused(false)}
             placeholder={placeholderText}
             className={cn(
-              "min-w-0 flex-1 bg-transparent px-3 py-3 text-sm focus:outline-none sm:px-6 sm:py-4 sm:text-lg",
-              language === "bn" ? "font-bengali placeholder:font-bengali" : "",
+              "min-w-0 flex-1 bg-transparent px-3 py-3 text-sm focus:outline-none sm:px-6 sm:py-4 sm:text-lg font-bengali placeholder:font-bengali",
               "placeholder:text-muted-foreground"
             )}
             disabled={isLoading}
