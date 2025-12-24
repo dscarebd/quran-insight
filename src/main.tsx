@@ -4,7 +4,11 @@ import App from "./App.tsx";
 import "./index.css";
 
 createRoot(document.getElementById("root")!).render(
-  <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+  <ThemeProvider 
+    attribute="class" 
+    defaultTheme="light" 
+    themes={["light", "dark", "sepia"]}
+  >
     <App />
   </ThemeProvider>
 );
