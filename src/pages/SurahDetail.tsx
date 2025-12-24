@@ -120,7 +120,11 @@ const SurahDetail = ({ language, onLanguageChange }: SurahDetailProps) => {
   // Fetch verses
   useEffect(() => {
     const fetchVerses = async () => {
-      setIsLoading(true);
+      // Only show loading on initial load, not on surah switch
+      if (verses.length === 0) {
+        setIsLoading(true);
+      }
+      
       const { data, error } = await supabase
         .from('verses')
         .select('*')
@@ -146,6 +150,8 @@ const SurahDetail = ({ language, onLanguageChange }: SurahDetailProps) => {
     };
 
     fetchVerses();
+    // Scroll to top when switching surahs
+    window.scrollTo({ top: 0, behavior: 'instant' });
   }, [surahNum]);
 
   // Scroll to verse if hash is present
