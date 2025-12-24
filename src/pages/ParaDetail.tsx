@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { ArrowLeft, BookOpen, ChevronLeft, ChevronRight, Search } from "lucide-react";
 import { paras } from "@/data/paras";
@@ -24,6 +24,11 @@ const ParaDetail = ({ language, onLanguageChange }: ParaDetailProps) => {
 
   const paraNum = parseInt(paraNumber || "1", 10);
   const para = paras.find(p => p.number === paraNum);
+
+  // Scroll to top when switching paras
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [paraNum]);
 
   const prevPara = paras.find(p => p.number === paraNum - 1);
   const nextPara = paras.find(p => p.number === paraNum + 1);

@@ -139,7 +139,7 @@ const SurahDetail = ({ language, onLanguageChange }: SurahDetailProps) => {
       if (versesCache.has(surahNum)) {
         setVerses(versesCache.get(surahNum)!);
         setIsLoading(false);
-        window.scrollTo({ top: 0, behavior: 'instant' });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
         // End transition after content is set
         setTimeout(() => setIsTransitioning(false), 50);
         return;
@@ -180,7 +180,7 @@ const SurahDetail = ({ language, onLanguageChange }: SurahDetailProps) => {
 
     fetchVerses();
     // Scroll to top when switching surahs
-    window.scrollTo({ top: 0, behavior: 'instant' });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [surahNum]);
 
   // Scroll to verse if hash is present
