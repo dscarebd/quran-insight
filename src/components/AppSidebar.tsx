@@ -115,7 +115,7 @@ export const AppSidebar = ({ language, activeTab, onTabChange }: AppSidebarProps
               )}
             >
               <Search className="h-4 w-4" />
-              {language === "bn" ? "অনুসন্ধান" : "Search"}
+              <span className={language === "bn" ? "font-bengali" : ""}>{language === "bn" ? "অনুসন্ধান" : "Search"}</span>
             </button>
             <button
               onClick={() => onTabChange("bookmarks")}
@@ -127,7 +127,7 @@ export const AppSidebar = ({ language, activeTab, onTabChange }: AppSidebarProps
               )}
             >
               <Bookmark className="h-4 w-4" />
-              {language === "bn" ? "বুকমার্ক" : "Bookmarks"}
+              <span className={language === "bn" ? "font-bengali" : ""}>{language === "bn" ? "বুকমার্ক" : "Bookmarks"}</span>
             </button>
           </div>
         )}
@@ -178,9 +178,9 @@ export const AppSidebar = ({ language, activeTab, onTabChange }: AppSidebarProps
                         ? "border-b-2 border-primary text-primary"
                         : "text-muted-foreground hover:text-foreground"
                     )}
-                  >
-                    {language === "bn" ? "সূরা" : "Surah"}
-                  </button>
+                    >
+                      <span className={language === "bn" ? "font-bengali" : ""}>{language === "bn" ? "সূরা" : "Surah"}</span>
+                    </button>
                   <button
                     onClick={() => setViewMode("para")}
                     className={cn(
@@ -189,9 +189,9 @@ export const AppSidebar = ({ language, activeTab, onTabChange }: AppSidebarProps
                         ? "border-b-2 border-primary text-primary"
                         : "text-muted-foreground hover:text-foreground"
                     )}
-                  >
-                    {language === "bn" ? "পারা" : "Para"}
-                  </button>
+                    >
+                      <span className={language === "bn" ? "font-bengali" : ""}>{language === "bn" ? "পারা" : "Para"}</span>
+                    </button>
                 </div>
 
                 {/* Search Input */}
@@ -232,14 +232,14 @@ export const AppSidebar = ({ language, activeTab, onTabChange }: AppSidebarProps
                           <>
                             <div className="flex-1 min-w-0">
                               <div className="flex items-center justify-between gap-2">
-                                <span className="font-medium truncate">
+                                <span className={cn("font-medium truncate", language === "bn" && "font-bengali")}>
                                   {language === "bn" ? surah.nameBengali : surah.nameEnglish}
                                 </span>
                                 <span className="font-arabic text-sm text-muted-foreground shrink-0">
                                   {surah.nameArabic}
                                 </span>
                               </div>
-                              <span className="text-xs text-muted-foreground">
+                              <span className={cn("text-xs text-muted-foreground", language === "bn" && "font-bengali")}>
                                 {language === "bn" ? surah.meaningBengali : surah.meaningEnglish}
                               </span>
                             </div>
@@ -268,14 +268,14 @@ export const AppSidebar = ({ language, activeTab, onTabChange }: AppSidebarProps
                           <>
                             <div className="flex-1 min-w-0">
                               <div className="flex items-center justify-between gap-2">
-                                <span className="font-medium truncate">
+                                <span className={cn("font-medium truncate", language === "bn" && "font-bengali")}>
                                   {language === "bn" ? para.nameBengali : para.nameEnglish}
                                 </span>
                                 <span className="font-arabic text-sm text-muted-foreground shrink-0">
                                   {para.nameArabic}
                                 </span>
                               </div>
-                              <span className="text-xs text-muted-foreground">
+                              <span className={cn("text-xs text-muted-foreground", language === "bn" && "font-bengali")}>
                                 {language === "bn" 
                                   ? `সূরা ${para.startSurah}:${para.startVerse} - ${para.endSurah}:${para.endVerse}`
                                   : `Surah ${para.startSurah}:${para.startVerse} - ${para.endSurah}:${para.endVerse}`}
@@ -296,12 +296,12 @@ export const AppSidebar = ({ language, activeTab, onTabChange }: AppSidebarProps
         {activeTab === "bookmarks" && !isCollapsed && (
           <div className="flex flex-1 flex-col items-center justify-center p-6 text-center">
             <Bookmark className="mb-3 h-12 w-12 text-muted-foreground/50" />
-            <p className="text-sm text-muted-foreground">
+            <p className={cn("text-sm text-muted-foreground", language === "bn" && "font-bengali")}>
               {language === "bn"
                 ? "এখনও কোনো বুকমার্ক নেই"
                 : "No bookmarks yet"}
             </p>
-            <p className="mt-1 text-xs text-muted-foreground/70">
+            <p className={cn("mt-1 text-xs text-muted-foreground/70", language === "bn" && "font-bengali")}>
               {language === "bn"
                 ? "আয়াত সংরক্ষণ করতে বুকমার্ক করুন"
                 : "Bookmark verses to save them here"}
