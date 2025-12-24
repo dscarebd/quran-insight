@@ -160,6 +160,23 @@ const Bookmarks = ({ language, onLanguageChange }: BookmarksProps) => {
     window.open(url, '_blank');
   };
 
+  const handleShareMessenger = (bookmark: BookmarkedVerse) => {
+    const text = encodeURIComponent(getVerseText(bookmark));
+    const url = `https://www.facebook.com/dialog/send?link=${encodeURIComponent(window.location.href)}&quote=${text}&app_id=140586622674265&redirect_uri=${encodeURIComponent(window.location.href)}`;
+    window.open(url, '_blank', 'width=600,height=400');
+  };
+
+  const handleShareIMO = (bookmark: BookmarkedVerse) => {
+    const text = getVerseText(bookmark);
+    // IMO doesn't have a direct share URL, so we copy to clipboard and notify user
+    navigator.clipboard.writeText(text).then(() => {
+      toast({
+        title: language === "bn" ? "কপি হয়েছে" : "Copied!",
+        description: language === "bn" ? "IMO তে পেস্ট করুন" : "Paste in IMO to share",
+      });
+    });
+  };
+
   if (authLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
@@ -312,6 +329,18 @@ const Bookmarks = ({ language, onLanguageChange }: BookmarksProps) => {
                         <DropdownMenuItem onClick={() => handleShareWhatsApp(bookmark)}>
                           <MessageCircle className="mr-2 h-4 w-4 text-[#25D366]" />
                           WhatsApp
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => handleShareMessenger(bookmark)}>
+                          <svg className="mr-2 h-4 w-4 text-[#0099FF]" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2C6.36 2 2 6.13 2 11.7c0 2.91 1.19 5.44 3.14 7.17.16.13.26.35.27.57l.05 1.78c.04.57.61.94 1.13.71l1.98-.87c.17-.08.36-.1.53-.06.91.25 1.87.38 2.9.38 5.64 0 10-4.13 10-9.7C22 6.13 17.64 2 12 2zm5.89 7.58l-2.88 4.57c-.46.73-1.41.92-2.09.42l-2.29-1.72a.56.56 0 00-.68 0l-3.09 2.34c-.41.31-.95-.18-.68-.62l2.88-4.57c.46-.73 1.41-.92 2.09-.42l2.29 1.72c.21.15.49.15.68 0l3.09-2.34c.41-.31.95.18.68.62z"/>
+                          </svg>
+                          Messenger
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => handleShareIMO(bookmark)}>
+                          <svg className="mr-2 h-4 w-4 text-[#005EFF]" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                          </svg>
+                          IMO
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
