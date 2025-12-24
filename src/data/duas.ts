@@ -1677,6 +1677,42 @@ export const duaCategories: DuaCategory[] = [
         bengali: "হে চিরঞ্জীব! হে সবকিছুর ধারক! তোমার রহমতের মাধ্যমে আমি সাহায্য প্রার্থনা করি। আমার সব বিষয় ঠিক করে দাও এবং এক পলকের জন্যও আমাকে আমার উপর ছেড়ে দিও না।",
         english: "O Ever-Living, O Self-Sustaining, by Your mercy I seek help. Correct all of my affairs for me and do not leave me to myself even for the blink of an eye.",
         reference: "মুসতাদরাক হাকিম"
+      },
+      {
+        id: "hardship-7",
+        titleBengali: "প্রাকৃতিক দুর্যোগে দোয়া",
+        titleEnglish: "During Natural Disaster",
+        arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ خَيْرَهَا وَخَيْرَ مَا فِيهَا وَخَيْرَ مَا أُرْسِلَتْ بِهِ، وَأَعُوذُ بِكَ مِنْ شَرِّهَا وَشَرِّ مَا فِيهَا وَشَرِّ مَا أُرْسِلَتْ بِهِ",
+        bengali: "হে আল্লাহ! আমি তোমার কাছে এর কল্যাণ, এর মধ্যে যা আছে তার কল্যাণ এবং যে উদ্দেশ্যে একে পাঠানো হয়েছে তার কল্যাণ চাই। আর তোমার কাছে আশ্রয় চাই এর অনিষ্ট থেকে, এর মধ্যে যা আছে তার অনিষ্ট থেকে এবং যে উদ্দেশ্যে একে পাঠানো হয়েছে তার অনিষ্ট থেকে।",
+        english: "O Allah, I ask You for its good, the good in it, and the good for which it was sent. I seek refuge in You from its evil, the evil in it, and the evil for which it was sent.",
+        reference: "সহীহ মুসলিম"
+      },
+      {
+        id: "hardship-8",
+        titleBengali: "আর্থিক সংকটে দোয়া",
+        titleEnglish: "During Financial Hardship",
+        arabic: "اللَّهُمَّ اكْفِنِي بِحَلاَلِكَ عَنْ حَرَامِكَ، وَأَغْنِنِي بِفَضْلِكَ عَمَّنْ سِوَاكَ",
+        bengali: "হে আল্লাহ! তোমার হালাল দিয়ে আমাকে হারাম থেকে বাঁচাও এবং তোমার অনুগ্রহে আমাকে তোমা ছাড়া সবার থেকে মুক্ত রাখ।",
+        english: "O Allah, suffice me with Your lawful against Your prohibited and make me independent of all besides You through Your bounty.",
+        reference: "তিরমিযী"
+      },
+      {
+        id: "hardship-9",
+        titleBengali: "কাউকে হারানোর পর দোয়া",
+        titleEnglish: "After Losing Someone",
+        arabic: "إِنَّا لِلَّهِ وَإِنَّا إِلَيْهِ رَاجِعُونَ، اللَّهُمَّ أْجُرْنِي فِي مُصِيبَتِي وَأَخْلِفْ لِي خَيْرًا مِنْهَا",
+        bengali: "নিশ্চয়ই আমরা আল্লাহর জন্য এবং তাঁর কাছেই আমাদের ফিরে যেতে হবে। হে আল্লাহ! আমার এই বিপদে আমাকে সওয়াব দাও এবং এর বিনিময়ে আমাকে এর চেয়ে উত্তম কিছু দাও।",
+        english: "Indeed we belong to Allah and to Him we shall return. O Allah, reward me in my affliction and replace it for me with something better.",
+        reference: "সহীহ মুসলিম"
+      },
+      {
+        id: "hardship-10",
+        titleBengali: "জুলুমের সময় দোয়া",
+        titleEnglish: "During Persecution",
+        arabic: "حَسْبُنَا اللهُ وَنِعْمَ الْوَكِيلُ، نِعْمَ الْمَوْلَى وَنِعْمَ النَّصِيرُ",
+        bengali: "আল্লাহই আমাদের জন্য যথেষ্ট এবং তিনি কতই না উত্তম অভিভাবক। কত উত্তম মালিক এবং কত উত্তম সাহায্যকারী।",
+        english: "Allah is sufficient for us and He is the best Disposer of affairs. What an excellent Protector and what an excellent Helper.",
+        reference: "সূরা আলে ইমরান ৩:১৭৩, আনফাল ৮:৪০"
       }
     ]
   },
@@ -1741,6 +1777,42 @@ export const duaCategories: DuaCategory[] = [
         bengali: "হে আমাদের রব! আমাদের জন্য আমাদের নূর পূর্ণ করে দাও এবং আমাদের ক্ষমা কর। নিশ্চয়ই তুমি সবকিছুর উপর সক্ষম।",
         english: "Our Lord, perfect for us our light and forgive us. Indeed, You are over all things competent.",
         reference: "সূরা তাহরীম ৬৬:৮"
+      },
+      {
+        id: "akhirah-7",
+        titleBengali: "কিয়ামতে ছায়ার দোয়া",
+        titleEnglish: "For Shade on Judgment Day",
+        arabic: "اللَّهُمَّ أَظِلَّنِي تَحْتَ ظِلِّ عَرْشِكَ يَوْمَ لاَ ظِلَّ إِلاَّ ظِلُّكَ",
+        bengali: "হে আল্লাহ! যেদিন তোমার ছায়া ছাড়া কোন ছায়া থাকবে না, সেদিন আমাকে তোমার আরশের ছায়ায় স্থান দাও।",
+        english: "O Allah, shade me under the shade of Your Throne on the Day when there is no shade except Your shade.",
+        reference: "সহীহ বুখারী (হাদীস থেকে)"
+      },
+      {
+        id: "akhirah-8",
+        titleBengali: "পুলসিরাত পার হওয়ার দোয়া",
+        titleEnglish: "For Crossing Sirat",
+        arabic: "اللَّهُمَّ سَلِّمْنِي مِنَ الصِّرَاطِ وَأَجِزْنِي عَلَيْهِ بِسَلاَمٍ",
+        bengali: "হে আল্লাহ! আমাকে পুলসিরাত থেকে নিরাপদে রাখ এবং শান্তির সাথে তা পার করাও।",
+        english: "O Allah, keep me safe on the Sirat and let me pass over it in peace.",
+        reference: "দোয়া সংকলন"
+      },
+      {
+        id: "akhirah-9",
+        titleBengali: "জান্নাতুল ফিরদাউসের দোয়া",
+        titleEnglish: "For Firdaus",
+        arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْفِرْدَوْسَ الأَعْلَى مِنَ الْجَنَّةِ",
+        bengali: "হে আল্লাহ! আমি তোমার কাছে জান্নাতের সর্বোচ্চ ফিরদাউস চাই।",
+        english: "O Allah, I ask You for the highest Firdaus of Paradise.",
+        reference: "সহীহ বুখারী"
+      },
+      {
+        id: "akhirah-10",
+        titleBengali: "আল্লাহকে দেখার দোয়া",
+        titleEnglish: "For Seeing Allah",
+        arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ لَذَّةَ النَّظَرِ إِلَى وَجْهِكَ وَالشَّوْقَ إِلَى لِقَائِكَ",
+        bengali: "হে আল্লাহ! আমি তোমার কাছে তোমার চেহারার দিকে তাকানোর স্বাদ এবং তোমার সাক্ষাতের আকাঙ্ক্ষা চাই।",
+        english: "O Allah, I ask You for the pleasure of looking at Your Face and the longing to meet You.",
+        reference: "নাসাঈ"
       }
     ]
   },
@@ -1805,6 +1877,42 @@ export const duaCategories: DuaCategory[] = [
         bengali: "হে আল্লাহ! অমুকের সন্তান অমুক তোমার জিম্মায় ও তোমার প্রতিবেশিত্বের রশিতে। তাকে কবরের ফিতনা ও জাহান্নামের আযাব থেকে রক্ষা কর।",
         english: "O Allah, so-and-so son of so-and-so is in Your protection and covenant. Protect him from the trial of the grave and the punishment of the Fire.",
         reference: "ইবনে মাজাহ, আবু দাউদ"
+      },
+      {
+        id: "death-7",
+        titleBengali: "মৃত ব্যক্তির চোখ বন্ধ করার সময়",
+        titleEnglish: "When Closing Eyes of Deceased",
+        arabic: "اللَّهُمَّ اغْفِرْ لَهُ وَارْفَعْ دَرَجَتَهُ فِي الْمَهْدِيِّينَ، وَاخْلُفْهُ فِي عَقِبِهِ فِي الْغَابِرِينَ",
+        bengali: "হে আল্লাহ! তাকে ক্ষমা কর এবং হিদায়াতপ্রাপ্তদের মধ্যে তার মর্যাদা বৃদ্ধি কর। তার পরিবারে যারা থেকে গেল তাদের তার উত্তরসূরি বানাও।",
+        english: "O Allah, forgive him and raise his rank among the rightly guided. Be a successor for his remaining family.",
+        reference: "সহীহ মুসলিম"
+      },
+      {
+        id: "death-8",
+        titleBengali: "কবরে দোয়া",
+        titleEnglish: "Dua at Grave",
+        arabic: "السَّلاَمُ عَلَيْكُمْ أَهْلَ الدِّيَارِ مِنَ الْمُؤْمِنِينَ وَالْمُسْلِمِينَ، وَإِنَّا إِنْ شَاءَ اللهُ بِكُمْ لاَحِقُونَ، نَسْأَلُ اللهَ لَنَا وَلَكُمُ الْعَافِيَةَ",
+        bengali: "শান্তি বর্ষিত হোক তোমাদের উপর, হে মুমিন ও মুসলিমদের আবাসের অধিবাসীগণ। ইনশাআল্লাহ আমরা তোমাদের সাথে মিলিত হব। আমরা আল্লাহর কাছে আমাদের এবং তোমাদের জন্য ক্ষমা ও সুস্থতা চাই।",
+        english: "Peace be upon you, O inhabitants of the graves from among the believers and Muslims. Indeed, if Allah wills, we will join you. We ask Allah for well-being for us and for you.",
+        reference: "সহীহ মুসলিম"
+      },
+      {
+        id: "death-9",
+        titleBengali: "তালকীনের দোয়া",
+        titleEnglish: "Talqeen Dua",
+        arabic: "لاَ إِلَهَ إِلاَّ اللهُ، مُحَمَّدٌ رَسُولُ اللهِ",
+        bengali: "আল্লাহ ছাড়া কোন ইলাহ নেই, মুহাম্মদ আল্লাহর রাসূল। (মৃত্যুপথযাত্রীকে স্মরণ করানো)",
+        english: "There is no deity except Allah, Muhammad is the Messenger of Allah. (Remind the dying person)",
+        reference: "সহীহ মুসলিম"
+      },
+      {
+        id: "death-10",
+        titleBengali: "শাহাদাতের দোয়া",
+        titleEnglish: "For Martyrdom",
+        arabic: "اللَّهُمَّ ارْزُقْنِي شَهَادَةً فِي سَبِيلِكَ وَاجْعَلْ مَوْتِي فِي بَلَدِ رَسُولِكَ",
+        bengali: "হে আল্লাহ! আমাকে তোমার পথে শাহাদাত দান কর এবং আমার মৃত্যু তোমার রাসূলের শহরে হতে দাও।",
+        english: "O Allah, grant me martyrdom in Your path and let my death be in the city of Your Messenger.",
+        reference: "সহীহ বুখারী"
       }
     ]
   },
@@ -1869,6 +1977,42 @@ export const duaCategories: DuaCategory[] = [
         bengali: "হে আল্লাহ! উপকারী বৃষ্টি বর্ষণ কর। (বৃষ্টির সময়)",
         english: "O Allah, may it be a beneficial rain. (During rain)",
         reference: "সহীহ বুখারী"
+      },
+      {
+        id: "special-7",
+        titleBengali: "লাইলাতুল কদরের দোয়া",
+        titleEnglish: "Laylatul Qadr Dua",
+        arabic: "اللَّهُمَّ إِنَّكَ عَفُوٌّ تُحِبُّ الْعَفْوَ فَاعْفُ عَنِّي",
+        bengali: "হে আল্লাহ! নিশ্চয়ই তুমি ক্ষমাশীল, ক্ষমা করতে ভালোবাস, অতএব আমাকে ক্ষমা কর।",
+        english: "O Allah, You are the Pardoner, You love to pardon, so pardon me.",
+        reference: "তিরমিযী"
+      },
+      {
+        id: "special-8",
+        titleBengali: "আরাফাহ দিনের দোয়া",
+        titleEnglish: "Arafah Day Dua",
+        arabic: "لاَ إِلَهَ إِلاَّ اللهُ وَحْدَهُ لاَ شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ",
+        bengali: "আল্লাহ ছাড়া কোন ইলাহ নেই, তিনি একক, তাঁর কোন শরীক নেই। রাজত্ব তাঁরই, প্রশংসাও তাঁর এবং তিনি সবকিছুর উপর ক্ষমতাবান।",
+        english: "There is no deity except Allah, alone, without partner. To Him belongs all sovereignty and praise and He is over all things omnipotent.",
+        reference: "তিরমিযী (আরাফাহ দিনের শ্রেষ্ঠ দোয়া)"
+      },
+      {
+        id: "special-9",
+        titleBengali: "যিলহজ্জের প্রথম ১০ দিন",
+        titleEnglish: "First 10 Days of Dhul Hijjah",
+        arabic: "اللهُ أَكْبَرُ، اللهُ أَكْبَرُ، لاَ إِلَهَ إِلاَّ اللهُ، وَاللهُ أَكْبَرُ، اللهُ أَكْبَرُ، وَلِلَّهِ الْحَمْدُ",
+        bengali: "আল্লাহ সবচেয়ে বড়, আল্লাহ সবচেয়ে বড়। আল্লাহ ছাড়া কোন ইলাহ নেই। আল্লাহ সবচেয়ে বড়, আল্লাহ সবচেয়ে বড় এবং সকল প্রশংসা আল্লাহর।",
+        english: "Allah is the greatest, Allah is the greatest. There is no deity except Allah. Allah is the greatest, Allah is the greatest, and to Allah belongs all praise.",
+        reference: "দারাকুতনী (তাকবীরে তাশরীক)"
+      },
+      {
+        id: "special-10",
+        titleBengali: "মিরাজ রজনীর দোয়া",
+        titleEnglish: "Isra wal Miraj Night",
+        arabic: "سُبْحَانَ الَّذِي أَسْرَىٰ بِعَبْدِهِ لَيْلًا مِّنَ الْمَسْجِدِ الْحَرَامِ إِلَى الْمَسْجِدِ الْأَقْصَى",
+        bengali: "পবিত্র সেই সত্তা যিনি তাঁর বান্দাকে রাতে মসজিদুল হারাম থেকে মসজিদুল আকসায় নিয়ে গিয়েছিলেন। (তিলাওয়াত ও দোয়া)",
+        english: "Exalted is He who took His Servant by night from al-Masjid al-Haram to al-Masjid al-Aqsa. (Recite and make dua)",
+        reference: "সূরা ইসরা ১৭:১"
       }
     ]
   }
