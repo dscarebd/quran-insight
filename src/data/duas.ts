@@ -581,6 +581,42 @@ export const duaCategories: DuaCategory[] = [
         bengali: "হে আল্লাহ! আমি তোমার কাছে সকল কল্যাণ প্রার্থনা করি, এখনকার এবং পরবর্তীর, যা আমি জানি এবং যা জানি না।",
         english: "O Allah, I ask You for all good, immediate and later, that which I know and that which I do not know.",
         reference: "ইবনে মাজাহ"
+      },
+      {
+        id: "sunnah-7",
+        titleBengali: "আয়নায় দেখার দোয়া",
+        titleEnglish: "When Looking in Mirror",
+        arabic: "اللَّهُمَّ أَنْتَ حَسَّنْتَ خَلْقِي فَحَسِّنْ خُلُقِي",
+        bengali: "হে আল্লাহ! তুমি আমার আকৃতি সুন্দর করেছ, আমার চরিত্রও সুন্দর করে দাও।",
+        english: "O Allah, You have made my appearance beautiful, so make my character beautiful too.",
+        reference: "মুসনাদ আহমাদ"
+      },
+      {
+        id: "sunnah-8",
+        titleBengali: "পছন্দনীয় কিছু দেখলে",
+        titleEnglish: "When Seeing Something Liked",
+        arabic: "اللَّهُمَّ بَارِكْ فِيهِ",
+        bengali: "হে আল্লাহ! এতে বরকত দাও।",
+        english: "O Allah, bless it.",
+        reference: "ইবনে মাজাহ"
+      },
+      {
+        id: "sunnah-9",
+        titleBengali: "রাগের সময় দোয়া",
+        titleEnglish: "When Angry",
+        arabic: "أَعُوذُ بِاللهِ مِنَ الشَّيْطَانِ الرَّجِيمِ",
+        bengali: "আমি বিতাড়িত শয়তান থেকে আল্লাহর আশ্রয় চাই।",
+        english: "I seek refuge in Allah from the accursed Satan.",
+        reference: "সহীহ বুখারী, সহীহ মুসলিম"
+      },
+      {
+        id: "sunnah-10",
+        titleBengali: "সুসংবাদ পেলে",
+        titleEnglish: "When Receiving Good News",
+        arabic: "الْحَمْدُ لِلَّهِ الَّذِي بِنِعْمَتِهِ تَتِمُّ الصَّالِحَاتُ",
+        bengali: "সকল প্রশংসা আল্লাহর জন্য যাঁর অনুগ্রহে সকল ভালো কাজ সম্পন্ন হয়।",
+        english: "All praise is for Allah by whose grace all good things are completed.",
+        reference: "ইবনে মাজাহ"
       }
     ]
   },
@@ -645,11 +681,147 @@ export const duaCategories: DuaCategory[] = [
         bengali: "হে আল্লাহ! আমার অন্তরে নূর দাও, আমার দৃষ্টিতে নূর দাও এবং আমার শ্রবণে নূর দাও।",
         english: "O Allah, place light in my heart, light in my sight, and light in my hearing.",
         reference: "তিরমিযী"
+      },
+      {
+        id: "guidance-7",
+        titleBengali: "মুসলিম হয়ে মৃত্যুর দোয়া",
+        titleEnglish: "To Die as a Muslim",
+        arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ خَيْرَ الْمَسْأَلَةِ وَخَيْرَ الدُّعَاءِ وَخَيْرَ النَّجَاحِ وَخَيْرَ الْعَمَلِ وَخَيْرَ الثَّوَابِ وَخَيْرَ الْحَيَاةِ وَخَيْرَ الْمَمَاتِ",
+        bengali: "হে আল্লাহ! আমি তোমার কাছে উত্তম প্রার্থনা, উত্তম দোয়া, উত্তম সাফল্য, উত্তম আমল, উত্তম প্রতিদান, উত্তম জীবন এবং উত্তম মৃত্যু চাই।",
+        english: "O Allah, I ask You for the best of requests, the best of supplications, the best of success, the best of deeds, the best of reward, the best of life, and the best of death.",
+        reference: "হাকেম"
+      },
+      {
+        id: "guidance-8",
+        titleBengali: "আল্লাহর ভালোবাসার দোয়া",
+        titleEnglish: "For Love of Allah",
+        arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ حُبَّكَ، وَحُبَّ مَنْ يُحِبُّكَ، وَحُبَّ عَمَلٍ يُقَرِّبُنِي إِلَى حُبِّكَ",
+        bengali: "হে আল্লাহ! আমি তোমার ভালোবাসা চাই, তোমাকে যারা ভালোবাসে তাদের ভালোবাসা চাই এবং এমন আমলের ভালোবাসা চাই যা আমাকে তোমার ভালোবাসার কাছে পৌঁছে দেবে।",
+        english: "O Allah, I ask You for Your love, the love of those who love You, and the love of deeds that will bring me closer to Your love.",
+        reference: "তিরমিযী"
+      },
+      {
+        id: "guidance-9",
+        titleBengali: "সৎ সঙ্গীর দোয়া",
+        titleEnglish: "For Righteous Companions",
+        arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ مِنْ فَضْلِكَ وَرَحْمَتِكَ فَإِنَّهُ لاَ يَمْلِكُهَا إِلاَّ أَنْتَ",
+        bengali: "হে আল্লাহ! আমি তোমার অনুগ্রহ ও রহমত প্রার্থনা করি, কারণ এগুলো একমাত্র তোমার হাতে।",
+        english: "O Allah, I ask You from Your bounty and mercy, for none possesses them except You.",
+        reference: "তাবারানী"
+      },
+      {
+        id: "guidance-10",
+        titleBengali: "ঈমান দৃঢ় করার দোয়া",
+        titleEnglish: "For Firm Faith",
+        arabic: "اللَّهُمَّ زَيِّنَّا بِزِينَةِ الإِيمَانِ وَاجْعَلْنَا هُدَاةً مُهْتَدِينَ",
+        bengali: "হে আল্লাহ! আমাদেরকে ঈমানের সৌন্দর্যে সুসজ্জিত কর এবং আমাদেরকে হিদায়াতপ্রাপ্ত পথপ্রদর্শক বানাও।",
+        english: "O Allah, adorn us with the beauty of faith and make us guides who are rightly guided.",
+        reference: "নাসাঈ"
       }
     ]
   },
 
-  // 10. Rizq & Wealth Duas
+  // 8. Knowledge & Study Duas
+  {
+    id: "knowledge-study",
+    nameEnglish: "Knowledge & Study",
+    nameBengali: "জ্ঞান ও পড়াশোনার দোয়া",
+    icon: "GraduationCap",
+    duas: [
+      {
+        id: "knowledge-1",
+        titleBengali: "জ্ঞান বৃদ্ধির দোয়া",
+        titleEnglish: "Increase in Knowledge",
+        arabic: "رَبِّ زِدْنِي عِلْمًا",
+        bengali: "হে আমার রব! আমার জ্ঞান বৃদ্ধি করে দাও।",
+        english: "My Lord, increase me in knowledge.",
+        reference: "সূরা ত্বহা ২০:১১৪"
+      },
+      {
+        id: "knowledge-2",
+        titleBengali: "পড়াশোনা শুরুর দোয়া",
+        titleEnglish: "Before Starting Study",
+        arabic: "اللَّهُمَّ انْفَعْنِي بِمَا عَلَّمْتَنِي، وَعَلِّمْنِي مَا يَنْفَعُنِي، وَزِدْنِي عِلْمًا",
+        bengali: "হে আল্লাহ! তুমি আমাকে যা শিখিয়েছ তা দিয়ে আমাকে উপকৃত কর, আমাকে এমন কিছু শেখাও যা আমাকে উপকৃত করবে এবং আমার জ্ঞান বৃদ্ধি কর।",
+        english: "O Allah, benefit me with what You have taught me, teach me that which will benefit me, and increase me in knowledge.",
+        reference: "তিরমিযী, ইবনে মাজাহ"
+      },
+      {
+        id: "knowledge-3",
+        titleBengali: "পড়াশোনা শেষে দোয়া",
+        titleEnglish: "After Completing Study",
+        arabic: "اللَّهُمَّ إِنِّي أَسْتَوْدِعُكَ مَا قَرَأْتُ وَمَا حَفِظْتُ فَرُدَّهُ إِلَيَّ عِنْدَ حَاجَتِي",
+        bengali: "হে আল্লাহ! আমি যা পড়েছি ও মুখস্থ করেছি তা তোমার কাছে গচ্ছিত রাখছি, প্রয়োজনের সময় তা আমাকে ফিরিয়ে দাও।",
+        english: "O Allah, I entrust You with what I have read and memorized, return it to me when I need it.",
+        reference: "ইবনে আসাকির"
+      },
+      {
+        id: "knowledge-4",
+        titleBengali: "বুঝার ক্ষমতার দোয়া",
+        titleEnglish: "For Understanding",
+        arabic: "اللَّهُمَّ فَهِّمْنِي فِي الدِّينِ وَعَلِّمْنِي التَّأْوِيلَ",
+        bengali: "হে আল্লাহ! আমাকে দ্বীন বুঝার তাওফীক দাও এবং আমাকে ব্যাখ্যা শেখাও।",
+        english: "O Allah, give me understanding in religion and teach me the interpretation.",
+        reference: "সহীহ বুখারী"
+      },
+      {
+        id: "knowledge-5",
+        titleBengali: "স্মৃতিশক্তির দোয়া",
+        titleEnglish: "For Retaining Knowledge",
+        arabic: "سُبْحَانَكَ لاَ عِلْمَ لَنَا إِلاَّ مَا عَلَّمْتَنَا إِنَّكَ أَنْتَ الْعَلِيمُ الْحَكِيمُ",
+        bengali: "তুমি পবিত্র, তুমি আমাদের যা শিখিয়েছ তা ছাড়া আমাদের কোন জ্ঞান নেই। নিশ্চয়ই তুমি সর্বজ্ঞ, প্রজ্ঞাময়।",
+        english: "Exalted are You; we have no knowledge except what You have taught us. Indeed, You are the Knowing, the Wise.",
+        reference: "সূরা বাকারা ২:৩২"
+      },
+      {
+        id: "knowledge-6",
+        titleBengali: "পরীক্ষার আগে দোয়া",
+        titleEnglish: "Before Exam",
+        arabic: "رَبِّ اشْرَحْ لِي صَدْرِي وَيَسِّرْ لِي أَمْرِي",
+        bengali: "হে আমার রব! আমার বক্ষ প্রশস্ত করে দাও এবং আমার কাজ সহজ করে দাও।",
+        english: "My Lord, expand for me my breast and ease my task for me.",
+        reference: "সূরা ত্বহা ২০:২৫-২৬"
+      },
+      {
+        id: "knowledge-7",
+        titleBengali: "উপকারী জ্ঞানের দোয়া",
+        titleEnglish: "For Beneficial Knowledge",
+        arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ عِلْمًا نَافِعًا، وَرِزْقًا طَيِّبًا، وَعَمَلًا مُتَقَبَّلًا",
+        bengali: "হে আল্লাহ! আমি তোমার কাছে উপকারী জ্ঞান, পবিত্র রিজিক এবং কবুলযোগ্য আমল প্রার্থনা করি।",
+        english: "O Allah, I ask You for beneficial knowledge, good provision, and accepted deeds.",
+        reference: "ইবনে মাজাহ"
+      },
+      {
+        id: "knowledge-8",
+        titleBengali: "অকল্যাণকর জ্ঞান থেকে আশ্রয়",
+        titleEnglish: "Refuge from Useless Knowledge",
+        arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ عِلْمٍ لاَ يَنْفَعُ",
+        bengali: "হে আল্লাহ! আমি তোমার কাছে এমন জ্ঞান থেকে আশ্রয় চাই যা উপকারী নয়।",
+        english: "O Allah, I seek refuge in You from knowledge that does not benefit.",
+        reference: "সহীহ মুসলিম"
+      },
+      {
+        id: "knowledge-9",
+        titleBengali: "কুরআন মুখস্থের দোয়া",
+        titleEnglish: "For Quran Memorization",
+        arabic: "اللَّهُمَّ ارْحَمْنِي بِالْقُرْآنِ وَاجْعَلْهُ لِي إِمَامًا وَنُورًا وَهُدًى وَرَحْمَةً",
+        bengali: "হে আল্লাহ! কুরআনের মাধ্যমে আমার উপর রহম কর এবং এটিকে আমার জন্য ইমাম, নূর, হিদায়াত ও রহমত বানাও।",
+        english: "O Allah, have mercy on me through the Quran, and make it for me a leader, light, guidance, and mercy.",
+        reference: "তাবারানী"
+      },
+      {
+        id: "knowledge-10",
+        titleBengali: "হিকমত ও জ্ঞানের দোয়া",
+        titleEnglish: "For Wisdom & Knowledge",
+        arabic: "رَبِّ هَبْ لِي حُكْمًا وَأَلْحِقْنِي بِالصَّالِحِينَ",
+        bengali: "হে আমার রব! আমাকে হিকমত দান কর এবং আমাকে সৎকর্মশীলদের অন্তর্ভুক্ত কর।",
+        english: "My Lord, grant me wisdom and join me with the righteous.",
+        reference: "সূরা শুআরা ২৬:৮৩"
+      }
+    ]
+  },
+
+  // 9. Rizq & Wealth Duas
   {
     id: "rizq-wealth",
     nameEnglish: "Rizq & Wealth",
@@ -709,6 +881,42 @@ export const duaCategories: DuaCategory[] = [
         bengali: "হে আমার রব! তুমি আমার প্রতি যে কল্যাণ নাযিল করবে আমি তার মুখাপেক্ষী।",
         english: "My Lord, indeed I am, for whatever good You would send down to me, in need.",
         reference: "সূরা কাসাস ২৮:২৪"
+      },
+      {
+        id: "rizq-7",
+        titleBengali: "হালাল আয়ের দোয়া",
+        titleEnglish: "For Halal Income",
+        arabic: "اللَّهُمَّ ارْزُقْنِي رِزْقًا حَلاَلاً طَيِّبًا وَبَارِكْ لِي فِيهِ",
+        bengali: "হে আল্লাহ! আমাকে হালাল ও পবিত্র রিজিক দান কর এবং তাতে বরকত দাও।",
+        english: "O Allah, grant me lawful and pure provision and bless me in it.",
+        reference: "তাবারানী"
+      },
+      {
+        id: "rizq-8",
+        titleBengali: "ঋণ মুক্তির দোয়া",
+        titleEnglish: "For Removing Debt",
+        arabic: "اللَّهُمَّ اكْفِنِي بِحَلاَلِكَ عَنْ حَرَامِكَ، وَأَغْنِنِي بِفَضْلِكَ عَمَّنْ سِوَاكَ",
+        bengali: "হে আল্লাহ! তোমার হালাল দিয়ে আমাকে হারাম থেকে বাঁচাও এবং তোমার অনুগ্রহে আমাকে তোমা ছাড়া সবার থেকে মুক্ত রাখ।",
+        english: "O Allah, suffice me with Your lawful against Your prohibited and make me independent of all besides You through Your bounty.",
+        reference: "তিরমিযী"
+      },
+      {
+        id: "rizq-9",
+        titleBengali: "রিজিকে প্রাচুর্যের দোয়া",
+        titleEnglish: "For Abundance in Sustenance",
+        arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ عِلْمًا نَافِعًا، وَرِزْقًا وَاسِعًا، وَعَمَلًا مُتَقَبَّلًا",
+        bengali: "হে আল্লাহ! আমি তোমার কাছে উপকারী জ্ঞান, প্রশস্ত রিজিক এবং কবুলযোগ্য আমল চাই।",
+        english: "O Allah, I ask You for beneficial knowledge, abundant provision, and accepted deeds.",
+        reference: "ইবনে মাজাহ"
+      },
+      {
+        id: "rizq-10",
+        titleBengali: "উপার্জনে বরকতের দোয়া",
+        titleEnglish: "For Barakah in Earnings",
+        arabic: "اللَّهُمَّ بَارِكْ لِي فِي كَسْبِي وَفِيمَا رَزَقْتَنِي وَاجْعَلْهُ حَلاَلاً طَيِّبًا",
+        bengali: "হে আল্লাহ! আমার উপার্জনে এবং তুমি আমাকে যা রিজিক দিয়েছ তাতে বরকত দাও এবং তা হালাল ও পবিত্র কর।",
+        english: "O Allah, bless me in my earnings and in what You have provided me, and make it lawful and pure.",
+        reference: "বায়হাকী"
       }
     ]
   },
@@ -775,6 +983,42 @@ export const duaCategories: DuaCategory[] = [
         bengali: "হে আল্লাহ! আমি তোমার কাছে দুনিয়া ও আখিরাতে সুস্থতা প্রার্থনা করি।",
         english: "O Allah, I ask You for well-being in this world and the Hereafter.",
         reference: "ইবনে মাজাহ"
+      },
+      {
+        id: "health-7",
+        titleBengali: "অসুস্থকে দেখতে যাওয়ার দোয়া",
+        titleEnglish: "When Visiting the Sick",
+        arabic: "لاَ بَأْسَ طَهُورٌ إِنْ شَاءَ اللهُ",
+        bengali: "ভয় নেই, ইনশাআল্লাহ এটি পবিত্রতা (গুনাহ মাফের মাধ্যম)।",
+        english: "No harm, it is a purification (from sins) if Allah wills.",
+        reference: "সহীহ বুখারী"
+      },
+      {
+        id: "health-8",
+        titleBengali: "সম্পূর্ণ সুস্থতার দোয়া",
+        titleEnglish: "For Complete Recovery",
+        arabic: "اللَّهُمَّ اشْفِهِ، اللَّهُمَّ عَافِهِ",
+        bengali: "হে আল্লাহ! তাকে সুস্থ কর। হে আল্লাহ! তাকে সুস্থতা দান কর।",
+        english: "O Allah, cure him. O Allah, grant him well-being.",
+        reference: "মুসনাদ আহমাদ"
+      },
+      {
+        id: "health-9",
+        titleBengali: "ব্যথা দূর করার দোয়া",
+        titleEnglish: "For Removing Pain",
+        arabic: "بِسْمِ اللهِ ثَلاَثًا، وَقُلْ سَبْعَ مَرَّاتٍ: أَعُوذُ بِاللهِ وَقُدْرَتِهِ مِنْ شَرِّ مَا أَجِدُ وَأُحَاذِرُ",
+        bengali: "আল্লাহর নামে (৩ বার)। তারপর বলুন (৭ বার): আমি আল্লাহ ও তাঁর কুদরতের আশ্রয় নিচ্ছি আমার অনুভূত ও আশঙ্কিত ক্ষতি থেকে।",
+        english: "In the name of Allah (3 times). Then say (7 times): I seek refuge in Allah and His power from the evil of what I feel and fear.",
+        reference: "সহীহ মুসলিম"
+      },
+      {
+        id: "health-10",
+        titleBengali: "মানসিক স্বাস্থ্যের দোয়া",
+        titleEnglish: "For Mental Health",
+        arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْبَرَصِ، وَالْجُنُونِ، وَالْجُذَامِ، وَمِنْ سَيِّئِ الْأَسْقَامِ",
+        bengali: "হে আল্লাহ! আমি তোমার কাছে আশ্রয় চাই শ্বেতী, উন্মাদনা, কুষ্ঠ এবং মন্দ রোগসমূহ থেকে।",
+        english: "O Allah, I seek refuge in You from vitiligo, madness, leprosy, and from evil diseases.",
+        reference: "আবু দাউদ"
       }
     ]
   },
@@ -839,6 +1083,42 @@ export const duaCategories: DuaCategory[] = [
         bengali: "হে আল্লাহ! আমি তোমার বান্দা, তোমার বান্দার সন্তান, তোমার বান্দির সন্তান। আমার কপাল তোমার হাতে, তোমার নির্দেশ আমার উপর কার্যকর, তোমার ফায়সালা আমার জন্য ন্যায়সঙ্গত।",
         english: "O Allah, I am Your slave, son of Your male slave, son of Your female slave. My forelock is in Your Hand. Your command concerning me prevails, and Your judgment concerning me is just.",
         reference: "মুসনাদ আহমাদ"
+      },
+      {
+        id: "stress-7",
+        titleBengali: "প্যানিক অ্যাটাকে দোয়া",
+        titleEnglish: "During Panic Attacks",
+        arabic: "لاَ إِلَهَ إِلاَّ أَنْتَ سُبْحَانَكَ إِنِّي كُنْتُ مِنَ الظَّالِمِينَ",
+        bengali: "তুমি ছাড়া কোন ইলাহ নেই, তুমি পবিত্র। নিশ্চয়ই আমি যালিমদের অন্তর্ভুক্ত ছিলাম।",
+        english: "There is no deity except You; exalted are You. Indeed, I have been of the wrongdoers.",
+        reference: "সূরা আম্বিয়া ২১:৮৭"
+      },
+      {
+        id: "stress-8",
+        titleBengali: "মনের শান্তির দোয়া",
+        titleEnglish: "For Peace of Mind",
+        arabic: "اللَّهُمَّ اجْعَلْ فِي قَلْبِي نُورًا وَفِي صَدْرِي نُورًا",
+        bengali: "হে আল্লাহ! আমার অন্তরে নূর দাও এবং আমার বক্ষে নূর দাও।",
+        english: "O Allah, place light in my heart and light in my chest.",
+        reference: "সহীহ মুসলিম"
+      },
+      {
+        id: "stress-9",
+        titleBengali: "অভিভূত হলে দোয়া",
+        titleEnglish: "When Overwhelmed",
+        arabic: "حَسْبُنَا اللهُ وَنِعْمَ الْوَكِيلُ",
+        bengali: "আল্লাহই আমাদের জন্য যথেষ্ট এবং তিনি কতই না উত্তম কর্মবিধায়ক।",
+        english: "Allah is sufficient for us, and He is the best disposer of affairs.",
+        reference: "সূরা আলে ইমরান ৩:১৭৩"
+      },
+      {
+        id: "stress-10",
+        titleBengali: "কঠিন কথোপকথনের আগে",
+        titleEnglish: "Before Difficult Conversation",
+        arabic: "رَبِّ اشْرَحْ لِي صَدْرِي وَيَسِّرْ لِي أَمْرِي وَاحْلُلْ عُقْدَةً مِّن لِّسَانِي يَفْقَهُوا قَوْلِي",
+        bengali: "হে আমার রব! আমার বক্ষ প্রশস্ত করে দাও, আমার কাজ সহজ করে দাও এবং আমার জিহ্বার জড়তা দূর কর, যাতে তারা আমার কথা বুঝতে পারে।",
+        english: "My Lord, expand for me my breast, ease my task for me, and untie the knot from my tongue that they may understand my speech.",
+        reference: "সূরা ত্বহা ২০:২৫-২৮"
       }
     ]
   },
