@@ -49,10 +49,15 @@ export const SearchSection = ({ language, onSearch, isLoading }: SearchSectionPr
           className={cn(
             "relative flex items-center rounded-full border-2 bg-card transition-all duration-300",
             isFocused
-              ? "border-primary shadow-glow"
+              ? "border-primary shadow-glow ring-2 ring-primary/20"
               : "border-border shadow-card hover:border-primary/30"
           )}
         >
+          {/* Decorative accent line */}
+          <div className={cn(
+            "absolute -bottom-1 left-1/2 -translate-x-1/2 h-0.5 rounded-full bg-gradient-to-r from-transparent via-primary to-transparent transition-all duration-300",
+            isFocused ? "w-3/4 opacity-100" : "w-0 opacity-0"
+          )} />
           <input
             type="text"
             value={query}
@@ -60,7 +65,11 @@ export const SearchSection = ({ language, onSearch, isLoading }: SearchSectionPr
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
             placeholder={placeholderText}
-            className="min-w-0 flex-1 bg-transparent px-3 py-3 text-sm placeholder:text-muted-foreground focus:outline-none sm:px-6 sm:py-4 sm:text-lg"
+            className={cn(
+              "min-w-0 flex-1 bg-transparent px-3 py-3 text-sm focus:outline-none sm:px-6 sm:py-4 sm:text-lg",
+              language === "bn" ? "font-bengali placeholder:font-bengali" : "",
+              "placeholder:text-muted-foreground"
+            )}
             disabled={isLoading}
           />
           
