@@ -11,6 +11,7 @@ import Index from "./pages/Index";
 import SurahDetail from "./pages/SurahDetail";
 import ParaDetail from "./pages/ParaDetail";
 import Bookmarks from "./pages/Bookmarks";
+import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
 
 // Lazy load admin pages
@@ -55,6 +56,9 @@ const AppContent = () => {
         <Layout language={language} onLanguageChange={setLanguage}>
           <Bookmarks language={language} onLanguageChange={setLanguage} />
         </Layout>
+      } />
+      <Route path="/settings" element={
+        <Settings language={language} onLanguageChange={setLanguage} />
       } />
       <Route path="/auth" element={
         <Suspense fallback={<LoadingFallback />}>

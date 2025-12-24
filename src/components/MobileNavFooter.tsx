@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Home, BookOpen, Layers, Bookmark, ChevronRight, Search } from "lucide-react";
+import { Home, BookOpen, Layers, Bookmark, ChevronRight, Search, Settings } from "lucide-react";
 import { cn, formatNumber } from "@/lib/utils";
 import { surahs } from "@/data/surahs";
 import { paras } from "@/data/paras";
@@ -57,6 +57,14 @@ export const MobileNavFooter = ({ language }: MobileNavFooterProps) => {
       path: "/bookmarks",
       isActive: location.pathname === "/bookmarks",
       action: () => navigate("/bookmarks"),
+    },
+    {
+      icon: Settings,
+      labelEn: "Settings",
+      labelBn: "সেটিংস",
+      path: "/settings",
+      isActive: location.pathname === "/settings",
+      action: () => navigate("/settings"),
     },
   ];
 
