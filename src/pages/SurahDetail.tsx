@@ -106,6 +106,7 @@ const SurahDetail = ({ language, onLanguageChange }: SurahDetailProps) => {
   const [verses, setVerses] = useState<Verse[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [bookmarkedVerses, setBookmarkedVerses] = useState<Set<string>>(new Set());
+  const [highlightedVerse, setHighlightedVerse] = useState<number | null>(null);
   const { user } = useAuth();
   const { toast } = useToast();
   const verseRefs = useRef<{ [key: number]: HTMLDivElement | null }>({});
@@ -159,6 +160,12 @@ const SurahDetail = ({ language, onLanguageChange }: SurahDetailProps) => {
               behavior: 'smooth',
               block: 'center'
             });
+            // Highlight the verse
+            setHighlightedVerse(verseNumber);
+            // Remove highlight after animation
+            setTimeout(() => {
+              setHighlightedVerse(null);
+            }, 2000);
           }
         }, 100);
       }
@@ -393,6 +400,10 @@ const SurahDetail = ({ language, onLanguageChange }: SurahDetailProps) => {
               key={verse.verseNumber}
               ref={(el) => { verseRefs.current[verse.verseNumber] = el; }}
               id={`verse-${verse.verseNumber}`}
+              className={cn(
+                "rounded-2xl transition-all duration-300",
+                highlightedVerse === verse.verseNumber && "animate-highlight ring-2 ring-primary/50"
+              )}
             >
               <VerseCard 
                 verse={verse} 
