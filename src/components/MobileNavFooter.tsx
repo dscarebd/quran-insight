@@ -222,8 +222,8 @@ export const MobileNavFooter = ({ language }: MobileNavFooterProps) => {
                         {surah.nameArabic}
                       </span>
                     </div>
-                    <span className={cn("text-xs text-muted-foreground", language === "bn" && "font-bengali")}>
-                      {language === "bn" ? surah.meaningBengali : surah.meaningEnglish}
+                    <span className={cn("text-xs text-muted-foreground font-bengali")}>
+                      {surah.nameArabic} • {formatNumber(surah.totalVerses, language)} {language === "bn" ? "আয়াত" : "verses"}
                     </span>
                   </div>
                   <ChevronRight className="h-4 w-4 text-muted-foreground shrink-0" />
