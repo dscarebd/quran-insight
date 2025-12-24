@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, Bookmark, BookOpen, Trash2, Loader2, Copy, Share2, Facebook, MessageCircle, ChevronDown, ChevronUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { cn, formatNumber } from "@/lib/utils";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
@@ -31,11 +31,6 @@ interface BookmarkedVerse {
   tafsir_english?: string;
 }
 
-// Convert English numbers to Bengali numerals
-const toBengaliNumber = (num: number): string => {
-  const bengaliDigits = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
-  return num.toString().split('').map(digit => bengaliDigits[parseInt(digit)] || digit).join('');
-};
 
 const Bookmarks = ({ language, onLanguageChange }: BookmarksProps) => {
   const navigate = useNavigate();
@@ -269,7 +264,7 @@ const Bookmarks = ({ language, onLanguageChange }: BookmarksProps) => {
           </h1>
           <p className={cn("mt-2 text-muted-foreground", language === "bn" && "font-bengali")}>
             {language === "bn" 
-              ? `${toBengaliNumber(bookmarks.length)} টি আয়াত সংরক্ষিত` 
+              ? `${formatNumber(bookmarks.length, language)} টি আয়াত সংরক্ষিত` 
               : `${bookmarks.length} verse${bookmarks.length !== 1 ? 's' : ''} saved`}
           </p>
         </div>
@@ -319,7 +314,7 @@ const Bookmarks = ({ language, onLanguageChange }: BookmarksProps) => {
                   >
                     <span>{getSurahName(bookmark.surah_number)}</span>
                     <span>•</span>
-                    <span>{language === "bn" ? `আয়াত ${bookmark.verse_number}` : `Verse ${bookmark.verse_number}`}</span>
+                    <span>{language === "bn" ? `আয়াত ${formatNumber(bookmark.verse_number, language)}` : `Verse ${bookmark.verse_number}`}</span>
                   </button>
                   
                   {/* Action buttons */}

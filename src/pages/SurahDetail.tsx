@@ -4,7 +4,7 @@ import { ArrowLeft, BookOpen, ChevronDown, ChevronUp, Bookmark, ChevronLeft, Che
 import { surahs } from "@/data/surahs";
 import { Verse } from "@/data/verses";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { cn, formatNumber } from "@/lib/utils";
 import { useSidebar } from "@/components/ui/sidebar";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
@@ -44,7 +44,7 @@ const VerseCard = ({ verse, language, index, isBookmarked, onToggleBookmark, isL
       {/* Verse Number Badge */}
       <div className="mb-4 flex items-center justify-between">
         <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-primary-foreground font-semibold">
-          {verse.verseNumber}
+          {formatNumber(verse.verseNumber, language)}
         </div>
         <div className="flex gap-2">
           <Button 
@@ -325,7 +325,7 @@ const SurahDetail = ({ language, onLanguageChange }: SurahDetailProps) => {
             <div className={cn("mb-2 inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-sm text-primary", language === "bn" && "font-bengali")}>
               <span>{surah.revelationType === "Meccan" ? (language === "bn" ? "মক্কী" : "Meccan") : (language === "bn" ? "মাদানী" : "Medinan")}</span>
               <span>•</span>
-              <span>{surah.totalVerses} {language === "bn" ? "আয়াত" : "verses"}</span>
+              <span>{formatNumber(surah.totalVerses, language)} {language === "bn" ? "আয়াত" : "verses"}</span>
             </div>
           </div>
           
@@ -347,7 +347,7 @@ const SurahDetail = ({ language, onLanguageChange }: SurahDetailProps) => {
                 {prevSurah ? (language === "bn" ? prevSurah.nameBengali : prevSurah.nameEnglish) : ""}
               </span>
               <span className="text-xs sm:hidden">
-                {prevSurah?.number || ""}
+                {prevSurah ? formatNumber(prevSurah.number, language) : ""}
               </span>
             </button>
 
@@ -377,7 +377,7 @@ const SurahDetail = ({ language, onLanguageChange }: SurahDetailProps) => {
                 {nextSurah ? (language === "bn" ? nextSurah.nameBengali : nextSurah.nameEnglish) : ""}
               </span>
               <span className="text-xs sm:hidden">
-                {nextSurah?.number || ""}
+                {nextSurah ? formatNumber(nextSurah.number, language) : ""}
               </span>
             </button>
           </div>

@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { Search, BookOpen, Bookmark, ChevronRight } from "lucide-react";
 import { surahs } from "@/data/surahs";
 import { paras } from "@/data/paras";
-import { cn } from "@/lib/utils";
+import { cn, formatNumber } from "@/lib/utils";
 import {
   Sidebar,
   SidebarContent,
@@ -229,7 +229,7 @@ export const AppSidebar = ({ language, activeTab, onTabChange }: AppSidebarProps
                         className="group h-auto py-2"
                       >
                         <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-sidebar-accent text-sm font-semibold text-sidebar-accent-foreground">
-                          {surah.number}
+                          {formatNumber(surah.number, language)}
                         </div>
                         {!isCollapsed && (
                           <>
@@ -265,7 +265,7 @@ export const AppSidebar = ({ language, activeTab, onTabChange }: AppSidebarProps
                         className="group h-auto py-2"
                       >
                         <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-sidebar-accent text-sm font-semibold text-sidebar-accent-foreground">
-                          {para.number}
+                          {formatNumber(para.number, language)}
                         </div>
                         {!isCollapsed && (
                           <>
@@ -280,7 +280,7 @@ export const AppSidebar = ({ language, activeTab, onTabChange }: AppSidebarProps
                               </div>
                               <span className={cn("text-xs text-muted-foreground", language === "bn" && "font-bengali")}>
                                 {language === "bn" 
-                                  ? `সূরা ${para.startSurah}:${para.startVerse} - ${para.endSurah}:${para.endVerse}`
+                                  ? `সূরা ${formatNumber(para.startSurah, language)}:${formatNumber(para.startVerse, language)} - ${formatNumber(para.endSurah, language)}:${formatNumber(para.endVerse, language)}`
                                   : `Surah ${para.startSurah}:${para.startVerse} - ${para.endSurah}:${para.endVerse}`}
                               </span>
                             </div>
