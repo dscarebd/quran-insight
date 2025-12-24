@@ -98,6 +98,9 @@ const VerseCard = ({ verse, language, index, isBookmarked, onToggleBookmark, isL
   );
 };
 
+// Cache for storing previously fetched verses
+const versesCache = new Map<number, Verse[]>();
+
 const SurahDetail = ({ language, onLanguageChange }: SurahDetailProps) => {
   const { surahNumber } = useParams<{ surahNumber: string }>();
   const navigate = useNavigate();
@@ -117,10 +120,18 @@ const SurahDetail = ({ language, onLanguageChange }: SurahDetailProps) => {
   const prevSurah = surahs.find(s => s.number === surahNum - 1);
   const nextSurah = surahs.find(s => s.number === surahNum + 1);
 
-  // Fetch verses
+  // Fetch verses with caching
   useEffect(() => {
     const fetchVerses = async () => {
-      // Only show loading on initial load, not on surah switch
+      // Check if we have cached verses for this surah
+      if (versesCache.has(surahNum)) {
+        setVerses(versesCache.get(surahNum)!);
+        setIsLoading(false);
+        window.scrollTo({ top: 0, behavior: 'instant' });
+        return;
+      }
+
+      // Only show loading on initial load when no cache
       if (verses.length === 0) {
         setIsLoading(true);
       }
@@ -145,6 +156,8 @@ const SurahDetail = ({ language, onLanguageChange }: SurahDetailProps) => {
           tafsirEnglish: v.tafsir_english || undefined,
         }));
         setVerses(mappedVerses);
+        // Store in cache
+        versesCache.set(surahNum, mappedVerses);
       }
       setIsLoading(false);
     };
