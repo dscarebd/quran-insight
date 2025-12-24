@@ -3,7 +3,7 @@ import { ArrowLeft, BookOpen, ChevronLeft, ChevronRight } from "lucide-react";
 import { paras } from "@/data/paras";
 import { surahs } from "@/data/surahs";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { cn, formatNumber } from "@/lib/utils";
 import { useSidebar } from "@/components/ui/sidebar";
 
 interface ParaDetailProps {
@@ -93,7 +93,7 @@ const ParaDetail = ({ language, onLanguageChange }: ParaDetailProps) => {
         <div className="mx-auto max-w-4xl px-4">
           <div className="text-center mb-4">
             <div className={cn("mb-2 inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-sm text-primary", language === "bn" && "font-bengali")}>
-              <span>{language === "bn" ? "পারা" : "Para"} {para.number}/30</span>
+              <span>{language === "bn" ? "পারা" : "Para"} {formatNumber(para.number, language)}/{formatNumber(30, language)}</span>
             </div>
           </div>
           
@@ -115,7 +115,7 @@ const ParaDetail = ({ language, onLanguageChange }: ParaDetailProps) => {
                 {prevPara ? (language === "bn" ? prevPara.nameBengali : prevPara.nameEnglish) : ""}
               </span>
               <span className="text-xs sm:hidden">
-                {prevPara?.number || ""}
+                {prevPara ? formatNumber(prevPara.number, language) : ""}
               </span>
             </button>
 
@@ -145,14 +145,14 @@ const ParaDetail = ({ language, onLanguageChange }: ParaDetailProps) => {
                 {nextPara ? (language === "bn" ? nextPara.nameBengali : nextPara.nameEnglish) : ""}
               </span>
               <span className="text-xs sm:hidden">
-                {nextPara?.number || ""}
+                {nextPara ? formatNumber(nextPara.number, language) : ""}
               </span>
             </button>
           </div>
 
           <p className={cn("text-center mt-2 text-muted-foreground", language === "bn" && "font-bengali")}>
             {language === "bn" 
-              ? `সূরা ${para.startSurah} আয়াত ${para.startVerse} থেকে সূরা ${para.endSurah} আয়াত ${para.endVerse} পর্যন্ত`
+              ? `সূরা ${formatNumber(para.startSurah, language)} আয়াত ${formatNumber(para.startVerse, language)} থেকে সূরা ${formatNumber(para.endSurah, language)} আয়াত ${formatNumber(para.endVerse, language)} পর্যন্ত`
               : `From Surah ${para.startSurah} Verse ${para.startVerse} to Surah ${para.endSurah} Verse ${para.endVerse}`}
           </p>
         </div>
@@ -173,7 +173,7 @@ const ParaDetail = ({ language, onLanguageChange }: ParaDetailProps) => {
               style={{ animationDelay: `${index * 0.05}s` }}
             >
               <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-sm font-semibold text-primary">
-                {surah.number}
+                {formatNumber(surah.number, language)}
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center justify-between gap-2">
@@ -185,7 +185,7 @@ const ParaDetail = ({ language, onLanguageChange }: ParaDetailProps) => {
                   </span>
                 </div>
                 <span className={cn("text-xs text-muted-foreground", language === "bn" && "font-bengali")}>
-                  {surah.totalVerses} {language === "bn" ? "আয়াত" : "verses"} • {surah.revelationType === "Meccan" ? (language === "bn" ? "মক্কী" : "Meccan") : (language === "bn" ? "মাদানী" : "Medinan")}
+                  {formatNumber(surah.totalVerses, language)} {language === "bn" ? "আয়াত" : "verses"} • {surah.revelationType === "Meccan" ? (language === "bn" ? "মক্কী" : "Meccan") : (language === "bn" ? "মাদানী" : "Medinan")}
                 </span>
               </div>
             </button>
