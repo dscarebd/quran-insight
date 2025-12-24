@@ -1123,7 +1123,107 @@ export const duaCategories: DuaCategory[] = [
     ]
   },
 
-  // 13. Family & Relationships Duas
+  // 11. Work & Success Duas
+  {
+    id: "work-success",
+    nameEnglish: "Work & Success",
+    nameBengali: "কাজ ও সফলতার দোয়া",
+    icon: "Briefcase",
+    duas: [
+      {
+        id: "work-1",
+        titleBengali: "কাজ শুরুর দোয়া",
+        titleEnglish: "Starting Work",
+        arabic: "بِسْمِ اللهِ تَوَكَّلْتُ عَلَى اللهِ لاَ حَوْلَ وَلاَ قُوَّةَ إِلاَّ بِاللهِ",
+        bengali: "আল্লাহর নামে, আল্লাহর উপর ভরসা করলাম, আল্লাহর সাহায্য ছাড়া কোন উপায় নেই এবং কোন শক্তি নেই।",
+        english: "In the name of Allah, I place my trust in Allah, there is no might nor power except with Allah.",
+        reference: "আবু দাউদ, তিরমিযী"
+      },
+      {
+        id: "work-2",
+        titleBengali: "সফলতার দোয়া",
+        titleEnglish: "For Success",
+        arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ عِلْمًا نَافِعًا وَرِزْقًا طَيِّبًا وَعَمَلًا مُتَقَبَّلًا",
+        bengali: "হে আল্লাহ! আমি তোমার কাছে উপকারী জ্ঞান, পবিত্র রিজিক এবং কবুলযোগ্য আমল চাই।",
+        english: "O Allah, I ask You for beneficial knowledge, good provision, and accepted deeds.",
+        reference: "ইবনে মাজাহ"
+      },
+      {
+        id: "work-3",
+        titleBengali: "কাজ সহজ করার দোয়া",
+        titleEnglish: "For Easy Tasks",
+        arabic: "اللَّهُمَّ لاَ سَهْلَ إِلاَّ مَا جَعَلْتَهُ سَهْلاً، وَأَنْتَ تَجْعَلُ الْحَزْنَ إِذَا شِئْتَ سَهْلاً",
+        bengali: "হে আল্লাহ! কোন কাজ সহজ নয় যতক্ষণ না তুমি তা সহজ কর। তুমি চাইলে কঠিন কাজকেও সহজ করে দাও।",
+        english: "O Allah, nothing is easy except what You make easy, and You can make the difficult easy if You wish.",
+        reference: "ইবনে হিব্বান"
+      },
+      {
+        id: "work-4",
+        titleBengali: "ইন্টারভিউয়ের আগে দোয়া",
+        titleEnglish: "Before Job Interview",
+        arabic: "رَبِّ اشْرَحْ لِي صَدْرِي وَيَسِّرْ لِي أَمْرِي وَاحْلُلْ عُقْدَةً مِّن لِّسَانِي يَفْقَهُوا قَوْلِي",
+        bengali: "হে আমার রব! আমার বক্ষ প্রশস্ত করে দাও, আমার কাজ সহজ করে দাও এবং আমার জিহ্বার জড়তা দূর কর, যাতে তারা আমার কথা বুঝতে পারে।",
+        english: "My Lord, expand for me my breast, ease my task for me, and untie the knot from my tongue that they may understand my speech.",
+        reference: "সূরা ত্বহা ২০:২৫-২৮"
+      },
+      {
+        id: "work-5",
+        titleBengali: "ব্যবসায় সফলতার দোয়া",
+        titleEnglish: "For Business Success",
+        arabic: "اللَّهُمَّ بَارِكْ لَنَا فِي تِجَارَتِنَا وَأَصْلِحْ لَنَا أَمْرَنَا",
+        bengali: "হে আল্লাহ! আমাদের ব্যবসায় বরকত দাও এবং আমাদের কাজ সঠিক করে দাও।",
+        english: "O Allah, bless us in our trade and rectify our affairs.",
+        reference: "তাবারানী"
+      },
+      {
+        id: "work-6",
+        titleBengali: "ভালো সহকর্মীর জন্য দোয়া",
+        titleEnglish: "For Good Colleagues",
+        arabic: "اللَّهُمَّ أَلِّفْ بَيْنَ قُلُوبِنَا وَأَصْلِحْ ذَاتَ بَيْنِنَا",
+        bengali: "হে আল্লাহ! আমাদের অন্তরে ভালোবাসা সৃষ্টি কর এবং আমাদের পারস্পরিক সম্পর্ক ঠিক করে দাও।",
+        english: "O Allah, bring love between our hearts and rectify our mutual relations.",
+        reference: "আবু দাউদ"
+      },
+      {
+        id: "work-7",
+        titleBengali: "পদোন্নতির জন্য দোয়া",
+        titleEnglish: "For Promotion & Growth",
+        arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ مِنْ فَضْلِكَ وَرَحْمَتِكَ",
+        bengali: "হে আল্লাহ! আমি তোমার অনুগ্রহ ও রহমত চাই।",
+        english: "O Allah, I ask You from Your bounty and mercy.",
+        reference: "তাবারানী"
+      },
+      {
+        id: "work-8",
+        titleBengali: "সিদ্ধান্ত নেওয়ার দোয়া",
+        titleEnglish: "For Making Decisions",
+        arabic: "اللَّهُمَّ خِرْ لِي وَاخْتَرْ لِي",
+        bengali: "হে আল্লাহ! আমার জন্য যা কল্যাণকর তা নির্ধারণ কর এবং আমার জন্য তা পছন্দ কর।",
+        english: "O Allah, decree what is good for me and choose it for me.",
+        reference: "তিরমিযী"
+      },
+      {
+        id: "work-9",
+        titleBengali: "মিটিংয়ের আগে দোয়া",
+        titleEnglish: "Before Meeting",
+        arabic: "اللَّهُمَّ أَعِنِّي عَلَى ذِكْرِكَ وَشُكْرِكَ وَحُسْنِ عِبَادَتِكَ",
+        bengali: "হে আল্লাহ! তোমার যিকর, শুকর এবং সুন্দরভাবে তোমার ইবাদত করতে আমাকে সাহায্য কর।",
+        english: "O Allah, help me to remember You, thank You, and worship You in the best manner.",
+        reference: "আবু দাউদ, নাসাঈ"
+      },
+      {
+        id: "work-10",
+        titleBengali: "কাজ শেষের দোয়া",
+        titleEnglish: "After Completing Work",
+        arabic: "الْحَمْدُ لِلَّهِ الَّذِي بِنِعْمَتِهِ تَتِمُّ الصَّالِحَاتُ",
+        bengali: "সকল প্রশংসা আল্লাহর জন্য যাঁর অনুগ্রহে সকল ভালো কাজ সম্পন্ন হয়।",
+        english: "All praise is for Allah by whose grace all good things are completed.",
+        reference: "ইবনে মাজাহ"
+      }
+    ]
+  },
+
+  // 12. Family & Relationships Duas
   {
     id: "family-relationships",
     nameEnglish: "Family & Relationships",
@@ -1183,6 +1283,42 @@ export const duaCategories: DuaCategory[] = [
         bengali: "হে আমার রব! আমাকে সামর্থ্য দাও যেন আমি তোমার সেই নিয়ামতের শুকরিয়া আদায় করি যা তুমি আমাকে ও আমার পিতা-মাতাকে দান করেছ এবং আমি যেন এমন সৎকর্ম করি যা তুমি পছন্দ কর এবং আমার সন্তানদের মধ্যে আমার জন্য সংশোধন করে দাও।",
         english: "My Lord, enable me to be grateful for Your favor which You have bestowed upon me and upon my parents and to do righteousness of which You approve. And make righteous for me my offspring.",
         reference: "সূরা আহকাফ ৪৬:১৫"
+      },
+      {
+        id: "family-7",
+        titleBengali: "পারিবারিক মিলনের দোয়া",
+        titleEnglish: "For Family Reconciliation",
+        arabic: "اللَّهُمَّ أَلِّفْ بَيْنَ قُلُوبِنَا وَأَصْلِحْ ذَاتَ بَيْنِنَا وَاهْدِنَا سُبُلَ السَّلاَمِ",
+        bengali: "হে আল্লাহ! আমাদের অন্তরে ভালোবাসা সৃষ্টি কর, আমাদের পারস্পরিক সম্পর্ক ঠিক করে দাও এবং আমাদের শান্তির পথে পরিচালিত কর।",
+        english: "O Allah, bring love between our hearts, rectify our mutual relations, and guide us to the paths of peace.",
+        reference: "আবু দাউদ"
+      },
+      {
+        id: "family-8",
+        titleBengali: "শ্বশুরবাড়ির জন্য দোয়া",
+        titleEnglish: "For In-Laws",
+        arabic: "رَبَّنَا اغْفِرْ لَنَا وَلِإِخْوَانِنَا الَّذِينَ سَبَقُونَا بِالْإِيمَانِ وَلَا تَجْعَلْ فِي قُلُوبِنَا غِلًّا لِلَّذِينَ آمَنُوا",
+        bengali: "হে আমাদের রব! আমাদের ও আমাদের সেসব ভাইদের ক্ষমা কর যারা ঈমানের সাথে আমাদের অগ্রগামী হয়েছে এবং মুমিনদের প্রতি আমাদের অন্তরে কোন বিদ্বেষ রেখো না।",
+        english: "Our Lord, forgive us and our brothers who preceded us in faith and put not in our hearts any resentment toward those who have believed.",
+        reference: "সূরা হাশর ৫৯:১০"
+      },
+      {
+        id: "family-9",
+        titleBengali: "ভাই-বোনের জন্য দোয়া",
+        titleEnglish: "For Siblings",
+        arabic: "رَبِّ اغْفِرْ لِي وَلِوَالِدَيَّ وَلِمَن دَخَلَ بَيْتِيَ مُؤْمِنًا وَلِلْمُؤْمِنِينَ وَالْمُؤْمِنَاتِ",
+        bengali: "হে আমার রব! আমাকে ক্ষমা কর, আমার পিতা-মাতাকে ক্ষমা কর, যারা মুমিন হয়ে আমার ঘরে প্রবেশ করে তাদের ক্ষমা কর এবং সকল মুমিন পুরুষ ও মুমিন নারীদের ক্ষমা কর।",
+        english: "My Lord, forgive me and my parents and whoever enters my house a believer and the believing men and believing women.",
+        reference: "সূরা নূহ ৭১:২৮"
+      },
+      {
+        id: "family-10",
+        titleBengali: "পারিবারিক ঐক্যের দোয়া",
+        titleEnglish: "For Family Unity",
+        arabic: "رَبَّنَا هَبْ لَنَا مِنْ أَزْوَاجِنَا وَذُرِّيَّاتِنَا قُرَّةَ أَعْيُنٍ وَاجْعَلْنَا لِلْمُتَّقِينَ إِمَامًا",
+        bengali: "হে আমাদের রব! আমাদের স্ত্রীদের পক্ষ থেকে এবং আমাদের সন্তানদের পক্ষ থেকে আমাদের চোখ শীতল কর এবং আমাদেরকে মুত্তাকীদের জন্য আদর্শ বানাও।",
+        english: "Our Lord, grant us from among our wives and offspring comfort to our eyes and make us an example for the righteous.",
+        reference: "সূরা ফুরকান ২৫:৭৪"
       }
     ]
   },
@@ -1239,6 +1375,42 @@ export const duaCategories: DuaCategory[] = [
         bengali: "হে আল্লাহ! আমাকে একজন নেক জীবনসঙ্গী দান কর যে তোমার আনুগত্যে আমাকে সাহায্য করবে।",
         english: "O Allah, grant me a righteous spouse who will help me in obeying You.",
         reference: "আল-আযকার"
+      },
+      {
+        id: "marriage-7",
+        titleBengali: "বাসর রাতের দোয়া",
+        titleEnglish: "First Night Dua",
+        arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ خَيْرَهَا وَخَيْرَ مَا جَبَلْتَهَا عَلَيْهِ، وَأَعُوذُ بِكَ مِنْ شَرِّهَا وَشَرِّ مَا جَبَلْتَهَا عَلَيْهِ",
+        bengali: "হে আল্লাহ! আমি তোমার কাছে তার কল্যাণ চাই এবং তুমি তাকে যে স্বভাবে সৃষ্টি করেছ তার কল্যাণ চাই। আর তার অনিষ্ট থেকে এবং তুমি তাকে যে স্বভাবে সৃষ্টি করেছ তার অনিষ্ট থেকে তোমার আশ্রয় চাই।",
+        english: "O Allah, I ask You for her goodness and the goodness upon which You have created her, and I seek refuge in You from her evil and the evil upon which You have created her.",
+        reference: "আবু দাউদ, ইবনে মাজাহ"
+      },
+      {
+        id: "marriage-8",
+        titleBengali: "দাম্পত্য ভালোবাসার দোয়া",
+        titleEnglish: "For Marital Love",
+        arabic: "اللَّهُمَّ أَلِّفْ بَيْنَ قُلُوبِنَا وَأَصْلِحْ ذَاتَ بَيْنِنَا",
+        bengali: "হে আল্লাহ! আমাদের অন্তরের মধ্যে ভালোবাসা সৃষ্টি কর এবং আমাদের পারস্পরিক সম্পর্ক সংশোধন করে দাও।",
+        english: "O Allah, bring love between our hearts and rectify our mutual relations.",
+        reference: "সহীহ মুসলিম"
+      },
+      {
+        id: "marriage-9",
+        titleBengali: "বিবাদ মীমাংসার দোয়া",
+        titleEnglish: "For Resolving Disputes",
+        arabic: "رَبَّنَا هَبْ لَنَا مِنْ أَزْوَاجِنَا وَذُرِّيَّاتِنَا قُرَّةَ أَعْيُنٍ",
+        bengali: "হে আমাদের রব! আমাদের স্ত্রীদের পক্ষ থেকে এবং আমাদের সন্তানদের পক্ষ থেকে আমাদের চোখ শীতল কর।",
+        english: "Our Lord, grant us from among our wives and offspring comfort to our eyes.",
+        reference: "সূরা ফুরকান ২৫:৭৪"
+      },
+      {
+        id: "marriage-10",
+        titleBengali: "সন্তান লাভের দোয়া",
+        titleEnglish: "For Fertility & Children",
+        arabic: "رَبِّ لاَ تَذَرْنِي فَرْدًا وَأَنتَ خَيْرُ الْوَارِثِينَ",
+        bengali: "হে আমার রব! আমাকে সন্তানহীন রেখো না, তুমিই তো সর্বোত্তম উত্তরাধিকারী।",
+        english: "My Lord, do not leave me alone [with no heir], while You are the best of inheritors.",
+        reference: "সূরা আম্বিয়া ২১:৮৯"
       }
     ]
   },
@@ -1303,6 +1475,42 @@ export const duaCategories: DuaCategory[] = [
         bengali: "হে আল্লাহ! আমি তোমার পরিপূর্ণ বাণীসমূহের মাধ্যমে তাকে প্রতিটি শয়তান, বিষাক্ত প্রাণী এবং প্রতিটি ক্ষতিকর বদনজর থেকে তোমার আশ্রয়ে রাখছি।",
         english: "O Allah, I seek protection for him in Your perfect words from every devil and every poisonous creature, and from every evil eye.",
         reference: "সহীহ বুখারী"
+      },
+      {
+        id: "children-7",
+        titleBengali: "নবজাতকের জন্য দোয়া",
+        titleEnglish: "For Newborn Baby",
+        arabic: "بَارَكَ اللهُ لَكَ فِي الْمَوْهُوبِ لَكَ، وَشَكَرْتَ الْوَاهِبَ، وَبَلَغَ أَشُدَّهُ، وَرُزِقْتَ بِرَّهُ",
+        bengali: "আল্লাহ তোমাকে যা দান করেছেন তাতে বরকত দিন। তুমি দাতার শুকরিয়া আদায় কর। সে যেন পূর্ণ যৌবনে পৌঁছে এবং তুমি তার সদ্ব্যবহার পাও।",
+        english: "May Allah bless you in what He has given you, may you give thanks to the Giver, may he reach full maturity, and may you be blessed with his righteousness.",
+        reference: "ইবনে সুন্নী"
+      },
+      {
+        id: "children-8",
+        titleBengali: "সন্তানের শিক্ষার জন্য দোয়া",
+        titleEnglish: "For Child's Education",
+        arabic: "رَبِّ زِدْنِي عِلْمًا",
+        bengali: "হে আমার রব! আমার জ্ঞান বৃদ্ধি করে দাও। (সন্তানকে শেখান)",
+        english: "My Lord, increase me in knowledge. (Teach to children)",
+        reference: "সূরা ত্বহা ২০:১১৪"
+      },
+      {
+        id: "children-9",
+        titleBengali: "সন্তানের চরিত্রের জন্য দোয়া",
+        titleEnglish: "For Child's Good Character",
+        arabic: "اللَّهُمَّ حَسِّنْ خُلُقَهُ كَمَا حَسَّنْتَ خَلْقَهُ",
+        bengali: "হে আল্লাহ! তার চরিত্র সুন্দর কর যেমন তুমি তার আকৃতি সুন্দর করেছ।",
+        english: "O Allah, make his character beautiful just as You have made his appearance beautiful.",
+        reference: "মুসনাদ আহমাদ"
+      },
+      {
+        id: "children-10",
+        titleBengali: "কিশোর সন্তানের জন্য দোয়া",
+        titleEnglish: "For Teenage Children",
+        arabic: "اللَّهُمَّ اهْدِ أَوْلاَدِي وَثَبِّتْهُمْ عَلَى الْحَقِّ وَاجْعَلْهُمْ مِنَ الصَّالِحِينَ",
+        bengali: "হে আল্লাহ! আমার সন্তানদের হিদায়াত দাও, তাদের সত্যের উপর অটল রাখ এবং তাদের নেককারদের অন্তর্ভুক্ত কর।",
+        english: "O Allah, guide my children, keep them firm upon the truth, and make them among the righteous.",
+        reference: "দোয়া সংকলন"
       }
     ]
   },
@@ -1368,6 +1576,42 @@ export const duaCategories: DuaCategory[] = [
         arabic: "آيِبُونَ، تَائِبُونَ، عَابِدُونَ، لِرَبِّنَا حَامِدُونَ",
         bengali: "আমরা প্রত্যাবর্তনকারী, তাওবাকারী, ইবাদতকারী এবং আমাদের রবের প্রশংসাকারী। (সফর থেকে ফেরার সময়)",
         english: "We are returning, repenting, worshipping, and praising our Lord. (When returning from travel)",
+        reference: "সহীহ বুখারী, সহীহ মুসলিম"
+      },
+      {
+        id: "travel-7",
+        titleBengali: "বিমান/দীর্ঘ সফরের আগে দোয়া",
+        titleEnglish: "Before Flight/Long Journey",
+        arabic: "اللَّهُمَّ هَوِّنْ عَلَيْنَا سَفَرَنَا هَذَا وَاطْوِ عَنَّا بُعْدَهُ",
+        bengali: "হে আল্লাহ! আমাদের এই সফরকে সহজ করে দাও এবং এর দূরত্ব আমাদের জন্য কমিয়ে দাও।",
+        english: "O Allah, make this journey of ours easy and shorten its distance for us.",
+        reference: "সহীহ মুসলিম"
+      },
+      {
+        id: "travel-8",
+        titleBengali: "গাড়ির নিরাপত্তার দোয়া",
+        titleEnglish: "For Safety of Vehicle",
+        arabic: "بِسْمِ اللهِ مَجْرَاهَا وَمُرْسَاهَا إِنَّ رَبِّي لَغَفُورٌ رَّحِيمٌ",
+        bengali: "আল্লাহর নামে এর চলা এবং থামা। নিশ্চয়ই আমার রব অতি ক্ষমাশীল, অতি দয়ালু।",
+        english: "In the name of Allah is its course and its anchorage. Indeed, my Lord is Forgiving and Merciful.",
+        reference: "সূরা হুদ ১১:৪১"
+      },
+      {
+        id: "travel-9",
+        titleBengali: "পথ হারালে দোয়া",
+        titleEnglish: "When Lost",
+        arabic: "يَا عِبَادَ اللهِ دُلُّونِي عَلَى الطَّرِيقِ",
+        bengali: "হে আল্লাহর বান্দারা! আমাকে পথ দেখাও।",
+        english: "O servants of Allah, guide me to the path.",
+        reference: "তাবারানী"
+      },
+      {
+        id: "travel-10",
+        titleBengali: "হজ্জ/উমরার দোয়া",
+        titleEnglish: "For Hajj/Umrah",
+        arabic: "لَبَّيْكَ اللَّهُمَّ لَبَّيْكَ، لَبَّيْكَ لاَ شَرِيكَ لَكَ لَبَّيْكَ، إِنَّ الْحَمْدَ وَالنِّعْمَةَ لَكَ وَالْمُلْكَ، لاَ شَرِيكَ لَكَ",
+        bengali: "আমি হাজির হে আল্লাহ! আমি হাজির। আমি হাজির, তোমার কোন শরীক নেই, আমি হাজির। নিশ্চয়ই সকল প্রশংসা, নিয়ামত এবং রাজত্ব তোমারই, তোমার কোন শরীক নেই।",
+        english: "Here I am, O Allah, here I am. Here I am, You have no partner, here I am. Verily all praise, grace and sovereignty belong to You. You have no partner.",
         reference: "সহীহ বুখারী, সহীহ মুসলিম"
       }
     ]
