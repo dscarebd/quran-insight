@@ -396,15 +396,6 @@ const ReadPage = ({ language }: ReadPageProps) => {
               );
             })}
 
-            {/* Swipe hint for mobile */}
-            <div className="text-center text-muted-foreground text-xs mt-8 md:hidden">
-              <p className={cn(language === "bn" && "font-bengali")}>
-                {language === "bn" 
-                  ? "← → সোয়াইপ করে পৃষ্ঠা পরিবর্তন করুন • পিঞ্চ করে জুম করুন"
-                  : "Swipe ← → to change page • Pinch to zoom"
-                }
-              </p>
-            </div>
           </div>
         )}
       </main>
