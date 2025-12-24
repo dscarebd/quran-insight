@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, Bookmark, BookOpen, Trash2, Loader2, Copy, Share2, Facebook, MessageCircle } from "lucide-react";
+import { ArrowLeft, Bookmark, BookOpen, Trash2, Loader2, Copy, Share2, Facebook, MessageCircle, ChevronDown, ChevronUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { supabase } from "@/integrations/supabase/client";
@@ -27,6 +27,8 @@ interface BookmarkedVerse {
   arabic?: string;
   bengali?: string;
   english?: string;
+  tafsir_bengali?: string;
+  tafsir_english?: string;
 }
 
 const Bookmarks = ({ language, onLanguageChange }: BookmarksProps) => {
@@ -35,6 +37,24 @@ const Bookmarks = ({ language, onLanguageChange }: BookmarksProps) => {
   const { toast } = useToast();
   const [bookmarks, setBookmarks] = useState<BookmarkedVerse[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [expandedTafsir, setExpandedTafsir] = useState<Set<string>>(new Set());
+
+  const toggleTafsir = (id: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setExpandedTafsir(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(id)) {
+        newSet.delete(id);
+      } else {
+        newSet.add(id);
+      }
+      return newSet;
+    });
+  };
+
+  const handleCardClick = (bookmark: BookmarkedVerse) => {
+    navigate(`/surah/${bookmark.surah_number}#verse-${bookmark.verse_number}`);
+  };
 
   useEffect(() => {
     const fetchBookmarks = async () => {
@@ -67,7 +87,7 @@ const Bookmarks = ({ language, onLanguageChange }: BookmarksProps) => {
       const versesPromises = bookmarkData.map(async (bookmark) => {
         const { data: verseData } = await supabase
           .from('verses')
-          .select('arabic, bengali, english')
+          .select('arabic, bengali, english, tafsir_bengali, tafsir_english')
           .eq('surah_number', bookmark.surah_number)
           .eq('verse_number', bookmark.verse_number)
           .maybeSingle();
@@ -77,6 +97,8 @@ const Bookmarks = ({ language, onLanguageChange }: BookmarksProps) => {
           arabic: verseData?.arabic,
           bengali: verseData?.bengali,
           english: verseData?.english,
+          tafsir_bengali: verseData?.tafsir_bengali,
+          tafsir_english: verseData?.tafsir_english,
         };
       });
 
@@ -273,13 +295,17 @@ const Bookmarks = ({ language, onLanguageChange }: BookmarksProps) => {
             {bookmarks.map((bookmark, index) => (
               <div 
                 key={bookmark.id}
-                className="verse-card animate-fade-in"
+                className="verse-card animate-fade-in cursor-pointer hover:border-primary/40 transition-colors"
                 style={{ animationDelay: `${index * 0.05}s` }}
+                onClick={() => handleCardClick(bookmark)}
               >
                 {/* Header */}
                 <div className="mb-4 flex items-center justify-between">
                   <button
-                    onClick={() => navigate(`/surah/${bookmark.surah_number}`)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      navigate(`/surah/${bookmark.surah_number}#verse-${bookmark.verse_number}`);
+                    }}
                     className={cn(
                       "flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-sm text-primary hover:bg-primary/20 transition-colors",
                       language === "bn" && "font-bengali"
@@ -291,7 +317,7 @@ const Bookmarks = ({ language, onLanguageChange }: BookmarksProps) => {
                   </button>
                   
                   {/* Action buttons */}
-                  <div className="flex items-center gap-1">
+                  <div className="flex items-center gap-1" onClick={(e) => e.stopPropagation()}>
                     {/* Copy button */}
                     <Button 
                       variant="ghost" 
@@ -370,6 +396,28 @@ const Bookmarks = ({ language, onLanguageChange }: BookmarksProps) => {
                   <p className={cn("text-base leading-relaxed text-foreground", language === "bn" && "font-bengali")}>
                     {language === "bn" ? bookmark.bengali : bookmark.english}
                   </p>
+                )}
+
+                {/* Tafsir Toggle */}
+                {(bookmark.tafsir_bengali || bookmark.tafsir_english) && (
+                  <div className="mt-4 border-t border-border pt-4" onClick={(e) => e.stopPropagation()}>
+                    <button
+                      onClick={(e) => toggleTafsir(bookmark.id, e)}
+                      className="flex w-full items-center justify-between text-sm font-medium text-primary hover:text-primary/80"
+                    >
+                      <span className={cn("flex items-center gap-2", language === "bn" && "font-bengali")}>
+                        <BookOpen className="h-4 w-4" />
+                        {language === "bn" ? "তাফসীর দেখুন" : "View Tafsir"}
+                      </span>
+                      {expandedTafsir.has(bookmark.id) ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+                    </button>
+                    
+                    {expandedTafsir.has(bookmark.id) && (
+                      <div className={cn("mt-3 rounded-lg bg-accent/50 p-4 text-sm leading-relaxed text-muted-foreground", language === "bn" && "font-bengali")}>
+                        {language === "bn" ? bookmark.tafsir_bengali : bookmark.tafsir_english}
+                      </div>
+                    )}
+                  </div>
                 )}
               </div>
             ))}
