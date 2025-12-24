@@ -56,6 +56,30 @@ export type Database = {
         }
         Relationships: []
       }
+      dua_bookmarks: {
+        Row: {
+          category_id: string
+          created_at: string
+          dua_id: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          category_id: string
+          created_at?: string
+          dua_id: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          category_id?: string
+          created_at?: string
+          dua_id?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string | null
