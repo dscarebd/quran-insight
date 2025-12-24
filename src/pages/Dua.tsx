@@ -274,14 +274,26 @@ const Dua = ({ language }: DuaProps) => {
                     {formatNumber(index + 1, language)}
                   </div>
                   <div className="flex-1 min-w-0 text-left">
-                    <p className="font-arabic text-base text-foreground line-clamp-2 text-right" dir="rtl">
-                      {dua.arabic.substring(0, 60)}...
+                    {/* Dua Title */}
+                    {(dua.titleBengali || dua.titleEnglish) && (
+                      <p className={cn(
+                        "text-sm font-medium text-foreground mb-1",
+                        language === "bn" && "font-bengali"
+                      )}>
+                        {language === "bn" ? dua.titleBengali : dua.titleEnglish}
+                      </p>
+                    )}
+                    <p className="font-arabic text-base text-foreground line-clamp-1 text-right" dir="rtl">
+                      {dua.arabic.length > 50 ? `${dua.arabic.substring(0, 50)}...` : dua.arabic}
                     </p>
                     <p className={cn(
                       "text-xs text-muted-foreground mt-1 line-clamp-1",
                       language === "bn" && "font-bengali"
                     )}>
-                      {language === "bn" ? dua.bengali.substring(0, 50) : dua.english.substring(0, 50)}...
+                      {language === "bn" 
+                        ? (dua.bengali.length > 40 ? `${dua.bengali.substring(0, 40)}...` : dua.bengali)
+                        : (dua.english.length > 40 ? `${dua.english.substring(0, 40)}...` : dua.english)
+                      }
                     </p>
                   </div>
                   <button
@@ -310,7 +322,10 @@ const Dua = ({ language }: DuaProps) => {
           <SheetHeader className="px-4 pb-3 border-b border-border">
             <div className="flex items-center justify-center gap-2">
               <SheetTitle className={cn("text-center", language === "bn" && "font-bengali")}>
-                {language === "bn" ? "দোয়া" : "Dua"}
+                {selectedDua?.titleBengali || selectedDua?.titleEnglish 
+                  ? (language === "bn" ? selectedDua?.titleBengali : selectedDua?.titleEnglish)
+                  : (language === "bn" ? "দোয়া" : "Dua")
+                }
               </SheetTitle>
               {selectedDua && (
                 <>

@@ -1,5 +1,7 @@
 export interface Dua {
   id: string;
+  titleBengali?: string;
+  titleEnglish?: string;
   arabic: string;
   bengali: string;
   english: string;
@@ -26,6 +28,8 @@ export const duaCategories: DuaCategory[] = [
     duas: [
       {
         id: "daily-1",
+        titleBengali: "কাজ শুরু করার দোয়া",
+        titleEnglish: "Before Starting Any Task",
         arabic: "بِسْمِ اللهِ",
         bengali: "আল্লাহর নামে শুরু করছি।",
         english: "In the name of Allah.",
@@ -33,6 +37,8 @@ export const duaCategories: DuaCategory[] = [
       },
       {
         id: "daily-2",
+        titleBengali: "আল্লাহর প্রশংসা",
+        titleEnglish: "Praising Allah",
         arabic: "الْحَمْدُ لِلَّهِ",
         bengali: "সকল প্রশংসা আল্লাহর জন্য।",
         english: "All praise is due to Allah.",
@@ -40,6 +46,8 @@ export const duaCategories: DuaCategory[] = [
       },
       {
         id: "daily-3",
+        titleBengali: "বরকত সহ শুরু করার দোয়া",
+        titleEnglish: "Starting with Blessings",
         arabic: "بِسْمِ اللهِ وَعَلَى بَرَكَةِ اللهِ",
         bengali: "আল্লাহর নামে এবং আল্লাহর বরকতে শুরু করছি।",
         english: "In the name of Allah and with the blessings of Allah.",
@@ -47,6 +55,8 @@ export const duaCategories: DuaCategory[] = [
       },
       {
         id: "daily-4",
+        titleBengali: "খাওয়ার পরের দোয়া",
+        titleEnglish: "After Eating",
         arabic: "الْحَمْدُ لِلَّهِ الَّذِي أَطْعَمَنَا وَسَقَانَا وَجَعَلَنَا مُسْلِمِينَ",
         bengali: "সকল প্রশংসা আল্লাহর জন্য যিনি আমাদের খাওয়ালেন, পান করালেন এবং মুসলিম বানিয়েছেন।",
         english: "All praise is for Allah who fed us and gave us drink, and made us Muslims.",
@@ -54,6 +64,8 @@ export const duaCategories: DuaCategory[] = [
       },
       {
         id: "daily-5",
+        titleBengali: "ঘর থেকে বের হওয়ার দোয়া",
+        titleEnglish: "When Leaving Home",
         arabic: "بِسْمِ اللهِ، تَوَكَّلْتُ عَلَى اللهِ، لاَ حَوْلَ وَلاَ قُوَّةَ إِلاَّ بِاللهِ",
         bengali: "আল্লাহর নামে বের হচ্ছি, আল্লাহর উপর ভরসা করলাম, আল্লাহর সাহায্য ছাড়া কোন উপায় নেই এবং কোন শক্তি নেই।",
         english: "In the name of Allah, I place my trust in Allah, and there is no might nor power except with Allah.",
@@ -61,6 +73,8 @@ export const duaCategories: DuaCategory[] = [
       },
       {
         id: "daily-6",
+        titleBengali: "ঘরে প্রবেশের দোয়া",
+        titleEnglish: "When Entering Home",
         arabic: "بِسْمِ اللهِ وَلَجْنَا، وَبِسْمِ اللهِ خَرَجْنَا، وَعَلَى اللهِ رَبِّنَا تَوَكَّلْنَا",
         bengali: "আল্লাহর নামে প্রবেশ করলাম, আল্লাহর নামে বের হলাম এবং আমাদের রব আল্লাহর উপর ভরসা করলাম।",
         english: "In the name of Allah we enter and in the name of Allah we leave, and upon our Lord we place our trust.",
@@ -78,6 +92,8 @@ export const duaCategories: DuaCategory[] = [
     duas: [
       {
         id: "adhkar-1",
+        titleBengali: "সকালের প্রথম যিকর",
+        titleEnglish: "Morning Remembrance",
         arabic: "أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لاَ إِلَـهَ إِلاَّ اللهُ وَحْدَهُ لاَ شَرِيكَ لَهُ",
         bengali: "আমরা সকালে উপনীত হলাম এবং সকালে উপনীত হল আল্লাহর রাজত্ব। সমস্ত প্রশংসা আল্লাহর জন্য। একমাত্র আল্লাহ ছাড়া কোন ইলাহ নেই, তাঁর কোন শরীক নেই।",
         english: "We have reached the morning and at this very time all sovereignty belongs to Allah. All praise is for Allah. None has the right to be worshipped except Allah, alone, without partner.",
@@ -85,6 +101,8 @@ export const duaCategories: DuaCategory[] = [
       },
       {
         id: "adhkar-2",
+        titleBengali: "সকালে আল্লাহর কাছে প্রার্থনা",
+        titleEnglish: "Morning Supplication",
         arabic: "اللَّهُمَّ بِكَ أَصْبَحْنَا، وَبِكَ أَمْسَيْنَا، وَبِكَ نَحْيَا، وَبِكَ نَمُوتُ، وَإِلَيْكَ النُّشُورُ",
         bengali: "হে আল্লাহ! তোমার অনুগ্রহে আমরা সকালে উপনীত হয়েছি, তোমার অনুগ্রহে সন্ধ্যায় উপনীত হই, তোমার ইচ্ছায় জীবিত থাকি, তোমার ইচ্ছায় মৃত্যুবরণ করি এবং তোমার কাছেই পুনরুত্থিত হব।",
         english: "O Allah, by Your leave we have reached the morning and by Your leave we have reached the evening, by Your leave we live and die and unto You is our resurrection.",
@@ -92,6 +110,8 @@ export const duaCategories: DuaCategory[] = [
       },
       {
         id: "adhkar-3",
+        titleBengali: "সন্ধ্যার প্রথম যিকর",
+        titleEnglish: "Evening Remembrance",
         arabic: "أَمْسَيْنَا وَأَمْسَى الْمُلْكُ للهِ، وَالْحَمْدُ للهِ، لَا إِلَهَ إِلاَّ اللهُ وَحْدَهُ لَا شَرِيكَ لَهُ",
         bengali: "আমরা সন্ধ্যায় উপনীত হলাম এবং সন্ধ্যায় উপনীত হল আল্লাহর রাজত্ব। সমস্ত প্রশংসা আল্লাহর জন্য। একমাত্র আল্লাহ ছাড়া কোন ইলাহ নেই, তাঁর কোন শরীক নেই।",
         english: "We have reached the evening and at this very time all sovereignty belongs to Allah. All praise is for Allah. None has the right to be worshipped except Allah, alone, without partner.",
@@ -99,6 +119,8 @@ export const duaCategories: DuaCategory[] = [
       },
       {
         id: "adhkar-4",
+        titleBengali: "তাসবীহ (১০০ বার)",
+        titleEnglish: "Tasbeeh (100 times)",
         arabic: "سُبْحَانَ اللهِ وَبِحَمْدِهِ",
         bengali: "আল্লাহ পবিত্র এবং তাঁর জন্যই সকল প্রশংসা। (১০০ বার পড়ুন)",
         english: "Glory is to Allah and praise is to Him. (Recite 100 times)",
@@ -106,6 +128,8 @@ export const duaCategories: DuaCategory[] = [
       },
       {
         id: "adhkar-5",
+        titleBengali: "তাওহীদের যিকর",
+        titleEnglish: "Declaration of Tawheed",
         arabic: "لاَ إِلَهَ إِلاَّ اللهُ وَحْدَهُ لاَ شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ",
         bengali: "আল্লাহ ছাড়া কোন ইলাহ নেই, তিনি একক, তাঁর কোন শরীক নেই। রাজত্ব তাঁরই, প্রশংসাও তাঁর এবং তিনি সবকিছুর উপর ক্ষমতাবান। (১০ বার বা ১০০ বার)",
         english: "None has the right to be worshipped except Allah, alone, without partner. To Him belongs all sovereignty and praise and He is over all things omnipotent. (10 or 100 times)",
@@ -113,6 +137,8 @@ export const duaCategories: DuaCategory[] = [
       },
       {
         id: "adhkar-6",
+        titleBengali: "সুস্থতার দোয়া",
+        titleEnglish: "Prayer for Well-being",
         arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَافِيَةَ فِي الدُّنْيَا وَالآخِرَةِ",
         bengali: "হে আল্লাহ! আমি তোমার কাছে দুনিয়া ও আখিরাতে সুস্থতা প্রার্থনা করি।",
         english: "O Allah, I ask You for well-being in this world and the Hereafter.",
@@ -120,6 +146,8 @@ export const duaCategories: DuaCategory[] = [
       },
       {
         id: "adhkar-7",
+        titleBengali: "ঘুম থেকে জাগার দোয়া",
+        titleEnglish: "Upon Waking Up",
         arabic: "الْحَمْدُ للهِ الَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا وَإِلَيْهِ النُّشُورُ",
         bengali: "সমস্ত প্রশংসা সেই আল্লাহর জন্য যিনি মৃত্যুর পর আমাদের জীবিত করেছেন এবং তাঁরই কাছে পুনরুত্থান।",
         english: "All praise is for Allah who gave us life after having taken it from us and unto Him is the resurrection.",
@@ -127,6 +155,8 @@ export const duaCategories: DuaCategory[] = [
       },
       {
         id: "adhkar-8",
+        titleBengali: "ঘুমানোর আগে দোয়া",
+        titleEnglish: "Before Sleeping",
         arabic: "بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا",
         bengali: "হে আল্লাহ! তোমার নামে মৃত্যুবরণ করি এবং জীবিত হই।",
         english: "In Your name O Allah, I die and I live.",
@@ -144,6 +174,8 @@ export const duaCategories: DuaCategory[] = [
     duas: [
       {
         id: "forgive-1",
+        titleBengali: "সংক্ষিপ্ত ইসতিগফার",
+        titleEnglish: "Short Istighfar",
         arabic: "أَسْتَغْفِرُ اللهَ",
         bengali: "আমি আল্লাহর কাছে ক্ষমা চাই।",
         english: "I seek forgiveness from Allah.",
@@ -151,6 +183,8 @@ export const duaCategories: DuaCategory[] = [
       },
       {
         id: "forgive-2",
+        titleBengali: "সম্পূর্ণ ইসতিগফার",
+        titleEnglish: "Complete Istighfar",
         arabic: "أَسْتَغْفِرُ اللهَ الَّذِي لاَ إِلَهَ إِلاَّ هُوَ الْحَيُّ الْقَيُّومُ وَأَتُوبُ إِلَيْهِ",
         bengali: "আমি আল্লাহর কাছে ক্ষমা চাই, যিনি ছাড়া কোন ইলাহ নেই, তিনি চিরঞ্জীব, সবকিছুর ধারক এবং তাঁর কাছেই তাওবা করছি।",
         english: "I seek forgiveness from Allah, besides whom there is none worthy of worship, the Ever Living, the Self-Subsisting, and I repent to Him.",
@@ -158,6 +192,8 @@ export const duaCategories: DuaCategory[] = [
       },
       {
         id: "forgive-3",
+        titleBengali: "সাইয়িদুল ইসতিগফার",
+        titleEnglish: "Master of Forgiveness",
         arabic: "اللَّهُمَّ أَنْتَ رَبِّي لاَ إِلَهَ إِلاَّ أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ، وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ، أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ، أَبُوءُ لَكَ بِنِعْمَتِكَ عَلَيَّ، وَأَبُوءُ لَكَ بِذَنْبِي فَاغْفِرْ لِي فَإِنَّهُ لاَ يَغْفِرُ الذُّنُوبَ إِلاَّ أَنْتَ",
         bengali: "হে আল্লাহ! তুমি আমার রব, তুমি ছাড়া কোন ইলাহ নেই। তুমি আমাকে সৃষ্টি করেছ এবং আমি তোমার বান্দা। আমি সাধ্যমত তোমার সাথে কৃত অঙ্গীকার ও প্রতিশ্রুতির উপর আছি। আমি আমার কৃতকর্মের অনিষ্ট থেকে তোমার আশ্রয় চাই। আমি আমার প্রতি তোমার নিয়ামতের স্বীকৃতি দিচ্ছি এবং আমার গুনাহের স্বীকৃতি দিচ্ছি। অতএব, তুমি আমাকে ক্ষমা কর, কেননা তুমি ছাড়া কেউ গুনাহ ক্ষমা করতে পারে না।",
         english: "O Allah, You are my Lord, there is none worthy of worship but You. You created me and I am Your slave. I keep Your covenant and promise as best I can. I seek refuge in You from the evil I have done. I acknowledge Your blessings upon me and I acknowledge my sins. So forgive me, for none forgives sins but You.",
@@ -165,6 +201,8 @@ export const duaCategories: DuaCategory[] = [
       },
       {
         id: "forgive-4",
+        titleBengali: "তাওবার দোয়া",
+        titleEnglish: "Prayer for Repentance",
         arabic: "رَبِّ اغْفِرْ لِي وَتُبْ عَلَيَّ إِنَّكَ أَنْتَ التَّوَّابُ الرَّحِيمُ",
         bengali: "হে আমার রব! আমাকে ক্ষমা কর এবং আমার তাওবা কবুল কর। নিশ্চয়ই তুমি তাওবা কবুলকারী, অতি দয়ালু।",
         english: "My Lord, forgive me and accept my repentance. Indeed, You are the Acceptor of repentance, the Most Merciful.",
@@ -172,6 +210,8 @@ export const duaCategories: DuaCategory[] = [
       },
       {
         id: "forgive-5",
+        titleBengali: "আদম (আ.) এর দোয়া",
+        titleEnglish: "Dua of Prophet Adam",
         arabic: "رَبَّنَا ظَلَمْنَا أَنفُسَنَا وَإِن لَّمْ تَغْفِرْ لَنَا وَتَرْحَمْنَا لَنَكُونَنَّ مِنَ الْخَاسِرِينَ",
         bengali: "হে আমাদের রব! আমরা নিজেদের প্রতি যুলুম করেছি। তুমি যদি আমাদের ক্ষমা না কর এবং রহম না কর তাহলে আমরা ক্ষতিগ্রস্তদের অন্তর্ভুক্ত হব।",
         english: "Our Lord, we have wronged ourselves, and if You do not forgive us and have mercy upon us, we will surely be among the losers.",
@@ -179,6 +219,8 @@ export const duaCategories: DuaCategory[] = [
       },
       {
         id: "forgive-6",
+        titleBengali: "মূসা (আ.) এর দোয়া",
+        titleEnglish: "Dua of Prophet Musa",
         arabic: "رَبِّ إِنِّي ظَلَمْتُ نَفْسِي فَاغْفِرْ لِي",
         bengali: "হে আমার রব! আমি নিজের প্রতি যুলুম করেছি, অতএব আমাকে ক্ষমা কর।",
         english: "My Lord, indeed I have wronged myself, so forgive me.",
@@ -196,6 +238,8 @@ export const duaCategories: DuaCategory[] = [
     duas: [
       {
         id: "protect-1",
+        titleBengali: "সকল ক্ষতি থেকে সুরক্ষা",
+        titleEnglish: "Protection from All Harm",
         arabic: "بِسْمِ اللهِ الَّذِي لاَ يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الأَرْضِ وَلاَ فِي السَّمَاءِ وَهُوَ السَّمِيعُ الْعَلِيمُ",
         bengali: "আল্লাহর নামে, যাঁর নামের সাথে আসমান ও জমিনে কোন কিছুই ক্ষতি করতে পারে না এবং তিনি সর্বশ্রোতা, সর্বজ্ঞ। (৩ বার পড়ুন)",
         english: "In the name of Allah, with whose name nothing can cause harm in the earth nor in the heavens, and He is the All-Hearing, the All-Knowing. (Recite 3 times)",
@@ -203,6 +247,8 @@ export const duaCategories: DuaCategory[] = [
       },
       {
         id: "protect-2",
+        titleBengali: "সৃষ্টির অনিষ্ট থেকে আশ্রয়",
+        titleEnglish: "Refuge from Evil of Creation",
         arabic: "أَعُوذُ بِكَلِمَاتِ اللهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ",
         bengali: "আমি আল্লাহর পরিপূর্ণ বাণীসমূহের মাধ্যমে তাঁর সৃষ্টির সকল অনিষ্ট থেকে আশ্রয় চাই। (৩ বার পড়ুন)",
         english: "I seek refuge in the perfect words of Allah from the evil of what He has created. (Recite 3 times)",
@@ -210,6 +256,8 @@ export const duaCategories: DuaCategory[] = [
       },
       {
         id: "protect-3",
+        titleBengali: "দুশ্চিন্তা থেকে আশ্রয়",
+        titleEnglish: "Protection from Anxiety",
         arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ، وَأَعُوذُ بِكَ مِنَ الْعَجْزِ وَالْكَسَلِ، وَأَعُوذُ بِكَ مِنَ الْجُبْنِ وَالْبُخْلِ، وَأَعُوذُ بِكَ مِنْ غَلَبَةِ الدَّيْنِ وَقَهْرِ الرِّجَالِ",
         bengali: "হে আল্লাহ! আমি তোমার আশ্রয় চাই দুশ্চিন্তা ও দুঃখ থেকে, অক্ষমতা ও অলসতা থেকে, কাপুরুষতা ও কৃপণতা থেকে এবং ঋণের বোঝা ও মানুষের দমন থেকে।",
         english: "O Allah, I seek refuge in You from anxiety and sorrow, weakness and laziness, miserliness and cowardice, the burden of debts and from being overpowered by men.",
@@ -217,6 +265,8 @@ export const duaCategories: DuaCategory[] = [
       },
       {
         id: "protect-4",
+        titleBengali: "চারদিক থেকে হিফাজত",
+        titleEnglish: "Protection from All Sides",
         arabic: "اللَّهُمَّ احْفَظْنِي مِنْ بَيْنِ يَدَيَّ، وَمِنْ خَلْفِي، وَعَنْ يَمِينِي، وَعَنْ شِمَالِي، وَمِنْ فَوْقِي، وَأَعُوذُ بِعَظَمَتِكَ أَنْ أُغْتَالَ مِنْ تَحْتِي",
         bengali: "হে আল্লাহ! আমাকে হিফাজত কর আমার সামনে থেকে, পেছন থেকে, ডান দিক থেকে, বাম দিক থেকে এবং উপর থেকে। আমি তোমার মহত্ত্বের আশ্রয় নিচ্ছি যেন আমাকে নিচ থেকে হঠাৎ ধ্বংস করা না হয়।",
         english: "O Allah, protect me from my front, from behind me, from my right, from my left, and from above me, and I seek refuge in Your Greatness from being unexpectedly destroyed from beneath me.",
@@ -224,6 +274,8 @@ export const duaCategories: DuaCategory[] = [
       },
       {
         id: "protect-5",
+        titleBengali: "শয়তান থেকে আশ্রয়",
+        titleEnglish: "Refuge from Satan",
         arabic: "أَعُوذُ بِاللهِ مِنَ الشَّيْطَانِ الرَّجِيمِ",
         bengali: "আমি বিতাড়িত শয়তান থেকে আল্লাহর আশ্রয় চাই।",
         english: "I seek refuge in Allah from the accursed Satan.",
@@ -231,6 +283,8 @@ export const duaCategories: DuaCategory[] = [
       },
       {
         id: "protect-6",
+        titleBengali: "নফস ও প্রাণীর অনিষ্ট থেকে",
+        titleEnglish: "Protection from Self & Creatures",
         arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ شَرِّ نَفْسِي وَمِنْ شَرِّ كُلِّ دَابَّةٍ أَنْتَ آخِذٌ بِنَاصِيَتِهَا",
         bengali: "হে আল্লাহ! আমি তোমার কাছে আশ্রয় চাই আমার নফসের অনিষ্ট থেকে এবং প্রতিটি প্রাণীর অনিষ্ট থেকে যার নিয়ন্ত্রণ তোমার হাতে।",
         english: "O Allah, I seek refuge in You from the evil of my soul and from the evil of every creature whose forelock is in Your Hand.",
