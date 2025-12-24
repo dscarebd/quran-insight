@@ -32,6 +32,30 @@ export type Database = {
         }
         Relationships: []
       }
+      bookmarks: {
+        Row: {
+          created_at: string
+          id: string
+          surah_number: number
+          user_id: string
+          verse_number: number
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          surah_number: number
+          user_id: string
+          verse_number: number
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          surah_number?: number
+          user_id?: string
+          verse_number?: number
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string | null
