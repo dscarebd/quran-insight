@@ -7,7 +7,7 @@ createRoot(document.getElementById("root")!).render(
   <ThemeProvider 
     attribute="class" 
     defaultTheme="light" 
-    themes={["light", "dark", "sepia"]}
+    themes={["light", "dark"]}
   >
     <App />
   </ThemeProvider>

@@ -13,9 +13,10 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 interface ParaDetailProps {
   language: "bn" | "en";
   onLanguageChange: (lang: "bn" | "en") => void;
+  readingMode?: "normal" | "sepia";
 }
 
-const ParaDetail = ({ language, onLanguageChange }: ParaDetailProps) => {
+const ParaDetail = ({ language, onLanguageChange, readingMode = "normal" }: ParaDetailProps) => {
   const { paraNumber } = useParams<{ paraNumber: string }>();
   const navigate = useNavigate();
   const isMobile = useIsMobile();
@@ -92,9 +93,15 @@ const ParaDetail = ({ language, onLanguageChange }: ParaDetailProps) => {
   );
 
   return (
-    <div className="min-h-screen bg-background islamic-pattern">
+    <div className={cn(
+      "min-h-screen islamic-pattern",
+      readingMode === "sepia" ? "sepia" : "bg-background"
+    )}>
       {/* Header */}
-      <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <header className={cn(
+        "sticky top-0 z-50 border-b border-border backdrop-blur supports-[backdrop-filter]:bg-background/60",
+        readingMode === "sepia" ? "bg-[hsl(35,30%,94%)]/95" : "bg-background/95"
+      )}>
         <div className="mx-auto flex max-w-4xl items-center justify-between px-4 py-3">
           <Button 
             variant="ghost" 
