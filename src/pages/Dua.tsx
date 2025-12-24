@@ -8,8 +8,7 @@ import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useDuaBookmarks } from "@/hooks/useDuaBookmarks";
-import { useAuth } from "@/hooks/useAuth";
+import { useLocalDuaBookmarks } from "@/hooks/useLocalDuaBookmarks";
 import { toast } from "sonner";
 import * as LucideIcons from "lucide-react";
 
@@ -28,8 +27,7 @@ const DynamicIcon = ({ name, className }: { name: string; className?: string }) 
 
 const Dua = ({ language }: DuaProps) => {
   const navigate = useNavigate();
-  const { user } = useAuth();
-  const { bookmarks, isBookmarked, toggleBookmark, loading: bookmarksLoading } = useDuaBookmarks();
+  const { bookmarks, isBookmarked, toggleBookmark, loading: bookmarksLoading } = useLocalDuaBookmarks();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<DuaCategory | null>(null);
   const [selectedDua, setSelectedDua] = useState<DuaType | null>(null);
@@ -194,20 +192,7 @@ const Dua = ({ language }: DuaProps) => {
 
           <TabsContent value="favorites" className="mt-0">
             <div className="p-4 pb-20 md:pb-4">
-              {!user ? (
-                <div className="flex flex-col items-center justify-center py-12 text-center">
-                  <Heart className="h-12 w-12 text-muted-foreground/50 mb-4" />
-                  <p className={cn("text-muted-foreground", language === "bn" && "font-bengali")}>
-                    {language === "bn" ? "পছন্দের দোয়া সংরক্ষণ করতে লগইন করুন" : "Login to save favorite duas"}
-                  </p>
-                  <button
-                    onClick={() => navigate("/auth")}
-                    className="mt-4 px-4 py-2 bg-primary text-primary-foreground rounded-lg text-sm font-medium"
-                  >
-                    {language === "bn" ? "লগইন" : "Login"}
-                  </button>
-                </div>
-              ) : favoriteDuas.length === 0 ? (
+              {favoriteDuas.length === 0 ? (
                 <div className="flex flex-col items-center justify-center py-12 text-center">
                   <Heart className="h-12 w-12 text-muted-foreground/50 mb-4" />
                   <p className={cn("text-muted-foreground", language === "bn" && "font-bengali")}>

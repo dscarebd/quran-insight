@@ -4,7 +4,7 @@ import { ArrowLeft, Bookmark, BookOpen, Trash2, Loader2, Copy, Share2, Facebook,
 import { Button } from "@/components/ui/button";
 import { cn, formatNumber } from "@/lib/utils";
 import { supabase } from "@/integrations/supabase/client";
-import { useAuth } from "@/hooks/useAuth";
+import { useLocalBookmarks } from "@/hooks/useLocalBookmarks";
 import { useToast } from "@/hooks/use-toast";
 import { surahs } from "@/data/surahs";
 import {
@@ -35,7 +35,7 @@ interface BookmarkedVerse {
 
 const Bookmarks = ({ language, onLanguageChange, readingMode = "normal" }: BookmarksProps) => {
   const navigate = useNavigate();
-  const { user, isLoading: authLoading } = useAuth();
+  const { bookmarks: localBookmarks, removeBookmark } = useLocalBookmarks();
   const { toast } = useToast();
   const [bookmarks, setBookmarks] = useState<BookmarkedVerse[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -60,7 +60,7 @@ const Bookmarks = ({ language, onLanguageChange, readingMode = "normal" }: Bookm
 
   useEffect(() => {
     const fetchBookmarks = async () => {
-      if (!user) {
+      if (localBookmarks.length === 0) {
         setBookmarks([]);
         setIsLoading(false);
         return;
@@ -68,25 +68,7 @@ const Bookmarks = ({ language, onLanguageChange, readingMode = "normal" }: Bookm
 
       setIsLoading(true);
 
-      const { data: bookmarkData, error: bookmarkError } = await supabase
-        .from('bookmarks')
-        .select('*')
-        .eq('user_id', user.id)
-        .order('created_at', { ascending: false });
-
-      if (bookmarkError) {
-        console.error('Error fetching bookmarks:', bookmarkError);
-        setIsLoading(false);
-        return;
-      }
-
-      if (!bookmarkData || bookmarkData.length === 0) {
-        setBookmarks([]);
-        setIsLoading(false);
-        return;
-      }
-
-      const versesPromises = bookmarkData.map(async (bookmark) => {
+      const versesPromises = localBookmarks.map(async (bookmark) => {
         const { data: verseData } = await supabase
           .from('verses')
           .select('arabic, bengali, english, tafsir_bengali, tafsir_english')
@@ -95,7 +77,10 @@ const Bookmarks = ({ language, onLanguageChange, readingMode = "normal" }: Bookm
           .maybeSingle();
 
         return {
-          ...bookmark,
+          id: bookmark.id,
+          surah_number: bookmark.surah_number,
+          verse_number: bookmark.verse_number,
+          created_at: bookmark.created_at,
           arabic: verseData?.arabic,
           bengali: verseData?.bengali,
           english: verseData?.english,
@@ -110,26 +95,11 @@ const Bookmarks = ({ language, onLanguageChange, readingMode = "normal" }: Bookm
     };
 
     fetchBookmarks();
-  }, [user]);
+  }, [localBookmarks]);
 
-  const handleRemoveBookmark = async (id: string) => {
-    const { error } = await supabase
-      .from('bookmarks')
-      .delete()
-      .eq('id', id);
-
-    if (error) {
-      toast({
-        title: language === "bn" ? "ত্রুটি" : "Error",
-        description: language === "bn" ? "বুকমার্ক মুছতে সমস্যা হয়েছে" : "Failed to remove bookmark",
-        variant: "destructive",
-      });
-    } else {
-      setBookmarks(prev => prev.filter(b => b.id !== id));
-      toast({
-        title: language === "bn" ? "বুকমার্ক মুছে ফেলা হয়েছে" : "Bookmark Removed",
-      });
-    }
+  const handleRemoveBookmark = (id: string) => {
+    removeBookmark(id, language);
+    setBookmarks(prev => prev.filter(b => b.id !== id));
   };
 
   const getSurahName = (surahNumber: number) => {
@@ -201,14 +171,6 @@ const Bookmarks = ({ language, onLanguageChange, readingMode = "normal" }: Bookm
     });
   };
 
-  if (authLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
-      </div>
-    );
-  }
-
   return (
     <div className={cn(
       "min-h-screen islamic-pattern",
@@ -279,22 +241,7 @@ const Bookmarks = ({ language, onLanguageChange, readingMode = "normal" }: Bookm
 
       {/* Content */}
       <div className="mx-auto max-w-4xl px-3 py-6 sm:px-4 md:px-6">
-        {!user ? (
-          <div className="rounded-2xl border border-dashed border-border bg-card p-8 text-center">
-            <Bookmark className="mx-auto mb-4 h-12 w-12 text-muted-foreground/50" />
-            <h3 className={cn("mb-2 text-lg font-semibold text-foreground", language === "bn" && "font-bengali")}>
-              {language === "bn" ? "লগইন করুন" : "Login Required"}
-            </h3>
-            <p className={cn("mb-4 text-sm text-muted-foreground", language === "bn" && "font-bengali")}>
-              {language === "bn" 
-                ? "আয়াত সংরক্ষণ করতে লগইন করুন" 
-                : "Please login to save and view your bookmarks"}
-            </p>
-            <Button onClick={() => navigate("/auth")}>
-              {language === "bn" ? "লগইন" : "Login"}
-            </Button>
-          </div>
-        ) : isLoading ? (
+        {isLoading ? (
           <div className="flex items-center justify-center py-12">
             <Loader2 className="h-8 w-8 animate-spin text-primary" />
           </div>
