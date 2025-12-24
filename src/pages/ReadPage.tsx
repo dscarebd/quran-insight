@@ -3,11 +3,12 @@ import { useParams, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { quranPages, getPageByNumber, getJuzForPage } from "@/data/pages";
 import { surahs } from "@/data/surahs";
-import { ChevronLeft, ChevronRight, Book, ZoomIn, ZoomOut } from "lucide-react";
+import { ChevronLeft, ChevronRight, Book, ZoomIn, ZoomOut, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Input } from "@/components/ui/input";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
 import { toast } from "sonner";
@@ -34,7 +35,9 @@ const ReadPage = ({ language, readingMode = "normal" }: ReadPageProps) => {
   const [verses, setVerses] = useState<Verse[]>([]);
   const [loading, setLoading] = useState(true);
   const [pageSearch, setPageSearch] = useState("");
+  const [surahSearch, setSurahSearch] = useState("");
   const [sheetOpen, setSheetOpen] = useState(false);
+  const [selectorTab, setSelectorTab] = useState<"page" | "surah">("page");
   
   // Last read verse state
   const [lastReadVerse, setLastReadVerse] = useState<string | null>(() => {
@@ -59,8 +62,8 @@ const ReadPage = ({ language, readingMode = "normal" }: ReadPageProps) => {
   const initialPinchDistance = useRef<number>(0);
   const isPinching = useRef<boolean>(false);
   
-  // Page list refs for auto-scroll
   const pageListRefs = useRef<{ [key: number]: HTMLButtonElement | null }>({});
+  const surahListRefs = useRef<{ [key: number]: HTMLButtonElement | null }>({});
 
   const pageData = getPageByNumber(currentPage);
   const juzNumber = getJuzForPage(currentPage);
@@ -109,21 +112,27 @@ const ReadPage = ({ language, readingMode = "normal" }: ReadPageProps) => {
     );
   }, [currentPage, language]);
 
-  // Scroll to current page when sheet opens
+  // Scroll to current page/surah when sheet opens
   useEffect(() => {
-    if (sheetOpen && currentPage && !pageSearch) {
+    if (sheetOpen && !pageSearch && !surahSearch) {
       const timer = setTimeout(() => {
-        const element = pageListRefs.current[currentPage];
-        if (element) {
-          element.scrollIntoView({
-            behavior: 'instant',
-            block: 'center'
-          });
+        if (selectorTab === "page") {
+          const element = pageListRefs.current[currentPage];
+          if (element) {
+            element.scrollIntoView({ behavior: 'instant', block: 'center' });
+          }
+        } else {
+          // Scroll to current surah in surah list
+          const currentSurahNum = pageData?.startSurah || 1;
+          const element = surahListRefs.current[currentSurahNum];
+          if (element) {
+            element.scrollIntoView({ behavior: 'instant', block: 'center' });
+          }
         }
       }, 300);
       return () => clearTimeout(timer);
     }
-  }, [sheetOpen, currentPage, pageSearch]);
+  }, [sheetOpen, currentPage, pageSearch, surahSearch, selectorTab, pageData]);
 
   // Format number based on language
   const formatNumber = (num: number, lang: "bn" | "en"): string => {
@@ -299,6 +308,27 @@ const ReadPage = ({ language, readingMode = "normal" }: ReadPageProps) => {
   const filteredPages = quranPages.filter(p => 
     p.pageNumber.toString().includes(pageSearch)
   );
+
+  // Filter surahs for search
+  const filteredSurahs = surahs.filter(s => {
+    if (!surahSearch.trim()) return true;
+    const query = surahSearch.toLowerCase();
+    return (
+      s.number.toString().includes(query) ||
+      s.nameArabic.includes(query) ||
+      s.nameBengali.toLowerCase().includes(query) ||
+      s.nameEnglish.toLowerCase().includes(query)
+    );
+  });
+
+  // Get the first page of a surah
+  const getSurahStartPage = (surahNumber: number): number => {
+    const page = quranPages.find(p => p.startSurah === surahNumber && p.startVerse === 1);
+    if (page) return page.pageNumber;
+    // Fallback: find any page that contains this surah
+    const fallbackPage = quranPages.find(p => p.startSurah <= surahNumber && p.endSurah >= surahNumber);
+    return fallbackPage?.pageNumber || 1;
+  };
 
   // Group verses by surah for display
   const versesBySurah = verses.reduce((acc, verse) => {
@@ -490,42 +520,123 @@ const ReadPage = ({ language, readingMode = "normal" }: ReadPageProps) => {
                 </span>
               </button>
             </SheetTrigger>
-            <SheetContent side="bottom" className="h-[75vh] rounded-t-2xl px-0">
-              <SheetHeader className="px-4 pb-3 border-b border-border space-y-3">
+            <SheetContent side="bottom" className="h-[80vh] rounded-t-2xl px-0">
+              <SheetHeader className="px-4 pb-3 border-b border-border">
                 <SheetTitle className={cn("text-center", language === "bn" && "font-bengali")}>
                   {language === "bn" ? "পৃষ্ঠা নির্বাচন করুন" : "Select Page"}
                 </SheetTitle>
-                <Input
-                  placeholder={language === "bn" ? "পৃষ্ঠা নম্বর খুঁজুন..." : "Search page number..."}
-                  value={pageSearch}
-                  onChange={(e) => setPageSearch(e.target.value)}
-                  className={cn(language === "bn" && "font-bengali")}
-                />
               </SheetHeader>
-              <ScrollArea className="h-[calc(75vh-110px)]">
-                <div className="p-2 grid grid-cols-5 gap-2">
-                  {filteredPages.map((page) => (
-                    <Button
-                      key={page.pageNumber}
-                      ref={(el) => {
-                        pageListRefs.current[page.pageNumber] = el;
-                      }}
-                      variant={page.pageNumber === currentPage ? "default" : "outline"}
-                      size="sm"
-                      className={cn(
-                        "h-10 text-sm font-bengali",
-                        page.pageNumber === currentPage && "bg-primary text-primary-foreground"
-                      )}
-                      onClick={() => {
-                        goToPage(page.pageNumber);
-                        setSheetOpen(false);
-                      }}
-                    >
-                      {formatNumber(page.pageNumber, language)}
-                    </Button>
-                  ))}
+              
+              <Tabs value={selectorTab} onValueChange={(v) => setSelectorTab(v as "page" | "surah")} className="flex flex-col h-[calc(80vh-60px)]">
+                <div className="px-4 pt-3">
+                  <TabsList className="w-full grid grid-cols-2">
+                    <TabsTrigger value="page" className={cn(language === "bn" && "font-bengali")}>
+                      {language === "bn" ? "পৃষ্ঠা" : "Page"}
+                    </TabsTrigger>
+                    <TabsTrigger value="surah" className={cn(language === "bn" && "font-bengali")}>
+                      {language === "bn" ? "সূরা" : "Surah"}
+                    </TabsTrigger>
+                  </TabsList>
                 </div>
-              </ScrollArea>
+
+                <TabsContent value="page" className="flex-1 mt-0 overflow-hidden">
+                  <div className="px-4 py-3">
+                    <div className="relative">
+                      <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                      <Input
+                        placeholder={language === "bn" ? "পৃষ্ঠা নম্বর খুঁজুন..." : "Search page number..."}
+                        value={pageSearch}
+                        onChange={(e) => setPageSearch(e.target.value)}
+                        className={cn("pl-9", language === "bn" && "font-bengali")}
+                      />
+                    </div>
+                  </div>
+                  <ScrollArea className="h-[calc(80vh-200px)]">
+                    <div className="p-2 grid grid-cols-5 gap-2">
+                      {filteredPages.map((page) => (
+                        <Button
+                          key={page.pageNumber}
+                          ref={(el) => {
+                            pageListRefs.current[page.pageNumber] = el;
+                          }}
+                          variant={page.pageNumber === currentPage ? "default" : "outline"}
+                          size="sm"
+                          className={cn(
+                            "h-10 text-sm font-bengali",
+                            page.pageNumber === currentPage && "bg-primary text-primary-foreground"
+                          )}
+                          onClick={() => {
+                            goToPage(page.pageNumber);
+                            setSheetOpen(false);
+                            setPageSearch("");
+                          }}
+                        >
+                          {formatNumber(page.pageNumber, language)}
+                        </Button>
+                      ))}
+                    </div>
+                  </ScrollArea>
+                </TabsContent>
+
+                <TabsContent value="surah" className="flex-1 mt-0 overflow-hidden">
+                  <div className="px-4 py-3">
+                    <div className="relative">
+                      <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                      <Input
+                        placeholder={language === "bn" ? "সূরা খুঁজুন..." : "Search surah..."}
+                        value={surahSearch}
+                        onChange={(e) => setSurahSearch(e.target.value)}
+                        className={cn("pl-9", language === "bn" && "font-bengali")}
+                      />
+                    </div>
+                  </div>
+                  <ScrollArea className="h-[calc(80vh-200px)]">
+                    <div className="py-1">
+                      {filteredSurahs.map((surah) => {
+                        const isCurrentSurah = pageData && surah.number >= pageData.startSurah && surah.number <= pageData.endSurah;
+                        return (
+                          <button
+                            key={surah.number}
+                            ref={(el) => {
+                              surahListRefs.current[surah.number] = el;
+                            }}
+                            onClick={() => {
+                              const startPage = getSurahStartPage(surah.number);
+                              goToPage(startPage);
+                              setSheetOpen(false);
+                              setSurahSearch("");
+                            }}
+                            className={cn(
+                              "flex items-center gap-3 w-full px-4 py-3 transition-colors hover:bg-muted border-b border-border/50 last:border-b-0",
+                              isCurrentSurah && "bg-primary/10"
+                            )}
+                          >
+                            <div className={cn(
+                              "flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-sm font-semibold font-bengali",
+                              isCurrentSurah ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"
+                            )}>
+                              {formatNumber(surah.number, language)}
+                            </div>
+                            <div className="flex-1 min-w-0 text-left">
+                              <p className="font-arabic text-lg text-foreground">
+                                {surah.nameArabic}
+                              </p>
+                              <p className={cn(
+                                "text-xs text-muted-foreground",
+                                language === "bn" && "font-bengali"
+                              )}>
+                                {language === "bn" ? surah.nameBengali : surah.nameEnglish}
+                                <span className="mx-1">•</span>
+                                {formatNumber(surah.totalVerses, language)} {language === "bn" ? "আয়াত" : "verses"}
+                              </p>
+                            </div>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </ScrollArea>
+                </TabsContent>
+              </Tabs>
             </SheetContent>
           </Sheet>
 
