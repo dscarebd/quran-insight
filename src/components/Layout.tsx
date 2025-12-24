@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { AppSidebar } from "@/components/AppSidebar";
+import { MobileNavFooter } from "@/components/MobileNavFooter";
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 
 interface LayoutProps {
@@ -18,9 +19,10 @@ export const Layout = ({ children, language, onLanguageChange }: LayoutProps) =>
         activeTab={activeTab}
         onTabChange={setActiveTab}
       />
-      <SidebarInset>
+      <SidebarInset className="pb-16 md:pb-0">
         {children}
       </SidebarInset>
+      <MobileNavFooter language={language} />
     </SidebarProvider>
   );
 };
