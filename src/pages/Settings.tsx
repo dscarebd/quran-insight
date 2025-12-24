@@ -1,10 +1,18 @@
-import { ArrowLeft, Info, Moon, Sun, Monitor, Code, ExternalLink, Heart } from "lucide-react";
+import { ArrowLeft, Info, Moon, Sun, Monitor, Globe, Mail, Heart } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
 import { MobileNavFooter } from "@/components/MobileNavFooter";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import annurLogo from "@/assets/annur-digital-logo.jpeg";
+
+// Telegram SVG Icon Component
+const TelegramIcon = ({ className }: { className?: string }) => (
+  <svg viewBox="0 0 24 24" className={className} fill="currentColor">
+    <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+  </svg>
+);
 
 interface SettingsProps {
   language: "bn" | "en";
@@ -180,40 +188,61 @@ const Settings = ({ language, onLanguageChange }: SettingsProps) => {
             <div className="rounded-xl border border-border bg-card overflow-hidden">
               <div className="p-4">
                 <div className="flex items-center gap-4">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-purple-600">
-                    <Code className="h-6 w-6 text-white" />
-                  </div>
+                  <img 
+                    src={annurLogo} 
+                    alt="An-Nur Digital" 
+                    className="h-14 w-14 rounded-full object-cover border-2 border-primary/20"
+                  />
                   <div className="flex-1">
                     <h3 className={cn("font-semibold", language === "bn" && "font-bengali")}>
-                      {language === "bn" ? "ডেভেলপার টিম" : "Developer Team"}
+                      An-Nur Digital
                     </h3>
                     <p className={cn("text-sm text-muted-foreground", language === "bn" && "font-bengali")}>
                       {language === "bn" 
-                        ? "আমাদের সাথে যোগাযোগ করুন" 
-                        : "Get in touch with us"}
+                        ? "ডেভেলপার টিম" 
+                        : "Developer Team"}
                     </p>
                   </div>
                 </div>
                 <div className="mt-4 space-y-2">
+                  {/* Website */}
                   <a
-                    href="https://github.com"
+                    href="https://annurdigital.com"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center justify-between rounded-lg bg-muted/50 px-4 py-3 transition-colors hover:bg-muted"
+                    className="flex items-center gap-3 rounded-lg bg-muted/50 px-4 py-3 transition-colors hover:bg-muted"
                   >
-                    <span className={cn("text-sm font-medium", language === "bn" && "font-bengali")}>
-                      {language === "bn" ? "গিটহাব" : "GitHub"}
+                    <Globe className="h-5 w-5 text-blue-500" />
+                    <span className={cn("text-sm font-medium flex-1", language === "bn" && "font-bengali")}>
+                      {language === "bn" ? "ওয়েবসাইট" : "Website"}
                     </span>
-                    <ExternalLink className="h-4 w-4 text-muted-foreground" />
+                    <span className="text-xs text-muted-foreground">annurdigital.com</span>
                   </a>
+                  
+                  {/* Email */}
                   <a
-                    href="mailto:developer@aitafsir.com"
-                    className="flex items-center justify-between rounded-lg bg-muted/50 px-4 py-3 transition-colors hover:bg-muted"
+                    href="mailto:support@annurdigital.com"
+                    className="flex items-center gap-3 rounded-lg bg-muted/50 px-4 py-3 transition-colors hover:bg-muted"
                   >
-                    <span className={cn("text-sm font-medium", language === "bn" && "font-bengali")}>
+                    <Mail className="h-5 w-5 text-red-500" />
+                    <span className={cn("text-sm font-medium flex-1", language === "bn" && "font-bengali")}>
                       {language === "bn" ? "ইমেইল" : "Email"}
                     </span>
-                    <ExternalLink className="h-4 w-4 text-muted-foreground" />
+                    <span className="text-xs text-muted-foreground">support@annurdigital.com</span>
+                  </a>
+                  
+                  {/* Telegram */}
+                  <a
+                    href="https://t.me/nuralamin_official"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-3 rounded-lg bg-muted/50 px-4 py-3 transition-colors hover:bg-muted"
+                  >
+                    <TelegramIcon className="h-5 w-5 text-[#0088cc]" />
+                    <span className={cn("text-sm font-medium flex-1", language === "bn" && "font-bengali")}>
+                      {language === "bn" ? "টেলিগ্রাম" : "Telegram"}
+                    </span>
+                    <span className="text-xs text-muted-foreground">@nuralamin_official</span>
                   </a>
                 </div>
               </div>
