@@ -55,41 +55,43 @@ export const ContinueReading = ({ language }: ContinueReadingProps) => {
   };
 
   return (
-    <button
-      onClick={handleContinue}
-      className="w-full flex items-center gap-3 p-4 bg-primary/5 hover:bg-primary/10 border border-primary/20 rounded-xl transition-all duration-200 group mb-6"
-    >
-      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
-        <BookOpen className="h-6 w-6" />
-      </div>
-      
-      <div className="flex-1 text-left min-w-0">
-        <p className={cn(
-          "text-sm text-muted-foreground",
-          language === "bn" && "font-bengali"
-        )}>
-          {language === "bn" ? "পড়া চালিয়ে যান" : "Continue Reading"}
-        </p>
-        <p className={cn(
-          "font-semibold text-foreground truncate",
-          language === "bn" && "font-bengali"
-        )}>
-          {language === "bn" ? surah.nameBengali : surah.nameEnglish}
-        </p>
-        <p className={cn(
-          "text-xs text-muted-foreground",
-          language === "bn" && "font-bengali"
-        )}>
-          {language === "bn" 
-            ? `আয়াত ${formatNumber(lastRead.verseNumber, language)}`
-            : `Verse ${lastRead.verseNumber}`
-          }
-        </p>
-      </div>
-      
-      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground group-hover:scale-105 transition-transform">
-        <ChevronRight className="h-5 w-5" />
-      </div>
-    </button>
+    <div className="fixed bottom-16 left-0 right-0 z-40 px-3 pb-2 md:hidden">
+      <button
+        onClick={handleContinue}
+        className="w-full flex items-center gap-3 p-3 bg-card hover:bg-card/90 border border-border shadow-lg rounded-xl transition-all duration-200 group"
+      >
+        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+          <BookOpen className="h-5 w-5" />
+        </div>
+        
+        <div className="flex-1 text-left min-w-0">
+          <p className={cn(
+            "text-xs text-muted-foreground",
+            language === "bn" && "font-bengali"
+          )}>
+            {language === "bn" ? "পড়া চালিয়ে যান" : "Continue Reading"}
+          </p>
+          <p className={cn(
+            "font-semibold text-foreground truncate text-sm",
+            language === "bn" && "font-bengali"
+          )}>
+            {language === "bn" ? surah.nameBengali : surah.nameEnglish}
+          </p>
+          <p className={cn(
+            "text-xs text-muted-foreground",
+            language === "bn" && "font-bengali"
+          )}>
+            {language === "bn" 
+              ? `আয়াত ${formatNumber(lastRead.verseNumber, language)}`
+              : `Verse ${lastRead.verseNumber}`
+            }
+          </p>
+        </div>
+        
+        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground group-hover:scale-105 transition-transform">
+          <ChevronRight className="h-5 w-5" />
+        </div>
+      </button>
+    </div>
   );
 };
