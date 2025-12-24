@@ -415,12 +415,12 @@ const ReadPage = ({ language }: ReadPageProps) => {
           <Button
             variant="outline"
             size="sm"
-            onClick={() => goToPage(currentPage - 1)}
-            disabled={currentPage <= 1}
+            onClick={() => goToPage(currentPage + 1)}
+            disabled={currentPage >= 604}
             className={cn("gap-2", language === "bn" && "font-bengali")}
           >
             <ChevronLeft className="h-4 w-4" />
-            {language === "bn" ? "পূর্ববর্তী" : "Previous"}
+            {language === "bn" ? "পরবর্তী" : "Next"}
           </Button>
 
           <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
@@ -474,11 +474,11 @@ const ReadPage = ({ language }: ReadPageProps) => {
           <Button
             variant="outline"
             size="sm"
-            onClick={() => goToPage(currentPage + 1)}
-            disabled={currentPage >= 604}
+            onClick={() => goToPage(currentPage - 1)}
+            disabled={currentPage <= 1}
             className={cn("gap-2", language === "bn" && "font-bengali")}
           >
-            {language === "bn" ? "পরবর্তী" : "Next"}
+            {language === "bn" ? "পূর্ববর্তী" : "Previous"}
             <ChevronRight className="h-4 w-4" />
           </Button>
         </div>
