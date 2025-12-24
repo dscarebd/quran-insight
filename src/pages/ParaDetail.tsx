@@ -1,10 +1,14 @@
+import { useState, useMemo } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { ArrowLeft, BookOpen, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowLeft, BookOpen, ChevronLeft, ChevronRight, Search } from "lucide-react";
 import { paras } from "@/data/paras";
 import { surahs } from "@/data/surahs";
 import { Button } from "@/components/ui/button";
 import { cn, formatNumber } from "@/lib/utils";
-import { useSidebar } from "@/components/ui/sidebar";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { Input } from "@/components/ui/input";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface ParaDetailProps {
   language: "bn" | "en";
@@ -14,7 +18,9 @@ interface ParaDetailProps {
 const ParaDetail = ({ language, onLanguageChange }: ParaDetailProps) => {
   const { paraNumber } = useParams<{ paraNumber: string }>();
   const navigate = useNavigate();
-  const { isMobile, setOpenMobile } = useSidebar();
+  const isMobile = useIsMobile();
+  const [paraSheetOpen, setParaSheetOpen] = useState(false);
+  const [paraSearchQuery, setParaSearchQuery] = useState("");
 
   const paraNum = parseInt(paraNumber || "1", 10);
   const para = paras.find(p => p.number === paraNum);
@@ -22,9 +28,26 @@ const ParaDetail = ({ language, onLanguageChange }: ParaDetailProps) => {
   const prevPara = paras.find(p => p.number === paraNum - 1);
   const nextPara = paras.find(p => p.number === paraNum + 1);
 
+  const filteredParas = useMemo(() => {
+    if (!paraSearchQuery.trim()) return paras;
+    const query = paraSearchQuery.toLowerCase();
+    return paras.filter(p => 
+      p.nameBengali.toLowerCase().includes(query) ||
+      p.nameEnglish.toLowerCase().includes(query) ||
+      p.nameArabic.includes(query) ||
+      p.number.toString().includes(query)
+    );
+  }, [paraSearchQuery]);
+
+  const handleParaClick = (paraNumber: number) => {
+    navigate(`/para/${paraNumber}`);
+    setParaSheetOpen(false);
+    setParaSearchQuery("");
+  };
+
   const handleBack = () => {
     if (isMobile) {
-      setOpenMobile(true);
+      setParaSheetOpen(true);
     } else {
       navigate("/");
     }
@@ -201,6 +224,66 @@ const ParaDetail = ({ language, onLanguageChange }: ParaDetailProps) => {
           </div>
         )}
       </div>
+
+      {/* Para List Sheet for Mobile */}
+      <Sheet open={paraSheetOpen} onOpenChange={setParaSheetOpen}>
+        <SheetContent side="bottom" className="h-[80vh] rounded-t-2xl">
+          <SheetHeader className="pb-4">
+            <SheetTitle className={cn("text-center", language === "bn" && "font-bengali")}>
+              {language === "bn" ? "পারা নির্বাচন করুন" : "Select Para"}
+            </SheetTitle>
+          </SheetHeader>
+          
+          {/* Search */}
+          <div className="relative mb-4">
+            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <Input
+              placeholder={language === "bn" ? "পারা খুঁজুন..." : "Search para..."}
+              value={paraSearchQuery}
+              onChange={(e) => setParaSearchQuery(e.target.value)}
+              className={cn("pl-9", language === "bn" && "font-bengali")}
+            />
+          </div>
+          
+          {/* Para List */}
+          <ScrollArea className="h-[calc(80vh-140px)]">
+            <div className="space-y-2 pr-4">
+              {filteredParas.map((p) => (
+                <button
+                  key={p.number}
+                  onClick={() => handleParaClick(p.number)}
+                  className={cn(
+                    "flex w-full items-center gap-3 rounded-lg p-3 text-left transition-colors",
+                    p.number === paraNum
+                      ? "bg-primary text-primary-foreground"
+                      : "hover:bg-accent"
+                  )}
+                >
+                  <div className={cn(
+                    "flex h-8 w-8 items-center justify-center rounded-full text-sm font-semibold",
+                    p.number === paraNum
+                      ? "bg-primary-foreground/20 text-primary-foreground"
+                      : "bg-primary/10 text-primary"
+                  )}>
+                    {formatNumber(p.number, language)}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className={cn("font-medium truncate", language === "bn" && "font-bengali")}>
+                      {language === "bn" ? p.nameBengali : p.nameEnglish}
+                    </div>
+                    <div className={cn(
+                      "text-xs truncate",
+                      p.number === paraNum ? "text-primary-foreground/70" : "text-muted-foreground"
+                    )}>
+                      {p.nameArabic}
+                    </div>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </ScrollArea>
+        </SheetContent>
+      </Sheet>
     </div>
   );
 };
