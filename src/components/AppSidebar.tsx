@@ -118,10 +118,10 @@ export const AppSidebar = ({ language, activeTab, onTabChange }: AppSidebarProps
               <span className={language === "bn" ? "font-bengali" : ""}>{language === "bn" ? "অনুসন্ধান" : "Search"}</span>
             </button>
             <button
-              onClick={() => onTabChange("bookmarks")}
+              onClick={() => navigate("/bookmarks")}
               className={cn(
                 "flex flex-1 items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
-                activeTab === "bookmarks"
+                location.pathname === "/bookmarks"
                   ? "bg-primary text-primary-foreground"
                   : "text-muted-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
               )}
@@ -148,10 +148,10 @@ export const AppSidebar = ({ language, activeTab, onTabChange }: AppSidebarProps
               <Search className="h-4 w-4" />
             </button>
             <button
-              onClick={() => onTabChange("bookmarks")}
+              onClick={() => navigate("/bookmarks")}
               className={cn(
                 "flex h-9 w-9 items-center justify-center rounded-lg transition-colors",
-                activeTab === "bookmarks"
+                location.pathname === "/bookmarks"
                   ? "bg-primary text-primary-foreground"
                   : "text-muted-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
               )}

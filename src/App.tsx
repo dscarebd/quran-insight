@@ -10,6 +10,7 @@ import { Loader2 } from "lucide-react";
 import Index from "./pages/Index";
 import SurahDetail from "./pages/SurahDetail";
 import ParaDetail from "./pages/ParaDetail";
+import Bookmarks from "./pages/Bookmarks";
 import NotFound from "./pages/NotFound";
 
 // Lazy load admin pages
@@ -48,6 +49,11 @@ const AppContent = () => {
       <Route path="/para/:paraNumber" element={
         <Layout language={language} onLanguageChange={setLanguage}>
           <ParaDetail language={language} onLanguageChange={setLanguage} />
+        </Layout>
+      } />
+      <Route path="/bookmarks" element={
+        <Layout language={language} onLanguageChange={setLanguage}>
+          <Bookmarks language={language} onLanguageChange={setLanguage} />
         </Layout>
       } />
       <Route path="/auth" element={
