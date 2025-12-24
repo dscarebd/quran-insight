@@ -26,19 +26,42 @@ serve(async (req) => {
       );
     }
 
+    console.log("Starting import process...");
+
+    // Get ALL existing verses using pagination to avoid 1000 row limit
+    const existingSet = new Set<string>();
+    let page = 0;
+    const pageSize = 1000;
+    
+    while (true) {
+      const { data: existingVerses, error: fetchError } = await supabase
+        .from('verses')
+        .select('surah_number, verse_number')
+        .range(page * pageSize, (page + 1) * pageSize - 1);
+      
+      if (fetchError) {
+        console.error('Error fetching existing verses:', fetchError);
+        throw new Error(`Failed to fetch existing verses: ${fetchError.message}`);
+      }
+      
+      if (!existingVerses || existingVerses.length === 0) break;
+      
+      existingVerses.forEach(v => {
+        existingSet.add(`${v.surah_number}-${v.verse_number}`);
+      });
+      
+      console.log(`Fetched page ${page + 1}, got ${existingVerses.length} verses, total: ${existingSet.size}`);
+      
+      if (existingVerses.length < pageSize) break;
+      page++;
+    }
+
+    console.log(`Total existing verses: ${existingSet.size}`);
+
     // Parse the CSV data
     const lines = csvData.split('\n');
-    const header = lines[0].split(';');
+    console.log(`CSV has ${lines.length} lines`);
     
-    // Get existing verses to avoid duplicates
-    const { data: existingVerses } = await supabase
-      .from('verses')
-      .select('surah_number, verse_number');
-    
-    const existingSet = new Set(
-      existingVerses?.map(v => `${v.surah_number}-${v.verse_number}`) || []
-    );
-
     const versesToInsert: any[] = [];
     
     for (let i = 1; i < lines.length; i++) {
@@ -62,7 +85,7 @@ serve(async (req) => {
       }
       values.push(current.trim());
       
-      // Map values to columns
+      // Map values to columns: id;surah_number;verse_number;arabic;bengali;english;tafsir_bengali;tafsir_english
       const surah_number = parseInt(values[1]);
       const verse_number = parseInt(values[2]);
       const arabic = values[3];
@@ -72,7 +95,8 @@ serve(async (req) => {
       const tafsir_english = values[7] || null;
       
       // Skip if already exists
-      if (existingSet.has(`${surah_number}-${verse_number}`)) {
+      const key = `${surah_number}-${verse_number}`;
+      if (existingSet.has(key)) {
         continue;
       }
       
@@ -89,26 +113,31 @@ serve(async (req) => {
       }
     }
 
-    // Insert in batches of 100
+    console.log(`Verses to insert: ${versesToInsert.length}`);
+
+    // Insert in batches of 50 (smaller batches for reliability)
     let inserted = 0;
-    const batchSize = 100;
+    const batchSize = 50;
     
     for (let i = 0; i < versesToInsert.length; i += batchSize) {
       const batch = versesToInsert.slice(i, i + batchSize);
       const { error } = await supabase.from('verses').insert(batch);
       if (error) {
-        console.error('Insert error:', error);
-        throw error;
+        console.error(`Insert error at batch ${i / batchSize}:`, error);
+        throw new Error(`Insert failed: ${error.message}`);
       }
       inserted += batch.length;
+      console.log(`Inserted batch ${Math.floor(i / batchSize) + 1}, total inserted: ${inserted}`);
     }
+
+    console.log(`Import complete. Inserted ${inserted} new verses.`);
 
     return new Response(
       JSON.stringify({ 
         success: true, 
         message: `Imported ${inserted} new verses`,
         total_in_csv: lines.length - 1,
-        already_existed: lines.length - 1 - inserted
+        already_existed: existingSet.size
       }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
