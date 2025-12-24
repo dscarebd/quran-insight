@@ -85,16 +85,16 @@ export const SearchSection = ({ language, onSearch, isLoading }: SearchSectionPr
               type="submit"
               disabled={isLoading || !query.trim()}
               className={cn(
-                "flex h-12 w-12 items-center justify-center rounded-full bg-primary text-primary-foreground transition-all",
+                "flex h-9 w-9 items-center justify-center rounded-full bg-primary text-primary-foreground transition-all",
                 isLoading || !query.trim()
                   ? "opacity-50 cursor-not-allowed"
                   : "hover:scale-105 hover:shadow-glow active:scale-95"
               )}
             >
               {isLoading ? (
-                <div className="h-5 w-5 animate-spin rounded-full border-2 border-primary-foreground border-t-transparent" />
+                <div className="h-4 w-4 animate-spin rounded-full border-2 border-primary-foreground border-t-transparent" />
               ) : (
-                <Search className="h-5 w-5" />
+                <Search className="h-4 w-4" />
               )}
             </button>
           </div>
