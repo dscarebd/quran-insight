@@ -108,6 +108,7 @@ const SurahDetail = ({ language, onLanguageChange }: SurahDetailProps) => {
   const { isMobile, setOpenMobile } = useSidebar();
   const [verses, setVerses] = useState<Verse[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isTransitioning, setIsTransitioning] = useState(false);
   const [bookmarkedVerses, setBookmarkedVerses] = useState<Set<string>>(new Set());
   const [highlightedVerse, setHighlightedVerse] = useState<number | null>(null);
   const { user } = useAuth();
@@ -120,14 +121,22 @@ const SurahDetail = ({ language, onLanguageChange }: SurahDetailProps) => {
   const prevSurah = surahs.find(s => s.number === surahNum - 1);
   const nextSurah = surahs.find(s => s.number === surahNum + 1);
 
-  // Fetch verses with caching
+  // Fetch verses with caching and smooth transition
   useEffect(() => {
     const fetchVerses = async () => {
+      // Start transition animation
+      setIsTransitioning(true);
+      
+      // Small delay for fade out effect
+      await new Promise(resolve => setTimeout(resolve, 150));
+      
       // Check if we have cached verses for this surah
       if (versesCache.has(surahNum)) {
         setVerses(versesCache.get(surahNum)!);
         setIsLoading(false);
         window.scrollTo({ top: 0, behavior: 'instant' });
+        // End transition after content is set
+        setTimeout(() => setIsTransitioning(false), 50);
         return;
       }
 
@@ -160,6 +169,8 @@ const SurahDetail = ({ language, onLanguageChange }: SurahDetailProps) => {
         versesCache.set(surahNum, mappedVerses);
       }
       setIsLoading(false);
+      // End transition after content is set
+      setTimeout(() => setIsTransitioning(false), 50);
     };
 
     fetchVerses();
@@ -408,7 +419,10 @@ const SurahDetail = ({ language, onLanguageChange }: SurahDetailProps) => {
       </div>
 
       {/* Verses List */}
-      <div className="mx-auto max-w-4xl px-3 py-6 sm:px-4 md:px-6">
+      <div className={cn(
+        "mx-auto max-w-4xl px-3 py-6 sm:px-4 md:px-6 transition-opacity duration-200",
+        isTransitioning ? "opacity-0" : "opacity-100"
+      )}>
         {isLoading ? (
           <div className="flex items-center justify-center py-12">
             <Loader2 className="h-8 w-8 animate-spin text-primary" />
