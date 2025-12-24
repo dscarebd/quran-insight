@@ -85,13 +85,13 @@ const ImportVerses = () => {
       setArabicStatus("Complete!");
       setArabicResult({
         success: true,
-        message: `Successfully updated ${totalUpdated} verses with complete Arabic text`,
+        message: `Successfully updated ${totalUpdated} verses with Arabic, translations & tafsirs`,
         totalUpdated
       });
       
       toast({
-        title: "Arabic Update Complete",
-        description: `Updated ${totalUpdated} verses with complete Arabic text from Quran.com`,
+        title: "Update Complete",
+        description: `Updated ${totalUpdated} verses with Arabic, translations & tafsirs from Quran.com`,
       });
 
     } catch (error: any) {
@@ -168,11 +168,11 @@ const ImportVerses = () => {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <RefreshCw className="h-5 w-5" />
-            Update Arabic Text from Quran.com
+            Update All Content from Quran.com
           </CardTitle>
           <CardDescription>
-            Fetch complete Arabic text (Uthmani script) from Quran.com API and update all verses.
-            This will replace truncated Arabic text with the full verses.
+            Fetch complete Arabic text (Uthmani script), English & Bengali translations, and English & Bengali tafsirs
+            from Quran.com API. This will update all verses with full content.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -185,12 +185,12 @@ const ImportVerses = () => {
             {isUpdatingArabic ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Updating Arabic Text...
+                Updating All Content...
               </>
             ) : (
               <>
                 <RefreshCw className="mr-2 h-4 w-4" />
-                Update Arabic from Quran.com
+                Update All from Quran.com
               </>
             )}
           </Button>
