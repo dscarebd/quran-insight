@@ -26,8 +26,8 @@ export const Header = ({ language, onLanguageChange }: HeaderProps) => {
       {/* Mobile: Show app title */}
       <h1 className="md:hidden text-lg font-semibold text-primary">AI Tafsir</h1>
       
-      {/* Settings button - hidden on mobile (use bottom nav instead) */}
-      <div className="hidden md:flex items-center gap-2">
+      {/* Settings button */}
+      <div className="flex items-center gap-2">
         <button 
           onClick={() => navigate("/settings")}
           className="flex h-9 w-9 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
@@ -35,9 +35,6 @@ export const Header = ({ language, onLanguageChange }: HeaderProps) => {
           <Settings className="h-5 w-5" />
         </button>
       </div>
-      
-      {/* Empty div on mobile for flex spacing */}
-      <div className="md:hidden w-9" />
     </header>
   );
 };
