@@ -12,12 +12,25 @@ interface QuranVerse {
   text_uthmani: string;
 }
 
-interface QuranApiResponse {
-  verses: QuranVerse[];
+interface TranslationVerse {
+  resource_id: number;
+  text: string;
+}
+
+interface TranslationResponse {
+  translations: TranslationVerse[];
+}
+
+interface TafsirVerse {
+  resource_id: number;
+  text: string;
+}
+
+interface TafsirResponse {
+  tafsirs: TafsirVerse[];
 }
 
 serve(async (req) => {
-  // Handle CORS preflight requests
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
@@ -38,7 +51,6 @@ serve(async (req) => {
         surahsToProcess.push(i);
       }
     } else {
-      // Default: process all 114 surahs
       for (let i = 1; i <= 114; i++) {
         surahsToProcess.push(i);
       }
@@ -49,32 +61,87 @@ serve(async (req) => {
     let totalUpdated = 0;
     const errors: string[] = [];
 
+    // Translation IDs: 131 = Sahih International (English), 161 = Bengali (Muhiuddin Khan)
+    // Tafsir IDs: 169 = Tafsir Ibn Kathir (English), 164 = Tafsir Ibn Kathir (Bengali/Urdu)
+    const ENGLISH_TRANSLATION_ID = 131;
+    const BENGALI_TRANSLATION_ID = 161;
+    const ENGLISH_TAFSIR_ID = 169;
+    const BENGALI_TAFSIR_ID = 164;
+
     for (const surah of surahsToProcess) {
       try {
         console.log(`Fetching Surah ${surah} from Quran.com API...`);
         
-        // Fetch from Quran.com API
-        const apiUrl = `https://api.quran.com/api/v4/quran/verses/uthmani?chapter_number=${surah}`;
-        const response = await fetch(apiUrl);
+        // Fetch Arabic text
+        const arabicUrl = `https://api.quran.com/api/v4/quran/verses/uthmani?chapter_number=${surah}`;
+        const arabicResponse = await fetch(arabicUrl);
         
-        if (!response.ok) {
-          const errorText = await response.text();
-          console.error(`API error for Surah ${surah}: ${response.status} - ${errorText}`);
-          errors.push(`Surah ${surah}: API error ${response.status}`);
+        if (!arabicResponse.ok) {
+          console.error(`Arabic API error for Surah ${surah}: ${arabicResponse.status}`);
+          errors.push(`Surah ${surah}: Arabic API error ${arabicResponse.status}`);
           continue;
         }
 
-        const data: QuranApiResponse = await response.json();
-        console.log(`Received ${data.verses.length} verses for Surah ${surah}`);
+        const arabicData = await arabicResponse.json();
+        console.log(`Received ${arabicData.verses.length} Arabic verses for Surah ${surah}`);
+
+        // Fetch English translation
+        const englishUrl = `https://api.quran.com/api/v4/quran/translations/${ENGLISH_TRANSLATION_ID}?chapter_number=${surah}`;
+        const englishResponse = await fetch(englishUrl);
+        const englishData: TranslationResponse = englishResponse.ok ? await englishResponse.json() : { translations: [] };
+        console.log(`Received ${englishData.translations?.length || 0} English translations`);
+
+        // Fetch Bengali translation
+        const bengaliUrl = `https://api.quran.com/api/v4/quran/translations/${BENGALI_TRANSLATION_ID}?chapter_number=${surah}`;
+        const bengaliResponse = await fetch(bengaliUrl);
+        const bengaliData: TranslationResponse = bengaliResponse.ok ? await bengaliResponse.json() : { translations: [] };
+        console.log(`Received ${bengaliData.translations?.length || 0} Bengali translations`);
+
+        // Fetch English tafsir
+        const englishTafsirUrl = `https://api.quran.com/api/v4/quran/tafsirs/${ENGLISH_TAFSIR_ID}?chapter_number=${surah}`;
+        const englishTafsirResponse = await fetch(englishTafsirUrl);
+        const englishTafsirData: TafsirResponse = englishTafsirResponse.ok ? await englishTafsirResponse.json() : { tafsirs: [] };
+        console.log(`Received ${englishTafsirData.tafsirs?.length || 0} English tafsirs`);
+
+        // Fetch Bengali tafsir
+        const bengaliTafsirUrl = `https://api.quran.com/api/v4/quran/tafsirs/${BENGALI_TAFSIR_ID}?chapter_number=${surah}`;
+        const bengaliTafsirResponse = await fetch(bengaliTafsirUrl);
+        const bengaliTafsirData: TafsirResponse = bengaliTafsirResponse.ok ? await bengaliTafsirResponse.json() : { tafsirs: [] };
+        console.log(`Received ${bengaliTafsirData.tafsirs?.length || 0} Bengali tafsirs`);
 
         // Update each verse in the database
-        for (const verse of data.verses) {
-          // verse_key format is "surah:verse" e.g., "2:255"
+        for (let i = 0; i < arabicData.verses.length; i++) {
+          const verse = arabicData.verses[i];
           const [surahNum, verseNum] = verse.verse_key.split(":").map(Number);
+          
+          const updateData: Record<string, string> = {
+            arabic: verse.text_uthmani,
+          };
+
+          // Add English translation if available
+          if (englishData.translations?.[i]?.text) {
+            // Remove HTML tags from translation
+            updateData.english = englishData.translations[i].text.replace(/<[^>]*>/g, '');
+          }
+
+          // Add Bengali translation if available
+          if (bengaliData.translations?.[i]?.text) {
+            updateData.bengali = bengaliData.translations[i].text.replace(/<[^>]*>/g, '');
+          }
+
+          // Add English tafsir if available
+          if (englishTafsirData.tafsirs?.[i]?.text) {
+            updateData.tafsir_english = englishTafsirData.tafsirs[i].text.replace(/<[^>]*>/g, '');
+          }
+
+          // Add Bengali tafsir if available
+          if (bengaliTafsirData.tafsirs?.[i]?.text) {
+            updateData.tafsir_bengali = bengaliTafsirData.tafsirs[i].text.replace(/<[^>]*>/g, '');
+          }
           
           const { error: updateError } = await supabase
             .from("verses")
-            .update({ arabic: verse.text_uthmani })
+            .update(updateData)
             .eq("surah_number", surahNum)
             .eq("verse_number", verseNum);
 
@@ -88,8 +155,8 @@ serve(async (req) => {
 
         console.log(`Completed Surah ${surah}, total updated so far: ${totalUpdated}`);
         
-        // Small delay to avoid rate limiting
-        await new Promise(resolve => setTimeout(resolve, 500));
+        // Delay to avoid rate limiting
+        await new Promise(resolve => setTimeout(resolve, 1000));
         
       } catch (surahError) {
         console.error(`Error processing Surah ${surah}:`, surahError);
@@ -99,7 +166,7 @@ serve(async (req) => {
 
     const result = {
       success: true,
-      message: `Updated ${totalUpdated} verses from ${surahsToProcess.length} surah(s)`,
+      message: `Updated ${totalUpdated} verses with Arabic, translations & tafsirs from ${surahsToProcess.length} surah(s)`,
       totalUpdated,
       surahsProcessed: surahsToProcess.length,
       errors: errors.length > 0 ? errors : undefined,
