@@ -35,6 +35,15 @@ const ReadPage = ({ language }: ReadPageProps) => {
   const [pageSearch, setPageSearch] = useState("");
   const [sheetOpen, setSheetOpen] = useState(false);
   
+  // Last read verse state
+  const [lastReadVerse, setLastReadVerse] = useState<string | null>(() => {
+    const saved = localStorage.getItem("quran-last-read-verse");
+    return saved || null;
+  });
+  
+  // Verse refs for scrolling to last read
+  const verseRefs = useRef<{ [key: string]: HTMLSpanElement | null }>({});
+  
   // Font zoom state
   const [fontSizeIndex, setFontSizeIndex] = useState(() => {
     const saved = localStorage.getItem("quran-font-size-index");
@@ -60,6 +69,44 @@ const ReadPage = ({ language }: ReadPageProps) => {
   useEffect(() => {
     localStorage.setItem("quran-font-size-index", fontSizeIndex.toString());
   }, [fontSizeIndex]);
+
+  // Save last read page
+  useEffect(() => {
+    localStorage.setItem("quran-last-read-page", currentPage.toString());
+  }, [currentPage]);
+
+  // Scroll to last read verse on page load
+  useEffect(() => {
+    if (!loading && lastReadVerse && verses.length > 0) {
+      const [savedPage, savedSurah, savedVerse] = lastReadVerse.split("-");
+      if (parseInt(savedPage) === currentPage) {
+        const verseKey = `${savedSurah}-${savedVerse}`;
+        const timer = setTimeout(() => {
+          const element = verseRefs.current[verseKey];
+          if (element) {
+            element.scrollIntoView({
+              behavior: 'smooth',
+              block: 'center'
+            });
+          }
+        }, 300);
+        return () => clearTimeout(timer);
+      }
+    }
+  }, [loading, lastReadVerse, verses, currentPage]);
+
+  // Handle verse click - mark as last read
+  const handleVerseClick = useCallback((surahNumber: number, verseNumber: number) => {
+    const verseKey = `${currentPage}-${surahNumber}-${verseNumber}`;
+    setLastReadVerse(verseKey);
+    localStorage.setItem("quran-last-read-verse", verseKey);
+    toast.success(
+      language === "bn" 
+        ? `সূরা ${surahNumber}, আয়াত ${verseNumber} - শেষ পঠিত হিসেবে সংরক্ষিত` 
+        : `Surah ${surahNumber}, Verse ${verseNumber} - Saved as last read`,
+      { className: language === "bn" ? "font-bengali" : "" }
+    );
+  }, [currentPage, language]);
 
   // Scroll to current page when sheet opens
   useEffect(() => {
@@ -375,22 +422,35 @@ const ReadPage = ({ language }: ReadPageProps) => {
                     dir="rtl"
                     style={{ lineHeight: currentFontSize > 36 ? 3.5 : 3 }}
                   >
-                    {surahVerses.map((verse) => (
-                      <span key={`${verse.surah_number}-${verse.verse_number}`} className="inline">
+                    {surahVerses.map((verse) => {
+                      const verseKey = `${verse.surah_number}-${verse.verse_number}`;
+                      const isLastRead = lastReadVerse === `${currentPage}-${verseKey}`;
+                      
+                      return (
                         <span 
-                          className="font-arabic text-foreground"
-                          style={{ fontSize: `${currentFontSize}px` }}
+                          key={verseKey} 
+                          ref={(el) => { verseRefs.current[verseKey] = el; }}
+                          className={cn(
+                            "inline cursor-pointer rounded-sm transition-all duration-300",
+                            isLastRead && "bg-primary/20 px-1"
+                          )}
+                          onClick={() => handleVerseClick(verse.surah_number, verse.verse_number)}
                         >
-                          {verse.arabic}
+                          <span 
+                            className="font-arabic text-foreground"
+                            style={{ fontSize: `${currentFontSize}px` }}
+                          >
+                            {verse.arabic}
+                          </span>
+                          <span 
+                            className="inline-flex items-center justify-center mx-1 text-primary font-arabic"
+                            style={{ fontSize: `${currentFontSize * 0.7}px` }}
+                          >
+                            ﴿{formatNumber(verse.verse_number, "en").split("").map(d => "٠١٢٣٤٥٦٧٨٩"[parseInt(d)]).join("")}﴾
+                          </span>
                         </span>
-                        <span 
-                          className="inline-flex items-center justify-center mx-1 text-primary font-arabic"
-                          style={{ fontSize: `${currentFontSize * 0.7}px` }}
-                        >
-                          ﴿{formatNumber(verse.verse_number, "en").split("").map(d => "٠١٢٣٤٥٦٧٨٩"[parseInt(d)]).join("")}﴾
-                        </span>
-                      </span>
-                    ))}
+                      );
+                    })}
                   </div>
                 </div>
               );
