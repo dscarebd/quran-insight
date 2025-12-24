@@ -1,14 +1,17 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
-import { ArrowLeft, BookOpen, ChevronDown, ChevronUp, Bookmark, ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
+import { ArrowLeft, BookOpen, ChevronDown, ChevronUp, Bookmark, ChevronLeft, ChevronRight, Loader2, Search } from "lucide-react";
 import { surahs } from "@/data/surahs";
 import { Verse } from "@/data/verses";
 import { Button } from "@/components/ui/button";
 import { cn, formatNumber } from "@/lib/utils";
-import { useSidebar } from "@/components/ui/sidebar";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { Input } from "@/components/ui/input";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface SurahDetailProps {
   language: "bn" | "en";
@@ -105,7 +108,9 @@ const SurahDetail = ({ language, onLanguageChange }: SurahDetailProps) => {
   const { surahNumber } = useParams<{ surahNumber: string }>();
   const navigate = useNavigate();
   const location = useLocation();
-  const { isMobile, setOpenMobile } = useSidebar();
+  const isMobile = useIsMobile();
+  const [surahSheetOpen, setSurahSheetOpen] = useState(false);
+  const [surahSearchQuery, setSurahSearchQuery] = useState("");
   const [verses, setVerses] = useState<Verse[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isTransitioning, setIsTransitioning] = useState(false);
@@ -287,9 +292,26 @@ const SurahDetail = ({ language, onLanguageChange }: SurahDetailProps) => {
     }
   };
 
+  const filteredSurahs = useMemo(() => {
+    if (!surahSearchQuery.trim()) return surahs;
+    const query = surahSearchQuery.toLowerCase();
+    return surahs.filter(s => 
+      s.nameBengali.toLowerCase().includes(query) ||
+      s.nameEnglish.toLowerCase().includes(query) ||
+      s.nameArabic.includes(query) ||
+      s.number.toString().includes(query)
+    );
+  }, [surahSearchQuery]);
+
+  const handleSurahClick = (surahNumber: number) => {
+    navigate(`/surah/${surahNumber}`);
+    setSurahSheetOpen(false);
+    setSurahSearchQuery("");
+  };
+
   const handleBack = () => {
     if (isMobile) {
-      setOpenMobile(true);
+      setSurahSheetOpen(true);
     } else {
       navigate("/");
     }
@@ -469,6 +491,66 @@ const SurahDetail = ({ language, onLanguageChange }: SurahDetailProps) => {
           </div>
         )}
       </div>
+
+      {/* Surah List Sheet for Mobile */}
+      <Sheet open={surahSheetOpen} onOpenChange={setSurahSheetOpen}>
+        <SheetContent side="bottom" className="h-[80vh] rounded-t-2xl">
+          <SheetHeader className="pb-4">
+            <SheetTitle className={cn("text-center", language === "bn" && "font-bengali")}>
+              {language === "bn" ? "সূরা নির্বাচন করুন" : "Select Surah"}
+            </SheetTitle>
+          </SheetHeader>
+          
+          {/* Search */}
+          <div className="relative mb-4">
+            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <Input
+              placeholder={language === "bn" ? "সূরা খুঁজুন..." : "Search surah..."}
+              value={surahSearchQuery}
+              onChange={(e) => setSurahSearchQuery(e.target.value)}
+              className={cn("pl-9", language === "bn" && "font-bengali")}
+            />
+          </div>
+          
+          {/* Surah List */}
+          <ScrollArea className="h-[calc(80vh-140px)]">
+            <div className="space-y-2 pr-4">
+              {filteredSurahs.map((s) => (
+                <button
+                  key={s.number}
+                  onClick={() => handleSurahClick(s.number)}
+                  className={cn(
+                    "flex w-full items-center gap-3 rounded-lg p-3 text-left transition-colors",
+                    s.number === surahNum
+                      ? "bg-primary text-primary-foreground"
+                      : "hover:bg-accent"
+                  )}
+                >
+                  <div className={cn(
+                    "flex h-8 w-8 items-center justify-center rounded-full text-sm font-semibold",
+                    s.number === surahNum
+                      ? "bg-primary-foreground/20 text-primary-foreground"
+                      : "bg-primary/10 text-primary"
+                  )}>
+                    {formatNumber(s.number, language)}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className={cn("font-medium truncate", language === "bn" && "font-bengali")}>
+                      {language === "bn" ? s.nameBengali : s.nameEnglish}
+                    </div>
+                    <div className={cn(
+                      "text-xs truncate",
+                      s.number === surahNum ? "text-primary-foreground/70" : "text-muted-foreground"
+                    )}>
+                      {s.nameArabic} • {formatNumber(s.totalVerses, language)} {language === "bn" ? "আয়াত" : "verses"}
+                    </div>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </ScrollArea>
+        </SheetContent>
+      </Sheet>
     </div>
   );
 };
