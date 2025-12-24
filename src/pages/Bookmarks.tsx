@@ -354,7 +354,7 @@ const Bookmarks = ({ language, onLanguageChange }: BookmarksProps) => {
                 ? "সূরা পড়ার সময় আয়াত সংরক্ষণ করুন" 
                 : "Save verses while reading surahs to see them here"}
             </p>
-            <Button onClick={() => navigate("/")}>
+            <Button onClick={() => navigate("/")} className={language === "bn" ? "font-bengali" : ""}>
               {language === "bn" ? "সূরা দেখুন" : "Browse Surahs"}
             </Button>
           </div>
