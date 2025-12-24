@@ -188,7 +188,7 @@ const ReadPage = ({ language }: ReadPageProps) => {
                       variant={page.pageNumber === currentPage ? "default" : "outline"}
                       size="sm"
                       className={cn(
-                        "h-10 text-sm",
+                        "h-10 text-sm font-bengali",
                         page.pageNumber === currentPage && "bg-primary text-primary-foreground"
                       )}
                       onClick={() => {
