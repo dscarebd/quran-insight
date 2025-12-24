@@ -61,11 +61,10 @@ serve(async (req) => {
     let totalUpdated = 0;
     const errors: string[] = [];
 
-    // Translation IDs: 131 = Sahih International (English), 161 = Bengali (Muhiuddin Khan)
-    // Tafsir IDs: 169 = Tafsir Ibn Kathir (English), 164 = Tafsir Ibn Kathir (Bengali/Urdu)
-    const ENGLISH_TRANSLATION_ID = 131;
+    // Translation IDs: 20 = Sahih International (English), 161 = Bengali (Taisirul Quran)
+    // Tafsir IDs: 164 = Tafsir Ibn Kathir (Bengali) - English tafsirs not available via API
+    const ENGLISH_TRANSLATION_ID = 20;
     const BENGALI_TRANSLATION_ID = 161;
-    const ENGLISH_TAFSIR_ID = 169;
     const BENGALI_TAFSIR_ID = 164;
 
     for (const surah of surahsToProcess) {
@@ -97,11 +96,7 @@ serve(async (req) => {
         const bengaliData: TranslationResponse = bengaliResponse.ok ? await bengaliResponse.json() : { translations: [] };
         console.log(`Received ${bengaliData.translations?.length || 0} Bengali translations`);
 
-        // Fetch English tafsir
-        const englishTafsirUrl = `https://api.quran.com/api/v4/quran/tafsirs/${ENGLISH_TAFSIR_ID}?chapter_number=${surah}`;
-        const englishTafsirResponse = await fetch(englishTafsirUrl);
-        const englishTafsirData: TafsirResponse = englishTafsirResponse.ok ? await englishTafsirResponse.json() : { tafsirs: [] };
-        console.log(`Received ${englishTafsirData.tafsirs?.length || 0} English tafsirs`);
+        // Note: English tafsirs not available via Quran.com API
 
         // Fetch Bengali tafsir
         const bengaliTafsirUrl = `https://api.quran.com/api/v4/quran/tafsirs/${BENGALI_TAFSIR_ID}?chapter_number=${surah}`;
@@ -129,10 +124,7 @@ serve(async (req) => {
             updateData.bengali = bengaliData.translations[i].text.replace(/<[^>]*>/g, '');
           }
 
-          // Add English tafsir if available
-          if (englishTafsirData.tafsirs?.[i]?.text) {
-            updateData.tafsir_english = englishTafsirData.tafsirs[i].text.replace(/<[^>]*>/g, '');
-          }
+          // Note: English tafsirs not available via Quran.com API
 
           // Add Bengali tafsir if available
           if (bengaliTafsirData.tafsirs?.[i]?.text) {
