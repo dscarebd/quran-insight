@@ -1,12 +1,18 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, Bookmark, BookOpen, Trash2, Loader2 } from "lucide-react";
+import { ArrowLeft, Bookmark, BookOpen, Trash2, Loader2, Copy, Share2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
 import { surahs } from "@/data/surahs";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 interface BookmarksProps {
   language: "bn" | "en";
@@ -40,7 +46,6 @@ const Bookmarks = ({ language, onLanguageChange }: BookmarksProps) => {
 
       setIsLoading(true);
 
-      // Fetch bookmarks
       const { data: bookmarkData, error: bookmarkError } = await supabase
         .from('bookmarks')
         .select('*')
@@ -59,7 +64,6 @@ const Bookmarks = ({ language, onLanguageChange }: BookmarksProps) => {
         return;
       }
 
-      // Fetch verse details for each bookmark
       const versesPromises = bookmarkData.map(async (bookmark) => {
         const { data: verseData } = await supabase
           .from('verses')
@@ -108,6 +112,52 @@ const Bookmarks = ({ language, onLanguageChange }: BookmarksProps) => {
     const surah = surahs.find(s => s.number === surahNumber);
     if (!surah) return `Surah ${surahNumber}`;
     return language === "bn" ? surah.nameBengali : surah.nameEnglish;
+  };
+
+  const getVerseText = (bookmark: BookmarkedVerse) => {
+    const surahName = getSurahName(bookmark.surah_number);
+    const verseRef = language === "bn" 
+      ? `${surahName}, আয়াত ${bookmark.verse_number}`
+      : `${surahName}, Verse ${bookmark.verse_number}`;
+    const translation = language === "bn" ? bookmark.bengali : bookmark.english;
+    
+    return `${bookmark.arabic || ""}\n\n${translation || ""}\n\n— ${verseRef}`;
+  };
+
+  const handleCopyToClipboard = async (bookmark: BookmarkedVerse) => {
+    const text = getVerseText(bookmark);
+    
+    try {
+      await navigator.clipboard.writeText(text);
+      toast({
+        title: language === "bn" ? "কপি হয়েছে" : "Copied!",
+        description: language === "bn" ? "আয়াত ক্লিপবোর্ডে কপি হয়েছে" : "Verse copied to clipboard",
+      });
+    } catch (err) {
+      toast({
+        title: language === "bn" ? "ত্রুটি" : "Error",
+        description: language === "bn" ? "কপি করতে সমস্যা হয়েছে" : "Failed to copy",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleShareFacebook = (bookmark: BookmarkedVerse) => {
+    const text = encodeURIComponent(getVerseText(bookmark));
+    const url = `https://www.facebook.com/sharer/sharer.php?quote=${text}`;
+    window.open(url, '_blank', 'width=600,height=400');
+  };
+
+  const handleShareTwitter = (bookmark: BookmarkedVerse) => {
+    const text = encodeURIComponent(getVerseText(bookmark));
+    const url = `https://twitter.com/intent/tweet?text=${text}`;
+    window.open(url, '_blank', 'width=600,height=400');
+  };
+
+  const handleShareWhatsApp = (bookmark: BookmarkedVerse) => {
+    const text = encodeURIComponent(getVerseText(bookmark));
+    const url = `https://wa.me/?text=${text}`;
+    window.open(url, '_blank');
   };
 
   if (authLoading) {
@@ -222,14 +272,59 @@ const Bookmarks = ({ language, onLanguageChange }: BookmarksProps) => {
                     <span>•</span>
                     <span>{language === "bn" ? `আয়াত ${bookmark.verse_number}` : `Verse ${bookmark.verse_number}`}</span>
                   </button>
-                  <Button 
-                    variant="ghost" 
-                    size="icon" 
-                    className="h-9 w-9 text-muted-foreground hover:text-destructive"
-                    onClick={() => handleRemoveBookmark(bookmark.id)}
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </Button>
+                  
+                  {/* Action buttons */}
+                  <div className="flex items-center gap-1">
+                    {/* Copy button */}
+                    <Button 
+                      variant="ghost" 
+                      size="icon" 
+                      className="h-9 w-9 text-muted-foreground hover:text-primary"
+                      onClick={() => handleCopyToClipboard(bookmark)}
+                      title={language === "bn" ? "কপি করুন" : "Copy to clipboard"}
+                    >
+                      <Copy className="h-4 w-4" />
+                    </Button>
+                    
+                    {/* Share dropdown */}
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button 
+                          variant="ghost" 
+                          size="icon" 
+                          className="h-9 w-9 text-muted-foreground hover:text-primary"
+                          title={language === "bn" ? "শেয়ার করুন" : "Share"}
+                        >
+                          <Share2 className="h-4 w-4" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        <DropdownMenuItem onClick={() => handleShareFacebook(bookmark)}>
+                          <span className="mr-2">📘</span>
+                          Facebook
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => handleShareTwitter(bookmark)}>
+                          <span className="mr-2">𝕏</span>
+                          Twitter / X
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => handleShareWhatsApp(bookmark)}>
+                          <span className="mr-2">💬</span>
+                          WhatsApp
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                    
+                    {/* Delete button */}
+                    <Button 
+                      variant="ghost" 
+                      size="icon" 
+                      className="h-9 w-9 text-muted-foreground hover:text-destructive"
+                      onClick={() => handleRemoveBookmark(bookmark.id)}
+                      title={language === "bn" ? "মুছুন" : "Remove"}
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </div>
                 </div>
 
                 {/* Arabic Text */}
