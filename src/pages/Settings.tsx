@@ -94,46 +94,41 @@ const Settings = ({ language, onLanguageChange }: SettingsProps) => {
             )}>
               {language === "bn" ? "ভাষা" : "Language"}
             </h2>
-            <div className="rounded-xl border border-border bg-card overflow-hidden">
+            <div className="grid grid-cols-2 gap-3">
               <button
                 onClick={() => onLanguageChange("bn")}
                 className={cn(
-                  "flex w-full items-center justify-between px-4 py-3.5 transition-colors",
-                  language === "bn" ? "bg-primary/5" : "hover:bg-muted/50"
+                  "flex flex-col items-center justify-center gap-2 rounded-xl border border-border bg-card px-4 py-4 transition-colors",
+                  language === "bn" ? "border-primary bg-primary/5" : "hover:bg-muted/50"
                 )}
               >
-                <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-muted">
-                    <span className="font-bengali text-lg">ব</span>
-                  </div>
-                  <div className="text-left">
-                    <p className="font-bengali font-medium">বাংলা</p>
-                    <p className="text-sm text-muted-foreground">Bengali</p>
-                  </div>
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-muted">
+                  <span className="font-bengali text-lg">ব</span>
+                </div>
+                <div className="text-center">
+                  <p className="font-bengali font-medium">বাংলা</p>
+                  <p className="text-xs text-muted-foreground">Bengali</p>
                 </div>
                 {language === "bn" && (
-                  <div className="h-2.5 w-2.5 rounded-full bg-primary" />
+                  <div className="h-2 w-2 rounded-full bg-primary" />
                 )}
               </button>
-              <Separator />
               <button
                 onClick={() => onLanguageChange("en")}
                 className={cn(
-                  "flex w-full items-center justify-between px-4 py-3.5 transition-colors",
-                  language === "en" ? "bg-primary/5" : "hover:bg-muted/50"
+                  "flex flex-col items-center justify-center gap-2 rounded-xl border border-border bg-card px-4 py-4 transition-colors",
+                  language === "en" ? "border-primary bg-primary/5" : "hover:bg-muted/50"
                 )}
               >
-                <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-muted">
-                    <span className="text-lg font-medium">A</span>
-                  </div>
-                  <div className="text-left">
-                    <p className="font-medium">English</p>
-                    <p className="text-sm text-muted-foreground font-bengali">ইংরেজি</p>
-                  </div>
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-muted">
+                  <span className="text-lg font-medium">A</span>
+                </div>
+                <div className="text-center">
+                  <p className="font-medium">English</p>
+                  <p className="text-xs text-muted-foreground font-bengali">ইংরেজি</p>
                 </div>
                 {language === "en" && (
-                  <div className="h-2.5 w-2.5 rounded-full bg-primary" />
+                  <div className="h-2 w-2 rounded-full bg-primary" />
                 )}
               </button>
             </div>
@@ -147,32 +142,26 @@ const Settings = ({ language, onLanguageChange }: SettingsProps) => {
             )}>
               {language === "bn" ? "থিম" : "Theme"}
             </h2>
-            <div className="rounded-xl border border-border bg-card overflow-hidden">
-              {themeOptions.map((option, index) => (
-                <div key={option.value}>
-                  {index > 0 && <Separator />}
-                  <button
-                    onClick={() => setTheme(option.value)}
-                    className={cn(
-                      "flex w-full items-center justify-between px-4 py-3.5 transition-colors",
-                      theme === option.value ? "bg-primary/5" : "hover:bg-muted/50"
-                    )}
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-muted">
-                        <option.icon className="h-5 w-5" />
-                      </div>
-                      <div className="text-left">
-                        <p className={cn("font-medium", language === "bn" && "font-bengali")}>
-                          {language === "bn" ? option.labelBn : option.labelEn}
-                        </p>
-                      </div>
-                    </div>
-                    {theme === option.value && (
-                      <div className="h-2.5 w-2.5 rounded-full bg-primary" />
-                    )}
-                  </button>
-                </div>
+            <div className="grid grid-cols-3 gap-3">
+              {themeOptions.map((option) => (
+                <button
+                  key={option.value}
+                  onClick={() => setTheme(option.value)}
+                  className={cn(
+                    "flex flex-col items-center justify-center gap-2 rounded-xl border border-border bg-card px-3 py-4 transition-colors",
+                    theme === option.value ? "border-primary bg-primary/5" : "hover:bg-muted/50"
+                  )}
+                >
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-muted">
+                    <option.icon className="h-5 w-5" />
+                  </div>
+                  <p className={cn("text-sm font-medium", language === "bn" && "font-bengali")}>
+                    {language === "bn" ? option.labelBn : option.labelEn}
+                  </p>
+                  {theme === option.value && (
+                    <div className="h-2 w-2 rounded-full bg-primary" />
+                  )}
+                </button>
               ))}
             </div>
           </section>
