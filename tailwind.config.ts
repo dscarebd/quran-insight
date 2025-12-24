@@ -74,8 +74,8 @@ export default {
       },
       fontFamily: {
         arabic: ['Amiri', 'serif'],
-        bengali: ['Hind Siliguri', 'sans-serif'],
-        sans: ['Inter', 'Hind Siliguri', 'sans-serif'],
+        bengali: ['Anek Bangla', 'sans-serif'],
+        sans: ['Inter', 'Anek Bangla', 'sans-serif'],
       },
       keyframes: {
         "accordion-down": {
