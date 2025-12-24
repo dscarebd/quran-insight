@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Home, BookOpen, Layers, Bookmark, ChevronRight, Search } from "lucide-react";
 import { cn, formatNumber } from "@/lib/utils";
@@ -18,6 +18,8 @@ export const MobileNavFooter = ({ language }: MobileNavFooterProps) => {
   const [activeSheet, setActiveSheet] = useState<"surah" | "para" | null>(null);
   const [surahSearch, setSurahSearch] = useState("");
   const [paraSearch, setParaSearch] = useState("");
+  const surahListRefs = useRef<{ [key: number]: HTMLButtonElement | null }>({});
+  const paraListRefs = useRef<{ [key: number]: HTMLButtonElement | null }>({});
 
   const navItems = [
     {
@@ -75,6 +77,38 @@ export const MobileNavFooter = ({ language }: MobileNavFooterProps) => {
   const paraMatch = location.pathname.match(/\/para\/(\d+)/);
   const currentSurahNumber = surahMatch ? parseInt(surahMatch[1], 10) : null;
   const currentParaNumber = paraMatch ? parseInt(paraMatch[1], 10) : null;
+
+  // Scroll to current surah when sheet opens
+  useEffect(() => {
+    if (activeSheet === "surah" && currentSurahNumber && !surahSearch) {
+      const timer = setTimeout(() => {
+        const element = surahListRefs.current[currentSurahNumber];
+        if (element) {
+          element.scrollIntoView({
+            behavior: 'instant',
+            block: 'center'
+          });
+        }
+      }, 300);
+      return () => clearTimeout(timer);
+    }
+  }, [activeSheet, currentSurahNumber, surahSearch]);
+
+  // Scroll to current para when sheet opens
+  useEffect(() => {
+    if (activeSheet === "para" && currentParaNumber && !paraSearch) {
+      const timer = setTimeout(() => {
+        const element = paraListRefs.current[currentParaNumber];
+        if (element) {
+          element.scrollIntoView({
+            behavior: 'instant',
+            block: 'center'
+          });
+        }
+      }, 300);
+      return () => clearTimeout(timer);
+    }
+  }, [activeSheet, currentParaNumber, paraSearch]);
 
   // Filter surahs based on search
   const filteredSurahs = useMemo(() => {
@@ -162,6 +196,7 @@ export const MobileNavFooter = ({ language }: MobileNavFooterProps) => {
               {filteredSurahs.map((surah) => (
                 <button
                   key={surah.number}
+                  ref={(el) => { surahListRefs.current[surah.number] = el; }}
                   onClick={() => handleSurahClick(surah.number)}
                   className={cn(
                     "flex items-center gap-3 w-full px-4 py-3 transition-colors",
@@ -225,6 +260,7 @@ export const MobileNavFooter = ({ language }: MobileNavFooterProps) => {
               {filteredParas.map((para) => (
                 <button
                   key={para.number}
+                  ref={(el) => { paraListRefs.current[para.number] = el; }}
                   onClick={() => handleParaClick(para.number)}
                   className={cn(
                     "flex items-center gap-3 w-full px-4 py-3 transition-colors",
