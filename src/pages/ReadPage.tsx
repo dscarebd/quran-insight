@@ -415,11 +415,11 @@ const ReadPage = ({ language }: ReadPageProps) => {
           <Button
             variant="outline"
             size="sm"
-            onClick={() => goToPage(currentPage + 1)}
-            disabled={currentPage >= 604}
+            onClick={() => goToPage(currentPage - 1)}
+            disabled={currentPage <= 1}
             className={cn("gap-2", language === "bn" && "font-bengali")}
           >
-            <ChevronRight className="h-4 w-4" />
+            <ChevronLeft className="h-4 w-4" />
             {language === "bn" ? "পূর্ববর্তী" : "Previous"}
           </Button>
 
@@ -449,7 +449,9 @@ const ReadPage = ({ language }: ReadPageProps) => {
                   {filteredPages.map((page) => (
                     <Button
                       key={page.pageNumber}
-                      ref={(el) => { pageListRefs.current[page.pageNumber] = el; }}
+                      ref={(el) => {
+                        pageListRefs.current[page.pageNumber] = el;
+                      }}
                       variant={page.pageNumber === currentPage ? "default" : "outline"}
                       size="sm"
                       className={cn(
@@ -472,12 +474,12 @@ const ReadPage = ({ language }: ReadPageProps) => {
           <Button
             variant="outline"
             size="sm"
-            onClick={() => goToPage(currentPage - 1)}
-            disabled={currentPage <= 1}
+            onClick={() => goToPage(currentPage + 1)}
+            disabled={currentPage >= 604}
             className={cn("gap-2", language === "bn" && "font-bengali")}
           >
             {language === "bn" ? "পরবর্তী" : "Next"}
-            <ChevronLeft className="h-4 w-4" />
+            <ChevronRight className="h-4 w-4" />
           </Button>
         </div>
       </footer>
