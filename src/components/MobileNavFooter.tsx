@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Home, BookOpen, Layers, Bookmark, ChevronRight, X } from "lucide-react";
+import { Home, BookOpen, Layers, Bookmark, ChevronRight, Search } from "lucide-react";
 import { cn, formatNumber } from "@/lib/utils";
 import { surahs } from "@/data/surahs";
 import { paras } from "@/data/paras";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Input } from "@/components/ui/input";
 
 interface MobileNavFooterProps {
   language: "bn" | "en";
@@ -15,6 +16,8 @@ export const MobileNavFooter = ({ language }: MobileNavFooterProps) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [activeSheet, setActiveSheet] = useState<"surah" | "para" | null>(null);
+  const [surahSearch, setSurahSearch] = useState("");
+  const [paraSearch, setParaSearch] = useState("");
 
   const navItems = [
     {
@@ -31,7 +34,10 @@ export const MobileNavFooter = ({ language }: MobileNavFooterProps) => {
       labelBn: "সূরা",
       path: "/surah",
       isActive: location.pathname.startsWith("/surah"),
-      action: () => setActiveSheet("surah"),
+      action: () => {
+        setSurahSearch("");
+        setActiveSheet("surah");
+      },
     },
     {
       icon: Layers,
@@ -39,7 +45,10 @@ export const MobileNavFooter = ({ language }: MobileNavFooterProps) => {
       labelBn: "পারা",
       path: "/para",
       isActive: location.pathname.startsWith("/para"),
-      action: () => setActiveSheet("para"),
+      action: () => {
+        setParaSearch("");
+        setActiveSheet("para");
+      },
     },
     {
       icon: Bookmark,
@@ -66,6 +75,30 @@ export const MobileNavFooter = ({ language }: MobileNavFooterProps) => {
   const paraMatch = location.pathname.match(/\/para\/(\d+)/);
   const currentSurahNumber = surahMatch ? parseInt(surahMatch[1], 10) : null;
   const currentParaNumber = paraMatch ? parseInt(paraMatch[1], 10) : null;
+
+  // Filter surahs based on search
+  const filteredSurahs = useMemo(() => {
+    const query = surahSearch.toLowerCase().trim();
+    if (!query) return surahs;
+    return surahs.filter((surah) =>
+      surah.nameEnglish.toLowerCase().includes(query) ||
+      surah.nameBengali.includes(query) ||
+      surah.nameArabic.includes(query) ||
+      surah.number.toString().includes(query)
+    );
+  }, [surahSearch]);
+
+  // Filter paras based on search
+  const filteredParas = useMemo(() => {
+    const query = paraSearch.toLowerCase().trim();
+    if (!query) return paras;
+    return paras.filter((para) =>
+      para.nameEnglish.toLowerCase().includes(query) ||
+      para.nameBengali.includes(query) ||
+      para.nameArabic.includes(query) ||
+      para.number.toString().includes(query)
+    );
+  }, [paraSearch]);
 
   return (
     <>
@@ -105,15 +138,28 @@ export const MobileNavFooter = ({ language }: MobileNavFooterProps) => {
 
       {/* Surah List Sheet */}
       <Sheet open={activeSheet === "surah"} onOpenChange={(open) => !open && setActiveSheet(null)}>
-        <SheetContent side="bottom" className="h-[70vh] rounded-t-2xl px-0">
-          <SheetHeader className="px-4 pb-2 border-b border-border">
+        <SheetContent side="bottom" className="h-[75vh] rounded-t-2xl px-0">
+          <SheetHeader className="px-4 pb-3 border-b border-border space-y-3">
             <SheetTitle className={cn("text-center", language === "bn" && "font-bengali")}>
               {language === "bn" ? "সূরা নির্বাচন করুন" : "Select Surah"}
             </SheetTitle>
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <Input
+                type="text"
+                value={surahSearch}
+                onChange={(e) => setSurahSearch(e.target.value)}
+                placeholder={language === "bn" ? "সূরা খুঁজুন..." : "Search surah..."}
+                className={cn(
+                  "pl-9",
+                  language === "bn" && "font-bengali placeholder:font-bengali"
+                )}
+              />
+            </div>
           </SheetHeader>
-          <ScrollArea className="h-[calc(70vh-60px)]">
+          <ScrollArea className="h-[calc(75vh-110px)]">
             <div className="py-2">
-              {surahs.map((surah) => (
+              {filteredSurahs.map((surah) => (
                 <button
                   key={surah.number}
                   onClick={() => handleSurahClick(surah.number)}
@@ -155,15 +201,28 @@ export const MobileNavFooter = ({ language }: MobileNavFooterProps) => {
 
       {/* Para List Sheet */}
       <Sheet open={activeSheet === "para"} onOpenChange={(open) => !open && setActiveSheet(null)}>
-        <SheetContent side="bottom" className="h-[70vh] rounded-t-2xl px-0">
-          <SheetHeader className="px-4 pb-2 border-b border-border">
+        <SheetContent side="bottom" className="h-[75vh] rounded-t-2xl px-0">
+          <SheetHeader className="px-4 pb-3 border-b border-border space-y-3">
             <SheetTitle className={cn("text-center", language === "bn" && "font-bengali")}>
               {language === "bn" ? "পারা নির্বাচন করুন" : "Select Para"}
             </SheetTitle>
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <Input
+                type="text"
+                value={paraSearch}
+                onChange={(e) => setParaSearch(e.target.value)}
+                placeholder={language === "bn" ? "পারা খুঁজুন..." : "Search para..."}
+                className={cn(
+                  "pl-9",
+                  language === "bn" && "font-bengali placeholder:font-bengali"
+                )}
+              />
+            </div>
           </SheetHeader>
-          <ScrollArea className="h-[calc(70vh-60px)]">
+          <ScrollArea className="h-[calc(75vh-110px)]">
             <div className="py-2">
-              {paras.map((para) => (
+              {filteredParas.map((para) => (
                 <button
                   key={para.number}
                   onClick={() => handleParaClick(para.number)}
