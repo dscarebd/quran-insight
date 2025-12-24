@@ -202,7 +202,7 @@ export const AppSidebar = ({ language, activeTab, onTabChange }: AppSidebarProps
                       type="text"
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
-                      placeholder={language === "bn" ? "খুঁজ হচ্ছে..." : "Search..."}
+                      placeholder={language === "bn" ? "খোঁজা হচ্ছে..." : "Search..."}
                       className={cn(
                         "w-full rounded-lg border border-input bg-background py-2 pl-9 pr-3 text-sm placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary",
                         language === "bn" && "font-bengali placeholder:font-bengali"
