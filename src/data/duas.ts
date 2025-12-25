@@ -5492,6 +5492,366 @@ export const duaCategories: DuaCategory[] = [
         bengali: "হে আমাদের রব! আমাদের স্ত্রীদের পক্ষ থেকে এবং আমাদের সন্তানদের পক্ষ থেকে আমাদের চোখ শীতল কর এবং আমাদেরকে মুত্তাকীদের জন্য আদর্শ বানাও।",
         english: "Our Lord, grant us from among our wives and offspring comfort to our eyes and make us an example for the righteous.",
         reference: "সূরা ফুরকান ২৫:৭৪"
+      },
+      {
+        id: "family-11",
+        titleBengali: "মা-বাবার জন্য দীর্ঘায়ু",
+        titleEnglish: "For Parents' Long Life",
+        arabic: "اللَّهُمَّ أَطِلْ عُمُرَ وَالِدَيَّ فِي طَاعَتِكَ",
+        bengali: "হে আল্লাহ! তোমার আনুগত্যে আমার মা-বাবার জীবন দীর্ঘ কর।",
+        english: "O Allah, extend my parents' lives in Your obedience.",
+        reference: "মুসনাদে আহমাদ"
+      },
+      {
+        id: "family-12",
+        titleBengali: "সন্তানদের হেদায়েতের দোয়া",
+        titleEnglish: "For Children's Guidance",
+        arabic: "رَبِّ اجْعَلْنِي مُقِيمَ الصَّلاَةِ وَمِن ذُرِّيَّتِي رَبَّنَا وَتَقَبَّلْ دُعَاءِ",
+        bengali: "হে আমার রব! আমাকে এবং আমার বংশধরদের সালাত প্রতিষ্ঠাকারী বানাও, হে আমাদের রব! আমার দোয়া কবুল কর।",
+        english: "My Lord, make me an establisher of prayer, and my descendants. Our Lord, accept my supplication.",
+        reference: "সূরা ইবরাহীম ১৪:৪০"
+      },
+      {
+        id: "family-13",
+        titleBengali: "পরিবারের রিজিকের দোয়া",
+        titleEnglish: "For Family Provision",
+        arabic: "اللَّهُمَّ ارْزُقْنِي وَعَائِلَتِي رِزْقًا حَلاَلاً طَيِّبًا",
+        bengali: "হে আল্লাহ! আমাকে এবং আমার পরিবারকে হালাল ও পবিত্র রিজিক দান কর।",
+        english: "O Allah, provide me and my family with halal and pure provision.",
+        reference: "মুসনাদে আহমাদ"
+      },
+      {
+        id: "family-14",
+        titleBengali: "পরিবারের নিরাপত্তার দোয়া",
+        titleEnglish: "For Family Protection",
+        arabic: "اللَّهُمَّ احْفَظْ أَهْلِي وَذُرِّيَّتِي مِنْ كُلِّ سُوءٍ",
+        bengali: "হে আল্লাহ! আমার পরিবার ও সন্তানদের সকল অনিষ্ট থেকে হেফাজত কর।",
+        english: "O Allah, protect my family and offspring from all evil.",
+        reference: "আল-আযকার, ইমাম নববী"
+      },
+      {
+        id: "family-15",
+        titleBengali: "দাদা-দাদীর জন্য দোয়া",
+        titleEnglish: "For Grandparents",
+        arabic: "رَبِّ ارْحَمْهُمَا كَمَا رَبَّيَانِي صَغِيرًا",
+        bengali: "হে আমার রব! তাদের প্রতি রহম কর যেমন তারা আমাকে ছোটবেলায় লালন-পালন করেছেন।",
+        english: "My Lord, have mercy upon them as they brought me up when I was small.",
+        reference: "সূরা ইসরা ১৭:২৪"
+      },
+      {
+        id: "family-16",
+        titleBengali: "চাচা-মামার জন্য দোয়া",
+        titleEnglish: "For Uncles & Aunts",
+        arabic: "اللَّهُمَّ بَارِكْ لَهُمْ وَاحْفَظْهُمْ",
+        bengali: "হে আল্লাহ! তাদের জন্য বরকত দাও এবং তাদের হেফাজত কর।",
+        english: "O Allah, bless them and protect them.",
+        reference: "মুসনাদে আহমাদ"
+      },
+      {
+        id: "family-17",
+        titleBengali: "পরিবারে শান্তির দোয়া",
+        titleEnglish: "For Family Peace",
+        arabic: "رَبِّ أَدْخِلْنِي مُدْخَلَ صِدْقٍ وَأَخْرِجْنِي مُخْرَجَ صِدْقٍ",
+        bengali: "হে আমার রব! আমাকে সত্যের সাথে প্রবেশ করাও এবং সত্যের সাথে বের কর।",
+        english: "My Lord, cause me to enter a sound entrance and to exit a sound exit.",
+        reference: "সূরা ইসরা ১৭:৮০"
+      },
+      {
+        id: "family-18",
+        titleBengali: "আত্মীয়তা রক্ষার দোয়া",
+        titleEnglish: "For Maintaining Kinship",
+        arabic: "اللَّهُمَّ صِلْ مَنْ وَصَلَنِي وَاقْطَعْ مَنْ قَطَعَنِي",
+        bengali: "হে আল্লাহ! যে আমার সাথে সম্পর্ক রাখে তার সাথে সম্পর্ক রাখ এবং যে সম্পর্ক ছিন্ন করে তার সম্পর্ক ছিন্ন কর।",
+        english: "O Allah, maintain ties with whoever maintains ties with me and cut off whoever cuts me off.",
+        reference: "সহীহ বুখারী, হাদিস নং ৫৯৮৮"
+      },
+      {
+        id: "family-19",
+        titleBengali: "পরিবারে বরকতের দোয়া",
+        titleEnglish: "For Family Blessings",
+        arabic: "اللَّهُمَّ بَارِكْ لَنَا فِي أَهْلِنَا وَأَوْلاَدِنَا",
+        bengali: "হে আল্লাহ! আমাদের পরিবার ও সন্তানদের মধ্যে বরকত দাও।",
+        english: "O Allah, bless us in our family and children.",
+        reference: "মুসনাদে আহমাদ"
+      },
+      {
+        id: "family-20",
+        titleBengali: "মৃত পিতা-মাতার জন্য দোয়া",
+        titleEnglish: "For Deceased Parents",
+        arabic: "رَبِّ اغْفِرْ لِي وَلِوَالِدَيَّ",
+        bengali: "হে আমার রব! আমাকে এবং আমার পিতা-মাতাকে ক্ষমা কর।",
+        english: "My Lord, forgive me and my parents.",
+        reference: "সূরা নূহ ৭১:২৮"
+      },
+      {
+        id: "family-21",
+        titleBengali: "সন্তানের সুস্থতার দোয়া",
+        titleEnglish: "For Children's Health",
+        arabic: "أُعِيذُكُمْ بِكَلِمَاتِ اللهِ التَّامَّةِ مِنْ كُلِّ شَيْطَانٍ وَهَامَّةٍ",
+        bengali: "আমি তোমাদের আল্লাহর পরিপূর্ণ কালেমার মাধ্যমে সকল শয়তান ও বিষাক্ত প্রাণী থেকে আশ্রয় দিচ্ছি।",
+        english: "I seek protection for you with the perfect words of Allah from every devil and poisonous pest.",
+        reference: "সহীহ বুখারী, হাদিস নং ৩৩৭১"
+      },
+      {
+        id: "family-22",
+        titleBengali: "পরিবারের ঈমানের দোয়া",
+        titleEnglish: "For Family's Faith",
+        arabic: "رَبِّ اجْعَلْنِي مُقِيمَ الصَّلاَةِ وَمِن ذُرِّيَّتِي",
+        bengali: "হে আমার রব! আমাকে এবং আমার বংশধরদের সালাত প্রতিষ্ঠাকারী বানাও।",
+        english: "My Lord, make me an establisher of prayer, and my descendants.",
+        reference: "সূরা ইবরাহীম ১৪:৪০"
+      },
+      {
+        id: "family-23",
+        titleBengali: "পরিবারে একতার দোয়া",
+        titleEnglish: "For Family Togetherness",
+        arabic: "وَاجْعَلْنَا لِلْمُتَّقِينَ إِمَامًا",
+        bengali: "এবং আমাদেরকে মুত্তাকীদের জন্য আদর্শ বানাও।",
+        english: "And make us an example for the righteous.",
+        reference: "সূরা ফুরকান ২৫:৭৪"
+      },
+      {
+        id: "family-24",
+        titleBengali: "বৃদ্ধ মা-বাবার সেবার দোয়া",
+        titleEnglish: "For Serving Elderly Parents",
+        arabic: "رَبِّ ارْحَمْهُمَا كَمَا رَبَّيَانِي صَغِيرًا",
+        bengali: "হে আমার রব! তাদের প্রতি রহম কর যেমন তারা আমাকে শৈশবে লালন-পালন করেছেন।",
+        english: "My Lord, have mercy upon them as they brought me up when I was small.",
+        reference: "সূরা ইসরা ১৭:২৪"
+      },
+      {
+        id: "family-25",
+        titleBengali: "পরিবারে সুখের দোয়া",
+        titleEnglish: "For Family Happiness",
+        arabic: "رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً",
+        bengali: "হে আমাদের রব! দুনিয়াতে কল্যাণ দাও এবং আখিরাতেও কল্যাণ দাও।",
+        english: "Our Lord, give us good in this world and good in the Hereafter.",
+        reference: "সূরা বাকারা ২:২০১"
+      },
+      {
+        id: "family-26",
+        titleBengali: "সৎ সন্তানের দোয়া",
+        titleEnglish: "For Righteous Children",
+        arabic: "رَبِّ هَبْ لِي مِن لَّدُنكَ ذُرِّيَّةً طَيِّبَةً إِنَّكَ سَمِيعُ الدُّعَاءِ",
+        bengali: "হে আমার রব! তোমার পক্ষ থেকে আমাকে পবিত্র সন্তান দান কর, নিশ্চয়ই তুমি দোয়া শ্রবণকারী।",
+        english: "My Lord, grant me from Yourself good offspring. Indeed, You are the Hearer of supplication.",
+        reference: "সূরা আলে ইমরান ৩:৩৮"
+      },
+      {
+        id: "family-27",
+        titleBengali: "পরিবারের হেদায়েতের দোয়া",
+        titleEnglish: "For Family Guidance",
+        arabic: "رَبَّنَا هَبْ لَنَا مِنْ أَزْوَاجِنَا وَذُرِّيَّاتِنَا قُرَّةَ أَعْيُنٍ",
+        bengali: "হে আমাদের রব! আমাদের স্ত্রী ও সন্তানদের থেকে আমাদের চোখ শীতল কর।",
+        english: "Our Lord, grant us from among our spouses and offspring comfort to our eyes.",
+        reference: "সূরা ফুরকান ২৫:৭৪"
+      },
+      {
+        id: "family-28",
+        titleBengali: "পরিবারে সম্মানের দোয়া",
+        titleEnglish: "For Family Honor",
+        arabic: "رَبَّنَا آتِنَا مِن لَّدُنكَ رَحْمَةً وَهَيِّئْ لَنَا مِنْ أَمْرِنَا رَشَدًا",
+        bengali: "হে আমাদের রব! তোমার পক্ষ থেকে আমাদের রহমত দাও এবং আমাদের কাজে সঠিক পথ দেখাও।",
+        english: "Our Lord, grant us from Yourself mercy and prepare for us from our affair right guidance.",
+        reference: "সূরা কাহফ ১৮:১০"
+      },
+      {
+        id: "family-29",
+        titleBengali: "পরিবারে ক্ষমার দোয়া",
+        titleEnglish: "For Family Forgiveness",
+        arabic: "رَبَّنَا اغْفِرْ لَنَا وَلِإِخْوَانِنَا الَّذِينَ سَبَقُونَا بِالْإِيمَانِ",
+        bengali: "হে আমাদের রব! আমাদের ও আমাদের সেসব ভাইদের ক্ষমা কর যারা ঈমানের সাথে আমাদের অগ্রগামী হয়েছে।",
+        english: "Our Lord, forgive us and our brothers who preceded us in faith.",
+        reference: "সূরা হাশর ৫৯:১০"
+      },
+      {
+        id: "family-30",
+        titleBengali: "পরিবারে ধৈর্যের দোয়া",
+        titleEnglish: "For Family Patience",
+        arabic: "رَبَّنَا أَفْرِغْ عَلَيْنَا صَبْرًا",
+        bengali: "হে আমাদের রব! আমাদের উপর ধৈর্য ঢেলে দাও।",
+        english: "Our Lord, pour upon us patience.",
+        reference: "সূরা বাকারা ২:২৫০"
+      },
+      {
+        id: "family-31",
+        titleBengali: "পরিবারে তাকওয়ার দোয়া",
+        titleEnglish: "For Family Piety",
+        arabic: "رَبَّنَا اجْعَلْنَا مُسْلِمَيْنِ لَكَ وَمِن ذُرِّيَّتِنَا أُمَّةً مُّسْلِمَةً لَّكَ",
+        bengali: "হে আমাদের রব! আমাদেরকে তোমার অনুগত কর এবং আমাদের বংশধর থেকে তোমার অনুগত জাতি তৈরি কর।",
+        english: "Our Lord, make us Muslims [in submission] to You and from our descendants a Muslim nation [in submission] to You.",
+        reference: "সূরা বাকারা ২:১২৮"
+      },
+      {
+        id: "family-32",
+        titleBengali: "পরিবারে কৃতজ্ঞতার দোয়া",
+        titleEnglish: "For Family Gratitude",
+        arabic: "رَبِّ أَوْزِعْنِي أَنْ أَشْكُرَ نِعْمَتَكَ",
+        bengali: "হে আমার রব! আমাকে তাওফিক দাও যাতে আমি তোমার নিয়ামতের শুকরিয়া আদায় করতে পারি।",
+        english: "My Lord, enable me to be grateful for Your favor.",
+        reference: "সূরা নামল ২৭:১৯"
+      },
+      {
+        id: "family-33",
+        titleBengali: "পরিবারে সম্প্রীতি বৃদ্ধির দোয়া",
+        titleEnglish: "For Increasing Family Harmony",
+        arabic: "اللَّهُمَّ أَلِّفْ بَيْنَ قُلُوبِنَا",
+        bengali: "হে আল্লাহ! আমাদের অন্তরে ভালোবাসা সৃষ্টি কর।",
+        english: "O Allah, bring love between our hearts.",
+        reference: "সূরা আনফাল ৮:৬৩"
+      },
+      {
+        id: "family-34",
+        titleBengali: "পরিবারে নেয়ামতের দোয়া",
+        titleEnglish: "For Family Blessings",
+        arabic: "رَبِّ أَنْعِمْ عَلَيَّ وَعَلَى أَهْلِي",
+        bengali: "হে আমার রব! আমার উপর এবং আমার পরিবারের উপর নিয়ামত দান কর।",
+        english: "My Lord, bestow blessings upon me and upon my family.",
+        reference: "মুসনাদে আহমাদ"
+      },
+      {
+        id: "family-35",
+        titleBengali: "পরিবারে সৎকর্মের দোয়া",
+        titleEnglish: "For Family's Good Deeds",
+        arabic: "وَأَن أَعْمَلَ صَالِحًا تَرْضَاهُ وَأَصْلِحْ لِي فِي ذُرِّيَّتِي",
+        bengali: "এবং আমি যেন এমন সৎকর্ম করি যা তুমি পছন্দ কর এবং আমার সন্তানদের মধ্যে আমার জন্য সংশোধন করে দাও।",
+        english: "And to do righteousness of which You approve. And make righteous for me my offspring.",
+        reference: "সূরা আহকাফ ৪৬:১৫"
+      },
+      {
+        id: "family-36",
+        titleBengali: "পরিবারে শান্তি প্রতিষ্ঠার দোয়া",
+        titleEnglish: "For Establishing Family Peace",
+        arabic: "وَاهْدِنَا سُبُلَ السَّلاَمِ",
+        bengali: "এবং আমাদের শান্তির পথে পরিচালিত কর।",
+        english: "And guide us to the ways of peace.",
+        reference: "আবু দাউদ, হাদিস নং ৯৬৯"
+      },
+      {
+        id: "family-37",
+        titleBengali: "পরিবারে বিশ্বাসের দোয়া",
+        titleEnglish: "For Family Trust",
+        arabic: "رَبَّنَا عَلَيْكَ تَوَكَّلْنَا وَإِلَيْكَ أَنَبْنَا وَإِلَيْكَ الْمَصِيرُ",
+        bengali: "হে আমাদের রব! তোমার উপরই আমরা ভরসা করেছি এবং তোমার দিকেই ফিরে এসেছি এবং তোমার কাছেই প্রত্যাবর্তন।",
+        english: "Our Lord, upon You we have relied, and to You we have returned, and to You is the destination.",
+        reference: "সূরা মুমতাহিনা ৬০:৪"
+      },
+      {
+        id: "family-38",
+        titleBengali: "পরিবারে দোয়া কবুলের জন্য",
+        titleEnglish: "For Acceptance of Family Prayers",
+        arabic: "رَبَّنَا وَتَقَبَّلْ دُعَاءَ",
+        bengali: "হে আমাদের রব! আমাদের দোয়া কবুল কর।",
+        english: "Our Lord, accept our supplication.",
+        reference: "সূরা ইবরাহীম ১৪:৪০"
+      },
+      {
+        id: "family-39",
+        titleBengali: "পরিবারে সুরক্ষার দোয়া",
+        titleEnglish: "For Family Safety",
+        arabic: "رَبِّ احْفَظْنِي وَأَهْلِي مِنْ كُلِّ مَكْرُوهٍ",
+        bengali: "হে আমার রব! আমাকে এবং আমার পরিবারকে সকল অপছন্দনীয় বিষয় থেকে রক্ষা কর।",
+        english: "My Lord, protect me and my family from all that is disliked.",
+        reference: "মুসনাদে আহমাদ"
+      },
+      {
+        id: "family-40",
+        titleBengali: "পরিবারে আখিরাতের সফলতার দোয়া",
+        titleEnglish: "For Family's Success in Hereafter",
+        arabic: "رَبَّنَا وَأَدْخِلْهُمْ جَنَّاتِ عَدْنٍ الَّتِي وَعَدتَّهُمْ",
+        bengali: "হে আমাদের রব! তাদেরকে চিরস্থায়ী জান্নাতে প্রবেশ করাও যা তুমি তাদের ওয়াদা দিয়েছ।",
+        english: "Our Lord, and admit them to gardens of perpetual residence which You have promised them.",
+        reference: "সূরা গাফির ৪০:৮"
+      },
+      {
+        id: "family-41",
+        titleBengali: "পরিবারে সম্মান বৃদ্ধির দোয়া",
+        titleEnglish: "For Increasing Family Honor",
+        arabic: "رَبِّ اشْرَحْ لِي صَدْرِي",
+        bengali: "হে আমার রব! আমার বক্ষ প্রশস্ত করে দাও।",
+        english: "My Lord, expand for me my chest.",
+        reference: "সূরা ত্বহা ২০:২৫"
+      },
+      {
+        id: "family-42",
+        titleBengali: "পরিবারে সন্তুষ্টির দোয়া",
+        titleEnglish: "For Family Contentment",
+        arabic: "اللَّهُمَّ قَنِّعْنِي بِمَا رَزَقْتَنِي",
+        bengali: "হে আল্লাহ! তুমি যা দিয়েছ তাতে আমাকে সন্তুষ্ট কর।",
+        english: "O Allah, make me content with what You have provided me.",
+        reference: "সুনান তিরমিযী, হাদিস নং ৩৫৬৩"
+      },
+      {
+        id: "family-43",
+        titleBengali: "পরিবারে আমানতদারিতার দোয়া",
+        titleEnglish: "For Family Trustworthiness",
+        arabic: "اللَّهُمَّ اجْعَلْنَا أَوْفِيَاءَ أُمَنَاءَ",
+        bengali: "হে আল্লাহ! আমাদেরকে বিশ্বস্ত ও আমানতদার বানাও।",
+        english: "O Allah, make us loyal and trustworthy.",
+        reference: "মুসনাদে আহমাদ"
+      },
+      {
+        id: "family-44",
+        titleBengali: "পরিবারে সৌহার্দ্যের দোয়া",
+        titleEnglish: "For Family Cordiality",
+        arabic: "وَلاَ تَجْعَلْ فِي قُلُوبِنَا غِلًّا لِلَّذِينَ آمَنُوا",
+        bengali: "এবং মুমিনদের প্রতি আমাদের অন্তরে কোন বিদ্বেষ রেখো না।",
+        english: "And put not in our hearts any resentment toward those who have believed.",
+        reference: "সূরা হাশর ৫৯:১০"
+      },
+      {
+        id: "family-45",
+        titleBengali: "পরিবারে উত্তম আচরণের দোয়া",
+        titleEnglish: "For Good Family Conduct",
+        arabic: "اللَّهُمَّ اهْدِنِي لِأَحْسَنِ الأَخْلاَقِ",
+        bengali: "হে আল্লাহ! আমাকে উত্তম চরিত্রের দিকে পরিচালিত কর।",
+        english: "O Allah, guide me to the best of manners.",
+        reference: "সহীহ মুসলিম, হাদিস নং ৭৭১"
+      },
+      {
+        id: "family-46",
+        titleBengali: "পরিবারে জ্ঞান বৃদ্ধির দোয়া",
+        titleEnglish: "For Family's Knowledge",
+        arabic: "رَبِّ زِدْنِي عِلْمًا",
+        bengali: "হে আমার রব! আমার জ্ঞান বাড়িয়ে দাও।",
+        english: "My Lord, increase me in knowledge.",
+        reference: "সূরা ত্বহা ২০:১১৪"
+      },
+      {
+        id: "family-47",
+        titleBengali: "পরিবারে সাহায্যের দোয়া",
+        titleEnglish: "For Family Support",
+        arabic: "رَبِّ أَعِنِّي وَلاَ تُعِنْ عَلَيَّ",
+        bengali: "হে আমার রব! আমাকে সাহায্য কর এবং আমার বিরুদ্ধে সাহায্য করো না।",
+        english: "My Lord, help me and do not help against me.",
+        reference: "সুনান তিরমিযী, হাদিস নং ৩৫৫১"
+      },
+      {
+        id: "family-48",
+        titleBengali: "পরিবারে উত্তম পরিণতির দোয়া",
+        titleEnglish: "For Good Family Outcome",
+        arabic: "رَبَّنَا أَتْمِمْ لَنَا نُورَنَا وَاغْفِرْ لَنَا",
+        bengali: "হে আমাদের রব! আমাদের জন্য আমাদের নূর পূর্ণ করে দাও এবং আমাদের ক্ষমা কর।",
+        english: "Our Lord, perfect for us our light and forgive us.",
+        reference: "সূরা তাহরীম ৬৬:৮"
+      },
+      {
+        id: "family-49",
+        titleBengali: "পরিবারে সুখ সমৃদ্ধির দোয়া",
+        titleEnglish: "For Family Prosperity",
+        arabic: "اللَّهُمَّ بَارِكْ لَنَا فِيمَا رَزَقْتَنَا وَقِنَا عَذَابَ النَّارِ",
+        bengali: "হে আল্লাহ! তুমি আমাদের যা দিয়েছ তাতে বরকত দাও এবং জাহান্নামের আযাব থেকে আমাদের রক্ষা কর।",
+        english: "O Allah, bless us in what You have provided for us and protect us from the punishment of the Fire.",
+        reference: "সহীহ মুসলিম, হাদিস নং ২০৩৪"
+      },
+      {
+        id: "family-50",
+        titleBengali: "পরিবারের জন্য জান্নাতের দোয়া",
+        titleEnglish: "For Family's Entry to Paradise",
+        arabic: "رَبِّ اغْفِرْ لِي وَلِوَالِدَيَّ وَلِمَن دَخَلَ بَيْتِيَ مُؤْمِنًا وَلِلْمُؤْمِنِينَ وَالْمُؤْمِنَاتِ",
+        bengali: "হে আমার রব! আমাকে ক্ষমা কর, আমার পিতা-মাতাকে ক্ষমা কর, যারা মুমিন হয়ে আমার ঘরে প্রবেশ করে তাদের ক্ষমা কর এবং সকল মুমিন পুরুষ ও মুমিন নারীদের ক্ষমা কর।",
+        english: "My Lord, forgive me and my parents and whoever enters my house a believer and the believing men and believing women.",
+        reference: "সূরা নূহ ৭১:২৮"
       }
     ]
   },
