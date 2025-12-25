@@ -56,12 +56,12 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
                 <div className="flex items-center gap-4">
                   <img 
                     src={appLogo} 
-                    alt="AI Tafsir" 
+                    alt="Quran Insight" 
                     className="h-16 w-16 rounded-full object-cover border-2 border-primary/20"
                   />
                   <div className="flex-1">
                     <h3 className={cn("text-lg font-semibold", language === "bn" && "font-bengali")}>
-                      {language === "bn" ? "AI তাফসির" : "AI Tafsir"}
+                      {language === "bn" ? "কুরআন ইনসাইট" : "Quran Insight"}
                     </h3>
                     <p className={cn("text-sm text-muted-foreground", language === "bn" && "font-bengali")}>
                       {language === "bn" 
@@ -274,7 +274,7 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
                 </div>
                 <div>
                   <p className={cn("font-medium", language === "bn" && "font-bengali")}>
-                    {language === "bn" ? "AI তাফসির" : "AI Tafsir"}
+                    {language === "bn" ? "কুরআন ইনসাইট" : "Quran Insight"}
                   </p>
                   <p className="text-sm text-muted-foreground">
                     {language === "bn" ? "সংস্করণ ১.০.০" : "Version 1.0.0"}
