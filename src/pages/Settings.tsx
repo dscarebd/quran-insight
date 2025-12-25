@@ -6,6 +6,7 @@ import { Separator } from "@/components/ui/separator";
 import { MobileNavFooter } from "@/components/MobileNavFooter";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import annurLogo from "@/assets/annur-digital-logo.jpeg";
+import appLogo from "@/assets/app-logo.png";
 
 // Telegram SVG Icon Component
 const TelegramIcon = ({ className }: { className?: string }) => (
@@ -53,10 +54,11 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
             <div className="rounded-xl border border-border bg-gradient-to-br from-primary/5 to-primary/10 overflow-hidden">
               <div className="p-5">
                 <div className="flex items-center gap-4">
-                  <Avatar className="h-16 w-16 border-2 border-primary/20">
-                    <AvatarImage src="https://api.dicebear.com/7.x/initials/svg?seed=AI%20Tafsir" />
-                    <AvatarFallback className="bg-primary text-primary-foreground text-lg font-semibold">AT</AvatarFallback>
-                  </Avatar>
+                  <img 
+                    src={appLogo} 
+                    alt="AI Tafsir" 
+                    className="h-16 w-16 rounded-full object-cover border-2 border-primary/20"
+                  />
                   <div className="flex-1">
                     <h3 className={cn("text-lg font-semibold", language === "bn" && "font-bengali")}>
                       {language === "bn" ? "AI তাফসির" : "AI Tafsir"}
