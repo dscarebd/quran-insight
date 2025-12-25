@@ -2,6 +2,7 @@ import { Settings } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { LanguageToggle } from "./LanguageToggle";
 import { SidebarTrigger } from "@/components/ui/sidebar";
+import appLogo from "@/assets/app-logo.png";
 
 interface HeaderProps {
   language: "bn" | "en";
@@ -23,8 +24,11 @@ export const Header = ({ language, onLanguageChange }: HeaderProps) => {
         <LanguageToggle language={language} onToggle={onLanguageChange} />
       </div>
       
-      {/* Mobile: Show app title */}
-      <h1 className="md:hidden text-lg font-semibold text-primary">AI Tafsir</h1>
+      {/* Mobile: Show app logo and title */}
+      <div className="md:hidden flex items-center gap-2">
+        <img src={appLogo} alt="AI Tafsir" className="h-8 w-8 rounded-lg" />
+        <h1 className="text-lg font-semibold text-primary">AI Tafsir</h1>
+      </div>
       
       {/* Settings button */}
       <div className="flex items-center gap-2">

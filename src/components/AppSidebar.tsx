@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Search, BookOpen, Bookmark, ChevronRight } from "lucide-react";
+import { Search, Bookmark, ChevronRight } from "lucide-react";
 import { surahs } from "@/data/surahs";
+import appLogo from "@/assets/app-logo.png";
 import { paras } from "@/data/paras";
 import { cn, formatNumber } from "@/lib/utils";
 import {
@@ -94,9 +95,7 @@ export const AppSidebar = ({ language, activeTab, onTabChange }: AppSidebarProps
       <SidebarHeader className="p-0">
         {/* Logo */}
         <div className="flex items-center gap-2 border-b border-sidebar-border px-3 py-3">
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-            <BookOpen className="h-5 w-5" />
-          </div>
+          <img src={appLogo} alt="AI Tafsir" className="h-9 w-9 shrink-0 rounded-lg" />
           {!isCollapsed && (
             <span className="text-lg font-semibold text-primary">AI Tafsir</span>
           )}
