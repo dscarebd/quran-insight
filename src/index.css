@@ -187,8 +187,7 @@
 
   body {
     @apply bg-background text-foreground antialiased overflow-x-hidden;
-    font-family: 'Lemon Milk', 'Anek Bangla', sans-serif;
-    font-weight: 100;
+    font-family: 'Inter', 'Anek Bangla', sans-serif;
   }
 
   img {
