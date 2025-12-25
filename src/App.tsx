@@ -26,6 +26,7 @@ const VersesManagement = lazy(() => import("./pages/admin/VersesManagement"));
 const ImportVerses = lazy(() => import("./pages/admin/ImportVerses"));
 const UsersManagement = lazy(() => import("./pages/admin/UsersManagement"));
 const AdminEmailsManagement = lazy(() => import("./pages/admin/AdminEmailsManagement"));
+const Analytics = lazy(() => import("./pages/admin/Analytics"));
 
 const queryClient = new QueryClient();
 
@@ -103,6 +104,7 @@ const AppContent = () => {
         <Route path="import-verses" element={<ImportVerses />} />
         <Route path="users" element={<UsersManagement />} />
         <Route path="admin-emails" element={<AdminEmailsManagement />} />
+        <Route path="analytics" element={<Analytics />} />
       </Route>
       <Route path="*" element={<NotFound />} />
     </Routes>

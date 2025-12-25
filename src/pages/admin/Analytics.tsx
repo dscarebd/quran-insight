@@ -1,0 +1,314 @@
+import { useState, useEffect } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Loader2, Users, Eye, Calendar, TrendingUp } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { startOfDay, startOfWeek, startOfMonth, format, subDays } from "date-fns";
+
+type TimePeriod = "today" | "week" | "month" | "all";
+
+interface PageViewStats {
+  totalViews: number;
+  uniqueVisitors: number;
+  topPages: { page_path: string; count: number }[];
+}
+
+interface DailyStats {
+  date: string;
+  views: number;
+  visitors: number;
+}
+
+const Analytics = () => {
+  const [period, setPeriod] = useState<TimePeriod>("today");
+  const [stats, setStats] = useState<PageViewStats>({
+    totalViews: 0,
+    uniqueVisitors: 0,
+    topPages: [],
+  });
+  const [dailyStats, setDailyStats] = useState<DailyStats[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [summaryStats, setSummaryStats] = useState({
+    today: { views: 0, visitors: 0 },
+    week: { views: 0, visitors: 0 },
+    month: { views: 0, visitors: 0 },
+    all: { views: 0, visitors: 0 },
+  });
+
+  const getStartDate = (p: TimePeriod): Date | null => {
+    const now = new Date();
+    switch (p) {
+      case "today":
+        return startOfDay(now);
+      case "week":
+        return startOfWeek(now, { weekStartsOn: 0 });
+      case "month":
+        return startOfMonth(now);
+      case "all":
+        return null;
+    }
+  };
+
+  const fetchStats = async () => {
+    setIsLoading(true);
+    try {
+      const startDate = getStartDate(period);
+      
+      // Build query for current period
+      let query = supabase.from("page_views").select("*");
+      
+      if (startDate) {
+        query = query.gte("created_at", startDate.toISOString());
+      }
+
+      const { data: pageViews, error } = await query;
+      
+      if (error) throw error;
+
+      // Calculate stats
+      const totalViews = pageViews?.length || 0;
+      const uniqueVisitors = new Set(pageViews?.map(pv => pv.visitor_id)).size;
+
+      // Calculate top pages
+      const pageCounts: Record<string, number> = {};
+      pageViews?.forEach(pv => {
+        pageCounts[pv.page_path] = (pageCounts[pv.page_path] || 0) + 1;
+      });
+
+      const topPages = Object.entries(pageCounts)
+        .map(([page_path, count]) => ({ page_path, count }))
+        .sort((a, b) => b.count - a.count)
+        .slice(0, 10);
+
+      setStats({ totalViews, uniqueVisitors, topPages });
+
+      // Fetch summary stats for all periods
+      const todayStart = startOfDay(new Date());
+      const weekStart = startOfWeek(new Date(), { weekStartsOn: 0 });
+      const monthStart = startOfMonth(new Date());
+
+      const { data: allViews } = await supabase.from("page_views").select("*");
+
+      if (allViews) {
+        const todayViews = allViews.filter(v => new Date(v.created_at) >= todayStart);
+        const weekViews = allViews.filter(v => new Date(v.created_at) >= weekStart);
+        const monthViews = allViews.filter(v => new Date(v.created_at) >= monthStart);
+
+        setSummaryStats({
+          today: {
+            views: todayViews.length,
+            visitors: new Set(todayViews.map(v => v.visitor_id)).size,
+          },
+          week: {
+            views: weekViews.length,
+            visitors: new Set(weekViews.map(v => v.visitor_id)).size,
+          },
+          month: {
+            views: monthViews.length,
+            visitors: new Set(monthViews.map(v => v.visitor_id)).size,
+          },
+          all: {
+            views: allViews.length,
+            visitors: new Set(allViews.map(v => v.visitor_id)).size,
+          },
+        });
+
+        // Calculate daily stats for last 7 days
+        const last7Days: DailyStats[] = [];
+        for (let i = 6; i >= 0; i--) {
+          const day = subDays(new Date(), i);
+          const dayStart = startOfDay(day);
+          const dayEnd = new Date(dayStart);
+          dayEnd.setDate(dayEnd.getDate() + 1);
+
+          const dayViews = allViews.filter(v => {
+            const date = new Date(v.created_at);
+            return date >= dayStart && date < dayEnd;
+          });
+
+          last7Days.push({
+            date: format(day, "EEE"),
+            views: dayViews.length,
+            visitors: new Set(dayViews.map(v => v.visitor_id)).size,
+          });
+        }
+        setDailyStats(last7Days);
+      }
+    } catch (error) {
+      console.error("Failed to fetch analytics:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchStats();
+  }, [period]);
+
+  const periodLabels: Record<TimePeriod, string> = {
+    today: "Today",
+    week: "This Week",
+    month: "This Month",
+    all: "All Time",
+  };
+
+  const getPageName = (path: string): string => {
+    if (path === "/") return "Home";
+    if (path.startsWith("/surah/")) return `Surah ${path.split("/")[2]}`;
+    if (path.startsWith("/para/")) return `Para ${path.split("/")[2]}`;
+    if (path === "/dua") return "Dua";
+    if (path === "/bookmarks") return "Bookmarks";
+    if (path === "/settings") return "Settings";
+    if (path.startsWith("/admin")) return "Admin Panel";
+    return path;
+  };
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-6">
+      <div>
+        <h2 className="text-2xl font-bold">Visitor Analytics</h2>
+        <p className="text-muted-foreground">Track anonymous page views and visitor activity</p>
+      </div>
+
+      {/* Summary Cards */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
+              <Calendar className="h-4 w-4" />
+              Today
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{summaryStats.today.visitors}</div>
+            <p className="text-xs text-muted-foreground">{summaryStats.today.views} page views</p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
+              <TrendingUp className="h-4 w-4" />
+              This Week
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{summaryStats.week.visitors}</div>
+            <p className="text-xs text-muted-foreground">{summaryStats.week.views} page views</p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
+              <Users className="h-4 w-4" />
+              This Month
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{summaryStats.month.visitors}</div>
+            <p className="text-xs text-muted-foreground">{summaryStats.month.views} page views</p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
+              <Eye className="h-4 w-4" />
+              All Time
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{summaryStats.all.visitors}</div>
+            <p className="text-xs text-muted-foreground">{summaryStats.all.views} page views</p>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Last 7 Days Chart */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-lg">Last 7 Days</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="flex items-end gap-2 h-32">
+            {dailyStats.map((day, index) => {
+              const maxViews = Math.max(...dailyStats.map(d => d.views), 1);
+              const height = (day.views / maxViews) * 100;
+              return (
+                <div key={index} className="flex-1 flex flex-col items-center gap-1">
+                  <div className="text-xs text-muted-foreground">{day.views}</div>
+                  <div
+                    className="w-full bg-primary/80 rounded-t transition-all hover:bg-primary"
+                    style={{ height: `${Math.max(height, 4)}%` }}
+                    title={`${day.views} views, ${day.visitors} visitors`}
+                  />
+                  <div className="text-xs text-muted-foreground">{day.date}</div>
+                </div>
+              );
+            })}
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Time Period Filter & Top Pages */}
+      <Card>
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
+          <CardTitle className="text-lg">Top Pages</CardTitle>
+          <div className="flex gap-2">
+            {(["today", "week", "month", "all"] as TimePeriod[]).map((p) => (
+              <Button
+                key={p}
+                variant={period === p ? "default" : "outline"}
+                size="sm"
+                onClick={() => setPeriod(p)}
+              >
+                {periodLabels[p]}
+              </Button>
+            ))}
+          </div>
+        </CardHeader>
+        <CardContent>
+          {stats.topPages.length > 0 ? (
+            <div className="space-y-3">
+              {stats.topPages.map((page, index) => {
+                const percentage = (page.count / stats.totalViews) * 100;
+                return (
+                  <div key={page.page_path} className="space-y-1">
+                    <div className="flex justify-between text-sm">
+                      <span className="flex items-center gap-2">
+                        <span className="text-muted-foreground">{index + 1}.</span>
+                        {getPageName(page.page_path)}
+                      </span>
+                      <span className="text-muted-foreground">{page.count} views</span>
+                    </div>
+                    <div className="h-2 bg-muted rounded-full overflow-hidden">
+                      <div
+                        className="h-full bg-primary/70 rounded-full transition-all"
+                        style={{ width: `${percentage}%` }}
+                      />
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            <p className="text-center text-muted-foreground py-8">
+              No page views recorded for {periodLabels[period].toLowerCase()}
+            </p>
+          )}
+        </CardContent>
+      </Card>
+    </div>
+  );
+};
+
+export default Analytics;
