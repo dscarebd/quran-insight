@@ -1900,6 +1900,116 @@ export const duaCategories: DuaCategory[] = [
         bengali: "আমার উপর যে সকল নিয়ামত এসেছে তা আপনার পক্ষ থেকে",
         english: "Whatever blessing I have is from You",
         reference: "সুনান আবু দাউদ, হাদিস নং ৫০৭৩"
+      },
+      {
+        id: "sunnah-21",
+        titleBengali: "ঘরে প্রবেশের দোয়া",
+        titleEnglish: "Entering Home Dua",
+        arabic: "بِسْمِ اللَّهِ وَلَجْنَا",
+        transliteration: "Bismillahi walajna",
+        transliterationBengali: "বিসমিল্লাহি ওয়ালাজনা",
+        bengali: "আল্লাহর নামে আমরা প্রবেশ করলাম",
+        english: "In the name of Allah we enter",
+        reference: "সহীহ মুসলিম, হাদিস নং ২০১৮"
+      },
+      {
+        id: "sunnah-22",
+        titleBengali: "বাড়ি থেকে বের হওয়ার দোয়া",
+        titleEnglish: "Leaving Home Dua",
+        arabic: "بِسْمِ اللَّهِ تَوَكَّلْتُ عَلَى اللَّهِ",
+        transliteration: "Bismillahi tawakkaltu 'alallah",
+        transliterationBengali: "বিসমিল্লাহি তাওয়াক্কালতু আলাল্লাহ",
+        bengali: "আল্লাহর নামে বের হলাম ও তাঁর উপর ভরসা করলাম",
+        english: "In the name of Allah, I trust in Allah",
+        reference: "সুনান আবু দাউদ, হাদিস নং ৫০৯৫"
+      },
+      {
+        id: "sunnah-23",
+        titleBengali: "খাওয়ার আগে দোয়া",
+        titleEnglish: "Before Eating Dua",
+        arabic: "بِسْمِ اللَّهِ",
+        transliteration: "Bismillah",
+        transliterationBengali: "বিসমিল্লাহ",
+        bengali: "আল্লাহর নামে শুরু করছি",
+        english: "In the name of Allah",
+        reference: "সহীহ বুখারী, হাদিস নং ৫৩৭৬"
+      },
+      {
+        id: "sunnah-24",
+        titleBengali: "খাওয়ার পর দোয়া",
+        titleEnglish: "After Eating Dua",
+        arabic: "الْحَمْدُ لِلَّهِ الَّذِي أَطْعَمَنِي",
+        transliteration: "Alhamdulillahil-ladhi at'amani",
+        transliterationBengali: "আলহামদুলিল্লাহিল্লাজি আত'আমানি",
+        bengali: "সমস্ত প্রশংসা আল্লাহর যিনি আমাকে খাবার দিলেন",
+        english: "Praise be to Allah who fed me",
+        reference: "সুনান আবু দাউদ, হাদিস নং ৪০২৩"
+      },
+      {
+        id: "sunnah-25",
+        titleBengali: "ঘুমের আগে দোয়া",
+        titleEnglish: "Before Sleeping Dua",
+        arabic: "بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا",
+        transliteration: "Bismika Allahumma amutu wa ahya",
+        transliterationBengali: "বিসমিকা আল্লাহুম্মা আমুতু ওয়া আহইয়া",
+        bengali: "হে আল্লাহ আপনার নামেই আমি মরি ও বাঁচি",
+        english: "In Your name O Allah I die and I live",
+        reference: "সহীহ বুখারী, হাদিস নং ৬৩২৪"
+      },
+      {
+        id: "sunnah-26",
+        titleBengali: "ঘুম থেকে উঠার দোয়া",
+        titleEnglish: "Waking Up Dua",
+        arabic: "الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا",
+        transliteration: "Alhamdulillahil-ladhi ahyana",
+        transliterationBengali: "আলহামদুল্লাহিল্লাজি আহইয়ানা",
+        bengali: "সমস্ত প্রশংসা আল্লাহর যিনি আমাদের জীবন ফিরিয়ে দিলেন",
+        english: "Praise be to Allah who gave us life",
+        reference: "সহীহ বুখারী, হাদিস নং ৬৩১২"
+      },
+      {
+        id: "sunnah-27",
+        titleBengali: "টয়লেটে প্রবেশের দোয়া",
+        titleEnglish: "Entering Toilet Dua",
+        arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْخُبُثِ",
+        transliteration: "Allahumma inni a'udhu bika minal-khubuthi",
+        transliterationBengali: "আল্লাহুম্মা ইন্নি আউযু বিকা মিনাল খুবুথি",
+        bengali: "হে আল্লাহ অপবিত্রতা থেকে আপনার আশ্রয় চাই",
+        english: "O Allah I seek refuge in You from impurity",
+        reference: "সহীহ বুখারী, হাদিস নং ১৪২"
+      },
+      {
+        id: "sunnah-28",
+        titleBengali: "টয়লেট থেকে বের হওয়ার দোয়া",
+        titleEnglish: "Leaving Toilet Dua",
+        arabic: "غُفْرَانَكَ",
+        transliteration: "Ghufranak",
+        transliterationBengali: "গুফরানাক",
+        bengali: "হে আল্লাহ আপনার ক্ষমা চাই",
+        english: "I seek Your forgiveness",
+        reference: "সুনান আবু দাউদ, হাদিস নং ৩০"
+      },
+      {
+        id: "sunnah-29",
+        titleBengali: "ভালো কিছু দেখলে দোয়া",
+        titleEnglish: "Seeing Something Good",
+        arabic: "اللَّهُمَّ بَارِكْ فِيهِ",
+        transliteration: "Allahumma barik fihi",
+        transliterationBengali: "আল্লাহুম্মা বারিক ফিহি",
+        bengali: "হে আল্লাহ এতে বরকত দিন",
+        english: "O Allah bless it",
+        reference: "মুসনাদ আহমাদ, হাদিস নং ১৫৭২৯"
+      },
+      {
+        id: "sunnah-30",
+        titleBengali: "সফরের দোয়া",
+        titleEnglish: "Travel Dua",
+        arabic: "سُبْحَانَ الَّذِي سَخَّرَ لَنَا هَذَا",
+        transliteration: "Subhanalladhi sakhkhara lana hadha",
+        transliterationBengali: "সুবহানাল্লাজি সাখখারা লানা হাজা",
+        bengali: "পবিত্র তিনি যিনি আমাদের জন্য এটি বশীভূত করেছেন",
+        english: "Glory be to Him who subjected this to us",
+        reference: "সহীহ মুসলিম, হাদিস নং ১৩৪২"
       }
     ]
   },
