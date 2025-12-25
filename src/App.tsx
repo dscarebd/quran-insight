@@ -78,7 +78,9 @@ const AppContent = () => {
         </Layout>
       } />
       <Route path="/dua" element={
-        <Dua language={language} />
+        <Layout language={language} onLanguageChange={setLanguage}>
+          <Dua language={language} />
+        </Layout>
       } />
       <Route path="/settings" element={
         <Settings language={language} onLanguageChange={setLanguage} readingMode={readingMode} onReadingModeChange={setReadingMode} />
