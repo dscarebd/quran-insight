@@ -1776,6 +1776,8 @@ export const duaCategories: DuaCategory[] = [
         titleBengali: "হিদায়াত ও তাকওয়ার দোয়া",
         titleEnglish: "For Guidance & Piety",
         arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْهُدَى وَالتُّقَى وَالْعَفَافَ وَالْغِنَى",
+        transliteration: "Allahumma inni as'alukal-huda wat-tuqa wal-'afafa wal-ghina",
+        transliterationBengali: "আল্লাহুম্মা ইন্নী আসআলুকাল হুদা ওয়াত তুক্বা ওয়াল 'আফাফা ওয়াল গিনা",
         bengali: "হে আল্লাহ! আমি তোমার কাছে হিদায়াত, তাকওয়া, পবিত্রতা এবং অভাবমুক্তি প্রার্থনা করি।",
         english: "O Allah, I ask You for guidance, piety, chastity and self-sufficiency.",
         reference: "সহীহ মুসলিম, হাদিস নং ২৭২১"
@@ -1785,6 +1787,8 @@ export const duaCategories: DuaCategory[] = [
         titleBengali: "উপকারী জ্ঞানের দোয়া",
         titleEnglish: "For Beneficial Knowledge",
         arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ عِلْمًا نَافِعًا، وَرِزْقًا طَيِّبًا، وَعَمَلًا مُتَقَبَّلًا",
+        transliteration: "Allahumma inni as'aluka 'ilman nafi'a, wa rizqan tayyiba, wa 'amalan mutaqabbala",
+        transliterationBengali: "আল্লাহুম্মা ইন্নী আসআলুকা ইলমান নাফি'আ, ওয়া রিযক্বান তাইয়্যিবা, ওয়া 'আমালান মুতাক্বাব্বালা",
         bengali: "হে আল্লাহ! আমি তোমার কাছে উপকারী জ্ঞান, পবিত্র রিজিক এবং কবুলযোগ্য আমল প্রার্থনা করি।",
         english: "O Allah, I ask You for beneficial knowledge, good provision, and accepted deeds.",
         reference: "ইবনে মাজাহ, হাদিস নং ৯২৫"
@@ -1794,6 +1798,8 @@ export const duaCategories: DuaCategory[] = [
         titleBengali: "দ্বীন-দুনিয়া-আখিরাত সংশোধন",
         titleEnglish: "For Rectifying All Affairs",
         arabic: "اللَّهُمَّ أَصْلِحْ لِي دِينِي الَّذِي هُوَ عِصْمَةُ أَمْرِي، وَأَصْلِحْ لِي دُنْيَايَ الَّتِي فِيهَا مَعَاشِي، وَأَصْلِحْ لِي آخِرَتِي الَّتِي فِيهَا مَعَادِي",
+        transliteration: "Allahumma aslih li diniyalladhi huwa 'ismatu amri, wa aslih li dunyaya-llati fiha ma'ashi, wa aslih li akhirati-llati fiha ma'adi",
+        transliterationBengali: "আল্লাহুম্মা আসলিহ লী দীনিয়াল্লাযী হুওয়া 'ইসমাতু আমরী, ওয়া আসলিহ লী দুনইয়ায়াল্লাতী ফীহা মা'আশী, ওয়া আসলিহ লী আখিরাতিল্লাতী ফীহা মা'আদী",
         bengali: "হে আল্লাহ! আমার দ্বীনকে সংশোধন করে দাও যা আমার সকল বিষয়ের রক্ষাকবচ। আমার দুনিয়াকে সংশোধন করে দাও যেখানে আমার জীবিকা। আমার আখিরাতকে সংশোধন করে দাও যেখানে আমার প্রত্যাবর্তন।",
         english: "O Allah, set right for me my religion which is the safeguard of my affairs. Set right for me my worldly life wherein is my livelihood. Set right for me my Hereafter which is my return.",
         reference: "সহীহ মুসলিম, হাদিস নং ২৭২০"
@@ -1803,6 +1809,8 @@ export const duaCategories: DuaCategory[] = [
         titleBengali: "নিয়ামত রক্ষার দোয়া",
         titleEnglish: "Protection of Blessings",
         arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ زَوَالِ نِعْمَتِكَ، وَتَحَوُّلِ عَافِيَتِكَ، وَفُجَاءَةِ نِقْمَتِكَ، وَجَمِيعِ سَخَطِكَ",
+        transliteration: "Allahumma inni a'udhu bika min zawali ni'matik, wa tahawwuli 'afiyatik, wa fuja'ati niqmatik, wa jami'i sakhatik",
+        transliterationBengali: "আল্লাহুম্মা ইন্নী আ'ঊযু বিকা মিন যাওয়ালি নি'মাতিক, ওয়া তাহাউউলি 'আফিয়াতিক, ওয়া ফুজা'আতি নিক্বমাতিক, ওয়া জামী'ই সাখাতিক",
         bengali: "হে আল্লাহ! আমি তোমার কাছে আশ্রয় চাই তোমার নিয়ামত চলে যাওয়া থেকে, তোমার দেওয়া সুস্থতা বদলে যাওয়া থেকে, আকস্মিক আযাব থেকে এবং তোমার সকল অসন্তুষ্টি থেকে।",
         english: "O Allah, I seek refuge in You from the removal of Your blessings, the change of Your protection, Your sudden punishment, and all of Your displeasure.",
         reference: "সহীহ মুসলিম, হাদিস নং ২৭৩৯"
@@ -1812,6 +1820,8 @@ export const duaCategories: DuaCategory[] = [
         titleBengali: "যিকর-শুকর-ইবাদতের দোয়া",
         titleEnglish: "For Remembrance & Worship",
         arabic: "اللَّهُمَّ أَعِنِّي عَلَى ذِكْرِكَ وَشُكْرِكَ وَحُسْنِ عِبَادَتِكَ",
+        transliteration: "Allahumma a'inni 'ala dhikrika wa shukrika wa husni 'ibadatik",
+        transliterationBengali: "আল্লাহুম্মা আ'ইন্নী 'আলা যিকরিকা ওয়া শুকরিকা ওয়া হুসনি 'ইবাদাতিক",
         bengali: "হে আল্লাহ! তোমার যিকর, শুকর এবং সুন্দরভাবে তোমার ইবাদত করতে আমাকে সাহায্য কর।",
         english: "O Allah, help me to remember You, thank You, and worship You in the best manner.",
         reference: "আবু দাউদ, হাদিস নং ১৫২২; নাসাঈ, হাদিস নং ১৩০৩"
@@ -1821,6 +1831,8 @@ export const duaCategories: DuaCategory[] = [
         titleBengali: "সকল কল্যাণের দোয়া",
         titleEnglish: "For All Goodness",
         arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ مِنَ الْخَيْرِ كُلِّهِ عَاجِلِهِ وَآجِلِهِ، مَا عَلِمْتُ مِنْهُ وَمَا لَمْ أَعْلَمْ",
+        transliteration: "Allahumma inni as'aluka minal-khayri kullihi 'ajilihi wa ajilihi, ma 'alimtu minhu wa ma lam a'lam",
+        transliterationBengali: "আল্লাহুম্মা ইন্নী আসআলুকা মিনাল খাইরি কুল্লিহী 'আজিলিহী ওয়া আজিলিহী, মা 'আলিমতু মিনহু ওয়া মা লাম আ'লাম",
         bengali: "হে আল্লাহ! আমি তোমার কাছে সকল কল্যাণ প্রার্থনা করি, এখনকার এবং পরবর্তীর, যা আমি জানি এবং যা জানি না।",
         english: "O Allah, I ask You for all good, immediate and later, that which I know and that which I do not know.",
         reference: "ইবনে মাজাহ"
@@ -1830,6 +1842,8 @@ export const duaCategories: DuaCategory[] = [
         titleBengali: "আয়নায় দেখার দোয়া",
         titleEnglish: "When Looking in Mirror",
         arabic: "اللَّهُمَّ أَنْتَ حَسَّنْتَ خَلْقِي فَحَسِّنْ خُلُقِي",
+        transliteration: "Allahumma anta hassanta khalqi fahassin khuluqi",
+        transliterationBengali: "আল্লাহুম্মা আনতা হাসসানতা খালক্বী ফাহাসসিন খুলুক্বী",
         bengali: "হে আল্লাহ! তুমি আমার আকৃতি সুন্দর করেছ, আমার চরিত্রও সুন্দর করে দাও।",
         english: "O Allah, You have made my appearance beautiful, so make my character beautiful too.",
         reference: "মুসনাদ আহমাদ"
@@ -1839,6 +1853,8 @@ export const duaCategories: DuaCategory[] = [
         titleBengali: "পছন্দনীয় কিছু দেখলে",
         titleEnglish: "When Seeing Something Liked",
         arabic: "اللَّهُمَّ بَارِكْ فِيهِ",
+        transliteration: "Allahumma barik fih",
+        transliterationBengali: "আল্লাহুম্মা বারিক ফীহ",
         bengali: "হে আল্লাহ! এতে বরকত দাও।",
         english: "O Allah, bless it.",
         reference: "ইবনে মাজাহ"
@@ -1848,6 +1864,8 @@ export const duaCategories: DuaCategory[] = [
         titleBengali: "রাগের সময় দোয়া",
         titleEnglish: "When Angry",
         arabic: "أَعُوذُ بِاللهِ مِنَ الشَّيْطَانِ الرَّجِيمِ",
+        transliteration: "A'udhu billahi minash-shaytanir-rajim",
+        transliterationBengali: "আ'ঊযু বিল্লাহি মিনাশ শাইতানির রাজীম",
         bengali: "আমি বিতাড়িত শয়তান থেকে আল্লাহর আশ্রয় চাই।",
         english: "I seek refuge in Allah from the accursed Satan.",
         reference: "সহীহ বুখারী, সহীহ মুসলিম"
@@ -1857,6 +1875,8 @@ export const duaCategories: DuaCategory[] = [
         titleBengali: "সুসংবাদ পেলে",
         titleEnglish: "When Receiving Good News",
         arabic: "الْحَمْدُ لِلَّهِ الَّذِي بِنِعْمَتِهِ تَتِمُّ الصَّالِحَاتُ",
+        transliteration: "Alhamdulillahil-ladhi bini'matihi tatimmus-salihat",
+        transliterationBengali: "আলহামদুলিল্লাহিল্লাযী বিনি'মাতিহী তাতিম্মুস সালিহাত",
         bengali: "সকল প্রশংসা আল্লাহর জন্য যাঁর অনুগ্রহে সকল ভালো কাজ সম্পন্ন হয়।",
         english: "All praise is for Allah by whose grace all good things are completed.",
         reference: "ইবনে মাজাহ"
