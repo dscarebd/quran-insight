@@ -79,7 +79,7 @@ const AppContent = () => {
       } />
       <Route path="/read/:pageNumber" element={
         <Layout language={language} onLanguageChange={setLanguage}>
-          <ReadPage language={language} readingMode={readingMode} arabicFont={arabicFont} />
+          <ReadPage language={language} readingMode={readingMode} arabicFont={arabicFont} onArabicFontChange={setArabicFont} />
         </Layout>
       } />
       <Route path="/bookmarks" element={

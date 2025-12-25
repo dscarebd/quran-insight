@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { quranPages, getPageByNumber, getJuzForPage } from "@/data/pages";
 import { surahs } from "@/data/surahs";
-import { ChevronLeft, ChevronRight, Book, ZoomIn, ZoomOut, Search } from "lucide-react";
+import { ChevronLeft, ChevronRight, Book, ZoomIn, ZoomOut, Search, Type } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -23,13 +23,14 @@ interface ReadPageProps {
   language: "bn" | "en";
   readingMode?: "normal" | "sepia";
   arabicFont?: "amiri" | "uthmani";
+  onArabicFontChange?: (font: "amiri" | "uthmani") => void;
 }
 
 // Font size presets
 const FONT_SIZES = [20, 24, 28, 32, 36, 40, 44, 48];
 const DEFAULT_FONT_INDEX = 2; // 28px default
 
-const ReadPage = ({ language, readingMode = "normal", arabicFont = "amiri" }: ReadPageProps) => {
+const ReadPage = ({ language, readingMode = "normal", arabicFont = "amiri", onArabicFontChange }: ReadPageProps) => {
   const { pageNumber } = useParams();
   const navigate = useNavigate();
   const currentPage = parseInt(pageNumber || "1");
@@ -382,6 +383,16 @@ const ReadPage = ({ language, readingMode = "normal", arabicFont = "amiri" }: Re
               className="h-8 w-8"
             >
               <ZoomIn className="h-4 w-4" />
+            </Button>
+            {/* Arabic Font Toggle */}
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => onArabicFontChange?.(arabicFont === "amiri" ? "uthmani" : "amiri")}
+              className="h-8 w-8"
+              title={arabicFont === "amiri" ? "Switch to Uthmani" : "Switch to Amiri"}
+            >
+              <Type className="h-4 w-4" />
             </Button>
           </div>
         </div>
