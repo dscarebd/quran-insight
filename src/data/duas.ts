@@ -1248,6 +1248,116 @@ export const duaCategories: DuaCategory[] = [
         bengali: "হে আমাদের রব! আমাদের উভয়কে তোমার অনুগত কর এবং আমাদের বংশধরদের মধ্যে থেকেও তোমার অনুগত একটি উম্মত তৈরি কর। আমাদেরকে ইবাদতের নিয়ম-কানুন শিখাও এবং আমাদের তাওবা কবুল কর। নিশ্চয়ই তুমি তাওবা কবুলকারী, অতি দয়ালু।",
         english: "Our Lord, and make us Muslims [in submission] to You and from our descendants a Muslim nation [in submission] to You. And show us our rites and accept our repentance. Indeed, You are the Accepting of Repentance, the Merciful.",
         reference: "সূরা বাকারা ২:১২৮"
+      },
+      {
+        id: "quran-11",
+        titleBengali: "নূহ (আ.) এর দোয়া",
+        titleEnglish: "Dua of Nuh",
+        arabic: "رَبِّ اغْفِرْ لِي وَلِوَالِدَيَّ",
+        transliteration: "Rabbi-ghfir li wa li walidayya",
+        transliterationBengali: "রাব্বিগফির লি ওয়া লি ওয়ালিদাইয়্যা",
+        bengali: "হে আমার রব আমাকে ও আমার পিতামাতাকে ক্ষমা করুন",
+        english: "My Lord forgive me and my parents",
+        reference: "সূরা নূহ ৭১:২৮"
+      },
+      {
+        id: "quran-12",
+        titleBengali: "ইবরাহিম (আ.) এর দোয়া",
+        titleEnglish: "Dua of Ibrahim",
+        arabic: "رَبِّ اجْعَلْنِي مُقِيمَ الصَّلَاةِ",
+        transliteration: "Rabbij'alni muqimas-salah",
+        transliterationBengali: "রাব্বিজআলনি মুকীমাস সালাহ",
+        bengali: "হে আমার রব আমাকে নামাজ কায়েমকারী করুন",
+        english: "My Lord make me an establisher of prayer",
+        reference: "সূরা ইবরাহিম ১৪:৪০"
+      },
+      {
+        id: "quran-13",
+        titleBengali: "জ্ঞান বৃদ্ধির দোয়া",
+        titleEnglish: "Dua for Knowledge",
+        arabic: "رَبِّ زِدْنِي عِلْمًا",
+        transliteration: "Rabbi zidni 'ilma",
+        transliterationBengali: "রাব্বি যিদনি ইলমা",
+        bengali: "হে আমার রব আমার জ্ঞান বৃদ্ধি করুন",
+        english: "My Lord increase me in knowledge",
+        reference: "সূরা ত্বহা ২০:১১৪"
+      },
+      {
+        id: "quran-14",
+        titleBengali: "আদম (আ.) এর দোয়া",
+        titleEnglish: "Dua of Adam",
+        arabic: "رَبَّنَا ظَلَمْنَا أَنْفُسَنَا",
+        transliteration: "Rabbana zalamna anfusana",
+        transliterationBengali: "রাব্বানা যালামনা আনফুসানা",
+        bengali: "হে আমাদের রব আমরা নিজেদের প্রতি জুলুম করেছি",
+        english: "Our Lord we have wronged ourselves",
+        reference: "সূরা আল-আ'রাফ ৭:২৩"
+      },
+      {
+        id: "quran-15",
+        titleBengali: "ক্ষমা প্রার্থনার দোয়া",
+        titleEnglish: "Dua for Forgiveness",
+        arabic: "رَبَّنَا اغْفِرْ لَنَا ذُنُوبَنَا",
+        transliteration: "Rabbana-ghfir lana dhunubana",
+        transliterationBengali: "রাব্বানাগফির লানা যুনুবানা",
+        bengali: "হে আমাদের রব আমাদের গুনাহ ক্ষমা করুন",
+        english: "Our Lord forgive us our sins",
+        reference: "সূরা আলে ইমরান ৩:১৬"
+      },
+      {
+        id: "quran-16",
+        titleBengali: "অটলতার দোয়া",
+        titleEnglish: "Dua for Steadfastness",
+        arabic: "رَبَّنَا لَا تُزِغْ قُلُوبَنَا",
+        transliteration: "Rabbana la tuzigh qulubana",
+        transliterationBengali: "রাব্বানা লা তুযিগ কুলুবানা",
+        bengali: "হে আমাদের রব আমাদের হৃদয় বিচ্যুত করবেন না",
+        english: "Our Lord do not let our hearts deviate",
+        reference: "সূরা আলে ইমরান ৩:৮"
+      },
+      {
+        id: "quran-17",
+        titleBengali: "মূসা (আ.) এর দোয়া",
+        titleEnglish: "Dua of Musa",
+        arabic: "رَبِّ اشْرَحْ لِي صَدْرِي",
+        transliteration: "Rabbishrah li sadri",
+        transliterationBengali: "রাব্বিশরাহ লি সদরি",
+        bengali: "হে আমার রব আমার অন্তর প্রশস্ত করুন",
+        english: "My Lord expand my chest",
+        reference: "সূরা ত্বহা ২০:২৫"
+      },
+      {
+        id: "quran-18",
+        titleBengali: "পিতামাতার জন্য দোয়া",
+        titleEnglish: "Dua for Parents",
+        arabic: "رَبِّ ارْحَمْهُمَا كَمَا رَبَّيَانِي صَغِيرًا",
+        transliteration: "Rabbir-hamhuma kama rabbayani saghira",
+        transliterationBengali: "রাব্বিরহামহুমা কামা রাব্বায়ানি সাগীরা",
+        bengali: "হে আমার রব তাদের প্রতি দয়া করুন যেমন তারা আমাকে ছোটবেলায় লালন করেছেন",
+        english: "My Lord have mercy on them as they raised me when small",
+        reference: "সূরা আল-ইসরা ১৭:২৪"
+      },
+      {
+        id: "quran-19",
+        titleBengali: "সফলতার দোয়া",
+        titleEnglish: "Dua for Success",
+        arabic: "رَبَّنَا آتِنَا مِنْ لَدُنْكَ رَحْمَةً",
+        transliteration: "Rabbana atina min ladunka rahmah",
+        transliterationBengali: "রাব্বানা আতিনা মিন লাদুনকা রাহমাহ",
+        bengali: "হে আমাদের রব আপনার পক্ষ থেকে আমাদের দয়া দান করুন",
+        english: "Our Lord grant us mercy from Yourself",
+        reference: "সূরা আল-কাহফ ১৮:১০"
+      },
+      {
+        id: "quran-20",
+        titleBengali: "নিরাপত্তার দোয়া",
+        titleEnglish: "Dua for Protection",
+        arabic: "رَبِّ أَعُوذُ بِكَ مِنْ هَمَزَاتِ الشَّيَاطِينِ",
+        transliteration: "Rabbi a'udhu bika min hamazatish-shayatin",
+        transliterationBengali: "রাব্বি আউযু বিকা মিন হামাজাতিশ শাইয়াতিন",
+        bengali: "হে আমার রব আমি শয়তানের কুমন্ত্রণা থেকে আপনার আশ্রয় চাই",
+        english: "My Lord I seek refuge in You from the incitements of devils",
+        reference: "সূরা আল-মু'মিনুন ২৩:৯৭"
       }
     ]
   },
