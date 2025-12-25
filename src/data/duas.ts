@@ -6404,6 +6404,366 @@ export const duaCategories: DuaCategory[] = [
         bengali: "হে আল্লাহ! আমার সন্তানদের হিদায়াত দাও, তাদের সত্যের উপর অটল রাখ এবং তাদের নেককারদের অন্তর্ভুক্ত কর।",
         english: "O Allah, guide my children, keep them firm upon the truth, and make them among the righteous.",
         reference: "হিসনুল মুসলিম"
+      },
+      {
+        id: "children-11",
+        titleBengali: "সন্তানের স্বাস্থ্যের জন্য দোয়া",
+        titleEnglish: "For Child's Health",
+        arabic: "اللَّهُمَّ عَافِ أَوْلَادِي فِي أَبْدَانِهِمْ وَأَسْمَاعِهِمْ وَأَبْصَارِهِمْ",
+        bengali: "হে আল্লাহ! আমার সন্তানদের শরীর, শ্রবণ ও দৃষ্টিতে সুস্থতা দাও।",
+        english: "O Allah, grant my children health in their bodies, hearing, and sight.",
+        reference: "দোয়া সংকলন"
+      },
+      {
+        id: "children-12",
+        titleBengali: "সন্তানের দ্বীনদারীর জন্য দোয়া",
+        titleEnglish: "For Child's Religiousness",
+        arabic: "اللَّهُمَّ اجْعَلْ أَوْلَادِي مِنْ حُفَّاظِ كِتَابِكَ وَالْعَامِلِينَ بِهِ",
+        bengali: "হে আল্লাহ! আমার সন্তানদের তোমার কিতাবের হাফেজ ও আমলকারীদের অন্তর্ভুক্ত কর।",
+        english: "O Allah, make my children among the memorizers and practitioners of Your Book.",
+        reference: "দোয়া সংকলন"
+      },
+      {
+        id: "children-13",
+        titleBengali: "সন্তানের রিজিকের জন্য দোয়া",
+        titleEnglish: "For Child's Provision",
+        arabic: "اللَّهُمَّ ارْزُقْ أَوْلَادِي رِزْقًا حَلَالًا طَيِّبًا مُبَارَكًا",
+        bengali: "হে আল্লাহ! আমার সন্তানদের হালাল, পবিত্র ও বরকতময় রিজিক দান কর।",
+        english: "O Allah, provide my children with halal, pure, and blessed provision.",
+        reference: "দোয়া সংকলন"
+      },
+      {
+        id: "children-14",
+        titleBengali: "সন্তানের বিদ্যা অর্জনের দোয়া",
+        titleEnglish: "For Child's Learning",
+        arabic: "اللَّهُمَّ عَلِّمْ أَوْلَادِي مَا يَنْفَعُهُمْ وَانْفَعْهُمْ بِمَا عَلَّمْتَهُمْ",
+        bengali: "হে আল্লাহ! আমার সন্তানদের উপকারী জ্ঞান শেখাও এবং তাদের শেখানো জ্ঞান দ্বারা তাদের উপকৃত কর।",
+        english: "O Allah, teach my children what benefits them and benefit them with what You have taught them.",
+        reference: "সুনান ইবনে মাজাহ"
+      },
+      {
+        id: "children-15",
+        titleBengali: "সন্তানের বদনজর থেকে রক্ষার দোয়া",
+        titleEnglish: "Protection from Evil Eye",
+        arabic: "أُعِيذُ أَوْلَادِي بِكَلِمَاتِ اللهِ التَّامَّةِ مِنْ كُلِّ شَيْطَانٍ وَهَامَّةٍ",
+        bengali: "আমি আমার সন্তানদের আল্লাহর পরিপূর্ণ বাণী দিয়ে সকল শয়তান ও বিষাক্ত প্রাণী থেকে আশ্রয় দিচ্ছি।",
+        english: "I seek refuge for my children in Allah's perfect words from every devil and poisonous creature.",
+        reference: "সহীহ বুখারী"
+      },
+      {
+        id: "children-16",
+        titleBengali: "সন্তানের আখলাকের জন্য দোয়া",
+        titleEnglish: "For Child's Manners",
+        arabic: "اللَّهُمَّ حَسِّنْ أَخْلَاقَ أَوْلَادِي وَزَيِّنْهُمْ بِالتَّقْوَى",
+        bengali: "হে আল্লাহ! আমার সন্তানদের চরিত্র সুন্দর কর এবং তাকওয়া দিয়ে তাদের সজ্জিত কর।",
+        english: "O Allah, beautify the character of my children and adorn them with piety.",
+        reference: "দোয়া সংকলন"
+      },
+      {
+        id: "children-17",
+        titleBengali: "সন্তানের নিরাপত্তার দোয়া",
+        titleEnglish: "For Child's Safety",
+        arabic: "اللَّهُمَّ احْفَظْ أَوْلَادِي مِنْ بَيْنِ أَيْدِيهِمْ وَمِنْ خَلْفِهِمْ",
+        bengali: "হে আল্লাহ! আমার সন্তানদের সামনে ও পিছন থেকে রক্ষা কর।",
+        english: "O Allah, protect my children from before them and from behind them.",
+        reference: "সূরা বাকারা ২:২৫৫"
+      },
+      {
+        id: "children-18",
+        titleBengali: "সন্তানের সফলতার দোয়া",
+        titleEnglish: "For Child's Success",
+        arabic: "اللَّهُمَّ اجْعَلْ أَوْلَادِي مِنَ الْمُفْلِحِينَ فِي الدُّنْيَا وَالآخِرَةِ",
+        bengali: "হে আল্লাহ! আমার সন্তানদের দুনিয়া ও আখিরাতে সফলকামদের অন্তর্ভুক্ত কর।",
+        english: "O Allah, make my children among the successful in this world and the Hereafter.",
+        reference: "দোয়া সংকলন"
+      },
+      {
+        id: "children-19",
+        titleBengali: "সন্তানের ভবিষ্যতের জন্য দোয়া",
+        titleEnglish: "For Child's Future",
+        arabic: "اللَّهُمَّ اجْعَلْ مُسْتَقْبَلَ أَوْلَادِي خَيْرًا مِنْ حَاضِرِهِمْ",
+        bengali: "হে আল্লাহ! আমার সন্তানদের ভবিষ্যত তাদের বর্তমানের চেয়ে উত্তম কর।",
+        english: "O Allah, make the future of my children better than their present.",
+        reference: "দোয়া সংকলন"
+      },
+      {
+        id: "children-20",
+        titleBengali: "সন্তানের হেদায়েতের দোয়া",
+        titleEnglish: "For Child's Guidance",
+        arabic: "اللَّهُمَّ اهْدِ أَوْلَادِي إِلَى صِرَاطِكَ الْمُسْتَقِيمِ",
+        bengali: "হে আল্লাহ! আমার সন্তানদের তোমার সরল পথে পরিচালিত কর।",
+        english: "O Allah, guide my children to Your straight path.",
+        reference: "সূরা ফাতিহা ১:৬"
+      },
+      {
+        id: "children-21",
+        titleBengali: "সন্তানের তাকওয়ার দোয়া",
+        titleEnglish: "For Child's Piety",
+        arabic: "اللَّهُمَّ ارْزُقْ أَوْلَادِي التَّقْوَى وَالْهُدَى وَالْعَفَافَ",
+        bengali: "হে আল্লাহ! আমার সন্তানদের তাকওয়া, হেদায়েত ও পবিত্রতা দান কর।",
+        english: "O Allah, grant my children piety, guidance, and chastity.",
+        reference: "সহীহ মুসলিম"
+      },
+      {
+        id: "children-22",
+        titleBengali: "সন্তানের ইলম বৃদ্ধির দোয়া",
+        titleEnglish: "For Increase in Child's Knowledge",
+        arabic: "رَبِّ زِدْ أَوْلَادِي عِلْمًا وَفَهْمًا وَحِكْمَةً",
+        bengali: "হে আমার রব! আমার সন্তানদের জ্ঞান, বুঝ ও প্রজ্ঞা বৃদ্ধি কর।",
+        english: "My Lord, increase my children in knowledge, understanding, and wisdom.",
+        reference: "সূরা ত্বহা ২০:১১৪"
+      },
+      {
+        id: "children-23",
+        titleBengali: "সন্তানের স্মৃতিশক্তির দোয়া",
+        titleEnglish: "For Child's Memory",
+        arabic: "اللَّهُمَّ قَوِّ حِفْظَ أَوْلَادِي وَذَاكِرَتَهُمْ",
+        bengali: "হে আল্লাহ! আমার সন্তানদের মুখস্থ শক্তি ও স্মৃতিশক্তি শক্তিশালী কর।",
+        english: "O Allah, strengthen the memorization and memory of my children.",
+        reference: "দোয়া সংকলন"
+      },
+      {
+        id: "children-24",
+        titleBengali: "সন্তানের বন্ধু নির্বাচনের দোয়া",
+        titleEnglish: "For Child's Good Friends",
+        arabic: "اللَّهُمَّ ارْزُقْ أَوْلَادِي رُفَقَاءَ صَالِحِينَ",
+        bengali: "হে আল্লাহ! আমার সন্তানদের সৎ বন্ধু দান কর।",
+        english: "O Allah, grant my children righteous companions.",
+        reference: "দোয়া সংকলন"
+      },
+      {
+        id: "children-25",
+        titleBengali: "সন্তানকে ফিতনা থেকে রক্ষার দোয়া",
+        titleEnglish: "Protection from Fitnah",
+        arabic: "اللَّهُمَّ احْفَظْ أَوْلَادِي مِنْ فِتَنِ الدُّنْيَا",
+        bengali: "হে আল্লাহ! আমার সন্তানদের দুনিয়ার ফিতনা থেকে রক্ষা কর।",
+        english: "O Allah, protect my children from the trials of this world.",
+        reference: "দোয়া সংকলন"
+      },
+      {
+        id: "children-26",
+        titleBengali: "সন্তানের সততার দোয়া",
+        titleEnglish: "For Child's Honesty",
+        arabic: "اللَّهُمَّ اجْعَلْ أَوْلَادِي مِنَ الصَّادِقِينَ",
+        bengali: "হে আল্লাহ! আমার সন্তানদের সত্যবাদীদের অন্তর্ভুক্ত কর।",
+        english: "O Allah, make my children among the truthful.",
+        reference: "সূরা তাওবা ৯:১১৯"
+      },
+      {
+        id: "children-27",
+        titleBengali: "সন্তানের কৃতজ্ঞতার দোয়া",
+        titleEnglish: "For Child's Gratitude",
+        arabic: "اللَّهُمَّ اجْعَلْ أَوْلَادِي مِنَ الشَّاكِرِينَ",
+        bengali: "হে আল্লাহ! আমার সন্তানদের কৃতজ্ঞদের অন্তর্ভুক্ত কর।",
+        english: "O Allah, make my children among the grateful.",
+        reference: "সূরা আরাফ ৭:১৪৪"
+      },
+      {
+        id: "children-28",
+        titleBengali: "সন্তানের সবরের দোয়া",
+        titleEnglish: "For Child's Patience",
+        arabic: "اللَّهُمَّ ارْزُقْ أَوْلَادِي الصَّبْرَ الْجَمِيلَ",
+        bengali: "হে আল্লাহ! আমার সন্তানদের সুন্দর ধৈর্য দান কর।",
+        english: "O Allah, grant my children beautiful patience.",
+        reference: "সূরা ইউসুফ ১২:১৮"
+      },
+      {
+        id: "children-29",
+        titleBengali: "সন্তানের তাওবার দোয়া",
+        titleEnglish: "For Child's Repentance",
+        arabic: "اللَّهُمَّ اجْعَلْ أَوْلَادِي مِنَ التَّوَّابِينَ",
+        bengali: "হে আল্লাহ! আমার সন্তানদের তাওবাকারীদের অন্তর্ভুক্ত কর।",
+        english: "O Allah, make my children among those who repent.",
+        reference: "সূরা বাকারা ২:২২২"
+      },
+      {
+        id: "children-30",
+        titleBengali: "সন্তানের আমানতদারীর দোয়া",
+        titleEnglish: "For Child's Trustworthiness",
+        arabic: "اللَّهُمَّ اجْعَلْ أَوْلَادِي أُمَنَاءَ عَلَى أَمَانَاتِهِمْ",
+        bengali: "হে আল্লাহ! আমার সন্তানদের তাদের আমানতের উপর আমানতদার বানাও।",
+        english: "O Allah, make my children trustworthy in their trusts.",
+        reference: "সূরা মুমিনুন ২৩:৮"
+      },
+      {
+        id: "children-31",
+        titleBengali: "সন্তানের আদব শেখানোর দোয়া",
+        titleEnglish: "For Teaching Child Manners",
+        arabic: "اللَّهُمَّ أَعِنِّي عَلَى تَأْدِيبِ أَوْلَادِي",
+        bengali: "হে আল্লাহ! আমার সন্তানদের আদব শেখাতে আমাকে সাহায্য কর।",
+        english: "O Allah, help me in disciplining my children with good manners.",
+        reference: "দোয়া সংকলন"
+      },
+      {
+        id: "children-32",
+        titleBengali: "সন্তানের বিয়ের জন্য দোয়া",
+        titleEnglish: "For Child's Marriage",
+        arabic: "اللَّهُمَّ ارْزُقْ أَوْلَادِي أَزْوَاجًا صَالِحِينَ",
+        bengali: "হে আল্লাহ! আমার সন্তানদের সৎ স্ত্রী/স্বামী দান কর।",
+        english: "O Allah, grant my children righteous spouses.",
+        reference: "সূরা ফুরকান ২৫:৭৪"
+      },
+      {
+        id: "children-33",
+        titleBengali: "সন্তানের কুরআন ভালোবাসার দোয়া",
+        titleEnglish: "For Child's Love of Quran",
+        arabic: "اللَّهُمَّ اجْعَلِ الْقُرْآنَ رَبِيعَ قُلُوبِ أَوْلَادِي",
+        bengali: "হে আল্লাহ! কুরআনকে আমার সন্তানদের অন্তরের বসন্ত বানাও।",
+        english: "O Allah, make the Quran the spring of my children's hearts.",
+        reference: "মুসনাদ আহমাদ"
+      },
+      {
+        id: "children-34",
+        titleBengali: "সন্তানের নামাজের জন্য দোয়া",
+        titleEnglish: "For Child's Prayer",
+        arabic: "رَبِّ اجْعَلْنِي مُقِيمَ الصَّلَاةِ وَمِن ذُرِّيَّتِي",
+        bengali: "হে আমার রব! আমাকে ও আমার সন্তানদের নামাজ কায়েমকারী বানাও।",
+        english: "My Lord, make me an establisher of prayer, and from my descendants.",
+        reference: "সূরা ইবরাহীম ১৪:৪০"
+      },
+      {
+        id: "children-35",
+        titleBengali: "সন্তানের দুষ্টু থেকে রক্ষার দোয়া",
+        titleEnglish: "Protection from Bad Influence",
+        arabic: "اللَّهُمَّ احْفَظْ أَوْلَادِي مِنْ قُرَنَاءِ السُّوءِ",
+        bengali: "হে আল্লাহ! আমার সন্তানদের খারাপ সঙ্গীদের থেকে রক্ষা কর।",
+        english: "O Allah, protect my children from bad companions.",
+        reference: "দোয়া সংকলন"
+      },
+      {
+        id: "children-36",
+        titleBengali: "সন্তানের মেধা বিকাশের দোয়া",
+        titleEnglish: "For Child's Intelligence",
+        arabic: "اللَّهُمَّ افْتَحْ عَلَى أَوْلَادِي فُتُوحَ الْعَارِفِينَ",
+        bengali: "হে আল্লাহ! আমার সন্তানদের উপর জ্ঞানীদের জ্ঞানের দ্বার খুলে দাও।",
+        english: "O Allah, open for my children the openings of the knowledgeable.",
+        reference: "দোয়া সংকলন"
+      },
+      {
+        id: "children-37",
+        titleBengali: "সন্তানের পরীক্ষায় সাফল্যের দোয়া",
+        titleEnglish: "For Child's Exam Success",
+        arabic: "اللَّهُمَّ يَسِّرْ لِأَوْلَادِي امْتِحَانَاتِهِمْ وَوَفِّقْهُمْ",
+        bengali: "হে আল্লাহ! আমার সন্তানদের পরীক্ষা সহজ কর ও তাদের তাওফীক দাও।",
+        english: "O Allah, ease the exams for my children and grant them success.",
+        reference: "দোয়া সংকলন"
+      },
+      {
+        id: "children-38",
+        titleBengali: "সন্তানের ভালো স্বভাবের দোয়া",
+        titleEnglish: "For Child's Good Nature",
+        arabic: "اللَّهُمَّ طَيِّبْ قُلُوبَ أَوْلَادِي وَأَلْسِنَتَهُمْ",
+        bengali: "হে আল্লাহ! আমার সন্তানদের অন্তর ও জিহ্বা পবিত্র কর।",
+        english: "O Allah, purify the hearts and tongues of my children.",
+        reference: "দোয়া সংকলন"
+      },
+      {
+        id: "children-39",
+        titleBengali: "সন্তানের বাবা-মার সেবার দোয়া",
+        titleEnglish: "For Child's Service to Parents",
+        arabic: "اللَّهُمَّ اجْعَلْ أَوْلَادِي بَارِّينَ بِوَالِدَيْهِمْ",
+        bengali: "হে আল্লাহ! আমার সন্তানদের পিতা-মাতার প্রতি অনুগত বানাও।",
+        english: "O Allah, make my children dutiful to their parents.",
+        reference: "সূরা ইসরা ১৭:২৩"
+      },
+      {
+        id: "children-40",
+        titleBengali: "সন্তানের দ্বীনের উপর স্থিরতার দোয়া",
+        titleEnglish: "For Child's Steadfastness",
+        arabic: "اللَّهُمَّ ثَبِّتْ أَوْلَادِي عَلَى دِينِكَ حَتَّى يَلْقَوْكَ",
+        bengali: "হে আল্লাহ! আমার সন্তানদের তোমার সাথে সাক্ষাতের পূর্ব পর্যন্ত দ্বীনের উপর অটল রাখ।",
+        english: "O Allah, keep my children steadfast on Your religion until they meet You.",
+        reference: "দোয়া সংকলন"
+      },
+      {
+        id: "children-41",
+        titleBengali: "সন্তানের ঈমান রক্ষার দোয়া",
+        titleEnglish: "For Protecting Child's Faith",
+        arabic: "اللَّهُمَّ احْفَظْ إِيمَانَ أَوْلَادِي مِنَ الشُّبُهَاتِ وَالشَّهَوَاتِ",
+        bengali: "হে আল্লাহ! আমার সন্তানদের ঈমান সন্দেহ ও কুপ্রবৃত্তি থেকে রক্ষা কর।",
+        english: "O Allah, protect my children's faith from doubts and desires.",
+        reference: "দোয়া সংকলন"
+      },
+      {
+        id: "children-42",
+        titleBengali: "সন্তানের বিনয়ের দোয়া",
+        titleEnglish: "For Child's Humility",
+        arabic: "اللَّهُمَّ ارْزُقْ أَوْلَادِي التَّوَاضُعَ وَنَقِّهِمْ مِنَ الْكِبْرِ",
+        bengali: "হে আল্লাহ! আমার সন্তানদের বিনয় দান কর এবং অহংকার থেকে তাদের পবিত্র কর।",
+        english: "O Allah, grant my children humility and purify them from arrogance.",
+        reference: "সহীহ মুসলিম"
+      },
+      {
+        id: "children-43",
+        titleBengali: "সন্তানের কাজে বরকতের দোয়া",
+        titleEnglish: "For Blessings in Child's Work",
+        arabic: "اللَّهُمَّ بَارِكْ لِأَوْلَادِي فِي أَعْمَالِهِمْ وَأَوْقَاتِهِمْ",
+        bengali: "হে আল্লাহ! আমার সন্তানদের কাজে ও সময়ে বরকত দাও।",
+        english: "O Allah, bless my children in their works and their time.",
+        reference: "দোয়া সংকলন"
+      },
+      {
+        id: "children-44",
+        titleBengali: "সন্তানের দুঃখ দূর করার দোয়া",
+        titleEnglish: "For Removing Child's Worries",
+        arabic: "اللَّهُمَّ أَذْهِبْ عَنْ أَوْلَادِي الْهَمَّ وَالْغَمَّ وَالْحُزْنَ",
+        bengali: "হে আল্লাহ! আমার সন্তানদের থেকে চিন্তা, দুশ্চিন্তা ও দুঃখ দূর কর।",
+        english: "O Allah, remove from my children worry, distress, and grief.",
+        reference: "মুসনাদ আহমাদ"
+      },
+      {
+        id: "children-45",
+        titleBengali: "সন্তানের জান্নাতের দোয়া",
+        titleEnglish: "For Child's Paradise",
+        arabic: "اللَّهُمَّ اجْعَلْ أَوْلَادِي مِنْ أَهْلِ الْجَنَّةِ",
+        bengali: "হে আল্লাহ! আমার সন্তানদের জান্নাতবাসীদের অন্তর্ভুক্ত কর।",
+        english: "O Allah, make my children among the people of Paradise.",
+        reference: "দোয়া সংকলন"
+      },
+      {
+        id: "children-46",
+        titleBengali: "সন্তানের জাহান্নাম থেকে মুক্তির দোয়া",
+        titleEnglish: "For Child's Protection from Hellfire",
+        arabic: "اللَّهُمَّ أَجِرْ أَوْلَادِي مِنَ النَّارِ",
+        bengali: "হে আল্লাহ! আমার সন্তানদের জাহান্নাম থেকে রক্ষা কর।",
+        english: "O Allah, protect my children from the Fire.",
+        reference: "সহীহ বুখারী"
+      },
+      {
+        id: "children-47",
+        titleBengali: "সন্তানের সুস্থ মন-মস্তিষ্কের দোয়া",
+        titleEnglish: "For Child's Mental Health",
+        arabic: "اللَّهُمَّ اشْرَحْ صُدُورَ أَوْلَادِي وَيَسِّرْ أُمُورَهُمْ",
+        bengali: "হে আল্লাহ! আমার সন্তানদের বুক প্রশস্ত কর এবং তাদের কাজ সহজ কর।",
+        english: "O Allah, expand the chests of my children and ease their affairs.",
+        reference: "সূরা ত্বহা ২০:২৫"
+      },
+      {
+        id: "children-48",
+        titleBengali: "সন্তানকে সদকায়ে জারিয়া বানানোর দোয়া",
+        titleEnglish: "For Child as Ongoing Charity",
+        arabic: "اللَّهُمَّ اجْعَلْ أَوْلَادِي صَدَقَةً جَارِيَةً لِي",
+        bengali: "হে আল্লাহ! আমার সন্তানদের আমার জন্য সদকায়ে জারিয়া বানাও।",
+        english: "O Allah, make my children an ongoing charity for me.",
+        reference: "সহীহ মুসলিম"
+      },
+      {
+        id: "children-49",
+        titleBengali: "সন্তানের দোয়া কবুলের দোয়া",
+        titleEnglish: "For Acceptance of Child's Prayers",
+        arabic: "اللَّهُمَّ اسْتَجِبْ دُعَاءَ أَوْلَادِي وَلَا تَرُدَّهُمْ خَائِبِينَ",
+        bengali: "হে আল্লাহ! আমার সন্তানদের দোয়া কবুল কর এবং তাদের নিরাশ করে ফিরিও না।",
+        english: "O Allah, accept my children's prayers and do not turn them back disappointed.",
+        reference: "দোয়া সংকলন"
+      },
+      {
+        id: "children-50",
+        titleBengali: "সন্তানের উম্মতে মুহাম্মাদী হওয়ার দোয়া",
+        titleEnglish: "For Child as Part of Prophet's Ummah",
+        arabic: "اللَّهُمَّ اجْعَلْ أَوْلَادِي مِنْ خَيْرِ أُمَّةِ مُحَمَّدٍ صَلَّى اللهُ عَلَيْهِ وَسَلَّمَ",
+        bengali: "হে আল্লাহ! আমার সন্তানদের মুহাম্মাদ (সাল্লাল্লাহু আলাইহি ওয়া সাল্লাম) এর উম্মতের সেরাদের অন্তর্ভুক্ত কর।",
+        english: "O Allah, make my children among the best of the Ummah of Muhammad (peace be upon him).",
+        reference: "দোয়া সংকলন"
       }
     ]
   },
