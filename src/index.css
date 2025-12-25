@@ -4,10 +4,10 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Anek+Bangla:wght@400;500;600;700&display=swap');
 
-/* Avingal Font */
+/* Sherly Kitchen Font */
 @font-face {
-  font-family: 'Avingal';
-  src: url('/fonts/Avingal-Regular.otf') format('opentype');
+  font-family: 'Sherly Kitchen';
+  src: url('/fonts/SherlyKitchen-Regular.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
