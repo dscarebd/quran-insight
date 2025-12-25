@@ -1358,6 +1358,116 @@ export const duaCategories: DuaCategory[] = [
         bengali: "হে আমার রব আমি শয়তানের কুমন্ত্রণা থেকে আপনার আশ্রয় চাই",
         english: "My Lord I seek refuge in You from the incitements of devils",
         reference: "সূরা আল-মু'মিনুন ২৩:৯৭"
+      },
+      {
+        id: "quran-21",
+        titleBengali: "দুনিয়া ও আখিরাতের কল্যাণের দোয়া",
+        titleEnglish: "Dua for Good in This World and Hereafter",
+        arabic: "رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً",
+        transliteration: "Rabbana atina fid-dunya hasanah",
+        transliterationBengali: "রাব্বানা আতিনা ফিদ্দুনিয়া হাসানাহ",
+        bengali: "হে আমাদের রব আমাদের দুনিয়াতে কল্যাণ দান করুন",
+        english: "Our Lord grant us good in this world",
+        reference: "সূরা আল-বাকারা ২:২০১"
+      },
+      {
+        id: "quran-22",
+        titleBengali: "আমল কবুলের দোয়া",
+        titleEnglish: "Dua for Acceptance of Deeds",
+        arabic: "رَبَّنَا تَقَبَّلْ مِنَّا",
+        transliteration: "Rabbana taqabbal minna",
+        transliterationBengali: "রাব্বানা তাকাব্বাল মিন্না",
+        bengali: "হে আমাদের রব আমাদের থেকে কবুল করুন",
+        english: "Our Lord accept from us",
+        reference: "সূরা আল-বাকারা ২:১২৭"
+      },
+      {
+        id: "quran-23",
+        titleBengali: "হেদায়াতের দোয়া",
+        titleEnglish: "Dua for Guidance",
+        arabic: "اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ",
+        transliteration: "Ihdinas-siratal-mustaqim",
+        transliterationBengali: "ইহদিনাস সিরাতাল মুস্তাকীম",
+        bengali: "আমাদের সরল পথে পরিচালিত করুন",
+        english: "Guide us to the straight path",
+        reference: "সূরা আল-ফাতিহা ১:৬"
+      },
+      {
+        id: "quran-24",
+        titleBengali: "ধৈর্যের দোয়া",
+        titleEnglish: "Dua for Patience",
+        arabic: "رَبَّنَا أَفْرِغْ عَلَيْنَا صَبْرًا",
+        transliteration: "Rabbana afrigh 'alayna sabra",
+        transliterationBengali: "রাব্বানা আফরিগ আলাইনা সাবরা",
+        bengali: "হে আমাদের রব আমাদের ওপর ধৈর্য ঢেলে দিন",
+        english: "Our Lord pour upon us patience",
+        reference: "সূরা আল-বাকারা ২:২৫০"
+      },
+      {
+        id: "quran-25",
+        titleBengali: "জাহান্নাম থেকে রক্ষার দোয়া",
+        titleEnglish: "Dua for Protection from Hellfire",
+        arabic: "رَبَّنَا اصْرِفْ عَنَّا عَذَابَ جَهَنَّمَ",
+        transliteration: "Rabbana-srif 'anna 'adhaba jahannam",
+        transliterationBengali: "রাব্বানাসরিফ আন্না আজাবা জাহান্নাম",
+        bengali: "হে আমাদের রব জাহান্নামের শাস্তি থেকে আমাদের ফিরিয়ে নিন",
+        english: "Our Lord turn away from us the punishment of Hell",
+        reference: "সূরা আল-ফুরকান ২৫:৬৫"
+      },
+      {
+        id: "quran-26",
+        titleBengali: "সৎ সন্তানের দোয়া",
+        titleEnglish: "Dua for Righteous Offspring",
+        arabic: "رَبِّ هَبْ لِي مِنَ الصَّالِحِينَ",
+        transliteration: "Rabbi hab li minas-salihin",
+        transliterationBengali: "রাব্বি হাব লি মিনাস সালিহীন",
+        bengali: "হে আমার রব আমাকে সৎ সন্তান দান করুন",
+        english: "My Lord grant me from among the righteous",
+        reference: "সূরা আস-সাফফাত ৩৭:১০০"
+      },
+      {
+        id: "quran-27",
+        titleBengali: "সহজতার দোয়া",
+        titleEnglish: "Dua for Ease",
+        arabic: "رَبِّ يَسِّرْ وَلَا تُعَسِّرْ",
+        transliteration: "Rabbi yassir wa la tu'assir",
+        transliterationBengali: "রাব্বি ইয়াসসির ওয়া লা তুআসসির",
+        bengali: "হে আমার রব সহজ করে দিন—কঠিন করবেন না",
+        english: "My Lord make it easy and do not make it difficult",
+        reference: "সূরা ত্বহা ২০:২৬"
+      },
+      {
+        id: "quran-28",
+        titleBengali: "অটল পায়ের দোয়া",
+        titleEnglish: "Dua for Firm Steps",
+        arabic: "رَبَّنَا ثَبِّتْ أَقْدَامَنَا",
+        transliteration: "Rabbana thabbit aqdamana",
+        transliterationBengali: "রাব্বানা সাব্বিত আকদামানা",
+        bengali: "হে আমাদের রব আমাদের পা অবিচল রাখুন",
+        english: "Our Lord make our steps firm",
+        reference: "সূরা আল-আনফাল ৮:১১"
+      },
+      {
+        id: "quran-29",
+        titleBengali: "রহমত ও হেদায়াতের দোয়া",
+        titleEnglish: "Dua for Mercy and Guidance",
+        arabic: "رَبَّنَا اغْفِرْ لَنَا وَارْحَمْنَا",
+        transliteration: "Rabbana-ghfir lana warhamna",
+        transliterationBengali: "রাব্বানাগফির লানা ওয়ারহামনা",
+        bengali: "হে আমাদের রব আমাদের ক্ষমা করুন ও দয়া করুন",
+        english: "Our Lord forgive us and have mercy on us",
+        reference: "সূরা আল-আ'রাফ ৭:১৫১"
+      },
+      {
+        id: "quran-30",
+        titleBengali: "নূরের দোয়া",
+        titleEnglish: "Dua for Light",
+        arabic: "رَبَّنَا أَتْمِمْ لَنَا نُورَنَا",
+        transliteration: "Rabbana atmim lana nurana",
+        transliterationBengali: "রাব্বানা আত্মিম লানা নূরানা",
+        bengali: "হে আমাদের রব আমাদের নূর পূর্ণ করে দিন",
+        english: "Our Lord perfect for us our light",
+        reference: "সূরা আত-তাহরীম ৬৬:৮"
       }
     ]
   },
