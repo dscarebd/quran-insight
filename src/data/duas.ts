@@ -1578,6 +1578,116 @@ export const duaCategories: DuaCategory[] = [
         bengali: "হে আমার রব আপনি যে কল্যাণ নাজিল করবেন আমি তার মুখাপেক্ষী",
         english: "My Lord indeed I am in need of whatever good You send down to me",
         reference: "সূরা আল-কাসাস ২৮:২৪"
+      },
+      {
+        id: "quran-41",
+        titleBengali: "তওবা কবুলের দোয়া",
+        titleEnglish: "Dua for Acceptance of Repentance",
+        arabic: "رَبَّنَا تَقَبَّلْ تَوْبَتَنَا",
+        transliteration: "Rabbana taqabbal tawbatana",
+        transliterationBengali: "রাব্বানা তাকাব্বাল তাওবাতানা",
+        bengali: "হে আমাদের রব আমাদের তওবা কবুল করুন",
+        english: "Our Lord accept our repentance",
+        reference: "সূরা আল-বাকারা ২:১২৮"
+      },
+      {
+        id: "quran-42",
+        titleBengali: "কিয়ামতের দিনে রহমতের দোয়া",
+        titleEnglish: "Dua for Mercy on Judgment Day",
+        arabic: "رَبَّنَا لَا تُخْزِنَا يَوْمَ الْقِيَامَةِ",
+        transliteration: "Rabbana la tukhzina yawmal-qiyamah",
+        transliterationBengali: "রাব্বানা লা তুখযিনা ইয়াওমাল কিয়ামাহ",
+        bengali: "হে আমাদের রব কিয়ামতের দিনে আমাদের লাঞ্ছিত করবেন না",
+        english: "Our Lord do not disgrace us on the Day of Resurrection",
+        reference: "সূরা আলে ইমরান ৩:৯"
+      },
+      {
+        id: "quran-43",
+        titleBengali: "কৃতজ্ঞতার দোয়া",
+        titleEnglish: "Dua for Gratitude",
+        arabic: "رَبِّ أَوْزِعْنِي أَنْ أَشْكُرَ نِعْمَتَكَ",
+        transliteration: "Rabbi awzi'ni an ashkura ni'matak",
+        transliterationBengali: "রাব্বি আওযি'নি আন আশকুরা নি'মাতাক",
+        bengali: "হে আমার রব আমাকে আপনার নিয়ামতের কৃতজ্ঞতা আদায়ে সক্ষম করুন",
+        english: "My Lord enable me to be grateful for Your favor",
+        reference: "সূরা আন-নামল ২৭:১৯"
+      },
+      {
+        id: "quran-44",
+        titleBengali: "আগুনের শাস্তি থেকে রক্ষা",
+        titleEnglish: "Dua for Safety from Fire",
+        arabic: "رَبَّنَا اصْرِفْ عَنَّا عَذَابَ جَهَنَّمَ",
+        transliteration: "Rabbana-srif 'anna 'adhaba jahannam",
+        transliterationBengali: "রাব্বানাসরিফ আন্না আজাবা জাহান্নাম",
+        bengali: "হে আমাদের রব জাহান্নামের শাস্তি থেকে আমাদের ফিরিয়ে নিন",
+        english: "Our Lord turn away from us the punishment of Hell",
+        reference: "সূরা আল-ফুরকান ২৫:৬৫"
+      },
+      {
+        id: "quran-45",
+        titleBengali: "ঈমান দৃঢ়তার দোয়া",
+        titleEnglish: "Dua for Firm Faith",
+        arabic: "رَبَّنَا آمَنَّا فَاغْفِرْ لَنَا",
+        transliteration: "Rabbana amanna faghfir lana",
+        transliterationBengali: "রাব্বানা আমান্না ফাগফির লানা",
+        bengali: "হে আমাদের রব আমরা ঈমান এনেছি—আমাদের ক্ষমা করুন",
+        english: "Our Lord, we have believed, so forgive us",
+        reference: "সূরা আলে ইমরান ৩:১৬"
+      },
+      {
+        id: "quran-46",
+        titleBengali: "আল্লাহর উপর ভরসার দোয়া",
+        titleEnglish: "Dua for Trust in Allah",
+        arabic: "رَبَّنَا عَلَيْكَ تَوَكَّلْنَا",
+        transliteration: "Rabbana 'alayka tawakkalna",
+        transliterationBengali: "রাব্বানা আলাইকা তাওয়াক্কালনা",
+        bengali: "হে আমাদের রব আপনার উপরই আমরা ভরসা করেছি",
+        english: "Our Lord, upon You we have relied",
+        reference: "সূরা ইউনুস ১০:৮৫"
+      },
+      {
+        id: "quran-47",
+        titleBengali: "নূর ও ক্ষমার দোয়া",
+        titleEnglish: "Dua for Light and Forgiveness",
+        arabic: "رَبَّنَا اغْفِرْ لَنَا وَارْحَمْنَا وَأَنتَ خَيْرُ الرَّاحِمِينَ",
+        transliteration: "Rabbana-ghfir lana warhamna wa anta khayrur-rahimin",
+        transliterationBengali: "রাব্বানাগফির লানা ওয়ারহামনা ওয়া আনতা খাইরুর রাহিমীন",
+        bengali: "হে আমাদের রব আমাদের ক্ষমা করুন ও দয়া করুন—আপনিই শ্রেষ্ঠ দয়ালু",
+        english: "Our Lord forgive us and have mercy on us; You are the Best of the merciful",
+        reference: "সূরা আল-মু'মিনুন ২৩:১০৯"
+      },
+      {
+        id: "quran-48",
+        titleBengali: "জালিমদের অন্তর্ভুক্ত হওয়া থেকে রক্ষা",
+        titleEnglish: "Dua for Safety from Wrongdoing",
+        arabic: "رَبَّنَا لَا تَجْعَلْنَا مَعَ الْقَوْمِ الظَّالِمِينَ",
+        transliteration: "Rabbana la taj'alna ma'al-qawmiz-zalimin",
+        transliterationBengali: "রাব্বানা লা তাজআলনা মা'আল কাওমিজ জালিমীন",
+        bengali: "হে আমাদের রব আমাদের জালিমদের সাথে অন্তর্ভুক্ত করবেন না",
+        english: "Our Lord do not place us among the wrongdoing people",
+        reference: "সূরা আল-আ'রাফ ৭:৪৭"
+      },
+      {
+        id: "quran-49",
+        titleBengali: "সৎকর্মের দোয়া",
+        titleEnglish: "Dua for Good Deeds",
+        arabic: "رَبِّ أَدْخِلْنِي مُدْخَلَ صِدْقٍ",
+        transliteration: "Rabbi adkhilni mudkhala sidq",
+        transliterationBengali: "রাব্বি আদখিলনি মুদখালা সিদক",
+        bengali: "হে আমার রব আমাকে সৎ প্রবেশ দান করুন",
+        english: "My Lord grant me a sound entrance",
+        reference: "সূরা আল-ইসরা ১৭:৮০"
+      },
+      {
+        id: "quran-50",
+        titleBengali: "পূর্ণ সফলতার দোয়া",
+        titleEnglish: "Dua for Complete Success",
+        arabic: "رَبَّنَا هَبْ لَنَا مِنْ أَزْوَاجِنَا وَذُرِّيَّاتِنَا قُرَّةَ أَعْيُنٍ",
+        transliteration: "Rabbana hab lana min azwajina wa dhurriyyatina qurrata a'yun",
+        transliterationBengali: "রাব্বানা হাব লানা মিন আজওয়াজিনা ওয়া যুররিয়্যাতিনা কুররাতা আ'ইউন",
+        bengali: "হে আমাদের রব আমাদের স্ত্রী ও সন্তানদের চোখের শীতলতা দান করুন",
+        english: "Our Lord grant us from our spouses and offspring comfort to our eyes",
+        reference: "সূরা আল-ফুরকান ২৫:৭৪"
       }
     ]
   },
