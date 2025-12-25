@@ -7786,6 +7786,366 @@ export const duaCategories: DuaCategory[] = [
         bengali: "হে আল্লাহ! আমি তোমার কাছে তোমার চেহারার দিকে তাকানোর স্বাদ এবং তোমার সাক্ষাতের আকাঙ্ক্ষা চাই।",
         english: "O Allah, I ask You for the pleasure of looking at Your Face and the longing to meet You.",
         reference: "নাসাঈ, হাদিস নং ১৩০৫"
+      },
+      {
+        id: "akhirah-11",
+        titleBengali: "হাউজে কাউসারের দোয়া",
+        titleEnglish: "For Drink from Kawthar",
+        arabic: "اللَّهُمَّ اسْقِنَا مِنْ حَوْضِ نَبِيِّكَ مُحَمَّدٍ صَلَّى اللهُ عَلَيْهِ وَسَلَّمَ",
+        bengali: "হে আল্লাহ! আমাদের তোমার নবী মুহাম্মদ (সাল্লাল্লাহু আলাইহি ওয়া সাল্লাম) এর হাউজ থেকে পান করাও।",
+        english: "O Allah, give us to drink from the pool of Your Prophet Muhammad (peace be upon him).",
+        reference: "সহীহ বুখারী"
+      },
+      {
+        id: "akhirah-12",
+        titleBengali: "নবীজির প্রতিবেশী হওয়ার দোয়া",
+        titleEnglish: "For Being Prophet's Neighbor",
+        arabic: "اللَّهُمَّ اجْعَلْنِي مِنْ جِيرَانِ مُحَمَّدٍ صَلَّى اللهُ عَلَيْهِ وَسَلَّمَ فِي الْجَنَّةِ",
+        bengali: "হে আল্লাহ! আমাকে জান্নাতে মুহাম্মদ (সাল্লাল্লাহু আলাইহি ওয়া সাল্লাম) এর প্রতিবেশী বানাও।",
+        english: "O Allah, make me among the neighbors of Muhammad (peace be upon him) in Paradise.",
+        reference: "সুনান তিরমিযী"
+      },
+      {
+        id: "akhirah-13",
+        titleBengali: "নবীজির শাফায়াতের দোয়া",
+        titleEnglish: "For Prophet's Intercession",
+        arabic: "اللَّهُمَّ ارْزُقْنِي شَفَاعَةَ مُحَمَّدٍ صَلَّى اللهُ عَلَيْهِ وَسَلَّمَ يَوْمَ الْقِيَامَةِ",
+        bengali: "হে আল্লাহ! আমাকে কিয়ামতের দিন মুহাম্মদ (সাল্লাল্লাহু আলাইহি ওয়া সাল্লাম) এর শাফায়াত দান কর।",
+        english: "O Allah, grant me the intercession of Muhammad (peace be upon him) on the Day of Judgment.",
+        reference: "সহীহ বুখারী"
+      },
+      {
+        id: "akhirah-14",
+        titleBengali: "সুন্দর মৃত্যুর দোয়া",
+        titleEnglish: "For Beautiful Death",
+        arabic: "اللَّهُمَّ اجْعَلْ خَاتِمَتِي حُسْنًا",
+        bengali: "হে আল্লাহ! আমার শেষ পরিণতি সুন্দর কর।",
+        english: "O Allah, make my ending beautiful.",
+        reference: "দোয়া সংকলন"
+      },
+      {
+        id: "akhirah-15",
+        titleBengali: "ঈমানের সাথে মৃত্যুর দোয়া",
+        titleEnglish: "For Dying with Faith",
+        arabic: "اللَّهُمَّ تَوَفَّنِي مُسْلِمًا وَأَلْحِقْنِي بِالصَّالِحِينَ",
+        bengali: "হে আল্লাহ! আমাকে মুসলিম হিসেবে মৃত্যু দাও এবং সৎকর্মশীলদের সাথে মিলিত কর।",
+        english: "O Allah, cause me to die as a Muslim and join me with the righteous.",
+        reference: "সূরা ইউসুফ ১২:১০১"
+      },
+      {
+        id: "akhirah-16",
+        titleBengali: "কবরে সুখের দোয়া",
+        titleEnglish: "For Comfort in Grave",
+        arabic: "اللَّهُمَّ اجْعَلْ قَبْرِي رَوْضَةً مِنْ رِيَاضِ الْجَنَّةِ",
+        bengali: "হে আল্লাহ! আমার কবরকে জান্নাতের বাগানসমূহের একটি বাগান বানাও।",
+        english: "O Allah, make my grave a garden from the gardens of Paradise.",
+        reference: "সুনান তিরমিযী"
+      },
+      {
+        id: "akhirah-17",
+        titleBengali: "কবরে আলোর দোয়া",
+        titleEnglish: "For Light in Grave",
+        arabic: "اللَّهُمَّ نَوِّرْ لِي قَبْرِي",
+        bengali: "হে আল্লাহ! আমার কবরকে আলোকিত কর।",
+        english: "O Allah, illuminate my grave.",
+        reference: "দোয়া সংকলন"
+      },
+      {
+        id: "akhirah-18",
+        titleBengali: "কবরে প্রশস্ততার দোয়া",
+        titleEnglish: "For Spacious Grave",
+        arabic: "اللَّهُمَّ وَسِّعْ لِي فِي قَبْرِي",
+        bengali: "হে আল্লাহ! আমার কবরকে প্রশস্ত কর।",
+        english: "O Allah, make my grave spacious for me.",
+        reference: "সহীহ মুসলিম"
+      },
+      {
+        id: "akhirah-19",
+        titleBengali: "মুনকার-নাকীরের প্রশ্নে সঠিক উত্তরের দোয়া",
+        titleEnglish: "For Answering Angels' Questions",
+        arabic: "اللَّهُمَّ ثَبِّتْنِي عِنْدَ سُؤَالِ الْمَلَكَيْنِ",
+        bengali: "হে আল্লাহ! দুই ফেরেশতার প্রশ্নের সময় আমাকে স্থির রাখ।",
+        english: "O Allah, keep me steadfast when the two angels question me.",
+        reference: "দোয়া সংকলন"
+      },
+      {
+        id: "akhirah-20",
+        titleBengali: "হাশরের মাঠে সহজতার দোয়া",
+        titleEnglish: "For Ease on Day of Gathering",
+        arabic: "اللَّهُمَّ هَوِّنْ عَلَيَّ يَوْمَ الْحَشْرِ",
+        bengali: "হে আল্লাহ! হাশরের দিন আমার জন্য সহজ কর।",
+        english: "O Allah, make the Day of Gathering easy for me.",
+        reference: "দোয়া সংকলন"
+      },
+      {
+        id: "akhirah-21",
+        titleBengali: "আমলনামা ডান হাতে পাওয়ার দোয়া",
+        titleEnglish: "For Receiving Book in Right Hand",
+        arabic: "اللَّهُمَّ آتِنِي كِتَابِي بِيَمِينِي",
+        bengali: "হে আল্লাহ! আমার আমলনামা আমার ডান হাতে দাও।",
+        english: "O Allah, give me my book in my right hand.",
+        reference: "সূরা হাক্কা ৬৯:১৯"
+      },
+      {
+        id: "akhirah-22",
+        titleBengali: "মিজানে ভালো আমল ভারী হওয়ার দোয়া",
+        titleEnglish: "For Heavy Good Deeds on Scale",
+        arabic: "اللَّهُمَّ ثَقِّلْ مَوَازِينِي بِالْحَسَنَاتِ",
+        bengali: "হে আল্লাহ! ভালো কাজ দিয়ে আমার দাঁড়িপাল্লা ভারী কর।",
+        english: "O Allah, make my scales heavy with good deeds.",
+        reference: "দোয়া সংকলন"
+      },
+      {
+        id: "akhirah-23",
+        titleBengali: "পুলসিরাত বিদ্যুতের গতিতে পার হওয়ার দোয়া",
+        titleEnglish: "For Quick Crossing of Sirat",
+        arabic: "اللَّهُمَّ أَجِزْنِي عَلَى الصِّرَاطِ كَالْبَرْقِ",
+        bengali: "হে আল্লাহ! আমাকে বিদ্যুতের মতো দ্রুত সিরাত পার করাও।",
+        english: "O Allah, allow me to cross the Sirat like lightning.",
+        reference: "দোয়া সংকলন"
+      },
+      {
+        id: "akhirah-24",
+        titleBengali: "জান্নাতের দরজা খোলার দোয়া",
+        titleEnglish: "For Gates of Paradise to Open",
+        arabic: "اللَّهُمَّ افْتَحْ لِي أَبْوَابَ جَنَّتِكَ",
+        bengali: "হে আল্লাহ! তোমার জান্নাতের দরজাগুলো আমার জন্য খুলে দাও।",
+        english: "O Allah, open the gates of Your Paradise for me.",
+        reference: "সহীহ মুসলিম"
+      },
+      {
+        id: "akhirah-25",
+        titleBengali: "জান্নাতের আটটি দরজা দিয়ে প্রবেশের দোয়া",
+        titleEnglish: "For Entry Through All Eight Gates",
+        arabic: "اللَّهُمَّ اجْعَلْنِي مِمَّنْ يُدْعَى مِنْ أَبْوَابِ الْجَنَّةِ كُلِّهَا",
+        bengali: "হে আল্লাহ! আমাকে তাদের অন্তর্ভুক্ত কর যাদের জান্নাতের সকল দরজা থেকে ডাকা হবে।",
+        english: "O Allah, make me among those who will be called from all the gates of Paradise.",
+        reference: "সহীহ বুখারী"
+      },
+      {
+        id: "akhirah-26",
+        titleBengali: "জান্নাতে পরিবারের সাথে মিলনের দোয়া",
+        titleEnglish: "For Union with Family in Paradise",
+        arabic: "رَبَّنَا وَأَدْخِلْهُمْ جَنَّاتِ عَدْنٍ الَّتِي وَعَدْتَهُمْ وَمَنْ صَلَحَ مِنْ آبَائِهِمْ وَأَزْوَاجِهِمْ وَذُرِّيَّاتِهِمْ",
+        bengali: "হে আমাদের রব! তাদেরকে চিরস্থায়ী জান্নাতে প্রবেশ করাও যার প্রতিশ্রুতি তুমি তাদের দিয়েছ এবং তাদের পিতৃপুরুষ, স্বামী-স্ত্রী ও সন্তানদের মধ্যে যারা সৎকর্মশীল তাদেরকেও।",
+        english: "Our Lord, admit them to the Gardens of Eden which You have promised them and whoever was righteous among their fathers, spouses, and offspring.",
+        reference: "সূরা গাফির ৪০:৮"
+      },
+      {
+        id: "akhirah-27",
+        titleBengali: "জান্নাতের নিয়ামতের দোয়া",
+        titleEnglish: "For Blessings of Paradise",
+        arabic: "اللَّهُمَّ ارْزُقْنَا نَعِيمَ الْجَنَّةِ الدَّائِمَ",
+        bengali: "হে আল্লাহ! আমাদের জান্নাতের চিরস্থায়ী নিয়ামত দান কর।",
+        english: "O Allah, grant us the everlasting blessings of Paradise.",
+        reference: "দোয়া সংকলন"
+      },
+      {
+        id: "akhirah-28",
+        titleBengali: "জান্নাতের হুর পাওয়ার দোয়া",
+        titleEnglish: "For Companions of Paradise",
+        arabic: "وَحُورٌ عِينٌ كَأَمْثَالِ اللُّؤْلُؤِ الْمَكْنُونِ",
+        bengali: "এবং তাদের জন্য রয়েছে বড় বড় চোখ বিশিষ্ট হুর, গুপ্ত মুক্তার মতো।",
+        english: "And fair women with large, beautiful eyes, like pearls well-protected.",
+        reference: "সূরা ওয়াকিয়া ৫৬:২২-২৩"
+      },
+      {
+        id: "akhirah-29",
+        titleBengali: "জান্নাতে প্রাসাদ পাওয়ার দোয়া",
+        titleEnglish: "For Palace in Paradise",
+        arabic: "اللَّهُمَّ ابْنِ لِي بَيْتًا فِي الْجَنَّةِ",
+        bengali: "হে আল্লাহ! আমার জন্য জান্নাতে একটি ঘর নির্মাণ কর।",
+        english: "O Allah, build for me a house in Paradise.",
+        reference: "সুনান তিরমিযী"
+      },
+      {
+        id: "akhirah-30",
+        titleBengali: "জান্নাতের নদী পাওয়ার দোয়া",
+        titleEnglish: "For Rivers of Paradise",
+        arabic: "فِيهَا أَنْهَارٌ مِنْ مَاءٍ غَيْرِ آسِنٍ وَأَنْهَارٌ مِنْ لَبَنٍ لَمْ يَتَغَيَّرْ طَعْمُهُ",
+        bengali: "তাতে আছে স্বচ্ছ পানির নদী, দুধের নদী যার স্বাদ পরিবর্তন হয় না।",
+        english: "In it are rivers of water unaltered, rivers of milk the taste of which never changes.",
+        reference: "সূরা মুহাম্মদ ৪৭:১৫"
+      },
+      {
+        id: "akhirah-31",
+        titleBengali: "জাহান্নামের শাস্তি থেকে রক্ষার দোয়া",
+        titleEnglish: "Protection from Hell's Punishment",
+        arabic: "رَبَّنَا إِنَّكَ مَنْ تُدْخِلِ النَّارَ فَقَدْ أَخْزَيْتَهُ",
+        bengali: "হে আমাদের রব! তুমি যাকে জাহান্নামে প্রবেশ করাও তাকে তো লাঞ্ছিত করলে।",
+        english: "Our Lord, indeed whoever You admit to the Fire, You have disgraced him.",
+        reference: "সূরা আলে ইমরান ৩:১৯২"
+      },
+      {
+        id: "akhirah-32",
+        titleBengali: "জাহান্নামের আগুন থেকে রক্ষার দোয়া",
+        titleEnglish: "Protection from Fire of Hell",
+        arabic: "اللَّهُمَّ أَعِذْنِي مِنْ نَارِ جَهَنَّمَ",
+        bengali: "হে আল্লাহ! আমাকে জাহান্নামের আগুন থেকে রক্ষা কর।",
+        english: "O Allah, protect me from the fire of Hell.",
+        reference: "সহীহ মুসলিম"
+      },
+      {
+        id: "akhirah-33",
+        titleBengali: "কিয়ামতের দিন লজ্জা থেকে রক্ষার দোয়া",
+        titleEnglish: "Protection from Shame on Judgment Day",
+        arabic: "رَبَّنَا لاَ تُخْزِنَا يَوْمَ الْقِيَامَةِ",
+        bengali: "হে আমাদের রব! কিয়ামতের দিন আমাদের লজ্জিত করো না।",
+        english: "Our Lord, do not disgrace us on the Day of Resurrection.",
+        reference: "সূরা আলে ইমরান ৩:১৯৪"
+      },
+      {
+        id: "akhirah-34",
+        titleBengali: "আমলনামা মুছে না দেওয়ার দোয়া",
+        titleEnglish: "For Deeds Not to Be Erased",
+        arabic: "رَبَّنَا لاَ تُزِغْ قُلُوبَنَا بَعْدَ إِذْ هَدَيْتَنَا",
+        bengali: "হে আমাদের রব! হিদায়াত দেওয়ার পর আমাদের অন্তর বিপথগামী করো না।",
+        english: "Our Lord, do not let our hearts deviate after You have guided us.",
+        reference: "সূরা আলে ইমরান ৩:৮"
+      },
+      {
+        id: "akhirah-35",
+        titleBengali: "শেষ বিচারে সফলতার দোয়া",
+        titleEnglish: "For Success in Final Judgment",
+        arabic: "اللَّهُمَّ اجْعَلْنِي مِنَ الْفَائِزِينَ يَوْمَ الدِّينِ",
+        bengali: "হে আল্লাহ! আমাকে বিচার দিনে সফলকামদের অন্তর্ভুক্ত কর।",
+        english: "O Allah, make me among the successful on the Day of Judgment.",
+        reference: "দোয়া সংকলন"
+      },
+      {
+        id: "akhirah-36",
+        titleBengali: "জান্নাতে চিরকাল থাকার দোয়া",
+        titleEnglish: "For Eternal Stay in Paradise",
+        arabic: "خَالِدِينَ فِيهَا لاَ يَبْغُونَ عَنْهَا حِوَلًا",
+        bengali: "তারা সেখানে চিরকাল থাকবে, সেখান থেকে স্থানান্তর চাইবে না।",
+        english: "They will dwell therein forever, not desiring to be removed from it.",
+        reference: "সূরা কাহফ ১৮:১০৮"
+      },
+      {
+        id: "akhirah-37",
+        titleBengali: "আল্লাহর সন্তুষ্টি লাভের দোয়া",
+        titleEnglish: "For Allah's Pleasure",
+        arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ رِضَاكَ وَالْجَنَّةَ",
+        bengali: "হে আল্লাহ! আমি তোমার সন্তুষ্টি ও জান্নাত চাই।",
+        english: "O Allah, I ask You for Your pleasure and Paradise.",
+        reference: "সুনান নাসাঈ"
+      },
+      {
+        id: "akhirah-38",
+        titleBengali: "আল্লাহর অসন্তুষ্টি থেকে রক্ষার দোয়া",
+        titleEnglish: "Protection from Allah's Displeasure",
+        arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِرِضَاكَ مِنْ سَخَطِكَ",
+        bengali: "হে আল্লাহ! আমি তোমার সন্তুষ্টির মাধ্যমে তোমার অসন্তুষ্টি থেকে আশ্রয় চাই।",
+        english: "O Allah, I seek refuge in Your pleasure from Your displeasure.",
+        reference: "সহীহ মুসলিম"
+      },
+      {
+        id: "akhirah-39",
+        titleBengali: "জান্নাতে সর্বোচ্চ মর্যাদার দোয়া",
+        titleEnglish: "For Highest Rank in Paradise",
+        arabic: "اللَّهُمَّ ارْفَعْ دَرَجَتِي فِي الْجَنَّةِ",
+        bengali: "হে আল্লাহ! জান্নাতে আমার মর্যাদা উন্নীত কর।",
+        english: "O Allah, raise my rank in Paradise.",
+        reference: "দোয়া সংকলন"
+      },
+      {
+        id: "akhirah-40",
+        titleBengali: "জান্নাতে শান্তির দোয়া",
+        titleEnglish: "For Peace in Paradise",
+        arabic: "لَهُمْ دَارُ السَّلَامِ عِنْدَ رَبِّهِمْ",
+        bengali: "তাদের জন্য রয়েছে তাদের রবের কাছে শান্তির আবাস।",
+        english: "For them will be the Home of Peace with their Lord.",
+        reference: "সূরা আনআম ৬:১২৭"
+      },
+      {
+        id: "akhirah-41",
+        titleBengali: "জান্নাতে ক্লান্তিহীন জীবনের দোয়া",
+        titleEnglish: "For Life Without Fatigue",
+        arabic: "لاَ يَمَسُّنَا فِيهَا نَصَبٌ وَلاَ يَمَسُّنَا فِيهَا لُغُوبٌ",
+        bengali: "সেখানে আমাদের কোন ক্লান্তি স্পর্শ করবে না এবং কোন অবসাদও স্পর্শ করবে না।",
+        english: "No fatigue will touch us therein, nor will weariness touch us therein.",
+        reference: "সূরা ফাতির ৩৫:৩৫"
+      },
+      {
+        id: "akhirah-42",
+        titleBengali: "জান্নাতে চিরযৌবনের দোয়া",
+        titleEnglish: "For Eternal Youth in Paradise",
+        arabic: "وَيَطُوفُ عَلَيْهِمْ وِلْدَانٌ مُخَلَّدُونَ",
+        bengali: "এবং তাদের চারপাশে ঘুরে বেড়াবে চিরকিশোরগণ।",
+        english: "And there will circulate among them young boys made eternal.",
+        reference: "সূরা ওয়াকিয়া ৫৬:১৭"
+      },
+      {
+        id: "akhirah-43",
+        titleBengali: "জান্নাতে ফলমূলের দোয়া",
+        titleEnglish: "For Fruits of Paradise",
+        arabic: "وَفَاكِهَةٍ مِمَّا يَتَخَيَّرُونَ",
+        bengali: "এবং তারা যা পছন্দ করে সেই ফলমূল।",
+        english: "And fruit of whatever they desire.",
+        reference: "সূরা ওয়াকিয়া ৫৬:২০"
+      },
+      {
+        id: "akhirah-44",
+        titleBengali: "জান্নাতে পোশাকের দোয়া",
+        titleEnglish: "For Garments of Paradise",
+        arabic: "يُحَلَّوْنَ فِيهَا مِنْ أَسَاوِرَ مِنْ ذَهَبٍ وَيَلْبَسُونَ ثِيَابًا خُضْرًا مِنْ سُنْدُسٍ وَإِسْتَبْرَقٍ",
+        bengali: "তাদের সোনার কাঁকন পরানো হবে এবং তারা সবুজ পোশাক পরবে সূক্ষ্ম ও মোটা রেশমের।",
+        english: "They will be adorned therein with bracelets of gold and will wear green garments of fine silk and brocade.",
+        reference: "সূরা কাহফ ১৮:৩১"
+      },
+      {
+        id: "akhirah-45",
+        titleBengali: "জান্নাতে সুখের দোয়া",
+        titleEnglish: "For Happiness in Paradise",
+        arabic: "فَادْخُلِي فِي عِبَادِي وَادْخُلِي جَنَّتِي",
+        bengali: "আমার বান্দাদের মধ্যে শামিল হও এবং আমার জান্নাতে প্রবেশ কর।",
+        english: "Enter among My servants and enter My Paradise.",
+        reference: "সূরা ফজর ৮৯:২৯-৩০"
+      },
+      {
+        id: "akhirah-46",
+        titleBengali: "আখিরাতকে দুনিয়ার উপর প্রাধান্য দেওয়ার দোয়া",
+        titleEnglish: "For Preferring Hereafter",
+        arabic: "اللَّهُمَّ اجْعَلِ الآخِرَةَ أَحَبَّ إِلَيْنَا مِنَ الدُّنْيَا",
+        bengali: "হে আল্লাহ! আখিরাতকে দুনিয়ার চেয়ে আমাদের কাছে প্রিয় বানাও।",
+        english: "O Allah, make the Hereafter more beloved to us than this world.",
+        reference: "দোয়া সংকলন"
+      },
+      {
+        id: "akhirah-47",
+        titleBengali: "মৃত্যুকে স্মরণ করার দোয়া",
+        titleEnglish: "For Remembering Death",
+        arabic: "اللَّهُمَّ اجْعَلْنِي مِمَّنْ يَذْكُرُ الْمَوْتَ",
+        bengali: "হে আল্লাহ! আমাকে মৃত্যু স্মরণকারীদের অন্তর্ভুক্ত কর।",
+        english: "O Allah, make me among those who remember death.",
+        reference: "সুনান তিরমিযী"
+      },
+      {
+        id: "akhirah-48",
+        titleBengali: "আখিরাতের প্রস্তুতির দোয়া",
+        titleEnglish: "For Preparing for Hereafter",
+        arabic: "اللَّهُمَّ أَعِنِّي عَلَى الاسْتِعْدَادِ لِلآخِرَةِ",
+        bengali: "হে আল্লাহ! আখিরাতের জন্য প্রস্তুতি নিতে আমাকে সাহায্য কর।",
+        english: "O Allah, help me prepare for the Hereafter.",
+        reference: "দোয়া সংকলন"
+      },
+      {
+        id: "akhirah-49",
+        titleBengali: "চিরস্থায়ী সুখের দোয়া",
+        titleEnglish: "For Everlasting Happiness",
+        arabic: "اللَّهُمَّ ارْزُقْنَا السَّعَادَةَ الأَبَدِيَّةَ فِي الآخِرَةِ",
+        bengali: "হে আল্লাহ! আমাদের আখিরাতে চিরস্থায়ী সুখ দান কর।",
+        english: "O Allah, grant us everlasting happiness in the Hereafter.",
+        reference: "দোয়া সংকলন"
+      },
+      {
+        id: "akhirah-50",
+        titleBengali: "সামগ্রিক আখিরাতের দোয়া",
+        titleEnglish: "Comprehensive Hereafter Dua",
+        arabic: "رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ",
+        bengali: "হে আমাদের রব! আমাদেরকে দুনিয়াতে কল্যাণ দাও এবং আখিরাতেও কল্যাণ দাও এবং আমাদেরকে জাহান্নামের আযাব থেকে রক্ষা কর।",
+        english: "Our Lord, give us in this world that which is good and in the Hereafter that which is good and protect us from the punishment of the Fire.",
+        reference: "সূরা বাকারা ২:২০১"
       }
     ]
   },
