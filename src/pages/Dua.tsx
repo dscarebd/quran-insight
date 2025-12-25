@@ -79,28 +79,45 @@ const Dua = ({ language }: DuaProps) => {
 
   const handleShareDua = async (dua: DuaType) => {
     const shareText = `${dua.arabic}\n\n${dua.bengali}\n\n${dua.english}${dua.reference ? `\n\n📖 ${dua.reference}` : ""}`;
+    const shareTitle = language === "bn" ? (dua.titleBengali || "দোয়া") : (dua.titleEnglish || "Dua");
     
-    // Check if Web Share API is supported
-    if (navigator.share) {
+    // Check if Web Share API is supported and available
+    if (typeof navigator !== 'undefined' && navigator.share && navigator.canShare) {
       try {
         await navigator.share({
-          title: language === "bn" ? "দোয়া শেয়ার করুন" : "Share Dua",
+          title: shareTitle,
           text: shareText,
         });
+        return; // Success - exit early
       } catch (error) {
-        // User cancelled or share failed - don't show error for cancel
-        if ((error as Error).name !== "AbortError") {
-          toast.error(language === "bn" ? "শেয়ার করতে ব্যর্থ" : "Failed to share");
+        // User cancelled or share failed - continue to fallback for non-cancel errors
+        if ((error as Error).name === "AbortError") {
+          return; // User cancelled, no need for fallback
         }
       }
-    } else {
-      // Fallback: copy to clipboard
+    }
+    
+    // Fallback: copy to clipboard
+    try {
+      await navigator.clipboard.writeText(shareText);
+      toast.success(language === "bn" ? "কপি করা হয়েছে - এখন পেস্ট করে শেয়ার করুন" : "Copied! You can now paste and share");
+    } catch (error) {
+      // Final fallback using textarea
+      const textArea = document.createElement("textarea");
+      textArea.value = shareText;
+      textArea.style.position = "fixed";
+      textArea.style.left = "-999999px";
+      textArea.style.top = "-999999px";
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
       try {
-        await navigator.clipboard.writeText(shareText);
+        document.execCommand("copy");
         toast.success(language === "bn" ? "কপি করা হয়েছে - এখন পেস্ট করে শেয়ার করুন" : "Copied! You can now paste and share");
-      } catch (error) {
+      } catch {
         toast.error(language === "bn" ? "শেয়ার করতে ব্যর্থ" : "Failed to share");
       }
+      document.body.removeChild(textArea);
     }
   };
 
