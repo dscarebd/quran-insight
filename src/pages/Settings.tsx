@@ -201,18 +201,19 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
             <div className="rounded-xl border border-border bg-card overflow-hidden">
               <div className="p-4">
                 <div className="flex items-center gap-4">
-                  <img 
-                    src={annurLogo} 
-                    alt="An-Nur Digital" 
-                    className="h-14 w-14 rounded-full object-cover border-2 border-primary/20 cursor-pointer select-none"
-                    role="button"
-                    tabIndex={0}
+                  <button
+                    type="button"
+                    aria-label={language === "bn" ? "অ্যাডমিন লগইন খুলুন" : "Open admin login"}
                     onClick={handleDeveloperLogoClick}
-                    onPointerDown={handleDeveloperLogoClick}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter" || e.key === " ") handleDeveloperLogoClick();
-                    }}
-                  />
+                    className="h-14 w-14 rounded-full border-2 border-primary/20 overflow-hidden cursor-pointer select-none"
+                  >
+                    <img
+                      src={annurLogo}
+                      alt="An-Nur Digital"
+                      className="h-full w-full object-cover"
+                      draggable={false}
+                    />
+                  </button>
                   <div className="flex-1">
                     <h3 className={cn("text-sm font-semibold", language === "bn" && "font-bengali")}>
                       An-Nur Digital
