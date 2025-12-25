@@ -326,6 +326,106 @@ export const duaCategories: DuaCategory[] = [
         bengali: "আমি আল্লাহর ওপর ভরসা করেছি",
         english: "I place my trust in Allah",
         reference: "সুনান আবু দাউদ, হাদিস নং ৫০৯৫"
+      },
+      {
+        id: "daily-31",
+        titleBengali: "সুন্দর পরিণতির দোয়া",
+        titleEnglish: "Good Ending",
+        arabic: "اللَّهُمَّ اخْتِمْ لَنَا بِالصَّالِحَاتِ",
+        transliteration: "Allahumma ikhtim lana bis-salihat",
+        bengali: "হে আল্লাহ আমাদের শেষটা নেক আমল দিয়ে করুন",
+        english: "O Allah grant us a righteous ending",
+        reference: "মুসনাদ আহমাদ, হাদিস নং ১২১৭৩"
+      },
+      {
+        id: "daily-32",
+        titleBengali: "পরিবারের জন্য দোয়া",
+        titleEnglish: "Family Prayer",
+        arabic: "رَبِّ اجْعَلْنِي مُقِيمَ الصَّلَاةِ",
+        transliteration: "Rabbi'j'alni muqimas-salah",
+        bengali: "হে আমার রব আমাকে নামাজ কায়েমকারী করুন",
+        english: "My Lord make me an establisher of prayer",
+        reference: "আল-কুরআন, সূরা ইবরাহীম ১৪:৪০"
+      },
+      {
+        id: "daily-33",
+        titleBengali: "ঋণ থেকে আশ্রয়ের দোয়া",
+        titleEnglish: "Protection from Debt",
+        arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْمَغْرَمِ",
+        transliteration: "Allahumma inni a'udhu bika minal-maghram",
+        bengali: "হে আল্লাহ ঋণের বোঝা থেকে রক্ষা করুন",
+        english: "O Allah protect me from debt",
+        reference: "সহীহ বুখারী, হাদিস নং ৬৩৬৯"
+      },
+      {
+        id: "daily-34",
+        titleBengali: "তৃপ্তির দোয়া",
+        titleEnglish: "Contentment",
+        arabic: "اللَّهُمَّ قَنِّعْنِي بِمَا رَزَقْتَنِي",
+        transliteration: "Allahumma qanni'ni bima razaqtani",
+        bengali: "হে আল্লাহ যা দিয়েছেন তাতে আমাকে সন্তুষ্ট করুন",
+        english: "O Allah make me content with what You gave",
+        reference: "মুসনাদ আহমাদ, হাদিস নং ২৩১১৯"
+      },
+      {
+        id: "daily-35",
+        titleBengali: "হিংসা থেকে রক্ষার দোয়া",
+        titleEnglish: "Protection from Envy",
+        arabic: "وَمِنْ شَرِّ حَاسِدٍ إِذَا حَسَدَ",
+        transliteration: "Wa min sharri hasidin idha hasad",
+        bengali: "হিংসুকের অনিষ্ট থেকে আমাদের রক্ষা করুন",
+        english: "From the evil of an envier when he envies",
+        reference: "আল-কুরআন, সূরা ফালাক ১১৩:৫"
+      },
+      {
+        id: "daily-36",
+        titleBengali: "হালাল রিজিকের দোয়া",
+        titleEnglish: "Halal Provision",
+        arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ رِزْقًا طَيِّبًا",
+        transliteration: "Allahumma inni as'aluka rizqan tayyiba",
+        bengali: "হে আল্লাহ আমাকে হালাল রিজিক দিন",
+        english: "O Allah grant me lawful provision",
+        reference: "সুনান ইবনে মাজাহ, হাদিস নং ৯২৫"
+      },
+      {
+        id: "daily-37",
+        titleBengali: "ভ্রান্তি থেকে রক্ষার দোয়া",
+        titleEnglish: "Protection from Misguidance",
+        arabic: "رَبَّنَا لَا تُزِغْ قُلُوبَنَا",
+        transliteration: "Rabbana la tuzigh qulubana",
+        bengali: "হে আমাদের রব আমাদের হৃদয়কে বিচ্যুত করবেন না",
+        english: "Our Lord do not deviate our hearts",
+        reference: "আল-কুরআন, সূরা আলে ইমরান ৩:৮"
+      },
+      {
+        id: "daily-38",
+        titleBengali: "আল্লাহর ওপর ভরসার দোয়া",
+        titleEnglish: "Trust in Allah",
+        arabic: "تَوَكَّلْتُ عَلَى اللَّهِ",
+        transliteration: "Tawakkaltu 'alallah",
+        bengali: "আমি আল্লাহর ওপর ভরসা করেছি",
+        english: "I place my trust in Allah",
+        reference: "সুনান আবু দাউদ, হাদিস নং ৫০৯৫"
+      },
+      {
+        id: "daily-39",
+        titleBengali: "হৃদয় পবিত্রতার দোয়া",
+        titleEnglish: "Purification of Heart",
+        arabic: "اللَّهُمَّ طَهِّرْ قَلْبِي",
+        transliteration: "Allahumma tahhir qalbi",
+        bengali: "হে আল্লাহ আমার হৃদয় পবিত্র করুন",
+        english: "O Allah purify my heart",
+        reference: "মুসনাদ আহমাদ, হাদিস নং ২৭৮৯৬"
+      },
+      {
+        id: "daily-40",
+        titleBengali: "সকালের নিরাপত্তার দোয়া",
+        titleEnglish: "Morning Protection",
+        arabic: "أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ",
+        transliteration: "Asbahna wa asbahal-mulku lillah",
+        bengali: "আমরা সকালে উপনীত হলাম—সব কর্তৃত্ব আল্লাহর",
+        english: "We have entered the morning and all dominion belongs to Allah",
+        reference: "সহীহ মুসলিম, হাদিস নং ২৭২৩"
       }
     ]
   },
