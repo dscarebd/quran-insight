@@ -75,6 +75,7 @@ export default {
       fontFamily: {
         arabic: ['Amiri', 'serif'],
         bengali: ['Anek Bangla', 'sans-serif'],
+        display: ['Avingal', 'sans-serif'],
         sans: ['Inter', 'Anek Bangla', 'sans-serif'],
       },
       keyframes: {
