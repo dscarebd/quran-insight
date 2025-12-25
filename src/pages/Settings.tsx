@@ -201,8 +201,8 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
                     </h3>
                     <p className={cn("text-sm text-muted-foreground", language === "bn" && "font-bengali")}>
                       {language === "bn" 
-                        ? "ডেভেলপার টিম" 
-                        : "Developer Team"}
+                        ? "ওয়ার্ডপ্রেস ও সফটওয়্যার ডিজাইনার" 
+                        : "WordPress & Software Designer"}
                     </p>
                   </div>
                 </div>
