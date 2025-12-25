@@ -97,7 +97,7 @@ export const AppSidebar = ({ language, activeTab, onTabChange }: AppSidebarProps
         <div className="flex items-center gap-2 border-b border-sidebar-border px-3 py-3">
           <img src={appLogo} alt="Quran Insight" className="h-9 w-9 shrink-0 rounded-lg" />
           {!isCollapsed && (
-            <span className="text-lg font-semibold text-primary font-display">Quran Insight</span>
+            <span className="text-lg font-semibold text-primary">Quran Insight</span>
           )}
         </div>
 
