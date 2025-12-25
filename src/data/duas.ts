@@ -2660,6 +2660,116 @@ export const duaCategories: DuaCategory[] = [
         bengali: "নিশ্চয় আপনি সরল পথে পথ দেখান",
         english: "Indeed, you guide to a straight path",
         reference: "সূরা আশ-শূরা ৪২:৫২"
+      },
+      {
+        id: "guidance-41",
+        titleBengali: "হিদায়াত একমাত্র আল্লাহর পক্ষ থেকে",
+        titleEnglish: "Guidance is from Allah Alone",
+        arabic: "إِنَّ الْهُدَىٰ هُدَى اللَّهِ",
+        transliteration: "Innal-huda hudallah",
+        transliterationBengali: "ইন্নাল হুদা হুদাল্লাহ",
+        bengali: "নিশ্চয় প্রকৃত হিদায়াত আল্লাহর হিদায়াত",
+        english: "Indeed the true guidance is the guidance of Allah",
+        reference: "সূরা আল-বাকারা ২:১২০"
+      },
+      {
+        id: "guidance-42",
+        titleBengali: "ইসলামের জন্য অন্তর প্রশস্ত করা",
+        titleEnglish: "Allah Opens the Heart to Islam",
+        arabic: "فَمَن يُرِدِ اللَّهُ أَنْ يَهْدِيَهُ يَشْرَحْ صَدْرَهُ لِلْإِسْلَامِ",
+        transliteration: "Faman yuridillahu an yahdiyahu yashrah sadrahu lil-Islam",
+        transliterationBengali: "ফামান ইউরিদিল্লাহু আন ইয়াহদিয়াহু ইয়াশরাহ সদরাহু লিল ইসলাম",
+        bengali: "আল্লাহ যাকে হিদায়াত দিতে চান তার অন্তর ইসলাম গ্রহণের জন্য প্রশস্ত করেন",
+        english: "Whomever Allah wills to guide, He opens his heart to Islam",
+        reference: "সূরা আল-আনআম ৬:১২৫"
+      },
+      {
+        id: "guidance-43",
+        titleBengali: "তওবার মাধ্যমে হিদায়াত",
+        titleEnglish: "Allah Guides Through Repentance",
+        arabic: "وَاللَّهُ يَهْدِي مَن يَشَاءُ إِلَىٰ صِرَاطٍ مُّسْتَقِيمٍ",
+        transliteration: "Wallahu yahdi man yashaa ila siratin mustaqim",
+        transliterationBengali: "ওয়াল্লাহু ইয়াহদি মান ইয়াশা ইলা সিরাতিন মুস্তাকীম",
+        bengali: "আল্লাহ যাকে চান তাকে সরল পথে পরিচালিত করেন",
+        english: "And Allah guides whom He wills to a straight path",
+        reference: "সূরা ইউনুস ১০:২৫"
+      },
+      {
+        id: "guidance-44",
+        titleBengali: "কুরআনের মাধ্যমে হিদায়াত",
+        titleEnglish: "Guidance Through the Quran",
+        arabic: "إِنَّ هَٰذَا الْقُرْآنَ يَهْدِي لِلَّتِي هِيَ أَقْوَمُ",
+        transliteration: "Inna hadhal-qur'ana yahdi lillati hiya aqwam",
+        transliterationBengali: "ইন্না হাযাল কুরআনা ইয়াহদি লিল্লাতি হিয়া আকওয়াম",
+        bengali: "নিশ্চয় এই কুরআন সর্বাধিক সঠিক পথে হিদায়াত দেয়",
+        english: "Indeed this Qur'an guides to what is most upright",
+        reference: "সূরা আল-ইসরা ১৭:৯"
+      },
+      {
+        id: "guidance-45",
+        titleBengali: "মুমিনদের আল্লাহ হিদায়াত দেন",
+        titleEnglish: "Allah Guides the Believers",
+        arabic: "وَاللَّهُ هَادِي الَّذِينَ آمَنُوا",
+        transliteration: "Wallahu hadil-ladhina amanu",
+        transliterationBengali: "ওয়াল্লাহু হাদিল্লাজিনা আমানু",
+        bengali: "আল্লাহ মুমিনদের পথপ্রদর্শক",
+        english: "And Allah is the Guide of those who believe",
+        reference: "সূরা মুহাম্মাদ ৪৭:১১"
+      },
+      {
+        id: "guidance-46",
+        titleBengali: "নূর ও ঈমানের মাধ্যমে হিদায়াত",
+        titleEnglish: "Guidance Through Light and Faith",
+        arabic: "فَآمِنُوا بِاللَّهِ وَرَسُولِهِ وَالنُّورِ",
+        transliteration: "Fa aminu billahi wa rasulihi wan-nur",
+        transliterationBengali: "ফা আমিনু বিল্লাহি ওয়া রাসূলিহি ওয়ান নূর",
+        bengali: "আল্লাহ, তাঁর রাসূল ও নূরের প্রতি ঈমান আনো",
+        english: "So believe in Allah and His Messenger and the Light",
+        reference: "সূরা আত-তাগাবুন ৬৪:৮"
+      },
+      {
+        id: "guidance-47",
+        titleBengali: "রহমতের মাধ্যমে হিদায়াত",
+        titleEnglish: "Allah Guides with His Mercy",
+        arabic: "وَلَوْلَا فَضْلُ اللَّهِ عَلَيْكُمْ وَرَحْمَتُهُ",
+        transliteration: "Wa lawla fadlullahi 'alaykum wa rahmatuh",
+        transliterationBengali: "ওয়া লাওলা ফাদলুল্লাহি আলাইকুম ওয়া রহমাতুহু",
+        bengali: "আল্লাহর অনুগ্রহ ও দয়া না থাকলে…",
+        english: "And if not for the favor of Allah upon you and His mercy…",
+        reference: "সূরা আন-নূর ২৪:২০"
+      },
+      {
+        id: "guidance-48",
+        titleBengali: "চেষ্টা করলে আল্লাহ হিদায়াত দেন",
+        titleEnglish: "Allah Guides Those Who Strive",
+        arabic: "وَالَّذِينَ جَاهَدُوا فِينَا لَنَهْدِيَنَّهُمْ سُبُلَنَا",
+        transliteration: "Walladhina jahadu fina lanahdiyannahum subulana",
+        transliterationBengali: "ওয়াল্লাজিনা জাহাদু ফিনা লানাহদিয়ান্নাহুম সুবুলানা",
+        bengali: "যারা আমাদের পথে চেষ্টা করে আমরা অবশ্যই তাদের পথ দেখাই",
+        english: "Those who strive for Us—We will surely guide them to Our ways",
+        reference: "সূরা আল-আনকাবুত ২৯:৬৯"
+      },
+      {
+        id: "guidance-49",
+        titleBengali: "কিতাবের মাধ্যমে হিদায়াত",
+        titleEnglish: "Allah Guides by His Book",
+        arabic: "يَهْدِي بِهِ اللَّهُ مَنِ اتَّبَعَ رِضْوَانَهُ",
+        transliteration: "Yahdi bihillahu man ittaba'a ridwanah",
+        transliterationBengali: "ইয়াহদি বিহিল্লাহু মান ইত্তাবা'আ রিদওয়ানাহু",
+        bengali: "আল্লাহ এই কিতাব দ্বারা যাকে চান তাকে পথ দেখান",
+        english: "Allah guides with it those who seek His pleasure",
+        reference: "সূরা আল-মায়িদাহ ৫:১৬"
+      },
+      {
+        id: "guidance-50",
+        titleBengali: "আল্লাহই যথেষ্ট পথপ্রদর্শক",
+        titleEnglish: "Allah is Sufficient as a Guide",
+        arabic: "أَلَيْسَ اللَّهُ بِكَافٍ عَبْدَهُ",
+        transliteration: "Alaysa Allahu bikafin 'abdah",
+        transliterationBengali: "আলাইসাল্লাহু বিকাফিন আবদাহু",
+        bengali: "আল্লাহ কি তাঁর বান্দার জন্য যথেষ্ট নন?",
+        english: "Is not Allah sufficient for His servant?",
+        reference: "সূরা আয-যুমার ৩৯:৩৬"
       }
     ]
   },
