@@ -8,6 +8,7 @@ import { Layout } from "@/components/Layout";
 import { AuthProvider } from "@/hooks/useAuth";
 import { Loader2 } from "lucide-react";
 import { useContentProtection } from "@/hooks/useContentProtection";
+import { useFontSize } from "@/hooks/useFontSize";
 import Index from "./pages/Index";
 import SurahDetail from "./pages/SurahDetail";
 import ParaDetail from "./pages/ParaDetail";
@@ -46,6 +47,7 @@ const AppContent = () => {
     const saved = localStorage.getItem("quran-arabic-font");
     return (saved as "amiri" | "uthmani") || "amiri";
   });
+  const { fontSize, setFontSize } = useFontSize();
   
   // Save reading mode to localStorage
   useEffect(() => {
@@ -94,7 +96,7 @@ const AppContent = () => {
       } />
       <Route path="/settings" element={
         <Layout language={language} onLanguageChange={setLanguage}>
-          <Settings language={language} onLanguageChange={setLanguage} readingMode={readingMode} onReadingModeChange={setReadingMode} arabicFont={arabicFont} onArabicFontChange={setArabicFont} />
+          <Settings language={language} onLanguageChange={setLanguage} readingMode={readingMode} onReadingModeChange={setReadingMode} arabicFont={arabicFont} onArabicFontChange={setArabicFont} fontSize={fontSize} onFontSizeChange={setFontSize} />
         </Layout>
       } />
       <Route path="/auth" element={
