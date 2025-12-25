@@ -818,6 +818,116 @@ export const duaCategories: DuaCategory[] = [
         bengali: "আমি তোমাদের আল্লাহর পরিপূর্ণ বাক্যের আশ্রয়ে দিচ্ছি",
         english: "I seek protection for you in Allah's perfect words",
         reference: "সহীহ বুখারী, হাদিস নং ৩৩৭১"
+      },
+      {
+        id: "protection-21",
+        titleBengali: "চারদিক থেকে রক্ষা",
+        titleEnglish: "Protection from All Sides",
+        arabic: "رَبَّنَا احْفَظْنَا مِنْ بَيْنِ أَيْدِينَا وَمِنْ خَلْفِنَا",
+        transliteration: "Rabbana ihfazna min bayni aydina wa min khalfina",
+        transliterationBengali: "রাব্বানা ইহফাজনা মিন বাইনি আইদিনা ওয়া মিন খালফিনা",
+        bengali: "হে আমাদের রব আমাদের সামনে ও পেছন থেকে হেফাজত করুন",
+        english: "Our Lord protect us from before us and behind us",
+        reference: "সূরা ইয়াসিন ৩৬:৯"
+      },
+      {
+        id: "protection-22",
+        titleBengali: "নিজ নফসের অনিষ্ট থেকে রক্ষা",
+        titleEnglish: "Protection from Evil of Self",
+        arabic: "اللَّهُمَّ قِنِي شَرَّ نَفْسِي",
+        transliteration: "Allahumma qini sharra nafsi",
+        transliterationBengali: "আল্লাহুম্মা কিনি শাররা নাফসি",
+        bengali: "হে আল্লাহ আমার নফসের অনিষ্ট থেকে আমাকে রক্ষা করুন",
+        english: "O Allah protect me from the evil of my soul",
+        reference: "মুসনাদ আহমাদ, হাদিস নং ১৯৬৫৯"
+      },
+      {
+        id: "protection-23",
+        titleBengali: "অকল্যাণকর কথা থেকে রক্ষা",
+        titleEnglish: "Protection from Harmful Speech",
+        arabic: "رَبِّ اشْرَحْ لِي صَدْرِي وَاحْلُلْ عُقْدَةً",
+        transliteration: "Rabbishrah li sadri wahlul 'uqdah",
+        transliterationBengali: "রাব্বিশরাহ লি সদরি ওয়াহলুল উকদাহ",
+        bengali: "হে আমার রব আমার অন্তর প্রশস্ত করুন ও জিহ্বার জড়তা দূর করুন",
+        english: "My Lord expand my chest and loosen my tongue",
+        reference: "সূরা ত্বহা ২০:২৫–২৭"
+      },
+      {
+        id: "protection-24",
+        titleBengali: "জালিমদের থেকে রক্ষা",
+        titleEnglish: "Protection from Oppressors",
+        arabic: "رَبَّنَا نَجِّنَا مِنَ الْقَوْمِ الظَّالِمِينَ",
+        transliteration: "Rabbana najjina minal-qawmiz-zalimin",
+        transliterationBengali: "রাব্বানা নাজ্জিনা মিনাল কাওমিজ জালিমিন",
+        bengali: "হে আমাদের রব জালিম সম্প্রদায় থেকে আমাদের উদ্ধার করুন",
+        english: "Our Lord save us from the wrongdoing people",
+        reference: "সূরা আল-কাসাস ২৮:২১"
+      },
+      {
+        id: "protection-25",
+        titleBengali: "ঈমান নষ্ট হওয়া থেকে রক্ষা",
+        titleEnglish: "Protection from Loss of Faith",
+        arabic: "رَبِّ لَا تُزِغْ قَلْبِي بَعْدَ إِذْ هَدَيْتَنِي",
+        transliteration: "Rabbi la tuzigh qalbi ba'da idh hadaytani",
+        transliterationBengali: "রাব্বি লা তুযিগ কালবি বা'দা ইয হাদাইতানি",
+        bengali: "হে আমার রব হেদায়াতের পর আমার হৃদয় বিচ্যুত করবেন না",
+        english: "My Lord do not let my heart deviate after guidance",
+        reference: "সূরা আলে ইমরান ৩:৮"
+      },
+      {
+        id: "protection-26",
+        titleBengali: "গোপন অনিষ্ট থেকে রক্ষা",
+        titleEnglish: "Protection from Hidden Evil",
+        arabic: "وَمِنْ شَرِّ غَاسِقٍ إِذَا وَقَبَ",
+        transliteration: "Wa min sharri ghasiqin idha waqab",
+        transliterationBengali: "ওয়া মিন শাররি গাসিকিন ইযা ওয়াকাব",
+        bengali: "অন্ধকারের অনিষ্ট থেকে আশ্রয় চাই",
+        english: "From the evil of darkness when it settles",
+        reference: "সূরা আল-ফালাক ১১৩:৩"
+      },
+      {
+        id: "protection-27",
+        titleBengali: "দুর্ঘটনা থেকে রক্ষা",
+        titleEnglish: "Protection from Accidents",
+        arabic: "اللَّهُمَّ سَلِّمْنِي وَسَلِّمْ أَهْلِي",
+        transliteration: "Allahumma sallimni wa sallim ahli",
+        transliterationBengali: "আল্লাহুম্মা সাল্লিমনি ওয়া সাল্লিম আহলি",
+        bengali: "হে আল্লাহ আমাকে ও আমার পরিবারকে নিরাপদ রাখুন",
+        english: "O Allah keep me and my family safe",
+        reference: "মুসনাদ আহমাদ, হাদিস নং ২০৪৬৫"
+      },
+      {
+        id: "protection-28",
+        titleBengali: "খারাপ পরিণতি থেকে রক্ষা",
+        titleEnglish: "Protection from Bad End",
+        arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ سُوءِ الْخَاتِمَةِ",
+        transliteration: "Allahumma inni a'udhu bika min su'il-khatimah",
+        transliterationBengali: "আল্লাহুম্মা ইন্নি আউযু বিকা মিন সুইল খাতিমাহ",
+        bengali: "হে আল্লাহ খারাপ পরিণতি থেকে আমাকে রক্ষা করুন",
+        english: "O Allah protect me from a bad ending",
+        reference: "ইবনে মাজাহ, হাদিস নং ৩৮৪৫"
+      },
+      {
+        id: "protection-29",
+        titleBengali: "ক্ষতিকর জিন থেকে রক্ষা",
+        titleEnglish: "Protection from Harmful Jinn",
+        arabic: "قُلْ أُوحِيَ إِلَيَّ أَنَّهُ اسْتَمَعَ نَفَرٌ",
+        transliteration: "Qul uhiya ilayya annahu istama'a nafar",
+        transliterationBengali: "কুল উহিয়া ইলাইয়া আন্নাহু ইস্তামা'আ নাফার",
+        bengali: "বলুন—আমার কাছে ওহী এসেছে যে একদল জিন শুনেছে",
+        english: "Say: It has been revealed that a group of jinn listened",
+        reference: "সূরা আল-জিন ৭২:১"
+      },
+      {
+        id: "protection-30",
+        titleBengali: "পূর্ণাঙ্গ নিরাপত্তার দোয়া",
+        titleEnglish: "Complete Protection Dua",
+        arabic: "اللَّهُمَّ احْفَظْنِي مِنْ كُلِّ سُوءٍ",
+        transliteration: "Allahumma ihfazni min kulli su'",
+        transliterationBengali: "আল্লাহুম্মা ইহফাজনি মিন কুল্লি সু'",
+        bengali: "হে আল্লাহ সব ধরনের অনিষ্ট থেকে আমাকে রক্ষা করুন",
+        english: "O Allah protect me from every evil",
+        reference: "তাবারানী আল-আওসাত, হাদিস নং ৫২৫৭"
       }
     ]
   },
