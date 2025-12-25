@@ -156,8 +156,8 @@ export const MobileNavFooter = ({ language }: MobileNavFooterProps) => {
               className={cn(
                 "flex flex-col items-center justify-center gap-1 py-2 rounded-lg transition-colors",
                 item.isActive
-                  ? "text-primary"
-                  : "text-muted-foreground hover:text-foreground"
+                  ? "text-primary bg-primary/10"
+                  : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
               )}
             >
               <item.icon
