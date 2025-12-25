@@ -2655,6 +2655,116 @@ export const duaCategories: DuaCategory[] = [
         bengali: "হে আল্লাহ এই দিনের কল্যাণ চাই",
         english: "O Allah I ask You for the good of this day",
         reference: "সুনান আবু দাউদ, হাদিস নং ৫০৮৪"
+      },
+      {
+        id: "me-021",
+        titleBengali: "পরিবারের নিরাপত্তার দোয়া",
+        titleEnglish: "Seeking Protection for Family",
+        arabic: "اللَّهُمَّ احْفَظْنِي وَأَهْلِي",
+        transliteration: "Allahumma ihfazni wa ahli",
+        transliterationBengali: "আল্লাহুম্মা ইহফাজনি ওয়া আহলি",
+        bengali: "হে আল্লাহ আমাকে ও আমার পরিবারকে হেফাজত করুন",
+        english: "O Allah protect me and my family",
+        reference: "মুসনাদ আহমাদ, হাদিস নং ২০৩৪৫"
+      },
+      {
+        id: "me-022",
+        titleBengali: "হঠাৎ বিপদ থেকে রক্ষা",
+        titleEnglish: "Protection from Sudden Trials",
+        arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ فِتَنِ الْمَحْيَا",
+        transliteration: "Allahumma inni a'udhu bika min fitanil-mahya",
+        transliterationBengali: "আল্লাহুম্মা ইন্নি আউযু বিকা মিন ফিতানিল মাহইয়া",
+        bengali: "হে আল্লাহ দুনিয়ার ফিতনা থেকে আমাকে রক্ষা করুন",
+        english: "O Allah protect me from trials of life",
+        reference: "সহীহ মুসলিম, হাদিস নং ২৮৬৭"
+      },
+      {
+        id: "me-023",
+        titleBengali: "শয়তান থেকে রক্ষার দোয়া",
+        titleEnglish: "Protection from Shaytan",
+        arabic: "وَأَعُوذُ بِكَ رَبِّ أَنْ يَحْضُرُونِ",
+        transliteration: "Wa a'udhu bika rabbi an yahdurun",
+        transliterationBengali: "ওয়া আউযু বিকা রাব্বি আইঁ ইয়াহদুরুন",
+        bengali: "হে আমার রব, শয়তানদের উপস্থিতি থেকে রক্ষা করুন",
+        english: "And I seek refuge in You my Lord from their presence",
+        reference: "আল-কুরআন, সূরা মুমিনুন ২৩:৯৮"
+      },
+      {
+        id: "me-024",
+        titleBengali: "উত্তম রিজিকের দোয়া",
+        titleEnglish: "Good Provision",
+        arabic: "اللَّهُمَّ اكْفِنِي بِحَلَالِكَ عَنْ حَرَامِكَ",
+        transliteration: "Allahumma-kfini bihalalika 'an haramika",
+        transliterationBengali: "আল্লাহুম্মা কফিনি বিহালালিকা আন হারামিকা",
+        bengali: "হে আল্লাহ হালাল দ্বারা আমাকে যথেষ্ট করুন",
+        english: "O Allah suffice me with lawful provision",
+        reference: "সুনান তিরমিযী, হাদিস নং ৩৫৬৩"
+      },
+      {
+        id: "me-025",
+        titleBengali: "চোখ ও কানের হেফাজত",
+        titleEnglish: "Protection of Sight and Hearing",
+        arabic: "اللَّهُمَّ مَتِّعْنِي بِسَمْعِي وَبَصَرِي",
+        transliteration: "Allahumma matti'ni bisam'i wa basari",
+        transliterationBengali: "আল্লাহুম্মা মাত্তি'নি বিসামই ওয়া বাসারি",
+        bengali: "হে আল্লাহ আমার শ্রবণ ও দৃষ্টিকে রক্ষা করুন",
+        english: "O Allah preserve my hearing and sight",
+        reference: "সুনান তিরমিযী, হাদিস নং ৩৫০২"
+      },
+      {
+        id: "me-026",
+        titleBengali: "দিনের সুন্দর সমাপ্তির দোয়া",
+        titleEnglish: "Asking for Good End of Day",
+        arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ خَيْرَ مَا فِي هَذَا الْيَوْمِ",
+        transliteration: "Allahumma inni as'aluka khayra ma fi hadhal-yawm",
+        transliterationBengali: "আল্লাহুম্মা ইন্নি আসআলুকা খাইরা মা ফি হাজাল ইয়াউম",
+        bengali: "হে আল্লাহ আজকের দিনের কল্যাণ চাই",
+        english: "O Allah I ask You for the good within this day",
+        reference: "সুনান আবু দাউদ, হাদিস নং ৫০৮৪"
+      },
+      {
+        id: "me-027",
+        titleBengali: "অকল্যাণকর জ্ঞান থেকে রক্ষা",
+        titleEnglish: "Protection from Knowledge without Benefit",
+        arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ عِلْمٍ لَا يَنْفَعُ",
+        transliteration: "Allahumma inni a'udhu bika min 'ilmin la yanfa'",
+        transliterationBengali: "আল্লাহুম্মা ইন্নি আউযু বিকা মিন ইলমিল লা ইয়ানফা",
+        bengali: "হে আল্লাহ উপকারহীন জ্ঞান থেকে রক্ষা করুন",
+        english: "O Allah protect me from knowledge that does not benefit",
+        reference: "সহীহ মুসলিম, হাদিস নং ২৭২২"
+      },
+      {
+        id: "me-028",
+        titleBengali: "মন্দ কাজ থেকে রক্ষা",
+        titleEnglish: "Protection from Evil Deeds",
+        arabic: "اللَّهُمَّ أَلْهِمْنِي رُشْدِي وَأَعِذْنِي مِنْ شَرِّ نَفْسِي",
+        transliteration: "Allahumma alhimni rushdi wa a'idhni min sharri nafsi",
+        transliterationBengali: "আল্লাহুম্মা আলহিমনি রুশদি ওয়া আইযনি মিন শাররি নাফসি",
+        bengali: "হে আল্লাহ সঠিক পথ অনুপ্রাণিত করুন ও নফসের অনিষ্ট থেকে রক্ষা করুন",
+        english: "O Allah inspire me with guidance and protect me from my soul's evil",
+        reference: "সহীহ মুসলিম, হাদিস নং ২৭২১"
+      },
+      {
+        id: "me-029",
+        titleBengali: "ক্ষতি থেকে রক্ষা",
+        titleEnglish: "Protection from Loss",
+        arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْفَقْرِ",
+        transliteration: "Allahumma inni a'udhu bika minal-faqr",
+        transliterationBengali: "আল্লাহুম্মা ইন্নি আউযু বিকা মিনাল ফাকর",
+        bengali: "হে আল্লাহ দারিদ্র্য থেকে আমাকে রক্ষা করুন",
+        english: "O Allah protect me from poverty",
+        reference: "সুনান আবু দাউদ, হাদিস নং ৫০৯০"
+      },
+      {
+        id: "me-030",
+        titleBengali: "আল্লাহর প্রতি আশা",
+        titleEnglish: "Hope in Allah",
+        arabic: "حَسْبِيَ اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ",
+        transliteration: "Hasbiyallahu la ilaha illa Huwa",
+        transliterationBengali: "হাসবিয়াল্লাহু লা ইলাহা ইল্লা হুয়া",
+        bengali: "আল্লাহই আমার জন্য যথেষ্ট—তিনি ছাড়া কোনো উপাস্য নেই",
+        english: "Allah is sufficient for me; there is no deity except Him",
+        reference: "আল-কুরআন, সূরা তাওবাহ ৯:১২৯"
       }
     ]
   }
