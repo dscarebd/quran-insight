@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { AppSidebar } from "@/components/AppSidebar";
 import { MobileNavFooter } from "@/components/MobileNavFooter";
+import { Header } from "@/components/Header";
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 
 interface LayoutProps {
@@ -19,8 +20,11 @@ export const Layout = ({ children, language, onLanguageChange }: LayoutProps) =>
         activeTab={activeTab}
         onTabChange={setActiveTab}
       />
-      <SidebarInset className="pb-16 md:pb-0">
-        {children}
+      <SidebarInset className="flex flex-col pb-16 md:pb-0">
+        <Header language={language} onLanguageChange={onLanguageChange} />
+        <div className="flex-1 overflow-y-auto">
+          {children}
+        </div>
       </SidebarInset>
       <MobileNavFooter language={language} />
     </SidebarProvider>

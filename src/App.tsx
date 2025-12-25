@@ -54,7 +54,7 @@ const AppContent = () => {
     <Routes>
       <Route path="/" element={
         <Layout language={language} onLanguageChange={setLanguage}>
-          <Index language={language} onLanguageChange={setLanguage} />
+          <Index language={language} />
         </Layout>
       } />
       <Route path="/surah/:surahNumber" element={
