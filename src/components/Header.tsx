@@ -27,7 +27,9 @@ export const Header = ({ language, onLanguageChange }: HeaderProps) => {
       {/* Mobile/Tablet: Show logo and app title (logo on left) */}
       <div className="lg:hidden flex items-center gap-2">
         <img src={appLogo} alt="Quran Insight" className="h-8 w-8 rounded-lg" />
-        <h1 className="text-xl font-semibold text-primary">Quran Insight</h1>
+        <h1 className={`text-xl font-semibold text-primary ${language === "bn" ? "font-bengali" : ""}`}>
+          {language === "bn" ? "কুরআন ইনসাইট" : "Quran Insight"}
+        </h1>
       </div>
       
       {/* Desktop: Settings button, Mobile/Tablet: Bookmark button */}
