@@ -102,8 +102,8 @@ const Dashboard = () => {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold">Welcome to Admin Panel</h2>
-          <p className="text-muted-foreground">Manage your Quran application content and users.</p>
+          <h2 className="text-lg md:text-xl font-semibold">Welcome to Admin Panel</h2>
+          <p className="text-sm text-muted-foreground">Manage your Quran application content and users.</p>
         </div>
         <Badge variant="default" className="flex items-center gap-1.5">
           <Radio className="h-3 w-3 animate-pulse" />
