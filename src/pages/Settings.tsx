@@ -199,7 +199,7 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
                     <h3 className={cn("font-semibold", language === "bn" && "font-bengali")}>
                       An-Nur Digital
                     </h3>
-                    <p className={cn("text-sm text-muted-foreground", language === "bn" && "font-bengali")}>
+                    <p className={cn("text-xs text-muted-foreground", language === "bn" && "font-bengali")}>
                       {language === "bn" 
                         ? "ওয়ার্ডপ্রেস ও সফটওয়্যার ডিজাইনার" 
                         : "WordPress & Software Designer"}
