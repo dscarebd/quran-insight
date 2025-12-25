@@ -380,6 +380,21 @@ const Dua = ({ language, arabicFont = "amiri" }: DuaProps) => {
                 </p>
               </div>
 
+              {/* Transliteration */}
+              {selectedDua?.transliteration && (
+                <div className="space-y-2">
+                  <h3 className={cn(
+                    "text-sm font-medium text-muted-foreground",
+                    language === "bn" && "font-bengali"
+                  )}>
+                    {language === "bn" ? "উচ্চারণ" : "Transliteration"}
+                  </h3>
+                  <p className="text-base leading-relaxed text-foreground italic">
+                    {selectedDua.transliteration}
+                  </p>
+                </div>
+              )}
+
               {/* Bengali Translation */}
               <div className="space-y-2">
                 <h3 className={cn(
