@@ -46,12 +46,12 @@ export const duaCategories: DuaCategory[] = [
       },
       {
         id: "daily-3",
-        titleBengali: "বরকত সহ শুরু করার দোয়া",
-        titleEnglish: "Starting with Blessings",
-        arabic: "بِسْمِ اللهِ وَعَلَى بَرَكَةِ اللهِ",
-        bengali: "আল্লাহর নামে এবং আল্লাহর বরকতে শুরু করছি।",
-        english: "In the name of Allah and with the blessings of Allah.",
-        reference: "আবু দাউদ"
+        titleBengali: "জ্ঞান বৃদ্ধির দোয়া",
+        titleEnglish: "For Increasing Knowledge",
+        arabic: "رَبِّ زِدْنِي عِلْمًا",
+        bengali: "হে আমার রব, আমার জ্ঞান বৃদ্ধি করে দিন।",
+        english: "My Lord, increase me in knowledge.",
+        reference: "সূরা তা-হা ২০:১১৪"
       },
       {
         id: "daily-4",
