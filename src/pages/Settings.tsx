@@ -63,7 +63,7 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
           {/* User Card Section */}
           <section>
             <h2 className={cn(
-              "mb-3 text-xs font-medium text-muted-foreground uppercase tracking-wider",
+              "mb-3 text-sm font-medium text-muted-foreground uppercase tracking-wider",
               language === "bn" && "font-bengali"
             )}>
               {language === "bn" ? "আমাদের সম্পর্কে" : "About Us"}
@@ -94,7 +94,7 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
           {/* Language Section */}
           <section>
             <h2 className={cn(
-              "mb-3 text-xs font-medium text-muted-foreground uppercase tracking-wider",
+              "mb-3 text-sm font-medium text-muted-foreground uppercase tracking-wider",
               language === "bn" && "font-bengali"
             )}>
               {language === "bn" ? "ভাষা" : "Language"}
@@ -132,7 +132,7 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
           {/* Theme Section */}
           <section>
             <h2 className={cn(
-              "mb-3 text-xs font-medium text-muted-foreground uppercase tracking-wider",
+              "mb-3 text-sm font-medium text-muted-foreground uppercase tracking-wider",
               language === "bn" && "font-bengali"
             )}>
               {language === "bn" ? "থিম" : "Theme"}
@@ -162,7 +162,7 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
           {/* Reading Mode Section */}
           <section>
             <h2 className={cn(
-              "mb-3 text-xs font-medium text-muted-foreground uppercase tracking-wider",
+              "mb-3 text-sm font-medium text-muted-foreground uppercase tracking-wider",
               language === "bn" && "font-bengali"
             )}>
               {language === "bn" ? "রিডিং মোড" : "Reading Mode"}
@@ -195,7 +195,7 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
           {/* Arabic Font Section */}
           <section>
             <h2 className={cn(
-              "mb-3 text-xs font-medium text-muted-foreground uppercase tracking-wider",
+              "mb-3 text-sm font-medium text-muted-foreground uppercase tracking-wider",
               language === "bn" && "font-bengali"
             )}>
               {language === "bn" ? "আরবি ফন্ট" : "Arabic Font"}
@@ -244,7 +244,7 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
           </section>
           <section>
             <h2 className={cn(
-              "mb-3 text-xs font-medium text-muted-foreground uppercase tracking-wider",
+              "mb-3 text-sm font-medium text-muted-foreground uppercase tracking-wider",
               language === "bn" && "font-bengali"
             )}>
               {language === "bn" ? "ডেভেলপার" : "Developer"}
@@ -324,7 +324,7 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
           {/* About Section */}
           <section>
             <h2 className={cn(
-              "mb-3 text-xs font-medium text-muted-foreground uppercase tracking-wider",
+              "mb-3 text-sm font-medium text-muted-foreground uppercase tracking-wider",
               language === "bn" && "font-bengali"
             )}>
               {language === "bn" ? "অ্যাপ তথ্য" : "App Info"}
