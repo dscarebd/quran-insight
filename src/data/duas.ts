@@ -5944,6 +5944,366 @@ export const duaCategories: DuaCategory[] = [
         bengali: "হে আমার রব! আমাকে সন্তানহীন রেখো না, তুমিই তো সর্বোত্তম উত্তরাধিকারী।",
         english: "My Lord, do not leave me alone [with no heir], while You are the best of inheritors.",
         reference: "সূরা আম্বিয়া ২১:৮৯"
+      },
+      {
+        id: "marriage-11",
+        titleBengali: "বিয়ের প্রস্তাবের দোয়া",
+        titleEnglish: "For Marriage Proposal",
+        arabic: "اللَّهُمَّ إِنِّي أَسْتَخِيرُكَ بِعِلْمِكَ، وَأَسْتَقْدِرُكَ بِقُدْرَتِكَ، وَأَسْأَلُكَ مِنْ فَضْلِكَ الْعَظِيمِ",
+        bengali: "হে আল্লাহ! আমি তোমার জ্ঞান দ্বারা কল্যাণ চাই, তোমার ক্ষমতা দ্বারা শক্তি চাই এবং তোমার মহান অনুগ্রহ থেকে প্রার্থনা করি।",
+        english: "O Allah, I seek Your guidance through Your knowledge, I seek ability through Your power, and I ask from Your great bounty.",
+        reference: "সহীহ বুখারী, হাদিস নং ১১৬২"
+      },
+      {
+        id: "marriage-12",
+        titleBengali: "বিবাহের শুভ সূচনার দোয়া",
+        titleEnglish: "For Blessed Beginning",
+        arabic: "اللَّهُمَّ اجْعَلْ هَذَا الزَّوَاجَ مُبَارَكًا وَارْزُقْنَا السَّعَادَةَ فِيهِ",
+        bengali: "হে আল্লাহ! এই বিবাহকে বরকতময় কর এবং আমাদেরকে এতে সুখ দান কর।",
+        english: "O Allah, make this marriage blessed and grant us happiness in it.",
+        reference: "আল-আযকার, ইমাম নববী"
+      },
+      {
+        id: "marriage-13",
+        titleBengali: "স্বামী-স্ত্রীর মিলনের দোয়া",
+        titleEnglish: "For Intimacy",
+        arabic: "بِسْمِ اللَّهِ، اللَّهُمَّ جَنِّبْنَا الشَّيْطَانَ وَجَنِّبِ الشَّيْطَانَ مَا رَزَقْتَنَا",
+        bengali: "আল্লাহর নামে। হে আল্লাহ! আমাদেরকে শয়তান থেকে দূরে রাখ এবং তুমি আমাদের যা দান কর তা থেকেও শয়তানকে দূরে রাখ।",
+        english: "In the name of Allah. O Allah, keep the Satan away from us and keep the Satan away from what You bestow upon us.",
+        reference: "সহীহ বুখারী, হাদিস নং ৬৩৮৮"
+      },
+      {
+        id: "marriage-14",
+        titleBengali: "দাম্পত্য শান্তির দোয়া",
+        titleEnglish: "For Marital Peace",
+        arabic: "رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً",
+        bengali: "হে আমাদের রব! আমাদেরকে দুনিয়াতে কল্যাণ দাও এবং আখিরাতেও কল্যাণ দাও।",
+        english: "Our Lord, give us good in this world and good in the Hereafter.",
+        reference: "সূরা বাকারা ২:২০১"
+      },
+      {
+        id: "marriage-15",
+        titleBengali: "জীবনসঙ্গীর হেদায়েতের দোয়া",
+        titleEnglish: "For Spouse's Guidance",
+        arabic: "اللَّهُمَّ اهْدِ زَوْجِي وَاجْعَلْهُ مِنَ الصَّالِحِينَ",
+        bengali: "হে আল্লাহ! আমার জীবনসঙ্গীকে হেদায়েত দাও এবং তাকে নেককারদের অন্তর্ভুক্ত কর।",
+        english: "O Allah, guide my spouse and make them among the righteous.",
+        reference: "হিসনুল মুসলিম"
+      },
+      {
+        id: "marriage-16",
+        titleBengali: "দাম্পত্য বিশ্বাসের দোয়া",
+        titleEnglish: "For Marital Trust",
+        arabic: "اللَّهُمَّ أَصْلِحْ ذَاتَ بَيْنِنَا وَأَلِّفْ بَيْنَ قُلُوبِنَا",
+        bengali: "হে আল্লাহ! আমাদের পারস্পরিক সম্পর্ক সংশোধন কর এবং আমাদের অন্তরে ভালোবাসা সৃষ্টি কর।",
+        english: "O Allah, rectify our mutual relations and create love between our hearts.",
+        reference: "সহীহ মুসলিম, হাদিস নং ৫৩৮"
+      },
+      {
+        id: "marriage-17",
+        titleBengali: "স্বামীর জন্য স্ত্রীর দোয়া",
+        titleEnglish: "Wife's Dua for Husband",
+        arabic: "اللَّهُمَّ بَارِكْ لِزَوْجِي فِي رِزْقِهِ وَعَمَلِهِ وَصِحَّتِهِ",
+        bengali: "হে আল্লাহ! আমার স্বামীর রিযিক, কাজ ও স্বাস্থ্যে বরকত দাও।",
+        english: "O Allah, bless my husband in his provision, work and health.",
+        reference: "হিসনুল মুসলিম"
+      },
+      {
+        id: "marriage-18",
+        titleBengali: "স্ত্রীর জন্য স্বামীর দোয়া",
+        titleEnglish: "Husband's Dua for Wife",
+        arabic: "اللَّهُمَّ احْفَظْ زَوْجَتِي وَبَارِكْ فِيهَا وَاجْعَلْهَا قُرَّةَ عَيْنِي",
+        bengali: "হে আল্লাহ! আমার স্ত্রীকে হেফাজত কর, তার মধ্যে বরকত দাও এবং তাকে আমার চোখের শীতলতা কর।",
+        english: "O Allah, protect my wife, bless her and make her the comfort of my eyes.",
+        reference: "আল-আযকার, ইমাম নববী"
+      },
+      {
+        id: "marriage-19",
+        titleBengali: "দাম্পত্য ক্ষমার দোয়া",
+        titleEnglish: "For Marital Forgiveness",
+        arabic: "رَبَّنَا اغْفِرْ لَنَا وَلِإِخْوَانِنَا الَّذِينَ سَبَقُونَا بِالْإِيمَانِ",
+        bengali: "হে আমাদের রব! আমাদের এবং আমাদের সেই ভাইদের ক্ষমা কর যারা ঈমানের সাথে আমাদের পূর্বে গত হয়েছে।",
+        english: "Our Lord, forgive us and our brothers who preceded us in faith.",
+        reference: "সূরা হাশর ৫৯:১০"
+      },
+      {
+        id: "marriage-20",
+        titleBengali: "বিবাহের স্থায়িত্বের দোয়া",
+        titleEnglish: "For Marriage Stability",
+        arabic: "اللَّهُمَّ ثَبِّتْ زَوَاجَنَا وَاحْفَظْهُ مِنْ كُلِّ شَرٍّ",
+        bengali: "হে আল্লাহ! আমাদের বিবাহকে স্থায়ী কর এবং সকল অনিষ্ট থেকে হেফাজত কর।",
+        english: "O Allah, make our marriage stable and protect it from all evil.",
+        reference: "হিসনুল মুসলিম"
+      },
+      {
+        id: "marriage-21",
+        titleBengali: "দাম্পত্য সম্মানের দোয়া",
+        titleEnglish: "For Mutual Respect",
+        arabic: "اللَّهُمَّ ارْزُقْنَا الْمَوَدَّةَ وَالرَّحْمَةَ وَالاحْتِرَامَ",
+        bengali: "হে আল্লাহ! আমাদেরকে ভালোবাসা, দয়া ও সম্মান দান কর।",
+        english: "O Allah, grant us love, mercy and mutual respect.",
+        reference: "সূরা রূম ৩০:২১ থেকে অনুপ্রাণিত"
+      },
+      {
+        id: "marriage-22",
+        titleBengali: "বিবাহে সবরের দোয়া",
+        titleEnglish: "For Patience in Marriage",
+        arabic: "رَبَّنَا أَفْرِغْ عَلَيْنَا صَبْرًا وَثَبِّتْ أَقْدَامَنَا",
+        bengali: "হে আমাদের রব! আমাদের ধৈর্য দান কর এবং আমাদের পা স্থির রাখ।",
+        english: "Our Lord, pour upon us patience and plant firmly our feet.",
+        reference: "সূরা বাকারা ২:২৫০"
+      },
+      {
+        id: "marriage-23",
+        titleBengali: "দাম্পত্য কৃতজ্ঞতার দোয়া",
+        titleEnglish: "For Marital Gratitude",
+        arabic: "رَبِّ أَوْزِعْنِي أَنْ أَشْكُرَ نِعْمَتَكَ الَّتِي أَنْعَمْتَ عَلَيَّ",
+        bengali: "হে আমার রব! আমাকে সামর্থ্য দাও যেন তোমার নিয়ামতের শুকরিয়া আদায় করতে পারি।",
+        english: "My Lord, enable me to be grateful for Your favor which You have bestowed upon me.",
+        reference: "সূরা আহকাফ ৪৬:১৫"
+      },
+      {
+        id: "marriage-24",
+        titleBengali: "স্বামী-স্ত্রীর সুখের দোয়া",
+        titleEnglish: "For Couple's Happiness",
+        arabic: "اللَّهُمَّ اجْعَلْنَا سُعَدَاءَ فِي زَوَاجِنَا وَارْزُقْنَا الْهَنَاءَ",
+        bengali: "হে আল্লাহ! আমাদেরকে বিবাহে সুখী কর এবং আমাদের প্রশান্তি দান কর।",
+        english: "O Allah, make us happy in our marriage and grant us tranquility.",
+        reference: "হিসনুল মুসলিম"
+      },
+      {
+        id: "marriage-25",
+        titleBengali: "দাম্পত্য সংকট নিরসনের দোয়া",
+        titleEnglish: "For Resolving Marital Crisis",
+        arabic: "لَا إِلَهَ إِلَّا أَنْتَ سُبْحَانَكَ إِنِّي كُنْتُ مِنَ الظَّالِمِينَ",
+        bengali: "তুমি ছাড়া কোন ইলাহ নেই, তুমি পবিত্র, নিশ্চয়ই আমি জালেমদের অন্তর্ভুক্ত ছিলাম।",
+        english: "There is no deity except You; exalted are You. Indeed, I have been of the wrongdoers.",
+        reference: "সূরা আম্বিয়া ২১:৮৭"
+      },
+      {
+        id: "marriage-26",
+        titleBengali: "দাম্পত্য যোগাযোগের দোয়া",
+        titleEnglish: "For Better Communication",
+        arabic: "رَبِّ اشْرَحْ لِي صَدْرِي وَيَسِّرْ لِي أَمْرِي وَاحْلُلْ عُقْدَةً مِنْ لِسَانِي",
+        bengali: "হে আমার রব! আমার বুক প্রশস্ত করে দাও, আমার কাজ সহজ কর এবং আমার জিহ্বার জড়তা দূর কর।",
+        english: "My Lord, expand my chest, ease my task, and remove the impediment from my tongue.",
+        reference: "সূরা ত্বহা ২০:২৫-২৭"
+      },
+      {
+        id: "marriage-27",
+        titleBengali: "জীবনসঙ্গীর সুরক্ষার দোয়া",
+        titleEnglish: "For Spouse's Protection",
+        arabic: "اللَّهُمَّ احْفَظْ زَوْجِي مِنْ بَيْنِ يَدَيْهِ وَمِنْ خَلْفِهِ وَعَنْ يَمِينِهِ وَعَنْ شِمَالِهِ",
+        bengali: "হে আল্লাহ! আমার জীবনসঙ্গীকে সামনে, পেছনে, ডানে ও বামে সর্বদিক থেকে হেফাজত কর।",
+        english: "O Allah, protect my spouse from front, behind, right and left.",
+        reference: "সুনান আবু দাউদ, হাদিস নং ৫০৭৪"
+      },
+      {
+        id: "marriage-28",
+        titleBengali: "বিবাহে বরকতের দোয়া",
+        titleEnglish: "For Blessings in Marriage",
+        arabic: "اللَّهُمَّ بَارِكْ لَنَا فِي زَوَاجِنَا وَاجْعَلْهُ سَبَبًا لِلْخَيْرِ",
+        bengali: "হে আল্লাহ! আমাদের বিবাহে বরকত দাও এবং একে কল্যাণের কারণ বানাও।",
+        english: "O Allah, bless our marriage and make it a means of goodness.",
+        reference: "আল-আযকার, ইমাম নববী"
+      },
+      {
+        id: "marriage-29",
+        titleBengali: "দাম্পত্য ঐক্যের দোয়া",
+        titleEnglish: "For Marital Unity",
+        arabic: "وَاعْتَصِمُوا بِحَبْلِ اللَّهِ جَمِيعًا وَلَا تَفَرَّقُوا",
+        bengali: "তোমরা সবাই আল্লাহর রজ্জু শক্ত করে ধর এবং বিভক্ত হয়ো না।",
+        english: "And hold firmly to the rope of Allah all together and do not become divided.",
+        reference: "সূরা আলে ইমরান ৩:১০৩"
+      },
+      {
+        id: "marriage-30",
+        titleBengali: "স্বামী-স্ত্রীর তাকওয়ার দোয়া",
+        titleEnglish: "For Piety in Marriage",
+        arabic: "اللَّهُمَّ اجْعَلْنَا مِنَ الْمُتَّقِينَ الَّذِينَ يَتَّقُونَ",
+        bengali: "হে আল্লাহ! আমাদেরকে মুত্তাকীদের অন্তর্ভুক্ত কর যারা তাকওয়া অবলম্বন করে।",
+        english: "O Allah, make us among the pious who practice righteousness.",
+        reference: "হিসনুল মুসলিম"
+      },
+      {
+        id: "marriage-31",
+        titleBengali: "বিবাহে সাফল্যের দোয়া",
+        titleEnglish: "For Success in Marriage",
+        arabic: "رَبَّنَا لَا تُزِغْ قُلُوبَنَا بَعْدَ إِذْ هَدَيْتَنَا",
+        bengali: "হে আমাদের রব! আমাদের হেদায়েতের পর আমাদের অন্তর বক্র করো না।",
+        english: "Our Lord, let not our hearts deviate after You have guided us.",
+        reference: "সূরা আলে ইমরান ৩:৮"
+      },
+      {
+        id: "marriage-32",
+        titleBengali: "দাম্পত্য আনন্দের দোয়া",
+        titleEnglish: "For Joy in Marriage",
+        arabic: "اللَّهُمَّ ارْزُقْنَا الْفَرَحَ وَالسُّرُورَ فِي حَيَاتِنَا الزَّوْجِيَّةِ",
+        bengali: "হে আল্লাহ! আমাদের দাম্পত্য জীবনে আনন্দ ও সুখ দান কর।",
+        english: "O Allah, grant us joy and happiness in our married life.",
+        reference: "আল-আযকার, ইমাম নববী"
+      },
+      {
+        id: "marriage-33",
+        titleBengali: "স্বামী-স্ত্রীর দ্বীনের দোয়া",
+        titleEnglish: "For Religious Marriage",
+        arabic: "اللَّهُمَّ اجْعَلْ زَوَاجَنَا عِبَادَةً لَكَ",
+        bengali: "হে আল্লাহ! আমাদের বিবাহকে তোমার ইবাদত বানাও।",
+        english: "O Allah, make our marriage an act of worship to You.",
+        reference: "হিসনুল মুসলিম"
+      },
+      {
+        id: "marriage-34",
+        titleBengali: "দাম্পত্য বোঝাপড়ার দোয়া",
+        titleEnglish: "For Mutual Understanding",
+        arabic: "اللَّهُمَّ ارْزُقْنَا التَّفَاهُمَ وَالْمَحَبَّةَ",
+        bengali: "হে আল্লাহ! আমাদেরকে পারস্পরিক বোঝাপড়া ও ভালোবাসা দান কর।",
+        english: "O Allah, grant us mutual understanding and love.",
+        reference: "আল-আযকার, ইমাম নববী"
+      },
+      {
+        id: "marriage-35",
+        titleBengali: "বিবাহে রহমতের দোয়া",
+        titleEnglish: "For Mercy in Marriage",
+        arabic: "وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُمْ مِنْ أَنْفُسِكُمْ أَزْوَاجًا لِتَسْكُنُوا إِلَيْهَا وَجَعَلَ بَيْنَكُمْ مَوَدَّةً وَرَحْمَةً",
+        bengali: "আর তাঁর নিদর্শনাবলীর মধ্যে রয়েছে যে, তিনি তোমাদের জন্য তোমাদের মধ্য থেকে স্ত্রী সৃষ্টি করেছেন যাতে তোমরা তাদের কাছে শান্তি পাও এবং তোমাদের মধ্যে ভালোবাসা ও দয়া সৃষ্টি করেছেন।",
+        english: "And of His signs is that He created for you from yourselves mates that you may find tranquility in them, and He placed between you affection and mercy.",
+        reference: "সূরা রূম ৩০:২১"
+      },
+      {
+        id: "marriage-36",
+        titleBengali: "স্বামী-স্ত্রীর আমানতের দোয়া",
+        titleEnglish: "For Trust in Marriage",
+        arabic: "اللَّهُمَّ اجْعَلْنَا أَمِينَيْنِ لِبَعْضِنَا الْبَعْضِ",
+        bengali: "হে আল্লাহ! আমাদেরকে একে অপরের জন্য আমানতদার বানাও।",
+        english: "O Allah, make us trustworthy for each other.",
+        reference: "হিসনুল মুসলিম"
+      },
+      {
+        id: "marriage-37",
+        titleBengali: "বিবাহে ইনসাফের দোয়া",
+        titleEnglish: "For Justice in Marriage",
+        arabic: "إِنَّ اللَّهَ يَأْمُرُ بِالْعَدْلِ وَالْإِحْسَانِ",
+        bengali: "নিশ্চয়ই আল্লাহ ন্যায়পরায়ণতা ও সদাচরণের নির্দেশ দেন।",
+        english: "Indeed, Allah orders justice and good conduct.",
+        reference: "সূরা নাহল ১৬:৯০"
+      },
+      {
+        id: "marriage-38",
+        titleBengali: "দাম্পত্য সহনশীলতার দোয়া",
+        titleEnglish: "For Marital Tolerance",
+        arabic: "اللَّهُمَّ ارْزُقْنَا الصَّبْرَ وَالتَّسَامُحَ فِي زَوَاجِنَا",
+        bengali: "হে আল্লাহ! আমাদের বিবাহে ধৈর্য ও সহনশীলতা দান কর।",
+        english: "O Allah, grant us patience and tolerance in our marriage.",
+        reference: "আল-আযকার, ইমাম নববী"
+      },
+      {
+        id: "marriage-39",
+        titleBengali: "স্বামী-স্ত্রীর ইখলাসের দোয়া",
+        titleEnglish: "For Sincerity in Marriage",
+        arabic: "اللَّهُمَّ اجْعَلْ عَمَلَنَا خَالِصًا لِوَجْهِكَ الْكَرِيمِ",
+        bengali: "হে আল্লাহ! আমাদের কাজকে তোমার মহান চেহারার জন্য একনিষ্ঠ কর।",
+        english: "O Allah, make our deeds sincere for Your noble countenance.",
+        reference: "হিসনুল মুসলিম"
+      },
+      {
+        id: "marriage-40",
+        titleBengali: "বিবাহে হেদায়েতের দোয়া",
+        titleEnglish: "For Guidance in Marriage",
+        arabic: "اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ",
+        bengali: "আমাদেরকে সরল পথ দেখাও।",
+        english: "Guide us to the straight path.",
+        reference: "সূরা ফাতিহা ১:৬"
+      },
+      {
+        id: "marriage-41",
+        titleBengali: "দাম্পত্য সহযোগিতার দোয়া",
+        titleEnglish: "For Cooperation in Marriage",
+        arabic: "وَتَعَاوَنُوا عَلَى الْبِرِّ وَالتَّقْوَى",
+        bengali: "তোমরা নেকী ও তাকওয়ায় একে অপরকে সাহায্য কর।",
+        english: "And cooperate in righteousness and piety.",
+        reference: "সূরা মায়িদাহ ৫:২"
+      },
+      {
+        id: "marriage-42",
+        titleBengali: "স্বামী-স্ত্রীর ক্ষমার দোয়া",
+        titleEnglish: "For Forgiveness Between Spouses",
+        arabic: "رَبَّنَا اغْفِرْ لَنَا ذُنُوبَنَا وَإِسْرَافَنَا فِي أَمْرِنَا",
+        bengali: "হে আমাদের রব! আমাদের গুনাহ মাফ কর এবং আমাদের কাজে বাড়াবাড়ি ক্ষমা কর।",
+        english: "Our Lord, forgive us our sins and our excesses in our affairs.",
+        reference: "সূরা আলে ইমরান ৩:১৪৭"
+      },
+      {
+        id: "marriage-43",
+        titleBengali: "বিবাহে তাওবার দোয়া",
+        titleEnglish: "For Repentance in Marriage",
+        arabic: "رَبَّنَا ظَلَمْنَا أَنْفُسَنَا وَإِنْ لَمْ تَغْفِرْ لَنَا وَتَرْحَمْنَا لَنَكُونَنَّ مِنَ الْخَاسِرِينَ",
+        bengali: "হে আমাদের রব! আমরা নিজেদের উপর জুলুম করেছি। তুমি যদি আমাদের ক্ষমা না কর এবং রহম না কর তবে অবশ্যই আমরা ক্ষতিগ্রস্তদের অন্তর্ভুক্ত হব।",
+        english: "Our Lord, we have wronged ourselves, and if You do not forgive us and have mercy upon us, we will surely be among the losers.",
+        reference: "সূরা আরাফ ৭:২৩"
+      },
+      {
+        id: "marriage-44",
+        titleBengali: "দাম্পত্য নিরাপত্তার দোয়া",
+        titleEnglish: "For Security in Marriage",
+        arabic: "اللَّهُمَّ اجْعَلْ بَيْتَنَا آمِنًا مُطْمَئِنًّا",
+        bengali: "হে আল্লাহ! আমাদের ঘরকে নিরাপদ ও প্রশান্ত কর।",
+        english: "O Allah, make our home safe and peaceful.",
+        reference: "সূরা ইবরাহীম ১৪:৩৫ থেকে অনুপ্রাণিত"
+      },
+      {
+        id: "marriage-45",
+        titleBengali: "স্বামী-স্ত্রীর ইসলাহের দোয়া",
+        titleEnglish: "For Self-Improvement in Marriage",
+        arabic: "رَبَّنَا هَبْ لَنَا مِنْ لَدُنْكَ رَحْمَةً وَهَيِّئْ لَنَا مِنْ أَمْرِنَا رَشَدًا",
+        bengali: "হে আমাদের রব! তোমার পক্ষ থেকে আমাদের রহমত দান কর এবং আমাদের কাজে সঠিক পথ প্রদর্শন কর।",
+        english: "Our Lord, grant us from Yourself mercy and prepare for us from our affair right guidance.",
+        reference: "সূরা কাহফ ১৮:১০"
+      },
+      {
+        id: "marriage-46",
+        titleBengali: "বিবাহে সুখী জীবনের দোয়া",
+        titleEnglish: "For Happy Married Life",
+        arabic: "مَنْ عَمِلَ صَالِحًا مِنْ ذَكَرٍ أَوْ أُنْثَى وَهُوَ مُؤْمِنٌ فَلَنُحْيِيَنَّهُ حَيَاةً طَيِّبَةً",
+        bengali: "পুরুষ বা নারী যে কেউ সৎকর্ম করবে ঈমানদার অবস্থায়, আমি তাকে অবশ্যই পবিত্র জীবন দান করব।",
+        english: "Whoever does righteousness, whether male or female, while being a believer - We will surely cause them to live a good life.",
+        reference: "সূরা নাহল ১৬:৯৭"
+      },
+      {
+        id: "marriage-47",
+        titleBengali: "দাম্পত্য জান্নাতের দোয়া",
+        titleEnglish: "For Paradise with Spouse",
+        arabic: "رَبَّنَا وَأَدْخِلْهُمْ جَنَّاتِ عَدْنٍ الَّتِي وَعَدْتَهُمْ وَمَنْ صَلَحَ مِنْ آبَائِهِمْ وَأَزْوَاجِهِمْ وَذُرِّيَّاتِهِمْ",
+        bengali: "হে আমাদের রব! তাদেরকে এবং তাদের পিতামাতা, স্ত্রী ও সন্তানদের মধ্যে যারা সৎকর্মশীল তাদেরকে চিরস্থায়ী জান্নাতে প্রবেশ করাও।",
+        english: "Our Lord, and admit them to gardens of perpetual residence which You have promised them and whoever was righteous among their fathers, their spouses and their offspring.",
+        reference: "সূরা গাফির ৪০:৮"
+      },
+      {
+        id: "marriage-48",
+        titleBengali: "স্বামী-স্ত্রীর শোকরের দোয়া",
+        titleEnglish: "For Gratitude in Marriage",
+        arabic: "اللَّهُمَّ أَعِنِّي عَلَى ذِكْرِكَ وَشُكْرِكَ وَحُسْنِ عِبَادَتِكَ",
+        bengali: "হে আল্লাহ! তোমার যিকর, শুকর এবং উত্তম ইবাদতে আমাকে সাহায্য কর।",
+        english: "O Allah, help me to remember You, thank You, and worship You in the best manner.",
+        reference: "আবু দাউদ, হাদিস নং ১৫২২"
+      },
+      {
+        id: "marriage-49",
+        titleBengali: "বিবাহে তাওয়াক্কুলের দোয়া",
+        titleEnglish: "For Reliance on Allah in Marriage",
+        arabic: "وَتَوَكَّلْ عَلَى اللَّهِ وَكَفَى بِاللَّهِ وَكِيلًا",
+        bengali: "আল্লাহর উপর ভরসা কর এবং কর্মবিধায়ক হিসেবে আল্লাহই যথেষ্ট।",
+        english: "And rely upon Allah; and sufficient is Allah as Disposer of affairs.",
+        reference: "সূরা আহযাব ৩৩:৩"
+      },
+      {
+        id: "marriage-50",
+        titleBengali: "দাম্পত্য জীবনের পূর্ণতার দোয়া",
+        titleEnglish: "For Completeness in Marriage",
+        arabic: "اللَّهُمَّ إِنَّا نَسْأَلُكَ مِنَ الْخَيْرِ كُلِّهِ عَاجِلِهِ وَآجِلِهِ مَا عَلِمْنَا مِنْهُ وَمَا لَمْ نَعْلَمْ",
+        bengali: "হে আল্লাহ! আমরা তোমার কাছে সকল কল্যাণ চাই, বর্তমানে ও ভবিষ্যতে, যা আমরা জানি এবং যা জানি না।",
+        english: "O Allah, we ask You for all that is good, in this world and in the Hereafter, what we know and what we do not know.",
+        reference: "সহীহ মুসলিম, হাদিস নং ২৭২৫"
       }
     ]
   },
