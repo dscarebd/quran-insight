@@ -102,10 +102,10 @@ export const duaCategories: DuaCategory[] = [
         id: "daily-9",
         titleBengali: "খাওয়ার আগে দোয়া",
         titleEnglish: "Before Eating",
-        arabic: "بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيمِ",
-        bengali: "পরম করুণাময়, অসীম দয়ালু আল্লাহর নামে শুরু করছি।",
-        english: "In the name of Allah, the Most Gracious, the Most Merciful.",
-        reference: "সহীহ মুসলিম"
+        arabic: "اللَّهُمَّ بَارِكْ لَنَا فِيمَا رَزَقْتَنَا وَقِنَا عَذَابَ النَّارِ",
+        bengali: "হে আল্লাহ, আমাদেরকে যা রিযিক দিয়েছেন তাতে বরকত দিন এবং জাহান্নামের আগুন থেকে রক্ষা করুন।",
+        english: "O Allah, bless us in what You have provided us and protect us from the punishment of the Fire.",
+        reference: "ইবনে মাজাহ"
       },
       {
         id: "daily-10",
