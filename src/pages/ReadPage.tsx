@@ -351,9 +351,7 @@ const ReadPage = ({ language, readingMode = "normal", arabicFont = "amiri" }: Re
         readingMode === "sepia" ? "bg-[hsl(35,30%,94%)]/95" : "bg-background/95"
       )}>
         <div className="flex items-center justify-between px-4 py-3">
-          <div className="w-9" /> {/* Spacer for layout balance */}
-
-          <div className="flex flex-col items-center">
+          <div className="flex flex-col items-start">
             <span className={cn("text-lg text-foreground", arabicFont === "uthmani" ? "font-uthmani" : "font-arabic")}>
               {getSurahNamesForPage()}
             </span>
