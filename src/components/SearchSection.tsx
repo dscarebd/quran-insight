@@ -93,8 +93,8 @@ export const SearchSection = ({ language, onSearch, isLoading }: SearchSectionPr
   };
 
   const placeholderText = language === "bn" 
-    ? "উদাহরণ: ধৈর্য্য সম্পর্কে কুরআন কি বলে?" 
-    : "Example: What does Quran say about patience?";
+    ? "উদাহরণ: নামাজ সম্পর্কে কুরআন কি বলে?" 
+    : "Example: What does Quran say about prayer?";
 
   return (
     <div className="animate-slide-up">
