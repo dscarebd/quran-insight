@@ -6866,6 +6866,366 @@ export const duaCategories: DuaCategory[] = [
         bengali: "আমি হাজির হে আল্লাহ! আমি হাজির। আমি হাজির, তোমার কোন শরীক নেই, আমি হাজির। নিশ্চয়ই সকল প্রশংসা, নিয়ামত এবং রাজত্ব তোমারই, তোমার কোন শরীক নেই।",
         english: "Here I am, O Allah, here I am. Here I am, You have no partner, here I am. Verily all praise, grace and sovereignty belong to You. You have no partner.",
         reference: "সহীহ বুখারী, হাদিস নং ১৫৪৯; সহীহ মুসলিম, হাদিস নং ১১৮৪"
+      },
+      {
+        id: "travel-11",
+        titleBengali: "সফরে বরকতের দোয়া",
+        titleEnglish: "For Blessings in Travel",
+        arabic: "اللَّهُمَّ بَارِكْ لَنَا فِي سَفَرِنَا هَذَا",
+        bengali: "হে আল্লাহ! আমাদের এই সফরে বরকত দাও।",
+        english: "O Allah, bless us in this journey of ours.",
+        reference: "দোয়া সংকলন"
+      },
+      {
+        id: "travel-12",
+        titleBengali: "সফরে নিরাপত্তার দোয়া",
+        titleEnglish: "For Safety in Travel",
+        arabic: "اللَّهُمَّ احْفَظْنَا فِي سَفَرِنَا وَفِي حَضَرِنَا",
+        bengali: "হে আল্লাহ! আমাদের সফরে ও বাড়িতে রক্ষা কর।",
+        english: "O Allah, protect us in our travel and at our residence.",
+        reference: "সহীহ মুসলিম"
+      },
+      {
+        id: "travel-13",
+        titleBengali: "ঘর থেকে বের হওয়ার দোয়া",
+        titleEnglish: "When Leaving Home",
+        arabic: "بِسْمِ اللَّهِ تَوَكَّلْتُ عَلَى اللَّهِ لاَ حَوْلَ وَلاَ قُوَّةَ إِلاَّ بِاللَّهِ",
+        bengali: "আল্লাহর নামে, আল্লাহর উপর ভরসা করলাম। আল্লাহর সাহায্য ছাড়া কোনো উপায় ও শক্তি নেই।",
+        english: "In the name of Allah, I place my trust in Allah. There is no might and no power except with Allah.",
+        reference: "সুনান আবু দাউদ"
+      },
+      {
+        id: "travel-14",
+        titleBengali: "পরিবারকে বিদায় জানানোর দোয়া",
+        titleEnglish: "Farewell to Family",
+        arabic: "أَسْتَوْدِعُكُمُ اللَّهَ الَّذِي لاَ تَضِيعُ وَدَائِعُهُ",
+        bengali: "আমি তোমাদের সেই আল্লাহর কাছে সোপর্দ করছি যার আমানত কখনো নষ্ট হয় না।",
+        english: "I entrust you to Allah, whose trusts are never lost.",
+        reference: "সুনান ইবনে মাজাহ"
+      },
+      {
+        id: "travel-15",
+        titleBengali: "মুসাফিরকে বিদায় জানানোর দোয়া",
+        titleEnglish: "Farewell to Traveler",
+        arabic: "أَسْتَوْدِعُ اللَّهَ دِينَكَ وَأَمَانَتَكَ وَخَوَاتِيمَ عَمَلِكَ",
+        bengali: "আমি তোমার দ্বীন, আমানত ও শেষ আমলকে আল্লাহর কাছে সোপর্দ করছি।",
+        english: "I entrust to Allah your religion, your trust, and your final deeds.",
+        reference: "সুনান তিরমিযী"
+      },
+      {
+        id: "travel-16",
+        titleBengali: "সাগর/নদী পার হওয়ার দোয়া",
+        titleEnglish: "When Crossing Water",
+        arabic: "بِسْمِ اللَّهِ مَجْرَاهَا وَمُرْسَاهَا إِنَّ رَبِّي لَغَفُورٌ رَّحِيمٌ",
+        bengali: "আল্লাহর নামে এর চলা এবং থামা। নিশ্চয়ই আমার রব অতি ক্ষমাশীল, অতি দয়ালু।",
+        english: "In the name of Allah is its course and its anchorage. Indeed, my Lord is Forgiving and Merciful.",
+        reference: "সূরা হুদ ১১:৪১"
+      },
+      {
+        id: "travel-17",
+        titleBengali: "উঁচু জায়গায় উঠার সময়",
+        titleEnglish: "When Ascending",
+        arabic: "اللهُ أَكْبَرُ",
+        bengali: "আল্লাহ সবচেয়ে বড়। (উঁচু জায়গায় উঠার সময়)",
+        english: "Allah is the Greatest. (When ascending)",
+        reference: "সহীহ বুখারী"
+      },
+      {
+        id: "travel-18",
+        titleBengali: "নিচু জায়গায় নামার সময়",
+        titleEnglish: "When Descending",
+        arabic: "سُبْحَانَ اللَّهِ",
+        bengali: "আল্লাহ পবিত্র। (নিচু জায়গায় নামার সময়)",
+        english: "Glory be to Allah. (When descending)",
+        reference: "সহীহ বুখারী"
+      },
+      {
+        id: "travel-19",
+        titleBengali: "নতুন শহরে প্রবেশের দোয়া",
+        titleEnglish: "When Entering a City",
+        arabic: "اللَّهُمَّ رَبَّ السَّمَاوَاتِ السَّبْعِ وَمَا أَظْلَلْنَ وَرَبَّ الأَرَضِينَ السَّبْعِ وَمَا أَقْلَلْنَ، أَسْأَلُكَ خَيْرَ هَذِهِ الْقَرْيَةِ وَخَيْرَ أَهْلِهَا",
+        bengali: "হে আল্লাহ! সাত আসমান ও যা তারা ছায়া দেয় তার রব, সাত জমিন ও যা তারা বহন করে তার রব, আমি তোমার কাছে এই শহরের কল্যাণ ও এর অধিবাসীদের কল্যাণ চাই।",
+        english: "O Allah, Lord of the seven heavens and what they shade, Lord of the seven earths and what they carry, I ask You for the good of this town and the good of its people.",
+        reference: "মুসতাদরাক হাকিম"
+      },
+      {
+        id: "travel-20",
+        titleBengali: "রাতে সফরের দোয়া",
+        titleEnglish: "For Night Travel",
+        arabic: "يَا أَرْضُ رَبِّي وَرَبُّكِ اللَّهُ",
+        bengali: "হে জমিন! আমার রব এবং তোমার রব আল্লাহ।",
+        english: "O earth, my Lord and your Lord is Allah.",
+        reference: "সুনান আবু দাউদ"
+      },
+      {
+        id: "travel-21",
+        titleBengali: "সফরে ক্লান্তি দূরের দোয়া",
+        titleEnglish: "For Relief from Travel Fatigue",
+        arabic: "اللَّهُمَّ أَعِنِّي عَلَى وَعْثَاءِ السَّفَرِ",
+        bengali: "হে আল্লাহ! সফরের কষ্টে আমাকে সাহায্য কর।",
+        english: "O Allah, help me with the hardship of travel.",
+        reference: "সহীহ মুসলিম"
+      },
+      {
+        id: "travel-22",
+        titleBengali: "একা সফরের দোয়া",
+        titleEnglish: "For Traveling Alone",
+        arabic: "اللَّهُمَّ أَنْتَ صَاحِبِي فِي السَّفَرِ",
+        bengali: "হে আল্লাহ! তুমিই আমার সফরের সঙ্গী।",
+        english: "O Allah, You are my companion in travel.",
+        reference: "সহীহ মুসলিম"
+      },
+      {
+        id: "travel-23",
+        titleBengali: "পরিবারের খবরের দোয়া",
+        titleEnglish: "For News of Family",
+        arabic: "اللَّهُمَّ احْفَظْ أَهْلِي فِي غَيْبَتِي",
+        bengali: "হে আল্লাহ! আমার অনুপস্থিতিতে আমার পরিবারকে রক্ষা কর।",
+        english: "O Allah, protect my family in my absence.",
+        reference: "দোয়া সংকলন"
+      },
+      {
+        id: "travel-24",
+        titleBengali: "সফরে রিজিকের দোয়া",
+        titleEnglish: "For Provision in Travel",
+        arabic: "اللَّهُمَّ ارْزُقْنِي فِي سَفَرِي رِزْقًا حَلَالًا",
+        bengali: "হে আল্লাহ! আমার সফরে আমাকে হালাল রিজিক দান কর।",
+        english: "O Allah, provide me with halal provision in my travel.",
+        reference: "দোয়া সংকলন"
+      },
+      {
+        id: "travel-25",
+        titleBengali: "সফরে স্বাস্থ্যের দোয়া",
+        titleEnglish: "For Health in Travel",
+        arabic: "اللَّهُمَّ عَافِنِي فِي سَفَرِي",
+        bengali: "হে আল্লাহ! আমার সফরে আমাকে সুস্থতা দাও।",
+        english: "O Allah, grant me health in my travel.",
+        reference: "দোয়া সংকলন"
+      },
+      {
+        id: "travel-26",
+        titleBengali: "বিমানে উড্ডয়নের দোয়া",
+        titleEnglish: "During Takeoff",
+        arabic: "سُبْحَانَ الَّذِي سَخَّرَ لَنَا هَذَا وَمَا كُنَّا لَهُ مُقْرِنِينَ",
+        bengali: "পবিত্র সেই সত্তা যিনি একে আমাদের বশীভূত করে দিয়েছেন, অন্যথায় আমরা একে বশ করতে সক্ষম ছিলাম না।",
+        english: "How perfect He is, The One Who has placed this at our service, and we ourselves would not have been capable of that.",
+        reference: "সূরা যুখরুফ ৪৩:১৩"
+      },
+      {
+        id: "travel-27",
+        titleBengali: "বিমান অবতরণের দোয়া",
+        titleEnglish: "During Landing",
+        arabic: "الْحَمْدُ لِلَّهِ الَّذِي بِنِعْمَتِهِ تَتِمُّ الصَّالِحَاتُ",
+        bengali: "সমস্ত প্রশংসা আল্লাহর জন্য যার অনুগ্রহে সকল ভালো কাজ সম্পন্ন হয়।",
+        english: "All praise is for Allah, by Whose grace all good things are accomplished.",
+        reference: "সুনান ইবনে মাজাহ"
+      },
+      {
+        id: "travel-28",
+        titleBengali: "ট্রেনে চড়ার দোয়া",
+        titleEnglish: "When Boarding Train",
+        arabic: "بِسْمِ اللَّهِ وَالْحَمْدُ لِلَّهِ سُبْحَانَ الَّذِي سَخَّرَ لَنَا هَذَا",
+        bengali: "আল্লাহর নামে এবং সমস্ত প্রশংসা আল্লাহর জন্য। পবিত্র সেই সত্তা যিনি একে আমাদের বশীভূত করেছেন।",
+        english: "In the name of Allah, all praise is for Allah. Glory be to Him who has placed this at our service.",
+        reference: "সুনান তিরমিযী"
+      },
+      {
+        id: "travel-29",
+        titleBengali: "নৌকায় চড়ার দোয়া",
+        titleEnglish: "When Boarding Boat",
+        arabic: "بِسْمِ اللَّهِ مَجْرَاهَا وَمُرْسَاهَا",
+        bengali: "আল্লাহর নামে এর চলা এবং থামা।",
+        english: "In the name of Allah is its course and its anchorage.",
+        reference: "সূরা হুদ ১১:৪১"
+      },
+      {
+        id: "travel-30",
+        titleBengali: "সফর শেষে শুকরিয়া",
+        titleEnglish: "Gratitude After Travel",
+        arabic: "الْحَمْدُ لِلَّهِ الَّذِي سَلَّمَنَا وَعَافَانَا",
+        bengali: "সমস্ত প্রশংসা আল্লাহর জন্য যিনি আমাদের নিরাপদ ও সুস্থ রেখেছেন।",
+        english: "All praise is for Allah who kept us safe and healthy.",
+        reference: "দোয়া সংকলন"
+      },
+      {
+        id: "travel-31",
+        titleBengali: "বাড়ি ফেরার দোয়া",
+        titleEnglish: "Upon Returning Home",
+        arabic: "آيِبُونَ تَائِبُونَ عَابِدُونَ لِرَبِّنَا حَامِدُونَ",
+        bengali: "আমরা প্রত্যাবর্তনকারী, তাওবাকারী, ইবাদতকারী এবং আমাদের রবের প্রশংসাকারী।",
+        english: "We are returning, repenting, worshipping, and praising our Lord.",
+        reference: "সহীহ মুসলিম"
+      },
+      {
+        id: "travel-32",
+        titleBengali: "হোটেলে প্রবেশের দোয়া",
+        titleEnglish: "When Entering Hotel",
+        arabic: "أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ",
+        bengali: "আমি আল্লাহর পরিপূর্ণ বাণীসমূহের মাধ্যমে তাঁর সৃষ্টির সকল অনিষ্ট থেকে আশ্রয় চাই।",
+        english: "I seek refuge in the perfect words of Allah from the evil of what He has created.",
+        reference: "সহীহ মুসলিম"
+      },
+      {
+        id: "travel-33",
+        titleBengali: "পথের নিরাপত্তার দোয়া",
+        titleEnglish: "For Road Safety",
+        arabic: "اللَّهُمَّ احْفَظْنِي فِي الطَّرِيقِ",
+        bengali: "হে আল্লাহ! পথে আমাকে রক্ষা কর।",
+        english: "O Allah, protect me on the road.",
+        reference: "দোয়া সংকলন"
+      },
+      {
+        id: "travel-34",
+        titleBengali: "দুর্ঘটনা থেকে রক্ষার দোয়া",
+        titleEnglish: "Protection from Accidents",
+        arabic: "اللَّهُمَّ سَلِّمْنَا مِنْ كُلِّ حَادِثٍ",
+        bengali: "হে আল্লাহ! সকল দুর্ঘটনা থেকে আমাদের রক্ষা কর।",
+        english: "O Allah, save us from every accident.",
+        reference: "দোয়া সংকলন"
+      },
+      {
+        id: "travel-35",
+        titleBengali: "চোর-ডাকাত থেকে রক্ষার দোয়া",
+        titleEnglish: "Protection from Thieves",
+        arabic: "اللَّهُمَّ احْفَظْنَا مِنَ اللُّصُوصِ وَقُطَّاعِ الطَّرِيقِ",
+        bengali: "হে আল্লাহ! চোর ও ডাকাতদের থেকে আমাদের রক্ষা কর।",
+        english: "O Allah, protect us from thieves and highway robbers.",
+        reference: "দোয়া সংকলন"
+      },
+      {
+        id: "travel-36",
+        titleBengali: "সফরের উদ্দেশ্য পূর্ণ হওয়ার দোয়া",
+        titleEnglish: "For Fulfilling Travel Purpose",
+        arabic: "اللَّهُمَّ يَسِّرْ لِي مَا سَافَرْتُ لَهُ",
+        bengali: "হে আল্লাহ! যে উদ্দেশ্যে সফর করেছি তা আমার জন্য সহজ কর।",
+        english: "O Allah, make easy for me what I have traveled for.",
+        reference: "দোয়া সংকলন"
+      },
+      {
+        id: "travel-37",
+        titleBengali: "সফরে বদনজর থেকে রক্ষার দোয়া",
+        titleEnglish: "Protection from Evil Eye in Travel",
+        arabic: "أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّةِ مِنْ كُلِّ عَيْنٍ لَامَّةٍ",
+        bengali: "আমি আল্লাহর পরিপূর্ণ বাণীসমূহের মাধ্যমে প্রতিটি ক্ষতিকর বদনজর থেকে আশ্রয় চাই।",
+        english: "I seek refuge in the perfect words of Allah from every harmful evil eye.",
+        reference: "সহীহ বুখারী"
+      },
+      {
+        id: "travel-38",
+        titleBengali: "সফরে একাকীত্ব দূরের দোয়া",
+        titleEnglish: "For Companionship in Travel",
+        arabic: "اللَّهُمَّ آنِسْنِي فِي وَحْشَتِي",
+        bengali: "হে আল্লাহ! আমার একাকীত্বে আমাকে সান্ত্বনা দাও।",
+        english: "O Allah, comfort me in my loneliness.",
+        reference: "দোয়া সংকলন"
+      },
+      {
+        id: "travel-39",
+        titleBengali: "সফরে খাবারের দোয়া",
+        titleEnglish: "For Food in Travel",
+        arabic: "اللَّهُمَّ ارْزُقْنَا طَعَامًا طَيِّبًا فِي سَفَرِنَا",
+        bengali: "হে আল্লাহ! আমাদের সফরে ভালো খাবার দান কর।",
+        english: "O Allah, provide us with good food in our travel.",
+        reference: "দোয়া সংকলন"
+      },
+      {
+        id: "travel-40",
+        titleBengali: "সফরে বিশ্রামের দোয়া",
+        titleEnglish: "For Rest in Travel",
+        arabic: "اللَّهُمَّ أَرِحْنَا فِي سَفَرِنَا",
+        bengali: "হে আল্লাহ! আমাদের সফরে বিশ্রাম দাও।",
+        english: "O Allah, give us rest in our travel.",
+        reference: "দোয়া সংকলন"
+      },
+      {
+        id: "travel-41",
+        titleBengali: "সফরে নামাজের দোয়া",
+        titleEnglish: "For Prayer in Travel",
+        arabic: "اللَّهُمَّ يَسِّرْ لِي الصَّلَاةَ فِي سَفَرِي",
+        bengali: "হে আল্লাহ! আমার সফরে নামাজ সহজ কর।",
+        english: "O Allah, make prayer easy for me in my travel.",
+        reference: "দোয়া সংকলন"
+      },
+      {
+        id: "travel-42",
+        titleBengali: "মক্কায় প্রবেশের দোয়া",
+        titleEnglish: "When Entering Makkah",
+        arabic: "اللَّهُمَّ هَذَا حَرَمُكَ وَأَمْنُكَ فَحَرِّمْنِي عَلَى النَّارِ",
+        bengali: "হে আল্লাহ! এটা তোমার হারাম ও নিরাপত্তার স্থান, তাই আমাকে জাহান্নামের উপর হারাম কর।",
+        english: "O Allah, this is Your sanctuary and place of safety, so make me forbidden to the Fire.",
+        reference: "মুসতাদরাক হাকিম"
+      },
+      {
+        id: "travel-43",
+        titleBengali: "মদিনায় প্রবেশের দোয়া",
+        titleEnglish: "When Entering Madinah",
+        arabic: "اللَّهُمَّ افْتَحْ لِي أَبْوَابَ رَحْمَتِكَ",
+        bengali: "হে আল্লাহ! তোমার রহমতের দরজাগুলো আমার জন্য খুলে দাও।",
+        english: "O Allah, open for me the doors of Your mercy.",
+        reference: "সহীহ মুসলিম"
+      },
+      {
+        id: "travel-44",
+        titleBengali: "কাবা দেখার দোয়া",
+        titleEnglish: "Upon Seeing the Kaaba",
+        arabic: "اللَّهُمَّ زِدْ هَذَا الْبَيْتَ تَشْرِيفًا وَتَعْظِيمًا وَتَكْرِيمًا وَمَهَابَةً",
+        bengali: "হে আল্লাহ! এই ঘরের সম্মান, মর্যাদা, মাহাত্ম্য ও ভয়-ভক্তি বৃদ্ধি কর।",
+        english: "O Allah, increase this House in honor, esteem, nobility, and reverence.",
+        reference: "বাইহাকী"
+      },
+      {
+        id: "travel-45",
+        titleBengali: "তাওয়াফের দোয়া",
+        titleEnglish: "During Tawaf",
+        arabic: "رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ",
+        bengali: "হে আমাদের রব! দুনিয়াতে কল্যাণ দাও এবং আখিরাতেও কল্যাণ দাও এবং জাহান্নামের আযাব থেকে রক্ষা কর।",
+        english: "Our Lord, give us good in this world and good in the Hereafter, and protect us from the Fire.",
+        reference: "সূরা বাকারা ২:২০১"
+      },
+      {
+        id: "travel-46",
+        titleBengali: "সাফা-মারওয়ার দোয়া",
+        titleEnglish: "At Safa and Marwa",
+        arabic: "إِنَّ الصَّفَا وَالْمَرْوَةَ مِنْ شَعَائِرِ اللَّهِ",
+        bengali: "নিশ্চয়ই সাফা ও মারওয়া আল্লাহর নিদর্শনসমূহের অন্তর্ভুক্ত।",
+        english: "Indeed, Safa and Marwa are among the symbols of Allah.",
+        reference: "সূরা বাকারা ২:১৫৮"
+      },
+      {
+        id: "travel-47",
+        titleBengali: "আরাফাতের দোয়া",
+        titleEnglish: "At Arafat",
+        arabic: "لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ",
+        bengali: "আল্লাহ ছাড়া কোনো ইলাহ নেই, তিনি একক, তাঁর কোনো শরীক নেই, রাজত্ব তাঁরই, প্রশংসাও তাঁরই এবং তিনি সবকিছুর উপর ক্ষমতাবান।",
+        english: "There is no deity except Allah alone with no partner. To Him belongs dominion and praise, and He is over all things Capable.",
+        reference: "সুনান তিরমিযী"
+      },
+      {
+        id: "travel-48",
+        titleBengali: "মুজদালিফায় রাত্রিযাপনের দোয়া",
+        titleEnglish: "At Muzdalifah",
+        arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ أَنْ تَرْزُقَنِي جَوَامِعَ الْخَيْرِ",
+        bengali: "হে আল্লাহ! আমি তোমার কাছে সামগ্রিক কল্যাণ প্রার্থনা করছি।",
+        english: "O Allah, I ask You to grant me comprehensive goodness.",
+        reference: "মুসতাদরাক হাকিম"
+      },
+      {
+        id: "travel-49",
+        titleBengali: "মিনায় পাথর মারার দোয়া",
+        titleEnglish: "When Throwing Stones at Mina",
+        arabic: "اللَّهُ أَكْبَرُ",
+        bengali: "আল্লাহ সবচেয়ে বড়। (প্রতিটি পাথর মারার সময়)",
+        english: "Allah is the Greatest. (With each stone)",
+        reference: "সহীহ মুসলিম"
+      },
+      {
+        id: "travel-50",
+        titleBengali: "যমযম পানির দোয়া",
+        titleEnglish: "When Drinking Zamzam",
+        arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ عِلْمًا نَافِعًا وَرِزْقًا وَاسِعًا وَشِفَاءً مِنْ كُلِّ دَاءٍ",
+        bengali: "হে আল্লাহ! আমি তোমার কাছে উপকারী জ্ঞান, প্রশস্ত রিজিক এবং সব রোগ থেকে আরোগ্য প্রার্থনা করছি।",
+        english: "O Allah, I ask You for beneficial knowledge, abundant provision, and cure from every disease.",
+        reference: "মুসতাদরাক হাকিম"
       }
     ]
   },
