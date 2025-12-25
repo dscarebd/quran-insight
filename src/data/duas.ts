@@ -2765,6 +2765,116 @@ export const duaCategories: DuaCategory[] = [
         bengali: "আল্লাহই আমার জন্য যথেষ্ট—তিনি ছাড়া কোনো উপাস্য নেই",
         english: "Allah is sufficient for me; there is no deity except Him",
         reference: "আল-কুরআন, সূরা তাওবাহ ৯:১২৯"
+      },
+      {
+        id: "me-031",
+        titleBengali: "শির্ক থেকে রক্ষার দোয়া",
+        titleEnglish: "Protection from Shirk",
+        arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ أَنْ أُشْرِكَ بِكَ شَيْئًا",
+        transliteration: "Allahumma inni a'udhu bika an ushrika bika shay'an",
+        transliterationBengali: "আল্লাহুম্মা ইন্নি আউযু বিকা আন উশরিকা বিকা শাইআন",
+        bengali: "হে আল্লাহ জেনে বা না জেনে আপনার সাথে শরিক করা থেকে আমি আপনার আশ্রয় চাই",
+        english: "O Allah I seek refuge in You from associating anything with You",
+        reference: "মুসনাদ আহমাদ, হাদিস নং ১৯১৬০"
+      },
+      {
+        id: "me-032",
+        titleBengali: "আল্লাহর সন্তুষ্টি প্রার্থনা",
+        titleEnglish: "Seeking Allah's Pleasure",
+        arabic: "رَضِيتُ بِاللَّهِ رَبًّا وَبِالْإِسْلَامِ دِينًا",
+        transliteration: "Raditu billahi rabban wa bil-Islami dina",
+        transliterationBengali: "রাদিতু বিল্লাহি রাব্বান ওয়া বিল ইসলামি দিনা",
+        bengali: "আমি আল্লাহকে রব ও ইসলামকে দ্বীন হিসেবে সন্তুষ্টচিত্তে গ্রহণ করেছি",
+        english: "I am pleased with Allah as my Lord and Islam as my religion",
+        reference: "সুনান আবু দাউদ, হাদিস নং ৫০৭২"
+      },
+      {
+        id: "me-033",
+        titleBengali: "উদ্বেগ ও দুশ্চিন্তা থেকে রক্ষা",
+        titleEnglish: "Protection from Anxiety",
+        arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ",
+        transliteration: "Allahumma inni a'udhu bika minal-hamm",
+        transliterationBengali: "আল্লাহুম্মা ইন্নি আউযু বিকা মিনাল হাম্ম",
+        bengali: "হে আল্লাহ দুশ্চিন্তা থেকে আমাকে রক্ষা করুন",
+        english: "O Allah I seek refuge in You from anxiety",
+        reference: "সহীহ বুখারী, হাদিস নং ৬৩৬৯"
+      },
+      {
+        id: "me-034",
+        titleBengali: "অলসতা থেকে রক্ষার দোয়া",
+        titleEnglish: "Protection from Laziness",
+        arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْكَسَلِ",
+        transliteration: "Allahumma inni a'udhu bika minal-kasal",
+        transliterationBengali: "আল্লাহুম্মা ইন্নি আউযু বিকা মিনাল কাসাল",
+        bengali: "হে আল্লাহ অলসতা থেকে আমাকে রক্ষা করুন",
+        english: "O Allah I seek refuge in You from laziness",
+        reference: "সহীহ মুসলিম, হাদিস নং ২৭০৬"
+      },
+      {
+        id: "me-035",
+        titleBengali: "উপকারী আমলের দোয়া",
+        titleEnglish: "Seeking Beneficial Deeds",
+        arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ عَمَلًا صَالِحًا",
+        transliteration: "Allahumma inni as'aluka 'amalan saliha",
+        transliterationBengali: "আল্লাহুম্মা ইন্নি আসআলুকা আমালান সালিহা",
+        bengali: "হে আল্লাহ আমাকে সৎ আমল দান করুন",
+        english: "O Allah I ask You for righteous deeds",
+        reference: "মুসনাদ আহমাদ, হাদিস নং ১৭১১৮"
+      },
+      {
+        id: "me-036",
+        titleBengali: "হঠাৎ ক্ষতি থেকে রক্ষা",
+        titleEnglish: "Protection from Sudden Harm",
+        arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ شَرِّ الْفُجَاءَةِ",
+        transliteration: "Allahumma inni a'udhu bika min shar-ril-fuja'ah",
+        transliterationBengali: "আল্লাহুম্মা ইন্নি আউযু বিকা মিন শাররিল ফুজাআহ",
+        bengali: "হে আল্লাহ হঠাৎ বিপদ থেকে আমাকে রক্ষা করুন",
+        english: "O Allah protect me from sudden harm",
+        reference: "মুসনাদ আহমাদ, হাদিস নং ১২১৬৫"
+      },
+      {
+        id: "me-037",
+        titleBengali: "নূরের দোয়া",
+        titleEnglish: "Asking for Light",
+        arabic: "اللَّهُمَّ اجْعَلْ لِي نُورًا",
+        transliteration: "Allahumma-j'al li noora",
+        transliterationBengali: "আল্লাহুম্মা ইজআল লি নূরা",
+        bengali: "হে আল্লাহ আমাকে নূর দান করুন",
+        english: "O Allah grant me light",
+        reference: "সহীহ মুসলিম, হাদিস নং ৭৬৩"
+      },
+      {
+        id: "me-038",
+        titleBengali: "হৃদয় বিচ্যুতি থেকে রক্ষা",
+        titleEnglish: "Protection from Heart Deviation",
+        arabic: "رَبَّنَا لَا تُزِغْ قُلُوبَنَا",
+        transliteration: "Rabbana la tuzigh qulubana",
+        transliterationBengali: "রাব্বানা লা তুযিগ কুলুবানা",
+        bengali: "হে আমাদের রব আমাদের হৃদয়কে বিচ্যুত করবেন না",
+        english: "Our Lord do not let our hearts deviate",
+        reference: "আল-কুরআন, সূরা আলে ইমরান ৩:৮"
+      },
+      {
+        id: "me-039",
+        titleBengali: "আল্লাহর সাহায্য প্রার্থনা",
+        titleEnglish: "Seeking Allah's Help",
+        arabic: "اللَّهُمَّ أَعِنِّي وَلَا تُعِنْ عَلَيَّ",
+        transliteration: "Allahumma a'inni wa la tu'in 'alayya",
+        transliterationBengali: "আল্লাহুম্মা আইন্নি ওয়া লা তুইন আলাইয়া",
+        bengali: "হে আল্লাহ আমাকে সাহায্য করুন—আমার বিরুদ্ধে কাউকে সাহায্য করবেন না",
+        english: "O Allah help me and do not help against me",
+        reference: "সুনান আবু দাউদ, হাদিস নং ১৫১১"
+      },
+      {
+        id: "me-040",
+        titleBengali: "প্রশংসার মাধ্যমে শেষ",
+        titleEnglish: "Ending with Praise",
+        arabic: "الْحَمْدُ لِلَّهِ عَلَى كُلِّ حَالٍ",
+        transliteration: "Alhamdulillahi 'ala kulli hal",
+        transliterationBengali: "আলহামদুলিল্লাহি আলা কুল্লি হাল",
+        bengali: "সব অবস্থায় আল্লাহরই প্রশংসা",
+        english: "Praise be to Allah in every situation",
+        reference: "সুনান ইবনে মাজাহ, হাদিস নং ৩৮০৩"
       }
     ]
   }
