@@ -426,6 +426,106 @@ export const duaCategories: DuaCategory[] = [
         bengali: "আমরা সকালে উপনীত হলাম—সব কর্তৃত্ব আল্লাহর",
         english: "We have entered the morning and all dominion belongs to Allah",
         reference: "সহীহ মুসলিম, হাদিস নং ২৭২৩"
+      },
+      {
+        id: "daily-41",
+        titleBengali: "সন্ধ্যার নিরাপত্তার দোয়া",
+        titleEnglish: "Evening Protection",
+        arabic: "أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ",
+        transliteration: "Amsayna wa amsal-mulku lillah",
+        bengali: "আমরা সন্ধ্যায় উপনীত হলাম—সব কর্তৃত্ব আল্লাহর",
+        english: "We have entered the evening and all dominion belongs to Allah",
+        reference: "সহীহ মুসলিম, হাদিস নং ২৭২৩"
+      },
+      {
+        id: "daily-42",
+        titleBengali: "জাহান্নাম থেকে রক্ষার দোয়া",
+        titleEnglish: "Protection from Hellfire",
+        arabic: "اللَّهُمَّ أَجِرْنِي مِنَ النَّارِ",
+        transliteration: "Allahumma ajirni minan-nar",
+        bengali: "হে আল্লাহ আমাকে জাহান্নাম থেকে রক্ষা করুন",
+        english: "O Allah protect me from Hellfire",
+        reference: "সুনান আবু দাউদ, হাদিস নং ৫০৭৯"
+      },
+      {
+        id: "daily-43",
+        titleBengali: "ঈমানের সাথে মৃত্যুর দোয়া",
+        titleEnglish: "Good Death",
+        arabic: "اللَّهُمَّ تَوَفَّنِي مُسْلِمًا",
+        transliteration: "Allahumma tawaffani musliman",
+        bengali: "হে আল্লাহ আমাকে মুসলিম অবস্থায় মৃত্যু দিন",
+        english: "O Allah let me die as a Muslim",
+        reference: "আল-কুরআন, সূরা ইউসুফ ১২:১০১"
+      },
+      {
+        id: "daily-44",
+        titleBengali: "হঠাৎ মৃত্যুর আশ্রয়",
+        titleEnglish: "Protection from Sudden Death",
+        arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ مَوْتِ الْفُجْأَةِ",
+        transliteration: "Allahumma inni a'udhu bika min mawt-il-fuja'ah",
+        bengali: "হে আল্লাহ হঠাৎ মৃত্যু থেকে আমাকে রক্ষা করুন",
+        english: "O Allah I seek refuge in You from sudden death",
+        reference: "মুসনাদ আহমাদ, হাদিস নং ১২১৬৫"
+      },
+      {
+        id: "daily-45",
+        titleBengali: "হৃদয়ে নূরের দোয়া",
+        titleEnglish: "Light in Heart",
+        arabic: "اللَّهُمَّ اجْعَلْ فِي قَلْبِي نُورًا",
+        transliteration: "Allahumma-j'al fi qalbi noora",
+        bengali: "হে আল্লাহ আমার হৃদয়ে নূর দান করুন",
+        english: "O Allah place light in my heart",
+        reference: "সহীহ মুসলিম, হাদিস নং ৭৬৩"
+      },
+      {
+        id: "daily-46",
+        titleBengali: "নজর লাগা থেকে রক্ষা",
+        titleEnglish: "Protection from Evil Eye",
+        arabic: "أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ",
+        transliteration: "A'udhu bikalimatillahit-tammati",
+        bengali: "আমি আল্লাহর পূর্ণ বাক্যের আশ্রয় চাই",
+        english: "I seek refuge in the perfect words of Allah",
+        reference: "সহীহ মুসলিম, হাদিস নং ২৭০৯"
+      },
+      {
+        id: "daily-47",
+        titleBengali: "দুশ্চিন্তা দূর করার দোয়া",
+        titleEnglish: "Relief from Worry",
+        arabic: "اللَّهُمَّ لَا سَهْلَ إِلَّا مَا جَعَلْتَهُ سَهْلًا",
+        transliteration: "Allahumma la sahla illa ma ja'altahu sahla",
+        bengali: "হে আল্লাহ আপনি সহজ না করলে কিছুই সহজ নয়",
+        english: "O Allah nothing is easy except what You make easy",
+        reference: "ইবনে হিব্বান, হাদিস নং ২৪২৭"
+      },
+      {
+        id: "daily-48",
+        titleBengali: "গুনাহ থেকে রক্ষার দোয়া",
+        titleEnglish: "Protection from Sin",
+        arabic: "اللَّهُمَّ بَاعِدْ بَيْنِي وَبَيْنَ خَطَايَايَ",
+        transliteration: "Allahumma ba'id bayni wa bayna khatayaya",
+        bengali: "হে আল্লাহ আমার ও আমার গুনাহর মাঝে দূরত্ব সৃষ্টি করুন",
+        english: "O Allah distance me from my sins",
+        reference: "সহীহ বুখারী, হাদিস নং ৭৪৪"
+      },
+      {
+        id: "daily-49",
+        titleBengali: "ঈমান মজবুত করার দোয়া",
+        titleEnglish: "Strong Faith",
+        arabic: "اللَّهُمَّ ثَبِّتْ قَلْبِي عَلَى دِينِكَ",
+        transliteration: "Allahumma thabbit qalbi 'ala dinik",
+        bengali: "হে আল্লাহ আমার হৃদয়কে আপনার দ্বীনের ওপর স্থির রাখুন",
+        english: "O Allah keep my heart firm upon Your religion",
+        reference: "সুনান তিরমিযী, হাদিস নং ২১৪০"
+      },
+      {
+        id: "daily-50",
+        titleBengali: "জান্নাত প্রার্থনার দোয়া",
+        titleEnglish: "Jannah Prayer",
+        arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْجَنَّةَ",
+        transliteration: "Allahumma inni as'alukal-jannah",
+        bengali: "হে আল্লাহ আমি আপনার কাছে জান্নাত চাই",
+        english: "O Allah I ask You for Paradise",
+        reference: "সুনান আবু দাউদ, হাদিস নং ৭৯২"
       }
     ]
   },
