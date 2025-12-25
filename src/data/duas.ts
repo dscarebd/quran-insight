@@ -7326,6 +7326,366 @@ export const duaCategories: DuaCategory[] = [
         bengali: "আল্লাহই আমাদের জন্য যথেষ্ট এবং তিনি কতই না উত্তম অভিভাবক। কত উত্তম মালিক এবং কত উত্তম সাহায্যকারী।",
         english: "Allah is sufficient for us and He is the best Disposer of affairs. What an excellent Protector and what an excellent Helper.",
         reference: "সূরা আলে ইমরান ৩:১৭৩, আনফাল ৮:৪০"
+      },
+      {
+        id: "hardship-11",
+        titleBengali: "ভয়ের সময় দোয়া",
+        titleEnglish: "When Afraid",
+        arabic: "اللَّهُمَّ إِنَّا نَجْعَلُكَ فِي نُحُورِهِمْ وَنَعُوذُ بِكَ مِنْ شُرُورِهِمْ",
+        bengali: "হে আল্লাহ! আমরা তোমাকে তাদের বিরুদ্ধে সামনে রাখছি এবং তাদের অনিষ্ট থেকে তোমার আশ্রয় চাই।",
+        english: "O Allah, we place You before them and we seek refuge in You from their evil.",
+        reference: "সুনান আবু দাউদ"
+      },
+      {
+        id: "hardship-12",
+        titleBengali: "দুশ্চিন্তা দূরের দোয়া",
+        titleEnglish: "For Removing Worry",
+        arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ",
+        bengali: "হে আল্লাহ! আমি দুশ্চিন্তা ও দুঃখ থেকে তোমার আশ্রয় চাই।",
+        english: "O Allah, I seek refuge in You from worry and grief.",
+        reference: "সহীহ বুখারী"
+      },
+      {
+        id: "hardship-13",
+        titleBengali: "অক্ষমতা থেকে রক্ষার দোয়া",
+        titleEnglish: "Protection from Incapacity",
+        arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْعَجْزِ وَالْكَسَلِ",
+        bengali: "হে আল্লাহ! আমি অক্ষমতা ও অলসতা থেকে তোমার আশ্রয় চাই।",
+        english: "O Allah, I seek refuge in You from incapacity and laziness.",
+        reference: "সহীহ বুখারী"
+      },
+      {
+        id: "hardship-14",
+        titleBengali: "কাপুরুষতা থেকে রক্ষার দোয়া",
+        titleEnglish: "Protection from Cowardice",
+        arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْجُبْنِ وَالْبُخْلِ",
+        bengali: "হে আল্লাহ! আমি কাপুরুষতা ও কৃপণতা থেকে তোমার আশ্রয় চাই।",
+        english: "O Allah, I seek refuge in You from cowardice and miserliness.",
+        reference: "সহীহ বুখারী"
+      },
+      {
+        id: "hardship-15",
+        titleBengali: "ঋণের বোঝা থেকে রক্ষার দোয়া",
+        titleEnglish: "Protection from Debt",
+        arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ ضَلَعِ الدَّيْنِ وَغَلَبَةِ الرِّجَالِ",
+        bengali: "হে আল্লাহ! আমি ঋণের বোঝা ও মানুষের আধিপত্য থেকে তোমার আশ্রয় চাই।",
+        english: "O Allah, I seek refuge in You from the burden of debt and the overpowering of men.",
+        reference: "সুনান আবু দাউদ"
+      },
+      {
+        id: "hardship-16",
+        titleBengali: "শত্রু থেকে রক্ষার দোয়া",
+        titleEnglish: "Protection from Enemies",
+        arabic: "اللَّهُمَّ اكْفِنِيهِمْ بِمَا شِئْتَ",
+        bengali: "হে আল্লাহ! তুমি যেভাবে চাও তাদের থেকে আমাকে রক্ষা কর।",
+        english: "O Allah, suffice me against them however You will.",
+        reference: "সহীহ মুসলিম"
+      },
+      {
+        id: "hardship-17",
+        titleBengali: "অত্যাচারীর বিরুদ্ধে দোয়া",
+        titleEnglish: "Against Oppressors",
+        arabic: "اللَّهُمَّ مُنْزِلَ الْكِتَابِ سَرِيعَ الْحِسَابِ اهْزِمِ الأَحْزَابَ",
+        bengali: "হে আল্লাহ! কিতাব অবতীর্ণকারী, দ্রুত হিসাব গ্রহণকারী, দলগুলোকে পরাজিত কর।",
+        english: "O Allah, Revealer of the Book, Swift in reckoning, defeat the confederates.",
+        reference: "সহীহ মুসলিম"
+      },
+      {
+        id: "hardship-18",
+        titleBengali: "রোগ থেকে আরোগ্যের দোয়া",
+        titleEnglish: "For Recovery from Illness",
+        arabic: "اللَّهُمَّ رَبَّ النَّاسِ أَذْهِبِ الْبَأْسَ اشْفِهِ وَأَنْتَ الشَّافِي لاَ شِفَاءَ إِلاَّ شِفَاؤُكَ",
+        bengali: "হে আল্লাহ! মানুষের রব, কষ্ট দূর কর, তাকে আরোগ্য দাও। তুমিই আরোগ্যদানকারী, তোমার আরোগ্য ছাড়া কোনো আরোগ্য নেই।",
+        english: "O Allah, Lord of mankind, remove the hardship and heal. You are the Healer, there is no healing except Your healing.",
+        reference: "সহীহ বুখারী"
+      },
+      {
+        id: "hardship-19",
+        titleBengali: "ব্যথায় পড়ার দোয়া",
+        titleEnglish: "When in Pain",
+        arabic: "أَعُوذُ بِعِزَّةِ اللَّهِ وَقُدْرَتِهِ مِنْ شَرِّ مَا أَجِدُ وَأُحَاذِرُ",
+        bengali: "আমি আল্লাহর ইজ্জত ও কুদরতের আশ্রয় চাই আমি যা অনুভব করছি ও যা আশংকা করছি তার অনিষ্ট থেকে।",
+        english: "I seek refuge in Allah's might and power from the evil of what I feel and what I fear.",
+        reference: "সহীহ মুসলিম"
+      },
+      {
+        id: "hardship-20",
+        titleBengali: "বিপদ থেকে মুক্তির দোয়া",
+        titleEnglish: "For Deliverance from Calamity",
+        arabic: "لاَ إِلَهَ إِلاَّ أَنْتَ سُبْحَانَكَ إِنِّي كُنْتُ مِنَ الظَّالِمِينَ",
+        bengali: "তুমি ছাড়া কোনো ইলাহ নেই, তুমি পবিত্র, নিশ্চয়ই আমি জালিমদের অন্তর্ভুক্ত ছিলাম।",
+        english: "There is no deity except You; exalted are You. Indeed, I have been of the wrongdoers.",
+        reference: "সূরা আম্বিয়া ২১:৮৭"
+      },
+      {
+        id: "hardship-21",
+        titleBengali: "অসুস্থ ব্যক্তির জন্য দোয়া",
+        titleEnglish: "For the Sick Person",
+        arabic: "أَسْأَلُ اللَّهَ الْعَظِيمَ رَبَّ الْعَرْشِ الْعَظِيمِ أَنْ يَشْفِيَكَ",
+        bengali: "আমি মহান আল্লাহর কাছে, মহান আরশের রবের কাছে প্রার্থনা করছি তিনি যেন তোমাকে আরোগ্য দান করেন।",
+        english: "I ask Allah the Almighty, Lord of the Magnificent Throne, to cure you.",
+        reference: "সুনান আবু দাউদ"
+      },
+      {
+        id: "hardship-22",
+        titleBengali: "মৃত্যুর সময় দোয়া",
+        titleEnglish: "At Time of Death",
+        arabic: "اللَّهُمَّ أَعِنِّي عَلَى غَمَرَاتِ الْمَوْتِ وَسَكَرَاتِ الْمَوْتِ",
+        bengali: "হে আল্লাহ! মৃত্যুর কষ্ট ও মৃত্যুর যন্ত্রণায় আমাকে সাহায্য কর।",
+        english: "O Allah, help me with the agonies and throes of death.",
+        reference: "সুনান তিরমিযী"
+      },
+      {
+        id: "hardship-23",
+        titleBengali: "কবরের আযাব থেকে রক্ষার দোয়া",
+        titleEnglish: "Protection from Grave's Punishment",
+        arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ عَذَابِ الْقَبْرِ",
+        bengali: "হে আল্লাহ! আমি কবরের আযাব থেকে তোমার আশ্রয় চাই।",
+        english: "O Allah, I seek refuge in You from the punishment of the grave.",
+        reference: "সহীহ বুখারী"
+      },
+      {
+        id: "hardship-24",
+        titleBengali: "দাজ্জালের ফিতনা থেকে রক্ষার দোয়া",
+        titleEnglish: "Protection from Dajjal's Trial",
+        arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ فِتْنَةِ الْمَسِيحِ الدَّجَّالِ",
+        bengali: "হে আল্লাহ! আমি মাসীহ দাজ্জালের ফিতনা থেকে তোমার আশ্রয় চাই।",
+        english: "O Allah, I seek refuge in You from the trial of the Antichrist.",
+        reference: "সহীহ মুসলিম"
+      },
+      {
+        id: "hardship-25",
+        titleBengali: "জীবন ও মৃত্যুর ফিতনা থেকে রক্ষা",
+        titleEnglish: "Protection from Life's Trials",
+        arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ فِتْنَةِ الْمَحْيَا وَالْمَمَاتِ",
+        bengali: "হে আল্লাহ! আমি জীবন ও মৃত্যুর ফিতনা থেকে তোমার আশ্রয় চাই।",
+        english: "O Allah, I seek refuge in You from the trials of life and death.",
+        reference: "সহীহ বুখারী"
+      },
+      {
+        id: "hardship-26",
+        titleBengali: "ঝড়ের সময় দোয়া",
+        titleEnglish: "During Storm",
+        arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ خَيْرَهَا وَأَعُوذُ بِكَ مِنْ شَرِّهَا",
+        bengali: "হে আল্লাহ! আমি এর কল্যাণ চাই এবং এর অনিষ্ট থেকে তোমার আশ্রয় চাই।",
+        english: "O Allah, I ask You for its good and I seek refuge in You from its evil.",
+        reference: "সুনান আবু দাউদ"
+      },
+      {
+        id: "hardship-27",
+        titleBengali: "বজ্রপাতের সময় দোয়া",
+        titleEnglish: "During Thunder",
+        arabic: "سُبْحَانَ الَّذِي يُسَبِّحُ الرَّعْدُ بِحَمْدِهِ وَالْمَلاَئِكَةُ مِنْ خِيفَتِهِ",
+        bengali: "পবিত্র সেই সত্তা যার প্রশংসায় বজ্র তাসবীহ পাঠ করে এবং ফেরেশতারা তাঁর ভয়ে কাঁপে।",
+        english: "Glory be to Him Whom thunder glorifies with His praise, and the angels from His fear.",
+        reference: "মুওয়াত্তা ইমাম মালিক"
+      },
+      {
+        id: "hardship-28",
+        titleBengali: "বৃষ্টিতে দোয়া",
+        titleEnglish: "During Rain",
+        arabic: "اللَّهُمَّ صَيِّبًا نَافِعًا",
+        bengali: "হে আল্লাহ! উপকারী বৃষ্টি দাও।",
+        english: "O Allah, make it beneficial rain.",
+        reference: "সহীহ বুখারী"
+      },
+      {
+        id: "hardship-29",
+        titleBengali: "অতিরিক্ত বৃষ্টিতে দোয়া",
+        titleEnglish: "For Excessive Rain",
+        arabic: "اللَّهُمَّ حَوَالَيْنَا وَلاَ عَلَيْنَا",
+        bengali: "হে আল্লাহ! আমাদের আশেপাশে (বর্ষণ কর), আমাদের উপর নয়।",
+        english: "O Allah, around us and not upon us.",
+        reference: "সহীহ বুখারী"
+      },
+      {
+        id: "hardship-30",
+        titleBengali: "দুর্ভিক্ষে দোয়া",
+        titleEnglish: "During Famine",
+        arabic: "اللَّهُمَّ اسْقِنَا غَيْثًا مُغِيثًا مَرِيئًا مَرِيعًا نَافِعًا غَيْرَ ضَارٍّ",
+        bengali: "হে আল্লাহ! আমাদের সাহায্যকারী, সুস্বাদু, উর্বরকারী, উপকারী এবং ক্ষতিহীন বৃষ্টি দাও।",
+        english: "O Allah, give us rain that is helping, pleasant, producing fertility, beneficial, and not harmful.",
+        reference: "সুনান আবু দাউদ"
+      },
+      {
+        id: "hardship-31",
+        titleBengali: "ভূমিকম্পে দোয়া",
+        titleEnglish: "During Earthquake",
+        arabic: "اللَّهُمَّ لَا تُهْلِكْنَا بِعَذَابِكَ وَلَا تُهْلِكْنَا قَبْلَهُ",
+        bengali: "হে আল্লাহ! তোমার আযাব দিয়ে আমাদের ধ্বংস করো না এবং এর আগেও আমাদের ধ্বংস করো না।",
+        english: "O Allah, do not destroy us with Your punishment and do not destroy us before it.",
+        reference: "সুনান তিরমিযী"
+      },
+      {
+        id: "hardship-32",
+        titleBengali: "আগুন লাগলে দোয়া",
+        titleEnglish: "During Fire",
+        arabic: "اللهُ أَكْبَرُ",
+        bengali: "আল্লাহ সবচেয়ে বড়। (আগুন দেখলে বলুন)",
+        english: "Allah is the Greatest. (Say when seeing fire)",
+        reference: "মুসনাদ আহমাদ"
+      },
+      {
+        id: "hardship-33",
+        titleBengali: "বন্যায় দোয়া",
+        titleEnglish: "During Flood",
+        arabic: "اللَّهُمَّ سَلِّمْنَا مِنَ الْغَرَقِ",
+        bengali: "হে আল্লাহ! ডুবে যাওয়া থেকে আমাদের রক্ষা কর।",
+        english: "O Allah, save us from drowning.",
+        reference: "দোয়া সংকলন"
+      },
+      {
+        id: "hardship-34",
+        titleBengali: "মহামারীতে দোয়া",
+        titleEnglish: "During Epidemic",
+        arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْبَرَصِ وَالْجُنُونِ وَالْجُذَامِ وَمِنْ سَيِّئِ الأَسْقَامِ",
+        bengali: "হে আল্লাহ! আমি শ্বেতরোগ, পাগলামি, কুষ্ঠরোগ এবং সব খারাপ রোগ থেকে তোমার আশ্রয় চাই।",
+        english: "O Allah, I seek refuge in You from leprosy, madness, elephantiasis, and evil diseases.",
+        reference: "সুনান আবু দাউদ"
+      },
+      {
+        id: "hardship-35",
+        titleBengali: "দুঃস্বপ্ন দেখলে দোয়া",
+        titleEnglish: "After Nightmare",
+        arabic: "أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ مِنْ غَضَبِهِ وَعِقَابِهِ وَشَرِّ عِبَادِهِ وَمِنْ هَمَزَاتِ الشَّيَاطِينِ",
+        bengali: "আমি আল্লাহর পরিপূর্ণ বাণীসমূহের মাধ্যমে তাঁর ক্রোধ, শাস্তি, তাঁর বান্দাদের অনিষ্ট এবং শয়তানের প্ররোচনা থেকে আশ্রয় চাই।",
+        english: "I seek refuge in the perfect words of Allah from His anger, punishment, evil of His servants, and from the whispers of devils.",
+        reference: "সুনান আবু দাউদ"
+      },
+      {
+        id: "hardship-36",
+        titleBengali: "ঘুমে ভয় পেলে দোয়া",
+        titleEnglish: "When Afraid During Sleep",
+        arabic: "أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّةِ مِنْ غَضَبِهِ وَشَرِّ عِبَادِهِ",
+        bengali: "আমি আল্লাহর পরিপূর্ণ বাণীর মাধ্যমে তাঁর ক্রোধ ও তাঁর বান্দাদের অনিষ্ট থেকে আশ্রয় চাই।",
+        english: "I seek refuge in the perfect words of Allah from His anger and the evil of His servants.",
+        reference: "সুনান আবু দাউদ"
+      },
+      {
+        id: "hardship-37",
+        titleBengali: "একাকীত্বে দোয়া",
+        titleEnglish: "During Loneliness",
+        arabic: "يَا حَيُّ يَا قَيُّومُ بِرَحْمَتِكَ أَسْتَغِيثُ",
+        bengali: "হে চিরঞ্জীব! হে সবকিছুর ধারক! তোমার রহমতের মাধ্যমে আমি সাহায্য প্রার্থনা করি।",
+        english: "O Ever-Living, O Self-Sustaining, by Your mercy I seek help.",
+        reference: "সুনান তিরমিযী"
+      },
+      {
+        id: "hardship-38",
+        titleBengali: "হতাশায় দোয়া",
+        titleEnglish: "During Despair",
+        arabic: "لاَ تَقْنَطُوا مِنْ رَحْمَةِ اللَّهِ إِنَّ اللَّهَ يَغْفِرُ الذُّنُوبَ جَمِيعًا",
+        bengali: "আল্লাহর রহমত থেকে নিরাশ হয়ো না। নিশ্চয়ই আল্লাহ সমস্ত গুনাহ ক্ষমা করেন।",
+        english: "Do not despair of the mercy of Allah. Indeed, Allah forgives all sins.",
+        reference: "সূরা যুমার ৩৯:৫৩"
+      },
+      {
+        id: "hardship-39",
+        titleBengali: "রাগের সময় দোয়া",
+        titleEnglish: "When Angry",
+        arabic: "أَعُوذُ بِاللَّهِ مِنَ الشَّيْطَانِ الرَّجِيمِ",
+        bengali: "আমি বিতাড়িত শয়তান থেকে আল্লাহর আশ্রয় চাই।",
+        english: "I seek refuge in Allah from the accursed Satan.",
+        reference: "সহীহ বুখারী"
+      },
+      {
+        id: "hardship-40",
+        titleBengali: "ঘৃণা থেকে রক্ষার দোয়া",
+        titleEnglish: "Protection from Hatred",
+        arabic: "اللَّهُمَّ طَهِّرْ قَلْبِي مِنَ الْغِلِّ وَالْحِقْدِ",
+        bengali: "হে আল্লাহ! আমার অন্তরকে বিদ্বেষ ও ঘৃণা থেকে পবিত্র কর।",
+        english: "O Allah, purify my heart from malice and hatred.",
+        reference: "দোয়া সংকলন"
+      },
+      {
+        id: "hardship-41",
+        titleBengali: "হিংসা থেকে রক্ষার দোয়া",
+        titleEnglish: "Protection from Envy",
+        arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْحَسَدِ",
+        bengali: "হে আল্লাহ! আমি হিংসা থেকে তোমার আশ্রয় চাই।",
+        english: "O Allah, I seek refuge in You from envy.",
+        reference: "সূরা ফালাক ১১৩:৫"
+      },
+      {
+        id: "hardship-42",
+        titleBengali: "যাদু থেকে রক্ষার দোয়া",
+        titleEnglish: "Protection from Magic",
+        arabic: "قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ مِنْ شَرِّ مَا خَلَقَ",
+        bengali: "বল, আমি ভোরের রবের আশ্রয় চাই, তিনি যা সৃষ্টি করেছেন তার অনিষ্ট থেকে।",
+        english: "Say, I seek refuge in the Lord of daybreak, from the evil of that which He created.",
+        reference: "সূরা ফালাক ১১৩:১-২"
+      },
+      {
+        id: "hardship-43",
+        titleBengali: "জিনের ক্ষতি থেকে রক্ষার দোয়া",
+        titleEnglish: "Protection from Jinn",
+        arabic: "أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ",
+        bengali: "আমি আল্লাহর পরিপূর্ণ বাণীসমূহের মাধ্যমে তাঁর সৃষ্টির সকল অনিষ্ট থেকে আশ্রয় চাই।",
+        english: "I seek refuge in the perfect words of Allah from the evil of what He has created.",
+        reference: "সহীহ মুসলিম"
+      },
+      {
+        id: "hardship-44",
+        titleBengali: "বদনজর থেকে রক্ষার দোয়া",
+        titleEnglish: "Protection from Evil Eye",
+        arabic: "أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّةِ مِنْ كُلِّ شَيْطَانٍ وَهَامَّةٍ وَمِنْ كُلِّ عَيْنٍ لاَمَّةٍ",
+        bengali: "আমি আল্লাহর পরিপূর্ণ বাণীসমূহের মাধ্যমে প্রতিটি শয়তান, বিষাক্ত প্রাণী এবং ক্ষতিকর বদনজর থেকে আশ্রয় চাই।",
+        english: "I seek refuge in the perfect words of Allah from every devil, poisonous creature, and every harmful evil eye.",
+        reference: "সহীহ বুখারী"
+      },
+      {
+        id: "hardship-45",
+        titleBengali: "বিচার দিনের ভয়ে দোয়া",
+        titleEnglish: "Fear of Judgment Day",
+        arabic: "رَبَّنَا لاَ تُخْزِنَا يَوْمَ الْقِيَامَةِ إِنَّكَ لاَ تُخْلِفُ الْمِيعَادَ",
+        bengali: "হে আমাদের রব! কিয়ামতের দিন আমাদের লজ্জিত করো না। নিশ্চয়ই তুমি ওয়াদার খেলাফ কর না।",
+        english: "Our Lord, do not disgrace us on the Day of Resurrection. Indeed, You do not fail in Your promise.",
+        reference: "সূরা আলে ইমরান ৩:১৯৪"
+      },
+      {
+        id: "hardship-46",
+        titleBengali: "অপমান থেকে রক্ষার দোয়া",
+        titleEnglish: "Protection from Disgrace",
+        arabic: "رَبِّ لاَ تَذَرْنِي فَرْدًا وَأَنْتَ خَيْرُ الْوَارِثِينَ",
+        bengali: "হে আমার রব! আমাকে একা রেখো না, তুমি তো সর্বোত্তম উত্তরাধিকারী।",
+        english: "My Lord, do not leave me alone, and You are the best of inheritors.",
+        reference: "সূরা আম্বিয়া ২১:৮৯"
+      },
+      {
+        id: "hardship-47",
+        titleBengali: "কঠিন পরীক্ষায় দোয়া",
+        titleEnglish: "During Severe Test",
+        arabic: "اللَّهُمَّ لاَ تَجْعَلْ مُصِيبَتَنَا فِي دِينِنَا",
+        bengali: "হে আল্লাহ! আমাদের বিপদ আমাদের দ্বীনে দিও না।",
+        english: "O Allah, do not make our calamity in our religion.",
+        reference: "সুনান তিরমিযী"
+      },
+      {
+        id: "hardship-48",
+        titleBengali: "সবরের জন্য দোয়া",
+        titleEnglish: "For Patience",
+        arabic: "رَبَّنَا أَفْرِغْ عَلَيْنَا صَبْرًا وَتَوَفَّنَا مُسْلِمِينَ",
+        bengali: "হে আমাদের রব! আমাদের উপর ধৈর্য ঢেলে দাও এবং আমাদের মুসলিম হিসেবে মৃত্যু দাও।",
+        english: "Our Lord, pour upon us patience and let us die as Muslims.",
+        reference: "সূরা আরাফ ৭:১২৬"
+      },
+      {
+        id: "hardship-49",
+        titleBengali: "সুন্দর পরিণতির দোয়া",
+        titleEnglish: "For Good End",
+        arabic: "اللَّهُمَّ اجْعَلْ خَيْرَ أَعْمَالِنَا خَوَاتِيمَهَا",
+        bengali: "হে আল্লাহ! আমাদের শেষ আমলকে সর্বোত্তম আমল বানাও।",
+        english: "O Allah, make our best deeds our final deeds.",
+        reference: "দোয়া সংকলন"
+      },
+      {
+        id: "hardship-50",
+        titleBengali: "সব বিপদ থেকে মুক্তির সামগ্রিক দোয়া",
+        titleEnglish: "Comprehensive Protection Dua",
+        arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ زَوَالِ نِعْمَتِكَ وَتَحَوُّلِ عَافِيَتِكَ وَفُجَاءَةِ نِقْمَتِكَ وَجَمِيعِ سَخَطِكَ",
+        bengali: "হে আল্লাহ! আমি তোমার নিয়ামত চলে যাওয়া থেকে, তোমার আফিয়াত পরিবর্তন থেকে, তোমার হঠাৎ শাস্তি থেকে এবং তোমার সকল অসন্তুষ্টি থেকে আশ্রয় চাই।",
+        english: "O Allah, I seek refuge in You from the decline of Your blessings, the change of Your protection, Your sudden punishment, and all of Your displeasure.",
+        reference: "সহীহ মুসলিম"
       }
     ]
   },
