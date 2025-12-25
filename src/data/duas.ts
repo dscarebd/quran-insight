@@ -3,6 +3,7 @@ export interface Dua {
   titleBengali?: string;
   titleEnglish?: string;
   arabic: string;
+  transliteration?: string;
   bengali: string;
   english: string;
   reference?: string;
@@ -28,93 +29,103 @@ export const duaCategories: DuaCategory[] = [
     duas: [
       {
         id: "daily-1",
-        titleBengali: "কাজ শুরু করার দোয়া",
-        titleEnglish: "Before Starting Any Task",
-        arabic: "بِسْمِ اللهِ",
-        bengali: "আল্লাহর নামে শুরু করছি।",
-        english: "In the name of Allah.",
-        reference: "সহীহ বুখারী, হাদিস নং ৫৩৭৬"
+        titleBengali: "রাগ নিয়ন্ত্রণের দোয়া",
+        titleEnglish: "Anger Control",
+        arabic: "أَعُوذُ بِاللَّهِ مِنَ الشَّيْطَانِ الرَّجِيمِ",
+        transliteration: "A'udhu billahi minash-shaytanir-rajim",
+        bengali: "আমি বিতাড়িত শয়তান থেকে আল্লাহর আশ্রয় চাই",
+        english: "I seek refuge in Allah from the accursed Satan",
+        reference: "সহীহ বুখারী, হাদিস নং ৩২৮২"
       },
       {
         id: "daily-2",
-        titleBengali: "খাওয়ার আগে দোয়া",
+        titleBengali: "খাবার শুরুর দোয়া",
         titleEnglish: "Before Eating",
-        arabic: "بِسْمِ اللهِ وَعَلَى بَرَكَةِ اللهِ",
-        bengali: "আল্লাহর নামে শুরু করছি এবং আল্লাহর বরকতে।",
-        english: "In the name of Allah and with the blessings of Allah.",
-        reference: "আবু দাউদ, হাদিস নং ৩৭৬৭"
+        arabic: "بِسْمِ اللَّهِ",
+        transliteration: "Bismillah",
+        bengali: "আল্লাহর নামে (খাবার শুরু করছি)",
+        english: "In the name of Allah",
+        reference: "সহীহ মুসলিম, হাদিস নং ২০১৮"
       },
       {
         id: "daily-3",
-        titleBengali: "খাওয়ার পরের দোয়া",
+        titleBengali: "খাবার শেষে দোয়া",
         titleEnglish: "After Eating",
-        arabic: "الْحَمْدُ لِلَّهِ الَّذِي أَطْعَمَنَا وَسَقَانَا وَجَعَلَنَا مُسْلِمِينَ",
-        bengali: "সকল প্রশংসা আল্লাহর জন্য যিনি আমাদের খাওয়ালেন, পান করালেন এবং মুসলিম বানিয়েছেন।",
-        english: "All praise is for Allah who fed us and gave us drink, and made us Muslims.",
-        reference: "আবু দাউদ, হাদিস নং ৩৮৫০; তিরমিযী, হাদিস নং ৩৪৫৭"
+        arabic: "الْحَمْدُ لِلَّهِ الَّذِي أَطْعَمَنِي هَذَا",
+        transliteration: "Alhamdulillahilladhi at'amani hadha",
+        bengali: "সমস্ত প্রশংসা আল্লাহর যিনি আমাকে এই খাবার দিয়েছেন",
+        english: "Praise be to Allah who fed me this",
+        reference: "সুনান তিরমিযী, হাদিস নং ৩৪৫৮"
       },
       {
         id: "daily-4",
-        titleBengali: "ঘর থেকে বের হওয়ার দোয়া",
-        titleEnglish: "When Leaving Home",
-        arabic: "بِسْمِ اللهِ، تَوَكَّلْتُ عَلَى اللهِ، لاَ حَوْلَ وَلاَ قُوَّةَ إِلاَّ بِاللهِ",
-        bengali: "আল্লাহর নামে বের হচ্ছি, আল্লাহর উপর ভরসা করলাম, আল্লাহর সাহায্য ছাড়া কোন উপায় নেই এবং কোন শক্তি নেই।",
-        english: "In the name of Allah, I place my trust in Allah, and there is no might nor power except with Allah.",
-        reference: "আবু দাউদ, হাদিস নং ৫০৯৫; তিরমিযী, হাদিস নং ৩৪২৬"
+        titleBengali: "ঘুমানোর আগে দোয়া",
+        titleEnglish: "Before Sleeping",
+        arabic: "بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا",
+        transliteration: "Bismika Allahumma amutu wa ahya",
+        bengali: "হে আল্লাহ আপনার নামে আমি ঘুমাই ও জাগি",
+        english: "In Your name I die and live",
+        reference: "সহীহ বুখারী, হাদিস নং ৬৩২৪"
       },
       {
         id: "daily-5",
-        titleBengali: "ঘরে প্রবেশের দোয়া",
-        titleEnglish: "When Entering Home",
-        arabic: "بِسْمِ اللهِ وَلَجْنَا، وَبِسْمِ اللهِ خَرَجْنَا، وَعَلَى اللهِ رَبِّنَا تَوَكَّلْنَا",
-        bengali: "আল্লাহর নামে প্রবেশ করলাম, আল্লাহর নামে বের হলাম এবং আমাদের রব আল্লাহর উপর ভরসা করলাম।",
-        english: "In the name of Allah we enter and in the name of Allah we leave, and upon our Lord we place our trust.",
-        reference: "আবু দাউদ, হাদিস নং ৫০৯৬"
+        titleBengali: "ঘুম থেকে ওঠার দোয়া",
+        titleEnglish: "After Waking Up",
+        arabic: "الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا",
+        transliteration: "Alhamdulillahil-ladhi ahyana",
+        bengali: "সমস্ত প্রশংসা আল্লাহর যিনি আমাদের জীবিত করেছেন",
+        english: "Praise be to Allah who gave us life",
+        reference: "সহীহ বুখারী, হাদিস নং ৬৩১২"
       },
       {
         id: "daily-6",
         titleBengali: "টয়লেটে প্রবেশের দোয়া",
-        titleEnglish: "When Entering Toilet",
-        arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْخُبُثِ وَالْخَبَائِثِ",
-        bengali: "হে আল্লাহ! আমি তোমার কাছে পুরুষ ও মহিলা জিন-শয়তান থেকে আশ্রয় চাই।",
-        english: "O Allah, I seek refuge in You from the male and female evil beings (devils).",
-        reference: "সহীহ বুখারী, হাদিস নং ১৪২; সহীহ মুসলিম, হাদিস নং ৩৭৫"
+        titleEnglish: "Entering Toilet",
+        arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْخُبُثِ",
+        transliteration: "Allahumma inni a'udhu bika minal-khubthi",
+        bengali: "হে আল্লাহ অপবিত্রতা থেকে আপনার আশ্রয় চাই",
+        english: "O Allah I seek refuge in You from impurity",
+        reference: "সহীহ বুখারী, হাদিস নং ১৪২"
       },
       {
         id: "daily-7",
         titleBengali: "টয়লেট থেকে বের হওয়ার দোয়া",
-        titleEnglish: "When Leaving Toilet",
+        titleEnglish: "Leaving Toilet",
         arabic: "غُفْرَانَكَ",
-        bengali: "হে আল্লাহ! আমি তোমার ক্ষমা চাই।",
-        english: "I seek Your forgiveness.",
-        reference: "আবু দাউদ, হাদিস নং ৩০; তিরমিযী, হাদিস নং ৭; ইবনে মাজাহ, হাদিস নং ৩০০"
+        transliteration: "Ghufranak",
+        bengali: "হে আল্লাহ আপনার ক্ষমা চাই",
+        english: "I seek Your forgiveness",
+        reference: "সুনান আবু দাউদ, হাদিস নং ৩০"
       },
       {
         id: "daily-8",
-        titleBengali: "আল্লাহর প্রশংসা",
-        titleEnglish: "Praising Allah",
-        arabic: "الْحَمْدُ لِلَّهِ",
-        bengali: "সকল প্রশংসা আল্লাহর জন্য।",
-        english: "All praise is due to Allah.",
-        reference: "আল-কুরআন, সূরা ফাতিহা ১:২"
+        titleBengali: "বাড়ি থেকে বের হওয়ার দোয়া",
+        titleEnglish: "Leaving Home",
+        arabic: "بِسْمِ اللَّهِ تَوَكَّلْتُ عَلَى اللَّهِ",
+        transliteration: "Bismillahi tawakkaltu 'alallah",
+        bengali: "আল্লাহর উপর ভরসা করে বের হচ্ছি",
+        english: "In the name of Allah I trust in Allah",
+        reference: "সুনান আবু দাউদ, হাদিস নং ৫০৯৫"
       },
       {
         id: "daily-9",
-        titleBengali: "জ্ঞান বৃদ্ধির দোয়া",
-        titleEnglish: "For Increasing Knowledge",
-        arabic: "رَبِّ زِدْنِي عِلْمًا",
-        bengali: "হে আমার রব, আমার জ্ঞান বৃদ্ধি করে দিন।",
-        english: "My Lord, increase me in knowledge.",
-        reference: "আল-কুরআন, সূরা তা-হা ২০:১১৪"
+        titleBengali: "বাড়িতে প্রবেশের দোয়া",
+        titleEnglish: "Entering Home",
+        arabic: "بِسْمِ اللَّهِ وَلَجْنَا",
+        transliteration: "Bismillahi walajna",
+        bengali: "আল্লাহর নামে আমরা ঘরে প্রবেশ করছি",
+        english: "In the name of Allah we enter",
+        reference: "সহীহ মুসলিম, হাদিস নং ২০১৮"
       },
       {
         id: "daily-10",
-        titleBengali: "নতুন কাপড় পরার দোয়া",
-        titleEnglish: "When Wearing New Clothes",
-        arabic: "اللَّهُمَّ لَكَ الْحَمْدُ أَنْتَ كَسَوْتَنِيهِ، أَسْأَلُكَ خَيْرَهُ وَخَيْرَ مَا صُنِعَ لَهُ، وَأَعُوذُ بِكَ مِنْ شَرِّهِ وَشَرِّ مَا صُنِعَ لَهُ",
-        bengali: "হে আল্লাহ! তোমার জন্য সকল প্রশংসা। তুমি আমাকে এটি পরিয়েছ। আমি তোমার কাছে এর কল্যাণ এবং যে উদ্দেশ্যে এটি তৈরি হয়েছে তার কল্যাণ চাই। আমি তোমার কাছে এর অনিষ্ট এবং যে উদ্দেশ্যে এটি তৈরি হয়েছে তার অনিষ্ট থেকে আশ্রয় চাই।",
-        english: "O Allah, praise is to You. You have clothed me with it. I ask You for its good and the good of what it was made for, and I seek refuge in You from its evil and the evil of what it was made for.",
-        reference: "আবু দাউদ, হাদিস নং ৪০২০; তিরমিযী, হাদিস নং ১৭৬৭"
+        titleBengali: "মসজিদে প্রবেশের দোয়া",
+        titleEnglish: "Entering Mosque",
+        arabic: "اللَّهُمَّ افْتَحْ لِي أَبْوَابَ رَحْمَتِكَ",
+        transliteration: "Allahumma iftah li abwaba rahmatik",
+        bengali: "হে আল্লাহ আপনার রহমতের দরজা খুলে দিন",
+        english: "O Allah open the doors of Your mercy",
+        reference: "সহীহ মুসলিম, হাদিস নং ৭১৩"
       }
     ]
   },
