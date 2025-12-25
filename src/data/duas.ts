@@ -126,6 +126,106 @@ export const duaCategories: DuaCategory[] = [
         bengali: "হে আল্লাহ আপনার রহমতের দরজা খুলে দিন",
         english: "O Allah open the doors of Your mercy",
         reference: "সহীহ মুসলিম, হাদিস নং ৭১৩"
+      },
+      {
+        id: "daily-11",
+        titleBengali: "মসজিদ থেকে বের হওয়ার দোয়া",
+        titleEnglish: "Leaving Mosque",
+        arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ مِنْ فَضْلِكَ",
+        transliteration: "Allahumma inni as'aluka min fadlik",
+        bengali: "হে আল্লাহ আপনার অনুগ্রহ চাই",
+        english: "O Allah, I ask You from Your bounty",
+        reference: "সহীহ মুসলিম, হাদিস নং ৭১৩"
+      },
+      {
+        id: "daily-12",
+        titleBengali: "পড়াশোনার দোয়া",
+        titleEnglish: "Before Study",
+        arabic: "رَبِّ زِدْنِي عِلْمًا",
+        transliteration: "Rabbi zidni 'ilma",
+        bengali: "হে আমার রব আমাকে জ্ঞান বাড়িয়ে দিন",
+        english: "My Lord, increase me in knowledge",
+        reference: "আল-কুরআন, সূরা তা-হা ২০:১১৪"
+      },
+      {
+        id: "daily-13",
+        titleBengali: "ভয় লাগলে দোয়া",
+        titleEnglish: "When Afraid",
+        arabic: "حَسْبُنَا اللَّهُ وَنِعْمَ الْوَكِيلُ",
+        transliteration: "Hasbunallahu wa ni'mal wakil",
+        bengali: "আল্লাহই আমাদের জন্য যথেষ্ট",
+        english: "Allah is sufficient for us",
+        reference: "আল-কুরআন, সূরা আলে ইমরান ৩:১৭৩"
+      },
+      {
+        id: "daily-14",
+        titleBengali: "দুশ্চিন্তা দূর করার দোয়া",
+        titleEnglish: "Anxiety Relief",
+        arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ",
+        transliteration: "Allahumma inni a'udhu bika minal-hammi wal-hazan",
+        bengali: "হে আল্লাহ দুশ্চিন্তা ও দুঃখ থেকে রক্ষা করুন",
+        english: "O Allah, protect me from anxiety and sorrow",
+        reference: "সহীহ বুখারী, হাদিস নং ৬৩৬৯"
+      },
+      {
+        id: "daily-15",
+        titleBengali: "বৃষ্টি হলে দোয়া",
+        titleEnglish: "During Rain",
+        arabic: "اللَّهُمَّ صَيِّبًا نَافِعًا",
+        transliteration: "Allahumma sayyiban nafi'a",
+        bengali: "হে আল্লাহ একে কল্যাণকর বৃষ্টি বানান",
+        english: "O Allah, make it a beneficial rain",
+        reference: "সহীহ বুখারী, হাদিস নং ১০৩২"
+      },
+      {
+        id: "daily-16",
+        titleBengali: "বৃষ্টির পর দোয়া",
+        titleEnglish: "After Rain",
+        arabic: "مُطِرْنَا بِفَضْلِ اللَّهِ وَرَحْمَتِهِ",
+        transliteration: "Mutirna bifadlillahi wa rahmatih",
+        bengali: "আমরা আল্লাহর অনুগ্রহে বৃষ্টি পেয়েছি",
+        english: "We were given rain by Allah's grace",
+        reference: "সহীহ বুখারী, হাদিস নং ৮৪৬"
+      },
+      {
+        id: "daily-17",
+        titleBengali: "সফর শুরুর দোয়া",
+        titleEnglish: "Travel Start",
+        arabic: "سُبْحَانَ الَّذِي سَخَّرَ لَنَا هَذَا",
+        transliteration: "Subhanalladhi sakhkhara lana hadha",
+        bengali: "যিনি এটি আমাদের অধীন করেছেন তিনি পবিত্র",
+        english: "Glory be to Him who subjected this to us",
+        reference: "সহীহ মুসলিম, হাদিস নং ১৩৪২"
+      },
+      {
+        id: "daily-18",
+        titleBengali: "সফর শেষে দোয়া",
+        titleEnglish: "Return from Travel",
+        arabic: "آيِبُونَ تَائِبُونَ عَابِدُونَ",
+        transliteration: "Ayibuna ta'ibuna 'abidun",
+        bengali: "আমরা প্রত্যাবর্তনকারী ও তওবাকারী",
+        english: "We return repentant worshippers",
+        reference: "সহীহ মুসলিম, হাদিস নং ১৩৪৪"
+      },
+      {
+        id: "daily-19",
+        titleBengali: "ঋণ থেকে মুক্তির দোয়া",
+        titleEnglish: "Debt Relief",
+        arabic: "اللَّهُمَّ اكْفِنِي بِحَلَالِكَ",
+        transliteration: "Allahummak-fini bihalalik",
+        bengali: "হে আল্লাহ হালাল দিয়ে আমাকে যথেষ্ট করুন",
+        english: "O Allah, suffice me with what is lawful",
+        reference: "সুনান তিরমিযী, হাদিস নং ৩৫৬৩"
+      },
+      {
+        id: "daily-20",
+        titleBengali: "কষ্টে পড়লে দোয়া",
+        titleEnglish: "Distress",
+        arabic: "لَا إِلَهَ إِلَّا أَنْتَ سُبْحَانَكَ",
+        transliteration: "La ilaha illa anta subhanak",
+        bengali: "আপনি ছাড়া কোনো উপাস্য নেই",
+        english: "None has the right to be worshipped but You",
+        reference: "সুনান তিরমিযী, হাদিস নং ৩৫০৫"
       }
     ]
   },
