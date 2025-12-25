@@ -2427,6 +2427,126 @@ export const duaCategories: DuaCategory[] = [
         reference: "সূরা ইসরা ১৭:১"
       }
     ]
+  },
+
+  // 21. Morning & Evening Duas (সকাল-সন্ধ্যার দোয়া)
+  {
+    id: "morning-evening",
+    nameEnglish: "Morning & Evening Duas",
+    nameBengali: "সকাল-সন্ধ্যার দোয়া",
+    icon: "Sunrise",
+    duas: [
+      {
+        id: "me-001",
+        titleBengali: "সকালের ঘোষণা",
+        titleEnglish: "Morning Declaration",
+        arabic: "أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ",
+        transliteration: "Asbahna wa asbahal-mulku lillah",
+        transliterationBengali: "আসবাহনা ওয়া আসবাহাল মুলকু লিল্লাহ",
+        bengali: "আমরা সকালে উপনীত হয়েছি এবং সমস্ত কর্তৃত্ব আল্লাহর",
+        english: "We have entered the morning and all dominion belongs to Allah",
+        reference: "সহীহ মুসলিম, হাদিস নং ২৭২৩"
+      },
+      {
+        id: "me-002",
+        titleBengali: "সন্ধ্যার ঘোষণা",
+        titleEnglish: "Evening Declaration",
+        arabic: "أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ",
+        transliteration: "Amsayna wa amsal-mulku lillah",
+        transliterationBengali: "আমসাইনা ওয়া আমসাল মুলকু লিল্লাহ",
+        bengali: "আমরা সন্ধ্যায় উপনীত হয়েছি এবং সমস্ত কর্তৃত্ব আল্লাহর",
+        english: "We have entered the evening and all dominion belongs to Allah",
+        reference: "সহীহ মুসলিম, হাদিস নং ২৭২৩"
+      },
+      {
+        id: "me-003",
+        titleBengali: "নিরাপত্তার দোয়া",
+        titleEnglish: "Protection Dua",
+        arabic: "بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ",
+        transliteration: "Bismillahil-ladhi la yadurru",
+        transliterationBengali: "বিসমিল্লাহিল্লাজি লা ইয়াদুর্রু",
+        bengali: "আল্লাহর নামে—যাঁর নামে কিছুই ক্ষতি করতে পারে না",
+        english: "In the name of Allah with whose name nothing can harm",
+        reference: "সুনান আবু দাউদ, হাদিস নং ৫০৮৮"
+      },
+      {
+        id: "me-004",
+        titleBengali: "সুস্থতার দোয়া",
+        titleEnglish: "Wellbeing Dua",
+        arabic: "اللَّهُمَّ عَافِنِي فِي بَدَنِي",
+        transliteration: "Allahumma 'afini fi badani",
+        transliterationBengali: "আল্লাহুম্মা আফিনি ফি বাদানি",
+        bengali: "হে আল্লাহ আমার শরীরে সুস্থতা দিন",
+        english: "O Allah grant me health in my body",
+        reference: "সুনান তিরমিযী, হাদিস নং ৩৪৯৯"
+      },
+      {
+        id: "me-005",
+        titleBengali: "ঈমান রক্ষার দোয়া",
+        titleEnglish: "Faith Protection",
+        arabic: "يَا مُقَلِّبَ الْقُلُوبِ ثَبِّتْ قَلْبِي",
+        transliteration: "Ya Muqallibal-qulub thabbit qalbi",
+        transliterationBengali: "ইয়া মুকাল্লিবাল কুলুব সাব্বিত কালবি",
+        bengali: "হে হৃদয় পরিবর্তনকারী, আমার হৃদয়কে স্থির রাখুন",
+        english: "O Turner of hearts keep my heart firm",
+        reference: "সুনান তিরমিযী, হাদিস নং ২১৪০"
+      },
+      {
+        id: "me-006",
+        titleBengali: "ক্ষমা প্রার্থনা",
+        titleEnglish: "Seeking Forgiveness",
+        arabic: "أَسْتَغْفِرُ اللَّهَ وَأَتُوبُ إِلَيْهِ",
+        transliteration: "Astaghfirullaha wa atubu ilayh",
+        transliterationBengali: "আস্তাগফিরুল্লাহা ওয়া আতুবু ইলাইহ",
+        bengali: "আমি আল্লাহর কাছে ক্ষমা চাই ও তাঁর দিকে ফিরে আসি",
+        english: "I seek forgiveness from Allah and repent to Him",
+        reference: "সহীহ মুসলিম, হাদিস নং ২৭০২"
+      },
+      {
+        id: "me-007",
+        titleBengali: "কৃতজ্ঞতার দোয়া",
+        titleEnglish: "Gratitude",
+        arabic: "اللَّهُمَّ مَا أَصْبَحَ بِي مِنْ نِعْمَةٍ",
+        transliteration: "Allahumma ma asbaha bi min ni'mah",
+        transliterationBengali: "আল্লাহুম্মা মা আসবাহা বি মিন নি'মাহ",
+        bengali: "আমার উপর যে সকল নিয়ামত এসেছে তা আপনার পক্ষ থেকে",
+        english: "Whatever blessing I have is from You",
+        reference: "সুনান আবু দাউদ, হাদিস নং ৫০৭৩"
+      },
+      {
+        id: "me-008",
+        titleBengali: "অকল্যাণ থেকে রক্ষা",
+        titleEnglish: "Protection from Evil",
+        arabic: "أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ",
+        transliteration: "A'udhu bikalimatillahit-tammati",
+        transliterationBengali: "আউযু বিকালিমাতিল্লাহিত্তাম্মাত",
+        bengali: "আমি আল্লাহর পরিপূর্ণ বাক্যের আশ্রয় চাই",
+        english: "I seek refuge in the perfect words of Allah",
+        reference: "সহীহ মুসলিম, হাদিস নং ২৭০৯"
+      },
+      {
+        id: "me-009",
+        titleBengali: "হৃদয়ের শান্তির দোয়া",
+        titleEnglish: "Peace of Heart",
+        arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ عِلْمًا نَافِعًا",
+        transliteration: "Allahumma inni as'aluka 'ilman nafi'a",
+        transliterationBengali: "আল্লাহুম্মা ইন্নি আসআলুকা ইলমান নাফিআ",
+        bengali: "হে আল্লাহ উপকারী জ্ঞান দান করুন",
+        english: "O Allah grant me beneficial knowledge",
+        reference: "সুনান ইবনে মাজাহ, হাদিস নং ৯২৫"
+      },
+      {
+        id: "me-010",
+        titleBengali: "পূর্ণ ভরসার দোয়া",
+        titleEnglish: "Complete Reliance",
+        arabic: "رَضِيتُ بِاللَّهِ رَبًّا",
+        transliteration: "Raditu billahi rabba",
+        transliterationBengali: "রাদিতু বিল্লাহি রাব্বা",
+        bengali: "আমি আল্লাহকে রব হিসেবে সন্তুষ্টভাবে গ্রহণ করেছি",
+        english: "I am pleased with Allah as my Lord",
+        reference: "সুনান আবু দাউদ, হাদিস নং ৫০৭২"
+      }
+    ]
   }
 ];
 
