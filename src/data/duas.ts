@@ -2010,6 +2010,116 @@ export const duaCategories: DuaCategory[] = [
         bengali: "পবিত্র তিনি যিনি আমাদের জন্য এটি বশীভূত করেছেন",
         english: "Glory be to Him who subjected this to us",
         reference: "সহীহ মুসলিম, হাদিস নং ১৩৪২"
+      },
+      {
+        id: "sunnah-31",
+        titleBengali: "মসজিদে প্রবেশের দোয়া",
+        titleEnglish: "Entering Mosque Dua",
+        arabic: "اللَّهُمَّ افْتَحْ لِي أَبْوَابَ رَحْمَتِكَ",
+        transliteration: "Allahumma-ftah li abwaba rahmatik",
+        transliterationBengali: "আল্লাহুম্মা ইফতাহ লি আবওয়াবা রাহমাতিক",
+        bengali: "হে আল্লাহ আপনার রহমতের দরজাগুলো আমার জন্য খুলে দিন",
+        english: "O Allah open for me the doors of Your mercy",
+        reference: "সহীহ মুসলিম, হাদিস নং ৭১৩"
+      },
+      {
+        id: "sunnah-32",
+        titleBengali: "মসজিদ থেকে বের হওয়ার দোয়া",
+        titleEnglish: "Leaving Mosque Dua",
+        arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ مِنْ فَضْلِكَ",
+        transliteration: "Allahumma inni as'aluka min fadlik",
+        transliterationBengali: "আল্লাহুম্মা ইন্নি আসআলুকা মিন ফাদলিক",
+        bengali: "হে আল্লাহ আমি আপনার অনুগ্রহ চাই",
+        english: "O Allah I ask You for Your bounty",
+        reference: "সহীহ মুসলিম, হাদিস নং ৭১৩"
+      },
+      {
+        id: "sunnah-33",
+        titleBengali: "আজানের পর দোয়া",
+        titleEnglish: "Adhan After Dua",
+        arabic: "اللَّهُمَّ رَبَّ هَذِهِ الدَّعْوَةِ التَّامَّةِ",
+        transliteration: "Allahumma rabba hadhihid-da'watit-tammah",
+        transliterationBengali: "আল্লাহুম্মা রাব্বা হাজিহিদ্দা'ওয়াতিত্তাম্মাহ",
+        bengali: "হে আল্লাহ এই পূর্ণ আহ্বানের রব",
+        english: "O Allah, Lord of this perfect call",
+        reference: "সহীহ বুখারী, হাদিস নং ৬১৪"
+      },
+      {
+        id: "sunnah-34",
+        titleBengali: "ওযুর পর দোয়া",
+        titleEnglish: "After Wudu Dua",
+        arabic: "أَشْهَدُ أَنْ لَا إِلَٰهَ إِلَّا اللَّهُ",
+        transliteration: "Ashhadu an la ilaha illallah",
+        transliterationBengali: "আশহাদু আন লা ইলাহা ইল্লাল্লাহ",
+        bengali: "আমি সাক্ষ্য দিচ্ছি যে আল্লাহ ছাড়া কোনো উপাস্য নেই",
+        english: "I bear witness that none has the right to be worshipped but Allah",
+        reference: "সহীহ মুসলিম, হাদিস নং ২৩৪"
+      },
+      {
+        id: "sunnah-35",
+        titleBengali: "ওযুর আগে দোয়া",
+        titleEnglish: "Before Wudu Dua",
+        arabic: "بِسْمِ اللَّهِ",
+        transliteration: "Bismillah",
+        transliterationBengali: "বিসমিল্লাহ",
+        bengali: "আল্লাহর নামে শুরু করছি",
+        english: "In the name of Allah",
+        reference: "সুনান আবু দাউদ, হাদিস নং ১০১"
+      },
+      {
+        id: "sunnah-36",
+        titleBengali: "বাজারে প্রবেশের দোয়া",
+        titleEnglish: "Entering Market Dua",
+        arabic: "لَا إِلَٰهَ إِلَّا اللَّهُ وَحْدَهُ",
+        transliteration: "La ilaha illallahu wahdah",
+        transliterationBengali: "লা ইলাহা ইল্লাল্লাহু ওয়াহদাহ",
+        bengali: "আল্লাহ ছাড়া কোনো উপাস্য নেই—তিনি একক",
+        english: "There is no deity except Allah alone",
+        reference: "সুনান তিরমিযী, হাদিস নং ৩৪২৮"
+      },
+      {
+        id: "sunnah-37",
+        titleBengali: "কঠিন সময়ের দোয়া",
+        titleEnglish: "When Facing Difficulty",
+        arabic: "اللَّهُمَّ لَا سَهْلَ إِلَّا مَا جَعَلْتَهُ سَهْلًا",
+        transliteration: "Allahumma la sahla illa ma ja'altahu sahla",
+        transliterationBengali: "আল্লাহুম্মা লা সাহলা ইল্লা মা জা'আলতাহু সাহলা",
+        bengali: "হে আল্লাহ আপনি সহজ না করলে কিছুই সহজ নয়",
+        english: "O Allah nothing is easy except what You make easy",
+        reference: "ইবন হিব্বান, হাদিস নং ২৪২৭"
+      },
+      {
+        id: "sunnah-38",
+        titleBengali: "রাগ নিয়ন্ত্রণের দোয়া",
+        titleEnglish: "Anger Control Dua",
+        arabic: "أَعُوذُ بِاللَّهِ مِنَ الشَّيْطَانِ الرَّجِيمِ",
+        transliteration: "A'udhu billahi minash-shaitanir-rajim",
+        transliterationBengali: "আউযু বিল্লাহি মিনাশ শাইতানির রাজীম",
+        bengali: "আমি অভিশপ্ত শয়তান থেকে আল্লাহর আশ্রয় চাই",
+        english: "I seek refuge in Allah from the accursed Satan",
+        reference: "সহীহ বুখারী, হাদিস নং ৩২৮২"
+      },
+      {
+        id: "sunnah-39",
+        titleBengali: "চাঁদ দেখার দোয়া",
+        titleEnglish: "Seeing the Crescent Moon",
+        arabic: "اللَّهُمَّ أَهِلَّهُ عَلَيْنَا بِالْيُمْنِ وَالْإِيمَانِ",
+        transliteration: "Allahumma ahillahu 'alayna bil-yumni wal-iman",
+        transliterationBengali: "আল্লাহুম্মা আহিল্লাহু আলাইনা বিল-ইউমনি ওয়াল ইমান",
+        bengali: "হে আল্লাহ এটি আমাদের জন্য কল্যাণ ও ঈমানসহ উদিত করুন",
+        english: "O Allah let it appear upon us with goodness and faith",
+        reference: "সুনান তিরমিযী, হাদিস নং ৩৪৫১"
+      },
+      {
+        id: "sunnah-40",
+        titleBengali: "রোগী দেখার দোয়া",
+        titleEnglish: "Visiting the Sick Dua",
+        arabic: "لَا بَأْسَ طَهُورٌ إِنْ شَاءَ اللَّهُ",
+        transliteration: "La ba'sa tahurun in sha Allah",
+        transliterationBengali: "লা বা'সা তাহূরুন ইন শা আল্লাহ",
+        bengali: "কোনো সমস্যা নেই—ইনশাআল্লাহ এটি পবিত্রতা",
+        english: "No harm—if Allah wills, it is a purification",
+        reference: "সহীহ বুখারী, হাদিস নং ৫৬৫৬"
       }
     ]
   },
