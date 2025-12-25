@@ -1,4 +1,4 @@
-import { Settings } from "lucide-react";
+import { Bookmark } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { LanguageToggle } from "./LanguageToggle";
 import { SidebarTrigger } from "@/components/ui/sidebar";
@@ -30,13 +30,13 @@ export const Header = ({ language, onLanguageChange }: HeaderProps) => {
         <h1 className="text-xl font-semibold text-primary">Quran Insight</h1>
       </div>
       
-      {/* Settings button */}
+      {/* Desktop: Settings button, Mobile: Bookmark button */}
       <div className="flex items-center gap-2">
         <button 
-          onClick={() => navigate("/settings")}
-          className="flex h-9 w-9 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+          onClick={() => navigate("/bookmarks")}
+          className="flex md:hidden h-9 w-9 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
         >
-          <Settings className="h-5 w-5" />
+          <Bookmark className="h-5 w-5" />
         </button>
       </div>
     </header>

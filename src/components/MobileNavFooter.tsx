@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Home, BookOpen, Bookmark, ChevronRight, Search, BookText, HandHelping } from "lucide-react";
+import { Home, BookOpen, Settings, ChevronRight, Search, BookText, HandHelping } from "lucide-react";
 import { cn, formatNumber } from "@/lib/utils";
 import { surahs } from "@/data/surahs";
 import { paras } from "@/data/paras";
@@ -56,20 +56,20 @@ export const MobileNavFooter = ({ language }: MobileNavFooterProps) => {
       },
     },
     {
-      icon: Bookmark,
-      labelEn: "Bookmarks",
-      labelBn: "বুকমার্ক",
-      path: "/bookmarks",
-      isActive: location.pathname === "/bookmarks",
-      action: () => navigate("/bookmarks"),
-    },
-    {
       icon: HandHelping,
       labelEn: "Dua",
       labelBn: "দোয়া",
       path: "/dua",
       isActive: location.pathname.startsWith("/dua"),
       action: () => navigate("/dua"),
+    },
+    {
+      icon: Settings,
+      labelEn: "Settings",
+      labelBn: "সেটিংস",
+      path: "/settings",
+      isActive: location.pathname === "/settings",
+      action: () => navigate("/settings"),
     },
   ];
 
