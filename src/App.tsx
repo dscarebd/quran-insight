@@ -83,7 +83,9 @@ const AppContent = () => {
         </Layout>
       } />
       <Route path="/settings" element={
-        <Settings language={language} onLanguageChange={setLanguage} readingMode={readingMode} onReadingModeChange={setReadingMode} />
+        <Layout language={language} onLanguageChange={setLanguage}>
+          <Settings language={language} onLanguageChange={setLanguage} readingMode={readingMode} onReadingModeChange={setReadingMode} />
+        </Layout>
       } />
       <Route path="/auth" element={
         <Suspense fallback={<LoadingFallback />}>

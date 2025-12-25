@@ -38,18 +38,6 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
   return (
     <>
       <div className="min-h-screen bg-background">
-        {/* Header */}
-        <header className="sticky top-0 z-10 flex items-center gap-3 border-b border-border bg-background/95 px-4 py-3 backdrop-blur-sm">
-          <button
-            onClick={() => navigate(-1)}
-            className="flex h-9 w-9 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
-          >
-            <ArrowLeft className="h-5 w-5" />
-          </button>
-          <h1 className={cn("text-lg font-semibold", language === "bn" && "font-bengali")}>
-            {language === "bn" ? "সেটিংস" : "Settings"}
-          </h1>
-        </header>
 
         {/* Content */}
         <div className="mx-auto max-w-2xl p-4 pb-20 md:pb-4 space-y-6">
