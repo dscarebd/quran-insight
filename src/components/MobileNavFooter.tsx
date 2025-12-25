@@ -147,7 +147,7 @@ export const MobileNavFooter = ({ language }: MobileNavFooterProps) => {
 
   return (
     <>
-      <nav className="fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-background/95 backdrop-blur-sm md:hidden">
+      <nav className="fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-background/95 backdrop-blur-sm lg:hidden">
         <div className="grid grid-cols-5 py-2">
           {navItems.map((item) => (
             <button

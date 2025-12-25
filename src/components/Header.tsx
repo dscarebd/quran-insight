@@ -15,26 +15,26 @@ export const Header = ({ language, onLanguageChange }: HeaderProps) => {
   return (
     <header className="sticky top-0 z-40 flex items-center justify-between border-b border-border bg-card/95 px-4 py-3 backdrop-blur-md">
       {/* Desktop: Show sidebar trigger */}
-      <div className="hidden md:flex items-center gap-2">
+      <div className="hidden lg:flex items-center gap-2">
         <SidebarTrigger className="h-9 w-9 text-muted-foreground hover:bg-accent hover:text-accent-foreground" />
       </div>
       
       {/* Show language toggle only on desktop */}
-      <div className="hidden md:block">
+      <div className="hidden lg:block">
         <LanguageToggle language={language} onToggle={onLanguageChange} />
       </div>
       
-      {/* Mobile: Show logo and app title (logo on left) */}
-      <div className="md:hidden flex items-center gap-2">
+      {/* Mobile/Tablet: Show logo and app title (logo on left) */}
+      <div className="lg:hidden flex items-center gap-2">
         <img src={appLogo} alt="Quran Insight" className="h-8 w-8 rounded-lg" />
         <h1 className="text-xl font-semibold text-primary">Quran Insight</h1>
       </div>
       
-      {/* Desktop: Settings button, Mobile: Bookmark button */}
+      {/* Desktop: Settings button, Mobile/Tablet: Bookmark button */}
       <div className="flex items-center gap-2">
         <button 
           onClick={() => navigate("/bookmarks")}
-          className="flex md:hidden h-9 w-9 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+          className="flex lg:hidden h-9 w-9 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
         >
           <Bookmark className="h-5 w-5" />
         </button>
