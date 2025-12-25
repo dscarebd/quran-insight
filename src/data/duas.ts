@@ -8706,6 +8706,366 @@ export const duaCategories: DuaCategory[] = [
         bengali: "পবিত্র সেই সত্তা যিনি তাঁর বান্দাকে রাতে মসজিদুল হারাম থেকে মসজিদুল আকসায় নিয়ে গিয়েছিলেন। (তিলাওয়াত ও দোয়া)",
         english: "Exalted is He who took His Servant by night from al-Masjid al-Haram to al-Masjid al-Aqsa. (Recite and make dua)",
         reference: "সূরা ইসরা ১৭:১"
+      },
+      {
+        id: "special-11",
+        titleBengali: "শবে বরাতের দোয়া",
+        titleEnglish: "Shab-e-Barat Night",
+        arabic: "اللَّهُمَّ إِنَّكَ عَفُوٌّ كَرِيمٌ تُحِبُّ الْعَفْوَ فَاعْفُ عَنِّي",
+        bengali: "হে আল্লাহ! নিশ্চয়ই তুমি ক্ষমাশীল, দয়ালু, ক্ষমা করতে ভালোবাস, অতএব আমাকে ক্ষমা কর। (শবে বরাতে)",
+        english: "O Allah, You are Forgiving and Generous, You love to forgive, so forgive me. (On Shab-e-Barat)",
+        reference: "তিরমিযী থেকে অনুসৃত"
+      },
+      {
+        id: "special-12",
+        titleBengali: "জুমুআর দিনের দোয়া",
+        titleEnglish: "Friday Special Dua",
+        arabic: "اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ وَعَلَى آلِ مُحَمَّدٍ",
+        bengali: "হে আল্লাহ! মুহাম্মাদ ও তাঁর পরিবারের উপর রহমত বর্ষণ কর। (জুমুআর দিনে বেশি বেশি পড়ুন)",
+        english: "O Allah, send blessings upon Muhammad and the family of Muhammad. (Recite abundantly on Friday)",
+        reference: "সহীহ বুখারী, হাদিস নং ৩৩৭০"
+      },
+      {
+        id: "special-13",
+        titleBengali: "রজব মাসের দোয়া",
+        titleEnglish: "Rajab Month Dua",
+        arabic: "اللَّهُمَّ بَارِكْ لَنَا فِي رَجَبٍ وَشَعْبَانَ وَبَلِّغْنَا رَمَضَانَ",
+        bengali: "হে আল্লাহ! রজব ও শাবান মাসে আমাদের জন্য বরকত দাও এবং আমাদের রমজান পর্যন্ত পৌঁছাও।",
+        english: "O Allah, bless us in Rajab and Sha'ban and let us reach Ramadan.",
+        reference: "মুসনাদ আহমাদ, হাদিস নং ২৩৪৬"
+      },
+      {
+        id: "special-14",
+        titleBengali: "রমজানের শুরুতে দোয়া",
+        titleEnglish: "Beginning of Ramadan",
+        arabic: "اللَّهُمَّ سَلِّمْنِي لِرَمَضَانَ وَسَلِّمْ رَمَضَانَ لِي وَتَسَلَّمْهُ مِنِّي مُتَقَبَّلًا",
+        bengali: "হে আল্লাহ! আমাকে রমজানের জন্য নিরাপদ রাখো, রমজানকে আমার জন্য নিরাপদ করো এবং তা আমার থেকে কবুল করো।",
+        english: "O Allah, keep me safe for Ramadan, and keep Ramadan safe for me, and accept it from me.",
+        reference: "কানযুল উম্মাল"
+      },
+      {
+        id: "special-15",
+        titleBengali: "ইফতারের দোয়া",
+        titleEnglish: "Iftar Dua",
+        arabic: "ذَهَبَ الظَّمَأُ وَابْتَلَّتِ الْعُرُوقُ وَثَبَتَ الْأَجْرُ إِنْ شَاءَ اللَّهُ",
+        bengali: "তৃষ্ণা দূর হয়েছে, শিরা-উপশিরা সিক্ত হয়েছে এবং ইনশাআল্লাহ সওয়াব নির্ধারিত হয়েছে।",
+        english: "The thirst has gone, the veins are moistened and the reward is confirmed, if Allah wills.",
+        reference: "সুনান আবু দাউদ, হাদিস নং ২৩৫৭"
+      },
+      {
+        id: "special-16",
+        titleBengali: "সেহরীর দোয়া",
+        titleEnglish: "Suhoor Intention",
+        arabic: "نَوَيْتُ صَوْمَ غَدٍ مِنْ شَهْرِ رَمَضَانَ الْمُبَارَكِ فَرْضًا لَكَ يَا اللَّهُ فَتَقَبَّلْ مِنِّي إِنَّكَ أَنْتَ السَّمِيعُ الْعَلِيمُ",
+        bengali: "আমি আগামীকাল পবিত্র রমজান মাসে তোমার জন্য ফরজ রোজা রাখার নিয়ত করছি, হে আল্লাহ! আমার থেকে কবুল করো, নিশ্চয়ই তুমি সর্বশ্রোতা, সর্বজ্ঞ।",
+        english: "I intend to fast tomorrow in the blessed month of Ramadan as an obligation for You O Allah, so accept it from me, indeed You are the All-Hearing, All-Knowing.",
+        reference: "ফিকহী কিতাবসমূহ"
+      },
+      {
+        id: "special-17",
+        titleBengali: "ঈদুল ফিতরের তাকবীর",
+        titleEnglish: "Eid ul-Fitr Takbir",
+        arabic: "اللَّهُ أَكْبَرُ اللَّهُ أَكْبَرُ لَا إِلَهَ إِلَّا اللَّهُ وَاللَّهُ أَكْبَرُ اللَّهُ أَكْبَرُ وَلِلَّهِ الْحَمْدُ",
+        bengali: "আল্লাহ সবচেয়ে বড়, আল্লাহ সবচেয়ে বড়। আল্লাহ ছাড়া কোনো ইলাহ নেই। আল্লাহ সবচেয়ে বড়, আল্লাহ সবচেয়ে বড় এবং সকল প্রশংসা আল্লাহর।",
+        english: "Allah is the Greatest, Allah is the Greatest. There is no deity except Allah. Allah is the Greatest, Allah is the Greatest, and to Allah belongs all praise.",
+        reference: "দারাকুতনী"
+      },
+      {
+        id: "special-18",
+        titleBengali: "কুরবানীর দোয়া",
+        titleEnglish: "Qurbani Dua",
+        arabic: "بِسْمِ اللَّهِ اللَّهُ أَكْبَرُ اللَّهُمَّ تَقَبَّلْ مِنِّي",
+        bengali: "আল্লাহর নামে, আল্লাহ সবচেয়ে বড়। হে আল্লাহ! আমার থেকে কবুল করো।",
+        english: "In the name of Allah, Allah is the Greatest. O Allah, accept from me.",
+        reference: "সহীহ মুসলিম, হাদিস নং ১৯৬৬"
+      },
+      {
+        id: "special-19",
+        titleBengali: "হজ্জের তালবিয়া",
+        titleEnglish: "Hajj Talbiyah",
+        arabic: "لَبَّيْكَ اللَّهُمَّ لَبَّيْكَ، لَبَّيْكَ لَا شَرِيكَ لَكَ لَبَّيْكَ، إِنَّ الْحَمْدَ وَالنِّعْمَةَ لَكَ وَالْمُلْكَ، لَا شَرِيكَ لَكَ",
+        bengali: "আমি হাজির হে আল্লাহ! আমি হাজির। আমি হাজির, তোমার কোনো শরীক নেই, আমি হাজির। নিশ্চয়ই সকল প্রশংসা, নিয়ামত ও রাজত্ব তোমার, তোমার কোনো শরীক নেই।",
+        english: "Here I am O Allah, here I am. Here I am, You have no partner, here I am. Indeed all praise, blessings and dominion are Yours, You have no partner.",
+        reference: "সহীহ বুখারী, হাদিস নং ১৫৪৯"
+      },
+      {
+        id: "special-20",
+        titleBengali: "কাবা দর্শনের দোয়া",
+        titleEnglish: "Upon Seeing Kaaba",
+        arabic: "اللَّهُمَّ زِدْ هَذَا الْبَيْتَ تَشْرِيفًا وَتَعْظِيمًا وَتَكْرِيمًا وَمَهَابَةً",
+        bengali: "হে আল্লাহ! এই ঘরের মর্যাদা, সম্মান, মাহাত্ম্য ও ভয়-ভীতি আরো বাড়িয়ে দাও। (কাবা দেখলে)",
+        english: "O Allah, increase this House in honor, dignity, nobility and reverence. (Upon seeing the Kaaba)",
+        reference: "শুআবুল ঈমান, বায়হাকী"
+      },
+      {
+        id: "special-21",
+        titleBengali: "তাওয়াফের দোয়া",
+        titleEnglish: "Tawaf Dua",
+        arabic: "رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ",
+        bengali: "হে আমাদের রব! আমাদের দুনিয়াতে কল্যাণ দাও এবং আখিরাতেও কল্যাণ দাও এবং জাহান্নামের আযাব থেকে রক্ষা কর। (রুকনে ইয়ামানী ও হাজরে আসওয়াদের মাঝে)",
+        english: "Our Lord, give us good in this world and good in the Hereafter, and protect us from the punishment of the Fire. (Between Rukn Yamani and Hajar Aswad)",
+        reference: "সূরা আল-বাকারা ২:২০১"
+      },
+      {
+        id: "special-22",
+        titleBengali: "সাফা-মারওয়ার দোয়া",
+        titleEnglish: "Safa Marwa Dua",
+        arabic: "إِنَّ الصَّفَا وَالْمَرْوَةَ مِنْ شَعَائِرِ اللَّهِ",
+        bengali: "নিশ্চয়ই সাফা ও মারওয়া আল্লাহর নিদর্শনসমূহের অন্তর্ভুক্ত। (সাই শুরুর আগে পড়ুন)",
+        english: "Indeed, as-Safa and al-Marwah are among the symbols of Allah. (Recite before starting Sa'i)",
+        reference: "সূরা আল-বাকারা ২:১৫৮"
+      },
+      {
+        id: "special-23",
+        titleBengali: "উমরাহর ইহরামের দোয়া",
+        titleEnglish: "Umrah Ihram Dua",
+        arabic: "اللَّهُمَّ إِنِّي أُرِيدُ الْعُمْرَةَ فَيَسِّرْهَا لِي وَتَقَبَّلْهَا مِنِّي",
+        bengali: "হে আল্লাহ! আমি উমরাহ করতে চাই, এটা আমার জন্য সহজ করো এবং আমার থেকে কবুল করো।",
+        english: "O Allah, I intend Umrah, so make it easy for me and accept it from me.",
+        reference: "মানাসিকুল হজ্জ"
+      },
+      {
+        id: "special-24",
+        titleBengali: "মিনায় অবস্থানের দোয়া",
+        titleEnglish: "At Mina Dua",
+        arabic: "اللَّهُمَّ هَذِهِ مِنًى فَامْنُنْ عَلَيَّ بِمَا مَنَنْتَ بِهِ عَلَى أَوْلِيَائِكَ وَأَهْلِ طَاعَتِكَ",
+        bengali: "হে আল্লাহ! এটা মিনা, তাই আমার উপর সেই অনুগ্রহ করো যা তুমি তোমার বন্ধুদের ও তোমার অনুগতদের উপর করেছ।",
+        english: "O Allah, this is Mina, so bestow upon me what You have bestowed upon Your friends and those who obey You.",
+        reference: "মানাসিকুল হজ্জ"
+      },
+      {
+        id: "special-25",
+        titleBengali: "মুযদালিফায় দোয়া",
+        titleEnglish: "At Muzdalifah Dua",
+        arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ أَنْ تَرْزُقَنِي جَوَامِعَ الْخَيْرِ",
+        bengali: "হে আল্লাহ! আমি তোমার কাছে সমস্ত কল্যাণ প্রদান করতে চাই।",
+        english: "O Allah, I ask You to grant me comprehensive goodness.",
+        reference: "হজ্জের কিতাবসমূহ"
+      },
+      {
+        id: "special-26",
+        titleBengali: "জমরায় পাথর মারার দোয়া",
+        titleEnglish: "Stoning Jamarat Dua",
+        arabic: "بِسْمِ اللَّهِ اللَّهُ أَكْبَرُ رَغْمًا لِلشَّيْطَانِ وَحِزْبِهِ",
+        bengali: "আল্লাহর নামে, আল্লাহ সবচেয়ে বড়। শয়তান ও তার দলের অপমানার্থে। (প্রতিটি পাথরে)",
+        english: "In the name of Allah, Allah is the Greatest. To humiliate Satan and his party. (With each stone)",
+        reference: "মানাসিকুল হজ্জ"
+      },
+      {
+        id: "special-27",
+        titleBengali: "বিদায়ী তাওয়াফের দোয়া",
+        titleEnglish: "Farewell Tawaf Dua",
+        arabic: "اللَّهُمَّ إِنَّ الْبَيْتَ بَيْتُكَ وَالْعَبْدَ عَبْدُكَ وَابْنُ عَبْدِكَ وَابْنُ أَمَتِكَ",
+        bengali: "হে আল্লাহ! নিশ্চয়ই এই ঘর তোমার ঘর, বান্দা তোমার বান্দা, তোমার বান্দার সন্তান এবং তোমার বাঁদীর সন্তান।",
+        english: "O Allah, indeed this House is Your House, and the servant is Your servant, the son of Your servant and the son of Your maidservant.",
+        reference: "মানাসিকুল হজ্জ"
+      },
+      {
+        id: "special-28",
+        titleBengali: "নবীজির রওজা যিয়ারত",
+        titleEnglish: "Visiting Prophet's Grave",
+        arabic: "السَّلَامُ عَلَيْكَ يَا رَسُولَ اللَّهِ السَّلَامُ عَلَيْكَ يَا نَبِيَّ اللَّهِ",
+        bengali: "আপনার উপর সালাম হে আল্লাহর রাসূল। আপনার উপর সালাম হে আল্লাহর নবী।",
+        english: "Peace be upon you, O Messenger of Allah. Peace be upon you, O Prophet of Allah.",
+        reference: "যিয়ারতের আদাব"
+      },
+      {
+        id: "special-29",
+        titleBengali: "বিয়ের অনুষ্ঠানের দোয়া",
+        titleEnglish: "Wedding Ceremony Dua",
+        arabic: "بَارَكَ اللَّهُ لَكَ وَبَارَكَ عَلَيْكَ وَجَمَعَ بَيْنَكُمَا فِي خَيْرٍ",
+        bengali: "আল্লাহ তোমাকে বরকত দিন, তোমার উপর বরকত দিন এবং তোমাদের উভয়কে কল্যাণের মধ্যে একত্রিত করুন। (বিবাহিতদের জন্য)",
+        english: "May Allah bless you, send blessings upon you, and unite you both in goodness. (For the newlyweds)",
+        reference: "সুনান তিরমিযী, হাদিস নং ১০৯১"
+      },
+      {
+        id: "special-30",
+        titleBengali: "বাসর রাতের দোয়া",
+        titleEnglish: "Wedding Night Dua",
+        arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ خَيْرَهَا وَخَيْرَ مَا جَبَلْتَهَا عَلَيْهِ، وَأَعُوذُ بِكَ مِنْ شَرِّهَا وَشَرِّ مَا جَبَلْتَهَا عَلَيْهِ",
+        bengali: "হে আল্লাহ! আমি তোমার কাছে তার কল্যাণ ও তার স্বভাবের কল্যাণ চাই এবং তার অনিষ্ট ও তার স্বভাবের অনিষ্ট থেকে আশ্রয় চাই।",
+        english: "O Allah, I ask You for her goodness and the goodness of her nature, and I seek refuge from her evil and the evil of her nature.",
+        reference: "সুনান আবু দাউদ, হাদিস নং ২১৬০"
+      },
+      {
+        id: "special-31",
+        titleBengali: "আকীকার দোয়া",
+        titleEnglish: "Aqiqah Dua",
+        arabic: "بِسْمِ اللَّهِ وَاللَّهُ أَكْبَرُ اللَّهُمَّ مِنْكَ وَلَكَ هَذِهِ عَقِيقَةُ فُلَانٍ",
+        bengali: "আল্লাহর নামে এবং আল্লাহ সবচেয়ে বড়। হে আল্লাহ! তোমার পক্ষ থেকে এবং তোমার জন্য, এটা (অমুকের) আকীকা।",
+        english: "In the name of Allah and Allah is the Greatest. O Allah, from You and for You, this is the Aqiqah of (name).",
+        reference: "সুনান আবু দাউদ, হাদিস নং ২৮৪২"
+      },
+      {
+        id: "special-32",
+        titleBengali: "খতনার দোয়া",
+        titleEnglish: "Circumcision Dua",
+        arabic: "اللَّهُمَّ اجْعَلْهُ مِنَ الْمُتَطَهِّرِينَ التَّائِبِينَ",
+        bengali: "হে আল্লাহ! তাকে পবিত্র ও তাওবাকারীদের অন্তর্ভুক্ত কর।",
+        english: "O Allah, make him among the purified and the repentant.",
+        reference: "ফিকহী কিতাবসমূহ"
+      },
+      {
+        id: "special-33",
+        titleBengali: "সন্তানের নামকরণ",
+        titleEnglish: "Naming Child",
+        arabic: "اللَّهُمَّ اجْعَلْهُ بَارًّا تَقِيًّا، وَأَنْبِتْهُ فِي الْإِسْلَامِ نَبَاتًا حَسَنًا",
+        bengali: "হে আল্লাহ! তাকে সৎ ও আল্লাহভীরু বানাও এবং ইসলামে তার সুন্দর প্রবৃদ্ধি দাও।",
+        english: "O Allah, make him righteous and pious, and let him grow beautifully in Islam.",
+        reference: "আল-আযকার, ইমাম নববী"
+      },
+      {
+        id: "special-34",
+        titleBengali: "গৃহপ্রবেশের দোয়া",
+        titleEnglish: "Housewarming Dua",
+        arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ خَيْرَ الْمَوْلِجِ وَخَيْرَ الْمَخْرَجِ، بِسْمِ اللَّهِ وَلَجْنَا، وَبِسْمِ اللَّهِ خَرَجْنَا، وَعَلَى اللَّهِ رَبِّنَا تَوَكَّلْنَا",
+        bengali: "হে আল্লাহ! আমি তোমার কাছে প্রবেশের কল্যাণ ও বের হওয়ার কল্যাণ চাই। আল্লাহর নামে প্রবেশ করলাম, আল্লাহর নামে বের হলাম এবং আমাদের রব আল্লাহর উপর ভরসা করলাম।",
+        english: "O Allah, I ask You for the best of entering and the best of exiting. In the name of Allah we enter, in the name of Allah we exit, and upon Allah our Lord we rely.",
+        reference: "সুনান আবু দাউদ, হাদিস নং ৫০৯৬"
+      },
+      {
+        id: "special-35",
+        titleBengali: "নতুন জামা পরার দোয়া",
+        titleEnglish: "Wearing New Clothes",
+        arabic: "اللَّهُمَّ لَكَ الْحَمْدُ أَنْتَ كَسَوْتَنِيهِ، أَسْأَلُكَ مِنْ خَيْرِهِ وَخَيْرِ مَا صُنِعَ لَهُ، وَأَعُوذُ بِكَ مِنْ شَرِّهِ وَشَرِّ مَا صُنِعَ لَهُ",
+        bengali: "হে আল্লাহ! তোমার জন্য সমস্ত প্রশংসা, তুমি আমাকে এটা পরিয়েছ। আমি তোমার কাছে এর কল্যাণ ও এটা যে জন্য তৈরি তার কল্যাণ চাই এবং এর অনিষ্ট ও এটা যে জন্য তৈরি তার অনিষ্ট থেকে আশ্রয় চাই।",
+        english: "O Allah, for You is all praise, You have clothed me with it. I ask You for its goodness and the goodness for which it was made, and I seek refuge from its evil and the evil for which it was made.",
+        reference: "সুনান আবু দাউদ, হাদিস নং ৪০২০"
+      },
+      {
+        id: "special-36",
+        titleBengali: "নতুন গাড়ির দোয়া",
+        titleEnglish: "New Vehicle Dua",
+        arabic: "سُبْحَانَ الَّذِي سَخَّرَ لَنَا هَذَا وَمَا كُنَّا لَهُ مُقْرِنِينَ وَإِنَّا إِلَى رَبِّنَا لَمُنْقَلِبُونَ",
+        bengali: "পবিত্র সেই সত্তা যিনি এটাকে আমাদের অধীন করেছেন, অথচ আমরা এর সক্ষম ছিলাম না। এবং নিশ্চয়ই আমরা আমাদের রবের কাছে ফিরে যাব।",
+        english: "Glory be to Him who has subjected this to us, and we could not have controlled it. And indeed, to our Lord we will return.",
+        reference: "সূরা যুখরুফ ৪৩:১৩-১৪"
+      },
+      {
+        id: "special-37",
+        titleBengali: "পরীক্ষার আগে দোয়া",
+        titleEnglish: "Before Exam",
+        arabic: "رَبِّ اشْرَحْ لِي صَدْرِي وَيَسِّرْ لِي أَمْرِي وَاحْلُلْ عُقْدَةً مِنْ لِسَانِي يَفْقَهُوا قَوْلِي",
+        bengali: "হে আমার রব! আমার বুক প্রশস্ত করে দাও, আমার কাজ সহজ করে দাও এবং আমার জিহ্বার জড়তা দূর করে দাও, যাতে তারা আমার কথা বুঝতে পারে।",
+        english: "My Lord, expand my chest, ease my task, and untie the knot from my tongue so they may understand my speech.",
+        reference: "সূরা ত্বহা ২০:২৫-২৮"
+      },
+      {
+        id: "special-38",
+        titleBengali: "চাকরির ইন্টারভিউ",
+        titleEnglish: "Job Interview",
+        arabic: "رَبِّ أَدْخِلْنِي مُدْخَلَ صِدْقٍ وَأَخْرِجْنِي مُخْرَجَ صِدْقٍ وَاجْعَلْ لِي مِنْ لَدُنْكَ سُلْطَانًا نَصِيرًا",
+        bengali: "হে আমার রব! আমাকে সত্যের সাথে প্রবেশ করাও, সত্যের সাথে বের করো এবং তোমার পক্ষ থেকে আমার জন্য সাহায্যকারী শক্তি দাও।",
+        english: "My Lord, cause me to enter a sound entrance and to exit a sound exit and grant me from Yourself a supporting authority.",
+        reference: "সূরা ইসরা ১৭:৮০"
+      },
+      {
+        id: "special-39",
+        titleBengali: "ব্যবসা শুরুর দোয়া",
+        titleEnglish: "Starting Business",
+        arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ رِزْقًا حَلَالًا طَيِّبًا مُبَارَكًا فِيهِ",
+        bengali: "হে আল্লাহ! আমি তোমার কাছে হালাল, পবিত্র ও বরকতময় রিজিক চাই।",
+        english: "O Allah, I ask You for lawful, pure and blessed provision.",
+        reference: "মুসনাদ আহমাদ"
+      },
+      {
+        id: "special-40",
+        titleBengali: "দোকান খোলার দোয়া",
+        titleEnglish: "Opening Shop",
+        arabic: "اللَّهُمَّ افْتَحْ لِي أَبْوَابَ رِزْقِكَ الطَّيِّبِ",
+        bengali: "হে আল্লাহ! আমার জন্য তোমার পবিত্র রিজিকের দরজা খুলে দাও।",
+        english: "O Allah, open for me the doors of Your pure provision.",
+        reference: "দোয়া সংকলন"
+      },
+      {
+        id: "special-41",
+        titleBengali: "কৃষি/ফসল বোনার দোয়া",
+        titleEnglish: "Planting Crops",
+        arabic: "اللَّهُمَّ بَارِكْ لَنَا فِيمَا زَرَعْنَا وَانْفَعْنَا بِهِ",
+        bengali: "হে আল্লাহ! আমরা যা বপন করেছি তাতে আমাদের জন্য বরকত দাও এবং তা দ্বারা আমাদের উপকৃত কর।",
+        english: "O Allah, bless us in what we have planted and benefit us from it.",
+        reference: "কৃষি সংক্রান্ত দোয়া"
+      },
+      {
+        id: "special-42",
+        titleBengali: "ফসল তোলার দোয়া",
+        titleEnglish: "Harvest Time",
+        arabic: "الْحَمْدُ لِلَّهِ الَّذِي أَطْعَمَنَا وَسَقَانَا وَجَعَلَنَا مُسْلِمِينَ",
+        bengali: "সমস্ত প্রশংসা আল্লাহর যিনি আমাদের খাওয়ালেন, পান করালেন এবং আমাদের মুসলিম বানালেন।",
+        english: "All praise is to Allah who fed us, gave us drink, and made us Muslims.",
+        reference: "সুনান আবু দাউদ"
+      },
+      {
+        id: "special-43",
+        titleBengali: "গ্র্যাজুয়েশনের দোয়া",
+        titleEnglish: "Graduation Dua",
+        arabic: "رَبِّ زِدْنِي عِلْمًا وَفَهْمًا وَارْزُقْنِي الْعَمَلَ بِهِ",
+        bengali: "হে আমার রব! আমার জ্ঞান ও বুঝ বাড়িয়ে দাও এবং তা অনুযায়ী আমল করার তাওফীক দাও।",
+        english: "My Lord, increase me in knowledge and understanding, and grant me the ability to act upon it.",
+        reference: "সূরা ত্বহা ২০:১১৪ থেকে অনুসৃত"
+      },
+      {
+        id: "special-44",
+        titleBengali: "অবসর গ্রহণের দোয়া",
+        titleEnglish: "Retirement Dua",
+        arabic: "اللَّهُمَّ تَقَبَّلْ مِنِّي مَا قَدَّمْتُ وَاغْفِرْ لِي مَا أَخَّرْتُ",
+        bengali: "হে আল্লাহ! আমি যা অগ্রিম পাঠিয়েছি তা কবুল কর এবং আমি যা বিলম্ব করেছি তা ক্ষমা কর।",
+        english: "O Allah, accept what I have sent forth and forgive what I have delayed.",
+        reference: "সহীহ মুসলিম থেকে অনুসৃত"
+      },
+      {
+        id: "special-45",
+        titleBengali: "সন্তান স্কুলে যাওয়ার আগে",
+        titleEnglish: "Child Going to School",
+        arabic: "بِسْمِ اللَّهِ تَوَكَّلْتُ عَلَى اللَّهِ، اللَّهُمَّ احْفَظْهُ وَارْزُقْهُ عِلْمًا نَافِعًا",
+        bengali: "আল্লাহর নামে, আল্লাহর উপর ভরসা করলাম। হে আল্লাহ! তাকে হেফাজত কর এবং তাকে উপকারী জ্ঞান দান কর।",
+        english: "In the name of Allah, I rely upon Allah. O Allah, protect him and grant him beneficial knowledge.",
+        reference: "দোয়া সংকলন"
+      },
+      {
+        id: "special-46",
+        titleBengali: "রক্তদানের দোয়া",
+        titleEnglish: "Blood Donation",
+        arabic: "اللَّهُمَّ اجْعَلْهُ صَدَقَةً جَارِيَةً وَانْفَعْ بِهِ غَيْرِي",
+        bengali: "হে আল্লাহ! এটাকে সাদকায়ে জারিয়া বানাও এবং এর দ্বারা অন্যদের উপকার কর।",
+        english: "O Allah, make this an ongoing charity and benefit others through it.",
+        reference: "সৎকর্ম সংক্রান্ত দোয়া"
+      },
+      {
+        id: "special-47",
+        titleBengali: "দাতব্য কাজের দোয়া",
+        titleEnglish: "Charity Work",
+        arabic: "اللَّهُمَّ تَقَبَّلْ مِنِّي إِنَّكَ أَنْتَ السَّمِيعُ الْعَلِيمُ",
+        bengali: "হে আল্লাহ! আমার থেকে কবুল কর, নিশ্চয়ই তুমি সর্বশ্রোতা, সর্বজ্ঞ।",
+        english: "O Allah, accept from me, indeed You are the All-Hearing, All-Knowing.",
+        reference: "সূরা আল-বাকারা ২:১২৭"
+      },
+      {
+        id: "special-48",
+        titleBengali: "মুসাফিরকে বিদায়",
+        titleEnglish: "Bidding Farewell to Traveler",
+        arabic: "أَسْتَوْدِعُ اللَّهَ دِينَكَ وَأَمَانَتَكَ وَخَوَاتِيمَ عَمَلِكَ",
+        bengali: "তোমার দ্বীন, তোমার আমানত ও তোমার শেষ আমল আল্লাহর কাছে সোপর্দ করছি।",
+        english: "I entrust to Allah your religion, your trust, and your final deeds.",
+        reference: "সুনান তিরমিযী, হাদিস নং ৩৪৪২"
+      },
+      {
+        id: "special-49",
+        titleBengali: "মেহমান বিদায়ের দোয়া",
+        titleEnglish: "Farewell to Guest",
+        arabic: "اللَّهُمَّ بَارِكْ لَهُمْ فِيمَا رَزَقْتَهُمْ وَاغْفِرْ لَهُمْ وَارْحَمْهُمْ",
+        bengali: "হে আল্লাহ! তুমি তাদের যা দিয়েছ তাতে বরকত দাও, তাদের ক্ষমা কর এবং তাদের প্রতি রহম কর।",
+        english: "O Allah, bless them in what You have provided them, forgive them and have mercy on them.",
+        reference: "সহীহ মুসলিম, হাদিস নং ২০৪২"
+      },
+      {
+        id: "special-50",
+        titleBengali: "সফল সমাপ্তির শুকরিয়া",
+        titleEnglish: "Gratitude for Success",
+        arabic: "الْحَمْدُ لِلَّهِ الَّذِي بِنِعْمَتِهِ تَتِمُّ الصَّالِحَاتُ",
+        bengali: "সমস্ত প্রশংসা আল্লাহর যাঁর নিয়ামতে সকল ভালো কাজ সম্পন্ন হয়।",
+        english: "All praise is to Allah by whose grace all good things are completed.",
+        reference: "সুনান ইবনে মাজাহ, হাদিস নং ৩৮০৩"
       }
     ]
   },
