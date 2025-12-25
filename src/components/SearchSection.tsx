@@ -99,10 +99,10 @@ export const SearchSection = ({ language, onSearch, isLoading }: SearchSectionPr
   return (
     <div className="animate-slide-up">
       {/* Icon */}
-      <div className="mb-6 flex justify-center">
-        <div className="animate-float relative flex h-20 w-20 items-center justify-center rounded-2xl bg-primary shadow-glow">
-          <Sparkles className="h-10 w-10 text-primary-foreground" />
-          <div className="absolute -right-1 -top-1 h-4 w-4 animate-pulse rounded-full bg-gold" />
+      <div className="mb-4 flex justify-center">
+        <div className="animate-float relative flex h-14 w-14 items-center justify-center rounded-xl bg-primary shadow-glow">
+          <Sparkles className="h-7 w-7 text-primary-foreground" />
+          <div className="absolute -right-1 -top-1 h-3 w-3 animate-pulse rounded-full bg-gold" />
         </div>
       </div>
 
