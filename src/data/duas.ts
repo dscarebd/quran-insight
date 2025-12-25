@@ -2330,6 +2330,116 @@ export const duaCategories: DuaCategory[] = [
         bengali: "হে আল্লাহ! আমাদেরকে ঈমানের সৌন্দর্যে সুসজ্জিত কর এবং আমাদেরকে হিদায়াতপ্রাপ্ত পথপ্রদর্শক বানাও।",
         english: "O Allah, adorn us with the beauty of faith and make us guides who are rightly guided.",
         reference: "নাসাঈ"
+      },
+      {
+        id: "guidance-11",
+        titleBengali: "আল্লাহর উপর ভরসা",
+        titleEnglish: "Trust in Allah",
+        arabic: "وَتَوَكَّلْ عَلَى اللَّهِ",
+        transliteration: "Wa tawakkal 'alallah",
+        transliterationBengali: "ওয়া তাওয়াক্কাল আলাল্লাহ",
+        bengali: "আল্লাহর উপর ভরসা কর",
+        english: "And put your trust in Allah",
+        reference: "সূরা আল-আহযাব ৩৩:৩"
+      },
+      {
+        id: "guidance-12",
+        titleBengali: "আল্লাহ যাকে চান হেদায়াত দেন",
+        titleEnglish: "Allah Guides Whom He Wills",
+        arabic: "وَاللَّهُ يَهْدِي مَنْ يَشَاءُ",
+        transliteration: "Wallahu yahdi man yashaa",
+        transliterationBengali: "ওয়াল্লাহু ইয়াহদি মান ইয়াশা",
+        bengali: "আল্লাহ যাকে চান তাকে হেদায়াত দেন",
+        english: "And Allah guides whom He wills",
+        reference: "সূরা আল-বাকারা ২:২১৩"
+      },
+      {
+        id: "guidance-13",
+        titleBengali: "হেদায়াতের দোয়া",
+        titleEnglish: "Prayer for Guidance",
+        arabic: "اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ",
+        transliteration: "Ihdinas-siratal-mustaqim",
+        transliterationBengali: "ইহদিনাস সিরাতাল মুস্তাকীম",
+        bengali: "আমাদের সরল পথে পরিচালিত করুন",
+        english: "Guide us to the straight path",
+        reference: "সূরা আল-ফাতিহা ১:৬"
+      },
+      {
+        id: "guidance-14",
+        titleBengali: "ঈমানের নূর",
+        titleEnglish: "Light of Faith",
+        arabic: "اللَّهُ نُورُ السَّمَاوَاتِ وَالْأَرْضِ",
+        transliteration: "Allahu nurus-samawati wal-ard",
+        transliterationBengali: "আল্লাহু নূরুস সামাওয়াতি ওয়াল আরদ",
+        bengali: "আল্লাহ আসমান ও জমিনের নূর",
+        english: "Allah is the Light of the heavens and the earth",
+        reference: "সূরা আন-নূর ২৪:৩৫"
+      },
+      {
+        id: "guidance-15",
+        titleBengali: "কুরআন হেদায়াত",
+        titleEnglish: "Quran as Guidance",
+        arabic: "هُدًى لِلْمُتَّقِينَ",
+        transliteration: "Hudan lil-muttaqin",
+        transliterationBengali: "হুদান লিল মুত্তাকীন",
+        bengali: "এটি মুত্তাকীদের জন্য হেদায়াত",
+        english: "It is guidance for the righteous",
+        reference: "সূরা আল-বাকারা ২:২"
+      },
+      {
+        id: "guidance-16",
+        titleBengali: "শান্তির পথে হেদায়াত",
+        titleEnglish: "Allah Leads to Peace",
+        arabic: "وَيَهْدِي إِلَىٰ صِرَاطٍ مُسْتَقِيمٍ",
+        transliteration: "Wa yahdi ila siratin mustaqim",
+        transliterationBengali: "ওয়া ইয়াহদি ইলা সিরাতিন মুস্তাকীম",
+        bengali: "তিনি সরল পথে পরিচালিত করেন",
+        english: "And He guides to a straight path",
+        reference: "সূরা ইউনুস ১০:২৫"
+      },
+      {
+        id: "guidance-17",
+        titleBengali: "ঈমানে দৃঢ়তা",
+        titleEnglish: "Steadfast Faith",
+        arabic: "يُثَبِّتُ اللَّهُ الَّذِينَ آمَنُوا",
+        transliteration: "Yuthabbitullahu alladhina amanu",
+        transliterationBengali: "ইউসাব্বিতুল্লাহুল্লাজিনা আমানু",
+        bengali: "আল্লাহ মুমিনদের দৃঢ় রাখেন",
+        english: "Allah keeps firm those who believe",
+        reference: "সূরা ইবরাহীম ১৪:২৭"
+      },
+      {
+        id: "guidance-18",
+        titleBengali: "ওহীর অনুসরণ",
+        titleEnglish: "Follow Revelation",
+        arabic: "اتَّبِعْ مَا أُوحِيَ إِلَيْكَ",
+        transliteration: "Ittabi' ma uhiya ilayk",
+        transliterationBengali: "ইত্তাবি মা উহিয়া ইলাইকা",
+        bengali: "তোমার প্রতি যা ওহী করা হয়েছে তা অনুসরণ কর",
+        english: "Follow what has been revealed to you",
+        reference: "সূরা আল-আনআম ৬:১০৬"
+      },
+      {
+        id: "guidance-19",
+        titleBengali: "মুমিনদের জন্য ভয় নেই",
+        titleEnglish: "No Fear for Believers",
+        arabic: "فَلَا خَوْفٌ عَلَيْهِمْ وَلَا هُمْ يَحْزَنُونَ",
+        transliteration: "Fala khawfun 'alayhim wa la hum yahzanun",
+        transliterationBengali: "ফালা খাওফুন আলাইহিম ওয়ালা হুম ইয়াহযানুন",
+        bengali: "তাদের কোনো ভয় নেই এবং তারা দুঃখিত হবে না",
+        english: "No fear shall be upon them nor shall they grieve",
+        reference: "সূরা আল-বাকারা ২:৩৮"
+      },
+      {
+        id: "guidance-20",
+        titleBengali: "হেদায়াতপ্রাপ্তদের প্রতি আল্লাহর ভালোবাসা",
+        titleEnglish: "Allah Loves the Guided",
+        arabic: "وَاللَّهُ يُحِبُّ الْمُحْسِنِينَ",
+        transliteration: "Wallahu yuhibbul-muhsinin",
+        transliterationBengali: "ওয়াল্লাহু ইউহিব্বুল মুহসিনীন",
+        bengali: "আল্লাহ সৎকর্মশীলদের ভালোবাসেন",
+        english: "And Allah loves the doers of good",
+        reference: "সূরা আলে ইমরান ৩:১৩৪"
       }
     ]
   },
