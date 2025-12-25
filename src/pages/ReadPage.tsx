@@ -258,6 +258,12 @@ const ReadPage = ({ language, readingMode = "normal", arabicFont = "amiri", onAr
       
       setLoading(true);
       try {
+        // Try to refresh session if expired
+        const { data: { session } } = await supabase.auth.getSession();
+        if (!session) {
+          // Use anonymous access - the verses table should be publicly readable
+        }
+
         let query = supabase
           .from("verses")
           .select("surah_number, verse_number, arabic")
@@ -270,13 +276,19 @@ const ReadPage = ({ language, readingMode = "normal", arabicFont = "amiri", onAr
             .gte("verse_number", pageData.startVerse)
             .lte("verse_number", pageData.endVerse);
         } else {
-          const { data: allVerses } = await supabase
+          const { data: allVerses, error: allVersesError } = await supabase
             .from("verses")
             .select("surah_number, verse_number, arabic")
             .gte("surah_number", pageData.startSurah)
             .lte("surah_number", pageData.endSurah)
             .order("surah_number", { ascending: true })
             .order("verse_number", { ascending: true });
+
+          if (allVersesError) {
+            console.error("Error fetching verses:", allVersesError);
+            setLoading(false);
+            return;
+          }
 
           if (allVerses) {
             const filteredVerses = allVerses.filter(v => {
@@ -295,8 +307,11 @@ const ReadPage = ({ language, readingMode = "normal", arabicFont = "amiri", onAr
         }
 
         const { data, error } = await query;
-        if (error) throw error;
-        setVerses(data || []);
+        if (error) {
+          console.error("Error fetching verses:", error);
+        } else {
+          setVerses(data || []);
+        }
       } catch (error) {
         console.error("Error fetching verses:", error);
       } finally {

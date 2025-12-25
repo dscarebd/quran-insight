@@ -23,24 +23,47 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     // Set up auth state listener FIRST
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (event, session) => {
-        setSession(session);
-        setUser(session?.user ?? null);
-        
-        // Defer admin check to avoid deadlock
-        if (session?.user) {
-          setTimeout(() => {
-            checkAdminRole(session.user.id);
-          }, 0);
-        } else {
+      async (event, session) => {
+        // Handle token refresh
+        if (event === 'TOKEN_REFRESHED') {
+          setSession(session);
+          setUser(session?.user ?? null);
+        } else if (event === 'SIGNED_OUT') {
+          setSession(null);
+          setUser(null);
           setIsAdmin(false);
           setIsLoading(false);
+        } else {
+          setSession(session);
+          setUser(session?.user ?? null);
+          
+          // Defer admin check to avoid deadlock
+          if (session?.user) {
+            setTimeout(() => {
+              checkAdminRole(session.user.id);
+            }, 0);
+          } else {
+            setIsAdmin(false);
+            setIsLoading(false);
+          }
         }
       }
     );
 
-    // THEN check for existing session
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    // THEN check for existing session and try to refresh if expired
+    const initializeSession = async () => {
+      const { data: { session }, error } = await supabase.auth.getSession();
+      
+      if (error?.message?.includes('expired') || !session) {
+        // Try to sign out to clear expired tokens
+        await supabase.auth.signOut();
+        setSession(null);
+        setUser(null);
+        setIsAdmin(false);
+        setIsLoading(false);
+        return;
+      }
+      
       setSession(session);
       setUser(session?.user ?? null);
       
@@ -49,7 +72,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       } else {
         setIsLoading(false);
       }
-    });
+    };
+    
+    initializeSession();
 
     return () => subscription.unsubscribe();
   }, []);
