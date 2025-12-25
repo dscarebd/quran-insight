@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef } from "react";
 import { ArrowLeft, Info, Moon, Sun, BookOpen, Globe, Mail, Heart } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "next-themes";
@@ -26,26 +26,17 @@ interface SettingsProps {
 const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadingModeChange }: SettingsProps) => {
   const navigate = useNavigate();
   const { theme, setTheme } = useTheme();
-  
-  // Easter egg: 7 clicks on developer logo navigates to admin
-  const [clickCount, setClickCount] = useState(0);
-  const [lastClickTime, setLastClickTime] = useState(0);
-  
+
+  // Easter egg: 7 clicks on developer logo navigates to admin (no time restriction)
+  const clickCountRef = useRef(0);
+
   const handleDeveloperLogoClick = () => {
-    const now = Date.now();
-    // Reset if more than 2 seconds since last click
-    if (now - lastClickTime > 2000) {
-      setClickCount(1);
-    } else {
-      const newCount = clickCount + 1;
-      setClickCount(newCount);
-      
-      if (newCount >= 7) {
-        setClickCount(0);
-        navigate("/admin");
-      }
+    clickCountRef.current += 1;
+
+    if (clickCountRef.current >= 7) {
+      clickCountRef.current = 0;
+      navigate("/admin");
     }
-    setLastClickTime(now);
   };
 
   const themeOptions = [
