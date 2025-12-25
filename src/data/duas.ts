@@ -2336,6 +2336,8 @@ export const duaCategories: DuaCategory[] = [
         titleBengali: "সরল পথের দোয়া",
         titleEnglish: "The Straight Path",
         arabic: "اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ",
+        transliteration: "Ihdinas-siratal-mustaqim",
+        transliterationBengali: "ইহদিনাস সিরাতাল মুস্তাক্বীম",
         bengali: "আমাদেরকে সরল পথ দেখাও।",
         english: "Guide us to the straight path.",
         reference: "সূরা ফাতিহা ১:৬"
@@ -2345,6 +2347,8 @@ export const duaCategories: DuaCategory[] = [
         titleBengali: "হিদায়াত ও সঠিক পথ",
         titleEnglish: "Guidance & Right Direction",
         arabic: "اللَّهُمَّ اهْدِنِي وَسَدِّدْنِي",
+        transliteration: "Allahumma ihdini wa saddidni",
+        transliterationBengali: "আল্লাহুম্মা ইহদিনী ওয়া সাদ্দিদনী",
         bengali: "হে আল্লাহ! আমাকে হিদায়াত দাও এবং সঠিক পথে পরিচালিত কর।",
         english: "O Allah, guide me and keep me on the right path.",
         reference: "সহীহ মুসলিম"
@@ -2354,6 +2358,8 @@ export const duaCategories: DuaCategory[] = [
         titleBengali: "অন্তর স্থির রাখার দোয়া",
         titleEnglish: "Steadfast Heart on Deen",
         arabic: "يَا مُقَلِّبَ الْقُلُوبِ ثَبِّتْ قَلْبِي عَلَى دِينِكَ",
+        transliteration: "Ya Muqallibal-qulubi thabbit qalbi 'ala dinik",
+        transliterationBengali: "ইয়া মুক্বাল্লিবাল ক্বুলূবি সাব্বিত ক্বালবী 'আলা দীনিক",
         bengali: "হে অন্তর পরিবর্তনকারী! আমার অন্তরকে তোমার দ্বীনের উপর স্থির রাখ।",
         english: "O Turner of hearts, make my heart firm upon Your religion.",
         reference: "তিরমিযী"
@@ -2363,6 +2369,8 @@ export const duaCategories: DuaCategory[] = [
         titleBengali: "দ্বীনে স্থিরতার দোয়া",
         titleEnglish: "Steadfastness in Faith",
         arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ الثَّبَاتَ فِي الأَمْرِ، وَالْعَزِيمَةَ عَلَى الرُّشْدِ",
+        transliteration: "Allahumma inni as'alukas-thabata fil-amr, wal-'azimata 'alar-rushd",
+        transliterationBengali: "আল্লাহুম্মা ইন্নী আসআলুকাস সাবাতা ফিল আমর, ওয়াল 'আযীমাতা 'আলার রুশদ",
         bengali: "হে আল্লাহ! আমি তোমার কাছে দ্বীনে স্থিরতা এবং সঠিক পথে দৃঢ়তা প্রার্থনা করি।",
         english: "O Allah, I ask You for steadfastness in the matter and determination upon the right guidance.",
         reference: "তিরমিযী"
@@ -2372,6 +2380,8 @@ export const duaCategories: DuaCategory[] = [
         titleBengali: "ঈমান বৃদ্ধির দোয়া",
         titleEnglish: "Increase in Faith",
         arabic: "رَبَّنَا لاَ تُزِغْ قُلُوبَنَا بَعْدَ إِذْ هَدَيْتَنَا وَهَبْ لَنَا مِن لَّدُنكَ رَحْمَةً إِنَّكَ أَنتَ الْوَهَّابُ",
+        transliteration: "Rabbana la tuzigh qulubana ba'da idh hadaytana wa hab lana min ladunka rahmah, innaka antal-Wahhab",
+        transliterationBengali: "রাব্বানা লা তুযিগ ক্বুলূবানা বা'দা ইয হাদাইতানা ওয়া হাব লানা মিন লাদুনকা রাহমাহ, ইন্নাকা আনতাল ওয়াহহাব",
         bengali: "হে আমাদের রব! হিদায়াত দেওয়ার পর আমাদের অন্তরকে বক্র করো না এবং তোমার পক্ষ থেকে আমাদেরকে রহমত দান কর। নিশ্চয়ই তুমি মহাদাতা।",
         english: "Our Lord, let not our hearts deviate after You have guided us and grant us from Yourself mercy. Indeed, You are the Bestower.",
         reference: "সূরা আলে ইমরান ৩:৮"
@@ -2381,6 +2391,8 @@ export const duaCategories: DuaCategory[] = [
         titleBengali: "নূর ও হিদায়াতের দোয়া",
         titleEnglish: "For Light & Guidance",
         arabic: "اللَّهُمَّ اجْعَلْ فِي قَلْبِي نُورًا، وَفِي بَصَرِي نُورًا، وَفِي سَمْعِي نُورًا",
+        transliteration: "Allahummaj'al fi qalbi nuran, wa fi basari nuran, wa fi sam'i nuran",
+        transliterationBengali: "আল্লাহুম্মাজ'আল ফী ক্বালবী নূরান, ওয়া ফী বাসারী নূরান, ওয়া ফী সাম'ঈ নূরান",
         bengali: "হে আল্লাহ! আমার অন্তরে নূর দাও, আমার দৃষ্টিতে নূর দাও এবং আমার শ্রবণে নূর দাও।",
         english: "O Allah, place light in my heart, light in my sight, and light in my hearing.",
         reference: "তিরমিযী"
@@ -2390,6 +2402,8 @@ export const duaCategories: DuaCategory[] = [
         titleBengali: "মুসলিম হয়ে মৃত্যুর দোয়া",
         titleEnglish: "To Die as a Muslim",
         arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ خَيْرَ الْمَسْأَلَةِ وَخَيْرَ الدُّعَاءِ وَخَيْرَ النَّجَاحِ وَخَيْرَ الْعَمَلِ وَخَيْرَ الثَّوَابِ وَخَيْرَ الْحَيَاةِ وَخَيْرَ الْمَمَاتِ",
+        transliteration: "Allahumma inni as'aluka khayral-mas'alah wa khayrad-du'a' wa khayran-najah wa khayral-'amal wa khayrath-thawab wa khayral-hayah wa khayral-mamat",
+        transliterationBengali: "আল্লাহুম্মা ইন্নী আসআলুকা খাইরাল মাস'আলাহ ওয়া খাইরাদ দু'আ' ওয়া খাইরান নাজাহ ওয়া খাইরাল 'আমাল ওয়া খাইরাস সাওয়াব ওয়া খাইরাল হায়াহ ওয়া খাইরাল মামাত",
         bengali: "হে আল্লাহ! আমি তোমার কাছে উত্তম প্রার্থনা, উত্তম দোয়া, উত্তম সাফল্য, উত্তম আমল, উত্তম প্রতিদান, উত্তম জীবন এবং উত্তম মৃত্যু চাই।",
         english: "O Allah, I ask You for the best of requests, the best of supplications, the best of success, the best of deeds, the best of reward, the best of life, and the best of death.",
         reference: "হাকেম"
@@ -2399,6 +2413,8 @@ export const duaCategories: DuaCategory[] = [
         titleBengali: "আল্লাহর ভালোবাসার দোয়া",
         titleEnglish: "For Love of Allah",
         arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ حُبَّكَ، وَحُبَّ مَنْ يُحِبُّكَ، وَحُبَّ عَمَلٍ يُقَرِّبُنِي إِلَى حُبِّكَ",
+        transliteration: "Allahumma inni as'aluka hubbak, wa hubba man yuhibbuk, wa hubba 'amalin yuqarribuni ila hubbik",
+        transliterationBengali: "আল্লাহুম্মা ইন্নী আসআলুকা হুব্বাক, ওয়া হুব্বা মান ইউহিব্বুক, ওয়া হুব্বা 'আমালিন ইউক্বাররিবুনী ইলা হুব্বিক",
         bengali: "হে আল্লাহ! আমি তোমার ভালোবাসা চাই, তোমাকে যারা ভালোবাসে তাদের ভালোবাসা চাই এবং এমন আমলের ভালোবাসা চাই যা আমাকে তোমার ভালোবাসার কাছে পৌঁছে দেবে।",
         english: "O Allah, I ask You for Your love, the love of those who love You, and the love of deeds that will bring me closer to Your love.",
         reference: "তিরমিযী"
@@ -2408,6 +2424,8 @@ export const duaCategories: DuaCategory[] = [
         titleBengali: "সৎ সঙ্গীর দোয়া",
         titleEnglish: "For Righteous Companions",
         arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ مِنْ فَضْلِكَ وَرَحْمَتِكَ فَإِنَّهُ لاَ يَمْلِكُهَا إِلاَّ أَنْتَ",
+        transliteration: "Allahumma inni as'aluka min fadlika wa rahmatika fa-innahu la yamlikuha illa anta",
+        transliterationBengali: "আল্লাহুম্মা ইন্নী আসআলুকা মিন ফাদলিকা ওয়া রাহমাতিকা ফা-ইন্নাহু লা ইয়ামলিকুহা ইল্লা আনতা",
         bengali: "হে আল্লাহ! আমি তোমার অনুগ্রহ ও রহমত প্রার্থনা করি, কারণ এগুলো একমাত্র তোমার হাতে।",
         english: "O Allah, I ask You from Your bounty and mercy, for none possesses them except You.",
         reference: "তাবারানী"
@@ -2417,6 +2435,8 @@ export const duaCategories: DuaCategory[] = [
         titleBengali: "ঈমান দৃঢ় করার দোয়া",
         titleEnglish: "For Firm Faith",
         arabic: "اللَّهُمَّ زَيِّنَّا بِزِينَةِ الإِيمَانِ وَاجْعَلْنَا هُدَاةً مُهْتَدِينَ",
+        transliteration: "Allahumma zayyinna bizinnatil-iman waj'alna hudatan muhtadin",
+        transliterationBengali: "আল্লাহুম্মা যাইয়্যিন্না বিযীনাতিল ঈমান ওয়াজ'আলনা হুদাতান মুহতাদীন",
         bengali: "হে আল্লাহ! আমাদেরকে ঈমানের সৌন্দর্যে সুসজ্জিত কর এবং আমাদেরকে হিদায়াতপ্রাপ্ত পথপ্রদর্শক বানাও।",
         english: "O Allah, adorn us with the beauty of faith and make us guides who are rightly guided.",
         reference: "নাসাঈ"
