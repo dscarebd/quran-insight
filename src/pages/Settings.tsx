@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
 import { MobileNavFooter } from "@/components/MobileNavFooter";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Slider } from "@/components/ui/slider";
 import annurLogo from "@/assets/annur-digital-logo.jpeg";
 import appLogo from "@/assets/app-logo.png";
 
@@ -24,9 +25,11 @@ interface SettingsProps {
   onReadingModeChange?: (mode: "normal" | "sepia") => void;
   arabicFont?: "amiri" | "uthmani";
   onArabicFontChange?: (font: "amiri" | "uthmani") => void;
+  fontSize?: number;
+  onFontSizeChange?: (size: number) => void;
 }
 
-const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadingModeChange, arabicFont = "amiri", onArabicFontChange }: SettingsProps) => {
+const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadingModeChange, arabicFont = "amiri", onArabicFontChange, fontSize = 16, onFontSizeChange }: SettingsProps) => {
   const navigate = useNavigate();
   const { theme, setTheme } = useTheme();
 
@@ -241,6 +244,38 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
             <p className={cn("mt-2 text-xs text-muted-foreground", language === "bn" && "font-bengali")}>
               {language === "bn" ? "কুরআন ও দোয়ার আরবি লেখার জন্য" : "For Arabic text in Quran & Duas"}
             </p>
+          </section>
+
+          {/* Font Size Section */}
+          <section>
+            <h2 className={cn(
+              "mb-3 text-sm font-medium text-muted-foreground uppercase tracking-wider",
+              language === "bn" && "font-bengali"
+            )}>
+              {language === "bn" ? "ফন্ট সাইজ" : "Font Size"}
+            </h2>
+            <div className="rounded-xl border border-border bg-card p-4">
+              <div className="flex items-center justify-between mb-3">
+                <span className={cn("text-xs text-muted-foreground", language === "bn" && "font-bengali")}>
+                  {language === "bn" ? "ছোট" : "Small"}
+                </span>
+                <span className="text-sm font-semibold text-primary">{fontSize}px</span>
+                <span className={cn("text-xs text-muted-foreground", language === "bn" && "font-bengali")}>
+                  {language === "bn" ? "বড়" : "Large"}
+                </span>
+              </div>
+              <Slider
+                value={[fontSize]}
+                onValueChange={(value) => onFontSizeChange?.(value[0])}
+                min={15}
+                max={20}
+                step={1}
+                className="w-full"
+              />
+              <p className={cn("mt-3 text-xs text-muted-foreground text-center", language === "bn" && "font-bengali")}>
+                {language === "bn" ? "পুরো অ্যাপের টেক্সট সাইজ পরিবর্তন করুন" : "Adjust text size across the entire app"}
+              </p>
+            </div>
           </section>
           <section>
             <h2 className={cn(

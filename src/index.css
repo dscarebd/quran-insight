@@ -153,13 +153,8 @@
   }
 
   html {
-    font-size: 15px; /* Smaller base for mobile/tablet */
-  }
-
-  @media (min-width: 1024px) {
-    html {
-      font-size: 14px; /* Smaller base for desktop */
-    }
+    --base-font-size: 16px;
+    font-size: var(--base-font-size);
   }
 
   body {
