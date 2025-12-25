@@ -333,42 +333,20 @@ const Dua = ({ language }: DuaProps) => {
                   : (language === "bn" ? "দোয়া" : "Dua")
                 }
               </SheetTitle>
-              {selectedDua && (
-                <>
-                  <button
-                    onClick={() => handleCopyDua(selectedDua)}
-                    className="p-2 rounded-full hover:bg-accent"
-                    title={language === "bn" ? "কপি করুন" : "Copy"}
-                  >
-                    {copiedId === selectedDua.id ? (
-                      <Check className="h-5 w-5 text-green-500" />
-                    ) : (
-                      <Copy className="h-5 w-5 text-muted-foreground" />
-                    )}
-                  </button>
-                  <button
-                    onClick={() => handleShareDua(selectedDua)}
-                    className="p-2 rounded-full hover:bg-accent"
-                    title={language === "bn" ? "শেয়ার করুন" : "Share"}
-                  >
-                    <Share2 className="h-5 w-5 text-muted-foreground" />
-                  </button>
-                  {selectedCategory && (
-                    <button
-                      onClick={(e) => handleFavoriteClick(e, selectedCategory.id, selectedDua.id)}
-                      className="p-2 rounded-full hover:bg-accent"
-                    >
-                      <Heart 
-                        className={cn(
-                          "h-5 w-5 transition-colors",
-                          isBookmarked(selectedCategory.id, selectedDua.id) 
-                            ? "text-red-500 fill-red-500" 
-                            : "text-muted-foreground"
-                        )} 
-                      />
-                    </button>
-                  )}
-                </>
+              {selectedDua && selectedCategory && (
+                <button
+                  onClick={(e) => handleFavoriteClick(e, selectedCategory.id, selectedDua.id)}
+                  className="p-2 rounded-full hover:bg-accent"
+                >
+                  <Heart 
+                    className={cn(
+                      "h-5 w-5 transition-colors",
+                      isBookmarked(selectedCategory.id, selectedDua.id) 
+                        ? "text-red-500 fill-red-500" 
+                        : "text-muted-foreground"
+                    )} 
+                  />
+                </button>
               )}
             </div>
           </SheetHeader>
