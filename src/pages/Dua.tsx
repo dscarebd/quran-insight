@@ -422,27 +422,6 @@ const Dua = ({ language }: DuaProps) => {
               {/* Action Buttons at Bottom */}
               {selectedDua && (
                 <div className="space-y-3">
-                  {/* Copy Button */}
-                  <button
-                    onClick={() => handleCopyDua(selectedDua)}
-                    className={cn(
-                      "w-full flex items-center justify-center gap-2 py-3 rounded-xl border border-border bg-card hover:bg-accent transition-colors",
-                      language === "bn" && "font-bengali"
-                    )}
-                  >
-                    {copiedId === selectedDua.id ? (
-                      <>
-                        <Check className="h-5 w-5 text-green-500" />
-                        <span className="text-green-500">{language === "bn" ? "কপি হয়েছে" : "Copied!"}</span>
-                      </>
-                    ) : (
-                      <>
-                        <Copy className="h-5 w-5 text-muted-foreground" />
-                        <span>{language === "bn" ? "কপি" : "Copy"}</span>
-                      </>
-                    )}
-                  </button>
-
                   {/* Share Buttons Row */}
                   <div className="flex gap-2">
                     {/* WhatsApp Share */}
