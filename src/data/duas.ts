@@ -5032,6 +5032,366 @@ export const duaCategories: DuaCategory[] = [
         bengali: "সকল প্রশংসা আল্লাহর জন্য যাঁর অনুগ্রহে সকল ভালো কাজ সম্পন্ন হয়।",
         english: "All praise is for Allah by whose grace all good things are completed.",
         reference: "ইবনে মাজাহ, হাদিস নং ৩৮০৩"
+      },
+      {
+        id: "work-11",
+        titleBengali: "প্রকল্প শুরুর দোয়া",
+        titleEnglish: "Starting New Project",
+        arabic: "رَبِّ أَدْخِلْنِي مُدْخَلَ صِدْقٍ وَأَخْرِجْنِي مُخْرَجَ صِدْقٍ وَاجْعَل لِّي مِن لَّدُنكَ سُلْطَانًا نَّصِيرًا",
+        bengali: "হে আমার রব! আমাকে সত্যের সাথে প্রবেশ করাও এবং সত্যের সাথে বের কর, আর তোমার পক্ষ থেকে আমাকে সাহায্যকারী শক্তি দান কর।",
+        english: "My Lord, cause me to enter a sound entrance and to exit a sound exit and grant me from Yourself a supporting authority.",
+        reference: "সূরা ইসরা ১৭:৮০"
+      },
+      {
+        id: "work-12",
+        titleBengali: "কর্মক্ষমতা বৃদ্ধির দোয়া",
+        titleEnglish: "For Productivity",
+        arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْعَجْزِ وَالْكَسَلِ",
+        bengali: "হে আল্লাহ! আমি তোমার কাছে অক্ষমতা ও আলস্য থেকে পানাহ চাই।",
+        english: "O Allah, I seek refuge in You from inability and laziness.",
+        reference: "সহীহ বুখারী, হাদিস নং ৬৩৬৯"
+      },
+      {
+        id: "work-13",
+        titleBengali: "নেতৃত্বের জন্য দোয়া",
+        titleEnglish: "For Leadership",
+        arabic: "رَبِّ هَبْ لِي حُكْمًا وَأَلْحِقْنِي بِالصَّالِحِينَ",
+        bengali: "হে আমার রব! আমাকে প্রজ্ঞা দান কর এবং আমাকে সৎকর্মশীলদের অন্তর্ভুক্ত কর।",
+        english: "My Lord, grant me authority and join me with the righteous.",
+        reference: "সূরা শুআরা ২৬:৮৩"
+      },
+      {
+        id: "work-14",
+        titleBengali: "কর্মস্থলে নিরাপত্তার দোয়া",
+        titleEnglish: "For Workplace Safety",
+        arabic: "اللَّهُمَّ احْفَظْنِي مِنْ بَيْنِ يَدَيَّ وَمِنْ خَلْفِي وَعَنْ يَمِينِي وَعَنْ شِمَالِي",
+        bengali: "হে আল্লাহ! আমাকে আমার সামনে, পেছনে, ডানে এবং বামে থেকে হেফাজত কর।",
+        english: "O Allah, protect me from in front of me, from behind me, from my right, and from my left.",
+        reference: "সুনান আবু দাউদ, হাদিস নং ৫০৭৪"
+      },
+      {
+        id: "work-15",
+        titleBengali: "প্রতিযোগিতায় সফলতার দোয়া",
+        titleEnglish: "For Competition Success",
+        arabic: "اللَّهُمَّ لاَ سَهْلَ إِلاَّ مَا جَعَلْتَهُ سَهْلاً",
+        bengali: "হে আল্লাহ! কোন কাজ সহজ নয় যতক্ষণ না তুমি তা সহজ কর।",
+        english: "O Allah, nothing is easy except what You make easy.",
+        reference: "ইবনে হিব্বান, হাদিস নং ৯৭৪"
+      },
+      {
+        id: "work-16",
+        titleBengali: "বেতন বৃদ্ধির দোয়া",
+        titleEnglish: "For Salary Increase",
+        arabic: "اللَّهُمَّ اكْفِنِي بِحَلاَلِكَ عَنْ حَرَامِكَ وَأَغْنِنِي بِفَضْلِكَ عَمَّنْ سِوَاكَ",
+        bengali: "হে আল্লাহ! তোমার হালাল দিয়ে হারাম থেকে আমাকে বাঁচাও এবং তোমার অনুগ্রহে তোমা ছাড়া অন্য সবার থেকে অমুখাপেক্ষী কর।",
+        english: "O Allah, suffice me with Your lawful against Your prohibited and enrich me by Your bounty from others.",
+        reference: "সুনান তিরমিযী, হাদিস নং ৩৫৬৩"
+      },
+      {
+        id: "work-17",
+        titleBengali: "নতুন চাকরির জন্য দোয়া",
+        titleEnglish: "For New Job",
+        arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ مِنْ فَضْلِكَ",
+        bengali: "হে আল্লাহ! আমি তোমার অনুগ্রহ প্রার্থনা করি।",
+        english: "O Allah, I ask You from Your bounty.",
+        reference: "সূরা নিসা ৪:৩২"
+      },
+      {
+        id: "work-18",
+        titleBengali: "দক্ষতা বৃদ্ধির দোয়া",
+        titleEnglish: "For Skill Development",
+        arabic: "رَبِّ زِدْنِي عِلْمًا",
+        bengali: "হে আমার রব! আমার জ্ঞান বাড়িয়ে দাও।",
+        english: "My Lord, increase me in knowledge.",
+        reference: "সূরা ত্বহা ২০:১১৪"
+      },
+      {
+        id: "work-19",
+        titleBengali: "টিমওয়ার্কের দোয়া",
+        titleEnglish: "For Teamwork",
+        arabic: "اللَّهُمَّ أَلِّفْ بَيْنَ قُلُوبِنَا",
+        bengali: "হে আল্লাহ! আমাদের অন্তরে ভালোবাসা সৃষ্টি কর।",
+        english: "O Allah, bring love between our hearts.",
+        reference: "সূরা আনফাল ৮:৬৩"
+      },
+      {
+        id: "work-20",
+        titleBengali: "ন্যায়বিচারের দোয়া",
+        titleEnglish: "For Fair Treatment",
+        arabic: "رَبَّنَا افْتَحْ بَيْنَنَا وَبَيْنَ قَوْمِنَا بِالْحَقِّ وَأَنتَ خَيْرُ الْفَاتِحِينَ",
+        bengali: "হে আমাদের রব! আমাদের ও আমাদের কওমের মধ্যে সত্যের ভিত্তিতে ফয়সালা করে দাও, তুমি উত্তম ফয়সালাকারী।",
+        english: "Our Lord, decide between us and our people in truth, and You are the best of those who give decision.",
+        reference: "সূরা আ'রাফ ৭:৮৯"
+      },
+      {
+        id: "work-21",
+        titleBengali: "ব্যবসায়িক চুক্তির দোয়া",
+        titleEnglish: "For Business Deals",
+        arabic: "اللَّهُمَّ بَارِكْ لَنَا فِيمَا رَزَقْتَنَا",
+        bengali: "হে আল্লাহ! তুমি আমাদের যা দিয়েছ তাতে বরকত দাও।",
+        english: "O Allah, bless us in what You have provided for us.",
+        reference: "সুনান তিরমিযী, হাদিস নং ৩৪৫৫"
+      },
+      {
+        id: "work-22",
+        titleBengali: "সৃজনশীলতার দোয়া",
+        titleEnglish: "For Creativity",
+        arabic: "رَبِّ اشْرَحْ لِي صَدْرِي",
+        bengali: "হে আমার রব! আমার বক্ষ প্রশস্ত করে দাও।",
+        english: "My Lord, expand for me my chest.",
+        reference: "সূরা ত্বহা ২০:২৫"
+      },
+      {
+        id: "work-23",
+        titleBengali: "সময় ব্যবস্থাপনার দোয়া",
+        titleEnglish: "For Time Management",
+        arabic: "اللَّهُمَّ بَارِكْ لَنَا فِي أَوْقَاتِنَا",
+        bengali: "হে আল্লাহ! আমাদের সময়ে বরকত দাও।",
+        english: "O Allah, bless our time.",
+        reference: "মুসনাদে আহমাদ"
+      },
+      {
+        id: "work-24",
+        titleBengali: "প্রেজেন্টেশনের দোয়া",
+        titleEnglish: "For Presentations",
+        arabic: "وَاحْلُلْ عُقْدَةً مِّن لِّسَانِي يَفْقَهُوا قَوْلِي",
+        bengali: "এবং আমার জিহ্বার জড়তা দূর কর, যাতে তারা আমার কথা বুঝতে পারে।",
+        english: "And untie the knot from my tongue that they may understand my speech.",
+        reference: "সূরা ত্বহা ২০:২৭-২৮"
+      },
+      {
+        id: "work-25",
+        titleBengali: "ক্লায়েন্ট সন্তুষ্টির দোয়া",
+        titleEnglish: "For Client Satisfaction",
+        arabic: "اللَّهُمَّ أَرِنَا الْحَقَّ حَقًّا وَارْزُقْنَا اتِّبَاعَهُ",
+        bengali: "হে আল্লাহ! সত্যকে সত্য হিসেবে দেখাও এবং তা অনুসরণের তাওফিক দাও।",
+        english: "O Allah, show us the truth as truth and grant us to follow it.",
+        reference: "ইমাম নববী, আল-আযকার"
+      },
+      {
+        id: "work-26",
+        titleBengali: "অফিস পলিটিক্স থেকে সুরক্ষা",
+        titleEnglish: "Protection from Office Politics",
+        arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ شَرِّ مَا عَمِلْتُ وَمِنْ شَرِّ مَا لَمْ أَعْمَلْ",
+        bengali: "হে আল্লাহ! আমি যা করেছি তার অনিষ্ট থেকে এবং যা করিনি তার অনিষ্ট থেকে তোমার আশ্রয় চাই।",
+        english: "O Allah, I seek refuge in You from the evil of what I have done and from the evil of what I have not done.",
+        reference: "সহীহ মুসলিম, হাদিস নং ২৭১৬"
+      },
+      {
+        id: "work-27",
+        titleBengali: "বস এর সাথে সম্পর্ক",
+        titleEnglish: "For Good Relationship with Boss",
+        arabic: "اللَّهُمَّ حَبِّبْنِي إِلَى خَلْقِكَ",
+        bengali: "হে আল্লাহ! তোমার সৃষ্টির কাছে আমাকে প্রিয় করে দাও।",
+        english: "O Allah, make me beloved to Your creation.",
+        reference: "মুসনাদে আহমাদ"
+      },
+      {
+        id: "work-28",
+        titleBengali: "কাজের মানসিক চাপ দূরীকরণ",
+        titleEnglish: "For Work Stress Relief",
+        arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ",
+        bengali: "হে আল্লাহ! আমি দুশ্চিন্তা ও দুঃখ থেকে তোমার আশ্রয় চাই।",
+        english: "O Allah, I seek refuge in You from anxiety and sorrow.",
+        reference: "সহীহ বুখারী, হাদিস নং ৬৩৬৯"
+      },
+      {
+        id: "work-29",
+        titleBengali: "ফ্রিল্যান্সিং সফলতা",
+        titleEnglish: "For Freelancing Success",
+        arabic: "وَقُل رَّبِّ أَنزِلْنِي مُنزَلًا مُّبَارَكًا وَأَنتَ خَيْرُ الْمُنزِلِينَ",
+        bengali: "এবং বল, হে আমার রব! আমাকে বরকতময় স্থানে অবতরণ করাও এবং তুমি সর্বোত্তম অবতরণকারী।",
+        english: "And say, 'My Lord, let me land at a blessed landing place, and You are the best to accommodate us.'",
+        reference: "সূরা মুমিনূন ২৩:২৯"
+      },
+      {
+        id: "work-30",
+        titleBengali: "স্টার্টআপ সফলতা",
+        titleEnglish: "For Startup Success",
+        arabic: "رَبَّنَا آتِنَا مِن لَّدُنكَ رَحْمَةً وَهَيِّئْ لَنَا مِنْ أَمْرِنَا رَشَدًا",
+        bengali: "হে আমাদের রব! তোমার পক্ষ থেকে আমাদের রহমত দাও এবং আমাদের কাজে সঠিক পথ দেখাও।",
+        english: "Our Lord, grant us from Yourself mercy and prepare for us from our affair right guidance.",
+        reference: "সূরা কাহফ ১৮:১০"
+      },
+      {
+        id: "work-31",
+        titleBengali: "লক্ষ্য অর্জনের দোয়া",
+        titleEnglish: "For Achieving Goals",
+        arabic: "اللَّهُمَّ يَسِّرْ وَلاَ تُعَسِّرْ",
+        bengali: "হে আল্লাহ! সহজ কর, কঠিন করো না।",
+        english: "O Allah, make it easy and do not make it difficult.",
+        reference: "সহীহ বুখারী, হাদিস নং ৬১২৬"
+      },
+      {
+        id: "work-32",
+        titleBengali: "ক্যারিয়ার পরিবর্তনের দোয়া",
+        titleEnglish: "For Career Change",
+        arabic: "اللَّهُمَّ خِرْ لِي وَاخْتَرْ لِي",
+        bengali: "হে আল্লাহ! আমার জন্য কল্যাণকর নির্ধারণ কর এবং আমার জন্য পছন্দ কর।",
+        english: "O Allah, decree what is good for me and choose it for me.",
+        reference: "তিরমিযী, হাদিস নং ৩৫১৬"
+      },
+      {
+        id: "work-33",
+        titleBengali: "ইনোভেশনের দোয়া",
+        titleEnglish: "For Innovation",
+        arabic: "رَبِّ هَبْ لِي مِن لَّدُنكَ ذُرِّيَّةً طَيِّبَةً",
+        bengali: "হে আমার রব! তোমার পক্ষ থেকে আমাকে পবিত্র সন্তান দান কর।",
+        english: "My Lord, grant me from Yourself good offspring.",
+        reference: "সূরা আলে ইমরান ৩:৩৮"
+      },
+      {
+        id: "work-34",
+        titleBengali: "ট্রেনিং সফলতা",
+        titleEnglish: "For Training Success",
+        arabic: "اللَّهُمَّ انْفَعْنِي بِمَا عَلَّمْتَنِي وَعَلِّمْنِي مَا يَنْفَعُنِي",
+        bengali: "হে আল্লাহ! যা আমাকে শিখিয়েছ তা দ্বারা আমাকে উপকৃত কর এবং যা আমার উপকারে আসবে তা শেখাও।",
+        english: "O Allah, benefit me from what You have taught me and teach me what will benefit me.",
+        reference: "সুনান ইবনে মাজাহ, হাদিস নং ২৫১"
+      },
+      {
+        id: "work-35",
+        titleBengali: "ডেডলাইন পূরণের দোয়া",
+        titleEnglish: "For Meeting Deadlines",
+        arabic: "رَبِّ أَوْزِعْنِي أَنْ أَشْكُرَ نِعْمَتَكَ",
+        bengali: "হে আমার রব! আমাকে তাওফিক দাও যাতে তোমার নিয়ামতের শুকরিয়া আদায় করতে পারি।",
+        english: "My Lord, enable me to be grateful for Your favor.",
+        reference: "সূরা নামল ২৭:১৯"
+      },
+      {
+        id: "work-36",
+        titleBengali: "দূরবর্তী কাজের দোয়া",
+        titleEnglish: "For Remote Work",
+        arabic: "اللَّهُمَّ بَارِكْ لِي فِي عَمَلِي",
+        bengali: "হে আল্লাহ! আমার কাজে বরকত দাও।",
+        english: "O Allah, bless my work.",
+        reference: "মুসনাদে আহমাদ"
+      },
+      {
+        id: "work-37",
+        titleBengali: "কাজের ভারসাম্যের দোয়া",
+        titleEnglish: "For Work-Life Balance",
+        arabic: "رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً",
+        bengali: "হে আমাদের রব! দুনিয়াতে কল্যাণ দাও এবং আখিরাতেও কল্যাণ দাও।",
+        english: "Our Lord, give us good in this world and good in the Hereafter.",
+        reference: "সূরা বাকারা ২:২০১"
+      },
+      {
+        id: "work-38",
+        titleBengali: "ইন্টারভিউ সফলতা",
+        titleEnglish: "For Interview Success",
+        arabic: "رَبِّ اشْرَحْ لِي صَدْرِي وَيَسِّرْ لِي أَمْرِي",
+        bengali: "হে আমার রব! আমার বক্ষ প্রশস্ত কর এবং আমার কাজ সহজ করে দাও।",
+        english: "My Lord, expand for me my chest and ease my task for me.",
+        reference: "সূরা ত্বহা ২০:২৫-২৬"
+      },
+      {
+        id: "work-39",
+        titleBengali: "নেটওয়ার্কিং সফলতা",
+        titleEnglish: "For Networking Success",
+        arabic: "اللَّهُمَّ اجْعَلْنِي مِنْ عِبَادِكَ الصَّالِحِينَ",
+        bengali: "হে আল্লাহ! আমাকে তোমার নেক বান্দাদের অন্তর্ভুক্ত কর।",
+        english: "O Allah, make me among Your righteous servants.",
+        reference: "সূরা নামল ২৭:১৯"
+      },
+      {
+        id: "work-40",
+        titleBengali: "পেশাদারিত্বের দোয়া",
+        titleEnglish: "For Professionalism",
+        arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْهُدَى وَالتُّقَى وَالْعَفَافَ وَالْغِنَى",
+        bengali: "হে আল্লাহ! আমি তোমার কাছে হেদায়েত, তাকওয়া, পবিত্রতা ও সচ্ছলতা চাই।",
+        english: "O Allah, I ask You for guidance, piety, chastity, and self-sufficiency.",
+        reference: "সহীহ মুসলিম, হাদিস নং ২৭২১"
+      },
+      {
+        id: "work-41",
+        titleBengali: "ব্যবসায়িক অংশীদারিত্ব",
+        titleEnglish: "For Business Partnership",
+        arabic: "اللَّهُمَّ أَلِّفْ بَيْنَ قُلُوبِنَا وَأَصْلِحْ ذَاتَ بَيْنِنَا",
+        bengali: "হে আল্লাহ! আমাদের অন্তরে ভালোবাসা সৃষ্টি কর এবং আমাদের পারস্পরিক সম্পর্ক সংশোধন কর।",
+        english: "O Allah, bring love between our hearts and rectify our mutual relations.",
+        reference: "আবু দাউদ, হাদিস নং ৯৬৯"
+      },
+      {
+        id: "work-42",
+        titleBengali: "সম্মান অর্জনের দোয়া",
+        titleEnglish: "For Gaining Respect",
+        arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَافِيَةَ فِي الدُّنْيَا وَالْآخِرَةِ",
+        bengali: "হে আল্লাহ! আমি দুনিয়া ও আখিরাতে তোমার কাছে সুস্থতা চাই।",
+        english: "O Allah, I ask You for well-being in this world and the Hereafter.",
+        reference: "সুনান ইবনে মাজাহ, হাদিস নং ৩৮৫১"
+      },
+      {
+        id: "work-43",
+        titleBengali: "প্রতিভা প্রকাশের দোয়া",
+        titleEnglish: "For Showcasing Talent",
+        arabic: "رَبِّ أَرِنِي كَيْفَ تُحْيِي الْمَوْتَىٰ",
+        bengali: "হে আমার রব! আমাকে দেখাও কিভাবে তুমি মৃতদের জীবিত কর।",
+        english: "My Lord, show me how You give life to the dead.",
+        reference: "সূরা বাকারা ২:২৬০"
+      },
+      {
+        id: "work-44",
+        titleBengali: "সততার দোয়া",
+        titleEnglish: "For Honesty in Work",
+        arabic: "اللَّهُمَّ اجْعَلْنِي صَدُوقًا وَفِيًّا أَمِينًا",
+        bengali: "হে আল্লাহ! আমাকে সত্যবাদী, বিশ্বস্ত ও আমানতদার বানাও।",
+        english: "O Allah, make me truthful, loyal, and trustworthy.",
+        reference: "মুসনাদে আহমাদ"
+      },
+      {
+        id: "work-45",
+        titleBengali: "ব্যবসায়িক সিদ্ধান্তের দোয়া",
+        titleEnglish: "For Business Decisions",
+        arabic: "وَشَاوِرْهُمْ فِي الْأَمْرِ فَإِذَا عَزَمْتَ فَتَوَكَّلْ عَلَى اللَّهِ",
+        bengali: "এবং কাজে তাদের সাথে পরামর্শ কর, অতঃপর যখন দৃঢ় সংকল্প হও তখন আল্লাহর উপর ভরসা কর।",
+        english: "And consult them in the matter. And when you have decided, then rely upon Allah.",
+        reference: "সূরা আলে ইমরান ৩:১৫৯"
+      },
+      {
+        id: "work-46",
+        titleBengali: "প্রজেক্ট ম্যানেজমেন্ট",
+        titleEnglish: "For Project Management",
+        arabic: "رَبِّ أَتْمِمْ لِي نُورِي وَاغْفِرْ لِي",
+        bengali: "হে আমার রব! আমার জন্য আমার নূর পূর্ণ করে দাও এবং আমাকে ক্ষমা কর।",
+        english: "My Lord, perfect for me my light and forgive me.",
+        reference: "সূরা তাহরীম ৬৬:৮"
+      },
+      {
+        id: "work-47",
+        titleBengali: "কর্মজীবী নারীদের দোয়া",
+        titleEnglish: "For Working Women",
+        arabic: "رَبِّ إِنِّي لِمَا أَنزَلْتَ إِلَيَّ مِنْ خَيْرٍ فَقِيرٌ",
+        bengali: "হে আমার রব! তুমি আমার প্রতি যে কল্যাণ নাযিল করবে আমি তার মুখাপেক্ষী।",
+        english: "My Lord, indeed I am, for whatever good You would send down to me, in need.",
+        reference: "সূরা কাসাস ২৮:২৪"
+      },
+      {
+        id: "work-48",
+        titleBengali: "উদ্যোক্তাদের দোয়া",
+        titleEnglish: "For Entrepreneurs",
+        arabic: "رَبِّ انصُرْنِي بِمَا كَذَّبُونِ",
+        bengali: "হে আমার রব! তারা আমাকে মিথ্যাবাদী বলেছে, তুমি আমাকে সাহায্য কর।",
+        english: "My Lord, support me because they deny me.",
+        reference: "সূরা মুমিনূন ২৩:২৬"
+      },
+      {
+        id: "work-49",
+        titleBengali: "কাজে মনোযোগের দোয়া",
+        titleEnglish: "For Focus at Work",
+        arabic: "اللَّهُمَّ اجْمَعْ قَلْبِي عَلَى طَاعَتِكَ",
+        bengali: "হে আল্লাহ! তোমার আনুগত্যের উপর আমার অন্তরকে একত্রিত কর।",
+        english: "O Allah, unite my heart upon obedience to You.",
+        reference: "সুনান তিরমিযী, হাদিস নং ৩৫৯৯"
+      },
+      {
+        id: "work-50",
+        titleBengali: "কাজে ধৈর্যের দোয়া",
+        titleEnglish: "For Patience at Work",
+        arabic: "رَبَّنَا أَفْرِغْ عَلَيْنَا صَبْرًا وَثَبِّتْ أَقْدَامَنَا",
+        bengali: "হে আমাদের রব! আমাদের উপর ধৈর্য ঢেলে দাও এবং আমাদের পা স্থির রাখ।",
+        english: "Our Lord, pour upon us patience and plant firmly our feet.",
+        reference: "সূরা বাকারা ২:২৫০"
       }
     ]
   },
