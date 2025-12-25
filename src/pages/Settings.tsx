@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { ArrowLeft, Info, Moon, Sun, BookOpen, Globe, Mail, Heart } from "lucide-react";
+import { ArrowLeft, Info, Moon, Sun, BookOpen, Globe, Mail, Heart, Type } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { useTheme } from "next-themes";
@@ -22,9 +22,11 @@ interface SettingsProps {
   onLanguageChange: (lang: "bn" | "en") => void;
   readingMode?: "normal" | "sepia";
   onReadingModeChange?: (mode: "normal" | "sepia") => void;
+  arabicFont?: "amiri" | "uthmani";
+  onArabicFontChange?: (font: "amiri" | "uthmani") => void;
 }
 
-const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadingModeChange }: SettingsProps) => {
+const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadingModeChange, arabicFont = "amiri", onArabicFontChange }: SettingsProps) => {
   const navigate = useNavigate();
   const { theme, setTheme } = useTheme();
 
@@ -190,7 +192,56 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
             </p>
           </section>
 
-          {/* Developer Section */}
+          {/* Arabic Font Section */}
+          <section>
+            <h2 className={cn(
+              "mb-3 text-xs font-medium text-muted-foreground uppercase tracking-wider",
+              language === "bn" && "font-bengali"
+            )}>
+              {language === "bn" ? "আরবি ফন্ট" : "Arabic Font"}
+            </h2>
+            <div className="grid grid-cols-2 gap-2">
+              <button
+                onClick={() => onArabicFontChange?.("amiri")}
+                className={cn(
+                  "flex flex-col items-center justify-center gap-2 rounded-lg border border-border bg-card px-3 py-4 transition-colors",
+                  arabicFont === "amiri" ? "border-primary bg-primary/5" : "hover:bg-muted/50"
+                )}
+              >
+                <span className="font-arabic text-xl text-foreground">بِسْمِ</span>
+                <div className="flex items-center gap-1.5">
+                  <Type className="h-3.5 w-3.5" />
+                  <p className={cn("text-xs font-medium", language === "bn" && "font-bengali")}>
+                    {language === "bn" ? "আমিরী" : "Amiri"}
+                  </p>
+                  {arabicFont === "amiri" && (
+                    <div className="h-1.5 w-1.5 rounded-full bg-primary" />
+                  )}
+                </div>
+              </button>
+              <button
+                onClick={() => onArabicFontChange?.("uthmani")}
+                className={cn(
+                  "flex flex-col items-center justify-center gap-2 rounded-lg border border-border bg-card px-3 py-4 transition-colors",
+                  arabicFont === "uthmani" ? "border-primary bg-primary/5" : "hover:bg-muted/50"
+                )}
+              >
+                <span className="font-uthmani text-xl text-foreground">بِسْمِ</span>
+                <div className="flex items-center gap-1.5">
+                  <Type className="h-3.5 w-3.5" />
+                  <p className={cn("text-xs font-medium", language === "bn" && "font-bengali")}>
+                    {language === "bn" ? "উসমানী" : "Uthmani"}
+                  </p>
+                  {arabicFont === "uthmani" && (
+                    <div className="h-1.5 w-1.5 rounded-full bg-primary" />
+                  )}
+                </div>
+              </button>
+            </div>
+            <p className={cn("mt-2 text-xs text-muted-foreground", language === "bn" && "font-bengali")}>
+              {language === "bn" ? "কুরআন ও দোয়ার আরবি লেখার জন্য" : "For Arabic text in Quran & Duas"}
+            </p>
+          </section>
           <section>
             <h2 className={cn(
               "mb-3 text-xs font-medium text-muted-foreground uppercase tracking-wider",

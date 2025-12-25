@@ -14,6 +14,7 @@ import * as LucideIcons from "lucide-react";
 
 interface DuaProps {
   language: "bn" | "en";
+  arabicFont?: "amiri" | "uthmani";
 }
 
 // Dynamic icon component
@@ -25,7 +26,7 @@ const DynamicIcon = ({ name, className }: { name: string; className?: string }) 
   return <IconComponent className={className} />;
 };
 
-const Dua = ({ language }: DuaProps) => {
+const Dua = ({ language, arabicFont = "amiri" }: DuaProps) => {
   const navigate = useNavigate();
   const { bookmarks, isBookmarked, toggleBookmark, loading: bookmarksLoading } = useLocalDuaBookmarks();
   const [searchQuery, setSearchQuery] = useState("");
@@ -255,7 +256,7 @@ const Dua = ({ language }: DuaProps) => {
                         <DynamicIcon name={category.icon} className="h-5 w-5 text-primary" />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="font-arabic text-base text-foreground line-clamp-2 text-right" dir="rtl">
+                        <p className={cn("text-base text-foreground line-clamp-2 text-right", arabicFont === "uthmani" ? "font-uthmani" : "font-arabic")} dir="rtl">
                           {dua.arabic.substring(0, 60)}...
                         </p>
                         <p className={cn(
@@ -309,7 +310,7 @@ const Dua = ({ language }: DuaProps) => {
                         {language === "bn" ? dua.titleBengali : dua.titleEnglish}
                       </p>
                     )}
-                    <p className="font-arabic text-base text-foreground line-clamp-1 text-right" dir="rtl">
+                    <p className={cn("text-base text-foreground line-clamp-1 text-right", arabicFont === "uthmani" ? "font-uthmani" : "font-arabic")} dir="rtl">
                       {dua.arabic.length > 50 ? `${dua.arabic.substring(0, 50)}...` : dua.arabic}
                     </p>
                     <p className={cn(
@@ -374,7 +375,7 @@ const Dua = ({ language }: DuaProps) => {
             <div className="p-4 space-y-6">
               {/* Arabic */}
               <div className="bg-primary/5 rounded-xl p-5 border border-primary/20">
-                <p className="font-arabic text-2xl leading-loose text-foreground text-center" dir="rtl">
+                <p className={cn("text-2xl leading-loose text-foreground text-center", arabicFont === "uthmani" ? "font-uthmani" : "font-arabic")} dir="rtl">
                   {selectedDua?.arabic}
                 </p>
               </div>

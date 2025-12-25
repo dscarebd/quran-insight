@@ -17,6 +17,7 @@ import {
 interface BookmarksProps {
   language: "bn" | "en";
   readingMode?: "normal" | "sepia";
+  arabicFont?: "amiri" | "uthmani";
 }
 
 interface BookmarkedVerse {
@@ -32,7 +33,7 @@ interface BookmarkedVerse {
 }
 
 
-const Bookmarks = ({ language, readingMode = "normal" }: BookmarksProps) => {
+const Bookmarks = ({ language, readingMode = "normal", arabicFont = "amiri" }: BookmarksProps) => {
   const navigate = useNavigate();
   const { bookmarks: localBookmarks, removeBookmark } = useLocalBookmarks();
   const { toast } = useToast();
@@ -294,7 +295,7 @@ const Bookmarks = ({ language, readingMode = "normal" }: BookmarksProps) => {
 
                 {/* Arabic Text */}
                 {bookmark.arabic && (
-                  <p className="mb-4 text-right font-arabic text-2xl leading-loose text-foreground">
+                  <p className={cn("mb-4 text-right text-2xl leading-loose text-foreground", arabicFont === "uthmani" ? "font-uthmani" : "font-arabic")}>
                     {bookmark.arabic}
                   </p>
                 )}
