@@ -18,8 +18,7 @@ const Auth = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [mode, setMode] = useState<"login" | "signup">("login");
-  const { user, signIn, signUp } = useAuth();
+  const { user, signIn } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -44,29 +43,19 @@ const Auth = () => {
     setIsSubmitting(true);
     
     try {
-      const { error } = mode === "login" 
-        ? await signIn(email, password)
-        : await signUp(email, password);
+      const { error } = await signIn(email, password);
 
       if (error) {
         let message = error.message;
-        if (message.includes("User already registered")) {
-          message = "This email is already registered. Please log in instead.";
-        } else if (message.includes("Invalid login credentials")) {
+        if (message.includes("Invalid login credentials")) {
           message = "Invalid email or password. Please try again.";
         }
         
         toast({
-          title: mode === "login" ? "Login Failed" : "Sign Up Failed",
+          title: "Login Failed",
           description: message,
           variant: "destructive",
         });
-      } else if (mode === "signup") {
-        toast({
-          title: "Account Created",
-          description: "You can now log in with your credentials.",
-        });
-        setMode("login");
       }
     } catch (error) {
       toast({
@@ -88,13 +77,9 @@ const Auth = () => {
               <Book className="h-8 w-8 text-primary" />
             </div>
           </div>
-          <CardTitle className="text-2xl font-bold">
-            {mode === "login" ? "Admin Access" : "Create Account"}
-          </CardTitle>
+          <CardTitle className="text-2xl font-bold">Admin Access</CardTitle>
           <CardDescription>
-            {mode === "login" 
-              ? "Sign in to access the admin panel" 
-              : "Create a new account to get started"}
+            Sign in to access the admin panel
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -129,28 +114,17 @@ const Auth = () => {
             {isSubmitting ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                {mode === "login" ? "Signing in..." : "Creating account..."}
+                Signing in...
               </>
             ) : (
-              mode === "login" ? "Sign In" : "Sign Up"
+              "Sign In"
             )}
           </Button>
           
-          <div className="text-center space-y-2">
-            <Button 
-              variant="ghost" 
-              className="text-sm"
-              onClick={() => setMode(mode === "login" ? "signup" : "login")}
-            >
-              {mode === "login" 
-                ? "Don't have an account? Sign up" 
-                : "Already have an account? Sign in"}
+          <div className="text-center">
+            <Button variant="link" onClick={() => navigate("/")}>
+              Back to Home
             </Button>
-            <div>
-              <Button variant="link" onClick={() => navigate("/")}>
-                Back to Home
-              </Button>
-            </div>
           </div>
         </CardContent>
       </Card>
