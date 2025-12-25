@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { quranPages, getPageByNumber, getJuzForPage } from "@/data/pages";
 import { surahs } from "@/data/surahs";
-import { ChevronLeft, ChevronRight, Book, ZoomIn, ZoomOut, Search, Type } from "lucide-react";
+import { ChevronLeft, ChevronRight, Book, ZoomIn, ZoomOut, Search, Settings } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -56,6 +56,7 @@ const ReadPage = ({ language, readingMode = "normal", arabicFont = "amiri", onAr
     return saved ? parseInt(saved) : DEFAULT_FONT_INDEX;
   });
   const [showZoomIndicator, setShowZoomIndicator] = useState(false);
+  const [showFontIndicator, setShowFontIndicator] = useState(false);
 
   // Touch gesture refs
   const contentRef = useRef<HTMLDivElement>(null);
@@ -388,11 +389,15 @@ const ReadPage = ({ language, readingMode = "normal", arabicFont = "amiri", onAr
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => onArabicFontChange?.(arabicFont === "amiri" ? "uthmani" : "amiri")}
+              onClick={() => {
+                onArabicFontChange?.(arabicFont === "amiri" ? "uthmani" : "amiri");
+                setShowFontIndicator(true);
+                setTimeout(() => setShowFontIndicator(false), 1500);
+              }}
               className="h-8 w-8"
               title={arabicFont === "amiri" ? "Switch to Uthmani" : "Switch to Amiri"}
             >
-              <Type className="h-4 w-4" />
+              <Settings className="h-4 w-4" />
             </Button>
           </div>
         </div>
@@ -403,6 +408,18 @@ const ReadPage = ({ language, readingMode = "normal", arabicFont = "amiri", onAr
         <div className="fixed top-20 left-1/2 -translate-x-1/2 z-50 bg-foreground/90 text-background px-4 py-2 rounded-full animate-fade-in">
           <span className={cn("text-sm font-medium", language === "bn" && "font-bengali")}>
             {language === "bn" ? `ফন্ট: ${currentFontSize}px` : `Font: ${currentFontSize}px`}
+          </span>
+        </div>
+      )}
+
+      {/* Font Change Indicator */}
+      {showFontIndicator && (
+        <div className="fixed top-20 left-1/2 -translate-x-1/2 z-50 bg-foreground/90 text-background px-4 py-2 rounded-full animate-fade-in">
+          <span className={cn("text-sm font-medium", language === "bn" && "font-bengali")}>
+            {arabicFont === "uthmani" 
+              ? (language === "bn" ? "উসমানী ফন্ট" : "Uthmani Font")
+              : (language === "bn" ? "আমিরী ফন্ট" : "Amiri Font")
+            }
           </span>
         </div>
       )}
