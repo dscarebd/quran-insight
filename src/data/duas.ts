@@ -2120,6 +2120,116 @@ export const duaCategories: DuaCategory[] = [
         bengali: "কোনো সমস্যা নেই—ইনশাআল্লাহ এটি পবিত্রতা",
         english: "No harm—if Allah wills, it is a purification",
         reference: "সহীহ বুখারী, হাদিস নং ৫৬৫৬"
+      },
+      {
+        id: "sunnah-41",
+        titleBengali: "হাঁচির পর দোয়া",
+        titleEnglish: "After Sneezing",
+        arabic: "الْحَمْدُ لِلَّهِ",
+        transliteration: "Alhamdulillah",
+        transliterationBengali: "আলহামদুলিল্লাহ",
+        bengali: "সব প্রশংসা আল্লাহর",
+        english: "All praise is for Allah",
+        reference: "সহীহ বুখারী, হাদিস নং ৬২২৪"
+      },
+      {
+        id: "sunnah-42",
+        titleBengali: "হাঁচির জবাব",
+        titleEnglish: "Reply to Sneezing",
+        arabic: "يَرْحَمُكَ اللَّهُ",
+        transliteration: "Yarhamukallah",
+        transliterationBengali: "ইয়ারহামুকাল্লাহ",
+        bengali: "আল্লাহ আপনাকে রহম করুন",
+        english: "May Allah have mercy on you",
+        reference: "সহীহ বুখারী, হাদিস নং ৬২২৪"
+      },
+      {
+        id: "sunnah-43",
+        titleBengali: "খারাপ চরিত্র থেকে রক্ষা",
+        titleEnglish: "Protection from Bad Character",
+        arabic: "اللَّهُمَّ اهْدِنِي لِأَحْسَنِ الْأَخْلَاقِ",
+        transliteration: "Allahumma ihdini li-ahsanil-akhlaq",
+        transliterationBengali: "আল্লাহুম্মা ইহদিনি লি আহসানিল আখলাক",
+        bengali: "হে আল্লাহ আমাকে উত্তম চরিত্রে পরিচালিত করুন",
+        english: "O Allah guide me to the best of character",
+        reference: "সহীহ মুসলিম, হাদিস নং ৭৭১"
+      },
+      {
+        id: "sunnah-44",
+        titleBengali: "স্বামী-স্ত্রীর সম্পর্কের আগে দোয়া",
+        titleEnglish: "Before Sexual Relations",
+        arabic: "بِسْمِ اللَّهِ اللَّهُمَّ جَنِّبْنَا الشَّيْطَانَ",
+        transliteration: "Bismillahi Allahumma jannibnash-shaitan",
+        transliterationBengali: "বিসমিল্লাহি আল্লাহুম্মা জান্নিবনাশ শাইতান",
+        bengali: "হে আল্লাহ আমাদেরকে শয়তান থেকে দূরে রাখুন",
+        english: "O Allah keep Satan away from us",
+        reference: "সহীহ বুখারী, হাদিস নং ১৪১"
+      },
+      {
+        id: "sunnah-45",
+        titleBengali: "ঋণ ও গুনাহ থেকে রক্ষা",
+        titleEnglish: "Protection from Debt and Sin",
+        arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْمَأْثَمِ وَالْمَغْرَمِ",
+        transliteration: "Allahumma inni a'udhu bika minal-ma'tham wal-maghram",
+        transliterationBengali: "আল্লাহুম্মা ইন্নি আউযু বিকা মিনাল মা'সাম ওয়াল মাগরাম",
+        bengali: "হে আল্লাহ গুনাহ ও ঋণের বোঝা থেকে আমাকে রক্ষা করুন",
+        english: "O Allah protect me from sin and debt",
+        reference: "সহীহ বুখারী, হাদিস নং ৬৩৬৯"
+      },
+      {
+        id: "sunnah-46",
+        titleBengali: "হঠাৎ রাগ থেকে রক্ষা",
+        titleEnglish: "Protection from Sudden Anger",
+        arabic: "اللَّهُمَّ اذْهِبْ غَيْظَ قَلْبِي",
+        transliteration: "Allahumma adhhib ghayza qalbi",
+        transliterationBengali: "আল্লাহুম্মা আজহিব গাইযা কালবি",
+        bengali: "হে আল্লাহ আমার হৃদয়ের ক্রোধ দূর করুন",
+        english: "O Allah remove the anger of my heart",
+        reference: "সুনান আবু দাউদ, হাদিস নং ৪৭৮২"
+      },
+      {
+        id: "sunnah-47",
+        titleBengali: "ব্যথা লাগলে দোয়া",
+        titleEnglish: "When Feeling Pain",
+        arabic: "بِسْمِ اللَّهِ أَعُوذُ بِعِزَّةِ اللَّهِ وَقُدْرَتِهِ",
+        transliteration: "Bismillahi a'udhu bi'izzatillahi wa qudratih",
+        transliterationBengali: "বিসমিল্লাহি আউযু বিইজ্জাতিল্লাহি ওয়া কুদরাতিহি",
+        bengali: "আল্লাহর শক্তি ও ক্ষমতার আশ্রয় চাই",
+        english: "I seek refuge in Allah's might and power",
+        reference: "সহীহ মুসলিম, হাদিস নং ২২০২"
+      },
+      {
+        id: "sunnah-48",
+        titleBengali: "ফিতনা থেকে রক্ষা",
+        titleEnglish: "Protection from Trials",
+        arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْفِتَنِ",
+        transliteration: "Allahumma inni a'udhu bika minal-fitan",
+        transliterationBengali: "আল্লাহুম্মা ইন্নি আউযু বিকা মিনাল ফিতান",
+        bengali: "হে আল্লাহ সব ফিতনা থেকে আমাকে রক্ষা করুন",
+        english: "O Allah protect me from trials",
+        reference: "সহীহ মুসলিম, হাদিস নং ২৮৬৭"
+      },
+      {
+        id: "sunnah-49",
+        titleBengali: "জীবনের সুন্দর সমাপ্তির দোয়া",
+        titleEnglish: "Good Ending of Life",
+        arabic: "اللَّهُمَّ اخْتِمْ لَنَا بِخَيْرٍ",
+        transliteration: "Allahumma-khtim lana bikhayr",
+        transliterationBengali: "আল্লাহুম্মা ইখতিম লানা বিখাইর",
+        bengali: "হে আল্লাহ আমাদের শেষটা ভালো করুন",
+        english: "O Allah grant us a good ending",
+        reference: "মুসনাদ আহমাদ, হাদিস নং ১২১৭৩"
+      },
+      {
+        id: "sunnah-50",
+        titleBengali: "সমস্ত কল্যাণের দোয়া",
+        titleEnglish: "Comprehensive Goodness",
+        arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ مِنْ كُلِّ خَيْرٍ",
+        transliteration: "Allahumma inni as'aluka min kulli khayr",
+        transliterationBengali: "আল্লাহুম্মা ইন্নি আসআলুকা মিন কুল্লি খাইর",
+        bengali: "হে আল্লাহ আমি আপনার কাছে সব কল্যাণ চাই",
+        english: "O Allah I ask You for all goodness",
+        reference: "সুনান ইবন মাজাহ, হাদিস নং ৩৮৪৩"
       }
     ]
   },
