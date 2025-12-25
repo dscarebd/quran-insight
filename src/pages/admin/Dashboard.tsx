@@ -1,16 +1,9 @@
 import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Book, FileText, Users, Mail, Eye, TrendingUp, Radio } from "lucide-react";
+import { Eye, TrendingUp, Users, Radio } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { startOfDay, startOfWeek, startOfMonth } from "date-fns";
-
-interface Stats {
-  surahs: number;
-  verses: number;
-  users: number;
-  adminEmails: number;
-}
 
 interface VisitorStats {
   today: { views: number; visitors: number };
@@ -20,7 +13,6 @@ interface VisitorStats {
 }
 
 const Dashboard = () => {
-  const [stats, setStats] = useState<Stats>({ surahs: 0, verses: 0, users: 0, adminEmails: 0 });
   const [visitorStats, setVisitorStats] = useState<VisitorStats>({
     today: { views: 0, visitors: 0 },
     week: { views: 0, visitors: 0 },
@@ -28,7 +20,6 @@ const Dashboard = () => {
     all: { views: 0, visitors: 0 },
   });
   const [isLoading, setIsLoading] = useState(true);
-  const [isLive, setIsLive] = useState(true);
 
   const calculateVisitorStats = (pageViews: any[]) => {
     const todayStart = startOfDay(new Date());
@@ -62,23 +53,12 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const [surahsRes, versesRes, profilesRes, adminEmailsRes, pageViewsRes] = await Promise.all([
-          supabase.from("surahs").select("id", { count: "exact", head: true }),
-          supabase.from("verses").select("id", { count: "exact", head: true }),
-          supabase.from("profiles").select("id", { count: "exact", head: true }),
-          supabase.from("admin_emails").select("id", { count: "exact", head: true }),
-          supabase.from("page_views").select("*"),
-        ]);
+        const { data: pageViews } = await supabase
+          .from("page_views")
+          .select("*");
 
-        setStats({
-          surahs: surahsRes.count || 0,
-          verses: versesRes.count || 0,
-          users: profilesRes.count || 0,
-          adminEmails: adminEmailsRes.count || 0,
-        });
-
-        if (pageViewsRes.data) {
-          calculateVisitorStats(pageViewsRes.data);
+        if (pageViews) {
+          calculateVisitorStats(pageViews);
         }
       } catch (error) {
         console.error("Error fetching stats:", error);
@@ -118,13 +98,6 @@ const Dashboard = () => {
     };
   }, []);
 
-  const statCards = [
-    { title: "Total Surahs", value: stats.surahs, icon: Book, color: "text-primary" },
-    { title: "Total Verses", value: stats.verses, icon: FileText, color: "text-blue-500" },
-    { title: "Registered Users", value: stats.users, icon: Users, color: "text-amber-500" },
-    { title: "Admin Emails", value: stats.adminEmails, icon: Mail, color: "text-rose-500" },
-  ];
-
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -132,8 +105,8 @@ const Dashboard = () => {
           <h2 className="text-2xl font-bold">Welcome to Admin Panel</h2>
           <p className="text-muted-foreground">Manage your Quran application content and users.</p>
         </div>
-        <Badge variant={isLive ? "default" : "secondary"} className="flex items-center gap-1.5">
-          <Radio className={`h-3 w-3 ${isLive ? "animate-pulse" : ""}`} />
+        <Badge variant="default" className="flex items-center gap-1.5">
+          <Radio className="h-3 w-3 animate-pulse" />
           Live
         </Badge>
       </div>
@@ -214,44 +187,6 @@ const Dashboard = () => {
           </Card>
         </div>
       </div>
-
-      {/* Content Stats Section */}
-      <div>
-        <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
-          <Book className="h-5 w-5 text-primary" />
-          Content Overview
-        </h3>
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-          {statCards.map((stat) => (
-            <Card key={stat.title}>
-              <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-sm font-medium text-muted-foreground">
-                  {stat.title}
-                </CardTitle>
-                <stat.icon className={`h-5 w-5 ${stat.color}`} />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">
-                  {isLoading ? "..." : stat.value.toLocaleString()}
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </div>
-
-      <Card>
-        <CardHeader>
-          <CardTitle>Quick Actions</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-2 text-sm text-muted-foreground">
-          <p>• Navigate to <strong>Analytics</strong> for detailed visitor insights</p>
-          <p>• Navigate to <strong>Surahs</strong> to manage Quran chapters</p>
-          <p>• Navigate to <strong>Verses</strong> to manage individual verses</p>
-          <p>• Navigate to <strong>Users</strong> to view registered users and their roles</p>
-          <p>• Navigate to <strong>Admin Emails</strong> to manage admin access</p>
-        </CardContent>
-      </Card>
     </div>
   );
 };
