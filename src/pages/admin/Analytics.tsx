@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Loader2, Users, Eye, Calendar, TrendingUp } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Loader2, Users, Eye, Calendar, TrendingUp, Radio } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { startOfDay, startOfWeek, startOfMonth, format, subDays } from "date-fns";
 
@@ -28,6 +29,7 @@ const Analytics = () => {
   });
   const [dailyStats, setDailyStats] = useState<DailyStats[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isLive, setIsLive] = useState(true);
   const [summaryStats, setSummaryStats] = useState({
     today: { views: 0, visitors: 0 },
     week: { views: 0, visitors: 0 },
@@ -49,90 +51,90 @@ const Analytics = () => {
     }
   };
 
+  const calculateStats = (pageViews: any[]) => {
+    const startDate = getStartDate(period);
+    
+    // Filter for current period
+    const filteredViews = startDate 
+      ? pageViews.filter(v => new Date(v.created_at) >= startDate)
+      : pageViews;
+
+    const totalViews = filteredViews.length;
+    const uniqueVisitors = new Set(filteredViews.map(pv => pv.visitor_id)).size;
+
+    // Calculate top pages
+    const pageCounts: Record<string, number> = {};
+    filteredViews.forEach(pv => {
+      pageCounts[pv.page_path] = (pageCounts[pv.page_path] || 0) + 1;
+    });
+
+    const topPages = Object.entries(pageCounts)
+      .map(([page_path, count]) => ({ page_path, count }))
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 10);
+
+    setStats({ totalViews, uniqueVisitors, topPages });
+
+    // Calculate summary stats
+    const todayStart = startOfDay(new Date());
+    const weekStart = startOfWeek(new Date(), { weekStartsOn: 0 });
+    const monthStart = startOfMonth(new Date());
+
+    const todayViews = pageViews.filter(v => new Date(v.created_at) >= todayStart);
+    const weekViews = pageViews.filter(v => new Date(v.created_at) >= weekStart);
+    const monthViews = pageViews.filter(v => new Date(v.created_at) >= monthStart);
+
+    setSummaryStats({
+      today: {
+        views: todayViews.length,
+        visitors: new Set(todayViews.map(v => v.visitor_id)).size,
+      },
+      week: {
+        views: weekViews.length,
+        visitors: new Set(weekViews.map(v => v.visitor_id)).size,
+      },
+      month: {
+        views: monthViews.length,
+        visitors: new Set(monthViews.map(v => v.visitor_id)).size,
+      },
+      all: {
+        views: pageViews.length,
+        visitors: new Set(pageViews.map(v => v.visitor_id)).size,
+      },
+    });
+
+    // Calculate daily stats for last 7 days
+    const last7Days: DailyStats[] = [];
+    for (let i = 6; i >= 0; i--) {
+      const day = subDays(new Date(), i);
+      const dayStart = startOfDay(day);
+      const dayEnd = new Date(dayStart);
+      dayEnd.setDate(dayEnd.getDate() + 1);
+
+      const dayViews = pageViews.filter(v => {
+        const date = new Date(v.created_at);
+        return date >= dayStart && date < dayEnd;
+      });
+
+      last7Days.push({
+        date: format(day, "EEE"),
+        views: dayViews.length,
+        visitors: new Set(dayViews.map(v => v.visitor_id)).size,
+      });
+    }
+    setDailyStats(last7Days);
+  };
+
   const fetchStats = async () => {
     setIsLoading(true);
     try {
-      const startDate = getStartDate(period);
-      
-      // Build query for current period
-      let query = supabase.from("page_views").select("*");
-      
-      if (startDate) {
-        query = query.gte("created_at", startDate.toISOString());
-      }
-
-      const { data: pageViews, error } = await query;
+      const { data: pageViews, error } = await supabase
+        .from("page_views")
+        .select("*");
       
       if (error) throw error;
-
-      // Calculate stats
-      const totalViews = pageViews?.length || 0;
-      const uniqueVisitors = new Set(pageViews?.map(pv => pv.visitor_id)).size;
-
-      // Calculate top pages
-      const pageCounts: Record<string, number> = {};
-      pageViews?.forEach(pv => {
-        pageCounts[pv.page_path] = (pageCounts[pv.page_path] || 0) + 1;
-      });
-
-      const topPages = Object.entries(pageCounts)
-        .map(([page_path, count]) => ({ page_path, count }))
-        .sort((a, b) => b.count - a.count)
-        .slice(0, 10);
-
-      setStats({ totalViews, uniqueVisitors, topPages });
-
-      // Fetch summary stats for all periods
-      const todayStart = startOfDay(new Date());
-      const weekStart = startOfWeek(new Date(), { weekStartsOn: 0 });
-      const monthStart = startOfMonth(new Date());
-
-      const { data: allViews } = await supabase.from("page_views").select("*");
-
-      if (allViews) {
-        const todayViews = allViews.filter(v => new Date(v.created_at) >= todayStart);
-        const weekViews = allViews.filter(v => new Date(v.created_at) >= weekStart);
-        const monthViews = allViews.filter(v => new Date(v.created_at) >= monthStart);
-
-        setSummaryStats({
-          today: {
-            views: todayViews.length,
-            visitors: new Set(todayViews.map(v => v.visitor_id)).size,
-          },
-          week: {
-            views: weekViews.length,
-            visitors: new Set(weekViews.map(v => v.visitor_id)).size,
-          },
-          month: {
-            views: monthViews.length,
-            visitors: new Set(monthViews.map(v => v.visitor_id)).size,
-          },
-          all: {
-            views: allViews.length,
-            visitors: new Set(allViews.map(v => v.visitor_id)).size,
-          },
-        });
-
-        // Calculate daily stats for last 7 days
-        const last7Days: DailyStats[] = [];
-        for (let i = 6; i >= 0; i--) {
-          const day = subDays(new Date(), i);
-          const dayStart = startOfDay(day);
-          const dayEnd = new Date(dayStart);
-          dayEnd.setDate(dayEnd.getDate() + 1);
-
-          const dayViews = allViews.filter(v => {
-            const date = new Date(v.created_at);
-            return date >= dayStart && date < dayEnd;
-          });
-
-          last7Days.push({
-            date: format(day, "EEE"),
-            views: dayViews.length,
-            visitors: new Set(dayViews.map(v => v.visitor_id)).size,
-          });
-        }
-        setDailyStats(last7Days);
+      if (pageViews) {
+        calculateStats(pageViews);
       }
     } catch (error) {
       console.error("Failed to fetch analytics:", error);
@@ -143,6 +145,35 @@ const Analytics = () => {
 
   useEffect(() => {
     fetchStats();
+  }, [period]);
+
+  // Real-time subscription
+  useEffect(() => {
+    const channel = supabase
+      .channel('page-views-realtime')
+      .on(
+        'postgres_changes',
+        {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'page_views'
+        },
+        async () => {
+          // Refetch all data when new page view arrives
+          const { data: pageViews } = await supabase
+            .from("page_views")
+            .select("*");
+          
+          if (pageViews) {
+            calculateStats(pageViews);
+          }
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, [period]);
 
   const periodLabels: Record<TimePeriod, string> = {
@@ -173,14 +204,20 @@ const Analytics = () => {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h2 className="text-2xl font-bold">Visitor Analytics</h2>
-        <p className="text-muted-foreground">Track anonymous page views and visitor activity</p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-2xl font-bold">Visitor Analytics</h2>
+          <p className="text-muted-foreground">Track anonymous page views and visitor activity</p>
+        </div>
+        <Badge variant={isLive ? "default" : "secondary"} className="flex items-center gap-1.5">
+          <Radio className={`h-3 w-3 ${isLive ? "animate-pulse" : ""}`} />
+          {isLive ? "Live" : "Paused"}
+        </Badge>
       </div>
 
       {/* Summary Cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <Card>
+        <Card className="border-primary/20 bg-primary/5">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
               <Calendar className="h-4 w-4" />
