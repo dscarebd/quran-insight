@@ -56,20 +56,20 @@ export const MobileNavFooter = ({ language }: MobileNavFooterProps) => {
       },
     },
     {
-      icon: HandHelping,
-      labelEn: "Dua",
-      labelBn: "দোয়া",
-      path: "/dua",
-      isActive: location.pathname.startsWith("/dua"),
-      action: () => navigate("/dua"),
-    },
-    {
       icon: Bookmark,
       labelEn: "Bookmarks",
       labelBn: "বুকমার্ক",
       path: "/bookmarks",
       isActive: location.pathname === "/bookmarks",
       action: () => navigate("/bookmarks"),
+    },
+    {
+      icon: HandHelping,
+      labelEn: "Dua",
+      labelBn: "দোয়া",
+      path: "/dua",
+      isActive: location.pathname.startsWith("/dua"),
+      action: () => navigate("/dua"),
     },
   ];
 
