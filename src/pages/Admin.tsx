@@ -19,14 +19,16 @@ import {
 } from "@/components/ui/sidebar";
 
 const adminNavItems = [
-  { title: "Dashboard", url: "/admin", icon: Home },
-  { title: "Analytics", url: "/admin/analytics", icon: BarChart3 },
-  { title: "Surahs", url: "/admin/surahs", icon: Book },
-  { title: "Verses", url: "/admin/verses", icon: FileText },
-  { title: "Import", url: "/admin/import-verses", icon: Upload },
-  { title: "Users", url: "/admin/users", icon: Users },
-  { title: "Emails", url: "/admin/admin-emails", icon: Mail },
+  { title: "Dashboard", url: "/admin", icon: Home, showInMobile: true },
+  { title: "Analytics", url: "/admin/analytics", icon: BarChart3, showInMobile: true },
+  { title: "Surahs", url: "/admin/surahs", icon: Book, showInMobile: true },
+  { title: "Verses", url: "/admin/verses", icon: FileText, showInMobile: false },
+  { title: "Import", url: "/admin/import-verses", icon: Upload, showInMobile: false },
+  { title: "Users", url: "/admin/users", icon: Users, showInMobile: false },
+  { title: "Emails", url: "/admin/admin-emails", icon: Mail, showInMobile: true },
 ];
+
+const mobileNavItems = adminNavItems.filter(item => item.showInMobile);
 
 const Admin = () => {
   const { user, isAdmin, isLoading, signOut } = useAuth();
@@ -149,7 +151,7 @@ const Admin = () => {
         {/* Mobile Bottom Navigation */}
         <nav className="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-card border-t">
           <div className="flex items-center justify-around py-2">
-            {adminNavItems.map((item) => (
+            {mobileNavItems.map((item) => (
               <NavLink
                 key={item.title}
                 to={item.url}
