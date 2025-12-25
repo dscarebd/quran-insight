@@ -1214,6 +1214,8 @@ export const duaCategories: DuaCategory[] = [
         titleBengali: "দুনিয়া ও আখিরাতের কল্যাণ",
         titleEnglish: "Good in This World & Hereafter",
         arabic: "رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ",
+        transliteration: "Rabbana atina fid-dunya hasanatan wa fil-akhirati hasanatan wa qina 'adhaban-nar",
+        transliterationBengali: "রাব্বানা আতিনা ফিদ্দুনিয়া হাসানাতাও ওয়া ফিল আখিরাতি হাসানাতাও ওয়া ক্বিনা 'আযাবান নার",
         bengali: "হে আমাদের রব! আমাদেরকে দুনিয়াতে কল্যাণ দাও এবং আখিরাতেও কল্যাণ দাও এবং আমাদেরকে জাহান্নামের আযাব থেকে রক্ষা কর।",
         english: "Our Lord, give us in this world that which is good and in the Hereafter that which is good and protect us from the punishment of the Fire.",
         reference: "সূরা বাকারা ২:২০১"
@@ -1223,6 +1225,8 @@ export const duaCategories: DuaCategory[] = [
         titleBengali: "ভুল ও সীমালঙ্ঘন থেকে ক্ষমা",
         titleEnglish: "Forgiveness for Mistakes",
         arabic: "رَبَّنَا لاَ تُؤَاخِذْنَا إِن نَّسِينَا أَوْ أَخْطَأْنَا، رَبَّنَا وَلاَ تَحْمِلْ عَلَيْنَا إِصْرًا كَمَا حَمَلْتَهُ عَلَى الَّذِينَ مِن قَبْلِنَا، رَبَّنَا وَلاَ تُحَمِّلْنَا مَا لاَ طَاقَةَ لَنَا بِهِ، وَاعْفُ عَنَّا وَاغْفِرْ لَنَا وَارْحَمْنَا، أَنتَ مَوْلاَنَا فَانصُرْنَا عَلَى الْقَوْمِ الْكَافِرِينَ",
+        transliteration: "Rabbana la tu'akhidhna in nasina aw akhta'na, Rabbana wa la tahmil 'alayna isran kama hamaltahu 'alal-ladhina min qablina, Rabbana wa la tuhammilna ma la taqata lana bih, wa'fu 'anna waghfir lana warhamna, anta mawlana fansurna 'alal-qawmil-kafirin",
+        transliterationBengali: "রাব্বানা লা তু'আখিযনা ইন নাসিনা আও আখতা'না, রাব্বানা ওয়া লা তাহমিল 'আলাইনা ইসরান কামা হামালতাহু 'আলাল্লাযীনা মিন ক্বাবলিনা, রাব্বানা ওয়া লা তুহাম্মিলনা মা লা তাক্বাতা লানা বিহ, ওয়া'ফু 'আন্না ওয়াগফির লানা ওয়ারহামনা, আনতা মাওলানা ফানসুরনা 'আলাল ক্বাওমিল কাফিরীন",
         bengali: "হে আমাদের রব! আমরা যদি ভুলে যাই অথবা ভুল করি তাহলে আমাদের পাকড়াও করো না। হে আমাদের রব! আমাদের পূর্ববর্তীদের উপর যেমন বোঝা চাপিয়েছিলে আমাদের উপর তেমন বোঝা চাপিও না। হে আমাদের রব! আমাদের সামর্থ্যের বাইরে কিছু আমাদের উপর চাপিও না। আমাদের মাফ কর, আমাদের ক্ষমা কর এবং আমাদের প্রতি দয়া কর। তুমিই আমাদের অভিভাবক। অতএব, কাফির সম্প্রদায়ের বিরুদ্ধে আমাদের সাহায্য কর।",
         english: "Our Lord, do not impose blame upon us if we have forgotten or erred. Our Lord, and lay not upon us a burden like that which You laid upon those before us. Our Lord, and burden us not with that which we have no ability to bear. And pardon us; and forgive us; and have mercy upon us. You are our protector, so give us victory over the disbelieving people.",
         reference: "সূরা বাকারা ২:২৮৬"
@@ -1232,6 +1236,8 @@ export const duaCategories: DuaCategory[] = [
         titleBengali: "মূসা (আ.) এর কাজ সহজ করার দোয়া",
         titleEnglish: "Dua of Musa for Ease",
         arabic: "رَبِّ اشْرَحْ لِي صَدْرِي، وَيَسِّرْ لِي أَمْرِي، وَاحْلُلْ عُقْدَةً مِّن لِّسَانِي، يَفْقَهُوا قَوْلِي",
+        transliteration: "Rabbish-rahli sadri, wa yassir li amri, wahlul 'uqdatan min lisani, yafqahu qawli",
+        transliterationBengali: "রাব্বিশরাহলী সাদরী, ওয়া ইয়াসসির লী আমরী, ওয়াহলুল 'উক্বদাতাম মিন লিসানী, ইয়াফক্বাহূ ক্বাওলী",
         bengali: "হে আমার রব! আমার বক্ষ প্রশস্ত করে দাও, আমার কাজ সহজ করে দাও এবং আমার জিহ্বার জড়তা দূর করে দাও, যাতে তারা আমার কথা বুঝতে পারে।",
         english: "My Lord, expand for me my breast, ease my task for me, and untie the knot from my tongue, that they may understand my speech.",
         reference: "সূরা ত্বহা ২০:২৫-২৮"
@@ -1241,6 +1247,8 @@ export const duaCategories: DuaCategory[] = [
         titleBengali: "জ্ঞান বৃদ্ধির দোয়া",
         titleEnglish: "Increase in Knowledge",
         arabic: "رَبِّ زِدْنِي عِلْمًا",
+        transliteration: "Rabbi zidni 'ilma",
+        transliterationBengali: "রাব্বি যিদনী 'ইলমা",
         bengali: "হে আমার রব! আমার জ্ঞান বৃদ্ধি করে দাও।",
         english: "My Lord, increase me in knowledge.",
         reference: "সূরা ত্বহা ২০:১১৪"
@@ -1250,6 +1258,8 @@ export const duaCategories: DuaCategory[] = [
         titleBengali: "সন্তান ও পরিবারের জন্য দোয়া",
         titleEnglish: "For Spouse & Children",
         arabic: "رَبَّنَا هَبْ لَنَا مِنْ أَزْوَاجِنَا وَذُرِّيَّاتِنَا قُرَّةَ أَعْيُنٍ وَاجْعَلْنَا لِلْمُتَّقِينَ إِمَامًا",
+        transliteration: "Rabbana hab lana min azwajina wa dhurriyyatina qurrata a'yunin waj'alna lil-muttaqina imama",
+        transliterationBengali: "রাব্বানা হাব লানা মিন আযওয়াজিনা ওয়া যুররিয়্যাতিনা ক্বুররাতা আ'ইউনিন ওয়াজ'আলনা লিল মুত্তাক্বীনা ইমামা",
         bengali: "হে আমাদের রব! আমাদের স্ত্রীদের পক্ষ থেকে এবং আমাদের সন্তানদের পক্ষ থেকে আমাদের চোখ শীতল কর এবং আমাদেরকে মুত্তাকীদের জন্য আদর্শ বানাও।",
         english: "Our Lord, grant us from among our wives and offspring comfort to our eyes and make us an example for the righteous.",
         reference: "সূরা ফুরকান ২৫:৭৪"
@@ -1259,6 +1269,8 @@ export const duaCategories: DuaCategory[] = [
         titleBengali: "ধৈর্য ও বিজয়ের দোয়া",
         titleEnglish: "For Patience & Victory",
         arabic: "رَبَّنَا أَفْرِغْ عَلَيْنَا صَبْرًا وَثَبِّتْ أَقْدَامَنَا وَانصُرْنَا عَلَى الْقَوْمِ الْكَافِرِينَ",
+        transliteration: "Rabbana afrigh 'alayna sabran wa thabbit aqdamana wansurna 'alal-qawmil-kafirin",
+        transliterationBengali: "রাব্বানা আফরিগ 'আলাইনা সাবরান ওয়া সাব্বিত আক্বদামানা ওয়ানসুরনা 'আলাল ক্বাওমিল কাফিরীন",
         bengali: "হে আমাদের রব! আমাদের উপর ধৈর্য ঢেলে দাও, আমাদের পা স্থির রাখ এবং কাফির সম্প্রদায়ের বিরুদ্ধে আমাদের সাহায্য কর।",
         english: "Our Lord, pour upon us patience and plant firmly our feet and give us victory over the disbelieving people.",
         reference: "সূরা বাকারা ২:২৫০"
@@ -1268,6 +1280,8 @@ export const duaCategories: DuaCategory[] = [
         titleBengali: "অন্তরের স্থিরতার দোয়া",
         titleEnglish: "Steadfastness of Heart",
         arabic: "رَبَّنَا لاَ تُزِغْ قُلُوبَنَا بَعْدَ إِذْ هَدَيْتَنَا وَهَبْ لَنَا مِن لَّدُنكَ رَحْمَةً إِنَّكَ أَنتَ الْوَهَّابُ",
+        transliteration: "Rabbana la tuzigh qulubana ba'da idh hadaytana wa hab lana min ladunka rahmah innaka antal-wahhab",
+        transliterationBengali: "রাব্বানা লা তুযিগ ক্বুলূবানা বা'দা ইয হাদাইতানা ওয়া হাব লানা মিন লাদুনকা রাহমাহ ইন্নাকা আনতাল ওয়াহহাব",
         bengali: "হে আমাদের রব! হিদায়াত দেওয়ার পর আমাদের অন্তরকে বক্র করো না এবং তোমার পক্ষ থেকে আমাদেরকে রহমত দান কর। নিশ্চয়ই তুমি মহাদাতা।",
         english: "Our Lord, let not our hearts deviate after You have guided us and grant us from Yourself mercy. Indeed, You are the Bestower.",
         reference: "সূরা আলে ইমরান ৩:৮"
@@ -1277,6 +1291,8 @@ export const duaCategories: DuaCategory[] = [
         titleBengali: "ক্ষমা ও সাহায্যের দোয়া",
         titleEnglish: "Forgiveness & Help",
         arabic: "رَبَّنَا اغْفِرْ لَنَا ذُنُوبَنَا وَإِسْرَافَنَا فِي أَمْرِنَا وَثَبِّتْ أَقْدَامَنَا وَانصُرْنَا عَلَى الْقَوْمِ الْكَافِرِينَ",
+        transliteration: "Rabbana-ghfir lana dhunubana wa israfana fi amrina wa thabbit aqdamana wansurna 'alal-qawmil-kafirin",
+        transliterationBengali: "রাব্বানাগফির লানা যুনূবানা ওয়া ইসরাফানা ফী আমরিনা ওয়া সাব্বিত আক্বদামানা ওয়ানসুরনা 'আলাল ক্বাওমিল কাফিরীন",
         bengali: "হে আমাদের রব! আমাদের গুনাহ ক্ষমা কর এবং আমাদের কাজে যে সীমালঙ্ঘন হয়েছে তা মাফ কর, আমাদের পা স্থির রাখ এবং কাফির সম্প্রদায়ের বিরুদ্ধে আমাদের সাহায্য কর।",
         english: "Our Lord, forgive us our sins and the excess in our affairs and plant firmly our feet and give us victory over the disbelieving people.",
         reference: "সূরা আলে ইমরান ৩:১৪৭"
@@ -1286,6 +1302,8 @@ export const duaCategories: DuaCategory[] = [
         titleBengali: "সুলাইমান (আ.) এর শুকরিয়ার দোয়া",
         titleEnglish: "Dua of Sulaiman for Gratitude",
         arabic: "رَبِّ أَوْزِعْنِي أَنْ أَشْكُرَ نِعْمَتَكَ الَّتِي أَنْعَمْتَ عَلَيَّ وَعَلَىٰ وَالِدَيَّ وَأَنْ أَعْمَلَ صَالِحًا تَرْضَاهُ وَأَدْخِلْنِي بِرَحْمَتِكَ فِي عِبَادِكَ الصَّالِحِينَ",
+        transliteration: "Rabbi awzi'ni an ashkura ni'matakal-lati an'amta 'alayya wa 'ala walidayya wa an a'mala salihan tardahu wa adkhilni birahmatika fi 'ibadikass-salihin",
+        transliterationBengali: "রাব্বি আওযি'নী আন আশকুরা নি'মাতাকাল্লাতী আন'আমতা 'আলাইয়্যা ওয়া 'আলা ওয়ালিদাইয়্যা ওয়া আন আ'মালা সালিহান তারদাহু ওয়া আদখিলনী বিরাহমাতিকা ফী 'ইবাদিকাস সালিহীন",
         bengali: "হে আমার রব! আমাকে সামর্থ্য দাও যেন আমি তোমার নিয়ামতের শুকরিয়া আদায় করতে পারি যা তুমি আমাকে ও আমার পিতা-মাতাকে দান করেছ এবং যেন আমি এমন সৎকর্ম করতে পারি যা তুমি পছন্দ কর। আর তোমার রহমতে আমাকে তোমার সৎকর্মপরায়ণ বান্দাদের অন্তর্ভুক্ত কর।",
         english: "My Lord, enable me to be grateful for Your favor which You have bestowed upon me and upon my parents and to do righteousness of which You approve. And admit me by Your mercy into [the ranks of] Your righteous servants.",
         reference: "সূরা নামল ২৭:১৯"
@@ -1295,6 +1313,8 @@ export const duaCategories: DuaCategory[] = [
         titleBengali: "ইবরাহীম (আ.) এর হিদায়াতের দোয়া",
         titleEnglish: "Dua of Ibrahim for Guidance",
         arabic: "رَبَّنَا وَاجْعَلْنَا مُسْلِمَيْنِ لَكَ وَمِن ذُرِّيَّتِنَا أُمَّةً مُّسْلِمَةً لَّكَ وَأَرِنَا مَنَاسِكَنَا وَتُبْ عَلَيْنَا إِنَّكَ أَنتَ التَّوَّابُ الرَّحِيمُ",
+        transliteration: "Rabbana waj'alna muslimayni laka wa min dhurriyyatina ummatan muslimatan laka wa arina manasikana wa tub 'alayna innaka antat-tawwabur-rahim",
+        transliterationBengali: "রাব্বানা ওয়াজ'আলনা মুসলিমাইনি লাকা ওয়া মিন যুররিয়্যাতিনা উম্মাতাম মুসলিমাতাল লাকা ওয়া আরিনা মানাসিকানা ওয়া তুব 'আলাইনা ইন্নাকা আনতাত তাওওয়াবুর রাহীম",
         bengali: "হে আমাদের রব! আমাদের উভয়কে তোমার অনুগত কর এবং আমাদের বংশধরদের মধ্যে থেকেও তোমার অনুগত একটি উম্মত তৈরি কর। আমাদেরকে ইবাদতের নিয়ম-কানুন শিখাও এবং আমাদের তাওবা কবুল কর। নিশ্চয়ই তুমি তাওবা কবুলকারী, অতি দয়ালু।",
         english: "Our Lord, and make us Muslims [in submission] to You and from our descendants a Muslim nation [in submission] to You. And show us our rites and accept our repentance. Indeed, You are the Accepting of Repentance, the Merciful.",
         reference: "সূরা বাকারা ২:১২৮"
