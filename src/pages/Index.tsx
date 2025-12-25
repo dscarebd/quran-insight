@@ -1,5 +1,4 @@
 import { useState, useRef } from "react";
-import { Header } from "@/components/Header";
 import { SearchSection } from "@/components/SearchSection";
 import { DailyVerse } from "@/components/DailyVerse";
 import { DailyDua } from "@/components/DailyDua";
@@ -9,10 +8,9 @@ import { useToast } from "@/hooks/use-toast";
 
 interface IndexProps {
   language: "bn" | "en";
-  onLanguageChange: (lang: "bn" | "en") => void;
 }
 
-const Index = ({ language, onLanguageChange }: IndexProps) => {
+const Index = ({ language }: IndexProps) => {
   const [isSearching, setIsSearching] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [aiResponse, setAiResponse] = useState("");
@@ -108,36 +106,30 @@ const Index = ({ language, onLanguageChange }: IndexProps) => {
   };
 
   return (
-    <>
-      {/* Header */}
-      <Header language={language} onLanguageChange={onLanguageChange} />
-
-      {/* Content Area */}
-      <div className="flex-1 overflow-y-auto overflow-x-hidden islamic-pattern">
-        <div className="mx-auto max-w-4xl px-3 py-6 pb-32 sm:px-4 md:px-6 md:py-12 md:pb-24">
-          <SearchSection
-            language={language}
-            onSearch={handleSearch}
-            isLoading={isSearching}
-          />
-          
-          <SearchResults
-            query={searchQuery}
-            response={aiResponse}
-            isLoading={isSearching}
-            language={language}
-          />
-          
-          {!searchQuery && (
-            <>
-              <DailyVerse language={language} />
-              <DailyDua language={language} />
-              <ContinueReading language={language} />
-            </>
-          )}
-        </div>
+    <div className="flex-1 overflow-y-auto overflow-x-hidden islamic-pattern">
+      <div className="mx-auto max-w-4xl px-3 py-6 pb-32 sm:px-4 md:px-6 md:py-12 md:pb-24">
+        <SearchSection
+          language={language}
+          onSearch={handleSearch}
+          isLoading={isSearching}
+        />
+        
+        <SearchResults
+          query={searchQuery}
+          response={aiResponse}
+          isLoading={isSearching}
+          language={language}
+        />
+        
+        {!searchQuery && (
+          <>
+            <DailyVerse language={language} />
+            <DailyDua language={language} />
+            <ContinueReading language={language} />
+          </>
+        )}
       </div>
-    </>
+    </div>
   );
 };
 
