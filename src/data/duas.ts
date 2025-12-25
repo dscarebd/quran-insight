@@ -4498,6 +4498,8 @@ export const duaCategories: DuaCategory[] = [
         titleBengali: "বিপদে পড়ার দোয়া",
         titleEnglish: "In Times of Distress",
         arabic: "لاَ إِلَهَ إِلاَّ اللهُ الْعَظِيمُ الْحَلِيمُ، لاَ إِلَهَ إِلاَّ اللهُ رَبُّ الْعَرْشِ الْعَظِيمِ، لاَ إِلَهَ إِلاَّ اللهُ رَبُّ السَّمَوَاتِ وَرَبُّ الأَرْضِ وَرَبُّ الْعَرْشِ الْكَرِيمِ",
+        transliteration: "La ilaha illallahul-'Azimul-Halim, la ilaha illallahu Rabbul-'Arshil-'Azim, la ilaha illallahu Rabbus-samawati wa Rabbul-ardi wa Rabbul-'Arshil-Karim",
+        transliterationBengali: "লা ইলাহা ইল্লাল্লাহুল 'আযীমুল হালীম, লা ইলাহা ইল্লাল্লাহু রাব্বুল 'আরশিল 'আযীম, লা ইলাহা ইল্লাল্লাহু রাব্বুস সামাওয়াতি ওয়া রাব্বুল আরদি ওয়া রাব্বুল 'আরশিল কারীম",
         bengali: "আল্লাহ ছাড়া কোন ইলাহ নেই, তিনি মহান, সহনশীল। আল্লাহ ছাড়া কোন ইলাহ নেই, তিনি মহান আরশের রব। আল্লাহ ছাড়া কোন ইলাহ নেই, তিনি আসমানসমূহের রব, জমিনের রব এবং সম্মানিত আরশের রব।",
         english: "There is no deity except Allah, the Magnificent, the Forbearing. There is no deity except Allah, Lord of the Mighty Throne. There is no deity except Allah, Lord of the heavens, Lord of the earth, and Lord of the Noble Throne.",
         reference: "সহীহ বুখারী, হাদিস নং ৬৩৪৬; সহীহ মুসলিম, হাদিস নং ২৭৩০"
@@ -4507,6 +4509,8 @@ export const duaCategories: DuaCategory[] = [
         titleBengali: "দুশ্চিন্তা থেকে আশ্রয়",
         titleEnglish: "Refuge from Anxiety",
         arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ، وَأَعُوذُ بِكَ مِنَ الْعَجْزِ وَالْكَسَلِ، وَأَعُوذُ بِكَ مِنَ الْجُبْنِ وَالْبُخْلِ، وَأَعُوذُ بِكَ مِنْ غَلَبَةِ الدَّيْنِ وَقَهْرِ الرِّجَالِ",
+        transliteration: "Allahumma inni a'udhu bika minal-hammi wal-hazan, wa a'udhu bika minal-'ajzi wal-kasal, wa a'udhu bika minal-jubni wal-bukhl, wa a'udhu bika min ghalabatid-dayni wa qahrir-rijal",
+        transliterationBengali: "আল্লাহুম্মা ইন্নী আ'ঊযু বিকা মিনাল হাম্মি ওয়াল হাযান, ওয়া আ'ঊযু বিকা মিনাল 'আজযি ওয়াল কাসাল, ওয়া আ'ঊযু বিকা মিনাল জুবনি ওয়াল বুখল, ওয়া আ'ঊযু বিকা মিন গালাবাতিদ দাইনি ওয়া ক্বাহরির রিজাল",
         bengali: "হে আল্লাহ! আমি তোমার আশ্রয় চাই দুশ্চিন্তা ও দুঃখ থেকে, অক্ষমতা ও অলসতা থেকে, কাপুরুষতা ও কৃপণতা থেকে এবং ঋণের বোঝা ও মানুষের দমন থেকে।",
         english: "O Allah, I seek refuge in You from anxiety and sorrow, weakness and laziness, miserliness and cowardice, the burden of debts and from being overpowered by men.",
         reference: "সহীহ বুখারী, হাদিস নং ৬৩৬৩"
@@ -4516,6 +4520,8 @@ export const duaCategories: DuaCategory[] = [
         titleBengali: "রহমত ও সাহায্যের দোয়া",
         titleEnglish: "For Mercy & Help",
         arabic: "اللَّهُمَّ رَحْمَتَكَ أَرْجُو فَلاَ تَكِلْنِي إِلَى نَفْسِي طَرْفَةَ عَيْنٍ، وَأَصْلِحْ لِي شَأْنِي كُلَّهُ، لاَ إِلَهَ إِلاَّ أَنْتَ",
+        transliteration: "Allahumma rahmataka arju fala takilni ila nafsi tarfata 'ayn, wa aslih li sha'ni kullahu, la ilaha illa anta",
+        transliterationBengali: "আল্লাহুম্মা রাহমাতাকা আরজু ফালা তাকিলনী ইলা নাফসী তারফাতা 'আইন, ওয়া আসলিহ লী শা'নী কুল্লাহু, লা ইলাহা ইল্লা আনতা",
         bengali: "হে আল্লাহ! আমি তোমার রহমতের আশা করি। এক পলকের জন্যও আমাকে আমার নিজের উপর ছেড়ে দিও না এবং আমার সব বিষয় ঠিক করে দাও। তুমি ছাড়া কোন ইলাহ নেই।",
         english: "O Allah, I hope for Your mercy. Do not leave me to myself even for the blink of an eye. Correct all of my affairs for me. There is no deity except You.",
         reference: "আবু দাউদ, হাদিস নং ৫০৯০"
@@ -4525,6 +4531,8 @@ export const duaCategories: DuaCategory[] = [
         titleBengali: "সাহায্য প্রার্থনা",
         titleEnglish: "Seeking Divine Help",
         arabic: "يَا حَيُّ يَا قَيُّومُ بِرَحْمَتِكَ أَسْتَغِيثُ",
+        transliteration: "Ya Hayyu ya Qayyumu birahmatika astaghith",
+        transliterationBengali: "ইয়া হাইয়্যু ইয়া ক্বাইয়্যুমু বিরাহমাতিকা আস্তাগীস",
         bengali: "হে চিরঞ্জীব! হে সবকিছুর ধারক! তোমার রহমতের মাধ্যমে আমি সাহায্য প্রার্থনা করি।",
         english: "O Ever-Living, O Self-Sustaining, by Your mercy I seek help.",
         reference: "তিরমিযী, হাদিস নং ৩৫২৪"
@@ -4534,6 +4542,8 @@ export const duaCategories: DuaCategory[] = [
         titleBengali: "আল্লাহই যথেষ্ট",
         titleEnglish: "Allah is Sufficient",
         arabic: "حَسْبِيَ اللهُ لاَ إِلَهَ إِلاَّ هُوَ عَلَيْهِ تَوَكَّلْتُ وَهُوَ رَبُّ الْعَرْشِ الْعَظِيمِ",
+        transliteration: "Hasbiyallahu la ilaha illa huwa 'alayhi tawakkaltu wa huwa Rabbul-'Arshil-'Azim",
+        transliterationBengali: "হাসবিয়াল্লাহু লা ইলাহা ইল্লা হুওয়া 'আলাইহি তাওয়াক্কালতু ওয়া হুওয়া রাব্বুল 'আরশিল 'আযীম",
         bengali: "আল্লাহই আমার জন্য যথেষ্ট, তিনি ছাড়া কোন ইলাহ নেই। তাঁর উপরই আমি ভরসা করি এবং তিনি মহান আরশের রব। (৭ বার পড়ুন)",
         english: "Allah is sufficient for me. There is no deity except Him. On Him I have relied, and He is the Lord of the Great Throne. (Recite 7 times)",
         reference: "আবু দাউদ, হাদিস নং ৫০৮১"
@@ -4543,6 +4553,8 @@ export const duaCategories: DuaCategory[] = [
         titleBengali: "দুঃখ দূর করার দোয়া",
         titleEnglish: "Removing Grief & Sorrow",
         arabic: "اللَّهُمَّ إِنِّي عَبْدُكَ، ابْنُ عَبْدِكَ، ابْنُ أَمَتِكَ، نَاصِيَتِي بِيَدِكَ، مَاضٍ فِيَّ حُكْمُكَ، عَدْلٌ فِيَّ قَضَاؤُكَ",
+        transliteration: "Allahumma inni 'abduka, ibnu 'abdika, ibnu amatika, nasiyati biyadika, madin fiyya hukmuka, 'adlun fiyya qada'uka",
+        transliterationBengali: "আল্লাহুম্মা ইন্নী 'আবদুকা, ইবনু 'আবদিকা, ইবনু আমাতিকা, নাসিয়াতী বিয়াদিকা, মাদিন ফিইয়্যা হুকমুকা, 'আদলুন ফিইয়্যা ক্বাদা'উকা",
         bengali: "হে আল্লাহ! আমি তোমার বান্দা, তোমার বান্দার সন্তান, তোমার বান্দির সন্তান। আমার কপাল তোমার হাতে, তোমার নির্দেশ আমার উপর কার্যকর, তোমার ফায়সালা আমার জন্য ন্যায়সঙ্গত।",
         english: "O Allah, I am Your slave, son of Your male slave, son of Your female slave. My forelock is in Your Hand. Your command concerning me prevails, and Your judgment concerning me is just.",
         reference: "মুসনাদ আহমাদ, হাদিস নং ৩৭১২"
@@ -4552,6 +4564,8 @@ export const duaCategories: DuaCategory[] = [
         titleBengali: "প্যানিক অ্যাটাকে দোয়া",
         titleEnglish: "During Panic Attacks",
         arabic: "لاَ إِلَهَ إِلاَّ أَنْتَ سُبْحَانَكَ إِنِّي كُنْتُ مِنَ الظَّالِمِينَ",
+        transliteration: "La ilaha illa anta subhanaka inni kuntu minaz-zalimin",
+        transliterationBengali: "লা ইলাহা ইল্লা আনতা সুবহানাকা ইন্নী কুনতু মিনায যালিমীন",
         bengali: "তুমি ছাড়া কোন ইলাহ নেই, তুমি পবিত্র। নিশ্চয়ই আমি যালিমদের অন্তর্ভুক্ত ছিলাম।",
         english: "There is no deity except You; exalted are You. Indeed, I have been of the wrongdoers.",
         reference: "সূরা আম্বিয়া ২১:৮৭"
@@ -4561,6 +4575,8 @@ export const duaCategories: DuaCategory[] = [
         titleBengali: "মনের শান্তির দোয়া",
         titleEnglish: "For Peace of Mind",
         arabic: "اللَّهُمَّ اجْعَلْ فِي قَلْبِي نُورًا وَفِي صَدْرِي نُورًا",
+        transliteration: "Allahummaj'al fi qalbi nuran wa fi sadri nuran",
+        transliterationBengali: "আল্লাহুম্মাজ'আল ফী ক্বালবী নূরান ওয়া ফী সাদরী নূরান",
         bengali: "হে আল্লাহ! আমার অন্তরে নূর দাও এবং আমার বক্ষে নূর দাও।",
         english: "O Allah, place light in my heart and light in my chest.",
         reference: "সহীহ মুসলিম, হাদিস নং ৭৬৩"
@@ -4570,6 +4586,8 @@ export const duaCategories: DuaCategory[] = [
         titleBengali: "অভিভূত হলে দোয়া",
         titleEnglish: "When Overwhelmed",
         arabic: "حَسْبُنَا اللهُ وَنِعْمَ الْوَكِيلُ",
+        transliteration: "Hasbunallahu wa ni'mal-wakil",
+        transliterationBengali: "হাসবুনাল্লাহু ওয়া নি'মাল ওয়াকীল",
         bengali: "আল্লাহই আমাদের জন্য যথেষ্ট এবং তিনি কতই না উত্তম কর্মবিধায়ক।",
         english: "Allah is sufficient for us, and He is the best disposer of affairs.",
         reference: "সূরা আলে ইমরান ৩:১৭৩"
@@ -4579,6 +4597,8 @@ export const duaCategories: DuaCategory[] = [
         titleBengali: "কঠিন কথোপকথনের আগে",
         titleEnglish: "Before Difficult Conversation",
         arabic: "رَبِّ اشْرَحْ لِي صَدْرِي وَيَسِّرْ لِي أَمْرِي وَاحْلُلْ عُقْدَةً مِّن لِّسَانِي يَفْقَهُوا قَوْلِي",
+        transliteration: "Rabbish-rahli sadri wa yassir li amri wahlul 'uqdatan min lisani yafqahu qawli",
+        transliterationBengali: "রাব্বিশরাহলী সাদরী ওয়া ইয়াসসির লী আমরী ওয়াহলুল 'উক্বদাতান মিন লিসানী ইয়াফক্বাহু ক্বাওলী",
         bengali: "হে আমার রব! আমার বক্ষ প্রশস্ত করে দাও, আমার কাজ সহজ করে দাও এবং আমার জিহ্বার জড়তা দূর কর, যাতে তারা আমার কথা বুঝতে পারে।",
         english: "My Lord, expand for me my breast, ease my task for me, and untie the knot from my tongue that they may understand my speech.",
         reference: "সূরা ত্বহা ২০:২৫-২৮"
