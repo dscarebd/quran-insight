@@ -110,7 +110,7 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
                   language === "bn" ? "border-primary bg-primary/5" : "hover:bg-muted/50"
                 )}
               >
-                <span className="font-bengali text-sm">ব</span>
+                <span className="font-bengali text-xs">ব</span>
                 <p className="font-bengali text-xs font-medium">বাংলা</p>
                 {language === "bn" && (
                   <div className="h-1.5 w-1.5 rounded-full bg-primary" />
@@ -123,7 +123,7 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
                   language === "en" ? "border-primary bg-primary/5" : "hover:bg-muted/50"
                 )}
               >
-                <span className="text-sm font-medium">A</span>
+                <span className="text-xs font-medium">A</span>
                 <p className="text-xs font-medium">English</p>
                 {language === "en" && (
                   <div className="h-1.5 w-1.5 rounded-full bg-primary" />
