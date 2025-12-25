@@ -2440,6 +2440,116 @@ export const duaCategories: DuaCategory[] = [
         bengali: "আল্লাহ সৎকর্মশীলদের ভালোবাসেন",
         english: "And Allah loves the doers of good",
         reference: "সূরা আলে ইমরান ৩:১৩৪"
+      },
+      {
+        id: "guidance-21",
+        titleBengali: "হৃদয় দৃঢ় রাখার দোয়া",
+        titleEnglish: "Prayer for Steadfast Hearts",
+        arabic: "رَبَّنَا لَا تُزِغْ قُلُوبَنَا",
+        transliteration: "Rabbana la tuzigh qulubana",
+        transliterationBengali: "রাব্বানা লা তুযিগ কুলুবানা",
+        bengali: "হে আমাদের রব আমাদের হৃদয়কে বিচ্যুত করবেন না",
+        english: "Our Lord do not let our hearts deviate",
+        reference: "সূরা আলে ইমরান ৩:৮"
+      },
+      {
+        id: "guidance-22",
+        titleBengali: "আল্লাহ ঈমানের দিকে পথ দেখান",
+        titleEnglish: "Allah Guides to Faith",
+        arabic: "يَهْدِي اللَّهُ لِنُورِهِ مَنْ يَشَاءُ",
+        transliteration: "Yahdillahu linurihi man yashaa",
+        transliterationBengali: "ইয়াহদিল্লাহু লিনূরিহি মান ইয়াশা",
+        bengali: "আল্লাহ যাকে চান তাকে তাঁর নূরের দিকে পথ দেখান",
+        english: "Allah guides to His light whom He wills",
+        reference: "সূরা আন-নূর ২৪:৩৫"
+      },
+      {
+        id: "guidance-23",
+        titleBengali: "রহমত ও হিদায়াতের দোয়া",
+        titleEnglish: "Supplication for Mercy and Guidance",
+        arabic: "رَبَّنَا آتِنَا مِنْ لَدُنْكَ رَحْمَةً",
+        transliteration: "Rabbana atina min ladunka rahmah",
+        transliterationBengali: "রাব্বানা আতিনা মিন লাদুনকা রাহমাহ",
+        bengali: "হে আমাদের রব আপনার পক্ষ থেকে আমাদের রহমত দান করুন",
+        english: "Our Lord grant us mercy from Yourself",
+        reference: "সূরা আল-কাহফ ১৮:১০"
+      },
+      {
+        id: "guidance-24",
+        titleBengali: "কুরআন পূর্ণ হিদায়াত",
+        titleEnglish: "Quran as Complete Guidance",
+        arabic: "إِنَّ هَٰذَا الْقُرْآنَ يَهْدِي لِلَّتِي هِيَ أَقْوَمُ",
+        transliteration: "Inna hadhal-qur'ana yahdi lillati hiya aqwam",
+        transliterationBengali: "ইন্না হাযাল কুরআনা ইয়াহদি লিল্লাতি হিয়া আকওয়াম",
+        bengali: "নিশ্চয় এই কুরআন সবচেয়ে সঠিক পথে হিদায়াত দেয়",
+        english: "Indeed this Qur'an guides to what is most upright",
+        reference: "সূরা আল-ইসরা ১৭:৯"
+      },
+      {
+        id: "guidance-25",
+        titleBengali: "সৎপথে থাকার দোয়া",
+        titleEnglish: "Prayer for Righteousness",
+        arabic: "رَبِّ أَدْخِلْنِي مُدْخَلَ صِدْقٍ",
+        transliteration: "Rabbi adkhilni mudkhala sidq",
+        transliterationBengali: "রাব্বি আদখিলনি মুদখালা সিদক",
+        bengali: "হে আমার রব আমাকে সত্য প্রবেশ দান করুন",
+        english: "My Lord grant me a sound entrance",
+        reference: "সূরা আল-ইসরা ১৭:৮০"
+      },
+      {
+        id: "guidance-26",
+        titleBengali: "আল্লাহ হিদায়াত বাড়ান",
+        titleEnglish: "Allah Increases Guidance",
+        arabic: "وَالَّذِينَ اهْتَدَوْا زَادَهُمْ هُدًى",
+        transliteration: "Walladhina ihtadaw zadahum huda",
+        transliterationBengali: "ওয়াল্লাজিনা ইহতাদাও জাদাহুম হুদা",
+        bengali: "যারা হিদায়াতপ্রাপ্ত আল্লাহ তাদের হিদায়াত বৃদ্ধি করেন",
+        english: "And those who are guided—He increases them in guidance",
+        reference: "সূরা মুহাম্মাদ ৪৭:১৭"
+      },
+      {
+        id: "guidance-27",
+        titleBengali: "তাকওয়ার দোয়া",
+        titleEnglish: "Supplication for Piety",
+        arabic: "رَبَّنَا اغْفِرْ لَنَا ذُنُوبَنَا وَكَفِّرْ عَنَّا سَيِّئَاتِنَا",
+        transliteration: "Rabbana-ghfir lana dhunubana wa kaffir 'anna sayyiatina",
+        transliterationBengali: "রাব্বানাগফির লানা যুনুবানা ওয়া কাফফির আন্না সাইয়্যিআতিনা",
+        bengali: "হে আমাদের রব আমাদের গুনাহ ক্ষমা করুন ও পাপ মুছে দিন",
+        english: "Our Lord forgive our sins and remove our misdeeds",
+        reference: "সূরা আলে ইমরান ৩:১৯৩"
+      },
+      {
+        id: "guidance-28",
+        titleBengali: "নূরের উপর নূর",
+        titleEnglish: "Light upon Light",
+        arabic: "نُورٌ عَلَىٰ نُورٍ",
+        transliteration: "Nurun 'ala nur",
+        transliterationBengali: "নূরুন আলা নূর",
+        bengali: "নূরের উপর নূর",
+        english: "Light upon light",
+        reference: "সূরা আন-নূর ২৪:৩৫"
+      },
+      {
+        id: "guidance-29",
+        titleBengali: "সরল পথ অনুসরণ",
+        titleEnglish: "Following the Straight Path",
+        arabic: "وَأَنَّ هَٰذَا صِرَاطِي مُسْتَقِيمًا",
+        transliteration: "Wa anna hadha sirati mustaqima",
+        transliterationBengali: "ওয়া আন্না হাজা সিরাতি মুস্তাকীমা",
+        bengali: "এটাই আমার সরল পথ",
+        english: "And this is My straight path",
+        reference: "সূরা আল-আনআম ৬:১৫৩"
+      },
+      {
+        id: "guidance-30",
+        titleBengali: "আল্লাহ সর্বোত্তম পথপ্রদর্শক",
+        titleEnglish: "Allah is the Best Guide",
+        arabic: "وَكَفَىٰ بِرَبِّكَ هَادِيًا وَنَصِيرًا",
+        transliteration: "Wakafa birabbika hadiyan wa nasira",
+        transliterationBengali: "ওয়া কাফা বিরাব্বিকা হাদিয়ান ওয়া নাসীরা",
+        bengali: "তোমার রবই যথেষ্ট পথপ্রদর্শক ও সাহায্যকারী",
+        english: "And sufficient is your Lord as a Guide and Helper",
+        reference: "সূরা আল-ফুরকান ২৫:৩১"
       }
     ]
   },
