@@ -13,9 +13,10 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 interface ParaDetailProps {
   language: "bn" | "en";
   readingMode?: "normal" | "sepia";
+  arabicFont?: "amiri" | "uthmani";
 }
 
-const ParaDetail = ({ language, readingMode = "normal" }: ParaDetailProps) => {
+const ParaDetail = ({ language, readingMode = "normal", arabicFont = "amiri" }: ParaDetailProps) => {
   const { paraNumber } = useParams<{ paraNumber: string }>();
   const navigate = useNavigate();
   const isMobile = useIsMobile();

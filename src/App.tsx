@@ -42,11 +42,20 @@ const AppContent = () => {
     const saved = localStorage.getItem("quran-reading-mode");
     return (saved as "normal" | "sepia") || "normal";
   });
+  const [arabicFont, setArabicFont] = useState<"amiri" | "uthmani">(() => {
+    const saved = localStorage.getItem("quran-arabic-font");
+    return (saved as "amiri" | "uthmani") || "amiri";
+  });
   
   // Save reading mode to localStorage
   useEffect(() => {
     localStorage.setItem("quran-reading-mode", readingMode);
   }, [readingMode]);
+
+  // Save arabic font to localStorage
+  useEffect(() => {
+    localStorage.setItem("quran-arabic-font", arabicFont);
+  }, [arabicFont]);
   
   // Enable content protection
   useContentProtection();
@@ -60,32 +69,32 @@ const AppContent = () => {
       } />
       <Route path="/surah/:surahNumber" element={
         <Layout language={language} onLanguageChange={setLanguage}>
-          <SurahDetail language={language} readingMode={readingMode} />
+          <SurahDetail language={language} readingMode={readingMode} arabicFont={arabicFont} />
         </Layout>
       } />
       <Route path="/para/:paraNumber" element={
         <Layout language={language} onLanguageChange={setLanguage}>
-          <ParaDetail language={language} readingMode={readingMode} />
+          <ParaDetail language={language} readingMode={readingMode} arabicFont={arabicFont} />
         </Layout>
       } />
       <Route path="/read/:pageNumber" element={
         <Layout language={language} onLanguageChange={setLanguage}>
-          <ReadPage language={language} readingMode={readingMode} />
+          <ReadPage language={language} readingMode={readingMode} arabicFont={arabicFont} />
         </Layout>
       } />
       <Route path="/bookmarks" element={
         <Layout language={language} onLanguageChange={setLanguage}>
-          <Bookmarks language={language} readingMode={readingMode} />
+          <Bookmarks language={language} readingMode={readingMode} arabicFont={arabicFont} />
         </Layout>
       } />
       <Route path="/dua" element={
         <Layout language={language} onLanguageChange={setLanguage}>
-          <Dua language={language} />
+          <Dua language={language} arabicFont={arabicFont} />
         </Layout>
       } />
       <Route path="/settings" element={
         <Layout language={language} onLanguageChange={setLanguage}>
-          <Settings language={language} onLanguageChange={setLanguage} readingMode={readingMode} onReadingModeChange={setReadingMode} />
+          <Settings language={language} onLanguageChange={setLanguage} readingMode={readingMode} onReadingModeChange={setReadingMode} arabicFont={arabicFont} onArabicFontChange={setArabicFont} />
         </Layout>
       } />
       <Route path="/auth" element={

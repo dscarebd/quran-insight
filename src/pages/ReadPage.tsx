@@ -22,13 +22,14 @@ interface Verse {
 interface ReadPageProps {
   language: "bn" | "en";
   readingMode?: "normal" | "sepia";
+  arabicFont?: "amiri" | "uthmani";
 }
 
 // Font size presets
 const FONT_SIZES = [20, 24, 28, 32, 36, 40, 44, 48];
 const DEFAULT_FONT_INDEX = 2; // 28px default
 
-const ReadPage = ({ language, readingMode = "normal" }: ReadPageProps) => {
+const ReadPage = ({ language, readingMode = "normal", arabicFont = "amiri" }: ReadPageProps) => {
   const { pageNumber } = useParams();
   const navigate = useNavigate();
   const currentPage = parseInt(pageNumber || "1");
@@ -360,7 +361,7 @@ const ReadPage = ({ language, readingMode = "normal" }: ReadPageProps) => {
           </Button>
 
           <div className="flex flex-col items-center">
-            <span className="text-lg font-arabic text-foreground">
+            <span className={cn("text-lg text-foreground", arabicFont === "uthmani" ? "font-uthmani" : "font-arabic")}>
               {getSurahNamesForPage()}
             </span>
             <span className={cn("text-xs text-muted-foreground", language === "bn" && "font-bengali")}>
@@ -431,7 +432,7 @@ const ReadPage = ({ language, readingMode = "normal" }: ReadPageProps) => {
                     <div className="mb-6 text-center">
                       <div className="inline-block bg-card border border-border rounded-lg px-6 py-3 mb-4">
                         <h2 
-                          className="font-arabic text-foreground"
+                          className={cn("text-foreground", arabicFont === "uthmani" ? "font-uthmani" : "font-arabic")}
                           style={{ fontSize: `${currentFontSize + 4}px` }}
                         >
                           {surah?.nameArabic}
@@ -443,7 +444,7 @@ const ReadPage = ({ language, readingMode = "normal" }: ReadPageProps) => {
                       {/* Bismillah (except for Surah 9) */}
                       {parseInt(surahNum) !== 9 && parseInt(surahNum) !== 1 && (
                         <p 
-                          className="font-arabic text-foreground/80 mb-4" 
+                          className={cn("text-foreground/80 mb-4", arabicFont === "uthmani" ? "font-uthmani" : "font-arabic")}
                           dir="rtl"
                           style={{ fontSize: `${currentFontSize}px` }}
                         >
@@ -474,13 +475,13 @@ const ReadPage = ({ language, readingMode = "normal" }: ReadPageProps) => {
                           onClick={() => handleVerseClick(verse.surah_number, verse.verse_number)}
                         >
                           <span 
-                            className="font-arabic text-foreground"
+                            className={cn("text-foreground", arabicFont === "uthmani" ? "font-uthmani" : "font-arabic")}
                             style={{ fontSize: `${currentFontSize}px` }}
                           >
                             {verse.arabic}
                           </span>
                           <span 
-                            className="inline-flex items-center justify-center mx-1 text-primary font-arabic"
+                            className={cn("inline-flex items-center justify-center mx-1 text-primary", arabicFont === "uthmani" ? "font-uthmani" : "font-arabic")}
                             style={{ fontSize: `${currentFontSize * 0.7}px` }}
                           >
                             ﴿{formatNumber(verse.verse_number, "en").split("").map(d => "٠١٢٣٤٥٦٧٨٩"[parseInt(d)]).join("")}﴾
@@ -618,7 +619,7 @@ const ReadPage = ({ language, readingMode = "normal" }: ReadPageProps) => {
                               {formatNumber(surah.number, language)}
                             </div>
                             <div className="flex-1 min-w-0 text-left">
-                              <p className="font-arabic text-lg text-foreground">
+                              <p className={cn("text-lg text-foreground", arabicFont === "uthmani" ? "font-uthmani" : "font-arabic")}>
                                 {surah.nameArabic}
                               </p>
                               <p className={cn(

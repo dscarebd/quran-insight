@@ -15,6 +15,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 interface SurahDetailProps {
   language: "bn" | "en";
   readingMode?: "normal" | "sepia";
+  arabicFont?: "amiri" | "uthmani";
 }
 
 interface VerseCardProps {
@@ -23,9 +24,10 @@ interface VerseCardProps {
   index: number;
   isBookmarked: boolean;
   onToggleBookmark: (surahNumber: number, verseNumber: number) => void;
+  arabicFont?: "amiri" | "uthmani";
 }
 
-const VerseCard = ({ verse, language, index, isBookmarked, onToggleBookmark }: VerseCardProps) => {
+const VerseCard = ({ verse, language, index, isBookmarked, onToggleBookmark, arabicFont = "amiri" }: VerseCardProps) => {
   const [showTafsir, setShowTafsir] = useState(false);
 
   const handleBookmarkClick = () => {
@@ -60,7 +62,7 @@ const VerseCard = ({ verse, language, index, isBookmarked, onToggleBookmark }: V
       </div>
 
       {/* Arabic Text */}
-      <p className="mb-4 text-right font-arabic text-2xl leading-loose text-foreground sm:text-3xl">
+      <p className={cn("mb-4 text-right text-2xl leading-loose text-foreground sm:text-3xl", arabicFont === "uthmani" ? "font-uthmani" : "font-arabic")}>
         {verse.arabic}
       </p>
 
@@ -97,7 +99,7 @@ const VerseCard = ({ verse, language, index, isBookmarked, onToggleBookmark }: V
 // Cache for storing previously fetched verses
 const versesCache = new Map<number, Verse[]>();
 
-const SurahDetail = ({ language, readingMode = "normal" }: SurahDetailProps) => {
+const SurahDetail = ({ language, readingMode = "normal", arabicFont = "amiri" }: SurahDetailProps) => {
   const { surahNumber } = useParams<{ surahNumber: string }>();
   const navigate = useNavigate();
   const location = useLocation();
@@ -295,7 +297,7 @@ const SurahDetail = ({ language, readingMode = "normal" }: SurahDetailProps) => 
 
             {/* Current Surah Name */}
             <div className="text-center">
-              <h1 className="mb-1 font-arabic text-4xl text-foreground sm:text-5xl">
+              <h1 className={cn("mb-1 text-4xl text-foreground sm:text-5xl", arabicFont === "uthmani" ? "font-uthmani" : "font-arabic")}>
                 {surah.nameArabic}
               </h1>
               <h2 className={cn("text-xl font-semibold text-foreground", language === "bn" && "font-bengali")}>
@@ -356,6 +358,7 @@ const SurahDetail = ({ language, readingMode = "normal" }: SurahDetailProps) => 
                 index={index}
                 isBookmarked={isBookmarked(verse.surahNumber, verse.verseNumber)}
                 onToggleBookmark={handleToggleBookmark}
+                arabicFont={arabicFont}
               />
             </div>
           ))
