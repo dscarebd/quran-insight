@@ -24,7 +24,7 @@ export const Layout = ({ children, language, onLanguageChange }: LayoutProps) =>
         activeTab={activeTab}
         onTabChange={setActiveTab}
       />
-      <SidebarInset className="flex flex-col pb-16 lg:pb-0">
+      <SidebarInset className="flex flex-col pb-14 lg:pb-0">
         <Header language={language} onLanguageChange={onLanguageChange} />
         <div className="flex-1 overflow-y-auto">
           {children}
