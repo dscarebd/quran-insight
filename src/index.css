@@ -8,7 +8,7 @@
 @font-face {
   font-family: 'Lemon Milk';
   src: url('/fonts/LEMONMILK-Light.otf') format('opentype');
-  font-weight: 300;
+  font-weight: 100;
   font-style: normal;
   font-display: swap;
 }
@@ -188,7 +188,7 @@
   body {
     @apply bg-background text-foreground antialiased overflow-x-hidden;
     font-family: 'Lemon Milk', 'Anek Bangla', sans-serif;
-    font-weight: 300;
+    font-weight: 100;
   }
 
   img {
