@@ -102,10 +102,10 @@ export const duaCategories: DuaCategory[] = [
         id: "daily-9",
         titleBengali: "খাওয়ার আগে দোয়া",
         titleEnglish: "Before Eating",
-        arabic: "بِسْمِ اللهِ، وَعَلَى بَرَكَةِ اللهِ",
-        bengali: "আল্লাহর নামে শুরু করছি এবং আল্লাহর বরকতে।",
-        english: "In the name of Allah and with the blessings of Allah.",
-        reference: "আবু দাউদ"
+        arabic: "بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيمِ",
+        bengali: "পরম করুণাময়, অসীম দয়ালু আল্লাহর নামে শুরু করছি।",
+        english: "In the name of Allah, the Most Gracious, the Most Merciful.",
+        reference: "সহীহ মুসলিম"
       },
       {
         id: "daily-10",
