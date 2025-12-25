@@ -83,17 +83,20 @@ serve(async (req) => {
 ১০৬. কুরাইশ, ১০৭. আল-মাউন, ১০৮. আল-কাউসার, ১০৯. আল-কাফিরুন, ১১০. আন-নাসর,
 ১১১. আল-মাসাদ, ১১২. আল-ইখলাস, ১১৩. আল-ফালাক, ১১৪. আন-নাস
 
-উত্তরের কাঠামো (অবশ্যই মানতে হবে):
+উত্তরের কাঠামো (অবশ্যই মানতে হবে - প্রতিটি অংশ আলাদা রাখুন):
 ১) সংক্ষিপ্ত ভূমিকা
-২) কুরআনের আয়াত অংশ (সর্বনিম্ন ৫টি আয়াত)
-৩) হাদীস অংশ (সর্বনিম্ন ২টি হাদীস)
+২) কুরআনের আয়াত অংশ (সর্বনিম্ন ৫টি আয়াত) - শুধুমাত্র কুরআনের আয়াত এই অংশে থাকবে
+৩) হাদীস অংশ (সর্বনিম্ন ২টি হাদীস) - শুধুমাত্র হাদীস এই অংশে থাকবে
 ৪) ব্যাখ্যা ও শিক্ষা
-৫) চূড়ান্ত আশা + সুরক্ষা দোয়া (বাধ্যতামূলক)
+৫) চূড়ান্ত দোয়া (বাধ্যতামূলক) - এটি সম্পূর্ণ আলাদা অনুচ্ছেদে থাকবে, অন্য কোনো অংশের সাথে মেশাবেন না
+
+গুরুত্বপূর্ণ: প্রতিটি অংশ (১, ২, ৩, ৪, ৫) পরিষ্কারভাবে আলাদা রাখুন। কুরআনের আয়াত অংশে (২) শুধু আয়াত থাকবে। চূড়ান্ত দোয়া (৫) সম্পূর্ণ আলাদা শেষ অনুচ্ছেদে থাকবে।
 
 চূড়ান্ত দোয়ার নিয়ম (অত্যন্ত গুরুত্বপূর্ণ):
 - শেষ অনুচ্ছেদ অবশ্যই একটি সম্মিলিত দোয়া হতে হবে যার মধ্যে অন্তর্ভুক্ত:
   - একটি আশাব্যঞ্জক অনুরোধ (জান্নাত, রহমত, হেদায়েত, ক্ষমা)
   - একটি সুরক্ষামূলক অনুরোধ (পাপ, শাস্তি, পথভ্রষ্টতা, মন্দ থেকে)
+- এই দোয়া অন্য কোনো অংশের সাথে মেশাবেন না - এটি সম্পূর্ণ আলাদা শেষ অনুচ্ছেদ হবে
 - উদাহরণ প্যাটার্ন (হুবহু কপি করবেন না, প্রসঙ্গ অনুযায়ী তৈরি করুন):
   "আল্লাহ আমাদের কল্যাণ, হেদায়েত এবং জান্নাতে উচ্চ মর্যাদা দান করুন এবং সকল প্রকার মন্দ, পথভ্রষ্টতা ও শাস্তি থেকে রক্ষা করুন। আমীন।"
 
@@ -163,17 +166,20 @@ Complete Surah Name List (use ONLY these names):
 106. Quraysh, 107. Al-Ma'un, 108. Al-Kawthar, 109. Al-Kafirun, 110. An-Nasr,
 111. Al-Masad, 112. Al-Ikhlas, 113. Al-Falaq, 114. An-Nas
 
-Answer structure (must follow):
+Answer structure (must follow - keep each section SEPARATE):
 1) Short introduction
-2) Qur'anic verses section (minimum 5 ayahs)
-3) Hadith section (minimum 2 hadith)
+2) Qur'anic verses section (minimum 5 ayahs) - ONLY Qur'anic verses in this section
+3) Hadith section (minimum 2 hadith) - ONLY Hadith in this section
 4) Explanation and lessons
-5) FINAL HOPE + PROTECTION DU'A (MANDATORY)
+5) FINAL DU'A (MANDATORY) - This must be a completely SEPARATE final paragraph, do NOT mix with other sections
+
+IMPORTANT: Keep each section (1, 2, 3, 4, 5) clearly separate. The Qur'anic verses section (2) should ONLY contain verses. The FINAL DU'A (5) must be a completely separate ending paragraph.
 
 FINAL DU'A RULE (VERY IMPORTANT):
 - The last paragraph MUST be a combined du'a including:
   - A hopeful request (Jannah, mercy, guidance, forgiveness)
   - A protective request (from sin, punishment, misguidance, evil)
+- Do NOT mix this du'a with any other section - it must be a completely separate final paragraph
 - Example pattern (do NOT copy exactly, generate contextually):
   "May Allah grant us goodness, guidance, and a high place in Jannah, and protect us from all forms of evil, misguidance, and punishment. Ameen."
 
