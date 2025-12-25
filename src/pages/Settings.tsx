@@ -68,15 +68,15 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
                         ? "কুরআন অধ্যয়নের জন্য আপনার AI সহযোগী" 
                         : "Your AI companion for Quran study"}
                     </p>
+                    <div className="mt-2 flex items-center gap-2 text-sm text-muted-foreground">
+                      <Heart className="h-4 w-4 text-red-500" />
+                      <span className={language === "bn" ? "font-bengali" : ""}>
+                        {language === "bn" 
+                          ? "ভালোবাসার সাথে তৈরি" 
+                          : "Made with love"}
+                      </span>
+                    </div>
                   </div>
-                </div>
-                <div className="mt-4 flex items-center gap-2 text-sm text-muted-foreground">
-                  <Heart className="h-4 w-4 text-red-500" />
-                  <span className={language === "bn" ? "font-bengali" : ""}>
-                    {language === "bn" 
-                      ? "ভালোবাসার সাথে তৈরি" 
-                      : "Made with love"}
-                  </span>
                 </div>
               </div>
             </div>
