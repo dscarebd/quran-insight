@@ -708,6 +708,116 @@ export const duaCategories: DuaCategory[] = [
         bengali: "হে আমাদের রব আমাদের হৃদয়কে বিচ্যুত করবেন না",
         english: "Our Lord do not let our hearts deviate",
         reference: "সূরা আলে ইমরান ৩:৮"
+      },
+      {
+        id: "protection-11",
+        titleBengali: "জাহান্নাম থেকে রক্ষা",
+        titleEnglish: "Protection from Hellfire",
+        arabic: "اللَّهُمَّ أَجِرْنِي مِنَ النَّارِ",
+        transliteration: "Allahumma ajirni minan-nar",
+        transliterationBengali: "আল্লাহুম্মা আজিরনি মিনান নার",
+        bengali: "হে আল্লাহ আমাকে জাহান্নাম থেকে রক্ষা করুন",
+        english: "O Allah protect me from Hellfire",
+        reference: "সুনান আবু দাউদ, হাদিস নং ৫০৭৯"
+      },
+      {
+        id: "protection-12",
+        titleBengali: "হঠাৎ মৃত্যু থেকে রক্ষা",
+        titleEnglish: "Protection from Sudden Death",
+        arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ مَوْتِ الْفُجْأَةِ",
+        transliteration: "Allahumma inni a'udhu bika min mawtil-fuja'ah",
+        transliterationBengali: "আল্লাহুম্মা ইন্নি আ'ঊযু বিকা মিন মাউতিল ফুজাআহ",
+        bengali: "হে আল্লাহ হঠাৎ মৃত্যু থেকে আমাকে রক্ষা করুন",
+        english: "O Allah I seek refuge in You from sudden death",
+        reference: "মুসনাদ আহমাদ, হাদিস নং ১২১৬৫"
+      },
+      {
+        id: "protection-13",
+        titleBengali: "জাদু থেকে রক্ষা",
+        titleEnglish: "Protection from Black Magic",
+        arabic: "قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ",
+        transliteration: "Qul a'udhu birabbil-falaq",
+        transliterationBengali: "কুল আ'ঊযু বিরাব্বিল ফালাক",
+        bengali: "আমি ফালাকের রবের আশ্রয় চাই",
+        english: "Say: I seek refuge in the Lord of daybreak",
+        reference: "সূরা আল-ফালাক ১১৩:১"
+      },
+      {
+        id: "protection-14",
+        titleBengali: "জিনের কুমন্ত্রণা থেকে রক্ষা",
+        titleEnglish: "Protection from Whispering Jinn",
+        arabic: "وَأَعُوذُ بِكَ رَبِّ أَنْ يَحْضُرُونِ",
+        transliteration: "Wa a'udhu bika rabbi an yahdurun",
+        transliterationBengali: "ওয়া আ'ঊযু বিকা রাব্বি আইঁ ইয়াহদুরুন",
+        bengali: "হে আমার রব জিনদের উপস্থিতি থেকে আমাকে রক্ষা করুন",
+        english: "And I seek refuge in You my Lord from their presence",
+        reference: "সূরা আল-মু'মিনুন ২৩:৯৮"
+      },
+      {
+        id: "protection-15",
+        titleBengali: "কুফর থেকে রক্ষা",
+        titleEnglish: "Protection from Disbelief",
+        arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْكُفْرِ",
+        transliteration: "Allahumma inni a'udhu bika minal-kufr",
+        transliterationBengali: "আল্লাহুম্মা ইন্নি আ'ঊযু বিকা মিনাল কুফর",
+        bengali: "হে আল্লাহ কুফর থেকে আমাকে রক্ষা করুন",
+        english: "O Allah I seek refuge in You from disbelief",
+        reference: "সুনান আবু দাউদ, হাদিস নং ৫০৯০"
+      },
+      {
+        id: "protection-16",
+        titleBengali: "ঋণের চাপ থেকে রক্ষা",
+        titleEnglish: "Protection from Debt Stress",
+        arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْمَغْرَمِ",
+        transliteration: "Allahumma inni a'udhu bika minal-maghram",
+        transliterationBengali: "আল্লাহুম্মা ইন্নি আ'ঊযু বিকা মিনাল মাগরাম",
+        bengali: "হে আল্লাহ ঋণের বোঝা থেকে আমাকে রক্ষা করুন",
+        english: "O Allah protect me from debt burden",
+        reference: "সহীহ বুখারী, হাদিস নং ৬৩৬৯"
+      },
+      {
+        id: "protection-17",
+        titleBengali: "দুর্বলতা থেকে রক্ষা",
+        titleEnglish: "Protection from Weakness",
+        arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْعَجْزِ",
+        transliteration: "Allahumma inni a'udhu bika minal-'ajz",
+        transliterationBengali: "আল্লাহুম্মা ইন্নি আ'ঊযু বিকা মিনাল আজজ",
+        bengali: "হে আল্লাহ দুর্বলতা থেকে আমাকে রক্ষা করুন",
+        english: "O Allah I seek refuge in You from weakness",
+        reference: "সহীহ মুসলিম, হাদিস নং ২৭০৬"
+      },
+      {
+        id: "protection-18",
+        titleBengali: "ভয় ও দুঃখ থেকে রক্ষা",
+        titleEnglish: "Protection from Fear and Grief",
+        arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ",
+        transliteration: "Allahumma inni a'udhu bika minal-hammi wal-hazan",
+        transliterationBengali: "আল্লাহুম্মা ইন্নি আ'ঊযু বিকা মিনাল হাম্মি ওয়াল হাজান",
+        bengali: "হে আল্লাহ দুশ্চিন্তা ও দুঃখ থেকে আমাকে রক্ষা করুন",
+        english: "O Allah protect me from anxiety and grief",
+        reference: "সহীহ বুখারী, হাদিস নং ৬৩৬৯"
+      },
+      {
+        id: "protection-19",
+        titleBengali: "অহংকার থেকে রক্ষা",
+        titleEnglish: "Protection from Arrogance",
+        arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْكِبْرِ",
+        transliteration: "Allahumma inni a'udhu bika minal-kibr",
+        transliterationBengali: "আল্লাহুম্মা ইন্নি আ'ঊযু বিকা মিনাল কিবর",
+        bengali: "হে আল্লাহ অহংকার থেকে আমাকে রক্ষা করুন",
+        english: "O Allah protect me from arrogance",
+        reference: "মুসনাদ আহমাদ, হাদিস নং ২৪৪০৯"
+      },
+      {
+        id: "protection-20",
+        titleBengali: "সন্তানদের হেফাজত",
+        titleEnglish: "Protection of Children",
+        arabic: "أُعِيذُكُمَا بِكَلِمَاتِ اللَّهِ التَّامَّةِ",
+        transliteration: "Ua'idukuma bikalimatillahit-tammah",
+        transliterationBengali: "উ'ঈযুকুমা বিকালিমাতিল্লাহিত্তাম্মাহ",
+        bengali: "আমি তোমাদের আল্লাহর পরিপূর্ণ বাক্যের আশ্রয়ে দিচ্ছি",
+        english: "I seek protection for you in Allah's perfect words",
+        reference: "সহীহ বুখারী, হাদিস নং ৩৩৭১"
       }
     ]
   },
