@@ -502,29 +502,19 @@ const Dua = ({ language, arabicFont = "amiri" }: DuaProps) => {
                 </div>
               )}
 
-              {/* Bengali Translation */}
+              {/* Translation - Show only the selected language */}
               <div className="space-y-2">
                 <h3 className={cn(
                   "text-sm font-medium text-muted-foreground",
                   language === "bn" && "font-bengali"
                 )}>
-                  {language === "bn" ? "বাংলা অনুবাদ" : "Bengali Translation"}
+                  {language === "bn" ? "বাংলা অনুবাদ" : "English Translation"}
                 </h3>
-                <p className="font-bengali text-base leading-relaxed text-foreground">
-                  {selectedDua?.bengali}
-                </p>
-              </div>
-
-              {/* English Translation */}
-              <div className="space-y-2">
-                <h3 className={cn(
-                  "text-sm font-medium text-muted-foreground",
+                <p className={cn(
+                  "text-base leading-relaxed text-foreground",
                   language === "bn" && "font-bengali"
                 )}>
-                  {language === "bn" ? "ইংরেজি অনুবাদ" : "English Translation"}
-                </h3>
-                <p className="text-base leading-relaxed text-foreground">
-                  {selectedDua?.english}
+                  {language === "bn" ? selectedDua?.bengali : selectedDua?.english}
                 </p>
               </div>
 
