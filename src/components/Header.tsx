@@ -24,10 +24,10 @@ export const Header = ({ language, onLanguageChange }: HeaderProps) => {
         <LanguageToggle language={language} onToggle={onLanguageChange} />
       </div>
       
-      {/* Mobile: Show app title and logo (logo on right) */}
+      {/* Mobile: Show logo and app title (logo on left) */}
       <div className="md:hidden flex items-center gap-2">
-        <h1 className="text-lg font-semibold text-primary">Quran Insight</h1>
         <img src={appLogo} alt="Quran Insight" className="h-8 w-8 rounded-lg" />
+        <h1 className="text-lg font-semibold text-primary">Quran Insight</h1>
       </div>
       
       {/* Settings button */}
