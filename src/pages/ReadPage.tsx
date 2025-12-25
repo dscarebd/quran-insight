@@ -351,14 +351,7 @@ const ReadPage = ({ language, readingMode = "normal", arabicFont = "amiri" }: Re
         readingMode === "sepia" ? "bg-[hsl(35,30%,94%)]/95" : "bg-background/95"
       )}>
         <div className="flex items-center justify-between px-4 py-3">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => navigate(-1)}
-            className="h-9 w-9"
-          >
-            <ChevronLeft className="h-5 w-5" />
-          </Button>
+          <div className="w-9" /> {/* Spacer for layout balance */}
 
           <div className="flex flex-col items-center">
             <span className={cn("text-lg text-foreground", arabicFont === "uthmani" ? "font-uthmani" : "font-arabic")}>
