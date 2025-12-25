@@ -1,3 +1,4 @@
+import { useState, useRef } from "react";
 import { ArrowLeft, Info, Moon, Sun, BookOpen, Globe, Mail, Heart } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "next-themes";
@@ -25,6 +26,25 @@ interface SettingsProps {
 const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadingModeChange }: SettingsProps) => {
   const navigate = useNavigate();
   const { theme, setTheme } = useTheme();
+  
+  // Easter egg: 7 clicks on developer logo navigates to admin
+  const clickCountRef = useRef(0);
+  const lastClickTimeRef = useRef(0);
+  
+  const handleDeveloperLogoClick = () => {
+    const now = Date.now();
+    // Reset if more than 2 seconds since last click
+    if (now - lastClickTimeRef.current > 2000) {
+      clickCountRef.current = 0;
+    }
+    lastClickTimeRef.current = now;
+    clickCountRef.current += 1;
+    
+    if (clickCountRef.current >= 7) {
+      clickCountRef.current = 0;
+      navigate("/admin");
+    }
+  };
 
   const themeOptions = [
     { value: "light", labelEn: "Light", labelBn: "লাইট", icon: Sun },
@@ -193,7 +213,8 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
                   <img 
                     src={annurLogo} 
                     alt="An-Nur Digital" 
-                    className="h-14 w-14 rounded-full object-cover border-2 border-primary/20"
+                    className="h-14 w-14 rounded-full object-cover border-2 border-primary/20 cursor-pointer select-none"
+                    onClick={handleDeveloperLogoClick}
                   />
                   <div className="flex-1">
                     <h3 className={cn("text-sm font-semibold", language === "bn" && "font-bengali")}>
