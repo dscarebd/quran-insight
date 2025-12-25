@@ -2429,11 +2429,11 @@ export const duaCategories: DuaCategory[] = [
     ]
   },
 
-  // 21. Morning & Evening Duas (সকাল-সন্ধ্যার দোয়া)
+  // 21. Morning & Evening Dhikr (সকাল-সন্ধ্যার যিকর)
   {
     id: "morning-evening",
-    nameEnglish: "Morning & Evening Duas",
-    nameBengali: "সকাল-সন্ধ্যার দোয়া",
+    nameEnglish: "Morning & Evening Dhikr",
+    nameBengali: "সকাল-সন্ধ্যার যিকর",
     icon: "Sunrise",
     duas: [
       {
