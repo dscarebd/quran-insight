@@ -2875,6 +2875,116 @@ export const duaCategories: DuaCategory[] = [
         bengali: "সব অবস্থায় আল্লাহরই প্রশংসা",
         english: "Praise be to Allah in every situation",
         reference: "সুনান ইবনে মাজাহ, হাদিস নং ৩৮০৩"
+      },
+      {
+        id: "me-041",
+        titleBengali: "ঈমান হেফাজতের দোয়া",
+        titleEnglish: "Protection of Faith",
+        arabic: "رَبَّنَا آمَنَّا فَاغْفِرْ لَنَا",
+        transliteration: "Rabbana amanna faghfir lana",
+        transliterationBengali: "রাব্বানা আমান্না ফাগফির লানা",
+        bengali: "হে আমাদের রব আমরা ঈমান এনেছি—আমাদের ক্ষমা করুন",
+        english: "Our Lord, we have believed, so forgive us",
+        reference: "আল-কুরআন, সূরা আলে ইমরান ৩:১৬"
+      },
+      {
+        id: "me-042",
+        titleBengali: "হৃদয় কঠোরতা থেকে রক্ষা",
+        titleEnglish: "Protection from Heart Hardness",
+        arabic: "اللَّهُمَّ لَا تَجْعَلْ قُلُوبَنَا قَاسِيَةً",
+        transliteration: "Allahumma la taj'al qulubana qasiyah",
+        transliterationBengali: "আল্লাহুম্মা লা তাজআল কুলুবানা কাসিয়াহ",
+        bengali: "হে আল্লাহ আমাদের হৃদয় কঠোর করবেন না",
+        english: "O Allah do not make our hearts hard",
+        reference: "মুসনাদ আহমাদ, হাদিস নং ২৩৪১৫"
+      },
+      {
+        id: "me-043",
+        titleBengali: "ফিতনা থেকে রক্ষার দোয়া",
+        titleEnglish: "Protection from Fitnah",
+        arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ الثَّبَاتَ فِي الْأَمْرِ",
+        transliteration: "Allahumma inni as'alukath-thabata fil-amr",
+        transliterationBengali: "আল্লাহুম্মা ইন্নি আসআলুকাস সাবাতা ফিল আমর",
+        bengali: "হে আল্লাহ দ্বীনের বিষয়ে আমাকে অবিচল রাখুন",
+        english: "O Allah I ask You for steadfastness in faith",
+        reference: "মুসনাদ আহমাদ, হাদিস নং ১৭১৬৩"
+      },
+      {
+        id: "me-044",
+        titleBengali: "হেদায়াত হারানো থেকে রক্ষা",
+        titleEnglish: "Protection from Loss of Guidance",
+        arabic: "رَبِّ لَا تَذَرْنِي فَرْدًا",
+        transliteration: "Rabbi la tadharni fardan",
+        transliterationBengali: "রাব্বি লা তাযারনি ফারদান",
+        bengali: "হে আমার রব আমাকে একা ছেড়ে দেবেন না",
+        english: "My Lord, do not leave me alone",
+        reference: "আল-কুরআন, সূরা আম্বিয়া ২১:৮৯"
+      },
+      {
+        id: "me-045",
+        titleBengali: "উত্তম কথার দোয়া",
+        titleEnglish: "Good Speech",
+        arabic: "اللَّهُمَّ اهْدِنِي لِأَحْسَنِ الْأَقْوَالِ",
+        transliteration: "Allahumma ihdini li-ahsanil-aqwal",
+        transliterationBengali: "আল্লাহুম্মা ইহদিনি লি আহসানিল আকওয়াল",
+        bengali: "হে আল্লাহ আমাকে উত্তম কথায় পরিচালিত করুন",
+        english: "O Allah guide me to the best speech",
+        reference: "সহীহ মুসলিম, হাদিস নং ৭৭১"
+      },
+      {
+        id: "me-046",
+        titleBengali: "অনুশোচনা থেকে রক্ষা",
+        titleEnglish: "Protection from Regret",
+        arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْعَجْزِ",
+        transliteration: "Allahumma inni a'udhu bika minal-'ajz",
+        transliterationBengali: "আল্লাহুম্মা ইন্নি আউযু বিকা মিনাল আজজ",
+        bengali: "হে আল্লাহ অক্ষমতা থেকে আমাকে রক্ষা করুন",
+        english: "O Allah protect me from incapacity",
+        reference: "সহীহ মুসলিম, হাদিস নং ২৭০৬"
+      },
+      {
+        id: "me-047",
+        titleBengali: "সময় বরকতের দোয়া",
+        titleEnglish: "Protection of Time",
+        arabic: "اللَّهُمَّ بَارِكْ لِي فِي يَوْمِي",
+        transliteration: "Allahumma barik li fi yawmi",
+        transliterationBengali: "আল্লাহুম্মা বারিক লি ফি ইয়াওমি",
+        bengali: "হে আল্লাহ আমার দিনে বরকত দান করুন",
+        english: "O Allah bless my day",
+        reference: "মুসনাদ আহমাদ, হাদিস নং ২০৫৯৩"
+      },
+      {
+        id: "me-048",
+        titleBengali: "ভুল সিদ্ধান্ত থেকে রক্ষা",
+        titleEnglish: "Protection from Wrong Decisions",
+        arabic: "اللَّهُمَّ أَرِنَا الْحَقَّ حَقًّا",
+        transliteration: "Allahumma arinal-haqqa haqqan",
+        transliterationBengali: "আল্লাহুম্মা আরিনাল হাক্কা হাক্কান",
+        bengali: "হে আল্লাহ আমাদের সত্যকে সত্য হিসেবে দেখান",
+        english: "O Allah show us the truth as truth",
+        reference: "ইবনে হিব্বান, হাদিস নং ২৪৫৭"
+      },
+      {
+        id: "me-049",
+        titleBengali: "হৃদয়ের প্রশান্তি",
+        titleEnglish: "Peaceful Heart",
+        arabic: "رَبِّ اشْرَحْ لِي صَدْرِي",
+        transliteration: "Rabbishrah li sadri",
+        transliterationBengali: "রাব্বিশরাহ লি সদরি",
+        bengali: "হে আমার রব আমার অন্তর প্রশস্ত করুন",
+        english: "My Lord expand my chest",
+        reference: "আল-কুরআন, সূরা তা-হা ২০:২৫"
+      },
+      {
+        id: "me-050",
+        titleBengali: "আখিরাতের আশার দোয়া",
+        titleEnglish: "Hope for Akhirah",
+        arabic: "اللَّهُمَّ اجْعَلْ خَيْرَ أَيَّامِنَا آخِرَهَا",
+        transliteration: "Allahumma-j'al khayra ayyamina akhiraha",
+        transliterationBengali: "আল্লাহুম্মা ইজআল খাইরা আইয়ামিনা আখিরাহা",
+        bengali: "হে আল্লাহ আমাদের শেষ দিনগুলোকে শ্রেষ্ঠ করুন",
+        english: "O Allah make the best of our days the last of them",
+        reference: "মুসনাদ আহমাদ, হাদিস নং ১৭১১৮"
       }
     ]
   }
