@@ -535,7 +535,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْهُدَى وَالتُّقَى وَالْعَفَافَ وَالْغِنَى",
         bengali: "হে আল্লাহ! আমি তোমার কাছে হিদায়াত, তাকওয়া, পবিত্রতা এবং অভাবমুক্তি প্রার্থনা করি।",
         english: "O Allah, I ask You for guidance, piety, chastity and self-sufficiency.",
-        reference: "সহীহ মুসলিম"
+        reference: "সহীহ মুসলিম, হাদিস নং ২৭২১"
       },
       {
         id: "sunnah-2",
@@ -544,7 +544,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ عِلْمًا نَافِعًا، وَرِزْقًا طَيِّبًا، وَعَمَلًا مُتَقَبَّلًا",
         bengali: "হে আল্লাহ! আমি তোমার কাছে উপকারী জ্ঞান, পবিত্র রিজিক এবং কবুলযোগ্য আমল প্রার্থনা করি।",
         english: "O Allah, I ask You for beneficial knowledge, good provision, and accepted deeds.",
-        reference: "ইবনে মাজাহ"
+        reference: "ইবনে মাজাহ, হাদিস নং ৯২৫"
       },
       {
         id: "sunnah-3",
@@ -553,7 +553,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ أَصْلِحْ لِي دِينِي الَّذِي هُوَ عِصْمَةُ أَمْرِي، وَأَصْلِحْ لِي دُنْيَايَ الَّتِي فِيهَا مَعَاشِي، وَأَصْلِحْ لِي آخِرَتِي الَّتِي فِيهَا مَعَادِي",
         bengali: "হে আল্লাহ! আমার দ্বীনকে সংশোধন করে দাও যা আমার সকল বিষয়ের রক্ষাকবচ। আমার দুনিয়াকে সংশোধন করে দাও যেখানে আমার জীবিকা। আমার আখিরাতকে সংশোধন করে দাও যেখানে আমার প্রত্যাবর্তন।",
         english: "O Allah, set right for me my religion which is the safeguard of my affairs. Set right for me my worldly life wherein is my livelihood. Set right for me my Hereafter which is my return.",
-        reference: "সহীহ মুসলিম"
+        reference: "সহীহ মুসলিম, হাদিস নং ২৭২০"
       },
       {
         id: "sunnah-4",
@@ -562,7 +562,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ زَوَالِ نِعْمَتِكَ، وَتَحَوُّلِ عَافِيَتِكَ، وَفُجَاءَةِ نِقْمَتِكَ، وَجَمِيعِ سَخَطِكَ",
         bengali: "হে আল্লাহ! আমি তোমার কাছে আশ্রয় চাই তোমার নিয়ামত চলে যাওয়া থেকে, তোমার দেওয়া সুস্থতা বদলে যাওয়া থেকে, আকস্মিক আযাব থেকে এবং তোমার সকল অসন্তুষ্টি থেকে।",
         english: "O Allah, I seek refuge in You from the removal of Your blessings, the change of Your protection, Your sudden punishment, and all of Your displeasure.",
-        reference: "সহীহ মুসলিম"
+        reference: "সহীহ মুসলিম, হাদিস নং ২৭৩৯"
       },
       {
         id: "sunnah-5",
@@ -571,7 +571,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ أَعِنِّي عَلَى ذِكْرِكَ وَشُكْرِكَ وَحُسْنِ عِبَادَتِكَ",
         bengali: "হে আল্লাহ! তোমার যিকর, শুকর এবং সুন্দরভাবে তোমার ইবাদত করতে আমাকে সাহায্য কর।",
         english: "O Allah, help me to remember You, thank You, and worship You in the best manner.",
-        reference: "আবু দাউদ, নাসাঈ"
+        reference: "আবু দাউদ, হাদিস নং ১৫২২; নাসাঈ, হাদিস নং ১৩০৩"
       },
       {
         id: "sunnah-6",
@@ -798,7 +798,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ عِلْمٍ لاَ يَنْفَعُ",
         bengali: "হে আল্লাহ! আমি তোমার কাছে এমন জ্ঞান থেকে আশ্রয় চাই যা উপকারী নয়।",
         english: "O Allah, I seek refuge in You from knowledge that does not benefit.",
-        reference: "সহীহ মুসলিম"
+        reference: "সহীহ মুসলিম, হাদিস নং ২৭২২"
       },
       {
         id: "knowledge-9",
@@ -807,7 +807,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ ارْحَمْنِي بِالْقُرْآنِ وَاجْعَلْهُ لِي إِمَامًا وَنُورًا وَهُدًى وَرَحْمَةً",
         bengali: "হে আল্লাহ! কুরআনের মাধ্যমে আমার উপর রহম কর এবং এটিকে আমার জন্য ইমাম, নূর, হিদায়াত ও রহমত বানাও।",
         english: "O Allah, have mercy on me through the Quran, and make it for me a leader, light, guidance, and mercy.",
-        reference: "তাবারানী"
+        reference: "তাবারানী, আল-মুজামুল কাবীর"
       },
       {
         id: "knowledge-10",
@@ -835,7 +835,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ رِزْقًا طَيِّبًا، وَعِلْمًا نَافِعًا، وَعَمَلًا مُتَقَبَّلًا",
         bengali: "হে আল্লাহ! আমি তোমার কাছে পবিত্র রিজিক, উপকারী জ্ঞান এবং কবুলযোগ্য আমল প্রার্থনা করি।",
         english: "O Allah, I ask You for good provision, beneficial knowledge, and accepted deeds.",
-        reference: "ইবনে মাজাহ"
+        reference: "ইবনে মাজাহ, হাদিস নং ৯২৫"
       },
       {
         id: "rizq-2",
@@ -844,7 +844,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ اكْفِنِي بِحَلاَلِكَ عَنْ حَرَامِكَ، وَأَغْنِنِي بِفَضْلِكَ عَمَّنْ سِوَاكَ",
         bengali: "হে আল্লাহ! তোমার হালাল দিয়ে আমাকে হারাম থেকে বাঁচাও এবং তোমার অনুগ্রহ দিয়ে আমাকে তোমা ছাড়া অন্যদের থেকে মুক্ত রাখ।",
         english: "O Allah, suffice me with Your lawful against Your prohibited and make me independent of all those besides You by Your bounty.",
-        reference: "তিরমিযী"
+        reference: "তিরমিযী, হাদিস নং ৩৫৬৩"
       },
       {
         id: "rizq-3",
@@ -853,7 +853,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْفَقْرِ، وَالْقِلَّةِ، وَالذِّلَّةِ",
         bengali: "হে আল্লাহ! আমি তোমার কাছে দারিদ্র্য, অভাব এবং অপমান থেকে আশ্রয় চাই।",
         english: "O Allah, I seek refuge in You from poverty, scarcity, and humiliation.",
-        reference: "আবু দাউদ"
+        reference: "আবু দাউদ, হাদিস নং ১৫৪৪"
       },
       {
         id: "rizq-4",
@@ -862,7 +862,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ بَارِكْ لَنَا فِيمَا رَزَقْتَنَا وَقِنَا عَذَابَ النَّارِ",
         bengali: "হে আল্লাহ! তুমি আমাদেরকে যা রিজিক দিয়েছ তাতে বরকত দাও এবং জাহান্নামের আযাব থেকে আমাদের রক্ষা কর।",
         english: "O Allah, bless us in what You have provided us and protect us from the punishment of the Fire.",
-        reference: "সহীহ মুসলিম"
+        reference: "সহীহ মুসলিম, হাদিস নং ২৭৩৪"
       },
       {
         id: "rizq-5",
@@ -871,7 +871,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ أَوْسِعْ لِي فِي رِزْقِي، وَبَارِكْ لِي فِيمَا أَعْطَيْتَنِي",
         bengali: "হে আল্লাহ! আমার রিজিক প্রশস্ত কর এবং তুমি আমাকে যা দিয়েছ তাতে বরকত দাও।",
         english: "O Allah, expand my provision and bless me in what You have given me.",
-        reference: "তাবারানী"
+        reference: "তাবারানী, আল-মুজামুল আওসাত"
       },
       {
         id: "rizq-6",
@@ -889,7 +889,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ ارْزُقْنِي رِزْقًا حَلاَلاً طَيِّبًا وَبَارِكْ لِي فِيهِ",
         bengali: "হে আল্লাহ! আমাকে হালাল ও পবিত্র রিজিক দান কর এবং তাতে বরকত দাও।",
         english: "O Allah, grant me lawful and pure provision and bless me in it.",
-        reference: "তাবারানী"
+        reference: "তাবারানী, আল-মুজামুল কাবীর"
       },
       {
         id: "rizq-8",
@@ -898,7 +898,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ اكْفِنِي بِحَلاَلِكَ عَنْ حَرَامِكَ، وَأَغْنِنِي بِفَضْلِكَ عَمَّنْ سِوَاكَ",
         bengali: "হে আল্লাহ! তোমার হালাল দিয়ে আমাকে হারাম থেকে বাঁচাও এবং তোমার অনুগ্রহে আমাকে তোমা ছাড়া সবার থেকে মুক্ত রাখ।",
         english: "O Allah, suffice me with Your lawful against Your prohibited and make me independent of all besides You through Your bounty.",
-        reference: "তিরমিযী"
+        reference: "তিরমিযী, হাদিস নং ৩৫৬৩"
       },
       {
         id: "rizq-9",
@@ -907,7 +907,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ عِلْمًا نَافِعًا، وَرِزْقًا وَاسِعًا، وَعَمَلًا مُتَقَبَّلًا",
         bengali: "হে আল্লাহ! আমি তোমার কাছে উপকারী জ্ঞান, প্রশস্ত রিজিক এবং কবুলযোগ্য আমল চাই।",
         english: "O Allah, I ask You for beneficial knowledge, abundant provision, and accepted deeds.",
-        reference: "ইবনে মাজাহ"
+        reference: "ইবনে মাজাহ, হাদিস নং ৯২৫"
       },
       {
         id: "rizq-10",
@@ -916,7 +916,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ بَارِكْ لِي فِي كَسْبِي وَفِيمَا رَزَقْتَنِي وَاجْعَلْهُ حَلاَلاً طَيِّبًا",
         bengali: "হে আল্লাহ! আমার উপার্জনে এবং তুমি আমাকে যা রিজিক দিয়েছ তাতে বরকত দাও এবং তা হালাল ও পবিত্র কর।",
         english: "O Allah, bless me in my earnings and in what You have provided me, and make it lawful and pure.",
-        reference: "বায়হাকী"
+        reference: "বায়হাকী, শুআবুল ঈমান"
       }
     ]
   },
@@ -937,7 +937,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ رَبَّ النَّاسِ، أَذْهِبِ الْبَأْسَ، اشْفِ أَنْتَ الشَّافِي، لاَ شِفَاءَ إِلاَّ شِفَاؤُكَ، شِفَاءً لاَ يُغَادِرُ سَقَمًا",
         bengali: "হে আল্লাহ! মানুষের রব! কষ্ট দূর কর, সুস্থতা দান কর। তুমিই সুস্থতা দানকারী। তোমার সুস্থতা ছাড়া কোন সুস্থতা নেই। এমন সুস্থতা দাও যা কোন রোগ রেখে যায় না।",
         english: "O Allah, Lord of mankind, remove the hardship. Cure, for You are the Healer. There is no cure except Your cure, a cure that leaves no illness.",
-        reference: "সহীহ বুখারী, সহীহ মুসলিম"
+        reference: "সহীহ বুখারী, হাদিস নং ৫৬৭৫; সহীহ মুসলিম, হাদিস নং ২১৯১"
       },
       {
         id: "health-2",
@@ -946,7 +946,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "أَسْأَلُ اللهَ الْعَظِيمَ رَبَّ الْعَرْشِ الْعَظِيمِ أَنْ يَشْفِيَكَ",
         bengali: "আমি মহান আল্লাহর কাছে প্রার্থনা করি, যিনি মহান আরশের রব, তিনি যেন তোমাকে সুস্থ করে দেন। (৭ বার পড়ুন)",
         english: "I ask Allah, the Mighty, the Lord of the Mighty Throne, to cure you. (Recite 7 times)",
-        reference: "আবু দাউদ, তিরমিযী"
+        reference: "আবু দাউদ, হাদিস নং ৩১০৬; তিরমিযী, হাদিস নং ২০৮৩"
       },
       {
         id: "health-3",
@@ -955,7 +955,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "بِسْمِ اللهِ أَرْقِيكَ، مِنْ كُلِّ شَيْءٍ يُؤْذِيكَ، مِنْ شَرِّ كُلِّ نَفْسٍ أَوْ عَيْنِ حَاسِدٍ، اللهُ يَشْفِيكَ، بِسْمِ اللهِ أَرْقِيكَ",
         bengali: "আল্লাহর নামে তোমাকে ঝাড়ফুঁক করছি, প্রতিটি কষ্টদায়ক বিষয় থেকে, প্রতিটি হিংসুক আত্মা বা বদনজর থেকে। আল্লাহ তোমাকে সুস্থ করুন, আল্লাহর নামে তোমাকে ঝাড়ফুঁক করছি।",
         english: "In the name of Allah I perform ruqyah for you, from everything that is harming you, from the evil of every soul or envious eye. May Allah cure you, in the name of Allah I perform ruqyah for you.",
-        reference: "সহীহ মুসলিম"
+        reference: "সহীহ মুসলিম, হাদিস নং ২১৮৬"
       },
       {
         id: "health-4",
@@ -964,7 +964,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ عَافِنِي فِي بَدَنِي، اللَّهُمَّ عَافِنِي فِي سَمْعِي، اللَّهُمَّ عَافِنِي فِي بَصَرِي",
         bengali: "হে আল্লাহ! আমার শরীরে সুস্থতা দাও। হে আল্লাহ! আমার শ্রবণশক্তিতে সুস্থতা দাও। হে আল্লাহ! আমার দৃষ্টিশক্তিতে সুস্থতা দাও।",
         english: "O Allah, grant me health in my body. O Allah, grant me health in my hearing. O Allah, grant me health in my sight.",
-        reference: "আবু দাউদ"
+        reference: "আবু দাউদ, হাদিস নং ৫০৯০"
       },
       {
         id: "health-5",
@@ -973,7 +973,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "أَعُوذُ بِعِزَّةِ اللهِ وَقُدْرَتِهِ مِنْ شَرِّ مَا أَجِدُ وَأُحَاذِرُ",
         bengali: "আমি আল্লাহর ইজ্জত ও কুদরতের আশ্রয় নিচ্ছি আমার অনুভূত ও আশঙ্কিত অনিষ্ট থেকে। (৭ বার পড়ুন)",
         english: "I seek refuge in the might of Allah and His power from the evil of what I feel and fear. (Recite 7 times)",
-        reference: "সহীহ মুসলিম"
+        reference: "সহীহ মুসলিম, হাদিস নং ২২০২"
       },
       {
         id: "health-6",
@@ -982,7 +982,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَافِيَةَ فِي الدُّنْيَا وَالآخِرَةِ",
         bengali: "হে আল্লাহ! আমি তোমার কাছে দুনিয়া ও আখিরাতে সুস্থতা প্রার্থনা করি।",
         english: "O Allah, I ask You for well-being in this world and the Hereafter.",
-        reference: "ইবনে মাজাহ"
+        reference: "ইবনে মাজাহ, হাদিস নং ৩৮৭১"
       },
       {
         id: "health-7",
@@ -991,7 +991,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "لاَ بَأْسَ طَهُورٌ إِنْ شَاءَ اللهُ",
         bengali: "ভয় নেই, ইনশাআল্লাহ এটি পবিত্রতা (গুনাহ মাফের মাধ্যম)।",
         english: "No harm, it is a purification (from sins) if Allah wills.",
-        reference: "সহীহ বুখারী"
+        reference: "সহীহ বুখারী, হাদিস নং ৩৬১৬"
       },
       {
         id: "health-8",
@@ -1000,7 +1000,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ اشْفِهِ، اللَّهُمَّ عَافِهِ",
         bengali: "হে আল্লাহ! তাকে সুস্থ কর। হে আল্লাহ! তাকে সুস্থতা দান কর।",
         english: "O Allah, cure him. O Allah, grant him well-being.",
-        reference: "মুসনাদ আহমাদ"
+        reference: "মুসনাদ আহমাদ, হাদিস নং ১৫৪৬৮"
       },
       {
         id: "health-9",
@@ -1009,7 +1009,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "بِسْمِ اللهِ ثَلاَثًا، وَقُلْ سَبْعَ مَرَّاتٍ: أَعُوذُ بِاللهِ وَقُدْرَتِهِ مِنْ شَرِّ مَا أَجِدُ وَأُحَاذِرُ",
         bengali: "আল্লাহর নামে (৩ বার)। তারপর বলুন (৭ বার): আমি আল্লাহ ও তাঁর কুদরতের আশ্রয় নিচ্ছি আমার অনুভূত ও আশঙ্কিত ক্ষতি থেকে।",
         english: "In the name of Allah (3 times). Then say (7 times): I seek refuge in Allah and His power from the evil of what I feel and fear.",
-        reference: "সহীহ মুসলিম"
+        reference: "সহীহ মুসলিম, হাদিস নং ২২০২"
       },
       {
         id: "health-10",
@@ -1018,7 +1018,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْبَرَصِ، وَالْجُنُونِ، وَالْجُذَامِ، وَمِنْ سَيِّئِ الْأَسْقَامِ",
         bengali: "হে আল্লাহ! আমি তোমার কাছে আশ্রয় চাই শ্বেতী, উন্মাদনা, কুষ্ঠ এবং মন্দ রোগসমূহ থেকে।",
         english: "O Allah, I seek refuge in You from vitiligo, madness, leprosy, and from evil diseases.",
-        reference: "আবু দাউদ"
+        reference: "আবু দাউদ, হাদিস নং ১৫৫৪"
       }
     ]
   },
@@ -1037,7 +1037,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "لاَ إِلَهَ إِلاَّ اللهُ الْعَظِيمُ الْحَلِيمُ، لاَ إِلَهَ إِلاَّ اللهُ رَبُّ الْعَرْشِ الْعَظِيمِ، لاَ إِلَهَ إِلاَّ اللهُ رَبُّ السَّمَوَاتِ وَرَبُّ الأَرْضِ وَرَبُّ الْعَرْشِ الْكَرِيمِ",
         bengali: "আল্লাহ ছাড়া কোন ইলাহ নেই, তিনি মহান, সহনশীল। আল্লাহ ছাড়া কোন ইলাহ নেই, তিনি মহান আরশের রব। আল্লাহ ছাড়া কোন ইলাহ নেই, তিনি আসমানসমূহের রব, জমিনের রব এবং সম্মানিত আরশের রব।",
         english: "There is no deity except Allah, the Magnificent, the Forbearing. There is no deity except Allah, Lord of the Mighty Throne. There is no deity except Allah, Lord of the heavens, Lord of the earth, and Lord of the Noble Throne.",
-        reference: "সহীহ বুখারী, সহীহ মুসলিম"
+        reference: "সহীহ বুখারী, হাদিস নং ৬৩৪৬; সহীহ মুসলিম, হাদিস নং ২৭৩০"
       },
       {
         id: "stress-2",
@@ -1046,7 +1046,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ، وَأَعُوذُ بِكَ مِنَ الْعَجْزِ وَالْكَسَلِ، وَأَعُوذُ بِكَ مِنَ الْجُبْنِ وَالْبُخْلِ، وَأَعُوذُ بِكَ مِنْ غَلَبَةِ الدَّيْنِ وَقَهْرِ الرِّجَالِ",
         bengali: "হে আল্লাহ! আমি তোমার আশ্রয় চাই দুশ্চিন্তা ও দুঃখ থেকে, অক্ষমতা ও অলসতা থেকে, কাপুরুষতা ও কৃপণতা থেকে এবং ঋণের বোঝা ও মানুষের দমন থেকে।",
         english: "O Allah, I seek refuge in You from anxiety and sorrow, weakness and laziness, miserliness and cowardice, the burden of debts and from being overpowered by men.",
-        reference: "সহীহ বুখারী"
+        reference: "সহীহ বুখারী, হাদিস নং ৬৩৬৩"
       },
       {
         id: "stress-3",
@@ -1055,7 +1055,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ رَحْمَتَكَ أَرْجُو فَلاَ تَكِلْنِي إِلَى نَفْسِي طَرْفَةَ عَيْنٍ، وَأَصْلِحْ لِي شَأْنِي كُلَّهُ، لاَ إِلَهَ إِلاَّ أَنْتَ",
         bengali: "হে আল্লাহ! আমি তোমার রহমতের আশা করি। এক পলকের জন্যও আমাকে আমার নিজের উপর ছেড়ে দিও না এবং আমার সব বিষয় ঠিক করে দাও। তুমি ছাড়া কোন ইলাহ নেই।",
         english: "O Allah, I hope for Your mercy. Do not leave me to myself even for the blink of an eye. Correct all of my affairs for me. There is no deity except You.",
-        reference: "আবু দাউদ"
+        reference: "আবু দাউদ, হাদিস নং ৫০৯০"
       },
       {
         id: "stress-4",
@@ -1064,7 +1064,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "يَا حَيُّ يَا قَيُّومُ بِرَحْمَتِكَ أَسْتَغِيثُ",
         bengali: "হে চিরঞ্জীব! হে সবকিছুর ধারক! তোমার রহমতের মাধ্যমে আমি সাহায্য প্রার্থনা করি।",
         english: "O Ever-Living, O Self-Sustaining, by Your mercy I seek help.",
-        reference: "তিরমিযী"
+        reference: "তিরমিযী, হাদিস নং ৩৫২৪"
       },
       {
         id: "stress-5",
@@ -1073,7 +1073,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "حَسْبِيَ اللهُ لاَ إِلَهَ إِلاَّ هُوَ عَلَيْهِ تَوَكَّلْتُ وَهُوَ رَبُّ الْعَرْشِ الْعَظِيمِ",
         bengali: "আল্লাহই আমার জন্য যথেষ্ট, তিনি ছাড়া কোন ইলাহ নেই। তাঁর উপরই আমি ভরসা করি এবং তিনি মহান আরশের রব। (৭ বার পড়ুন)",
         english: "Allah is sufficient for me. There is no deity except Him. On Him I have relied, and He is the Lord of the Great Throne. (Recite 7 times)",
-        reference: "আবু দাউদ"
+        reference: "আবু দাউদ, হাদিস নং ৫০৮১"
       },
       {
         id: "stress-6",
@@ -1082,7 +1082,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ إِنِّي عَبْدُكَ، ابْنُ عَبْدِكَ، ابْنُ أَمَتِكَ، نَاصِيَتِي بِيَدِكَ، مَاضٍ فِيَّ حُكْمُكَ، عَدْلٌ فِيَّ قَضَاؤُكَ",
         bengali: "হে আল্লাহ! আমি তোমার বান্দা, তোমার বান্দার সন্তান, তোমার বান্দির সন্তান। আমার কপাল তোমার হাতে, তোমার নির্দেশ আমার উপর কার্যকর, তোমার ফায়সালা আমার জন্য ন্যায়সঙ্গত।",
         english: "O Allah, I am Your slave, son of Your male slave, son of Your female slave. My forelock is in Your Hand. Your command concerning me prevails, and Your judgment concerning me is just.",
-        reference: "মুসনাদ আহমাদ"
+        reference: "মুসনাদ আহমাদ, হাদিস নং ৩৭১২"
       },
       {
         id: "stress-7",
@@ -1100,7 +1100,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ اجْعَلْ فِي قَلْبِي نُورًا وَفِي صَدْرِي نُورًا",
         bengali: "হে আল্লাহ! আমার অন্তরে নূর দাও এবং আমার বক্ষে নূর দাও।",
         english: "O Allah, place light in my heart and light in my chest.",
-        reference: "সহীহ মুসলিম"
+        reference: "সহীহ মুসলিম, হাদিস নং ৭৬৩"
       },
       {
         id: "stress-9",
@@ -1137,7 +1137,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "بِسْمِ اللهِ تَوَكَّلْتُ عَلَى اللهِ لاَ حَوْلَ وَلاَ قُوَّةَ إِلاَّ بِاللهِ",
         bengali: "আল্লাহর নামে, আল্লাহর উপর ভরসা করলাম, আল্লাহর সাহায্য ছাড়া কোন উপায় নেই এবং কোন শক্তি নেই।",
         english: "In the name of Allah, I place my trust in Allah, there is no might nor power except with Allah.",
-        reference: "আবু দাউদ, তিরমিযী"
+        reference: "আবু দাউদ, হাদিস নং ৫০৯৫; তিরমিযী, হাদিস নং ৩৪২৬"
       },
       {
         id: "work-2",
@@ -1146,7 +1146,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ عِلْمًا نَافِعًا وَرِزْقًا طَيِّبًا وَعَمَلًا مُتَقَبَّلًا",
         bengali: "হে আল্লাহ! আমি তোমার কাছে উপকারী জ্ঞান, পবিত্র রিজিক এবং কবুলযোগ্য আমল চাই।",
         english: "O Allah, I ask You for beneficial knowledge, good provision, and accepted deeds.",
-        reference: "ইবনে মাজাহ"
+        reference: "ইবনে মাজাহ, হাদিস নং ৯২৫"
       },
       {
         id: "work-3",
@@ -1155,7 +1155,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ لاَ سَهْلَ إِلاَّ مَا جَعَلْتَهُ سَهْلاً، وَأَنْتَ تَجْعَلُ الْحَزْنَ إِذَا شِئْتَ سَهْلاً",
         bengali: "হে আল্লাহ! কোন কাজ সহজ নয় যতক্ষণ না তুমি তা সহজ কর। তুমি চাইলে কঠিন কাজকেও সহজ করে দাও।",
         english: "O Allah, nothing is easy except what You make easy, and You can make the difficult easy if You wish.",
-        reference: "ইবনে হিব্বান"
+        reference: "ইবনে হিব্বান, হাদিস নং ৯৭৪"
       },
       {
         id: "work-4",
@@ -1173,7 +1173,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ بَارِكْ لَنَا فِي تِجَارَتِنَا وَأَصْلِحْ لَنَا أَمْرَنَا",
         bengali: "হে আল্লাহ! আমাদের ব্যবসায় বরকত দাও এবং আমাদের কাজ সঠিক করে দাও।",
         english: "O Allah, bless us in our trade and rectify our affairs.",
-        reference: "তাবারানী"
+        reference: "তাবারানী, আল-মুজামুল কাবীর"
       },
       {
         id: "work-6",
@@ -1182,7 +1182,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ أَلِّفْ بَيْنَ قُلُوبِنَا وَأَصْلِحْ ذَاتَ بَيْنِنَا",
         bengali: "হে আল্লাহ! আমাদের অন্তরে ভালোবাসা সৃষ্টি কর এবং আমাদের পারস্পরিক সম্পর্ক ঠিক করে দাও।",
         english: "O Allah, bring love between our hearts and rectify our mutual relations.",
-        reference: "আবু দাউদ"
+        reference: "আবু দাউদ, হাদিস নং ৯৬৯"
       },
       {
         id: "work-7",
@@ -1191,7 +1191,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ مِنْ فَضْلِكَ وَرَحْمَتِكَ",
         bengali: "হে আল্লাহ! আমি তোমার অনুগ্রহ ও রহমত চাই।",
         english: "O Allah, I ask You from Your bounty and mercy.",
-        reference: "তাবারানী"
+        reference: "তাবারানী, আল-মুজামুল আওসাত"
       },
       {
         id: "work-8",
@@ -1200,7 +1200,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ خِرْ لِي وَاخْتَرْ لِي",
         bengali: "হে আল্লাহ! আমার জন্য যা কল্যাণকর তা নির্ধারণ কর এবং আমার জন্য তা পছন্দ কর।",
         english: "O Allah, decree what is good for me and choose it for me.",
-        reference: "তিরমিযী"
+        reference: "তিরমিযী, হাদিস নং ৩৫১৬"
       },
       {
         id: "work-9",
@@ -1209,7 +1209,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ أَعِنِّي عَلَى ذِكْرِكَ وَشُكْرِكَ وَحُسْنِ عِبَادَتِكَ",
         bengali: "হে আল্লাহ! তোমার যিকর, শুকর এবং সুন্দরভাবে তোমার ইবাদত করতে আমাকে সাহায্য কর।",
         english: "O Allah, help me to remember You, thank You, and worship You in the best manner.",
-        reference: "আবু দাউদ, নাসাঈ"
+        reference: "আবু দাউদ, হাদিস নং ১৫২২; নাসাঈ, হাদিস নং ১৩০৩"
       },
       {
         id: "work-10",
@@ -1218,7 +1218,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "الْحَمْدُ لِلَّهِ الَّذِي بِنِعْمَتِهِ تَتِمُّ الصَّالِحَاتُ",
         bengali: "সকল প্রশংসা আল্লাহর জন্য যাঁর অনুগ্রহে সকল ভালো কাজ সম্পন্ন হয়।",
         english: "All praise is for Allah by whose grace all good things are completed.",
-        reference: "ইবনে মাজাহ"
+        reference: "ইবনে মাজাহ, হাদিস নং ৩৮০৩"
       }
     ]
   },
@@ -1264,7 +1264,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ أَلِّفْ بَيْنَ قُلُوبِنَا، وَأَصْلِحْ ذَاتَ بَيْنِنَا، وَاهْدِنَا سُبُلَ السَّلاَمِ",
         bengali: "হে আল্লাহ! আমাদের অন্তরে ভালোবাসা সৃষ্টি কর, আমাদের মধ্যকার সম্পর্ক ঠিক করে দাও এবং আমাদের শান্তির পথ দেখাও।",
         english: "O Allah, bring our hearts together, reconcile between us, and guide us to the ways of peace.",
-        reference: "আবু দাউদ"
+        reference: "আবু দাউদ, হাদিস নং ৯৬৯"
       },
       {
         id: "family-5",
@@ -1273,7 +1273,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ بَارِكْ لَهُ، وَبَارِكْ عَلَيْهِ",
         bengali: "হে আল্লাহ! তার জন্য বরকত দাও এবং তার উপর বরকত দাও।",
         english: "O Allah, bless him and send blessings upon him.",
-        reference: "নাসাঈ"
+        reference: "নাসাঈ, হাদিস নং ৯২৯৮"
       },
       {
         id: "family-6",
@@ -1291,7 +1291,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ أَلِّفْ بَيْنَ قُلُوبِنَا وَأَصْلِحْ ذَاتَ بَيْنِنَا وَاهْدِنَا سُبُلَ السَّلاَمِ",
         bengali: "হে আল্লাহ! আমাদের অন্তরে ভালোবাসা সৃষ্টি কর, আমাদের পারস্পরিক সম্পর্ক ঠিক করে দাও এবং আমাদের শান্তির পথে পরিচালিত কর।",
         english: "O Allah, bring love between our hearts, rectify our mutual relations, and guide us to the paths of peace.",
-        reference: "আবু দাউদ"
+        reference: "আবু দাউদ, হাদিস নং ৯৬৯"
       },
       {
         id: "family-8",
@@ -1335,28 +1335,28 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ زَوْجَةً صَالِحَةً تُعِينُنِي عَلَى أَمْرِ دُنْيَايَ وَآخِرَتِي",
         bengali: "হে আল্লাহ! আমি তোমার কাছে একজন নেক স্ত্রী/স্বামী প্রার্থনা করি যে আমার দুনিয়া ও আখিরাতের বিষয়ে আমাকে সাহায্য করবে।",
         english: "O Allah, I ask You for a righteous spouse who will help me in the matters of my worldly life and Hereafter.",
-        reference: "আল-আযকার"
+        reference: "আল-আযকার, ইমাম নববী"
       },
       {
         id: "marriage-2",
         arabic: "بَارَكَ اللهُ لَكَ، وَبَارَكَ عَلَيْكَ، وَجَمَعَ بَيْنَكُمَا فِي خَيْرٍ",
         bengali: "আল্লাহ তোমার জন্য বরকত দিন, তোমার উপর বরকত দিন এবং তোমাদের উভয়কে কল্যাণের মধ্যে একত্রিত করুন।",
         english: "May Allah bless you, and shower His blessings upon you, and join you both in goodness.",
-        reference: "আবু দাউদ, তিরমিযী"
+        reference: "আবু দাউদ, হাদিস নং ২১৩০; তিরমিযী, হাদিস নং ১০৯১"
       },
       {
         id: "marriage-3",
         arabic: "اللَّهُمَّ أَلِّفْ بَيْنَ قُلُوبِهِمَا كَمَا أَلَّفْتَ بَيْنَ قُلُوبِ آدَمَ وَحَوَّاءَ",
         bengali: "হে আল্লাহ! তাদের অন্তরে ভালোবাসা সৃষ্টি কর যেমন তুমি আদম ও হাওয়ার অন্তরে ভালোবাসা সৃষ্টি করেছিলে।",
         english: "O Allah, create love between their hearts as You created love between the hearts of Adam and Hawwa (Eve).",
-        reference: "আল-আযকার"
+        reference: "আল-আযকার, ইমাম নববী"
       },
       {
         id: "marriage-4",
         arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ خَيْرَهَا وَخَيْرَ مَا جَبَلْتَهَا عَلَيْهِ، وَأَعُوذُ بِكَ مِنْ شَرِّهَا وَشَرِّ مَا جَبَلْتَهَا عَلَيْهِ",
         bengali: "হে আল্লাহ! আমি তোমার কাছে তার কল্যাণ চাই এবং তাকে যে স্বভাবে সৃষ্টি করেছ তার কল্যাণ চাই। আমি তার অনিষ্ট থেকে এবং তাকে যে স্বভাবে সৃষ্টি করেছ তার অনিষ্ট থেকে তোমার আশ্রয় চাই।",
         english: "O Allah, I ask You for her goodness and the goodness You have created in her, and I seek refuge in You from her evil and the evil You have created in her.",
-        reference: "আবু দাউদ"
+        reference: "আবু দাউদ, হাদিস নং ২১৬০"
       },
       {
         id: "marriage-5",
@@ -1374,7 +1374,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ ارْزُقْنِي زَوْجًا صَالِحًا يُعِينُنِي عَلَى طَاعَتِكَ",
         bengali: "হে আল্লাহ! আমাকে একজন নেক জীবনসঙ্গী দান কর যে তোমার আনুগত্যে আমাকে সাহায্য করবে।",
         english: "O Allah, grant me a righteous spouse who will help me in obeying You.",
-        reference: "আল-আযকার"
+        reference: "আল-আযকার, ইমাম নববী"
       },
       {
         id: "marriage-7",
@@ -1383,7 +1383,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ خَيْرَهَا وَخَيْرَ مَا جَبَلْتَهَا عَلَيْهِ، وَأَعُوذُ بِكَ مِنْ شَرِّهَا وَشَرِّ مَا جَبَلْتَهَا عَلَيْهِ",
         bengali: "হে আল্লাহ! আমি তোমার কাছে তার কল্যাণ চাই এবং তুমি তাকে যে স্বভাবে সৃষ্টি করেছ তার কল্যাণ চাই। আর তার অনিষ্ট থেকে এবং তুমি তাকে যে স্বভাবে সৃষ্টি করেছ তার অনিষ্ট থেকে তোমার আশ্রয় চাই।",
         english: "O Allah, I ask You for her goodness and the goodness upon which You have created her, and I seek refuge in You from her evil and the evil upon which You have created her.",
-        reference: "আবু দাউদ, ইবনে মাজাহ"
+        reference: "আবু দাউদ, হাদিস নং ২১৬০; ইবনে মাজাহ, হাদিস নং ১৯১৮"
       },
       {
         id: "marriage-8",
@@ -1392,7 +1392,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ أَلِّفْ بَيْنَ قُلُوبِنَا وَأَصْلِحْ ذَاتَ بَيْنِنَا",
         bengali: "হে আল্লাহ! আমাদের অন্তরের মধ্যে ভালোবাসা সৃষ্টি কর এবং আমাদের পারস্পরিক সম্পর্ক সংশোধন করে দাও।",
         english: "O Allah, bring love between our hearts and rectify our mutual relations.",
-        reference: "সহীহ মুসলিম"
+        reference: "সহীহ মুসলিম, হাদিস নং ৫৩৮"
       },
       {
         id: "marriage-9",
@@ -1474,7 +1474,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ أَعِذْهُ بِكَلِمَاتِكَ التَّامَّةِ مِنْ كُلِّ شَيْطَانٍ وَهَامَّةٍ، وَمِنْ كُلِّ عَيْنٍ لاَمَّةٍ",
         bengali: "হে আল্লাহ! আমি তোমার পরিপূর্ণ বাণীসমূহের মাধ্যমে তাকে প্রতিটি শয়তান, বিষাক্ত প্রাণী এবং প্রতিটি ক্ষতিকর বদনজর থেকে তোমার আশ্রয়ে রাখছি।",
         english: "O Allah, I seek protection for him in Your perfect words from every devil and every poisonous creature, and from every evil eye.",
-        reference: "সহীহ বুখারী"
+        reference: "সহীহ বুখারী, হাদিস নং ৩৩৭১"
       },
       {
         id: "children-7",
@@ -1483,7 +1483,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "بَارَكَ اللهُ لَكَ فِي الْمَوْهُوبِ لَكَ، وَشَكَرْتَ الْوَاهِبَ، وَبَلَغَ أَشُدَّهُ، وَرُزِقْتَ بِرَّهُ",
         bengali: "আল্লাহ তোমাকে যা দান করেছেন তাতে বরকত দিন। তুমি দাতার শুকরিয়া আদায় কর। সে যেন পূর্ণ যৌবনে পৌঁছে এবং তুমি তার সদ্ব্যবহার পাও।",
         english: "May Allah bless you in what He has given you, may you give thanks to the Giver, may he reach full maturity, and may you be blessed with his righteousness.",
-        reference: "ইবনে সুন্নী"
+        reference: "ইবনে সুন্নী, আমালুল ইয়াওমি ওয়াল লাইলাহ"
       },
       {
         id: "children-8",
@@ -1501,7 +1501,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ حَسِّنْ خُلُقَهُ كَمَا حَسَّنْتَ خَلْقَهُ",
         bengali: "হে আল্লাহ! তার চরিত্র সুন্দর কর যেমন তুমি তার আকৃতি সুন্দর করেছ।",
         english: "O Allah, make his character beautiful just as You have made his appearance beautiful.",
-        reference: "মুসনাদ আহমাদ"
+        reference: "মুসনাদ আহমাদ, হাদিস নং ২৪৩৯২"
       },
       {
         id: "children-10",
@@ -1510,7 +1510,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ اهْدِ أَوْلاَدِي وَثَبِّتْهُمْ عَلَى الْحَقِّ وَاجْعَلْهُمْ مِنَ الصَّالِحِينَ",
         bengali: "হে আল্লাহ! আমার সন্তানদের হিদায়াত দাও, তাদের সত্যের উপর অটল রাখ এবং তাদের নেককারদের অন্তর্ভুক্ত কর।",
         english: "O Allah, guide my children, keep them firm upon the truth, and make them among the righteous.",
-        reference: "দোয়া সংকলন"
+        reference: "হিসনুল মুসলিম"
       }
     ]
   },
@@ -1531,7 +1531,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللهُ أَكْبَرُ، اللهُ أَكْبَرُ، اللهُ أَكْبَرُ، سُبْحَانَ الَّذِي سَخَّرَ لَنَا هَذَا وَمَا كُنَّا لَهُ مُقْرِنِينَ، وَإِنَّا إِلَى رَبِّنَا لَمُنْقَلِبُونَ",
         bengali: "আল্লাহ সবচেয়ে বড়, আল্লাহ সবচেয়ে বড়, আল্লাহ সবচেয়ে বড়। পবিত্র সেই সত্তা যিনি একে আমাদের বশীভূত করে দিয়েছেন, অন্যথায় আমরা একে বশ করতে সক্ষম ছিলাম না। আর নিশ্চয়ই আমরা আমাদের রবের কাছে প্রত্যাবর্তনকারী।",
         english: "Allah is the greatest, Allah is the greatest, Allah is the greatest. How perfect He is, The One Who has placed this at our service, and we ourselves would not have been capable of that, and to our Lord is our final destiny.",
-        reference: "সহীহ মুসলিম, তিরমিযী"
+        reference: "সহীহ মুসলিম, হাদিস নং ১৩৪২; তিরমিযী, হাদিস নং ৩৪৪৬"
       },
       {
         id: "travel-2",
@@ -1540,7 +1540,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ إِنَّا نَسْأَلُكَ فِي سَفَرِنَا هَذَا الْبِرَّ وَالتَّقْوَى، وَمِنَ الْعَمَلِ مَا تَرْضَى",
         bengali: "হে আল্লাহ! আমরা আমাদের এই সফরে তোমার কাছে নেকী ও তাকওয়া এবং এমন আমল প্রার্থনা করছি যা তুমি পছন্দ কর।",
         english: "O Allah, we ask You on this our journey for goodness and piety, and for works that are pleasing to You.",
-        reference: "সহীহ মুসলিম"
+        reference: "সহীহ মুসলিম, হাদিস নং ১৩৪২"
       },
       {
         id: "travel-3",
@@ -1549,7 +1549,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ هَوِّنْ عَلَيْنَا سَفَرَنَا هَذَا وَاطْوِ عَنَّا بُعْدَهُ",
         bengali: "হে আল্লাহ! আমাদের এই সফর আমাদের জন্য সহজ করে দাও এবং এর দূরত্ব সংক্ষেপ করে দাও।",
         english: "O Allah, make this journey easy for us and shorten its distance for us.",
-        reference: "সহীহ মুসলিম"
+        reference: "সহীহ মুসলিম, হাদিস নং ১৩৪২"
       },
       {
         id: "travel-4",
@@ -1558,7 +1558,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ أَنْتَ الصَّاحِبُ فِي السَّفَرِ، وَالْخَلِيفَةُ فِي الأَهْلِ",
         bengali: "হে আল্লাহ! তুমি সফরে আমার সাথী এবং পরিবারে আমার প্রতিনিধি।",
         english: "O Allah, You are the Companion on the journey and the Guardian of the family.",
-        reference: "সহীহ মুসলিম"
+        reference: "সহীহ মুসলিম, হাদিস নং ১৩৪২"
       },
       {
         id: "travel-5",
@@ -1567,7 +1567,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "أَعُوذُ بِكَلِمَاتِ اللهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ",
         bengali: "আমি আল্লাহর পরিপূর্ণ বাণীসমূহের মাধ্যমে তাঁর সৃষ্টির সকল অনিষ্ট থেকে আশ্রয় চাই। (নতুন জায়গায় নামার সময়)",
         english: "I seek refuge in the perfect words of Allah from the evil of what He has created. (When stopping at a new place)",
-        reference: "সহীহ মুসলিম"
+        reference: "সহীহ মুসলিম, হাদিস নং ২৭০৮"
       },
       {
         id: "travel-6",
@@ -1576,7 +1576,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "آيِبُونَ، تَائِبُونَ، عَابِدُونَ، لِرَبِّنَا حَامِدُونَ",
         bengali: "আমরা প্রত্যাবর্তনকারী, তাওবাকারী, ইবাদতকারী এবং আমাদের রবের প্রশংসাকারী। (সফর থেকে ফেরার সময়)",
         english: "We are returning, repenting, worshipping, and praising our Lord. (When returning from travel)",
-        reference: "সহীহ বুখারী, সহীহ মুসলিম"
+        reference: "সহীহ বুখারী, হাদিস নং ১৭৯৭; সহীহ মুসলিম, হাদিস নং ১৩৪২"
       },
       {
         id: "travel-7",
@@ -1585,7 +1585,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ هَوِّنْ عَلَيْنَا سَفَرَنَا هَذَا وَاطْوِ عَنَّا بُعْدَهُ",
         bengali: "হে আল্লাহ! আমাদের এই সফরকে সহজ করে দাও এবং এর দূরত্ব আমাদের জন্য কমিয়ে দাও।",
         english: "O Allah, make this journey of ours easy and shorten its distance for us.",
-        reference: "সহীহ মুসলিম"
+        reference: "সহীহ মুসলিম, হাদিস নং ১৩৪২"
       },
       {
         id: "travel-8",
@@ -1603,7 +1603,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "يَا عِبَادَ اللهِ دُلُّونِي عَلَى الطَّرِيقِ",
         bengali: "হে আল্লাহর বান্দারা! আমাকে পথ দেখাও।",
         english: "O servants of Allah, guide me to the path.",
-        reference: "তাবারানী"
+        reference: "তাবারানী, আল-মুজামুল কাবীর"
       },
       {
         id: "travel-10",
@@ -1612,7 +1612,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "لَبَّيْكَ اللَّهُمَّ لَبَّيْكَ، لَبَّيْكَ لاَ شَرِيكَ لَكَ لَبَّيْكَ، إِنَّ الْحَمْدَ وَالنِّعْمَةَ لَكَ وَالْمُلْكَ، لاَ شَرِيكَ لَكَ",
         bengali: "আমি হাজির হে আল্লাহ! আমি হাজির। আমি হাজির, তোমার কোন শরীক নেই, আমি হাজির। নিশ্চয়ই সকল প্রশংসা, নিয়ামত এবং রাজত্ব তোমারই, তোমার কোন শরীক নেই।",
         english: "Here I am, O Allah, here I am. Here I am, You have no partner, here I am. Verily all praise, grace and sovereignty belong to You. You have no partner.",
-        reference: "সহীহ বুখারী, সহীহ মুসলিম"
+        reference: "সহীহ বুখারী, হাদিস নং ১৫৪৯; সহীহ মুসলিম, হাদিস নং ১১৮৪"
       }
     ]
   },
@@ -1631,7 +1631,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "إِنَّا لِلَّهِ وَإِنَّا إِلَيْهِ رَاجِعُونَ، اللَّهُمَّ أْجُرْنِي فِي مُصِيبَتِي وَأَخْلِفْ لِي خَيْرًا مِنْهَا",
         bengali: "নিশ্চয়ই আমরা আল্লাহর জন্য এবং তাঁর কাছেই আমাদের ফিরে যেতে হবে। হে আল্লাহ! আমার এই বিপদে আমাকে সওয়াব দাও এবং এর বিনিময়ে আমাকে এর চেয়ে উত্তম কিছু দাও।",
         english: "Indeed we belong to Allah and to Him we shall return. O Allah, reward me in my affliction and replace it for me with something better.",
-        reference: "সহীহ মুসলিম"
+        reference: "সহীহ মুসলিম, হাদিস নং ৯১৮"
       },
       {
         id: "hardship-2",
@@ -1649,7 +1649,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "لاَ حَوْلَ وَلاَ قُوَّةَ إِلاَّ بِاللهِ",
         bengali: "আল্লাহর সাহায্য ছাড়া কোন উপায় নেই এবং কোন শক্তি নেই।",
         english: "There is no power and no strength except with Allah.",
-        reference: "সহীহ বুখারী, সহীহ মুসলিম"
+        reference: "সহীহ বুখারী, হাদিস নং ৪২০৫; সহীহ মুসলিম, হাদিস নং ২৭০৪"
       },
       {
         id: "hardship-4",
@@ -1658,7 +1658,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ جَهْدِ الْبَلاَءِ، وَدَرَكِ الشَّقَاءِ، وَسُوءِ الْقَضَاءِ، وَشَمَاتَةِ الأَعْدَاءِ",
         bengali: "হে আল্লাহ! আমি তোমার কাছে আশ্রয় চাই কঠিন বিপদ থেকে, দুর্ভাগ্যে পতিত হওয়া থেকে, মন্দ তাকদীর থেকে এবং শত্রুদের আনন্দ থেকে।",
         english: "O Allah, I seek refuge in You from severe trials, from falling into misfortune, from bad fate, and from the gloating of enemies.",
-        reference: "সহীহ বুখারী, সহীহ মুসলিম"
+        reference: "সহীহ বুখারী, হাদিস নং ৬৬১৬; সহীহ মুসলিম, হাদিস নং ২৭০৭"
       },
       {
         id: "hardship-5",
@@ -1667,7 +1667,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ لاَ سَهْلَ إِلاَّ مَا جَعَلْتَهُ سَهْلًا، وَأَنْتَ تَجْعَلُ الْحَزْنَ إِذَا شِئْتَ سَهْلًا",
         bengali: "হে আল্লাহ! তুমি যা সহজ কর তা ছাড়া কিছুই সহজ নয়। তুমি চাইলে কঠিন বিষয়কেও সহজ করে দাও।",
         english: "O Allah, there is nothing easy except what You make easy. And You make the difficult easy if You wish.",
-        reference: "ইবনে হিব্বান"
+        reference: "ইবনে হিব্বান, হাদিস নং ৯৭৪"
       },
       {
         id: "hardship-6",
@@ -1676,7 +1676,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "يَا حَيُّ يَا قَيُّومُ بِرَحْمَتِكَ أَسْتَغِيثُ، أَصْلِحْ لِي شَأْنِي كُلَّهُ، وَلاَ تَكِلْنِي إِلَى نَفْسِي طَرْفَةَ عَيْنٍ",
         bengali: "হে চিরঞ্জীব! হে সবকিছুর ধারক! তোমার রহমতের মাধ্যমে আমি সাহায্য প্রার্থনা করি। আমার সব বিষয় ঠিক করে দাও এবং এক পলকের জন্যও আমাকে আমার উপর ছেড়ে দিও না।",
         english: "O Ever-Living, O Self-Sustaining, by Your mercy I seek help. Correct all of my affairs for me and do not leave me to myself even for the blink of an eye.",
-        reference: "মুসতাদরাক হাকিম"
+        reference: "মুসতাদরাক হাকিম, হাদিস নং ১৯৮৯"
       },
       {
         id: "hardship-7",
@@ -1685,7 +1685,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ خَيْرَهَا وَخَيْرَ مَا فِيهَا وَخَيْرَ مَا أُرْسِلَتْ بِهِ، وَأَعُوذُ بِكَ مِنْ شَرِّهَا وَشَرِّ مَا فِيهَا وَشَرِّ مَا أُرْسِلَتْ بِهِ",
         bengali: "হে আল্লাহ! আমি তোমার কাছে এর কল্যাণ, এর মধ্যে যা আছে তার কল্যাণ এবং যে উদ্দেশ্যে একে পাঠানো হয়েছে তার কল্যাণ চাই। আর তোমার কাছে আশ্রয় চাই এর অনিষ্ট থেকে, এর মধ্যে যা আছে তার অনিষ্ট থেকে এবং যে উদ্দেশ্যে একে পাঠানো হয়েছে তার অনিষ্ট থেকে।",
         english: "O Allah, I ask You for its good, the good in it, and the good for which it was sent. I seek refuge in You from its evil, the evil in it, and the evil for which it was sent.",
-        reference: "সহীহ মুসলিম"
+        reference: "সহীহ মুসলিম, হাদিস নং ৮৯৯"
       },
       {
         id: "hardship-8",
@@ -1694,7 +1694,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ اكْفِنِي بِحَلاَلِكَ عَنْ حَرَامِكَ، وَأَغْنِنِي بِفَضْلِكَ عَمَّنْ سِوَاكَ",
         bengali: "হে আল্লাহ! তোমার হালাল দিয়ে আমাকে হারাম থেকে বাঁচাও এবং তোমার অনুগ্রহে আমাকে তোমা ছাড়া সবার থেকে মুক্ত রাখ।",
         english: "O Allah, suffice me with Your lawful against Your prohibited and make me independent of all besides You through Your bounty.",
-        reference: "তিরমিযী"
+        reference: "তিরমিযী, হাদিস নং ৩৫৬৩"
       },
       {
         id: "hardship-9",
@@ -1703,7 +1703,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "إِنَّا لِلَّهِ وَإِنَّا إِلَيْهِ رَاجِعُونَ، اللَّهُمَّ أْجُرْنِي فِي مُصِيبَتِي وَأَخْلِفْ لِي خَيْرًا مِنْهَا",
         bengali: "নিশ্চয়ই আমরা আল্লাহর জন্য এবং তাঁর কাছেই আমাদের ফিরে যেতে হবে। হে আল্লাহ! আমার এই বিপদে আমাকে সওয়াব দাও এবং এর বিনিময়ে আমাকে এর চেয়ে উত্তম কিছু দাও।",
         english: "Indeed we belong to Allah and to Him we shall return. O Allah, reward me in my affliction and replace it for me with something better.",
-        reference: "সহীহ মুসলিম"
+        reference: "সহীহ মুসলিম, হাদিস নং ৯১৮"
       },
       {
         id: "hardship-10",
@@ -1740,7 +1740,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْجَنَّةَ وَأَعُوذُ بِكَ مِنَ النَّارِ",
         bengali: "হে আল্লাহ! আমি তোমার কাছে জান্নাত প্রার্থনা করি এবং জাহান্নাম থেকে তোমার আশ্রয় চাই।",
         english: "O Allah, I ask You for Paradise and I seek refuge in You from the Fire.",
-        reference: "আবু দাউদ"
+        reference: "আবু দাউদ, হাদিস নং ৫০৭৯"
       },
       {
         id: "akhirah-3",
@@ -1749,7 +1749,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ أَجِرْنِي مِنَ النَّارِ",
         bengali: "হে আল্লাহ! আমাকে জাহান্নাম থেকে রক্ষা কর। (৭ বার পড়ুন)",
         english: "O Allah, save me from the Fire. (Recite 7 times)",
-        reference: "আবু দাউদ"
+        reference: "আবু দাউদ, হাদিস নং ৫০৭৯"
       },
       {
         id: "akhirah-4",
@@ -1767,7 +1767,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ حَاسِبْنِي حِسَابًا يَسِيرًا",
         bengali: "হে আল্লাহ! আমার হিসাব সহজ করে দাও।",
         english: "O Allah, make my reckoning easy.",
-        reference: "মুসনাদ আহমাদ"
+        reference: "মুসনাদ আহমাদ, হাদিস নং ২৫১০২"
       },
       {
         id: "akhirah-6",
@@ -1785,7 +1785,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ أَظِلَّنِي تَحْتَ ظِلِّ عَرْشِكَ يَوْمَ لاَ ظِلَّ إِلاَّ ظِلُّكَ",
         bengali: "হে আল্লাহ! যেদিন তোমার ছায়া ছাড়া কোন ছায়া থাকবে না, সেদিন আমাকে তোমার আরশের ছায়ায় স্থান দাও।",
         english: "O Allah, shade me under the shade of Your Throne on the Day when there is no shade except Your shade.",
-        reference: "সহীহ বুখারী (হাদীস থেকে)"
+        reference: "সহীহ বুখারী, হাদিস নং ৬৬০ (সংশ্লিষ্ট হাদীস থেকে)"
       },
       {
         id: "akhirah-8",
@@ -1794,7 +1794,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ سَلِّمْنِي مِنَ الصِّرَاطِ وَأَجِزْنِي عَلَيْهِ بِسَلاَمٍ",
         bengali: "হে আল্লাহ! আমাকে পুলসিরাত থেকে নিরাপদে রাখ এবং শান্তির সাথে তা পার করাও।",
         english: "O Allah, keep me safe on the Sirat and let me pass over it in peace.",
-        reference: "দোয়া সংকলন"
+        reference: "হিসনুল মুসলিম"
       },
       {
         id: "akhirah-9",
@@ -1803,7 +1803,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْفِرْدَوْسَ الأَعْلَى مِنَ الْجَنَّةِ",
         bengali: "হে আল্লাহ! আমি তোমার কাছে জান্নাতের সর্বোচ্চ ফিরদাউস চাই।",
         english: "O Allah, I ask You for the highest Firdaus of Paradise.",
-        reference: "সহীহ বুখারী"
+        reference: "সহীহ বুখারী, হাদিস নং ২৭৯০"
       },
       {
         id: "akhirah-10",
@@ -1812,7 +1812,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ لَذَّةَ النَّظَرِ إِلَى وَجْهِكَ وَالشَّوْقَ إِلَى لِقَائِكَ",
         bengali: "হে আল্লাহ! আমি তোমার কাছে তোমার চেহারার দিকে তাকানোর স্বাদ এবং তোমার সাক্ষাতের আকাঙ্ক্ষা চাই।",
         english: "O Allah, I ask You for the pleasure of looking at Your Face and the longing to meet You.",
-        reference: "নাসাঈ"
+        reference: "নাসাঈ, হাদিস নং ১৩০৫"
       }
     ]
   },
@@ -1831,7 +1831,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ اغْفِرْ لَهُ وَارْحَمْهُ، وَعَافِهِ وَاعْفُ عَنْهُ، وَأَكْرِمْ نُزُلَهُ، وَوَسِّعْ مُدْخَلَهُ، وَاغْسِلْهُ بِالْمَاءِ وَالثَّلْجِ وَالْبَرَدِ",
         bengali: "হে আল্লাহ! তাকে ক্ষমা কর ও রহম কর। তাকে নিরাপদ রাখ ও মাফ কর। তার আতিথেয়তা সম্মানজনক কর, তার প্রবেশস্থান প্রশস্ত কর এবং তাকে পানি, বরফ ও শিশির দিয়ে ধৌত কর।",
         english: "O Allah, forgive him and have mercy on him. Keep him safe and pardon him. Honor his reception and make his entrance spacious. Wash him with water, snow and ice.",
-        reference: "সহীহ মুসলিম"
+        reference: "সহীহ মুসলিম, হাদিস নং ৯৬৩"
       },
       {
         id: "death-2",
@@ -1840,7 +1840,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ اغْفِرْ لِحَيِّنَا وَمَيِّتِنَا، وَشَاهِدِنَا وَغَائِبِنَا، وَصَغِيرِنَا وَكَبِيرِنَا، وَذَكَرِنَا وَأُنْثَانَا",
         bengali: "হে আল্লাহ! আমাদের জীবিত ও মৃত, উপস্থিত ও অনুপস্থিত, ছোট ও বড় এবং পুরুষ ও নারী সকলকে ক্ষমা কর।",
         english: "O Allah, forgive our living and our dead, those present and those absent, our young and our old, our males and our females.",
-        reference: "ইবনে মাজাহ, আবু দাউদ"
+        reference: "ইবনে মাজাহ, হাদিস নং ১৪৯৮; আবু দাউদ, হাদিস নং ৩২০১"
       },
       {
         id: "death-3",
@@ -1849,7 +1849,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ مَنْ أَحْيَيْتَهُ مِنَّا فَأَحْيِهِ عَلَى الإِسْلاَمِ، وَمَنْ تَوَفَّيْتَهُ مِنَّا فَتَوَفَّهُ عَلَى الإِيمَانِ",
         bengali: "হে আল্লাহ! আমাদের মধ্যে যাকে তুমি জীবিত রাখ তাকে ইসলামের উপর জীবিত রাখ এবং যাকে মৃত্যু দাও তাকে ঈমানের উপর মৃত্যু দাও।",
         english: "O Allah, whoever You keep alive from among us, let him live upon Islam, and whoever You cause to die, let him die upon faith.",
-        reference: "ইবনে মাজাহ, আবু দাউদ"
+        reference: "ইবনে মাজাহ, হাদিস নং ১৪৯৮; আবু দাউদ, হাদিস নং ৩২০১"
       },
       {
         id: "death-4",
@@ -1858,7 +1858,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ لاَ تَحْرِمْنَا أَجْرَهُ، وَلاَ تَفْتِنَّا بَعْدَهُ",
         bengali: "হে আল্লাহ! আমাদেরকে তার সওয়াব থেকে বঞ্চিত করো না এবং তার পরে আমাদেরকে ফিতনায় ফেলো না।",
         english: "O Allah, do not deprive us of his reward and do not put us in trial after him.",
-        reference: "সহীহ মুসলিম"
+        reference: "সহীহ মুসলিম, হাদিস নং ৯২০"
       },
       {
         id: "death-5",
@@ -1867,7 +1867,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ أَبْدِلْهُ دَارًا خَيْرًا مِنْ دَارِهِ، وَأَهْلًا خَيْرًا مِنْ أَهْلِهِ، وَأَدْخِلْهُ الْجَنَّةَ",
         bengali: "হে আল্লাহ! তার ঘরের বদলে তাকে উত্তম ঘর দাও, তার পরিবারের বদলে উত্তম পরিবার দাও এবং তাকে জান্নাতে প্রবেশ করাও।",
         english: "O Allah, replace his home with a better home, and his family with a better family, and admit him to Paradise.",
-        reference: "সহীহ মুসলিম"
+        reference: "সহীহ মুসলিম, হাদিস নং ৯৬৩"
       },
       {
         id: "death-6",
@@ -1876,7 +1876,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ إِنَّ فُلاَنَ بْنَ فُلاَنٍ فِي ذِمَّتِكَ وَحَبْلِ جِوَارِكَ، فَقِهِ مِنْ فِتْنَةِ الْقَبْرِ وَعَذَابِ النَّارِ",
         bengali: "হে আল্লাহ! অমুকের সন্তান অমুক তোমার জিম্মায় ও তোমার প্রতিবেশিত্বের রশিতে। তাকে কবরের ফিতনা ও জাহান্নামের আযাব থেকে রক্ষা কর।",
         english: "O Allah, so-and-so son of so-and-so is in Your protection and covenant. Protect him from the trial of the grave and the punishment of the Fire.",
-        reference: "ইবনে মাজাহ, আবু দাউদ"
+        reference: "ইবনে মাজাহ, হাদিস নং ১৪৯৮; আবু দাউদ, হাদিস নং ৩২০২"
       },
       {
         id: "death-7",
@@ -1885,7 +1885,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ اغْفِرْ لَهُ وَارْفَعْ دَرَجَتَهُ فِي الْمَهْدِيِّينَ، وَاخْلُفْهُ فِي عَقِبِهِ فِي الْغَابِرِينَ",
         bengali: "হে আল্লাহ! তাকে ক্ষমা কর এবং হিদায়াতপ্রাপ্তদের মধ্যে তার মর্যাদা বৃদ্ধি কর। তার পরিবারে যারা থেকে গেল তাদের তার উত্তরসূরি বানাও।",
         english: "O Allah, forgive him and raise his rank among the rightly guided. Be a successor for his remaining family.",
-        reference: "সহীহ মুসলিম"
+        reference: "সহীহ মুসলিম, হাদিস নং ৯২০"
       },
       {
         id: "death-8",
@@ -1894,7 +1894,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "السَّلاَمُ عَلَيْكُمْ أَهْلَ الدِّيَارِ مِنَ الْمُؤْمِنِينَ وَالْمُسْلِمِينَ، وَإِنَّا إِنْ شَاءَ اللهُ بِكُمْ لاَحِقُونَ، نَسْأَلُ اللهَ لَنَا وَلَكُمُ الْعَافِيَةَ",
         bengali: "শান্তি বর্ষিত হোক তোমাদের উপর, হে মুমিন ও মুসলিমদের আবাসের অধিবাসীগণ। ইনশাআল্লাহ আমরা তোমাদের সাথে মিলিত হব। আমরা আল্লাহর কাছে আমাদের এবং তোমাদের জন্য ক্ষমা ও সুস্থতা চাই।",
         english: "Peace be upon you, O inhabitants of the graves from among the believers and Muslims. Indeed, if Allah wills, we will join you. We ask Allah for well-being for us and for you.",
-        reference: "সহীহ মুসলিম"
+        reference: "সহীহ মুসলিম, হাদিস নং ৯৭৫"
       },
       {
         id: "death-9",
@@ -1903,7 +1903,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "لاَ إِلَهَ إِلاَّ اللهُ، مُحَمَّدٌ رَسُولُ اللهِ",
         bengali: "আল্লাহ ছাড়া কোন ইলাহ নেই, মুহাম্মদ আল্লাহর রাসূল। (মৃত্যুপথযাত্রীকে স্মরণ করানো)",
         english: "There is no deity except Allah, Muhammad is the Messenger of Allah. (Remind the dying person)",
-        reference: "সহীহ মুসলিম"
+        reference: "সহীহ মুসলিম, হাদিস নং ৯১৬"
       },
       {
         id: "death-10",
@@ -1912,7 +1912,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ ارْزُقْنِي شَهَادَةً فِي سَبِيلِكَ وَاجْعَلْ مَوْتِي فِي بَلَدِ رَسُولِكَ",
         bengali: "হে আল্লাহ! আমাকে তোমার পথে শাহাদাত দান কর এবং আমার মৃত্যু তোমার রাসূলের শহরে হতে দাও।",
         english: "O Allah, grant me martyrdom in Your path and let my death be in the city of Your Messenger.",
-        reference: "সহীহ বুখারী"
+        reference: "সহীহ বুখারী, হাদিস নং ১৮৯০"
       }
     ]
   },
@@ -1931,7 +1931,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "تَقَبَّلَ اللهُ مِنَّا وَمِنْكُمْ",
         bengali: "আল্লাহ আমাদের ও আপনাদের থেকে কবুল করুন। (ঈদের দিনে)",
         english: "May Allah accept from us and from you. (On Eid day)",
-        reference: "ফাতহুল বারী"
+        reference: "ফাতহুল বারী, ইবনে হাজার"
       },
       {
         id: "special-2",
@@ -1940,7 +1940,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ بَارِكْ لَهُ فِيمَا رَزَقْتَهُ، وَتُبْ عَلَيْهِ، وَأَطِلْ عُمُرَهُ فِي طَاعَتِكَ",
         bengali: "হে আল্লাহ! তুমি তাকে যা দিয়েছ তাতে বরকত দাও, তার তাওবা কবুল কর এবং তোমার আনুগত্যে তার আয়ু দীর্ঘ কর। (জন্মদিনে)",
         english: "O Allah, bless him in what You have provided him, accept his repentance, and lengthen his life in Your obedience. (On birthday)",
-        reference: "আল-আযকার"
+        reference: "আল-আযকার, ইমাম নববী"
       },
       {
         id: "special-3",
@@ -1949,7 +1949,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "بَارَكَ اللهُ لَكَ فِي الْمَوْهُوبِ لَكَ، وَشَكَرْتَ الْوَاهِبَ، وَبَلَغَ أَشُدَّهُ، وَرُزِقْتَ بِرَّهُ",
         bengali: "আল্লাহ তোমাকে যা দান করেছেন তাতে বরকত দিন। তুমি দাতার শুকরিয়া আদায় কর। সে যেন পূর্ণ বয়সে পৌঁছে এবং তুমি তার সেবা পাও। (নবজাতকের জন্য)",
         english: "May Allah bless you in what He has given you. May you give thanks to the Giver. May he reach maturity and may you be granted his righteousness. (For newborn)",
-        reference: "নাসাঈ"
+        reference: "নাসাঈ, হাদিস নং ১০৪৩১"
       },
       {
         id: "special-4",
@@ -1958,7 +1958,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ اجْعَلْهُ يَوْمَ خَيْرٍ وَبَرَكَةٍ",
         bengali: "হে আল্লাহ! এই দিনকে কল্যাণ ও বরকতের দিন বানাও। (নতুন বছর/রমজান শুরু)",
         english: "O Allah, make this a day of goodness and blessings. (New year/Ramadan start)",
-        reference: "আল-আযকার"
+        reference: "আল-আযকার, ইমাম নববী"
       },
       {
         id: "special-5",
@@ -1967,7 +1967,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ أَهِلَّهُ عَلَيْنَا بِالْأَمْنِ وَالإِيمَانِ، وَالسَّلاَمَةِ وَالإِسْلاَمِ، رَبِّي وَرَبُّكَ اللهُ",
         bengali: "হে আল্লাহ! এই চাঁদকে আমাদের উপর নিরাপত্তা, ঈমান, শান্তি ও ইসলামের সাথে উদিত কর। আমার ও তোমার রব আল্লাহ। (নতুন চাঁদ দেখলে)",
         english: "O Allah, let this moon appear on us with security, faith, safety and Islam. My Lord and your Lord is Allah. (Upon sighting the new moon)",
-        reference: "তিরমিযী"
+        reference: "তিরমিযী, হাদিস নং ৩৪৫১"
       },
       {
         id: "special-6",
@@ -1976,7 +1976,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ صَيِّبًا نَافِعًا",
         bengali: "হে আল্লাহ! উপকারী বৃষ্টি বর্ষণ কর। (বৃষ্টির সময়)",
         english: "O Allah, may it be a beneficial rain. (During rain)",
-        reference: "সহীহ বুখারী"
+        reference: "সহীহ বুখারী, হাদিস নং ১০৩২"
       },
       {
         id: "special-7",
@@ -1985,7 +1985,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ إِنَّكَ عَفُوٌّ تُحِبُّ الْعَفْوَ فَاعْفُ عَنِّي",
         bengali: "হে আল্লাহ! নিশ্চয়ই তুমি ক্ষমাশীল, ক্ষমা করতে ভালোবাস, অতএব আমাকে ক্ষমা কর।",
         english: "O Allah, You are the Pardoner, You love to pardon, so pardon me.",
-        reference: "তিরমিযী"
+        reference: "তিরমিযী, হাদিস নং ৩৫১৩"
       },
       {
         id: "special-8",
@@ -1994,7 +1994,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "لاَ إِلَهَ إِلاَّ اللهُ وَحْدَهُ لاَ شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ",
         bengali: "আল্লাহ ছাড়া কোন ইলাহ নেই, তিনি একক, তাঁর কোন শরীক নেই। রাজত্ব তাঁরই, প্রশংসাও তাঁর এবং তিনি সবকিছুর উপর ক্ষমতাবান।",
         english: "There is no deity except Allah, alone, without partner. To Him belongs all sovereignty and praise and He is over all things omnipotent.",
-        reference: "তিরমিযী (আরাফাহ দিনের শ্রেষ্ঠ দোয়া)"
+        reference: "তিরমিযী, হাদিস নং ৩৫৮৫ (আরাফাহ দিনের শ্রেষ্ঠ দোয়া)"
       },
       {
         id: "special-9",
@@ -2003,7 +2003,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللهُ أَكْبَرُ، اللهُ أَكْبَرُ، لاَ إِلَهَ إِلاَّ اللهُ، وَاللهُ أَكْبَرُ، اللهُ أَكْبَرُ، وَلِلَّهِ الْحَمْدُ",
         bengali: "আল্লাহ সবচেয়ে বড়, আল্লাহ সবচেয়ে বড়। আল্লাহ ছাড়া কোন ইলাহ নেই। আল্লাহ সবচেয়ে বড়, আল্লাহ সবচেয়ে বড় এবং সকল প্রশংসা আল্লাহর।",
         english: "Allah is the greatest, Allah is the greatest. There is no deity except Allah. Allah is the greatest, Allah is the greatest, and to Allah belongs all praise.",
-        reference: "দারাকুতনী (তাকবীরে তাশরীক)"
+        reference: "দারাকুতনী, হাদিস নং ১৭৫৬ (তাকবীরে তাশরীক)"
       },
       {
         id: "special-10",
