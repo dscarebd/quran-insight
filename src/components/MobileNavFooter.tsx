@@ -148,13 +148,13 @@ export const MobileNavFooter = ({ language }: MobileNavFooterProps) => {
   return (
     <>
       <nav className="fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-background/95 backdrop-blur-sm md:hidden">
-        <div className="flex items-center justify-around py-2">
+        <div className="grid grid-cols-5 py-2">
           {navItems.map((item) => (
             <button
               key={item.path}
               onClick={item.action}
               className={cn(
-                "flex flex-col items-center gap-1 px-3 py-2 rounded-lg transition-colors min-w-[60px]",
+                "flex flex-col items-center justify-center gap-1 py-2 rounded-lg transition-colors",
                 item.isActive
                   ? "text-primary"
                   : "text-muted-foreground hover:text-foreground"
