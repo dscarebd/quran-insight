@@ -2,6 +2,13 @@ import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Loader2, Users, Eye, Calendar, TrendingUp, Radio } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { startOfDay, startOfWeek, startOfMonth, format, subDays } from "date-fns";
@@ -298,9 +305,27 @@ const Analytics = () => {
 
       {/* Time Period Filter & Top Pages */}
       <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
+        <CardHeader className="flex flex-col md:flex-row md:items-center justify-between space-y-2 md:space-y-0 pb-4">
           <CardTitle className="text-lg">Top Pages</CardTitle>
-          <div className="flex gap-2">
+          
+          {/* Mobile: Dropdown Select */}
+          <div className="md:hidden w-full">
+            <Select value={period} onValueChange={(value) => setPeriod(value as TimePeriod)}>
+              <SelectTrigger className="w-full bg-card">
+                <SelectValue placeholder="Select period" />
+              </SelectTrigger>
+              <SelectContent className="bg-card z-50">
+                {(["today", "week", "month", "all"] as TimePeriod[]).map((p) => (
+                  <SelectItem key={p} value={p}>
+                    {periodLabels[p]}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          {/* Desktop: Button Group */}
+          <div className="hidden md:flex gap-2">
             {(["today", "week", "month", "all"] as TimePeriod[]).map((p) => (
               <Button
                 key={p}
