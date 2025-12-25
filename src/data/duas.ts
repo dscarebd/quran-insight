@@ -34,6 +34,7 @@ export const duaCategories: DuaCategory[] = [
         titleEnglish: "Anger Control",
         arabic: "أَعُوذُ بِاللَّهِ مِنَ الشَّيْطَانِ الرَّجِيمِ",
         transliteration: "A'udhu billahi minash-shaytanir-rajim",
+        transliterationBengali: "আ'ঊযু বিল্লাহি মিনাশ শাইতানির রাজীম",
         bengali: "আমি বিতাড়িত শয়তান থেকে আল্লাহর আশ্রয় চাই",
         english: "I seek refuge in Allah from the accursed Satan",
         reference: "সহীহ বুখারী, হাদিস নং ৩২৮২"
@@ -44,6 +45,7 @@ export const duaCategories: DuaCategory[] = [
         titleEnglish: "Before Eating",
         arabic: "بِسْمِ اللَّهِ",
         transliteration: "Bismillah",
+        transliterationBengali: "বিসমিল্লাহ",
         bengali: "আল্লাহর নামে (খাবার শুরু করছি)",
         english: "In the name of Allah",
         reference: "সহীহ মুসলিম, হাদিস নং ২০১৮"
@@ -54,6 +56,7 @@ export const duaCategories: DuaCategory[] = [
         titleEnglish: "After Eating",
         arabic: "الْحَمْدُ لِلَّهِ الَّذِي أَطْعَمَنِي هَذَا",
         transliteration: "Alhamdulillahilladhi at'amani hadha",
+        transliterationBengali: "আলহামদুলিল্লাহিল্লাযী আত'আমানী হাযা",
         bengali: "সমস্ত প্রশংসা আল্লাহর যিনি আমাকে এই খাবার দিয়েছেন",
         english: "Praise be to Allah who fed me this",
         reference: "সুনান তিরমিযী, হাদিস নং ৩৪৫৮"
@@ -64,6 +67,7 @@ export const duaCategories: DuaCategory[] = [
         titleEnglish: "Before Sleeping",
         arabic: "بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا",
         transliteration: "Bismika Allahumma amutu wa ahya",
+        transliterationBengali: "বিসমিকা আল্লাহুম্মা আমূতু ওয়া আহইয়া",
         bengali: "হে আল্লাহ আপনার নামে আমি ঘুমাই ও জাগি",
         english: "In Your name I die and live",
         reference: "সহীহ বুখারী, হাদিস নং ৬৩২৪"
@@ -74,6 +78,7 @@ export const duaCategories: DuaCategory[] = [
         titleEnglish: "After Waking Up",
         arabic: "الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا",
         transliteration: "Alhamdulillahil-ladhi ahyana",
+        transliterationBengali: "আলহামদুলিল্লাহিল্লাযী আহইয়ানা",
         bengali: "সমস্ত প্রশংসা আল্লাহর যিনি আমাদের জীবিত করেছেন",
         english: "Praise be to Allah who gave us life",
         reference: "সহীহ বুখারী, হাদিস নং ৬৩১২"
@@ -84,6 +89,7 @@ export const duaCategories: DuaCategory[] = [
         titleEnglish: "Entering Toilet",
         arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْخُبُثِ",
         transliteration: "Allahumma inni a'udhu bika minal-khubthi",
+        transliterationBengali: "আল্লাহুম্মা ইন্নী আ'ঊযু বিকা মিনাল খুবুসি",
         bengali: "হে আল্লাহ অপবিত্রতা থেকে আপনার আশ্রয় চাই",
         english: "O Allah I seek refuge in You from impurity",
         reference: "সহীহ বুখারী, হাদিস নং ১৪২"
@@ -94,6 +100,7 @@ export const duaCategories: DuaCategory[] = [
         titleEnglish: "Leaving Toilet",
         arabic: "غُفْرَانَكَ",
         transliteration: "Ghufranak",
+        transliterationBengali: "গুফরানাক",
         bengali: "হে আল্লাহ আপনার ক্ষমা চাই",
         english: "I seek Your forgiveness",
         reference: "সুনান আবু দাউদ, হাদিস নং ৩০"
@@ -104,6 +111,7 @@ export const duaCategories: DuaCategory[] = [
         titleEnglish: "Leaving Home",
         arabic: "بِسْمِ اللَّهِ تَوَكَّلْتُ عَلَى اللَّهِ",
         transliteration: "Bismillahi tawakkaltu 'alallah",
+        transliterationBengali: "বিসমিল্লাহি তাওয়াক্কালতু 'আলাল্লাহ",
         bengali: "আল্লাহর উপর ভরসা করে বের হচ্ছি",
         english: "In the name of Allah I trust in Allah",
         reference: "সুনান আবু দাউদ, হাদিস নং ৫০৯৫"
@@ -114,6 +122,7 @@ export const duaCategories: DuaCategory[] = [
         titleEnglish: "Entering Home",
         arabic: "بِسْمِ اللَّهِ وَلَجْنَا",
         transliteration: "Bismillahi walajna",
+        transliterationBengali: "বিসমিল্লাহি ওয়ালাজনা",
         bengali: "আল্লাহর নামে আমরা ঘরে প্রবেশ করছি",
         english: "In the name of Allah we enter",
         reference: "সহীহ মুসলিম, হাদিস নং ২০১৮"
@@ -124,6 +133,7 @@ export const duaCategories: DuaCategory[] = [
         titleEnglish: "Entering Mosque",
         arabic: "اللَّهُمَّ افْتَحْ لِي أَبْوَابَ رَحْمَتِكَ",
         transliteration: "Allahumma iftah li abwaba rahmatik",
+        transliterationBengali: "আল্লাহুম্মাফতাহ লী আবওয়াবা রাহমাতিক",
         bengali: "হে আল্লাহ আপনার রহমতের দরজা খুলে দিন",
         english: "O Allah open the doors of Your mercy",
         reference: "সহীহ মুসলিম, হাদিস নং ৭১৩"
@@ -134,6 +144,7 @@ export const duaCategories: DuaCategory[] = [
         titleEnglish: "Leaving Mosque",
         arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ مِنْ فَضْلِكَ",
         transliteration: "Allahumma inni as'aluka min fadlik",
+        transliterationBengali: "আল্লাহুম্মা ইন্নী আসআলুকা মিন ফাদলিক",
         bengali: "হে আল্লাহ আপনার অনুগ্রহ চাই",
         english: "O Allah, I ask You from Your bounty",
         reference: "সহীহ মুসলিম, হাদিস নং ৭১৩"
@@ -144,6 +155,7 @@ export const duaCategories: DuaCategory[] = [
         titleEnglish: "Before Study",
         arabic: "رَبِّ زِدْنِي عِلْمًا",
         transliteration: "Rabbi zidni 'ilma",
+        transliterationBengali: "রাব্বি যিদনী 'ইলমা",
         bengali: "হে আমার রব আমাকে জ্ঞান বাড়িয়ে দিন",
         english: "My Lord, increase me in knowledge",
         reference: "আল-কুরআন, সূরা তা-হা ২০:১১৪"
@@ -154,6 +166,7 @@ export const duaCategories: DuaCategory[] = [
         titleEnglish: "When Afraid",
         arabic: "حَسْبُنَا اللَّهُ وَنِعْمَ الْوَكِيلُ",
         transliteration: "Hasbunallahu wa ni'mal wakil",
+        transliterationBengali: "হাসবুনাল্লাহু ওয়া নি'মাল ওয়াকীল",
         bengali: "আল্লাহই আমাদের জন্য যথেষ্ট",
         english: "Allah is sufficient for us",
         reference: "আল-কুরআন, সূরা আলে ইমরান ৩:১৭৩"
@@ -164,6 +177,7 @@ export const duaCategories: DuaCategory[] = [
         titleEnglish: "Anxiety Relief",
         arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ",
         transliteration: "Allahumma inni a'udhu bika minal-hammi wal-hazan",
+        transliterationBengali: "আল্লাহুম্মা ইন্নী আ'ঊযু বিকা মিনাল হাম্মি ওয়াল হাযান",
         bengali: "হে আল্লাহ দুশ্চিন্তা ও দুঃখ থেকে রক্ষা করুন",
         english: "O Allah, protect me from anxiety and sorrow",
         reference: "সহীহ বুখারী, হাদিস নং ৬৩৬৯"
@@ -174,6 +188,7 @@ export const duaCategories: DuaCategory[] = [
         titleEnglish: "During Rain",
         arabic: "اللَّهُمَّ صَيِّبًا نَافِعًا",
         transliteration: "Allahumma sayyiban nafi'a",
+        transliterationBengali: "আল্লাহুম্মা সাইয়্যিবান নাফি'আ",
         bengali: "হে আল্লাহ একে কল্যাণকর বৃষ্টি বানান",
         english: "O Allah, make it a beneficial rain",
         reference: "সহীহ বুখারী, হাদিস নং ১০৩২"
@@ -184,6 +199,7 @@ export const duaCategories: DuaCategory[] = [
         titleEnglish: "After Rain",
         arabic: "مُطِرْنَا بِفَضْلِ اللَّهِ وَرَحْمَتِهِ",
         transliteration: "Mutirna bifadlillahi wa rahmatih",
+        transliterationBengali: "মুতিরনা বিফাদলিল্লাহি ওয়া রাহমাতিহ",
         bengali: "আমরা আল্লাহর অনুগ্রহে বৃষ্টি পেয়েছি",
         english: "We were given rain by Allah's grace",
         reference: "সহীহ বুখারী, হাদিস নং ৮৪৬"
@@ -194,6 +210,7 @@ export const duaCategories: DuaCategory[] = [
         titleEnglish: "Travel Start",
         arabic: "سُبْحَانَ الَّذِي سَخَّرَ لَنَا هَذَا",
         transliteration: "Subhanalladhi sakhkhara lana hadha",
+        transliterationBengali: "সুবহানাল্লাযী সাখখারা লানা হাযা",
         bengali: "যিনি এটি আমাদের অধীন করেছেন তিনি পবিত্র",
         english: "Glory be to Him who subjected this to us",
         reference: "সহীহ মুসলিম, হাদিস নং ১৩৪২"
@@ -204,6 +221,7 @@ export const duaCategories: DuaCategory[] = [
         titleEnglish: "Return from Travel",
         arabic: "آيِبُونَ تَائِبُونَ عَابِدُونَ",
         transliteration: "Ayibuna ta'ibuna 'abidun",
+        transliterationBengali: "আয়িবূনা তা'ইবূনা 'আবিদূন",
         bengali: "আমরা প্রত্যাবর্তনকারী ও তওবাকারী",
         english: "We return repentant worshippers",
         reference: "সহীহ মুসলিম, হাদিস নং ১৩৪৪"
@@ -214,6 +232,7 @@ export const duaCategories: DuaCategory[] = [
         titleEnglish: "Debt Relief",
         arabic: "اللَّهُمَّ اكْفِنِي بِحَلَالِكَ",
         transliteration: "Allahummak-fini bihalalik",
+        transliterationBengali: "আল্লাহুম্মাক ফিনী বিহালালিক",
         bengali: "হে আল্লাহ হালাল দিয়ে আমাকে যথেষ্ট করুন",
         english: "O Allah, suffice me with what is lawful",
         reference: "সুনান তিরমিযী, হাদিস নং ৩৫৬৩"
@@ -224,6 +243,7 @@ export const duaCategories: DuaCategory[] = [
         titleEnglish: "Distress",
         arabic: "لَا إِلَهَ إِلَّا أَنْتَ سُبْحَانَكَ",
         transliteration: "La ilaha illa anta subhanak",
+        transliterationBengali: "লা ইলাহা ইল্লা আনতা সুবহানাক",
         bengali: "আপনি ছাড়া কোনো উপাস্য নেই",
         english: "None has the right to be worshipped but You",
         reference: "সুনান তিরমিযী, হাদিস নং ৩৫০৫"
@@ -234,6 +254,7 @@ export const duaCategories: DuaCategory[] = [
         titleEnglish: "General Forgiveness",
         arabic: "رَبِّ اغْفِرْ لِي وَتُبْ عَلَيَّ",
         transliteration: "Rabbi'ghfir li wa tub 'alayya",
+        transliterationBengali: "রাব্বিগফির লী ওয়া তুব 'আলাইয়্যা",
         bengali: "হে আমার রব আমাকে ক্ষমা করুন ও আমার তওবা কবুল করুন",
         english: "My Lord forgive me and accept my repentance",
         reference: "সুনান তিরমিযী, হাদিস নং ৩৪৩৪"
@@ -244,6 +265,7 @@ export const duaCategories: DuaCategory[] = [
         titleEnglish: "Protection from Evil",
         arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ شَرِّ مَا خَلَقْتَ",
         transliteration: "Allahumma inni a'udhu bika min sharri ma khalaqt",
+        transliterationBengali: "আল্লাহুম্মা ইন্নী আ'ঊযু বিকা মিন শাররি মা খালাক্বত",
         bengali: "হে আল্লাহ আপনার সৃষ্ট সব অকল্যাণ থেকে আমাকে রক্ষা করুন",
         english: "O Allah protect me from the evil of what You created",
         reference: "সহীহ মুসলিম, হাদিস নং ২৭০৮"
@@ -254,6 +276,7 @@ export const duaCategories: DuaCategory[] = [
         titleEnglish: "Good Character",
         arabic: "اللَّهُمَّ اهْدِنِي لِأَحْسَنِ الْأَخْلَاقِ",
         transliteration: "Allahumma ihdini li-ahsanil-akhlaq",
+        transliterationBengali: "আল্লাহুম্মা ইহদিনী লি আহসানিল আখলাক্ব",
         bengali: "হে আল্লাহ আমাকে উত্তম চরিত্র দান করুন",
         english: "O Allah guide me to the best manners",
         reference: "সহীহ মুসলিম, হাদিস নং ৭৭১"
@@ -264,6 +287,7 @@ export const duaCategories: DuaCategory[] = [
         titleEnglish: "Patience",
         arabic: "رَبَّنَا أَفْرِغْ عَلَيْنَا صَبْرًا",
         transliteration: "Rabbana afrigh 'alayna sabra",
+        transliterationBengali: "রাব্বানা আফরিগ 'আলাইনা সাবরা",
         bengali: "হে আমাদের রব আমাদের ওপর ধৈর্য ঢেলে দিন",
         english: "Our Lord pour patience upon us",
         reference: "আল-কুরআন, সূরা বাকারা ২:২৫০"
@@ -274,6 +298,7 @@ export const duaCategories: DuaCategory[] = [
         titleEnglish: "Guidance",
         arabic: "اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ",
         transliteration: "Ihdinas-siratal-mustaqim",
+        transliterationBengali: "ইহদিনাস সিরাতাল মুস্তাক্বীম",
         bengali: "আমাদের সরল পথে পরিচালিত করুন",
         english: "Guide us to the straight path",
         reference: "আল-কুরআন, সূরা ফাতিহা ১:৬"
@@ -284,6 +309,7 @@ export const duaCategories: DuaCategory[] = [
         titleEnglish: "Night Protection",
         arabic: "أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ",
         transliteration: "A'udhu bikalimatillahit-tammati",
+        transliterationBengali: "আ'ঊযু বিকালিমাতিল্লাহিত তাম্মাত",
         bengali: "আমি আল্লাহর পূর্ণ বাক্যের আশ্রয় চাই",
         english: "I seek refuge in the perfect words of Allah",
         reference: "সহীহ মুসলিম, হাদিস নং ২৭০৯"
@@ -294,6 +320,7 @@ export const duaCategories: DuaCategory[] = [
         titleEnglish: "Health and Wellness",
         arabic: "اللَّهُمَّ عَافِنِي فِي بَدَنِي",
         transliteration: "Allahumma 'afini fi badani",
+        transliterationBengali: "আল্লাহুম্মা 'আফিনী ফী বাদানী",
         bengali: "হে আল্লাহ আমার শরীরে সুস্থতা দান করুন",
         english: "O Allah grant me health in my body",
         reference: "সুনান তিরমিযী, হাদিস নং ৩৪৯৯"
@@ -304,6 +331,7 @@ export const duaCategories: DuaCategory[] = [
         titleEnglish: "Gratitude",
         arabic: "اللَّهُمَّ أَعِنِّي عَلَى ذِكْرِكَ",
         transliteration: "Allahumma a'inni 'ala dhikrika",
+        transliterationBengali: "আল্লাহুম্মা আ'ইন্নী 'আলা যিকরিকা",
         bengali: "হে আল্লাহ আপনার স্মরণে আমাকে সাহায্য করুন",
         english: "O Allah help me to remember You",
         reference: "সুনান আবু দাউদ, হাদিস নং ১৫২২"
@@ -314,6 +342,7 @@ export const duaCategories: DuaCategory[] = [
         titleEnglish: "Protection from Envy",
         arabic: "وَمِنْ شَرِّ حَاسِدٍ إِذَا حَسَدَ",
         transliteration: "Wa min sharri hasidin idha hasad",
+        transliterationBengali: "ওয়া মিন শাররি হাসিদিন ইযা হাসাদ",
         bengali: "হিংসুকের অনিষ্ট থেকে আমাদের রক্ষা করুন",
         english: "From the evil of an envier when he envies",
         reference: "আল-কুরআন, সূরা ফালাক ১১৩:৫"
@@ -324,6 +353,7 @@ export const duaCategories: DuaCategory[] = [
         titleEnglish: "Trust in Allah",
         arabic: "تَوَكَّلْتُ عَلَى اللَّهِ",
         transliteration: "Tawakkaltu 'alallah",
+        transliterationBengali: "তাওয়াক্কালতু 'আলাল্লাহ",
         bengali: "আমি আল্লাহর ওপর ভরসা করেছি",
         english: "I place my trust in Allah",
         reference: "সুনান আবু দাউদ, হাদিস নং ৫০৯৫"
@@ -334,6 +364,7 @@ export const duaCategories: DuaCategory[] = [
         titleEnglish: "Good Ending",
         arabic: "اللَّهُمَّ اخْتِمْ لَنَا بِالصَّالِحَاتِ",
         transliteration: "Allahumma ikhtim lana bis-salihat",
+        transliterationBengali: "আল্লাহুম্মা ইখতিম লানা বিস সালিহাত",
         bengali: "হে আল্লাহ আমাদের শেষটা নেক আমল দিয়ে করুন",
         english: "O Allah grant us a righteous ending",
         reference: "মুসনাদ আহমাদ, হাদিস নং ১২১৭৩"
@@ -344,6 +375,7 @@ export const duaCategories: DuaCategory[] = [
         titleEnglish: "Family Prayer",
         arabic: "رَبِّ اجْعَلْنِي مُقِيمَ الصَّلَاةِ",
         transliteration: "Rabbi'j'alni muqimas-salah",
+        transliterationBengali: "রাব্বিজ'আলনী মুক্বীমাস সালাহ",
         bengali: "হে আমার রব আমাকে নামাজ কায়েমকারী করুন",
         english: "My Lord make me an establisher of prayer",
         reference: "আল-কুরআন, সূরা ইবরাহীম ১৪:৪০"
@@ -354,6 +386,7 @@ export const duaCategories: DuaCategory[] = [
         titleEnglish: "Protection from Debt",
         arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْمَغْرَمِ",
         transliteration: "Allahumma inni a'udhu bika minal-maghram",
+        transliterationBengali: "আল্লাহুম্মা ইন্নী আ'ঊযু বিকা মিনাল মাগরাম",
         bengali: "হে আল্লাহ ঋণের বোঝা থেকে রক্ষা করুন",
         english: "O Allah protect me from debt",
         reference: "সহীহ বুখারী, হাদিস নং ৬৩৬৯"
@@ -364,6 +397,7 @@ export const duaCategories: DuaCategory[] = [
         titleEnglish: "Contentment",
         arabic: "اللَّهُمَّ قَنِّعْنِي بِمَا رَزَقْتَنِي",
         transliteration: "Allahumma qanni'ni bima razaqtani",
+        transliterationBengali: "আল্লাহুম্মা ক্বান্নি'নী বিমা রাযাক্বতানী",
         bengali: "হে আল্লাহ যা দিয়েছেন তাতে আমাকে সন্তুষ্ট করুন",
         english: "O Allah make me content with what You gave",
         reference: "মুসনাদ আহমাদ, হাদিস নং ২৩১১৯"
@@ -374,6 +408,7 @@ export const duaCategories: DuaCategory[] = [
         titleEnglish: "Protection from Envy",
         arabic: "وَمِنْ شَرِّ حَاسِدٍ إِذَا حَسَدَ",
         transliteration: "Wa min sharri hasidin idha hasad",
+        transliterationBengali: "ওয়া মিন শাররি হাসিদিন ইযা হাসাদ",
         bengali: "হিংসুকের অনিষ্ট থেকে আমাদের রক্ষা করুন",
         english: "From the evil of an envier when he envies",
         reference: "আল-কুরআন, সূরা ফালাক ১১৩:৫"
@@ -384,6 +419,7 @@ export const duaCategories: DuaCategory[] = [
         titleEnglish: "Halal Provision",
         arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ رِزْقًا طَيِّبًا",
         transliteration: "Allahumma inni as'aluka rizqan tayyiba",
+        transliterationBengali: "আল্লাহুম্মা ইন্নী আসআলুকা রিযক্বান তাইয়্যিবা",
         bengali: "হে আল্লাহ আমাকে হালাল রিজিক দিন",
         english: "O Allah grant me lawful provision",
         reference: "সুনান ইবনে মাজাহ, হাদিস নং ৯২৫"
@@ -394,6 +430,7 @@ export const duaCategories: DuaCategory[] = [
         titleEnglish: "Protection from Misguidance",
         arabic: "رَبَّنَا لَا تُزِغْ قُلُوبَنَا",
         transliteration: "Rabbana la tuzigh qulubana",
+        transliterationBengali: "রাব্বানা লা তুযিগ ক্বুলূবানা",
         bengali: "হে আমাদের রব আমাদের হৃদয়কে বিচ্যুত করবেন না",
         english: "Our Lord do not deviate our hearts",
         reference: "আল-কুরআন, সূরা আলে ইমরান ৩:৮"
@@ -404,6 +441,7 @@ export const duaCategories: DuaCategory[] = [
         titleEnglish: "Trust in Allah",
         arabic: "تَوَكَّلْتُ عَلَى اللَّهِ",
         transliteration: "Tawakkaltu 'alallah",
+        transliterationBengali: "তাওয়াক্কালতু 'আলাল্লাহ",
         bengali: "আমি আল্লাহর ওপর ভরসা করেছি",
         english: "I place my trust in Allah",
         reference: "সুনান আবু দাউদ, হাদিস নং ৫০৯৫"
@@ -414,6 +452,7 @@ export const duaCategories: DuaCategory[] = [
         titleEnglish: "Purification of Heart",
         arabic: "اللَّهُمَّ طَهِّرْ قَلْبِي",
         transliteration: "Allahumma tahhir qalbi",
+        transliterationBengali: "আল্লাহুম্মা তাহহির ক্বালবী",
         bengali: "হে আল্লাহ আমার হৃদয় পবিত্র করুন",
         english: "O Allah purify my heart",
         reference: "মুসনাদ আহমাদ, হাদিস নং ২৭৮৯৬"
@@ -424,6 +463,7 @@ export const duaCategories: DuaCategory[] = [
         titleEnglish: "Morning Protection",
         arabic: "أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ",
         transliteration: "Asbahna wa asbahal-mulku lillah",
+        transliterationBengali: "আসবাহনা ওয়া আসবাহাল মুলকু লিল্লাহ",
         bengali: "আমরা সকালে উপনীত হলাম—সব কর্তৃত্ব আল্লাহর",
         english: "We have entered the morning and all dominion belongs to Allah",
         reference: "সহীহ মুসলিম, হাদিস নং ২৭২৩"
@@ -434,6 +474,7 @@ export const duaCategories: DuaCategory[] = [
         titleEnglish: "Evening Protection",
         arabic: "أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ",
         transliteration: "Amsayna wa amsal-mulku lillah",
+        transliterationBengali: "আমসাইনা ওয়া আমসাল মুলকু লিল্লাহ",
         bengali: "আমরা সন্ধ্যায় উপনীত হলাম—সব কর্তৃত্ব আল্লাহর",
         english: "We have entered the evening and all dominion belongs to Allah",
         reference: "সহীহ মুসলিম, হাদিস নং ২৭২৩"
@@ -444,6 +485,7 @@ export const duaCategories: DuaCategory[] = [
         titleEnglish: "Protection from Hellfire",
         arabic: "اللَّهُمَّ أَجِرْنِي مِنَ النَّارِ",
         transliteration: "Allahumma ajirni minan-nar",
+        transliterationBengali: "আল্লাহুম্মা আজিরনী মিনান নার",
         bengali: "হে আল্লাহ আমাকে জাহান্নাম থেকে রক্ষা করুন",
         english: "O Allah protect me from Hellfire",
         reference: "সুনান আবু দাউদ, হাদিস নং ৫০৭৯"
@@ -454,6 +496,7 @@ export const duaCategories: DuaCategory[] = [
         titleEnglish: "Good Death",
         arabic: "اللَّهُمَّ تَوَفَّنِي مُسْلِمًا",
         transliteration: "Allahumma tawaffani musliman",
+        transliterationBengali: "আল্লাহুম্মা তাওয়াফফানী মুসলিমান",
         bengali: "হে আল্লাহ আমাকে মুসলিম অবস্থায় মৃত্যু দিন",
         english: "O Allah let me die as a Muslim",
         reference: "আল-কুরআন, সূরা ইউসুফ ১২:১০১"
@@ -464,6 +507,7 @@ export const duaCategories: DuaCategory[] = [
         titleEnglish: "Protection from Sudden Death",
         arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ مَوْتِ الْفُجْأَةِ",
         transliteration: "Allahumma inni a'udhu bika min mawt-il-fuja'ah",
+        transliterationBengali: "আল্লাহুম্মা ইন্নী আ'ঊযু বিকা মিন মাওতিল ফুজা'আহ",
         bengali: "হে আল্লাহ হঠাৎ মৃত্যু থেকে আমাকে রক্ষা করুন",
         english: "O Allah I seek refuge in You from sudden death",
         reference: "মুসনাদ আহমাদ, হাদিস নং ১২১৬৫"
@@ -474,6 +518,7 @@ export const duaCategories: DuaCategory[] = [
         titleEnglish: "Light in Heart",
         arabic: "اللَّهُمَّ اجْعَلْ فِي قَلْبِي نُورًا",
         transliteration: "Allahumma-j'al fi qalbi noora",
+        transliterationBengali: "আল্লাহুম্মা ইজ'আল ফী ক্বালবী নূরা",
         bengali: "হে আল্লাহ আমার হৃদয়ে নূর দান করুন",
         english: "O Allah place light in my heart",
         reference: "সহীহ মুসলিম, হাদিস নং ৭৬৩"
@@ -484,6 +529,7 @@ export const duaCategories: DuaCategory[] = [
         titleEnglish: "Protection from Evil Eye",
         arabic: "أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ",
         transliteration: "A'udhu bikalimatillahit-tammati",
+        transliterationBengali: "আ'ঊযু বিকালিমাতিল্লাহিত তাম্মাত",
         bengali: "আমি আল্লাহর পূর্ণ বাক্যের আশ্রয় চাই",
         english: "I seek refuge in the perfect words of Allah",
         reference: "সহীহ মুসলিম, হাদিস নং ২৭০৯"
@@ -494,6 +540,7 @@ export const duaCategories: DuaCategory[] = [
         titleEnglish: "Relief from Worry",
         arabic: "اللَّهُمَّ لَا سَهْلَ إِلَّا مَا جَعَلْتَهُ سَهْلًا",
         transliteration: "Allahumma la sahla illa ma ja'altahu sahla",
+        transliterationBengali: "আল্লাহুম্মা লা সাহলা ইল্লা মা জা'আলতাহু সাহলা",
         bengali: "হে আল্লাহ আপনি সহজ না করলে কিছুই সহজ নয়",
         english: "O Allah nothing is easy except what You make easy",
         reference: "ইবনে হিব্বান, হাদিস নং ২৪২৭"
@@ -504,6 +551,7 @@ export const duaCategories: DuaCategory[] = [
         titleEnglish: "Protection from Sin",
         arabic: "اللَّهُمَّ بَاعِدْ بَيْنِي وَبَيْنَ خَطَايَايَ",
         transliteration: "Allahumma ba'id bayni wa bayna khatayaya",
+        transliterationBengali: "আল্লাহুম্মা বা'ইদ বাইনী ওয়া বাইনা খাতায়ায়া",
         bengali: "হে আল্লাহ আমার ও আমার গুনাহর মাঝে দূরত্ব সৃষ্টি করুন",
         english: "O Allah distance me from my sins",
         reference: "সহীহ বুখারী, হাদিস নং ৭৪৪"
@@ -514,6 +562,7 @@ export const duaCategories: DuaCategory[] = [
         titleEnglish: "Strong Faith",
         arabic: "اللَّهُمَّ ثَبِّتْ قَلْبِي عَلَى دِينِكَ",
         transliteration: "Allahumma thabbit qalbi 'ala dinik",
+        transliterationBengali: "আল্লাহুম্মা সাব্বিত ক্বালবী 'আলা দীনিক",
         bengali: "হে আল্লাহ আমার হৃদয়কে আপনার দ্বীনের ওপর স্থির রাখুন",
         english: "O Allah keep my heart firm upon Your religion",
         reference: "সুনান তিরমিযী, হাদিস নং ২১৪০"
@@ -524,6 +573,7 @@ export const duaCategories: DuaCategory[] = [
         titleEnglish: "Jannah Prayer",
         arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْجَنَّةَ",
         transliteration: "Allahumma inni as'alukal-jannah",
+        transliterationBengali: "আল্লাহুম্মা ইন্নী আসআলুকাল জান্নাহ",
         bengali: "হে আল্লাহ আমি আপনার কাছে জান্নাত চাই",
         english: "O Allah I ask You for Paradise",
         reference: "সুনান আবু দাউদ, হাদিস নং ৭৯২"
