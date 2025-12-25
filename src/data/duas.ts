@@ -5558,6 +5558,8 @@ export const duaCategories: DuaCategory[] = [
         titleBengali: "স্ত্রী-সন্তানের জন্য দোয়া",
         titleEnglish: "For Spouse & Children",
         arabic: "رَبَّنَا هَبْ لَنَا مِنْ أَزْوَاجِنَا وَذُرِّيَّاتِنَا قُرَّةَ أَعْيُنٍ وَاجْعَلْنَا لِلْمُتَّقِينَ إِمَامًا",
+        transliteration: "Rabbana hab lana min azwajina wa dhurriyyatina qurrata a'yunin waj'alna lil-muttaqina imama",
+        transliterationBengali: "রাব্বানা হাব লানা মিন আযওয়াজিনা ওয়া যুররিয়্যাতিনা কুররাতা আ'ইউনিন ওয়াজ'আলনা লিল মুত্তাক্বীনা ইমামা",
         bengali: "হে আমাদের রব! আমাদের স্ত্রীদের পক্ষ থেকে এবং আমাদের সন্তানদের পক্ষ থেকে আমাদের চোখ শীতল কর এবং আমাদেরকে মুত্তাকীদের জন্য আদর্শ বানাও।",
         english: "Our Lord, grant us from among our wives and offspring comfort to our eyes and make us an example for the righteous.",
         reference: "সূরা ফুরকান ২৫:৭৪"
@@ -5567,6 +5569,8 @@ export const duaCategories: DuaCategory[] = [
         titleBengali: "পিতা-মাতা ও মুমিনদের জন্য",
         titleEnglish: "For Parents & Believers",
         arabic: "رَبِّ اغْفِرْ لِي وَلِوَالِدَيَّ وَلِمَن دَخَلَ بَيْتِيَ مُؤْمِنًا وَلِلْمُؤْمِنِينَ وَالْمُؤْمِنَاتِ",
+        transliteration: "Rabbighfir li wa liwalidayya wa liman dakhala baytiya mu'minan wa lil-mu'minina wal-mu'minat",
+        transliterationBengali: "রাব্বিগফির লী ওয়া লিওয়ালিদাইয়্যা ওয়া লিমান দাখালা বাইতিয়া মু'মিনান ওয়া লিল মু'মিনীনা ওয়াল মু'মিনাত",
         bengali: "হে আমার রব! আমাকে ক্ষমা কর, আমার পিতা-মাতাকে ক্ষমা কর, যারা মুমিন হয়ে আমার ঘরে প্রবেশ করে তাদের ক্ষমা কর এবং সকল মুমিন পুরুষ ও মুমিন নারীদের ক্ষমা কর।",
         english: "My Lord, forgive me and my parents and whoever enters my house a believer and the believing men and believing women.",
         reference: "সূরা নূহ ৭১:২৮"
@@ -5576,6 +5580,8 @@ export const duaCategories: DuaCategory[] = [
         titleBengali: "পিতা-মাতার জন্য রহমতের দোয়া",
         titleEnglish: "Mercy for Parents",
         arabic: "رَّبِّ ارْحَمْهُمَا كَمَا رَبَّيَانِي صَغِيرًا",
+        transliteration: "Rabbir-hamhuma kama rabbayani saghira",
+        transliterationBengali: "রাব্বির হামহুমা কামা রাব্বাইয়ানী সাগীরা",
         bengali: "হে আমার রব! তাদের প্রতি রহম কর, যেমন তারা আমাকে শৈশবে লালন-পালন করেছেন।",
         english: "My Lord, have mercy upon them as they brought me up when I was small.",
         reference: "সূরা ইসরা ১৭:২৪"
@@ -5585,6 +5591,8 @@ export const duaCategories: DuaCategory[] = [
         titleBengali: "পরিবারে সম্প্রীতির দোয়া",
         titleEnglish: "Family Harmony",
         arabic: "اللَّهُمَّ أَلِّفْ بَيْنَ قُلُوبِنَا، وَأَصْلِحْ ذَاتَ بَيْنِنَا، وَاهْدِنَا سُبُلَ السَّلاَمِ",
+        transliteration: "Allahumma allif bayna qulubina, wa aslih dhata baynina, wahdina subulas-salam",
+        transliterationBengali: "আল্লাহুম্মা আল্লিফ বাইনা কুলূবিনা, ওয়া আসলিহ যাতা বাইনিনা, ওয়াহদিনা সুবুলাস সালাম",
         bengali: "হে আল্লাহ! আমাদের অন্তরে ভালোবাসা সৃষ্টি কর, আমাদের মধ্যকার সম্পর্ক ঠিক করে দাও এবং আমাদের শান্তির পথ দেখাও।",
         english: "O Allah, bring our hearts together, reconcile between us, and guide us to the ways of peace.",
         reference: "আবু দাউদ, হাদিস নং ৯৬৯"
@@ -5594,6 +5602,8 @@ export const duaCategories: DuaCategory[] = [
         titleBengali: "বরকতের দোয়া",
         titleEnglish: "Prayer for Blessings",
         arabic: "اللَّهُمَّ بَارِكْ لَهُ، وَبَارِكْ عَلَيْهِ",
+        transliteration: "Allahumma barik lahu, wa barik 'alayh",
+        transliterationBengali: "আল্লাহুম্মা বারিক লাহু, ওয়া বারিক 'আলাইহ",
         bengali: "হে আল্লাহ! তার জন্য বরকত দাও এবং তার উপর বরকত দাও।",
         english: "O Allah, bless him and send blessings upon him.",
         reference: "নাসাঈ, হাদিস নং ৯২৯৮"
@@ -5603,6 +5613,8 @@ export const duaCategories: DuaCategory[] = [
         titleBengali: "নিয়ামতের শুকরিয়া ও সন্তান",
         titleEnglish: "Gratitude & Righteous Offspring",
         arabic: "رَبِّ أَوْزِعْنِي أَنْ أَشْكُرَ نِعْمَتَكَ الَّتِي أَنْعَمْتَ عَلَيَّ وَعَلَىٰ وَالِدَيَّ وَأَنْ أَعْمَلَ صَالِحًا تَرْضَاهُ وَأَصْلِحْ لِي فِي ذُرِّيَّتِي",
+        transliteration: "Rabbi awzi'ni an ashkura ni'matakal-lati an'amta 'alayya wa 'ala walidayya wa an a'mala salihan tardahu wa aslih li fi dhurriyyati",
+        transliterationBengali: "রাব্বি আওযি'নী আন আশকুরা নি'মাতাকাল্লাতী আন'আমতা 'আলাইয়্যা ওয়া 'আলা ওয়ালিদাইয়্যা ওয়া আন আ'মালা সালিহান তারদাহু ওয়া আসলিহ লী ফী যুররিয়্যাতী",
         bengali: "হে আমার রব! আমাকে সামর্থ্য দাও যেন আমি তোমার সেই নিয়ামতের শুকরিয়া আদায় করি যা তুমি আমাকে ও আমার পিতা-মাতাকে দান করেছ এবং আমি যেন এমন সৎকর্ম করি যা তুমি পছন্দ কর এবং আমার সন্তানদের মধ্যে আমার জন্য সংশোধন করে দাও।",
         english: "My Lord, enable me to be grateful for Your favor which You have bestowed upon me and upon my parents and to do righteousness of which You approve. And make righteous for me my offspring.",
         reference: "সূরা আহকাফ ৪৬:১৫"
@@ -5612,6 +5624,8 @@ export const duaCategories: DuaCategory[] = [
         titleBengali: "পারিবারিক মিলনের দোয়া",
         titleEnglish: "For Family Reconciliation",
         arabic: "اللَّهُمَّ أَلِّفْ بَيْنَ قُلُوبِنَا وَأَصْلِحْ ذَاتَ بَيْنِنَا وَاهْدِنَا سُبُلَ السَّلاَمِ",
+        transliteration: "Allahumma allif bayna qulubina wa aslih dhata baynina wahdina subulas-salam",
+        transliterationBengali: "আল্লাহুম্মা আল্লিফ বাইনা কুলূবিনা ওয়া আসলিহ যাতা বাইনিনা ওয়াহদিনা সুবুলাস সালাম",
         bengali: "হে আল্লাহ! আমাদের অন্তরে ভালোবাসা সৃষ্টি কর, আমাদের পারস্পরিক সম্পর্ক ঠিক করে দাও এবং আমাদের শান্তির পথে পরিচালিত কর।",
         english: "O Allah, bring love between our hearts, rectify our mutual relations, and guide us to the paths of peace.",
         reference: "আবু দাউদ, হাদিস নং ৯৬৯"
@@ -5621,6 +5635,8 @@ export const duaCategories: DuaCategory[] = [
         titleBengali: "শ্বশুরবাড়ির জন্য দোয়া",
         titleEnglish: "For In-Laws",
         arabic: "رَبَّنَا اغْفِرْ لَنَا وَلِإِخْوَانِنَا الَّذِينَ سَبَقُونَا بِالْإِيمَانِ وَلَا تَجْعَلْ فِي قُلُوبِنَا غِلًّا لِلَّذِينَ آمَنُوا",
+        transliteration: "Rabbana-ghfir lana wa li-ikhwaninal-ladhina sabaquna bil-imani wa la taj'al fi qulubina ghillan lilladhina amanu",
+        transliterationBengali: "রাব্বানাগফির লানা ওয়া লি-ইখওয়ানিনাল্লাযীনা সাবাকূনা বিল ঈমানি ওয়া লা তাজ'আল ফী কুলূবিনা গিল্লান লিল্লাযীনা আমানু",
         bengali: "হে আমাদের রব! আমাদের ও আমাদের সেসব ভাইদের ক্ষমা কর যারা ঈমানের সাথে আমাদের অগ্রগামী হয়েছে এবং মুমিনদের প্রতি আমাদের অন্তরে কোন বিদ্বেষ রেখো না।",
         english: "Our Lord, forgive us and our brothers who preceded us in faith and put not in our hearts any resentment toward those who have believed.",
         reference: "সূরা হাশর ৫৯:১০"
@@ -5630,6 +5646,8 @@ export const duaCategories: DuaCategory[] = [
         titleBengali: "ভাই-বোনের জন্য দোয়া",
         titleEnglish: "For Siblings",
         arabic: "رَبِّ اغْفِرْ لِي وَلِوَالِدَيَّ وَلِمَن دَخَلَ بَيْتِيَ مُؤْمِنًا وَلِلْمُؤْمِنِينَ وَالْمُؤْمِنَاتِ",
+        transliteration: "Rabbighfir li wa liwalidayya wa liman dakhala baytiya mu'minan wa lil-mu'minina wal-mu'minat",
+        transliterationBengali: "রাব্বিগফির লী ওয়া লিওয়ালিদাইয়্যা ওয়া লিমান দাখালা বাইতিয়া মু'মিনান ওয়া লিল মু'মিনীনা ওয়াল মু'মিনাত",
         bengali: "হে আমার রব! আমাকে ক্ষমা কর, আমার পিতা-মাতাকে ক্ষমা কর, যারা মুমিন হয়ে আমার ঘরে প্রবেশ করে তাদের ক্ষমা কর এবং সকল মুমিন পুরুষ ও মুমিন নারীদের ক্ষমা কর।",
         english: "My Lord, forgive me and my parents and whoever enters my house a believer and the believing men and believing women.",
         reference: "সূরা নূহ ৭১:২৮"
@@ -5639,6 +5657,8 @@ export const duaCategories: DuaCategory[] = [
         titleBengali: "পারিবারিক ঐক্যের দোয়া",
         titleEnglish: "For Family Unity",
         arabic: "رَبَّنَا هَبْ لَنَا مِنْ أَزْوَاجِنَا وَذُرِّيَّاتِنَا قُرَّةَ أَعْيُنٍ وَاجْعَلْنَا لِلْمُتَّقِينَ إِمَامًا",
+        transliteration: "Rabbana hab lana min azwajina wa dhurriyyatina qurrata a'yunin waj'alna lil-muttaqina imama",
+        transliterationBengali: "রাব্বানা হাব লানা মিন আযওয়াজিনা ওয়া যুররিয়্যাতিনা কুররাতা আ'ইউনিন ওয়াজ'আলনা লিল মুত্তাক্বীনা ইমামা",
         bengali: "হে আমাদের রব! আমাদের স্ত্রীদের পক্ষ থেকে এবং আমাদের সন্তানদের পক্ষ থেকে আমাদের চোখ শীতল কর এবং আমাদেরকে মুত্তাকীদের জন্য আদর্শ বানাও।",
         english: "Our Lord, grant us from among our wives and offspring comfort to our eyes and make us an example for the righteous.",
         reference: "সূরা ফুরকান ২৫:৭৪"
