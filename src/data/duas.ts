@@ -37,24 +37,15 @@ export const duaCategories: DuaCategory[] = [
       },
       {
         id: "daily-2",
-        titleBengali: "আল্লাহর প্রশংসা",
-        titleEnglish: "Praising Allah",
-        arabic: "الْحَمْدُ لِلَّهِ",
-        bengali: "সকল প্রশংসা আল্লাহর জন্য।",
-        english: "All praise is due to Allah.",
-        reference: "সূরা ফাতিহা ১:২"
+        titleBengali: "খাওয়ার আগে দোয়া",
+        titleEnglish: "Before Eating",
+        arabic: "اللَّهُمَّ بَارِكْ لَنَا فِيمَا رَزَقْتَنَا وَقِنَا عَذَابَ النَّارِ",
+        bengali: "হে আল্লাহ, আমাদেরকে যা রিযিক দিয়েছেন তাতে বরকত দিন এবং জাহান্নামের আগুন থেকে রক্ষা করুন।",
+        english: "O Allah, bless us in what You have provided us and protect us from the punishment of the Fire.",
+        reference: "ইবনে মাজাহ"
       },
       {
         id: "daily-3",
-        titleBengali: "জ্ঞান বৃদ্ধির দোয়া",
-        titleEnglish: "For Increasing Knowledge",
-        arabic: "رَبِّ زِدْنِي عِلْمًا",
-        bengali: "হে আমার রব, আমার জ্ঞান বৃদ্ধি করে দিন।",
-        english: "My Lord, increase me in knowledge.",
-        reference: "সূরা তা-হা ২০:১১৪"
-      },
-      {
-        id: "daily-4",
         titleBengali: "খাওয়ার পরের দোয়া",
         titleEnglish: "After Eating",
         arabic: "الْحَمْدُ لِلَّهِ الَّذِي أَطْعَمَنَا وَسَقَانَا وَجَعَلَنَا مُسْلِمِينَ",
@@ -63,7 +54,7 @@ export const duaCategories: DuaCategory[] = [
         reference: "আবু দাউদ, তিরমিযী"
       },
       {
-        id: "daily-5",
+        id: "daily-4",
         titleBengali: "ঘর থেকে বের হওয়ার দোয়া",
         titleEnglish: "When Leaving Home",
         arabic: "بِسْمِ اللهِ، تَوَكَّلْتُ عَلَى اللهِ، لاَ حَوْلَ وَلاَ قُوَّةَ إِلاَّ بِاللهِ",
@@ -72,7 +63,7 @@ export const duaCategories: DuaCategory[] = [
         reference: "আবু দাউদ, তিরমিযী"
       },
       {
-        id: "daily-6",
+        id: "daily-5",
         titleBengali: "ঘরে প্রবেশের দোয়া",
         titleEnglish: "When Entering Home",
         arabic: "بِسْمِ اللهِ وَلَجْنَا، وَبِسْمِ اللهِ خَرَجْنَا، وَعَلَى اللهِ رَبِّنَا تَوَكَّلْنَا",
@@ -81,7 +72,7 @@ export const duaCategories: DuaCategory[] = [
         reference: "আবু দাউদ"
       },
       {
-        id: "daily-7",
+        id: "daily-6",
         titleBengali: "টয়লেটে প্রবেশের দোয়া",
         titleEnglish: "When Entering Toilet",
         arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْخُبُثِ وَالْخَبَائِثِ",
@@ -90,7 +81,7 @@ export const duaCategories: DuaCategory[] = [
         reference: "সহীহ বুখারী, সহীহ মুসলিম"
       },
       {
-        id: "daily-8",
+        id: "daily-7",
         titleBengali: "টয়লেট থেকে বের হওয়ার দোয়া",
         titleEnglish: "When Leaving Toilet",
         arabic: "غُفْرَانَكَ",
@@ -99,13 +90,22 @@ export const duaCategories: DuaCategory[] = [
         reference: "আবু দাউদ, তিরমিযী, ইবনে মাজাহ"
       },
       {
+        id: "daily-8",
+        titleBengali: "আল্লাহর প্রশংসা",
+        titleEnglish: "Praising Allah",
+        arabic: "الْحَمْدُ لِلَّهِ",
+        bengali: "সকল প্রশংসা আল্লাহর জন্য।",
+        english: "All praise is due to Allah.",
+        reference: "সূরা ফাতিহা ১:২"
+      },
+      {
         id: "daily-9",
-        titleBengali: "খাওয়ার আগে দোয়া",
-        titleEnglish: "Before Eating",
-        arabic: "اللَّهُمَّ بَارِكْ لَنَا فِيمَا رَزَقْتَنَا وَقِنَا عَذَابَ النَّارِ",
-        bengali: "হে আল্লাহ, আমাদেরকে যা রিযিক দিয়েছেন তাতে বরকত দিন এবং জাহান্নামের আগুন থেকে রক্ষা করুন।",
-        english: "O Allah, bless us in what You have provided us and protect us from the punishment of the Fire.",
-        reference: "ইবনে মাজাহ"
+        titleBengali: "জ্ঞান বৃদ্ধির দোয়া",
+        titleEnglish: "For Increasing Knowledge",
+        arabic: "رَبِّ زِدْنِي عِلْمًا",
+        bengali: "হে আমার রব, আমার জ্ঞান বৃদ্ধি করে দিন।",
+        english: "My Lord, increase me in knowledge.",
+        reference: "সূরা তা-হা ২০:১১৪"
       },
       {
         id: "daily-10",
