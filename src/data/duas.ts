@@ -4,6 +4,7 @@ export interface Dua {
   titleEnglish?: string;
   arabic: string;
   transliteration?: string;
+  transliterationBengali?: string;
   bengali: string;
   english: string;
   reference?: string;
