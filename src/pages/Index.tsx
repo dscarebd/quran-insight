@@ -5,6 +5,8 @@ import { DailyDua } from "@/components/DailyDua";
 import { SearchResults } from "@/components/SearchResults";
 import { ContinueReading } from "@/components/ContinueReading";
 import { useToast } from "@/hooks/use-toast";
+import { getVersesBySurah, Verse } from "@/data/verses";
+import { surahs } from "@/data/surahs";
 
 interface IndexProps {
   language: "bn" | "en";
@@ -17,6 +19,66 @@ const Index = ({ language }: IndexProps) => {
   const { toast } = useToast();
   const abortControllerRef = useRef<AbortController | null>(null);
 
+  // Offline search through local verses
+  const searchOffline = (query: string): string => {
+    const searchTerms = query.toLowerCase().split(/\s+/).filter(t => t.length > 1);
+    const results: { verse: Verse; surahName: string; score: number }[] = [];
+
+    // Search through all surahs (1-114)
+    for (let surahNum = 1; surahNum <= 114; surahNum++) {
+      const verses = getVersesBySurah(surahNum);
+      verses.forEach((verse) => {
+        const surah = surahs.find(s => s.number === verse.surahNumber);
+        const surahName = language === "bn" ? surah?.nameBengali : surah?.nameEnglish;
+        
+        // Search in bengali, english, and arabic text
+        const textToSearch = `${verse.bengali} ${verse.english} ${verse.arabic}`.toLowerCase();
+        
+        let score = 0;
+        searchTerms.forEach(term => {
+          if (textToSearch.includes(term)) {
+            score += 1;
+          }
+        });
+
+        if (score > 0) {
+          results.push({ verse, surahName: surahName || "", score });
+        }
+      });
+    }
+
+    // Sort by score (relevance) then by surah and verse number
+    results.sort((a, b) => {
+      if (b.score !== a.score) return b.score - a.score;
+      if (a.verse.surahNumber !== b.verse.surahNumber) return a.verse.surahNumber - b.verse.surahNumber;
+      return a.verse.verseNumber - b.verse.verseNumber;
+    });
+
+    // Take top 10 results
+    const topResults = results.slice(0, 10);
+
+    if (topResults.length === 0) {
+      return language === "bn" 
+        ? "দুঃখিত, আপনার অনুসন্ধানের সাথে মিলে যায় এমন কোনো আয়াত পাওয়া যায়নি।"
+        : "Sorry, no verses found matching your search.";
+    }
+
+    // Format results as markdown
+    let response = language === "bn" 
+      ? `**"${query}" এর জন্য অফলাইন অনুসন্ধান ফলাফল:**\n\n`
+      : `**Offline search results for "${query}":**\n\n`;
+
+    topResults.forEach((result, index) => {
+      const { verse, surahName } = result;
+      response += `### ${index + 1}. ${surahName} (${verse.surahNumber}:${verse.verseNumber})\n\n`;
+      response += `**${verse.arabic}**\n\n`;
+      response += language === "bn" ? `${verse.bengali}\n\n` : `${verse.english}\n\n`;
+      response += "---\n\n";
+    });
+
+    return response;
+  };
+
   const handleSearch = async (query: string) => {
     // Cancel any ongoing request
     if (abortControllerRef.current) {
@@ -27,6 +89,20 @@ const Index = ({ language }: IndexProps) => {
     setIsSearching(true);
     setSearchQuery(query);
     setAiResponse("");
+
+    // Check if offline
+    if (!navigator.onLine) {
+      const offlineResults = searchOffline(query);
+      setAiResponse(offlineResults);
+      setIsSearching(false);
+      toast({
+        title: language === "bn" ? "অফলাইন মোড" : "Offline Mode",
+        description: language === "bn" 
+          ? "স্থানীয় আয়াত থেকে অনুসন্ধান করা হচ্ছে" 
+          : "Searching from local verses",
+      });
+      return;
+    }
 
     try {
       const response = await fetch(
@@ -92,6 +168,20 @@ const Index = ({ language }: IndexProps) => {
       setIsSearching(false);
     } catch (error) {
       if ((error as Error).name === "AbortError") {
+        return;
+      }
+      
+      // If network error, fall back to offline search
+      if (error instanceof TypeError && error.message.includes("fetch")) {
+        const offlineResults = searchOffline(query);
+        setAiResponse(offlineResults);
+        setIsSearching(false);
+        toast({
+          title: language === "bn" ? "অফলাইন মোড" : "Offline Mode",
+          description: language === "bn" 
+            ? "নেটওয়ার্ক ত্রুটি, স্থানীয় আয়াত থেকে অনুসন্ধান করা হচ্ছে" 
+            : "Network error, searching from local verses",
+        });
         return;
       }
       
