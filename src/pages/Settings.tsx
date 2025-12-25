@@ -269,7 +269,7 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
                     {language === "bn" ? "কুরআন ইনসাইট" : "Quran Insight"}
                   </p>
                   <p className="text-sm text-muted-foreground">
-                    {language === "bn" ? "সংস্করণ ১.০.০" : "Version 1.0.0"}
+                    {language === "bn" ? "সংস্করণ ৩.২.০" : "Version 3.2.0"}
                   </p>
                 </div>
               </div>
