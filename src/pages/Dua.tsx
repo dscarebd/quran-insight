@@ -200,7 +200,7 @@ const Dua = ({ language, arabicFont = "amiri" }: DuaProps) => {
             </div>
 
             {/* Categories Grid */}
-            <div className="p-4 pb-20 md:pb-4">
+            <div className="p-4 pb-4">
               <div className="grid grid-cols-2 gap-3">
                 {filteredCategories.map((category, index) => (
                   <button
@@ -233,7 +233,7 @@ const Dua = ({ language, arabicFont = "amiri" }: DuaProps) => {
           </TabsContent>
 
           <TabsContent value="favorites" className="mt-0">
-            <div className="p-4 pb-20 md:pb-4">
+            <div className="p-4 pb-4">
               {favoriteDuas.length === 0 ? (
                 <div className="flex flex-col items-center justify-center py-12 text-center">
                   <Heart className="h-12 w-12 text-muted-foreground/50 mb-4" />

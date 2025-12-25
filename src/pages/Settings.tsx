@@ -58,7 +58,7 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
       <div className="min-h-screen bg-background">
 
         {/* Content */}
-        <div className="mx-auto max-w-2xl p-4 pb-20 md:pb-4 space-y-6">
+        <div className="mx-auto max-w-2xl p-4 pb-4 space-y-6">
           
           {/* User Card Section */}
           <section>
