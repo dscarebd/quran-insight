@@ -82,8 +82,8 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
                     </h3>
                     <p className={cn("text-xs text-muted-foreground", language === "bn" && "font-bengali")}>
                       {language === "bn" 
-                        ? "কুরআন বোঝার জন্য আপনার AI বন্ধু। উম্মাহর জন্য ❤️ দিয়ে তৈরি" 
-                        : "Your AI friend for Understand Qur'an. Made with ❤️ for Ummah"}
+                        ? <>কুরআন বোঝার জন্য আপনার AI বন্ধু।<br />উম্মাহর জন্য ❤️ দিয়ে তৈরি</> 
+                        : <>Your AI friend for Understand Qur'an.<br />Made with ❤️ for Ummah</>}
                     </p>
                   </div>
                 </div>
