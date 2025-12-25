@@ -1038,6 +1038,116 @@ export const duaCategories: DuaCategory[] = [
         bengali: "হে আল্লাহ যেটা আমি ভয় করি তার অনিষ্ট থেকে আমাকে যথেষ্ট করুন",
         english: "O Allah suffice me against the evil of what I fear",
         reference: "তাবারানী আল-কাবীর, হাদিস নং ১১৮২১"
+      },
+      {
+        id: "protection-41",
+        titleBengali: "নিজেকে নিয়ন্ত্রণ হারানো থেকে রক্ষা",
+        titleEnglish: "Protection from Loss of Control",
+        arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ نَفْسًا مُطْمَئِنَّةً",
+        transliteration: "Allahumma inni as'aluka nafsan mutma'innah",
+        transliterationBengali: "আল্লাহুম্মা ইন্নি আসআলুকা নাফসান মুতমাইন্নাহ",
+        bengali: "হে আল্লাহ আমাকে প্রশান্ত আত্মা দান করুন",
+        english: "O Allah I ask You for a tranquil soul",
+        reference: "মুসনাদ আহমাদ, হাদিস নং ১৭১২০"
+      },
+      {
+        id: "protection-42",
+        titleBengali: "লজ্জাজনক কাজ থেকে রক্ষা",
+        titleEnglish: "Protection from Shameful Deeds",
+        arabic: "اللَّهُمَّ اسْتُرْ عَوْرَاتِنَا",
+        transliteration: "Allahummas-tur 'awratina",
+        transliterationBengali: "আল্লাহুম্মাসতুর আউরাতিনা",
+        bengali: "হে আল্লাহ আমাদের লজ্জাস্থানসমূহ আড়াল করুন",
+        english: "O Allah conceal our faults",
+        reference: "সুনান আবু দাউদ, হাদিস নং ৪০১৯"
+      },
+      {
+        id: "protection-43",
+        titleBengali: "মিথ্যা অপবাদ থেকে রক্ষা",
+        titleEnglish: "Protection from False Accusation",
+        arabic: "رَبِّ نَجِّنِي وَأَهْلِي مِمَّا يَعْمَلُونَ",
+        transliteration: "Rabbi najjini wa ahli mimma ya'malun",
+        transliterationBengali: "রাব্বি নাজ্জিনি ওয়া আহলি মিম্মা ইয়া'মালুন",
+        bengali: "হে আমার রব আমাকে ও আমার পরিবারকে তাদের কাজ থেকে উদ্ধার করুন",
+        english: "My Lord save me and my family from what they do",
+        reference: "সূরা আশ-শু'আরা ২৬:১৬৯"
+      },
+      {
+        id: "protection-44",
+        titleBengali: "লোভ থেকে রক্ষা",
+        titleEnglish: "Protection from Greed",
+        arabic: "وَمَن يُوقَ شُحَّ نَفْسِهِ فَأُولَٰئِكَ هُمُ الْمُفْلِحُونَ",
+        transliteration: "Wa man yuqa shuhha nafsihi fa ula'ika humul-muflihun",
+        transliterationBengali: "ওয়া মান ইউকা শুহহা নাফসিহি ফা উলাইকা হুমুল মুফলিহুন",
+        bengali: "যাকে তার আত্মার লোভ থেকে রক্ষা করা হয় সেই সফল",
+        english: "And whoever is protected from the greed of his soul—those are the successful",
+        reference: "সূরা আল-হাশর ৫৯:৯"
+      },
+      {
+        id: "protection-45",
+        titleBengali: "ক্ষতিকর কামনা থেকে রক্ষা",
+        titleEnglish: "Protection from Harmful Desire",
+        arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ شَرِّ سَمْعِي وَبَصَرِي",
+        transliteration: "Allahumma inni a'udhu bika min sharri sam'i wa basari",
+        transliterationBengali: "আল্লাহুম্মা ইন্নি আউযু বিকা মিন শাররি সাম'ই ওয়া বাসারি",
+        bengali: "হে আল্লাহ আমার কান ও চোখের অনিষ্ট থেকে আমাকে রক্ষা করুন",
+        english: "O Allah protect me from the evil of my hearing and sight",
+        reference: "মুসনাদ আহমাদ, হাদিস নং ২৩৩৪৭"
+      },
+      {
+        id: "protection-46",
+        titleBengali: "গুনাহের পরিবেশ থেকে রক্ষা",
+        titleEnglish: "Protection from Sinful Environment",
+        arabic: "رَبِّ أَدْخِلْنِي مُدْخَلَ صِدْقٍ",
+        transliteration: "Rabbi adkhilni mudkhala sidq",
+        transliterationBengali: "রাব্বি আদখিলনি মুদখালা সিদক",
+        bengali: "হে আমার রব আমাকে সঠিক প্রবেশ দান করুন",
+        english: "My Lord grant me a sound entrance",
+        reference: "সূরা আল-ইসরা ১৭:৮০"
+      },
+      {
+        id: "protection-47",
+        titleBengali: "বিশ্বাসঘাতকতা থেকে রক্ষা",
+        titleEnglish: "Protection from Betrayal",
+        arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْخِيَانَةِ",
+        transliteration: "Allahumma inni a'udhu bika minal-khiyanah",
+        transliterationBengali: "আল্লাহুম্মা ইন্নি আউযু বিকা মিনাল খিয়ানাহ",
+        bengali: "হে আল্লাহ বিশ্বাসঘাতকতা থেকে আমাকে রক্ষা করুন",
+        english: "O Allah protect me from betrayal",
+        reference: "মুসনাদ আহমাদ, হাদিস নং ২২৯৮০"
+      },
+      {
+        id: "protection-48",
+        titleBengali: "ক্ষমতার বাইরে পরীক্ষার হাত থেকে রক্ষা",
+        titleEnglish: "Protection from Being Tested Beyond Capacity",
+        arabic: "رَبَّنَا لَا تُحَمِّلْنَا مَا لَا طَاقَةَ لَنَا بِهِ",
+        transliteration: "Rabbana la tuhammilna ma la taqata lana bih",
+        transliterationBengali: "রাব্বানা লা তুহাম্মিলনা মা লা তাকাতা লানা বিহ",
+        bengali: "হে আমাদের রব আমাদের ওপর এমন বোঝা চাপাবেন না যা বহন করার ক্ষমতা আমাদের নেই",
+        english: "Our Lord do not burden us beyond our capacity",
+        reference: "সূরা আল-বাকারা ২:২৮৬"
+      },
+      {
+        id: "protection-49",
+        titleBengali: "হঠাৎ মানসিক যন্ত্রণা থেকে রক্ষা",
+        titleEnglish: "Protection from Sudden Anguish",
+        arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْكَآبَةِ",
+        transliteration: "Allahumma inni a'udhu bika minal-ka'abah",
+        transliterationBengali: "আল্লাহুম্মা ইন্নি আউযু বিকা মিনাল কা'আবাহ",
+        bengali: "হে আল্লাহ গভীর দুশ্চিন্তা থেকে আমাকে রক্ষা করুন",
+        english: "O Allah protect me from deep distress",
+        reference: "তাবারানী আল-আওসাত, হাদিস নং ৬২৩৪"
+      },
+      {
+        id: "protection-50",
+        titleBengali: "আল্লাহর মাধ্যমে পূর্ণ নিরাপত্তা",
+        titleEnglish: "Complete Protection by Allah",
+        arabic: "حَسْبِيَ اللَّهُ وَنِعْمَ الْحَفِيظُ",
+        transliteration: "Hasbiyallahu wa ni'mal-hafiz",
+        transliterationBengali: "হাসবিয়াল্লাহু ওয়া নি'মাল হাফিজ",
+        bengali: "আল্লাহই আমার জন্য যথেষ্ট এবং তিনিই সর্বোত্তম রক্ষক",
+        english: "Allah is sufficient for me and He is the best Protector",
+        reference: "সূরা হূদ ১১:৫৬"
       }
     ]
   },
