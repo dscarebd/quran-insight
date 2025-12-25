@@ -13,8 +13,44 @@ serve(async (req) => {
   }
 
   try {
-    const { query, language } = await req.json();
-    console.log("Received search query:", query, "Language:", language);
+    const body = await req.json();
+    
+    // Input validation - validate query length and language
+    const query = body.query;
+    const language = body.language;
+    
+    // Validate query exists and is a string
+    if (!query || typeof query !== 'string') {
+      console.error("Invalid query: missing or not a string");
+      return new Response(JSON.stringify({ error: "Query is required and must be a string" }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+    
+    // Validate query length (max 500 characters to prevent abuse)
+    const trimmedQuery = query.trim();
+    if (trimmedQuery.length === 0) {
+      console.error("Invalid query: empty after trimming");
+      return new Response(JSON.stringify({ error: "Query cannot be empty" }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+    
+    if (trimmedQuery.length > 500) {
+      console.error("Invalid query: exceeds 500 character limit");
+      return new Response(JSON.stringify({ error: "Query must be 500 characters or less" }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+    
+    // Validate language is only 'bn' or 'en' (whitelist approach)
+    const validLanguages = ['bn', 'en'];
+    const validatedLanguage = validLanguages.includes(language) ? language : 'en';
+    
+    console.log("Received search query:", trimmedQuery.substring(0, 100), "Length:", trimmedQuery.length, "Language:", validatedLanguage);
 
     const OPENAI_API_KEY = Deno.env.get("OPENAI_API_KEY");
     if (!OPENAI_API_KEY) {
@@ -22,7 +58,7 @@ serve(async (req) => {
       throw new Error("OPENAI_API_KEY is not configured");
     }
 
-    const systemPrompt = language === "bn" 
+    const systemPrompt = validatedLanguage === "bn" 
       ? `আপনি একজন নিবেদিত ইসলামিক জ্ঞান সহকারী।
 
 বাধ্যতামূলক আচরণ:
@@ -204,7 +240,7 @@ Answer in English.`;
         model: "gpt-4o-mini",
         messages: [
           { role: "system", content: systemPrompt },
-          { role: "user", content: query }
+          { role: "user", content: trimmedQuery }
         ],
         stream: true,
       }),
