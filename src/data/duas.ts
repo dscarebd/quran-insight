@@ -226,6 +226,106 @@ export const duaCategories: DuaCategory[] = [
         bengali: "আপনি ছাড়া কোনো উপাস্য নেই",
         english: "None has the right to be worshipped but You",
         reference: "সুনান তিরমিযী, হাদিস নং ৩৫০৫"
+      },
+      {
+        id: "daily-21",
+        titleBengali: "সাধারণ ক্ষমা প্রার্থনার দোয়া",
+        titleEnglish: "General Forgiveness",
+        arabic: "رَبِّ اغْفِرْ لِي وَتُبْ عَلَيَّ",
+        transliteration: "Rabbi'ghfir li wa tub 'alayya",
+        bengali: "হে আমার রব আমাকে ক্ষমা করুন ও আমার তওবা কবুল করুন",
+        english: "My Lord forgive me and accept my repentance",
+        reference: "সুনান তিরমিযী, হাদিস নং ৩৪৩৪"
+      },
+      {
+        id: "daily-22",
+        titleBengali: "অকল্যাণ থেকে রক্ষার দোয়া",
+        titleEnglish: "Protection from Evil",
+        arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ شَرِّ مَا خَلَقْتَ",
+        transliteration: "Allahumma inni a'udhu bika min sharri ma khalaqt",
+        bengali: "হে আল্লাহ আপনার সৃষ্ট সব অকল্যাণ থেকে আমাকে রক্ষা করুন",
+        english: "O Allah protect me from the evil of what You created",
+        reference: "সহীহ মুসলিম, হাদিস নং ২৭০৮"
+      },
+      {
+        id: "daily-23",
+        titleBengali: "উত্তম চরিত্রের দোয়া",
+        titleEnglish: "Good Character",
+        arabic: "اللَّهُمَّ اهْدِنِي لِأَحْسَنِ الْأَخْلَاقِ",
+        transliteration: "Allahumma ihdini li-ahsanil-akhlaq",
+        bengali: "হে আল্লাহ আমাকে উত্তম চরিত্র দান করুন",
+        english: "O Allah guide me to the best manners",
+        reference: "সহীহ মুসলিম, হাদিস নং ৭৭১"
+      },
+      {
+        id: "daily-24",
+        titleBengali: "ধৈর্যের দোয়া",
+        titleEnglish: "Patience",
+        arabic: "رَبَّنَا أَفْرِغْ عَلَيْنَا صَبْرًا",
+        transliteration: "Rabbana afrigh 'alayna sabra",
+        bengali: "হে আমাদের রব আমাদের ওপর ধৈর্য ঢেলে দিন",
+        english: "Our Lord pour patience upon us",
+        reference: "আল-কুরআন, সূরা বাকারা ২:২৫০"
+      },
+      {
+        id: "daily-25",
+        titleBengali: "হেদায়াতের দোয়া",
+        titleEnglish: "Guidance",
+        arabic: "اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ",
+        transliteration: "Ihdinas-siratal-mustaqim",
+        bengali: "আমাদের সরল পথে পরিচালিত করুন",
+        english: "Guide us to the straight path",
+        reference: "আল-কুরআন, সূরা ফাতিহা ১:৬"
+      },
+      {
+        id: "daily-26",
+        titleBengali: "রাতে নিরাপত্তার দোয়া",
+        titleEnglish: "Night Protection",
+        arabic: "أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ",
+        transliteration: "A'udhu bikalimatillahit-tammati",
+        bengali: "আমি আল্লাহর পূর্ণ বাক্যের আশ্রয় চাই",
+        english: "I seek refuge in the perfect words of Allah",
+        reference: "সহীহ মুসলিম, হাদিস নং ২৭০৯"
+      },
+      {
+        id: "daily-27",
+        titleBengali: "সুস্থতার দোয়া",
+        titleEnglish: "Health and Wellness",
+        arabic: "اللَّهُمَّ عَافِنِي فِي بَدَنِي",
+        transliteration: "Allahumma 'afini fi badani",
+        bengali: "হে আল্লাহ আমার শরীরে সুস্থতা দান করুন",
+        english: "O Allah grant me health in my body",
+        reference: "সুনান তিরমিযী, হাদিস নং ৩৪৯৯"
+      },
+      {
+        id: "daily-28",
+        titleBengali: "কৃতজ্ঞতার দোয়া",
+        titleEnglish: "Gratitude",
+        arabic: "اللَّهُمَّ أَعِنِّي عَلَى ذِكْرِكَ",
+        transliteration: "Allahumma a'inni 'ala dhikrika",
+        bengali: "হে আল্লাহ আপনার স্মরণে আমাকে সাহায্য করুন",
+        english: "O Allah help me to remember You",
+        reference: "সুনান আবু দাউদ, হাদিস নং ১৫২২"
+      },
+      {
+        id: "daily-29",
+        titleBengali: "হিংসা থেকে রক্ষার দোয়া",
+        titleEnglish: "Protection from Envy",
+        arabic: "وَمِنْ شَرِّ حَاسِدٍ إِذَا حَسَدَ",
+        transliteration: "Wa min sharri hasidin idha hasad",
+        bengali: "হিংসুকের অনিষ্ট থেকে আমাদের রক্ষা করুন",
+        english: "From the evil of an envier when he envies",
+        reference: "আল-কুরআন, সূরা ফালাক ১১৩:৫"
+      },
+      {
+        id: "daily-30",
+        titleBengali: "আল্লাহর উপর ভরসার দোয়া",
+        titleEnglish: "Trust in Allah",
+        arabic: "تَوَكَّلْتُ عَلَى اللَّهِ",
+        transliteration: "Tawakkaltu 'alallah",
+        bengali: "আমি আল্লাহর ওপর ভরসা করেছি",
+        english: "I place my trust in Allah",
+        reference: "সুনান আবু দাউদ, হাদিস নং ৫০৯৫"
       }
     ]
   },
