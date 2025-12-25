@@ -2545,6 +2545,116 @@ export const duaCategories: DuaCategory[] = [
         bengali: "আমি আল্লাহকে রব হিসেবে সন্তুষ্টভাবে গ্রহণ করেছি",
         english: "I am pleased with Allah as my Lord",
         reference: "সুনান আবু দাউদ, হাদিস নং ৫০৭২"
+      },
+      {
+        id: "me-011",
+        titleBengali: "আয়াতুল কুরসি",
+        titleEnglish: "Ayat al-Kursi",
+        arabic: "اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ",
+        transliteration: "Allahu la ilaha illa huwal-hayyul-qayyum",
+        transliterationBengali: "আল্লাহু লা ইলাহা ইল্লা হুয়াল হাইয়্যুল কাইয়্যুম",
+        bengali: "আল্লাহ ছাড়া কোনো উপাস্য নেই—তিনি চিরঞ্জীব ও সবকিছুর ধারক",
+        english: "Allah—there is no deity except Him, the Ever-Living, the Sustainer",
+        reference: "আল-কুরআন, সূরা বাকারা ২:২৫৫"
+      },
+      {
+        id: "me-012",
+        titleBengali: "সূরা ইখলাস",
+        titleEnglish: "Surah Ikhlas",
+        arabic: "قُلْ هُوَ اللَّهُ أَحَدٌ",
+        transliteration: "Qul huwallahu ahad",
+        transliterationBengali: "কুল হুয়াল্লাহু আহাদ",
+        bengali: "বলুন—তিনি আল্লাহ, একক",
+        english: "Say: He is Allah, the One",
+        reference: "আল-কুরআন, সূরা ইখলাস ১১২"
+      },
+      {
+        id: "me-013",
+        titleBengali: "সূরা ফালাক",
+        titleEnglish: "Surah Falaq",
+        arabic: "قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ",
+        transliteration: "Qul a'udhu birabbil-falaq",
+        transliterationBengali: "কুল আউযু বিরাব্বিল ফালাক",
+        bengali: "আমি ফালাকের রবের আশ্রয় চাই",
+        english: "Say: I seek refuge in the Lord of daybreak",
+        reference: "আল-কুরআন, সূরা ফালাক ১১৩"
+      },
+      {
+        id: "me-014",
+        titleBengali: "সূরা নাস",
+        titleEnglish: "Surah Nas",
+        arabic: "قُلْ أَعُوذُ بِرَبِّ النَّاسِ",
+        transliteration: "Qul a'udhu birabbin-nas",
+        transliterationBengali: "কুল আউযু বিরাব্বিন্নাস",
+        bengali: "আমি মানুষের রবের আশ্রয় চাই",
+        english: "Say: I seek refuge in the Lord of mankind",
+        reference: "আল-কুরআন, সূরা নাস ১১৪"
+      },
+      {
+        id: "me-015",
+        titleBengali: "সাইয়্যিদুল ইস্তিগফার",
+        titleEnglish: "Sayyidul Istighfar",
+        arabic: "اللَّهُمَّ أَنْتَ رَبِّي لَا إِلَٰهَ إِلَّا أَنْتَ",
+        transliteration: "Allahumma anta rabbi la ilaha illa anta",
+        transliterationBengali: "আল্লাহুম্মা আনতা রাব্বি লা ইলাহা ইল্লা আনতা",
+        bengali: "হে আল্লাহ আপনি আমার রব—আপনি ছাড়া কোনো উপাস্য নেই",
+        english: "O Allah You are my Lord; there is no deity except You",
+        reference: "সহীহ বুখারী, হাদিস নং ৬৩০৬"
+      },
+      {
+        id: "me-016",
+        titleBengali: "পূর্ণ সুস্থতার দোয়া",
+        titleEnglish: "Complete Wellbeing",
+        arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَفْوَ وَالْعَافِيَةَ",
+        transliteration: "Allahumma inni as'alukal-'afwa wal-'afiyah",
+        transliterationBengali: "আল্লাহুম্মা ইন্নি আসআলুকাল আফওয়া ওয়াল আফিয়াহ",
+        bengali: "হে আল্লাহ আমি ক্ষমা ও সুস্থতা চাই",
+        english: "O Allah I ask You for pardon and wellbeing",
+        reference: "সুনান আবু দাউদ, হাদিস নং ৫০৭৪"
+      },
+      {
+        id: "me-017",
+        titleBengali: "দিন শুরুর দোয়া",
+        titleEnglish: "Day Beginning",
+        arabic: "اللَّهُمَّ بِكَ أَصْبَحْنَا وَبِكَ أَمْسَيْنَا",
+        transliteration: "Allahumma bika asbahna wa bika amsayna",
+        transliterationBengali: "আল্লাহুম্মা বিকা আসবাহনা ওয়া বিকা আমসাইনা",
+        bengali: "হে আল্লাহ আপনার মাধ্যমেই আমরা সকাল ও সন্ধ্যায় পৌঁছি",
+        english: "O Allah by You we enter the morning and evening",
+        reference: "সুনান তিরমিযী, হাদিস নং ৩৩৯১"
+      },
+      {
+        id: "me-018",
+        titleBengali: "কুফর ও দারিদ্র্য থেকে রক্ষা",
+        titleEnglish: "Protection from Disbelief",
+        arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْكُفْرِ وَالْفَقْرِ",
+        transliteration: "Allahumma inni a'udhu bika minal-kufri wal-faqr",
+        transliterationBengali: "আল্লাহুম্মা ইন্নি আউযু বিকা মিনাল কুফরি ওয়াল ফাকর",
+        bengali: "হে আল্লাহ কুফর ও দারিদ্র্য থেকে রক্ষা করুন",
+        english: "O Allah I seek refuge in You from disbelief and poverty",
+        reference: "সুনান আবু দাউদ, হাদিস নং ৫০৯০"
+      },
+      {
+        id: "me-019",
+        titleBengali: "তাসবীহ ও হামদ",
+        titleEnglish: "Glorification",
+        arabic: "سُبْحَانَ اللَّهِ وَبِحَمْدِهِ",
+        transliteration: "Subhanallahi wa bihamdihi",
+        transliterationBengali: "সুবহানাল্লাহি ওয়া বিহামদিহি",
+        bengali: "আল্লাহ পবিত্র—তাঁরই প্রশংসা",
+        english: "Glory be to Allah and praise is His",
+        reference: "সহীহ মুসলিম, হাদিস নং ২৬৯২"
+      },
+      {
+        id: "me-020",
+        titleBengali: "দিনের কল্যাণ প্রার্থনা",
+        titleEnglish: "Seeking Good of the Day",
+        arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ خَيْرَ هَذَا الْيَوْمِ",
+        transliteration: "Allahumma inni as'aluka khayra hadhal-yawm",
+        transliterationBengali: "আল্লাহুম্মা ইন্নি আসআলুকা খাইরা হাযাল ইয়াউম",
+        bengali: "হে আল্লাহ এই দিনের কল্যাণ চাই",
+        english: "O Allah I ask You for the good of this day",
+        reference: "সুনান আবু দাউদ, হাদিস নং ৫০৮৪"
       }
     ]
   }
