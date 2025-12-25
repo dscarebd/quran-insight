@@ -2550,6 +2550,116 @@ export const duaCategories: DuaCategory[] = [
         bengali: "তোমার রবই যথেষ্ট পথপ্রদর্শক ও সাহায্যকারী",
         english: "And sufficient is your Lord as a Guide and Helper",
         reference: "সূরা আল-ফুরকান ২৫:৩১"
+      },
+      {
+        id: "guidance-31",
+        titleBengali: "হিদায়াত ও রহমতের দোয়া",
+        titleEnglish: "Prayer for Guidance and Mercy",
+        arabic: "رَبَّنَا لَا تُزِغْ قُلُوبَنَا بَعْدَ إِذْ هَدَيْتَنَا",
+        transliteration: "Rabbana la tuzigh qulubana ba'da idh hadaytana",
+        transliterationBengali: "রাব্বানা লা তুযিগ কুলুবানা বা'দা ইয হাদাইতানা",
+        bengali: "হে আমাদের রব হিদায়াত দেওয়ার পর আমাদের হৃদয় বিচ্যুত করবেন না",
+        english: "Our Lord do not let our hearts deviate after You have guided us",
+        reference: "সূরা আলে ইমরান ৩:৮"
+      },
+      {
+        id: "guidance-32",
+        titleBengali: "সত্যের মাধ্যমে হিদায়াত",
+        titleEnglish: "Allah Guides Through Truth",
+        arabic: "وَيَهْدِي إِلَيْهِ مَنْ أَنَابَ",
+        transliteration: "Wa yahdi ilayhi man anab",
+        transliterationBengali: "ওয়া ইয়াহদি ইলাইহি মান আনাব",
+        bengali: "যে আল্লাহর দিকে ফিরে আসে তিনি তাকে পথ দেখান",
+        english: "And He guides to Himself whoever turns back",
+        reference: "সূরা আর-রাদ ১৩:২৭"
+      },
+      {
+        id: "guidance-33",
+        titleBengali: "সরল পথের দোয়া",
+        titleEnglish: "Prayer for Straight Path",
+        arabic: "وَاهْدِنَا إِلَىٰ سَوَاءِ السَّبِيلِ",
+        transliteration: "Wahdina ila sawa'is-sabil",
+        transliterationBengali: "ওয়াহদিনা ইলা সাওয়া-ইস সাবিল",
+        bengali: "আমাদের সঠিক পথে পরিচালিত করুন",
+        english: "And guide us to the straight way",
+        reference: "সূরা আল-মায়িদাহ ৫:১৬"
+      },
+      {
+        id: "guidance-34",
+        titleBengali: "হিদায়াতপ্রাপ্তদের প্রতি আল্লাহর ভালোবাসা",
+        titleEnglish: "Allah Loves the Guided",
+        arabic: "إِنَّ اللَّهَ يُحِبُّ الْمُتَّقِينَ",
+        transliteration: "Inna Allaha yuhibbul-muttaqin",
+        transliterationBengali: "ইন্নাল্লাহা ইউহিব্বুল মুত্তাকীন",
+        bengali: "নিশ্চয় আল্লাহ মুত্তাকীদের ভালোবাসেন",
+        english: "Indeed Allah loves the righteous",
+        reference: "সূরা আত-তাওবাহ ৯:৪"
+      },
+      {
+        id: "guidance-35",
+        titleBengali: "অন্তরের নূরের দোয়া",
+        titleEnglish: "Prayer for Inner Light",
+        arabic: "رَبِّ اشْرَحْ لِي صَدْرِي",
+        transliteration: "Rabbishrah li sadri",
+        transliterationBengali: "রাব্বিশরাহ লি সদরি",
+        bengali: "হে আমার রব আমার অন্তর প্রশস্ত করুন",
+        english: "My Lord expand for me my chest",
+        reference: "সূরা ত্বহা ২০:২৫"
+      },
+      {
+        id: "guidance-36",
+        titleBengali: "ঈমান বৃদ্ধি করেন আল্লাহ",
+        titleEnglish: "Allah Increases Faith",
+        arabic: "وَيَزْدَادَ الَّذِينَ آمَنُوا إِيمَانًا",
+        transliteration: "Wa yazdadal-ladhina amanu imanan",
+        transliterationBengali: "ওয়া ইয়াজদাদাল্লাজিনা আমানু ঈমানান",
+        bengali: "যাতে মুমিনদের ঈমান বৃদ্ধি পায়",
+        english: "So that those who believe may increase in faith",
+        reference: "সূরা আল-মুদ্দাসসির ৭৪:৩১"
+      },
+      {
+        id: "guidance-37",
+        titleBengali: "নেতৃত্বে তাকওয়ার দোয়া",
+        titleEnglish: "Prayer for Pious Leadership",
+        arabic: "وَاجْعَلْنَا لِلْمُتَّقِينَ إِمَامًا",
+        transliteration: "Waj'alna lil-muttaqina imama",
+        transliterationBengali: "ওয়াজ'আলনা লিল মুত্তাকীনা ইমামা",
+        bengali: "আমাদের মুত্তাকীদের জন্য নেতা বানান",
+        english: "And make us leaders for the righteous",
+        reference: "সূরা আল-ফুরকান ২৫:৭৪"
+      },
+      {
+        id: "guidance-38",
+        titleBengali: "স্পষ্ট নিদর্শনে হিদায়াত",
+        titleEnglish: "Allah Guides with Clear Signs",
+        arabic: "قَدْ جَاءَكُمْ مِنَ اللَّهِ نُورٌ وَكِتَابٌ مُبِينٌ",
+        transliteration: "Qad ja'akum minallahi nurun wa kitabun mubin",
+        transliterationBengali: "ক্বাদ জা'আকুম মিনাল্লাহি নূরুন ওয়া কিতাবুম মুবীন",
+        bengali: "আল্লাহর পক্ষ থেকে তোমাদের কাছে নূর ও স্পষ্ট কিতাব এসেছে",
+        english: "There has come to you from Allah a light and a clear Book",
+        reference: "সূরা আল-মায়িদাহ ৫:১৫"
+      },
+      {
+        id: "guidance-39",
+        titleBengali: "ভ্রান্তি থেকে রক্ষার দোয়া",
+        titleEnglish: "Prayer to Avoid Misguidance",
+        arabic: "وَلَا تَجْعَلْنَا مِنَ الضَّالِّينَ",
+        transliteration: "Wala taj'alna minad-dallin",
+        transliterationBengali: "ওয়ালা তাজ'আলনা মিনাদ দাল্লীন",
+        bengali: "আমাদের পথভ্রষ্টদের অন্তর্ভুক্ত করবেন না",
+        english: "And do not make us among those who go astray",
+        reference: "সূরা আল-ফাতিহা ১:৭"
+      },
+      {
+        id: "guidance-40",
+        titleBengali: "আল্লাহই সর্বোত্তম পথপ্রদর্শক",
+        titleEnglish: "Allah is the Best Guide",
+        arabic: "إِنَّكَ تَهْدِي إِلَىٰ صِرَاطٍ مُسْتَقِيمٍ",
+        transliteration: "Innaka tahdi ila siratin mustaqim",
+        transliterationBengali: "ইন্নাকা তাহদি ইলা সিরাতিন মুস্তাকীম",
+        bengali: "নিশ্চয় আপনি সরল পথে পথ দেখান",
+        english: "Indeed, you guide to a straight path",
+        reference: "সূরা আশ-শূরা ৪২:৫২"
       }
     ]
   },
