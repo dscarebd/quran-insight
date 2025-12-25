@@ -1468,6 +1468,116 @@ export const duaCategories: DuaCategory[] = [
         bengali: "হে আমাদের রব আমাদের নূর পূর্ণ করে দিন",
         english: "Our Lord perfect for us our light",
         reference: "সূরা আত-তাহরীম ৬৬:৮"
+      },
+      {
+        id: "quran-31",
+        titleBengali: "সহজতা ও ক্ষমার দোয়া",
+        titleEnglish: "Dua for Ease and Forgiveness",
+        arabic: "رَبَّنَا لَا تُؤَاخِذْنَا إِن نَّسِينَا أَوْ أَخْطَأْنَا",
+        transliteration: "Rabbana la tu'akhidhna in nasina aw akhta'na",
+        transliterationBengali: "রাব্বানা লা তু'আখিযনা ইন নাসিনা আও আখতা'না",
+        bengali: "হে আমাদের রব ভুল বা বিস্মৃতির কারণে আমাদের পাকড়াও করবেন না",
+        english: "Our Lord do not take us to task if we forget or err",
+        reference: "সূরা আল-বাকারা ২:২৮৬"
+      },
+      {
+        id: "quran-32",
+        titleBengali: "যাকারিয়া (আ.) এর দোয়া",
+        titleEnglish: "Dua of Zakariyya",
+        arabic: "رَبِّ هَبْ لِي مِن لَّدُنكَ ذُرِّيَّةً طَيِّبَةً",
+        transliteration: "Rabbi hab li min ladunka dhurriyyatan tayyibah",
+        transliterationBengali: "রাব্বি হাব লি মিন লাদুনকা যুররিয়্যাতান ত্বইয়্যিবাহ",
+        bengali: "হে আমার রব আপনার পক্ষ থেকে আমাকে পবিত্র সন্তান দান করুন",
+        english: "My Lord grant me from Yourself a good offspring",
+        reference: "সূরা আলে ইমরান ৩:৩৮"
+      },
+      {
+        id: "quran-33",
+        titleBengali: "সত্য আত্মসমর্পণের দোয়া",
+        titleEnglish: "Dua for True Submission",
+        arabic: "رَبَّنَا آمَنَّا بِمَا أَنزَلْتَ",
+        transliteration: "Rabbana amanna bima anzalta",
+        transliterationBengali: "রাব্বানা আমান্না বিমা আনজালতা",
+        bengali: "হে আমাদের রব আপনি যা নাজিল করেছেন তাতে আমরা ঈমান এনেছি",
+        english: "Our Lord we believe in what You have revealed",
+        reference: "সূরা আলে ইমরান ৩:৫৩"
+      },
+      {
+        id: "quran-34",
+        titleBengali: "ঈসা (আ.) এর দোয়া",
+        titleEnglish: "Dua of Isa",
+        arabic: "اللَّهُمَّ رَبَّنَا أَنزِلْ عَلَيْنَا مَائِدَةً",
+        transliteration: "Allahumma rabbana anzil 'alayna ma'idah",
+        transliterationBengali: "আল্লাহুম্মা রাব্বানা আনজিল আলাইনা মায়িদাহ",
+        bengali: "হে আল্লাহ আমাদের রব আমাদের জন্য আসমান থেকে খাদ্য নাজিল করুন",
+        english: "O Allah our Lord send down to us a table from heaven",
+        reference: "সূরা আল-মায়িদা ৫:১১৪"
+      },
+      {
+        id: "quran-35",
+        titleBengali: "মৃত্যুর সময় ধৈর্যের দোয়া",
+        titleEnglish: "Dua for Patience at Death",
+        arabic: "رَبَّنَا أَفْرِغْ عَلَيْنَا صَبْرًا وَتَوَفَّنَا مُسْلِمِينَ",
+        transliteration: "Rabbana afrigh 'alayna sabran wa tawaffana muslimin",
+        transliterationBengali: "রাব্বানা আফরিগ আলাইনা সাবরান ওয়া তাওয়াফ্ফানা মুসলিমীন",
+        bengali: "হে আমাদের রব আমাদের ওপর ধৈর্য ঢেলে দিন এবং মুসলিম অবস্থায় মৃত্যু দিন",
+        english: "Our Lord pour upon us patience and cause us to die as Muslims",
+        reference: "সূরা আল-আ'রাফ ৭:১২৬"
+      },
+      {
+        id: "quran-36",
+        titleBengali: "সুন্দর পরিণতির দোয়া",
+        titleEnglish: "Dua for a Righteous End",
+        arabic: "تَوَفَّنِي مُسْلِمًا وَأَلْحِقْنِي بِالصَّالِحِينَ",
+        transliteration: "Tawaffani musliman wa alhiqni bis-salihin",
+        transliterationBengali: "তাওয়াফ্ফানি মুসলিমা ওয়া আলহিকনি বিস্সালিহীন",
+        bengali: "হে আল্লাহ আমাকে মুসলিম অবস্থায় মৃত্যু দিন এবং সৎকর্মশীলদের সাথে যুক্ত করুন",
+        english: "Cause me to die as a Muslim and join me with the righteous",
+        reference: "সূরা ইউসুফ ১২:১০১"
+      },
+      {
+        id: "quran-37",
+        titleBengali: "পিতামাতা ও মুমিনদের জন্য দোয়া",
+        titleEnglish: "Dua for Parents and Believers",
+        arabic: "رَبَّنَا اغْفِرْ لِي وَلِوَالِدَيَّ وَلِلْمُؤْمِنِينَ",
+        transliteration: "Rabbana-ghfir li wa li walidayya walil-mu'minin",
+        transliterationBengali: "রাব্বানাগফির লি ওয়া লি ওয়ালিদাইয়্যা ওয়ালিল মু'মিনীন",
+        bengali: "হে আমাদের রব আমাকে আমার পিতামাতাকে ও সকল মুমিনকে ক্ষমা করুন",
+        english: "Our Lord forgive me and my parents and the believers",
+        reference: "সূরা ইবরাহিম ১৪:৪১"
+      },
+      {
+        id: "quran-38",
+        titleBengali: "আইয়ূব (আ.) এর দোয়া",
+        titleEnglish: "Dua of Ayyub",
+        arabic: "رَبِّ إِنِّي مَسَّنِيَ الضُّرُّ وَأَنتَ أَرْحَمُ الرَّاحِمِينَ",
+        transliteration: "Rabbi inni massaniyad-durru wa anta arhamur-rahimin",
+        transliterationBengali: "রাব্বি ইন্নি মাস্সানিয়াদ্দুর্রু ওয়া আনতা আরহামুর রাহিমীন",
+        bengali: "হে আমার রব আমাকে কষ্ট স্পর্শ করেছে আর আপনি সর্বাধিক দয়ালু",
+        english: "Indeed adversity has touched me and You are the Most Merciful",
+        reference: "সূরা আল-আম্বিয়া ২১:৮৩"
+      },
+      {
+        id: "quran-39",
+        titleBengali: "ইউনুস (আ.) এর দোয়া",
+        titleEnglish: "Dua of Yunus",
+        arabic: "لَا إِلَٰهَ إِلَّا أَنتَ سُبْحَانَكَ إِنِّي كُنتُ مِنَ الظَّالِمِينَ",
+        transliteration: "La ilaha illa anta subhanaka inni kuntu minaz-zalimin",
+        transliterationBengali: "লা ইলাহা ইল্লা আনতা সুবহানাকা ইন্নি কুনতু মিনাজ জালিমীন",
+        bengali: "আপনি ছাড়া কোনো উপাস্য নেই—আমি অবশ্যই জালিম ছিলাম",
+        english: "There is no deity except You; I was indeed among the wrongdoers",
+        reference: "সূরা আল-আম্বিয়া ২১:৮৭"
+      },
+      {
+        id: "quran-40",
+        titleBengali: "মূসা (আ.) এর দোয়া",
+        titleEnglish: "Dua of Musa",
+        arabic: "رَبِّ إِنِّي لِمَا أَنزَلْتَ إِلَيَّ مِنْ خَيْرٍ فَقِيرٌ",
+        transliteration: "Rabbi inni lima anzalta ilayya min khayrin faqir",
+        transliterationBengali: "রাব্বি ইন্নি লিমা আনজালতা ইলাইয়া মিন খাইরিন ফাকীর",
+        bengali: "হে আমার রব আপনি যে কল্যাণ নাজিল করবেন আমি তার মুখাপেক্ষী",
+        english: "My Lord indeed I am in need of whatever good You send down to me",
+        reference: "সূরা আল-কাসাস ২৮:২৪"
       }
     ]
   },
