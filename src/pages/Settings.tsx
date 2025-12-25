@@ -106,13 +106,11 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
               <button
                 onClick={() => onLanguageChange("bn")}
                 className={cn(
-                  "flex items-center justify-center gap-2 rounded-lg border border-border bg-card px-3 py-2.5 transition-colors",
+                  "flex items-center justify-center gap-1.5 rounded-lg border border-border bg-card px-2 py-2.5 transition-colors",
                   language === "bn" ? "border-primary bg-primary/5" : "hover:bg-muted/50"
                 )}
               >
-                <div className="flex h-7 w-7 items-center justify-center rounded-full bg-muted">
-                  <span className="font-bengali text-xs">ব</span>
-                </div>
+                <span className="font-bengali text-sm">ব</span>
                 <p className="font-bengali text-xs font-medium">বাংলা</p>
                 {language === "bn" && (
                   <div className="h-1.5 w-1.5 rounded-full bg-primary" />
@@ -121,13 +119,11 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
               <button
                 onClick={() => onLanguageChange("en")}
                 className={cn(
-                  "flex items-center justify-center gap-2 rounded-lg border border-border bg-card px-3 py-2.5 transition-colors",
+                  "flex items-center justify-center gap-1.5 rounded-lg border border-border bg-card px-2 py-2.5 transition-colors",
                   language === "en" ? "border-primary bg-primary/5" : "hover:bg-muted/50"
                 )}
               >
-                <div className="flex h-7 w-7 items-center justify-center rounded-full bg-muted">
-                  <span className="text-xs font-medium">A</span>
-                </div>
+                <span className="text-sm font-medium">A</span>
                 <p className="text-xs font-medium">English</p>
                 {language === "en" && (
                   <div className="h-1.5 w-1.5 rounded-full bg-primary" />
