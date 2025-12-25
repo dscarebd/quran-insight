@@ -4,15 +4,6 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Anek+Bangla:wght@400;500;600;700&display=swap');
 
-/* Sherly Kitchen Font */
-@font-face {
-  font-family: 'Sherly Kitchen';
-  src: url('/fonts/SherlyKitchen-Regular.ttf') format('truetype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
 @layer base {
   :root {
     --background: 165 25% 97%;

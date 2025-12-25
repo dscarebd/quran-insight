@@ -27,7 +27,7 @@ export const Header = ({ language, onLanguageChange }: HeaderProps) => {
       {/* Mobile: Show logo and app title (logo on left) */}
       <div className="md:hidden flex items-center gap-2">
         <img src={appLogo} alt="Quran Insight" className="h-8 w-8 rounded-lg" />
-        <h1 className="text-xl font-semibold text-primary font-display">Quran Insight</h1>
+        <h1 className="text-xl font-semibold text-primary">Quran Insight</h1>
       </div>
       
       {/* Settings button */}
