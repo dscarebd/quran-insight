@@ -59,12 +59,12 @@ const AppContent = () => {
       } />
       <Route path="/surah/:surahNumber" element={
         <Layout language={language} onLanguageChange={setLanguage}>
-          <SurahDetail language={language} onLanguageChange={setLanguage} readingMode={readingMode} />
+          <SurahDetail language={language} readingMode={readingMode} />
         </Layout>
       } />
       <Route path="/para/:paraNumber" element={
         <Layout language={language} onLanguageChange={setLanguage}>
-          <ParaDetail language={language} onLanguageChange={setLanguage} readingMode={readingMode} />
+          <ParaDetail language={language} readingMode={readingMode} />
         </Layout>
       } />
       <Route path="/read/:pageNumber" element={
@@ -74,7 +74,7 @@ const AppContent = () => {
       } />
       <Route path="/bookmarks" element={
         <Layout language={language} onLanguageChange={setLanguage}>
-          <Bookmarks language={language} onLanguageChange={setLanguage} readingMode={readingMode} />
+          <Bookmarks language={language} readingMode={readingMode} />
         </Layout>
       } />
       <Route path="/dua" element={

@@ -14,7 +14,6 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface SurahDetailProps {
   language: "bn" | "en";
-  onLanguageChange: (lang: "bn" | "en") => void;
   readingMode?: "normal" | "sepia";
 }
 
@@ -98,7 +97,7 @@ const VerseCard = ({ verse, language, index, isBookmarked, onToggleBookmark }: V
 // Cache for storing previously fetched verses
 const versesCache = new Map<number, Verse[]>();
 
-const SurahDetail = ({ language, onLanguageChange, readingMode = "normal" }: SurahDetailProps) => {
+const SurahDetail = ({ language, readingMode = "normal" }: SurahDetailProps) => {
   const { surahNumber } = useParams<{ surahNumber: string }>();
   const navigate = useNavigate();
   const location = useLocation();
@@ -261,50 +260,6 @@ const SurahDetail = ({ language, onLanguageChange, readingMode = "normal" }: Sur
       "min-h-screen islamic-pattern",
       readingMode === "sepia" ? "sepia" : "bg-background"
     )}>
-      {/* Header */}
-      <header className={cn(
-        "sticky top-0 z-50 border-b border-border backdrop-blur supports-[backdrop-filter]:bg-background/60",
-        readingMode === "sepia" ? "bg-[hsl(35,30%,94%)]/95" : "bg-background/95"
-      )}>
-        <div className="mx-auto flex max-w-4xl items-center justify-between px-4 py-3">
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            onClick={handleBack}
-            className="gap-2"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            <span className={language === "bn" ? "font-bengali" : ""}>{language === "bn" ? "ফিরে যান" : "Back"}</span>
-          </Button>
-
-          {/* Language Toggle */}
-          <div className="flex rounded-full bg-secondary p-1">
-            <button
-              onClick={() => onLanguageChange("bn")}
-              className={cn(
-                "rounded-full px-3 py-1.5 text-sm font-medium transition-all",
-                language === "bn"
-                  ? "bg-primary text-primary-foreground"
-                  : "text-muted-foreground hover:text-foreground"
-              )}
-            >
-              <span className="font-bengali">বাংলা</span>
-            </button>
-            <button
-              onClick={() => onLanguageChange("en")}
-              className={cn(
-                "rounded-full px-3 py-1.5 text-sm font-medium transition-all",
-                language === "en"
-                  ? "bg-primary text-primary-foreground"
-                  : "text-muted-foreground hover:text-foreground"
-              )}
-            >
-              English
-            </button>
-          </div>
-        </div>
-      </header>
-
       {/* Surah Info Banner */}
       <div className="border-b border-border bg-gradient-to-br from-primary/5 to-accent/30 py-8">
         <div className="mx-auto max-w-4xl px-4">
