@@ -14,9 +14,9 @@ export const Header = ({ language, onLanguageChange }: HeaderProps) => {
 
   return (
     <header className="flex items-center justify-between border-b border-border bg-card/50 px-4 py-3 backdrop-blur-sm">
-      <div className="flex items-center gap-2">
-        {/* Hide sidebar trigger on mobile */}
-        <SidebarTrigger className="hidden md:flex h-9 w-9 text-muted-foreground hover:bg-accent hover:text-accent-foreground" />
+      {/* Desktop: Show sidebar trigger */}
+      <div className="hidden md:flex items-center gap-2">
+        <SidebarTrigger className="h-9 w-9 text-muted-foreground hover:bg-accent hover:text-accent-foreground" />
       </div>
       
       {/* Show language toggle only on desktop */}
