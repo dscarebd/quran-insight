@@ -3978,6 +3978,8 @@ export const duaCategories: DuaCategory[] = [
         titleBengali: "রোগ সুস্থতার দোয়া",
         titleEnglish: "For Complete Healing",
         arabic: "اللَّهُمَّ رَبَّ النَّاسِ، أَذْهِبِ الْبَأْسَ، اشْفِ أَنْتَ الشَّافِي، لاَ شِفَاءَ إِلاَّ شِفَاؤُكَ، شِفَاءً لاَ يُغَادِرُ سَقَمًا",
+        transliteration: "Allahumma Rabban-nas, adhibil-ba's, ishfi antash-shafi, la shifa'a illa shifa'uk, shifa'an la yughadiru saqama",
+        transliterationBengali: "আল্লাহুম্মা রাব্বান নাস, আযহিবিল বা'স, ইশফি আনতাশ শাফী, লা শিফা'আ ইল্লা শিফা'উক, শিফা'আন লা ইউগাদিরু সাক্বামা",
         bengali: "হে আল্লাহ! মানুষের রব! কষ্ট দূর কর, সুস্থতা দান কর। তুমিই সুস্থতা দানকারী। তোমার সুস্থতা ছাড়া কোন সুস্থতা নেই। এমন সুস্থতা দাও যা কোন রোগ রেখে যায় না।",
         english: "O Allah, Lord of mankind, remove the hardship. Cure, for You are the Healer. There is no cure except Your cure, a cure that leaves no illness.",
         reference: "সহীহ বুখারী, হাদিস নং ৫৬৭৫; সহীহ মুসলিম, হাদিস নং ২১৯১"
@@ -3987,6 +3989,8 @@ export const duaCategories: DuaCategory[] = [
         titleBengali: "অসুস্থ ব্যক্তির জন্য দোয়া",
         titleEnglish: "For the Sick Person",
         arabic: "أَسْأَلُ اللهَ الْعَظِيمَ رَبَّ الْعَرْشِ الْعَظِيمِ أَنْ يَشْفِيَكَ",
+        transliteration: "As'alullaha-l'Azima Rabbal-'Arshil-'Azimi an yashfiyak",
+        transliterationBengali: "আসআলুল্লাহাল 'আযীমা রাব্বাল 'আরশিল 'আযীমি আন ইয়াশফিয়াক",
         bengali: "আমি মহান আল্লাহর কাছে প্রার্থনা করি, যিনি মহান আরশের রব, তিনি যেন তোমাকে সুস্থ করে দেন। (৭ বার পড়ুন)",
         english: "I ask Allah, the Mighty, the Lord of the Mighty Throne, to cure you. (Recite 7 times)",
         reference: "আবু দাউদ, হাদিস নং ৩১০৬; তিরমিযী, হাদিস নং ২০৮৩"
@@ -3996,6 +4000,8 @@ export const duaCategories: DuaCategory[] = [
         titleBengali: "ঝাড়ফুঁকের দোয়া (রুকইয়াহ)",
         titleEnglish: "Ruqyah for Healing",
         arabic: "بِسْمِ اللهِ أَرْقِيكَ، مِنْ كُلِّ شَيْءٍ يُؤْذِيكَ، مِنْ شَرِّ كُلِّ نَفْسٍ أَوْ عَيْنِ حَاسِدٍ، اللهُ يَشْفِيكَ، بِسْمِ اللهِ أَرْقِيكَ",
+        transliteration: "Bismillahi arqik, min kulli shay'in yu'dhik, min sharri kulli nafsin aw 'ayni hasid, Allahu yashfik, bismillahi arqik",
+        transliterationBengali: "বিসমিল্লাহি আরক্বীক, মিন কুল্লি শাইইন ইউ'যীক, মিন শাররি কুল্লি নাফসিন আও 'আইনি হাসিদ, আল্লাহু ইয়াশফীক, বিসমিল্লাহি আরক্বীক",
         bengali: "আল্লাহর নামে তোমাকে ঝাড়ফুঁক করছি, প্রতিটি কষ্টদায়ক বিষয় থেকে, প্রতিটি হিংসুক আত্মা বা বদনজর থেকে। আল্লাহ তোমাকে সুস্থ করুন, আল্লাহর নামে তোমাকে ঝাড়ফুঁক করছি।",
         english: "In the name of Allah I perform ruqyah for you, from everything that is harming you, from the evil of every soul or envious eye. May Allah cure you, in the name of Allah I perform ruqyah for you.",
         reference: "সহীহ মুসলিম, হাদিস নং ২১৮৬"
@@ -4005,6 +4011,8 @@ export const duaCategories: DuaCategory[] = [
         titleBengali: "শরীর-কান-চোখের সুস্থতা",
         titleEnglish: "Health of Body, Hearing & Sight",
         arabic: "اللَّهُمَّ عَافِنِي فِي بَدَنِي، اللَّهُمَّ عَافِنِي فِي سَمْعِي، اللَّهُمَّ عَافِنِي فِي بَصَرِي",
+        transliteration: "Allahumma 'afini fi badani, Allahumma 'afini fi sam'i, Allahumma 'afini fi basari",
+        transliterationBengali: "আল্লাহুম্মা 'আফিনী ফী বাদানী, আল্লাহুম্মা 'আফিনী ফী সাম'ঈ, আল্লাহুম্মা 'আফিনী ফী বাসারী",
         bengali: "হে আল্লাহ! আমার শরীরে সুস্থতা দাও। হে আল্লাহ! আমার শ্রবণশক্তিতে সুস্থতা দাও। হে আল্লাহ! আমার দৃষ্টিশক্তিতে সুস্থতা দাও।",
         english: "O Allah, grant me health in my body. O Allah, grant me health in my hearing. O Allah, grant me health in my sight.",
         reference: "আবু দাউদ, হাদিস নং ৫০৯০"
@@ -4014,6 +4022,8 @@ export const duaCategories: DuaCategory[] = [
         titleBengali: "ব্যথা থেকে আশ্রয়",
         titleEnglish: "Relief from Pain",
         arabic: "أَعُوذُ بِعِزَّةِ اللهِ وَقُدْرَتِهِ مِنْ شَرِّ مَا أَجِدُ وَأُحَاذِرُ",
+        transliteration: "A'udhu bi'izzatillahi wa qudratihi min sharri ma ajidu wa uhadhir",
+        transliterationBengali: "আ'ঊযু বি'ইযযাতিল্লাহি ওয়া কুদরাতিহী মিন শাররি মা আজিদু ওয়া উহাযির",
         bengali: "আমি আল্লাহর ইজ্জত ও কুদরতের আশ্রয় নিচ্ছি আমার অনুভূত ও আশঙ্কিত অনিষ্ট থেকে। (৭ বার পড়ুন)",
         english: "I seek refuge in the might of Allah and His power from the evil of what I feel and fear. (Recite 7 times)",
         reference: "সহীহ মুসলিম, হাদিস নং ২২০২"
@@ -4023,6 +4033,8 @@ export const duaCategories: DuaCategory[] = [
         titleBengali: "দুনিয়া-আখিরাতে সুস্থতা",
         titleEnglish: "Well-being in Both Worlds",
         arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَافِيَةَ فِي الدُّنْيَا وَالآخِرَةِ",
+        transliteration: "Allahumma inni as'alukal-'afiyata fid-dunya wal-akhirah",
+        transliterationBengali: "আল্লাহুম্মা ইন্নী আসআলুকাল 'আফিয়াতা ফিদ দুনইয়া ওয়াল আখিরাহ",
         bengali: "হে আল্লাহ! আমি তোমার কাছে দুনিয়া ও আখিরাতে সুস্থতা প্রার্থনা করি।",
         english: "O Allah, I ask You for well-being in this world and the Hereafter.",
         reference: "ইবনে মাজাহ, হাদিস নং ৩৮৭১"
@@ -4032,6 +4044,8 @@ export const duaCategories: DuaCategory[] = [
         titleBengali: "অসুস্থকে দেখতে যাওয়ার দোয়া",
         titleEnglish: "When Visiting the Sick",
         arabic: "لاَ بَأْسَ طَهُورٌ إِنْ شَاءَ اللهُ",
+        transliteration: "La ba'sa tahurun in sha Allah",
+        transliterationBengali: "লা বা'সা তাহূরুন ইন শা আল্লাহ",
         bengali: "ভয় নেই, ইনশাআল্লাহ এটি পবিত্রতা (গুনাহ মাফের মাধ্যম)।",
         english: "No harm, it is a purification (from sins) if Allah wills.",
         reference: "সহীহ বুখারী, হাদিস নং ৩৬১৬"
@@ -4041,6 +4055,8 @@ export const duaCategories: DuaCategory[] = [
         titleBengali: "সম্পূর্ণ সুস্থতার দোয়া",
         titleEnglish: "For Complete Recovery",
         arabic: "اللَّهُمَّ اشْفِهِ، اللَّهُمَّ عَافِهِ",
+        transliteration: "Allahumma-shfihi, Allahumma 'afihi",
+        transliterationBengali: "আল্লাহুম্মাশফিহি, আল্লাহুম্মা 'আফিহি",
         bengali: "হে আল্লাহ! তাকে সুস্থ কর। হে আল্লাহ! তাকে সুস্থতা দান কর।",
         english: "O Allah, cure him. O Allah, grant him well-being.",
         reference: "মুসনাদ আহমাদ, হাদিস নং ১৫৪৬৮"
@@ -4050,6 +4066,8 @@ export const duaCategories: DuaCategory[] = [
         titleBengali: "ব্যথা দূর করার দোয়া",
         titleEnglish: "For Removing Pain",
         arabic: "بِسْمِ اللهِ ثَلاَثًا، وَقُلْ سَبْعَ مَرَّاتٍ: أَعُوذُ بِاللهِ وَقُدْرَتِهِ مِنْ شَرِّ مَا أَجِدُ وَأُحَاذِرُ",
+        transliteration: "Bismillahi thalathan, wa qul sab'a marratin: A'udhu billahi wa qudratihi min sharri ma ajidu wa uhadhir",
+        transliterationBengali: "বিসমিল্লাহি সালাসান, ওয়া কুল সাব'আ মাররাতিন: আ'ঊযু বিল্লাহি ওয়া কুদরাতিহী মিন শাররি মা আজিদু ওয়া উহাযির",
         bengali: "আল্লাহর নামে (৩ বার)। তারপর বলুন (৭ বার): আমি আল্লাহ ও তাঁর কুদরতের আশ্রয় নিচ্ছি আমার অনুভূত ও আশঙ্কিত ক্ষতি থেকে।",
         english: "In the name of Allah (3 times). Then say (7 times): I seek refuge in Allah and His power from the evil of what I feel and fear.",
         reference: "সহীহ মুসলিম, হাদিস নং ২২০২"
@@ -4059,6 +4077,8 @@ export const duaCategories: DuaCategory[] = [
         titleBengali: "মানসিক স্বাস্থ্যের দোয়া",
         titleEnglish: "For Mental Health",
         arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْبَرَصِ، وَالْجُنُونِ، وَالْجُذَامِ، وَمِنْ سَيِّئِ الْأَسْقَامِ",
+        transliteration: "Allahumma inni a'udhu bika minal-barasi, wal-jununi, wal-judhami, wa min sayyi'il-asqam",
+        transliterationBengali: "আল্লাহুম্মা ইন্নী আ'ঊযু বিকা মিনাল বারাসি, ওয়াল জুনূনি, ওয়াল জুযামি, ওয়া মিন সাইয়্যি'ইল আসক্বাম",
         bengali: "হে আল্লাহ! আমি তোমার কাছে আশ্রয় চাই শ্বেতী, উন্মাদনা, কুষ্ঠ এবং মন্দ রোগসমূহ থেকে।",
         english: "O Allah, I seek refuge in You from vitiligo, madness, leprosy, and from evil diseases.",
         reference: "আবু দাউদ, হাদিস নং ১৫৫৪"
