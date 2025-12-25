@@ -4,39 +4,6 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Anek+Bangla:wght@400;500;600;700&display=swap');
 
-/* Lemon Milk Font */
-@font-face {
-  font-family: 'Lemon Milk';
-  src: url('/fonts/LEMONMILK-Light.otf') format('opentype');
-  font-weight: 100;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Lemon Milk';
-  src: url('/fonts/LEMONMILK-Regular.otf') format('opentype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Lemon Milk';
-  src: url('/fonts/LEMONMILK-Medium.otf') format('opentype');
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Lemon Milk';
-  src: url('/fonts/LEMONMILK-Bold.otf') format('opentype');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
 @layer base {
   :root {
     --background: 165 25% 97%;
