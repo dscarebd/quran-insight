@@ -36,8 +36,8 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
 
     if (clickCountRef.current >= 7) {
       clickCountRef.current = 0;
-      toast.success(language === "bn" ? "অ্যাডমিন প্যানেলে যাচ্ছি…" : "Opening admin panel…");
-      navigate("/admin");
+      toast.success(language === "bn" ? "অ্যাডমিন লগইনে যাচ্ছি…" : "Opening admin login…");
+      navigate("/auth");
     }
   };
 
