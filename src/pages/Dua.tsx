@@ -35,15 +35,47 @@ const Dua = ({ language, arabicFont = "amiri" }: DuaProps) => {
   const [activeTab, setActiveTab] = useState<"all" | "favorites">("all");
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
-  // Filter categories based on search
+  // Check if a dua matches the search query
+  const duaMatchesSearch = (dua: DuaType, query: string): boolean => {
+    const lowerQuery = query.toLowerCase();
+    return (
+      // Search in titles
+      (dua.titleBengali?.includes(query) || false) ||
+      (dua.titleEnglish?.toLowerCase().includes(lowerQuery) || false) ||
+      // Search in Arabic text
+      dua.arabic.includes(query) ||
+      // Search in translations
+      dua.bengali.includes(query) ||
+      dua.english.toLowerCase().includes(lowerQuery) ||
+      // Search in transliterations
+      (dua.transliteration?.toLowerCase().includes(lowerQuery) || false) ||
+      (dua.transliterationBengali?.includes(query) || false) ||
+      // Search in reference
+      (dua.reference?.includes(query) || false)
+    );
+  };
+
+  // Get search results - matching duas from all categories
+  const searchResults = searchQuery.trim() ? duaCategories.flatMap(category => 
+    category.duas
+      .filter(dua => duaMatchesSearch(dua, searchQuery.trim()))
+      .map(dua => ({ dua, category }))
+  ).slice(0, 50) : []; // Limit to 50 results for performance
+
+  // Filter categories based on search (for category grid view when no specific dua matches)
   const filteredCategories = duaCategories.filter(category => {
     const query = searchQuery.toLowerCase().trim();
     if (!query) return true;
+    // Show category if name matches OR if any dua in it matches
     return (
       category.nameEnglish.toLowerCase().includes(query) ||
-      category.nameBengali.includes(query)
+      category.nameBengali.includes(query) ||
+      category.duas.some(dua => duaMatchesSearch(dua, searchQuery.trim()))
     );
   });
+
+  // Determine if we should show search results or categories
+  const showSearchResults = searchQuery.trim().length >= 2 && searchResults.length > 0;
 
   // Get favorite duas with their category info
   const favoriteDuas = bookmarks.map(bookmark => {
@@ -199,37 +231,107 @@ const Dua = ({ language, arabicFont = "amiri" }: DuaProps) => {
               </div>
             </div>
 
-            {/* Categories Grid */}
-            <div className="p-4 pb-4">
-              <div className="grid grid-cols-2 gap-3">
-                {filteredCategories.map((category, index) => (
-                  <button
-                    key={category.id}
-                    onClick={() => handleCategoryClick(category)}
-                    className="flex flex-col items-center gap-2 rounded-xl border border-border bg-card p-4 transition-all hover:bg-accent hover:border-primary/30 animate-fade-in"
-                    style={{ animationDelay: `${index * 0.03}s` }}
-                  >
-                    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
-                      <DynamicIcon name={category.icon} className="h-6 w-6 text-primary" />
-                    </div>
-                    <div className="text-center">
-                      <p className={cn(
-                        "text-sm font-medium line-clamp-2",
-                        language === "bn" && "font-bengali"
-                      )}>
-                        {language === "bn" ? category.nameBengali : category.nameEnglish}
-                      </p>
-                      <p className={cn(
-                        "text-xs text-muted-foreground mt-0.5",
-                        language === "bn" && "font-bengali"
-                      )}>
-                        {formatNumber(category.duas.length, language)} {language === "bn" ? "দোয়া" : "duas"}
-                      </p>
-                    </div>
-                  </button>
-                ))}
+            {/* Search Results */}
+            {showSearchResults ? (
+              <div className="p-4 pb-4">
+                <p className={cn("text-sm text-muted-foreground mb-3", language === "bn" && "font-bengali")}>
+                  {language === "bn" 
+                    ? `${formatNumber(searchResults.length, language)}টি দোয়া পাওয়া গেছে` 
+                    : `Found ${searchResults.length} duas`}
+                </p>
+                <div className="space-y-3">
+                  {searchResults.map(({ dua, category }) => (
+                    <button
+                      key={`${category.id}-${dua.id}`}
+                      onClick={() => {
+                        setSelectedCategory(category);
+                        setSelectedDua(dua);
+                      }}
+                      className="flex items-start gap-3 w-full p-4 rounded-xl border border-border bg-card transition-all hover:bg-accent text-left"
+                    >
+                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10">
+                        <DynamicIcon name={category.icon} className="h-5 w-5 text-primary" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        {/* Dua Title */}
+                        {(dua.titleBengali || dua.titleEnglish) && (
+                          <p className={cn(
+                            "text-sm font-medium text-foreground mb-1",
+                            language === "bn" && "font-bengali"
+                          )}>
+                            {language === "bn" ? dua.titleBengali : dua.titleEnglish}
+                          </p>
+                        )}
+                        <p className={cn("text-base text-foreground line-clamp-1 text-right", arabicFont === "uthmani" ? "font-uthmani" : "font-arabic")} dir="rtl">
+                          {dua.arabic.length > 50 ? `${dua.arabic.substring(0, 50)}...` : dua.arabic}
+                        </p>
+                        <p className={cn(
+                          "text-xs text-muted-foreground mt-1",
+                          language === "bn" && "font-bengali"
+                        )}>
+                          {language === "bn" ? category.nameBengali : category.nameEnglish}
+                        </p>
+                      </div>
+                      <button
+                        onClick={(e) => handleFavoriteClick(e, category.id, dua.id)}
+                        className="shrink-0 p-2 rounded-full hover:bg-accent"
+                      >
+                        <Heart 
+                          className={cn(
+                            "h-5 w-5 transition-colors",
+                            isBookmarked(category.id, dua.id) 
+                              ? "text-red-500 fill-red-500" 
+                              : "text-muted-foreground"
+                          )} 
+                        />
+                      </button>
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
+            ) : searchQuery.trim().length >= 2 && searchResults.length === 0 ? (
+              <div className="flex flex-col items-center justify-center py-12 text-center">
+                <Search className="h-12 w-12 text-muted-foreground/50 mb-4" />
+                <p className={cn("text-muted-foreground", language === "bn" && "font-bengali")}>
+                  {language === "bn" ? "কোন দোয়া পাওয়া যায়নি" : "No duas found"}
+                </p>
+                <p className={cn("text-sm text-muted-foreground/70 mt-1", language === "bn" && "font-bengali")}>
+                  {language === "bn" ? "অন্য শব্দ দিয়ে খুঁজুন" : "Try a different search term"}
+                </p>
+              </div>
+            ) : (
+              /* Categories Grid */
+              <div className="p-4 pb-4">
+                <div className="grid grid-cols-2 gap-3">
+                  {filteredCategories.map((category, index) => (
+                    <button
+                      key={category.id}
+                      onClick={() => handleCategoryClick(category)}
+                      className="flex flex-col items-center gap-2 rounded-xl border border-border bg-card p-4 transition-all hover:bg-accent hover:border-primary/30 animate-fade-in"
+                      style={{ animationDelay: `${index * 0.03}s` }}
+                    >
+                      <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
+                        <DynamicIcon name={category.icon} className="h-6 w-6 text-primary" />
+                      </div>
+                      <div className="text-center">
+                        <p className={cn(
+                          "text-sm font-medium line-clamp-2",
+                          language === "bn" && "font-bengali"
+                        )}>
+                          {language === "bn" ? category.nameBengali : category.nameEnglish}
+                        </p>
+                        <p className={cn(
+                          "text-xs text-muted-foreground mt-0.5",
+                          language === "bn" && "font-bengali"
+                        )}>
+                          {formatNumber(category.duas.length, language)} {language === "bn" ? "দোয়া" : "duas"}
+                        </p>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
           </TabsContent>
 
           <TabsContent value="favorites" className="mt-0">
