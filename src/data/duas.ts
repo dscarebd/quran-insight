@@ -8246,6 +8246,366 @@ export const duaCategories: DuaCategory[] = [
         bengali: "হে আল্লাহ! আমাকে তোমার পথে শাহাদাত দান কর এবং আমার মৃত্যু তোমার রাসূলের শহরে হতে দাও।",
         english: "O Allah, grant me martyrdom in Your path and let my death be in the city of Your Messenger.",
         reference: "সহীহ বুখারী, হাদিস নং ১৮৯০"
+      },
+      {
+        id: "death-11",
+        titleBengali: "মৃত্যুপথযাত্রীর কাছে পড়ার দোয়া",
+        titleEnglish: "To Recite Near Dying Person",
+        arabic: "لاَ إِلَهَ إِلاَّ اللَّهُ",
+        bengali: "আল্লাহ ছাড়া কোন ইলাহ নেই। (মৃত্যুপথযাত্রীকে স্মরণ করান)",
+        english: "There is no deity except Allah. (Remind the dying person)",
+        reference: "সহীহ মুসলিম"
+      },
+      {
+        id: "death-12",
+        titleBengali: "মৃত্যুর পর পড়ার দোয়া",
+        titleEnglish: "Upon Hearing of Death",
+        arabic: "إِنَّا لِلَّهِ وَإِنَّا إِلَيْهِ رَاجِعُونَ",
+        bengali: "নিশ্চয়ই আমরা আল্লাহর জন্য এবং তাঁর কাছেই আমাদের ফিরে যেতে হবে।",
+        english: "Indeed we belong to Allah and to Him we shall return.",
+        reference: "সূরা বাকারা ২:১৫৬"
+      },
+      {
+        id: "death-13",
+        titleBengali: "মৃত ব্যক্তির গুনাহ মাফের দোয়া",
+        titleEnglish: "For Forgiveness of Deceased's Sins",
+        arabic: "اللَّهُمَّ اغْفِرْ لَهُ ذُنُوبَهُ كُلَّهَا",
+        bengali: "হে আল্লাহ! তার সমস্ত গুনাহ ক্ষমা কর।",
+        english: "O Allah, forgive all of his sins.",
+        reference: "দোয়া সংকলন"
+      },
+      {
+        id: "death-14",
+        titleBengali: "মৃতকে পবিত্র করার দোয়া",
+        titleEnglish: "For Purifying the Deceased",
+        arabic: "اللَّهُمَّ نَقِّهِ مِنَ الْخَطَايَا كَمَا يُنَقَّى الثَّوْبُ الأَبْيَضُ مِنَ الدَّنَسِ",
+        bengali: "হে আল্লাহ! তাকে গুনাহ থেকে এমনভাবে পবিত্র কর যেমন সাদা কাপড় ময়লা থেকে পরিষ্কার করা হয়।",
+        english: "O Allah, purify him from sins as a white cloth is purified from dirt.",
+        reference: "সহীহ মুসলিম"
+      },
+      {
+        id: "death-15",
+        titleBengali: "মৃতের জন্য বরফ-পানি দিয়ে ধোয়ার দোয়া",
+        titleEnglish: "For Washing with Cold Water",
+        arabic: "اللَّهُمَّ اغْسِلْهُ بِمَاءٍ وَثَلْجٍ وَبَرَدٍ",
+        bengali: "হে আল্লাহ! তাকে পানি, বরফ ও শিশির দিয়ে ধৌত কর।",
+        english: "O Allah, wash him with water, snow, and hail.",
+        reference: "সহীহ মুসলিম"
+      },
+      {
+        id: "death-16",
+        titleBengali: "মৃতের আতিথেয়তার দোয়া",
+        titleEnglish: "For Honoring the Deceased",
+        arabic: "اللَّهُمَّ أَكْرِمْ نُزُلَهُ",
+        bengali: "হে আল্লাহ! তার আতিথেয়তা সম্মানজনক কর।",
+        english: "O Allah, honor his reception.",
+        reference: "সহীহ মুসলিম"
+      },
+      {
+        id: "death-17",
+        titleBengali: "মৃতের প্রবেশস্থান প্রশস্ত করার দোয়া",
+        titleEnglish: "For Widening Entrance",
+        arabic: "اللَّهُمَّ وَسِّعْ مُدْخَلَهُ",
+        bengali: "হে আল্লাহ! তার প্রবেশস্থান প্রশস্ত কর।",
+        english: "O Allah, make his entrance spacious.",
+        reference: "সহীহ মুসলিম"
+      },
+      {
+        id: "death-18",
+        titleBengali: "মৃতকে উত্তম বিনিময় দেওয়ার দোয়া",
+        titleEnglish: "For Better Replacement",
+        arabic: "اللَّهُمَّ أَبْدِلْهُ دَارًا خَيْرًا مِنْ دَارِهِ",
+        bengali: "হে আল্লাহ! তার ঘরের বদলে তাকে উত্তম ঘর দাও।",
+        english: "O Allah, replace his home with a better home.",
+        reference: "সহীহ মুসলিম"
+      },
+      {
+        id: "death-19",
+        titleBengali: "মৃতের পরিবারের জন্য দোয়া",
+        titleEnglish: "For Deceased's Family",
+        arabic: "اللَّهُمَّ اخْلُفْهُ فِي عَقِبِهِ فِي الْغَابِرِينَ",
+        bengali: "হে আল্লাহ! তার পরিবারে যারা রয়ে গেল তাদের জন্য তার উত্তরসূরি হও।",
+        english: "O Allah, be a successor to those he left behind.",
+        reference: "সহীহ মুসলিম"
+      },
+      {
+        id: "death-20",
+        titleBengali: "জানাজার নামাজের দোয়া",
+        titleEnglish: "Funeral Prayer Dua",
+        arabic: "اللَّهُمَّ اغْفِرْ لِحَيِّنَا وَمَيِّتِنَا",
+        bengali: "হে আল্লাহ! আমাদের জীবিত ও মৃতদের ক্ষমা কর।",
+        english: "O Allah, forgive our living and our dead.",
+        reference: "সুনান আবু দাউদ"
+      },
+      {
+        id: "death-21",
+        titleBengali: "শিশুর জানাজার দোয়া",
+        titleEnglish: "Funeral Prayer for Child",
+        arabic: "اللَّهُمَّ اجْعَلْهُ فَرَطًا لِأَبَوَيْهِ وَسَلَفًا وَذُخْرًا",
+        bengali: "হে আল্লাহ! তাকে তার পিতা-মাতার জন্য অগ্রগামী, পূর্বসূরি ও সঞ্চয় বানাও।",
+        english: "O Allah, make him a forerunner, a predecessor, and a treasure for his parents.",
+        reference: "সুনান ইবনে মাজাহ"
+      },
+      {
+        id: "death-22",
+        titleBengali: "শিশুকে শাফায়াতকারী বানানোর দোয়া",
+        titleEnglish: "For Child's Intercession",
+        arabic: "اللَّهُمَّ اجْعَلْهُ شَفِيعًا لِأَبَوَيْهِ",
+        bengali: "হে আল্লাহ! তাকে তার পিতা-মাতার জন্য সুপারিশকারী বানাও।",
+        english: "O Allah, make him an intercessor for his parents.",
+        reference: "সুনান ইবনে মাজাহ"
+      },
+      {
+        id: "death-23",
+        titleBengali: "কবরে রাখার সময় দোয়া",
+        titleEnglish: "When Placing in Grave",
+        arabic: "بِسْمِ اللَّهِ وَعَلَى مِلَّةِ رَسُولِ اللَّهِ",
+        bengali: "আল্লাহর নামে এবং আল্লাহর রাসূলের দ্বীনের উপর।",
+        english: "In the name of Allah and upon the religion of the Messenger of Allah.",
+        reference: "সুনান আবু দাউদ"
+      },
+      {
+        id: "death-24",
+        titleBengali: "কবরে মাটি দেওয়ার দোয়া",
+        titleEnglish: "When Putting Soil",
+        arabic: "مِنْهَا خَلَقْنَاكُمْ وَفِيهَا نُعِيدُكُمْ وَمِنْهَا نُخْرِجُكُمْ تَارَةً أُخْرَى",
+        bengali: "এ থেকেই আমরা তোমাদের সৃষ্টি করেছি, এতেই তোমাদের ফিরিয়ে দেব এবং এ থেকেই তোমাদের পুনরায় বের করব।",
+        english: "From it We created you, and into it We will return you, and from it We will extract you another time.",
+        reference: "সূরা ত্বহা ২০:৫৫"
+      },
+      {
+        id: "death-25",
+        titleBengali: "কবর জিয়ারতের দোয়া",
+        titleEnglish: "Dua for Visiting Grave",
+        arabic: "السَّلاَمُ عَلَيْكُمْ أَهْلَ الدِّيَارِ مِنَ الْمُؤْمِنِينَ وَالْمُسْلِمِينَ",
+        bengali: "শান্তি বর্ষিত হোক তোমাদের উপর, হে মুমিন ও মুসলিমদের আবাসের অধিবাসীগণ।",
+        english: "Peace be upon you, O inhabitants of the graves from among the believers and Muslims.",
+        reference: "সহীহ মুসলিম"
+      },
+      {
+        id: "death-26",
+        titleBengali: "কবরবাসীদের জন্য মাগফিরাত",
+        titleEnglish: "Forgiveness for Grave Dwellers",
+        arabic: "نَسْأَلُ اللَّهَ لَنَا وَلَكُمُ الْعَافِيَةَ",
+        bengali: "আমরা আল্লাহর কাছে আমাদের এবং তোমাদের জন্য ক্ষমা চাই।",
+        english: "We ask Allah for well-being for us and for you.",
+        reference: "সহীহ মুসলিম"
+      },
+      {
+        id: "death-27",
+        titleBengali: "কবরবাসীদের সাথে মিলিত হওয়ার দোয়া",
+        titleEnglish: "For Joining Grave Dwellers",
+        arabic: "وَإِنَّا إِنْ شَاءَ اللَّهُ بِكُمْ لاَحِقُونَ",
+        bengali: "ইনশাআল্লাহ আমরা তোমাদের সাথে মিলিত হব।",
+        english: "Indeed, if Allah wills, we will join you.",
+        reference: "সহীহ মুসলিম"
+      },
+      {
+        id: "death-28",
+        titleBengali: "মৃতের মর্যাদা বৃদ্ধির দোয়া",
+        titleEnglish: "For Raising Deceased's Rank",
+        arabic: "اللَّهُمَّ ارْفَعْ دَرَجَتَهُ فِي الْمَهْدِيِّينَ",
+        bengali: "হে আল্লাহ! হিদায়াতপ্রাপ্তদের মধ্যে তার মর্যাদা বৃদ্ধি কর।",
+        english: "O Allah, raise his rank among the rightly guided.",
+        reference: "সহীহ মুসলিম"
+      },
+      {
+        id: "death-29",
+        titleBengali: "মৃতের জাহান্নাম থেকে রক্ষার দোয়া",
+        titleEnglish: "Protecting Deceased from Hell",
+        arabic: "اللَّهُمَّ أَعِذْهُ مِنْ عَذَابِ النَّارِ",
+        bengali: "হে আল্লাহ! তাকে জাহান্নামের আযাব থেকে রক্ষা কর।",
+        english: "O Allah, protect him from the punishment of the Fire.",
+        reference: "সহীহ মুসলিম"
+      },
+      {
+        id: "death-30",
+        titleBengali: "মৃতের কবরের আযাব থেকে রক্ষার দোয়া",
+        titleEnglish: "Protecting from Grave Punishment",
+        arabic: "اللَّهُمَّ قِهِ عَذَابَ الْقَبْرِ",
+        bengali: "হে আল্লাহ! তাকে কবরের আযাব থেকে রক্ষা কর।",
+        english: "O Allah, protect him from the punishment of the grave.",
+        reference: "সুনান আবু দাউদ"
+      },
+      {
+        id: "death-31",
+        titleBengali: "মৃতের জান্নাতে প্রবেশের দোয়া",
+        titleEnglish: "For Deceased's Entry to Paradise",
+        arabic: "اللَّهُمَّ أَدْخِلْهُ الْجَنَّةَ",
+        bengali: "হে আল্লাহ! তাকে জান্নাতে প্রবেশ করাও।",
+        english: "O Allah, admit him to Paradise.",
+        reference: "সহীহ মুসলিম"
+      },
+      {
+        id: "death-32",
+        titleBengali: "মৃতের জন্য রহমত চাওয়া",
+        titleEnglish: "Seeking Mercy for Deceased",
+        arabic: "اللَّهُمَّ ارْحَمْهُ بِرَحْمَتِكَ الْوَاسِعَةِ",
+        bengali: "হে আল্লাহ! তোমার প্রশস্ত রহমত দিয়ে তাকে রহম কর।",
+        english: "O Allah, have mercy on him with Your vast mercy.",
+        reference: "দোয়া সংকলন"
+      },
+      {
+        id: "death-33",
+        titleBengali: "মৃতের ঈমান ও আমল কবুলের দোয়া",
+        titleEnglish: "For Accepting Deceased's Faith",
+        arabic: "اللَّهُمَّ تَقَبَّلْ إِيمَانَهُ وَعَمَلَهُ",
+        bengali: "হে আল্লাহ! তার ঈমান ও আমল কবুল কর।",
+        english: "O Allah, accept his faith and deeds.",
+        reference: "দোয়া সংকলন"
+      },
+      {
+        id: "death-34",
+        titleBengali: "মৃতের সুন্দর পরিণতির দোয়া",
+        titleEnglish: "For Deceased's Good End",
+        arabic: "اللَّهُمَّ اخْتِمْ لَهُ بِخَيْرٍ",
+        bengali: "হে আল্লাহ! তার পরিণতি ভালো কর।",
+        english: "O Allah, make his end good.",
+        reference: "দোয়া সংকলন"
+      },
+      {
+        id: "death-35",
+        titleBengali: "মৃতের নূরের দোয়া",
+        titleEnglish: "For Light in Deceased's Grave",
+        arabic: "اللَّهُمَّ نَوِّرْ لَهُ قَبْرَهُ",
+        bengali: "হে আল্লাহ! তার কবরকে আলোকিত কর।",
+        english: "O Allah, illuminate his grave.",
+        reference: "দোয়া সংকলন"
+      },
+      {
+        id: "death-36",
+        titleBengali: "মৃতের সাথে সাক্ষাতের দোয়া",
+        titleEnglish: "For Meeting Deceased in Paradise",
+        arabic: "اللَّهُمَّ اجْمَعْنَا بِهِ فِي جَنَّاتِ النَّعِيمِ",
+        bengali: "হে আল্লাহ! আমাদের তার সাথে জান্নাতুন নাঈমে একত্রিত কর।",
+        english: "O Allah, unite us with him in the Gardens of Bliss.",
+        reference: "দোয়া সংকলন"
+      },
+      {
+        id: "death-37",
+        titleBengali: "মৃতের হিসাব সহজ করার দোয়া",
+        titleEnglish: "For Easy Reckoning of Deceased",
+        arabic: "اللَّهُمَّ حَاسِبْهُ حِسَابًا يَسِيرًا",
+        bengali: "হে আল্লাহ! তার হিসাব সহজ কর।",
+        english: "O Allah, make his reckoning easy.",
+        reference: "মুসনাদ আহমাদ"
+      },
+      {
+        id: "death-38",
+        titleBengali: "মৃতের প্রশ্নে সঠিক উত্তরের দোয়া",
+        titleEnglish: "For Answering Grave Questions",
+        arabic: "اللَّهُمَّ ثَبِّتْهُ عِنْدَ سُؤَالِ الْمَلَكَيْنِ",
+        bengali: "হে আল্লাহ! দুই ফেরেশতার প্রশ্নের সময় তাকে স্থির রাখ।",
+        english: "O Allah, keep him steadfast when the two angels question him.",
+        reference: "দোয়া সংকলন"
+      },
+      {
+        id: "death-39",
+        titleBengali: "মৃত মহিলার জন্য দোয়া",
+        titleEnglish: "For Deceased Woman",
+        arabic: "اللَّهُمَّ اغْفِرْ لَهَا وَارْحَمْهَا",
+        bengali: "হে আল্লাহ! তাকে ক্ষমা কর ও রহম কর।",
+        english: "O Allah, forgive her and have mercy on her.",
+        reference: "সহীহ মুসলিম"
+      },
+      {
+        id: "death-40",
+        titleBengali: "মৃত পিতার জন্য দোয়া",
+        titleEnglish: "For Deceased Father",
+        arabic: "رَبِّ اغْفِرْ لِي وَلِوَالِدَيَّ",
+        bengali: "হে আমার রব! আমাকে ও আমার পিতা-মাতাকে ক্ষমা কর।",
+        english: "My Lord, forgive me and my parents.",
+        reference: "সূরা ইবরাহীম ১৪:৪১"
+      },
+      {
+        id: "death-41",
+        titleBengali: "মৃত মাতার জন্য দোয়া",
+        titleEnglish: "For Deceased Mother",
+        arabic: "رَبِّ ارْحَمْهُمَا كَمَا رَبَّيَانِي صَغِيرًا",
+        bengali: "হে আমার রব! তাদের প্রতি রহম কর যেমন তারা আমাকে ছোটবেলায় লালন-পালন করেছেন।",
+        english: "My Lord, have mercy upon them as they brought me up when I was small.",
+        reference: "সূরা ইসরা ১৭:২৪"
+      },
+      {
+        id: "death-42",
+        titleBengali: "মৃত স্ত্রীর জন্য দোয়া",
+        titleEnglish: "For Deceased Wife",
+        arabic: "اللَّهُمَّ اغْفِرْ لِزَوْجَتِي وَارْحَمْهَا",
+        bengali: "হে আল্লাহ! আমার স্ত্রীকে ক্ষমা কর ও রহম কর।",
+        english: "O Allah, forgive my wife and have mercy on her.",
+        reference: "দোয়া সংকলন"
+      },
+      {
+        id: "death-43",
+        titleBengali: "মৃত স্বামীর জন্য দোয়া",
+        titleEnglish: "For Deceased Husband",
+        arabic: "اللَّهُمَّ اغْفِرْ لِزَوْجِي وَارْحَمْهُ",
+        bengali: "হে আল্লাহ! আমার স্বামীকে ক্ষমা কর ও রহম কর।",
+        english: "O Allah, forgive my husband and have mercy on him.",
+        reference: "দোয়া সংকলন"
+      },
+      {
+        id: "death-44",
+        titleBengali: "মৃত সন্তানের জন্য দোয়া",
+        titleEnglish: "For Deceased Child",
+        arabic: "اللَّهُمَّ اجْعَلْهُ ذُخْرًا لِوَالِدَيْهِ",
+        bengali: "হে আল্লাহ! তাকে তার পিতা-মাতার জন্য সঞ্চয় বানাও।",
+        english: "O Allah, make him a treasure for his parents.",
+        reference: "সুনান ইবনে মাজাহ"
+      },
+      {
+        id: "death-45",
+        titleBengali: "মৃত ভাই/বোনের জন্য দোয়া",
+        titleEnglish: "For Deceased Sibling",
+        arabic: "اللَّهُمَّ اغْفِرْ لِأَخِي/أُخْتِي وَارْحَمْهُ/هَا",
+        bengali: "হে আল্লাহ! আমার ভাই/বোনকে ক্ষমা কর ও রহম কর।",
+        english: "O Allah, forgive my brother/sister and have mercy on him/her.",
+        reference: "দোয়া সংকলন"
+      },
+      {
+        id: "death-46",
+        titleBengali: "সব মৃত মুসলিমদের জন্য দোয়া",
+        titleEnglish: "For All Deceased Muslims",
+        arabic: "اللَّهُمَّ اغْفِرْ لِجَمِيعِ الْمُسْلِمِينَ وَالْمُسْلِمَاتِ",
+        bengali: "হে আল্লাহ! সকল মুসলিম পুরুষ ও নারীকে ক্ষমা কর।",
+        english: "O Allah, forgive all Muslim men and women.",
+        reference: "সুনান ইবনে মাজাহ"
+      },
+      {
+        id: "death-47",
+        titleBengali: "তা'যিয়ার দোয়া",
+        titleEnglish: "Condolence Dua",
+        arabic: "إِنَّ لِلَّهِ مَا أَخَذَ وَلَهُ مَا أَعْطَى وَكُلُّ شَيْءٍ عِنْدَهُ بِأَجَلٍ مُسَمًّى",
+        bengali: "আল্লাহ যা নিয়েছেন তা তাঁরই এবং যা দিয়েছেন তাও তাঁর। তাঁর কাছে সবকিছুর একটি নির্ধারিত সময় আছে।",
+        english: "Indeed, to Allah belongs what He has taken and to Him belongs what He has given. Everything has an appointed time with Him.",
+        reference: "সহীহ বুখারী"
+      },
+      {
+        id: "death-48",
+        titleBengali: "সবর করার দোয়া",
+        titleEnglish: "For Patience in Loss",
+        arabic: "فَاصْبِرْ صَبْرًا جَمِيلًا",
+        bengali: "সুতরাং সুন্দর ধৈর্য ধারণ কর।",
+        english: "So be patient with gracious patience.",
+        reference: "সূরা মাআরিজ ৭০:৫"
+      },
+      {
+        id: "death-49",
+        titleBengali: "মৃতের জন্য সদকায়ে জারিয়ার দোয়া",
+        titleEnglish: "For Ongoing Charity for Deceased",
+        arabic: "اللَّهُمَّ اجْعَلْ ثَوَابَ هَذَا الْعَمَلِ لَهُ",
+        bengali: "হে আল্লাহ! এই কাজের সওয়াব তাকে পৌঁছে দাও।",
+        english: "O Allah, let the reward of this deed reach him.",
+        reference: "সহীহ মুসলিম"
+      },
+      {
+        id: "death-50",
+        titleBengali: "সামগ্রিক জানাজার দোয়া",
+        titleEnglish: "Comprehensive Funeral Dua",
+        arabic: "اللَّهُمَّ اغْفِرْ لَهُ وَارْحَمْهُ وَعَافِهِ وَاعْفُ عَنْهُ وَأَكْرِمْ نُزُلَهُ وَوَسِّعْ مُدْخَلَهُ وَاغْسِلْهُ بِالْمَاءِ وَالثَّلْجِ وَالْبَرَدِ وَنَقِّهِ مِنَ الْخَطَايَا كَمَا نَقَّيْتَ الثَّوْبَ الأَبْيَضَ مِنَ الدَّنَسِ وَأَبْدِلْهُ دَارًا خَيْرًا مِنْ دَارِهِ وَأَهْلًا خَيْرًا مِنْ أَهْلِهِ وَأَدْخِلْهُ الْجَنَّةَ وَأَعِذْهُ مِنْ عَذَابِ الْقَبْرِ وَعَذَابِ النَّارِ",
+        bengali: "হে আল্লাহ! তাকে ক্ষমা কর, রহম কর, নিরাপদ রাখ, মাফ কর, সম্মানজনক আতিথেয়তা দাও, প্রবেশস্থান প্রশস্ত কর, পানি, বরফ ও শিশির দিয়ে ধৌত কর, গুনাহ থেকে পবিত্র কর যেমন সাদা কাপড় পরিষ্কার করা হয়, উত্তম ঘর ও পরিবার দাও, জান্নাতে প্রবেশ করাও এবং কবর ও জাহান্নামের আযাব থেকে রক্ষা কর।",
+        english: "O Allah, forgive him, have mercy on him, keep him safe, pardon him, honor his reception, make his entrance spacious, wash him with water, snow and hail, purify him from sins as a white cloth is purified, replace his home and family with better ones, admit him to Paradise, and protect him from the punishment of the grave and Fire.",
+        reference: "সহীহ মুসলিম"
       }
     ]
   },
