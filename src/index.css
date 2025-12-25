@@ -194,6 +194,7 @@
 
   .font-bengali {
     font-family: 'Anek Bangla', sans-serif;
+    font-size: 1.1em;
     line-height: 1.75;
   }
 }
