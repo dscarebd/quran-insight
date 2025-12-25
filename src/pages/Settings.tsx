@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import { ArrowLeft, Info, Moon, Sun, BookOpen, Globe, Mail, Heart } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
@@ -35,6 +36,7 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
 
     if (clickCountRef.current >= 7) {
       clickCountRef.current = 0;
+      toast.success(language === "bn" ? "অ্যাডমিন প্যানেলে যাচ্ছি…" : "Opening admin panel…");
       navigate("/admin");
     }
   };
@@ -203,7 +205,13 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
                     src={annurLogo} 
                     alt="An-Nur Digital" 
                     className="h-14 w-14 rounded-full object-cover border-2 border-primary/20 cursor-pointer select-none"
+                    role="button"
+                    tabIndex={0}
                     onClick={handleDeveloperLogoClick}
+                    onPointerDown={handleDeveloperLogoClick}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") handleDeveloperLogoClick();
+                    }}
                   />
                   <div className="flex-1">
                     <h3 className={cn("text-sm font-semibold", language === "bn" && "font-bengali")}>
