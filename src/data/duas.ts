@@ -33,7 +33,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "بِسْمِ اللهِ",
         bengali: "আল্লাহর নামে শুরু করছি।",
         english: "In the name of Allah.",
-        reference: "সহীহ বুখারী"
+        reference: "সহীহ বুখারী, হাদিস নং ৫৩৭৬"
       },
       {
         id: "daily-2",
@@ -42,7 +42,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "بِسْمِ اللهِ وَعَلَى بَرَكَةِ اللهِ",
         bengali: "আল্লাহর নামে শুরু করছি এবং আল্লাহর বরকতে।",
         english: "In the name of Allah and with the blessings of Allah.",
-        reference: "আবু দাউদ"
+        reference: "আবু দাউদ, হাদিস নং ৩৭৬৭"
       },
       {
         id: "daily-3",
@@ -51,7 +51,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "الْحَمْدُ لِلَّهِ الَّذِي أَطْعَمَنَا وَسَقَانَا وَجَعَلَنَا مُسْلِمِينَ",
         bengali: "সকল প্রশংসা আল্লাহর জন্য যিনি আমাদের খাওয়ালেন, পান করালেন এবং মুসলিম বানিয়েছেন।",
         english: "All praise is for Allah who fed us and gave us drink, and made us Muslims.",
-        reference: "আবু দাউদ, তিরমিযী"
+        reference: "আবু দাউদ, হাদিস নং ৩৮৫০; তিরমিযী, হাদিস নং ৩৪৫৭"
       },
       {
         id: "daily-4",
@@ -60,7 +60,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "بِسْمِ اللهِ، تَوَكَّلْتُ عَلَى اللهِ، لاَ حَوْلَ وَلاَ قُوَّةَ إِلاَّ بِاللهِ",
         bengali: "আল্লাহর নামে বের হচ্ছি, আল্লাহর উপর ভরসা করলাম, আল্লাহর সাহায্য ছাড়া কোন উপায় নেই এবং কোন শক্তি নেই।",
         english: "In the name of Allah, I place my trust in Allah, and there is no might nor power except with Allah.",
-        reference: "আবু দাউদ, তিরমিযী"
+        reference: "আবু দাউদ, হাদিস নং ৫০৯৫; তিরমিযী, হাদিস নং ৩৪২৬"
       },
       {
         id: "daily-5",
@@ -69,7 +69,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "بِسْمِ اللهِ وَلَجْنَا، وَبِسْمِ اللهِ خَرَجْنَا، وَعَلَى اللهِ رَبِّنَا تَوَكَّلْنَا",
         bengali: "আল্লাহর নামে প্রবেশ করলাম, আল্লাহর নামে বের হলাম এবং আমাদের রব আল্লাহর উপর ভরসা করলাম।",
         english: "In the name of Allah we enter and in the name of Allah we leave, and upon our Lord we place our trust.",
-        reference: "আবু দাউদ"
+        reference: "আবু দাউদ, হাদিস নং ৫০৯৬"
       },
       {
         id: "daily-6",
@@ -78,7 +78,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْخُبُثِ وَالْخَبَائِثِ",
         bengali: "হে আল্লাহ! আমি তোমার কাছে পুরুষ ও মহিলা জিন-শয়তান থেকে আশ্রয় চাই।",
         english: "O Allah, I seek refuge in You from the male and female evil beings (devils).",
-        reference: "সহীহ বুখারী, সহীহ মুসলিম"
+        reference: "সহীহ বুখারী, হাদিস নং ১৪২; সহীহ মুসলিম, হাদিস নং ৩৭৫"
       },
       {
         id: "daily-7",
@@ -87,7 +87,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "غُفْرَانَكَ",
         bengali: "হে আল্লাহ! আমি তোমার ক্ষমা চাই।",
         english: "I seek Your forgiveness.",
-        reference: "আবু দাউদ, তিরমিযী, ইবনে মাজাহ"
+        reference: "আবু দাউদ, হাদিস নং ৩০; তিরমিযী, হাদিস নং ৭; ইবনে মাজাহ, হাদিস নং ৩০০"
       },
       {
         id: "daily-8",
@@ -96,7 +96,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "الْحَمْدُ لِلَّهِ",
         bengali: "সকল প্রশংসা আল্লাহর জন্য।",
         english: "All praise is due to Allah.",
-        reference: "সূরা ফাতিহা ১:২"
+        reference: "আল-কুরআন, সূরা ফাতিহা ১:২"
       },
       {
         id: "daily-9",
@@ -105,7 +105,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "رَبِّ زِدْنِي عِلْمًا",
         bengali: "হে আমার রব, আমার জ্ঞান বৃদ্ধি করে দিন।",
         english: "My Lord, increase me in knowledge.",
-        reference: "সূরা তা-হা ২০:১১৪"
+        reference: "আল-কুরআন, সূরা তা-হা ২০:১১৪"
       },
       {
         id: "daily-10",
@@ -114,7 +114,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ لَكَ الْحَمْدُ أَنْتَ كَسَوْتَنِيهِ، أَسْأَلُكَ خَيْرَهُ وَخَيْرَ مَا صُنِعَ لَهُ، وَأَعُوذُ بِكَ مِنْ شَرِّهِ وَشَرِّ مَا صُنِعَ لَهُ",
         bengali: "হে আল্লাহ! তোমার জন্য সকল প্রশংসা। তুমি আমাকে এটি পরিয়েছ। আমি তোমার কাছে এর কল্যাণ এবং যে উদ্দেশ্যে এটি তৈরি হয়েছে তার কল্যাণ চাই। আমি তোমার কাছে এর অনিষ্ট এবং যে উদ্দেশ্যে এটি তৈরি হয়েছে তার অনিষ্ট থেকে আশ্রয় চাই।",
         english: "O Allah, praise is to You. You have clothed me with it. I ask You for its good and the good of what it was made for, and I seek refuge in You from its evil and the evil of what it was made for.",
-        reference: "আবু দাউদ, তিরমিযী"
+        reference: "আবু দাউদ, হাদিস নং ৪০২০; তিরমিযী, হাদিস নং ১৭৬৭"
       }
     ]
   },
