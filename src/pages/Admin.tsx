@@ -25,7 +25,8 @@ const adminNavItems = [
   { title: "Verses", url: "/admin/verses", icon: FileText, showInMobile: false },
   { title: "Dua Categories", url: "/admin/dua-categories", icon: FolderOpen, showInMobile: false },
   { title: "Duas", url: "/admin/duas", icon: BookOpen, showInMobile: true },
-  { title: "Import", url: "/admin/import-verses", icon: Upload, showInMobile: false },
+  { title: "Import Duas", url: "/admin/import-duas", icon: Upload, showInMobile: false },
+  { title: "Import Verses", url: "/admin/import-verses", icon: Upload, showInMobile: false },
   { title: "Users", url: "/admin/users", icon: Users, showInMobile: false },
   { title: "Emails", url: "/admin/admin-emails", icon: Mail, showInMobile: false },
 ];
