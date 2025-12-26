@@ -49,7 +49,7 @@ export const QuickAccessCards = ({ language }: QuickAccessCardsProps) => {
       labelBn: "দৈনিক দোয়া",
       descEn: "Authentic prayers and supplications",
       descBn: "প্রামাণিক দোয়া ও মোনাজাত",
-      path: "/dua",
+      path: "/daily-dua",
       gradient: "from-amber-500 to-orange-600",
       count: duaCount,
     },
