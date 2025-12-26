@@ -215,26 +215,26 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
     }
   };
 
-  const cityNames: Record<string, { en: string; bn: string }> = {
-    dhaka: { en: 'Dhaka', bn: 'ঢাকা' },
-    chittagong: { en: 'Chittagong', bn: 'চট্টগ্রাম' },
-    sylhet: { en: 'Sylhet', bn: 'সিলেট' },
-    rajshahi: { en: 'Rajshahi', bn: 'রাজশাহী' },
-    kolkata: { en: 'Kolkata', bn: 'কলকাতা' },
-    mumbai: { en: 'Mumbai', bn: 'মুম্বাই' },
-    delhi: { en: 'Delhi', bn: 'দিল্লি' },
-    makkah: { en: 'Makkah', bn: 'মক্কা' },
-    madinah: { en: 'Madinah', bn: 'মদিনা' },
-    dubai: { en: 'Dubai', bn: 'দুবাই' },
-    cairo: { en: 'Cairo', bn: 'কায়রো' },
-    istanbul: { en: 'Istanbul', bn: 'ইস্তাম্বুল' },
-    jakarta: { en: 'Jakarta', bn: 'জাকার্তা' },
-    kualalumpur: { en: 'Kuala Lumpur', bn: 'কুয়ালালামপুর' },
-    london: { en: 'London', bn: 'লন্ডন' },
-    newyork: { en: 'New York', bn: 'নিউ ইয়র্ক' },
-    toronto: { en: 'Toronto', bn: 'টরন্টো' },
-    sydney: { en: 'Sydney', bn: 'সিডনি' },
-    custom: { en: 'Your Location', bn: 'আপনার অবস্থান' },
+  const cityNames: Record<string, { en: string; bn: string; tz: string }> = {
+    dhaka: { en: 'Dhaka', bn: 'ঢাকা', tz: '+06:00' },
+    chittagong: { en: 'Chittagong', bn: 'চট্টগ্রাম', tz: '+06:00' },
+    sylhet: { en: 'Sylhet', bn: 'সিলেট', tz: '+06:00' },
+    rajshahi: { en: 'Rajshahi', bn: 'রাজশাহী', tz: '+06:00' },
+    kolkata: { en: 'Kolkata', bn: 'কলকাতা', tz: '+05:30' },
+    mumbai: { en: 'Mumbai', bn: 'মুম্বাই', tz: '+05:30' },
+    delhi: { en: 'Delhi', bn: 'দিল্লি', tz: '+05:30' },
+    makkah: { en: 'Makkah', bn: 'মক্কা', tz: '+03:00' },
+    madinah: { en: 'Madinah', bn: 'মদিনা', tz: '+03:00' },
+    dubai: { en: 'Dubai', bn: 'দুবাই', tz: '+04:00' },
+    cairo: { en: 'Cairo', bn: 'কায়রো', tz: '+02:00' },
+    istanbul: { en: 'Istanbul', bn: 'ইস্তাম্বুল', tz: '+03:00' },
+    jakarta: { en: 'Jakarta', bn: 'জাকার্তা', tz: '+07:00' },
+    kualalumpur: { en: 'Kuala Lumpur', bn: 'কুয়ালালামপুর', tz: '+08:00' },
+    london: { en: 'London', bn: 'লন্ডন', tz: '+00:00' },
+    newyork: { en: 'New York', bn: 'নিউ ইয়র্ক', tz: '-05:00' },
+    toronto: { en: 'Toronto', bn: 'টরন্টো', tz: '-05:00' },
+    sydney: { en: 'Sydney', bn: 'সিডনি', tz: '+11:00' },
+    custom: { en: 'Your Location', bn: 'আপনার অবস্থান', tz: '' },
   };
 
   const formatTimeRemaining = (remaining: { hours: number; minutes: number } | null, lang: Language) => {
@@ -285,11 +285,16 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    {Object.keys(cityNames).filter(c => c !== 'custom' || selectedCity === 'custom').map(city => (
-                      <SelectItem key={city} value={city}>
-                        {language === 'bn' ? cityNames[city].bn : cityNames[city].en}
-                      </SelectItem>
-                    ))}
+                    {Object.keys(cityNames).filter(c => c !== 'custom' || selectedCity === 'custom').map(city => {
+                      const cityData = cityNames[city];
+                      const name = language === 'bn' ? cityData.bn : cityData.en;
+                      const tzDisplay = cityData.tz ? ` (${cityData.tz})` : '';
+                      return (
+                        <SelectItem key={city} value={city}>
+                          {name}{tzDisplay}
+                        </SelectItem>
+                      );
+                    })}
                   </SelectContent>
                 </Select>
               </div>
