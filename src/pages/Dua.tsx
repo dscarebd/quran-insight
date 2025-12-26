@@ -11,9 +11,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useLocalDuaBookmarks } from "@/hooks/useLocalDuaBookmarks";
 import { toast } from "sonner";
 import * as LucideIcons from "lucide-react";
+import { Language } from "@/types/language";
 
 interface DuaProps {
-  language: "bn" | "en";
+  language: Language;
   arabicFont?: "amiri" | "uthmani";
 }
 

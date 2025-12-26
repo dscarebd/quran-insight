@@ -12,6 +12,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
 import { toast } from "sonner";
+import { Language } from "@/types/language";
 
 interface Verse {
   surah_number: number;
@@ -20,7 +21,7 @@ interface Verse {
 }
 
 interface ReadPageProps {
-  language: "bn" | "en";
+  language: Language;
   readingMode?: "normal" | "sepia";
   arabicFont?: "amiri" | "uthmani";
   onArabicFontChange?: (font: "amiri" | "uthmani") => void;
@@ -138,10 +139,14 @@ const ReadPage = ({ language, readingMode = "normal", arabicFont = "amiri", onAr
   }, [sheetOpen, currentPage, pageSearch, surahSearch, selectorTab, pageData]);
 
   // Format number based on language
-  const formatNumber = (num: number, lang: "bn" | "en"): string => {
+  const formatNum = (num: number, lang: Language): string => {
     if (lang === "bn") {
       const bengaliNumerals = ["০", "১", "২", "৩", "৪", "৫", "৬", "৭", "৮", "৯"];
       return num.toString().split("").map(d => bengaliNumerals[parseInt(d)]).join("");
+    }
+    if (lang === "hi") {
+      const hindiNumerals = ["०", "१", "२", "३", "४", "५", "६", "७", "८", "९"];
+      return num.toString().split("").map(d => hindiNumerals[parseInt(d)]).join("");
     }
     return num.toString();
   };
@@ -374,7 +379,9 @@ const ReadPage = ({ language, readingMode = "normal", arabicFont = "amiri", onAr
             </span>
             <span className={cn("text-xs text-muted-foreground", language === "bn" && "font-bengali")}>
               {language === "bn" 
-                ? `পৃষ্ঠা ${formatNumber(currentPage, language)} • পারা ${formatNumber(juzNumber, language)}`
+                ? `পৃষ্ঠা ${formatNum(currentPage, language)} • পারা ${formatNum(juzNumber, language)}`
+                : language === "hi"
+                ? `पृष्ठ ${formatNum(currentPage, language)} • जुज़ ${formatNum(juzNumber, language)}`
                 : `Page ${currentPage} • Juz ${juzNumber}`
               }
             </span>
@@ -518,7 +525,7 @@ const ReadPage = ({ language, readingMode = "normal", arabicFont = "amiri", onAr
                             className={cn("inline-flex items-center justify-center mx-1 text-primary", arabicFont === "uthmani" ? "font-uthmani" : "font-arabic")}
                             style={{ fontSize: `${currentFontSize * 0.7}px` }}
                           >
-                            ﴿{formatNumber(verse.verse_number, "en").split("").map(d => "٠١٢٣٤٥٦٧٨٩"[parseInt(d)]).join("")}﴾
+                            ﴿{formatNum(verse.verse_number, "en").split("").map(d => "٠١٢٣٤٥٦٧٨٩"[parseInt(d)]).join("")}﴾
                           </span>
                         </span>
                       );
@@ -550,8 +557,8 @@ const ReadPage = ({ language, readingMode = "normal", arabicFont = "amiri", onAr
             <SheetTrigger asChild>
               <button className="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-muted transition-colors">
                 <Book className="h-4 w-4 text-muted-foreground" />
-                <span className={cn("text-sm font-medium", language === "bn" && "font-bengali")}>
-                  {formatNumber(currentPage, language)} / {formatNumber(604, language)}
+                <span className={cn("text-sm font-medium", (language === "bn" || language === "hi") && "font-bengali")}>
+                  {formatNum(currentPage, language)} / {formatNum(604, language)}
                 </span>
               </button>
             </SheetTrigger>
@@ -606,7 +613,7 @@ const ReadPage = ({ language, readingMode = "normal", arabicFont = "amiri", onAr
                             setPageSearch("");
                           }}
                         >
-                          {formatNumber(page.pageNumber, language)}
+                          {formatNum(page.pageNumber, language)}
                         </Button>
                       ))}
                     </div>
@@ -650,7 +657,7 @@ const ReadPage = ({ language, readingMode = "normal", arabicFont = "amiri", onAr
                               "flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-sm font-semibold font-bengali",
                               isCurrentSurah ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"
                             )}>
-                              {formatNumber(surah.number, language)}
+                              {formatNum(surah.number, language)}
                             </div>
                             <div className="flex-1 min-w-0 text-left">
                               <p className={cn("text-lg text-foreground", arabicFont === "uthmani" ? "font-uthmani" : "font-arabic")}>
@@ -662,7 +669,7 @@ const ReadPage = ({ language, readingMode = "normal", arabicFont = "amiri", onAr
                               )}>
                                 {language === "bn" ? surah.nameBengali : surah.nameEnglish}
                                 <span className="mx-1">•</span>
-                                {formatNumber(surah.totalVerses, language)} {language === "bn" ? "আয়াত" : "verses"}
+                                {formatNum(surah.totalVerses, language)} {language === "bn" ? "আয়াত" : language === "hi" ? "आयतें" : "verses"}
                               </p>
                             </div>
                           </button>

@@ -57,6 +57,11 @@ const AppContent = () => {
   });
   const { fontSize, setFontSize } = useFontSize();
   
+  // Save language to localStorage
+  useEffect(() => {
+    localStorage.setItem("quran-language", language);
+  }, [language]);
+  
   // Save reading mode to localStorage
   useEffect(() => {
     localStorage.setItem("quran-reading-mode", readingMode);

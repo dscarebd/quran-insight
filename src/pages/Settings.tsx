@@ -104,11 +104,11 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
                         <Globe className="h-6 w-6 text-primary" />
                       </div>
                       <div className="flex-1 text-left">
-                        <h3 className={cn("text-sm font-semibold", language === "bn" && "font-bengali")}>
-                          {language === "bn" ? "অ্যাপ ভাষা" : "App Language"}
+                        <h3 className={cn("text-sm font-semibold", (language === "bn" || language === "hi") && "font-bengali")}>
+                          {t("appLanguage", language)}
                         </h3>
-                        <p className={cn("text-xs text-muted-foreground", language === "bn" && "font-bengali")}>
-                          {language === "bn" ? "বাংলা" : "English"}
+                        <p className={cn("text-xs text-muted-foreground", (language === "bn" || language === "hi") && "font-bengali")}>
+                          {languageNames[language].native}
                         </p>
                       </div>
                       <ChevronDown className="h-5 w-5 text-muted-foreground transition-transform duration-200" />
@@ -118,7 +118,7 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
               </CollapsibleTrigger>
               <CollapsibleContent>
                 <div className="mt-3 rounded-xl border border-border bg-card p-4">
-                  <div className="grid grid-cols-2 gap-2">
+                  <div className="grid grid-cols-3 gap-2">
                     <button
                       onClick={() => onLanguageChange("bn")}
                       className={cn(
@@ -142,6 +142,19 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
                       <span className="text-sm font-medium">A</span>
                       <p className="text-sm font-medium">English</p>
                       {language === "en" && (
+                        <div className="h-1.5 w-1.5 rounded-full bg-primary" />
+                      )}
+                    </button>
+                    <button
+                      onClick={() => onLanguageChange("hi")}
+                      className={cn(
+                        "flex items-center justify-center gap-1.5 rounded-lg border border-border bg-card px-3 py-3 transition-colors",
+                        language === "hi" ? "border-primary bg-primary/5" : "hover:bg-muted/50"
+                      )}
+                    >
+                      <span className="text-sm font-medium">अ</span>
+                      <p className="text-sm font-medium">हिन्दी</p>
+                      {language === "hi" && (
                         <div className="h-1.5 w-1.5 rounded-full bg-primary" />
                       )}
                     </button>

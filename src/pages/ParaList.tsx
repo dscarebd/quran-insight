@@ -3,9 +3,10 @@ import { BookOpen, ChevronRight, Search } from "lucide-react";
 import { useState } from "react";
 import { paras } from "@/data/paras";
 import { cn, formatNumber } from "@/lib/utils";
+import { Language } from "@/types/language";
 
 interface ParaListProps {
-  language: "bn" | "en";
+  language: Language;
 }
 
 const ParaList = ({ language }: ParaListProps) => {

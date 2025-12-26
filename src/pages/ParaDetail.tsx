@@ -9,9 +9,10 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Language } from "@/types/language";
 
 interface ParaDetailProps {
-  language: "bn" | "en";
+  language: Language;
   readingMode?: "normal" | "sepia";
   arabicFont?: "amiri" | "uthmani";
 }
