@@ -1,15 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { 
-  Moon, Sun, Utensils, Home, Clock, BookOpen, 
-  Heart, Copy, Check, ChevronRight, 
-  ArrowLeft, Coffee, Shirt, Car, Droplets
-} from "lucide-react";
+import { ArrowLeft, Copy, Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { Language } from "@/types/language";
 import { Button } from "@/components/ui/button";
-import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface DailyDuaPageProps {
   language: Language;
@@ -27,262 +22,211 @@ interface DailyDuaItem {
   reference?: string;
 }
 
-interface DailyDuaCategory {
-  id: string;
-  nameBn: string;
-  nameEn: string;
-  icon: React.ReactNode;
-  color: string;
-  duas: DailyDuaItem[];
-}
-
-const dailyDuaCategories: DailyDuaCategory[] = [
+const allDuas: DailyDuaItem[] = [
   {
-    id: "sleep",
-    nameBn: "ঘুমানোর দোয়া",
-    nameEn: "Sleep Duas",
-    icon: <Moon className="h-5 w-5" />,
-    color: "bg-indigo-500",
-    duas: [
-      {
-        id: "before-sleep",
-        titleBn: "ঘুমানোর আগে",
-        titleEn: "Before Sleeping",
-        arabic: "بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا",
-        bengali: "হে আল্লাহ! তোমার নামেই মৃত্যুবরণ করি এবং জীবিত হই।",
-        english: "In Your name, O Allah, I die and I live.",
-        transliteration: "Bismika Allahumma amutu wa ahya",
-        reference: "সহীহ বুখারী"
-      },
-      {
-        id: "after-waking",
-        titleBn: "ঘুম থেকে জাগার পর",
-        titleEn: "After Waking Up",
-        arabic: "الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا وَإِلَيْهِ النُّشُورُ",
-        bengali: "সমস্ত প্রশংসা আল্লাহর জন্য, যিনি আমাদের মৃত্যুর পর জীবিত করেছেন এবং তাঁর কাছেই আমাদের ফিরে যেতে হবে।",
-        english: "All praise is for Allah who gave us life after having taken it from us and unto Him is the resurrection.",
-        transliteration: "Alhamdu lillahil-ladhi ahyana ba'da ma amatana wa ilayhin-nushur",
-        reference: "সহীহ বুখারী"
-      }
-    ]
+    id: "before-sleep",
+    titleBn: "ঘুমানোর আগে",
+    titleEn: "Before Sleeping",
+    arabic: "بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا",
+    bengali: "হে আল্লাহ! তোমার নামেই মৃত্যুবরণ করি এবং জীবিত হই।",
+    english: "In Your name, O Allah, I die and I live.",
+    transliteration: "Bismika Allahumma amutu wa ahya",
+    reference: "সহীহ বুখারী"
   },
   {
-    id: "eating",
-    nameBn: "খাওয়ার দোয়া",
-    nameEn: "Eating Duas",
-    icon: <Utensils className="h-5 w-5" />,
-    color: "bg-amber-500",
-    duas: [
-      {
-        id: "before-eating",
-        titleBn: "খাওয়ার আগে",
-        titleEn: "Before Eating",
-        arabic: "بِسْمِ اللَّهِ",
-        bengali: "আল্লাহর নামে শুরু করছি।",
-        english: "In the name of Allah.",
-        transliteration: "Bismillah",
-        reference: "সহীহ মুসলিম"
-      },
-      {
-        id: "after-eating",
-        titleBn: "খাওয়ার পর",
-        titleEn: "After Eating",
-        arabic: "الْحَمْدُ لِلَّهِ الَّذِي أَطْعَمَنَا وَسَقَانَا وَجَعَلَنَا مُسْلِمِينَ",
-        bengali: "সমস্ত প্রশংসা আল্লাহর জন্য, যিনি আমাদের খাওয়ালেন, পান করালেন এবং আমাদের মুসলিম বানালেন।",
-        english: "All praise is for Allah who fed us, gave us drink, and made us Muslims.",
-        transliteration: "Alhamdu lillahil-ladhi at'amana wa saqana wa ja'alana muslimin",
-        reference: "তিরমিযী"
-      }
-    ]
+    id: "after-waking",
+    titleBn: "ঘুম থেকে জাগার পর",
+    titleEn: "After Waking Up",
+    arabic: "الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا وَإِلَيْهِ النُّشُورُ",
+    bengali: "সমস্ত প্রশংসা আল্লাহর জন্য, যিনি আমাদের মৃত্যুর পর জীবিত করেছেন এবং তাঁর কাছেই আমাদের ফিরে যেতে হবে।",
+    english: "All praise is for Allah who gave us life after having taken it from us and unto Him is the resurrection.",
+    transliteration: "Alhamdu lillahil-ladhi ahyana ba'da ma amatana wa ilayhin-nushur",
+    reference: "সহীহ বুখারী"
   },
   {
-    id: "mosque",
-    nameBn: "মসজিদের দোয়া",
-    nameEn: "Mosque Duas",
-    icon: <Home className="h-5 w-5" />,
-    color: "bg-emerald-500",
-    duas: [
-      {
-        id: "entering-mosque",
-        titleBn: "মসজিদে প্রবেশের সময়",
-        titleEn: "Entering the Mosque",
-        arabic: "اللَّهُمَّ افْتَحْ لِي أَبْوَابَ رَحْمَتِكَ",
-        bengali: "হে আল্লাহ! আমার জন্য তোমার রহমতের দরজাগুলো খুলে দাও।",
-        english: "O Allah, open for me the gates of Your mercy.",
-        transliteration: "Allahumma-ftah li abwaba rahmatik",
-        reference: "সহীহ মুসলিম"
-      },
-      {
-        id: "leaving-mosque",
-        titleBn: "মসজিদ থেকে বের হওয়ার সময়",
-        titleEn: "Leaving the Mosque",
-        arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ مِنْ فَضْلِكَ",
-        bengali: "হে আল্লাহ! আমি তোমার অনুগ্রহ প্রার্থনা করছি।",
-        english: "O Allah, I ask You from Your bounty.",
-        transliteration: "Allahumma inni as'aluka min fadlik",
-        reference: "সহীহ মুসলিম"
-      }
-    ]
+    id: "before-eating",
+    titleBn: "খাওয়ার আগে",
+    titleEn: "Before Eating",
+    arabic: "بِسْمِ اللَّهِ",
+    bengali: "আল্লাহর নামে শুরু করছি।",
+    english: "In the name of Allah.",
+    transliteration: "Bismillah",
+    reference: "সহীহ মুসলিম"
   },
   {
-    id: "salah",
-    nameBn: "নামাযের দোয়া",
-    nameEn: "Salah Duas",
-    icon: <Clock className="h-5 w-5" />,
-    color: "bg-teal-500",
-    duas: [
-      {
-        id: "after-salah",
-        titleBn: "নামাযের পর",
-        titleEn: "After Salah",
-        arabic: "أَسْتَغْفِرُ اللَّهَ، أَسْتَغْفِرُ اللَّهَ، أَسْتَغْفِرُ اللَّهَ",
-        bengali: "আমি আল্লাহর কাছে ক্ষমা চাই। (তিনবার)",
-        english: "I seek forgiveness from Allah. (3 times)",
-        transliteration: "Astaghfirullah, Astaghfirullah, Astaghfirullah",
-        reference: "সহীহ মুসলিম"
-      },
-      {
-        id: "after-salah-2",
-        titleBn: "নামাযের পর তাসবীহ",
-        titleEn: "Tasbeeh After Salah",
-        arabic: "سُبْحَانَ اللَّهِ وَالْحَمْدُ لِلَّهِ وَاللَّهُ أَكْبَرُ",
-        bengali: "আল্লাহ পবিত্র, সমস্ত প্রশংসা আল্লাহর এবং আল্লাহ সবচেয়ে বড়। (৩৩ বার করে)",
-        english: "Glory be to Allah, All praise is for Allah, and Allah is the Greatest. (33 times each)",
-        transliteration: "SubhanAllah, Alhamdulillah, Allahu Akbar",
-        reference: "সহীহ মুসলিম"
-      }
-    ]
+    id: "after-eating",
+    titleBn: "খাওয়ার পর",
+    titleEn: "After Eating",
+    arabic: "الْحَمْدُ لِلَّهِ الَّذِي أَطْعَمَنَا وَسَقَانَا وَجَعَلَنَا مُسْلِمِينَ",
+    bengali: "সমস্ত প্রশংসা আল্লাহর জন্য, যিনি আমাদের খাওয়ালেন, পান করালেন এবং আমাদের মুসলিম বানালেন।",
+    english: "All praise is for Allah who fed us, gave us drink, and made us Muslims.",
+    transliteration: "Alhamdu lillahil-ladhi at'amana wa saqana wa ja'alana muslimin",
+    reference: "তিরমিযী"
   },
   {
-    id: "morning-evening",
-    nameBn: "সকাল-সন্ধ্যার দোয়া",
-    nameEn: "Morning & Evening",
-    icon: <Sun className="h-5 w-5" />,
-    color: "bg-orange-500",
-    duas: [
-      {
-        id: "morning",
-        titleBn: "সকালের দোয়া",
-        titleEn: "Morning Dua",
-        arabic: "أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ رَبِّ الْعَالَمِينَ",
-        bengali: "আমরা সকালে উপনীত হলাম এবং সকল রাজত্ব আল্লাহর জন্য, যিনি সমস্ত জগতের প্রতিপালক।",
-        english: "We have reached the morning and the kingdom belongs to Allah, the Lord of all worlds.",
-        transliteration: "Asbahna wa asbahal-mulku lillahi Rabbil-'alamin",
-        reference: "আবু দাউদ"
-      },
-      {
-        id: "evening",
-        titleBn: "সন্ধ্যার দোয়া",
-        titleEn: "Evening Dua",
-        arabic: "أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ رَبِّ الْعَالَمِينَ",
-        bengali: "আমরা সন্ধ্যায় উপনীত হলাম এবং সকল রাজত্ব আল্লাহর জন্য, যিনি সমস্ত জগতের প্রতিপালক।",
-        english: "We have reached the evening and the kingdom belongs to Allah, the Lord of all worlds.",
-        transliteration: "Amsayna wa amsal-mulku lillahi Rabbil-'alamin",
-        reference: "আবু দাউদ"
-      }
-    ]
+    id: "entering-mosque",
+    titleBn: "মসজিদে প্রবেশের সময়",
+    titleEn: "Entering the Mosque",
+    arabic: "اللَّهُمَّ افْتَحْ لِي أَبْوَابَ رَحْمَتِكَ",
+    bengali: "হে আল্লাহ! আমার জন্য তোমার রহমতের দরজাগুলো খুলে দাও।",
+    english: "O Allah, open for me the gates of Your mercy.",
+    transliteration: "Allahumma-ftah li abwaba rahmatik",
+    reference: "সহীহ মুসলিম"
   },
   {
-    id: "home",
-    nameBn: "ঘরের দোয়া",
-    nameEn: "Home Duas",
-    icon: <Home className="h-5 w-5" />,
-    color: "bg-blue-500",
-    duas: [
-      {
-        id: "entering-home",
-        titleBn: "ঘরে প্রবেশের সময়",
-        titleEn: "Entering Home",
-        arabic: "بِسْمِ اللَّهِ وَلَجْنَا، وَبِسْمِ اللَّهِ خَرَجْنَا، وَعَلَى اللَّهِ رَبِّنَا تَوَكَّلْنَا",
-        bengali: "আল্লাহর নামে আমরা প্রবেশ করলাম, আল্লাহর নামে আমরা বের হলাম এবং আমাদের প্রতিপালক আল্লাহর উপর আমরা ভরসা করলাম।",
-        english: "In the name of Allah we enter, in the name of Allah we leave, and upon our Lord we rely.",
-        transliteration: "Bismillahi walajna, wa bismillahi kharajna, wa 'ala Allahi rabbina tawakkalna",
-        reference: "আবু দাউদ"
-      },
-      {
-        id: "leaving-home",
-        titleBn: "ঘর থেকে বের হওয়ার সময়",
-        titleEn: "Leaving Home",
-        arabic: "بِسْمِ اللَّهِ تَوَكَّلْتُ عَلَى اللَّهِ لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ",
-        bengali: "আল্লাহর নামে, আমি আল্লাহর উপর ভরসা করলাম। আল্লাহর সাহায্য ছাড়া কোন শক্তি ও ক্ষমতা নেই।",
-        english: "In the name of Allah, I place my trust in Allah. There is no might or power except with Allah.",
-        transliteration: "Bismillahi tawakkaltu 'alallahi la hawla wa la quwwata illa billah",
-        reference: "তিরমিযী"
-      }
-    ]
+    id: "leaving-mosque",
+    titleBn: "মসজিদ থেকে বের হওয়ার সময়",
+    titleEn: "Leaving the Mosque",
+    arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ مِنْ فَضْلِكَ",
+    bengali: "হে আল্লাহ! আমি তোমার অনুগ্রহ প্রার্থনা করছি।",
+    english: "O Allah, I ask You from Your bounty.",
+    transliteration: "Allahumma inni as'aluka min fadlik",
+    reference: "সহীহ মুসলিম"
   },
   {
-    id: "travel",
-    nameBn: "সফরের দোয়া",
-    nameEn: "Travel Duas",
-    icon: <Car className="h-5 w-5" />,
-    color: "bg-purple-500",
-    duas: [
-      {
-        id: "starting-journey",
-        titleBn: "সফর শুরুর দোয়া",
-        titleEn: "Starting a Journey",
-        arabic: "سُبْحَانَ الَّذِي سَخَّرَ لَنَا هَٰذَا وَمَا كُنَّا لَهُ مُقْرِنِينَ وَإِنَّا إِلَىٰ رَبِّنَا لَمُنقَلِبُونَ",
-        bengali: "পবিত্র সেই সত্তা যিনি এটি আমাদের অধীন করে দিয়েছেন, আমরা এর সামর্থ্য রাখতাম না। আমাদের অবশ্যই আমাদের প্রতিপালকের কাছে ফিরে যেতে হবে।",
-        english: "Glory to Him who has subjected this to us, and we could never have it. And indeed, to our Lord we will return.",
-        transliteration: "Subhanal-ladhi sakh-khara lana hadha wa ma kunna lahu muqrinin wa inna ila Rabbina lamunqalibun",
-        reference: "সূরা যুখরুফ ৪৩:১৩-১৪"
-      }
-    ]
+    id: "after-salah",
+    titleBn: "নামাযের পর",
+    titleEn: "After Salah",
+    arabic: "أَسْتَغْفِرُ اللَّهَ، أَسْتَغْفِرُ اللَّهَ، أَسْتَغْفِرُ اللَّهَ",
+    bengali: "আমি আল্লাহর কাছে ক্ষমা চাই। (তিনবার)",
+    english: "I seek forgiveness from Allah. (3 times)",
+    transliteration: "Astaghfirullah, Astaghfirullah, Astaghfirullah",
+    reference: "সহীহ মুসলিম"
   },
   {
-    id: "wudu",
-    nameBn: "অযুর দোয়া",
-    nameEn: "Wudu Duas",
-    icon: <Droplets className="h-5 w-5" />,
-    color: "bg-cyan-500",
-    duas: [
-      {
-        id: "before-wudu",
-        titleBn: "অযু শুরুর আগে",
-        titleEn: "Before Wudu",
-        arabic: "بِسْمِ اللَّهِ",
-        bengali: "আল্লাহর নামে শুরু করছি।",
-        english: "In the name of Allah.",
-        transliteration: "Bismillah",
-        reference: "তিরমিযী"
-      },
-      {
-        id: "after-wudu",
-        titleBn: "অযু শেষে",
-        titleEn: "After Wudu",
-        arabic: "أَشْهَدُ أَنْ لَا إِلَٰهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ",
-        bengali: "আমি সাক্ষ্য দিচ্ছি যে, আল্লাহ ছাড়া কোন উপাস্য নেই, তিনি একক, তাঁর কোন শরীক নেই এবং আমি সাক্ষ্য দিচ্ছি যে, মুহাম্মাদ তাঁর বান্দা ও রাসূল।",
-        english: "I bear witness that there is no god but Allah alone, with no partner, and I bear witness that Muhammad is His servant and Messenger.",
-        transliteration: "Ash-hadu an la ilaha illallahu wahdahu la sharika lahu wa ash-hadu anna Muhammadan 'abduhu wa rasuluh",
-        reference: "সহীহ মুসলিম"
-      }
-    ]
+    id: "after-salah-2",
+    titleBn: "নামাযের পর তাসবীহ",
+    titleEn: "Tasbeeh After Salah",
+    arabic: "سُبْحَانَ اللَّهِ وَالْحَمْدُ لِلَّهِ وَاللَّهُ أَكْبَرُ",
+    bengali: "আল্লাহ পবিত্র, সমস্ত প্রশংসা আল্লাহর এবং আল্লাহ সবচেয়ে বড়। (৩৩ বার করে)",
+    english: "Glory be to Allah, All praise is for Allah, and Allah is the Greatest. (33 times each)",
+    transliteration: "SubhanAllah, Alhamdulillah, Allahu Akbar",
+    reference: "সহীহ মুসলিম"
   },
   {
-    id: "clothing",
-    nameBn: "পোশাকের দোয়া",
-    nameEn: "Clothing Duas",
-    icon: <Shirt className="h-5 w-5" />,
-    color: "bg-pink-500",
-    duas: [
-      {
-        id: "wearing-new-clothes",
-        titleBn: "নতুন পোশাক পরার সময়",
-        titleEn: "Wearing New Clothes",
-        arabic: "اللَّهُمَّ لَكَ الْحَمْدُ أَنْتَ كَسَوْتَنِيهِ، أَسْأَلُكَ خَيْرَهُ وَخَيْرَ مَا صُنِعَ لَهُ، وَأَعُوذُ بِكَ مِنْ شَرِّهِ وَشَرِّ مَا صُنِعَ لَهُ",
-        bengali: "হে আল্লাহ! তোমার জন্য সমস্ত প্রশংসা, তুমি আমাকে এটি পরিয়েছ। আমি তোমার কাছে এর কল্যাণ এবং যে উদ্দেশ্যে এটি তৈরি হয়েছে তার কল্যাণ চাই এবং এর অকল্যাণ ও যে উদ্দেশ্যে এটি তৈরি হয়েছে তার অকল্যাণ থেকে আশ্রয় চাই।",
-        english: "O Allah, for You is all praise, You have clothed me with it. I ask You for its goodness and the goodness for which it was made, and I seek refuge in You from its evil and the evil for which it was made.",
-        transliteration: "Allahumma lakal-hamdu anta kasawtaneehi, as'aluka khayrahu wa khayra ma suni'a lahu, wa a'udhu bika min sharrihi wa sharri ma suni'a lah",
-        reference: "তিরমিযী"
-      }
-    ]
+    id: "morning",
+    titleBn: "সকালের দোয়া",
+    titleEn: "Morning Dua",
+    arabic: "أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ رَبِّ الْعَالَمِينَ",
+    bengali: "আমরা সকালে উপনীত হলাম এবং সকল রাজত্ব আল্লাহর জন্য, যিনি সমস্ত জগতের প্রতিপালক।",
+    english: "We have reached the morning and the kingdom belongs to Allah, the Lord of all worlds.",
+    transliteration: "Asbahna wa asbahal-mulku lillahi Rabbil-'alamin",
+    reference: "আবু দাউদ"
+  },
+  {
+    id: "evening",
+    titleBn: "সন্ধ্যার দোয়া",
+    titleEn: "Evening Dua",
+    arabic: "أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ رَبِّ الْعَالَمِينَ",
+    bengali: "আমরা সন্ধ্যায় উপনীত হলাম এবং সকল রাজত্ব আল্লাহর জন্য, যিনি সমস্ত জগতের প্রতিপালক।",
+    english: "We have reached the evening and the kingdom belongs to Allah, the Lord of all worlds.",
+    transliteration: "Amsayna wa amsal-mulku lillahi Rabbil-'alamin",
+    reference: "আবু দাউদ"
+  },
+  {
+    id: "entering-home",
+    titleBn: "ঘরে প্রবেশের সময়",
+    titleEn: "Entering Home",
+    arabic: "بِسْمِ اللَّهِ وَلَجْنَا، وَبِسْمِ اللَّهِ خَرَجْنَا، وَعَلَى اللَّهِ رَبِّنَا تَوَكَّلْنَا",
+    bengali: "আল্লাহর নামে আমরা প্রবেশ করলাম, আল্লাহর নামে আমরা বের হলাম এবং আমাদের প্রতিপালক আল্লাহর উপর আমরা ভরসা করলাম।",
+    english: "In the name of Allah we enter, in the name of Allah we leave, and upon our Lord we rely.",
+    transliteration: "Bismillahi walajna, wa bismillahi kharajna, wa 'ala Allahi rabbina tawakkalna",
+    reference: "আবু দাউদ"
+  },
+  {
+    id: "leaving-home",
+    titleBn: "ঘর থেকে বের হওয়ার সময়",
+    titleEn: "Leaving Home",
+    arabic: "بِسْمِ اللَّهِ تَوَكَّلْتُ عَلَى اللَّهِ لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ",
+    bengali: "আল্লাহর নামে, আমি আল্লাহর উপর ভরসা করলাম। আল্লাহর সাহায্য ছাড়া কোন শক্তি ও ক্ষমতা নেই।",
+    english: "In the name of Allah, I place my trust in Allah. There is no might or power except with Allah.",
+    transliteration: "Bismillahi tawakkaltu 'alallahi la hawla wa la quwwata illa billah",
+    reference: "তিরমিযী"
+  },
+  {
+    id: "starting-journey",
+    titleBn: "সফর শুরুর দোয়া",
+    titleEn: "Starting a Journey",
+    arabic: "سُبْحَانَ الَّذِي سَخَّرَ لَنَا هَٰذَا وَمَا كُنَّا لَهُ مُقْرِنِينَ وَإِنَّا إِلَىٰ رَبِّنَا لَمُنقَلِبُونَ",
+    bengali: "পবিত্র সেই সত্তা যিনি এটি আমাদের অধীন করে দিয়েছেন, আমরা এর সামর্থ্য রাখতাম না। আমাদের অবশ্যই আমাদের প্রতিপালকের কাছে ফিরে যেতে হবে।",
+    english: "Glory to Him who has subjected this to us, and we could never have it. And indeed, to our Lord we will return.",
+    transliteration: "Subhanal-ladhi sakh-khara lana hadha wa ma kunna lahu muqrinin wa inna ila Rabbina lamunqalibun",
+    reference: "সূরা যুখরুফ ৪৩:১৩-১৪"
+  },
+  {
+    id: "before-wudu",
+    titleBn: "অযু শুরুর আগে",
+    titleEn: "Before Wudu",
+    arabic: "بِسْمِ اللَّهِ",
+    bengali: "আল্লাহর নামে শুরু করছি।",
+    english: "In the name of Allah.",
+    transliteration: "Bismillah",
+    reference: "তিরমিযী"
+  },
+  {
+    id: "after-wudu",
+    titleBn: "অযু শেষে",
+    titleEn: "After Wudu",
+    arabic: "أَشْهَدُ أَنْ لَا إِلَٰهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ",
+    bengali: "আমি সাক্ষ্য দিচ্ছি যে, আল্লাহ ছাড়া কোন উপাস্য নেই, তিনি একক, তাঁর কোন শরীক নেই এবং আমি সাক্ষ্য দিচ্ছি যে, মুহাম্মাদ তাঁর বান্দা ও রাসূল।",
+    english: "I bear witness that there is no god but Allah alone, with no partner, and I bear witness that Muhammad is His servant and Messenger.",
+    transliteration: "Ash-hadu an la ilaha illallahu wahdahu la sharika lahu wa ash-hadu anna Muhammadan 'abduhu wa rasuluh",
+    reference: "সহীহ মুসলিম"
+  },
+  {
+    id: "wearing-new-clothes",
+    titleBn: "নতুন পোশাক পরার সময়",
+    titleEn: "Wearing New Clothes",
+    arabic: "اللَّهُمَّ لَكَ الْحَمْدُ أَنْتَ كَسَوْتَنِيهِ، أَسْأَلُكَ خَيْرَهُ وَخَيْرَ مَا صُنِعَ لَهُ، وَأَعُوذُ بِكَ مِنْ شَرِّهِ وَشَرِّ مَا صُنِعَ لَهُ",
+    bengali: "হে আল্লাহ! তোমার জন্য সমস্ত প্রশংসা, তুমি আমাকে এটি পরিয়েছ। আমি তোমার কাছে এর কল্যাণ এবং যে উদ্দেশ্যে এটি তৈরি হয়েছে তার কল্যাণ চাই এবং এর অকল্যাণ ও যে উদ্দেশ্যে এটি তৈরি হয়েছে তার অকল্যাণ থেকে আশ্রয় চাই।",
+    english: "O Allah, for You is all praise, You have clothed me with it. I ask You for its goodness and the goodness for which it was made, and I seek refuge in You from its evil and the evil for which it was made.",
+    transliteration: "Allahumma lakal-hamdu anta kasawtaneehi, as'aluka khayrahu wa khayra ma suni'a lahu, wa a'udhu bika min sharrihi wa sharri ma suni'a lah",
+    reference: "তিরমিযী"
+  },
+  {
+    id: "entering-bathroom",
+    titleBn: "বাথরুমে প্রবেশের সময়",
+    titleEn: "Entering the Bathroom",
+    arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْخُبُثِ وَالْخَبَائِثِ",
+    bengali: "হে আল্লাহ! আমি তোমার কাছে পুরুষ ও মহিলা শয়তান থেকে আশ্রয় চাই।",
+    english: "O Allah, I seek refuge in You from male and female evil spirits.",
+    transliteration: "Allahumma inni a'udhu bika minal-khubuthi wal-khaba'ith",
+    reference: "সহীহ বুখারী"
+  },
+  {
+    id: "leaving-bathroom",
+    titleBn: "বাথরুম থেকে বের হওয়ার সময়",
+    titleEn: "Leaving the Bathroom",
+    arabic: "غُفْرَانَكَ",
+    bengali: "হে আল্লাহ! তোমার ক্ষমা চাই।",
+    english: "I seek Your forgiveness.",
+    transliteration: "Ghufranaka",
+    reference: "তিরমিযী"
+  },
+  {
+    id: "before-drinking-water",
+    titleBn: "পানি পান করার আগে",
+    titleEn: "Before Drinking Water",
+    arabic: "بِسْمِ اللَّهِ",
+    bengali: "আল্লাহর নামে শুরু করছি।",
+    english: "In the name of Allah.",
+    transliteration: "Bismillah",
+    reference: "সহীহ মুসলিম"
+  },
+  {
+    id: "after-drinking-water",
+    titleBn: "পানি পান করার পর",
+    titleEn: "After Drinking Water",
+    arabic: "الْحَمْدُ لِلَّهِ",
+    bengali: "সমস্ত প্রশংসা আল্লাহর জন্য।",
+    english: "All praise is for Allah.",
+    transliteration: "Alhamdulillah",
+    reference: "তিরমিযী"
   }
 ];
 
 const DailyDuaPage = ({ language, arabicFont = "amiri" }: DailyDuaPageProps) => {
   const navigate = useNavigate();
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
   const handleCopy = async (dua: DailyDuaItem) => {
@@ -298,8 +242,6 @@ const DailyDuaPage = ({ language, arabicFont = "amiri" }: DailyDuaPageProps) => 
     }
   };
 
-  const selectedCategoryData = dailyDuaCategories.find(c => c.id === selectedCategory);
-
   return (
     <div className="min-h-screen bg-background pb-20">
       {/* Header */}
@@ -309,7 +251,7 @@ const DailyDuaPage = ({ language, arabicFont = "amiri" }: DailyDuaPageProps) => 
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => selectedCategory ? setSelectedCategory(null) : navigate(-1)}
+              onClick={() => navigate(-1)}
               className="h-9 w-9"
             >
               <ArrowLeft className="h-5 w-5" />
@@ -319,19 +261,13 @@ const DailyDuaPage = ({ language, arabicFont = "amiri" }: DailyDuaPageProps) => 
                 "text-xl font-bold text-foreground",
                 language === "bn" && "font-bengali"
               )}>
-                {selectedCategoryData 
-                  ? (language === "bn" ? selectedCategoryData.nameBn : selectedCategoryData.nameEn)
-                  : (language === "bn" ? "দৈনিক দোয়া" : "Daily Duas")
-                }
+                {language === "bn" ? "দৈনিক দোয়া" : "Daily Duas"}
               </h1>
               <p className={cn(
                 "text-sm text-muted-foreground",
                 language === "bn" && "font-bengali"
               )}>
-                {selectedCategoryData
-                  ? (language === "bn" ? `${selectedCategoryData.duas.length}টি দোয়া` : `${selectedCategoryData.duas.length} duas`)
-                  : (language === "bn" ? "প্রাত্যহিক দোয়া ও মোনাজাত" : "Essential daily supplications")
-                }
+                {language === "bn" ? `${allDuas.length}টি দোয়া` : `${allDuas.length} duas`}
               </p>
             </div>
           </div>
@@ -339,104 +275,75 @@ const DailyDuaPage = ({ language, arabicFont = "amiri" }: DailyDuaPageProps) => 
       </div>
 
       <div className="max-w-4xl mx-auto px-4 py-6">
-        {!selectedCategory ? (
-          // Categories Grid
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-            {dailyDuaCategories.map((category) => (
+        <div className="space-y-4">
+          {allDuas.map((dua, index) => (
+            <div
+              key={dua.id}
+              className="relative rounded-2xl bg-card border border-border p-5 transition-all hover:shadow-md"
+            >
+              {/* Serial Number */}
+              <span className="absolute left-4 top-4 flex h-7 w-7 items-center justify-center rounded-full bg-primary/10 text-xs font-medium text-primary">
+                {index + 1}
+              </span>
+
+              {/* Copy Button */}
               <button
-                key={category.id}
-                onClick={() => setSelectedCategory(category.id)}
-                className="group relative overflow-hidden rounded-2xl bg-card border border-border p-5 text-left transition-all hover:shadow-lg hover:border-primary/30"
+                onClick={() => handleCopy(dua)}
+                className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full bg-muted text-muted-foreground transition-all hover:bg-primary hover:text-primary-foreground"
               >
-                <div className={cn(
-                  "flex h-12 w-12 items-center justify-center rounded-xl text-white mb-4",
-                  category.color
-                )}>
-                  {category.icon}
-                </div>
-                <h3 className={cn(
-                  "font-semibold text-foreground mb-1",
-                  language === "bn" && "font-bengali"
-                )}>
-                  {language === "bn" ? category.nameBn : category.nameEn}
-                </h3>
-                <p className={cn(
-                  "text-xs text-muted-foreground",
-                  language === "bn" && "font-bengali"
-                )}>
-                  {language === "bn" ? `${category.duas.length}টি দোয়া` : `${category.duas.length} duas`}
-                </p>
-                <ChevronRight className="absolute right-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
+                {copiedId === dua.id ? (
+                  <Check className="h-4 w-4 text-green-500" />
+                ) : (
+                  <Copy className="h-4 w-4" />
+                )}
               </button>
-            ))}
-          </div>
-        ) : (
-          // Duas List
-          <div className="space-y-4">
-            {selectedCategoryData?.duas.map((dua) => (
-              <div
-                key={dua.id}
-                className="relative rounded-2xl bg-card border border-border p-5 transition-all hover:shadow-md"
+
+              {/* Title */}
+              <h3 className={cn(
+                "text-sm font-medium text-primary mb-4 pl-10 pr-10",
+                language === "bn" && "font-bengali"
+              )}>
+                {language === "bn" ? dua.titleBn : dua.titleEn}
+              </h3>
+
+              {/* Arabic */}
+              <p 
+                className={cn(
+                  "text-2xl leading-loose text-foreground mb-4 text-right",
+                  arabicFont === "uthmani" ? "font-uthmani" : "font-arabic"
+                )}
+                dir="rtl"
               >
-                {/* Copy Button */}
-                <button
-                  onClick={() => handleCopy(dua)}
-                  className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full bg-muted text-muted-foreground transition-all hover:bg-primary hover:text-primary-foreground"
-                >
-                  {copiedId === dua.id ? (
-                    <Check className="h-4 w-4 text-green-500" />
-                  ) : (
-                    <Copy className="h-4 w-4" />
-                  )}
-                </button>
+                {dua.arabic}
+              </p>
 
-                {/* Title */}
-                <h3 className={cn(
-                  "text-sm font-medium text-primary mb-4 pr-10",
+              {/* Transliteration */}
+              {dua.transliteration && (
+                <p className="text-sm text-muted-foreground italic mb-3">
+                  {dua.transliteration}
+                </p>
+              )}
+
+              {/* Translation */}
+              <p className={cn(
+                "text-muted-foreground mb-3",
+                language === "bn" && "font-bengali"
+              )}>
+                {language === "bn" ? dua.bengali : dua.english}
+              </p>
+
+              {/* Reference */}
+              {dua.reference && (
+                <span className={cn(
+                  "inline-block rounded-full bg-muted px-3 py-1 text-xs text-muted-foreground",
                   language === "bn" && "font-bengali"
                 )}>
-                  {language === "bn" ? dua.titleBn : dua.titleEn}
-                </h3>
-
-                {/* Arabic */}
-                <p 
-                  className={cn(
-                    "text-2xl leading-loose text-foreground mb-4 text-right",
-                    arabicFont === "uthmani" ? "font-uthmani" : "font-arabic"
-                  )}
-                  dir="rtl"
-                >
-                  {dua.arabic}
-                </p>
-
-                {/* Transliteration */}
-                {dua.transliteration && (
-                  <p className="text-sm text-muted-foreground italic mb-3">
-                    {dua.transliteration}
-                  </p>
-                )}
-
-                {/* Translation */}
-                <p className={cn(
-                  "text-muted-foreground mb-3",
-                  language === "bn" && "font-bengali"
-                )}>
-                  {language === "bn" ? dua.bengali : dua.english}
-                </p>
-
-                {/* Reference */}
-                {dua.reference && (
-                  <span className={cn(
-                    "inline-block rounded-full bg-muted px-3 py-1 text-xs text-muted-foreground",
-                    language === "bn" && "font-bengali"
-                  )}>
-                    {dua.reference}
-                  </span>
-                )}
-              </div>
-            ))}
-          </div>
-        )}
+                  {dua.reference}
+                </span>
+              )}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
