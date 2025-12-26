@@ -9,7 +9,7 @@ export interface IslamicEvent {
   descriptionEn: string;
   descriptionBn: string;
   descriptionHi: string;
-  category: 'eid' | 'fasting' | 'night' | 'sacred' | 'historical';
+  category: 'eid' | 'fasting' | 'night' | 'sacred' | 'historical' | 'sunnah';
 }
 
 // Hijri month names
@@ -174,18 +174,33 @@ export const islamicEvents: IslamicEvent[] = [
     category: 'eid'
   },
 
+  // Shawwal (Month 10) - Six Days of Shawwal
+  {
+    id: 'six-shawwal-start',
+    hijriDay: 2,
+    hijriMonth: 10,
+    nameEn: 'Six Days of Shawwal Begin',
+    nameBn: 'শাওয়ালের ছয় রোজা শুরু',
+    nameHi: 'शव्वाल के छह रोज़े शुरू',
+    nameAr: 'صيام ستة من شوال',
+    descriptionEn: 'Sunnah to fast 6 days after Eid - equals reward of fasting whole year',
+    descriptionBn: 'ঈদের পর ৬ দিন রোজা রাখা সুন্নত - সারা বছর রোজার সমান সওয়াব',
+    descriptionHi: 'ईद के बाद 6 दिन रोज़ा रखना सुन्नत - पूरे साल के रोज़े का सवाब',
+    category: 'sunnah'
+  },
+
   // Dhul Hijjah (Month 12)
   {
     id: 'first-dhul-hijjah',
     hijriDay: 1,
     hijriMonth: 12,
-    nameEn: 'Start of Dhul Hijjah',
-    nameBn: 'জিলহজ মাস শুরু',
-    nameHi: 'ज़िलहिज्जा की शुरुआत',
-    nameAr: 'بداية ذي الحجة',
-    descriptionEn: 'Beginning of the sacred month of Hajj',
-    descriptionBn: 'পবিত্র হজ মাসের শুরু',
-    descriptionHi: 'पवित्र हज महीने की शुरुआत',
+    nameEn: 'First 10 Days of Dhul Hijjah Begin',
+    nameBn: 'জিলহজের প্রথম ১০ দিন শুরু',
+    nameHi: 'ज़िलहिज्जा के पहले 10 दिन',
+    nameAr: 'عشر ذي الحجة',
+    descriptionEn: 'Most blessed days of the year - fasting and good deeds highly recommended',
+    descriptionBn: 'বছরের সবচেয়ে বরকতময় দিন - রোজা ও ইবাদত অত্যন্ত পুণ্যময়',
+    descriptionHi: 'साल के सबसे बरकत वाले दिन - रोज़ा और इबादत अत्यंत पुण्यकारी',
     category: 'sacred'
   },
   {
@@ -196,9 +211,9 @@ export const islamicEvents: IslamicEvent[] = [
     nameBn: 'আরাফাত দিবস',
     nameHi: 'अराफ़ात का दिन',
     nameAr: 'يوم عرفة',
-    descriptionEn: 'Most important day of Hajj - fasting is highly recommended',
-    descriptionBn: 'হজের সবচেয়ে গুরুত্বপূর্ণ দিন - রোজা রাখা অত্যন্ত পুণ্যময়',
-    descriptionHi: 'हज का सबसे महत्वपूर्ण दिन - रोज़ा रखना अत्यंत पुण्यकारी',
+    descriptionEn: 'Most important day of Hajj - fasting expiates sins of 2 years',
+    descriptionBn: 'হজের সবচেয়ে গুরুত্বপূর্ণ দিন - রোজায় ২ বছরের গুনাহ মাফ',
+    descriptionHi: 'हज का सबसे महत्वपूर्ण दिन - रोज़े से 2 साल के गुनाह माफ़',
     category: 'fasting'
   },
   {
@@ -236,21 +251,64 @@ export const categoryLabels = {
     fasting: 'Fasting',
     night: 'Night of Worship',
     sacred: 'Sacred Day',
-    historical: 'Historical'
+    historical: 'Historical',
+    sunnah: 'Sunnah'
   },
   bn: {
     eid: 'ঈদ',
     fasting: 'রোজা',
     night: 'ইবাদতের রাত',
     sacred: 'পবিত্র দিন',
-    historical: 'ঐতিহাসিক'
+    historical: 'ঐতিহাসিক',
+    sunnah: 'সুন্নত'
   },
   hi: {
     eid: 'ईद',
     fasting: 'रोज़ा',
     night: 'इबादत की रात',
     sacred: 'पवित्र दिन',
-    historical: 'ऐतिहासिक'
+    historical: 'ऐतिहासिक',
+    sunnah: 'सुन्नत'
+  }
+};
+
+// Sunnah fasting information (weekly/monthly)
+export const sunnahFastingInfo = {
+  en: {
+    weekly: {
+      title: 'Weekly Sunnah Fasting',
+      days: ['Monday', 'Thursday'],
+      description: 'Prophet Muhammad (PBUH) used to fast on Mondays and Thursdays. Deeds are presented to Allah on these days.'
+    },
+    monthly: {
+      title: 'Ayyam al-Beed (White Days)',
+      days: '13th, 14th, 15th of each Hijri month',
+      description: 'Three days of fasting each lunar month - equal to fasting the whole month.'
+    }
+  },
+  bn: {
+    weekly: {
+      title: 'সাপ্তাহিক সুন্নত রোজা',
+      days: ['সোমবার', 'বৃহস্পতিবার'],
+      description: 'রাসূল (সা.) সোমবার ও বৃহস্পতিবার রোজা রাখতেন। এই দিনগুলোতে আমল আল্লাহর কাছে পেশ করা হয়।'
+    },
+    monthly: {
+      title: 'আইয়ামে বীজ (চাঁদনি রাতের দিন)',
+      days: 'প্রতি হিজরি মাসের ১৩, ১৪, ১৫ তারিখ',
+      description: 'প্রতি চন্দ্র মাসে তিন দিন রোজা - পুরো মাস রোজার সমান।'
+    }
+  },
+  hi: {
+    weekly: {
+      title: 'साप्ताहिक सुन्नत रोज़ा',
+      days: ['सोमवार', 'गुरुवार'],
+      description: 'रसूल (स.) सोमवार और गुरुवार को रोज़ा रखते थे। इन दिनों अमल अल्लाह के सामने पेश होते हैं।'
+    },
+    monthly: {
+      title: 'अय्यामे बीज़ (चांदनी रातों के दिन)',
+      days: 'हर हिजरी महीने की 13, 14, 15 तारीख',
+      description: 'हर चंद्र महीने में तीन दिन का रोज़ा - पूरे महीने के रोज़े के बराबर।'
+    }
   }
 };
 

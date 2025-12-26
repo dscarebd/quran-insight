@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { CalendarDays, Moon, Star, Sparkles, ChevronLeft, ChevronRight } from "lucide-react";
+import { CalendarDays, Moon, Star, Sparkles, ChevronLeft, ChevronRight, Heart } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Language } from "@/types/language";
 import { Button } from "@/components/ui/button";
@@ -17,7 +17,8 @@ import {
   toArabicNumber,
   bengaliMonths,
   bengaliDays,
-  englishDays
+  englishDays,
+  sunnahFastingInfo
 } from "@/data/islamicCalendar";
 
 interface IslamicCalendarProps {
@@ -31,6 +32,7 @@ const getCategoryColor = (category: IslamicEvent['category']) => {
     case 'night': return 'bg-indigo-500/20 text-indigo-600 dark:text-indigo-400';
     case 'sacred': return 'bg-rose-500/20 text-rose-600 dark:text-rose-400';
     case 'historical': return 'bg-blue-500/20 text-blue-600 dark:text-blue-400';
+    case 'sunnah': return 'bg-teal-500/20 text-teal-600 dark:text-teal-400';
     default: return 'bg-muted text-muted-foreground';
   }
 };
@@ -42,6 +44,7 @@ const getCategoryIcon = (category: IslamicEvent['category']) => {
     case 'night': return Star;
     case 'sacred': return CalendarDays;
     case 'historical': return CalendarDays;
+    case 'sunnah': return Heart;
     default: return CalendarDays;
   }
 };
@@ -324,7 +327,8 @@ const IslamicCalendar = ({ language }: IslamicCalendarProps) => {
                                   event.category === 'fasting' && 'bg-amber-400',
                                   event.category === 'night' && 'bg-indigo-400',
                                   event.category === 'sacred' && 'bg-rose-400',
-                                  event.category === 'historical' && 'bg-blue-400'
+                                  event.category === 'historical' && 'bg-blue-400',
+                                  event.category === 'sunnah' && 'bg-teal-400'
                                 )}
                                 title={language === 'bn' ? event.nameBn : event.nameEn}
                               />
@@ -357,6 +361,10 @@ const IslamicCalendar = ({ language }: IslamicCalendarProps) => {
                     <div className="flex items-center gap-1.5">
                       <div className="w-2 h-2 rounded-full bg-rose-400" />
                       <span className="text-muted-foreground">{categoryLabels[language].sacred}</span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <div className="w-2 h-2 rounded-full bg-teal-400" />
+                      <span className="text-muted-foreground">{categoryLabels[language].sunnah}</span>
                     </div>
                   </div>
                 </div>
@@ -516,6 +524,70 @@ const IslamicCalendar = ({ language }: IslamicCalendarProps) => {
                   </div>
                 );
               })}
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Sunnah Fasting Information */}
+        <Card className="mt-6 bg-gradient-to-br from-teal-500/10 to-emerald-500/5 border-teal-500/20">
+          <CardHeader>
+            <CardTitle className={cn(
+              "text-lg flex items-center gap-2",
+              language === "bn" && "font-bengali"
+            )}>
+              <Heart className="w-5 h-5 text-teal-500" />
+              {sunnahFastingInfo[language].weekly.title}
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid md:grid-cols-2 gap-6">
+              {/* Weekly Fasting */}
+              <div className="p-4 rounded-lg bg-background/50 border border-border/50">
+                <div className="flex items-center gap-2 mb-3">
+                  <Moon className="w-5 h-5 text-teal-500" />
+                  <h4 className={cn(
+                    "font-semibold text-foreground",
+                    language === "bn" && "font-bengali"
+                  )}>
+                    {sunnahFastingInfo[language].weekly.title}
+                  </h4>
+                </div>
+                <div className="flex flex-wrap gap-2 mb-3">
+                  {sunnahFastingInfo[language].weekly.days.map((day, i) => (
+                    <Badge key={i} variant="outline" className="bg-teal-500/10 text-teal-600 dark:text-teal-400 border-teal-500/30">
+                      {day}
+                    </Badge>
+                  ))}
+                </div>
+                <p className={cn(
+                  "text-sm text-muted-foreground",
+                  language === "bn" && "font-bengali"
+                )}>
+                  {sunnahFastingInfo[language].weekly.description}
+                </p>
+              </div>
+
+              {/* Monthly Fasting (Ayyam al-Beed) */}
+              <div className="p-4 rounded-lg bg-background/50 border border-border/50">
+                <div className="flex items-center gap-2 mb-3">
+                  <Star className="w-5 h-5 text-teal-500" />
+                  <h4 className={cn(
+                    "font-semibold text-foreground",
+                    language === "bn" && "font-bengali"
+                  )}>
+                    {sunnahFastingInfo[language].monthly.title}
+                  </h4>
+                </div>
+                <Badge variant="outline" className="bg-teal-500/10 text-teal-600 dark:text-teal-400 border-teal-500/30 mb-3">
+                  {sunnahFastingInfo[language].monthly.days}
+                </Badge>
+                <p className={cn(
+                  "text-sm text-muted-foreground",
+                  language === "bn" && "font-bengali"
+                )}>
+                  {sunnahFastingInfo[language].monthly.description}
+                </p>
+              </div>
             </div>
           </CardContent>
         </Card>
