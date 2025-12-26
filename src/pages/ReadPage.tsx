@@ -577,8 +577,8 @@ const ReadPage = ({ language, readingMode = "normal", arabicFont = "amiri", onAr
             </SheetContent>
           </Sheet>
 
-          {/* Tablet Controls - Font & Zoom */}
-          <div className="hidden sm:flex md:hidden items-center gap-1">
+          {/* Tablet Controls - Font & Zoom (show on sm and md, hide on lg+) */}
+          <div className="hidden sm:flex lg:hidden items-center gap-1">
             {/* Zoom Controls */}
             <Button
               variant="ghost"
@@ -622,8 +622,8 @@ const ReadPage = ({ language, readingMode = "normal", arabicFont = "amiri", onAr
             </div>
           </div>
 
-          {/* Page/Juz Info */}
-          <span className={cn("text-sm text-muted-foreground sm:hidden md:block", language === "bn" && "font-bengali")}>
+          {/* Page/Juz Info (hide on tablet where controls are shown) */}
+          <span className={cn("text-sm text-muted-foreground sm:hidden lg:block", language === "bn" && "font-bengali")}>
             {language === "bn" 
               ? `পারা ${formatNum(juzNumber, language)} - পৃষ্ঠা ${formatNum(currentVisiblePage, language)}`
               : `Juz ${juzNumber} - Page ${currentVisiblePage}`
@@ -812,8 +812,8 @@ const ReadPage = ({ language, readingMode = "normal", arabicFont = "amiri", onAr
         )}
       </main>
 
-      {/* Fixed Zoom Controls (Desktop - Left) */}
-      <div className="fixed left-4 top-1/2 -translate-y-1/2 z-40 hidden md:flex flex-col gap-2">
+      {/* Fixed Zoom Controls (Desktop only - Left) */}
+      <div className="fixed left-4 top-1/2 -translate-y-1/2 z-40 hidden lg:flex flex-col gap-2">
         <Button
           variant="outline"
           size="icon"
@@ -836,8 +836,8 @@ const ReadPage = ({ language, readingMode = "normal", arabicFont = "amiri", onAr
         </Button>
       </div>
 
-      {/* Fixed Font Switch (Desktop - Right) */}
-      <div className="fixed right-4 top-1/2 -translate-y-1/2 z-40 hidden md:flex flex-col gap-2">
+      {/* Fixed Font Switch (Desktop only - Right) */}
+      <div className="fixed right-4 top-1/2 -translate-y-1/2 z-40 hidden lg:flex flex-col gap-2">
         <Button
           variant={arabicFont === "uthmani" ? "default" : "outline"}
           onClick={() => onArabicFontChange?.("uthmani")}
