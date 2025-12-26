@@ -1,4 +1,4 @@
-import { ArrowLeft, Book, BookOpen, Heart, ExternalLink } from "lucide-react";
+import { ArrowLeft, Book, BookOpen, Heart, ExternalLink, Palette, User } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { MobileNavFooter } from "@/components/MobileNavFooter";
@@ -113,8 +113,23 @@ const SourcesCredits = ({ language }: SourcesCreditsProps) => {
     },
   ];
 
+  const logoCredits = [
+    {
+      nameEn: "Logo Smith",
+      nameBn: "লোগো স্মিথ",
+      descriptionEn: "Logo design and branding",
+      descriptionBn: "লোগো ডিজাইন ও ব্র্যান্ডিং",
+    },
+    {
+      nameEn: "Abdulla Mohamed (Addhu)",
+      nameBn: "আব্দুল্লাহ মোহাম্মদ (আদ্ধু)",
+      descriptionEn: "Logo design and creative direction",
+      descriptionBn: "লোগো ডিজাইন ও ক্রিয়েটিভ ডিরেকশন",
+    },
+  ];
+
   const SourceSection = ({ 
-    title, 
+    title,
     titleBn, 
     icon: Icon, 
     sources 
@@ -218,6 +233,39 @@ const SourcesCredits = ({ language }: SourcesCreditsProps) => {
             icon={Book} 
             sources={fontSources} 
           />
+
+          {/* Logo Credits */}
+          <section className="mb-6">
+            <div className="flex items-center gap-2 mb-3">
+              <Palette className="h-5 w-5 text-primary" />
+              <h2 className={cn(
+                "text-sm font-medium text-muted-foreground uppercase tracking-wider",
+                language === "bn" && "font-bengali"
+              )}>
+                {language === "bn" ? "লোগো ক্রেডিট" : "Logo Credits"}
+              </h2>
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              {logoCredits.map((credit, index) => (
+                <div
+                  key={index}
+                  className="flex flex-col items-center gap-2 rounded-xl border border-border bg-card p-4 text-center"
+                >
+                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
+                    <User className="h-6 w-6 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className={cn("text-sm font-semibold", language === "bn" && "font-bengali")}>
+                      {language === "bn" ? credit.nameBn : credit.nameEn}
+                    </h3>
+                    <p className={cn("text-xs text-muted-foreground mt-1", language === "bn" && "font-bengali")}>
+                      {language === "bn" ? credit.descriptionBn : credit.descriptionEn}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
 
           {/* Disclaimer */}
           <div className="rounded-xl border border-border bg-muted/30 p-4">
