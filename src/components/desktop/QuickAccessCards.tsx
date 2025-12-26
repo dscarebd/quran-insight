@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { Book, BookOpen, HandHeart, CalendarDays } from "lucide-react";
+import { Book, HandHeart, CalendarDays, Clock } from "lucide-react";
 import { cn, formatNumber } from "@/lib/utils";
 import { duaCategories } from "@/data/duas";
 import { getUpcomingEventsCount } from "@/data/islamicCalendar";
@@ -32,15 +32,15 @@ export const QuickAccessCards = ({ language }: QuickAccessCardsProps) => {
       count: 114,
     },
     {
-      id: "para",
-      icon: BookOpen,
-      labelEn: "Browse Paras",
-      labelBn: "পারা দেখুন",
-      descEn: "30 Juz for easy reading",
-      descBn: "সহজ পড়ার জন্য ৩০টি পারা",
-      path: "/para",
-      gradient: "from-blue-500 to-indigo-600",
-      count: 30,
+      id: "prayer",
+      icon: Clock,
+      labelEn: "Prayer Times",
+      labelBn: "নামাজের সময়",
+      descEn: "Location-based prayer schedule",
+      descBn: "অবস্থান ভিত্তিক নামাজের সময়সূচী",
+      path: "/prayer-times",
+      gradient: "from-violet-500 to-purple-600",
+      count: 5,
     },
     {
       id: "dua",
