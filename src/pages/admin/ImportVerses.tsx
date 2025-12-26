@@ -496,29 +496,29 @@ const ImportVerses = () => {
     }
   };
 
-  // Fix Bengali tafsir - re-fetch only tafsir
+  // Fix Bengali tafsir - re-fetch only tafsir (one surah at a time to avoid timeouts)
   const fixBengaliTafsir = async () => {
     setIsFixingTafsir(true);
     setTafsirResult(null);
     setTafsirProgress(0);
     
     const totalSurahs = 114;
-    const batchSize = 5;
     let totalUpdated = 0;
     const errors: string[] = [];
 
     try {
-      for (let startSurah = 1; startSurah <= totalSurahs; startSurah += batchSize) {
-        const endSurah = Math.min(startSurah + batchSize - 1, totalSurahs);
-        setTafsirStatus(`Fetching Bengali tafsir for Surah ${startSurah} - ${endSurah}...`);
+      // Process ONE surah at a time to avoid edge function timeouts
+      for (let surah = 1; surah <= totalSurahs; surah++) {
+        setTafsirStatus(`Fetching Bengali tafsir for Surah ${surah}/114...`);
         
         const { data, error } = await supabase.functions.invoke('update-arabic-verses', {
-          body: { startSurah, endSurah, tafsirOnly: true }
+          body: { surahNumber: surah, tafsirOnly: true }
         });
 
         if (error) {
-          console.error(`Error updating tafsir ${startSurah}-${endSurah}:`, error);
-          errors.push(`Surahs ${startSurah}-${endSurah}: ${error.message}`);
+          console.error(`Error updating tafsir Surah ${surah}:`, error);
+          errors.push(`Surah ${surah}: ${error.message}`);
+          // Continue with next surah even on error
         } else if (data) {
           totalUpdated += data.totalUpdated || 0;
           if (data.errors) {
@@ -526,20 +526,23 @@ const ImportVerses = () => {
           }
         }
 
-        const progress = Math.round((endSurah / totalSurahs) * 100);
+        const progress = Math.round((surah / totalSurahs) * 100);
         setTafsirProgress(progress);
+        
+        // Small delay between API calls to avoid rate limiting
+        await new Promise(resolve => setTimeout(resolve, 500));
       }
 
       setTafsirStatus("Complete!");
       setTafsirResult({
         success: true,
-        message: `Successfully updated ${totalUpdated} verses with Bengali tafsir`,
+        message: `Successfully updated ${totalUpdated} verses with Bengali tafsir from 4 sources`,
         totalUpdated
       });
       
       toast({
         title: "Tafsir Update Complete",
-        description: `Updated ${totalUpdated} verses with Bengali tafsir`,
+        description: `Updated ${totalUpdated} verses with Bengali tafsir from all 4 Quran.com sources`,
       });
 
     } catch (error: any) {
