@@ -1,22 +1,13 @@
 import { useRef } from "react";
-import { ArrowLeft, Info, Moon, Sun, BookOpen, Globe, Mail, Heart, Type, ChevronRight, FileText } from "lucide-react";
+import { Info, Moon, Sun, BookOpen, Type, ChevronRight, FileText } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
-import { Separator } from "@/components/ui/separator";
 import { MobileNavFooter } from "@/components/MobileNavFooter";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Slider } from "@/components/ui/slider";
 import annurLogo from "@/assets/annur-digital-logo.jpeg";
 import appLogo from "@/assets/app-logo.png";
-
-// Telegram SVG Icon Component
-const TelegramIcon = ({ className }: { className?: string }) => (
-  <svg viewBox="0 0 24 24" className={className} fill="currentColor">
-    <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
-  </svg>
-);
 
 interface SettingsProps {
   language: "bn" | "en";
@@ -284,13 +275,19 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
             )}>
               {language === "bn" ? "ডেভেলপার" : "Developer"}
             </h2>
-            <div className="rounded-xl border border-border bg-card overflow-hidden">
+            <button
+              onClick={() => navigate("/developer")}
+              className="w-full rounded-xl border border-border bg-card overflow-hidden text-left hover:bg-muted/50 transition-colors"
+            >
               <div className="p-4">
                 <div className="flex items-center gap-4">
                   <button
                     type="button"
                     aria-label={language === "bn" ? "অ্যাডমিন লগইন খুলুন" : "Open admin login"}
-                    onClick={handleDeveloperLogoClick}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDeveloperLogoClick();
+                    }}
                     className="h-14 w-14 rounded-full border-2 border-primary/20 overflow-hidden cursor-pointer select-none"
                   >
                     <img
@@ -310,50 +307,10 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
                         : "WordPress & Software Designer"}
                     </p>
                   </div>
-                </div>
-                <div className="mt-4 space-y-2">
-                  {/* Website */}
-                  <a
-                    href="https://annurdigital.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-3 rounded-lg bg-muted/50 px-4 py-3 transition-colors hover:bg-muted"
-                  >
-                    <Globe className="h-5 w-5 text-blue-500" />
-                    <span className={cn("text-xs font-medium flex-1", language === "bn" && "font-bengali")}>
-                      {language === "bn" ? "ওয়েবসাইট" : "Website"}
-                    </span>
-                    <span className="text-xs text-muted-foreground">annurdigital.com</span>
-                  </a>
-                  
-                  {/* Email */}
-                  <a
-                    href="mailto:support@annurdigital.com"
-                    className="flex items-center gap-3 rounded-lg bg-muted/50 px-4 py-3 transition-colors hover:bg-muted"
-                  >
-                    <Mail className="h-5 w-5 text-red-500" />
-                    <span className={cn("text-xs font-medium flex-1", language === "bn" && "font-bengali")}>
-                      {language === "bn" ? "ইমেইল" : "Email"}
-                    </span>
-                    <span className="text-xs text-muted-foreground">support@annurdigital.com</span>
-                  </a>
-                  
-                  {/* Telegram */}
-                  <a
-                    href="https://t.me/nuralamin_official"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-3 rounded-lg bg-muted/50 px-4 py-3 transition-colors hover:bg-muted"
-                  >
-                    <TelegramIcon className="h-5 w-5 text-[#0088cc]" />
-                    <span className={cn("text-xs font-medium flex-1", language === "bn" && "font-bengali")}>
-                      {language === "bn" ? "টেলিগ্রাম" : "Telegram"}
-                    </span>
-                    <span className="text-xs text-muted-foreground">@nuralamin_official</span>
-                  </a>
+                  <ChevronRight className="h-5 w-5 text-muted-foreground" />
                 </div>
               </div>
-            </div>
+            </button>
           </section>
 
           {/* About Section */}
