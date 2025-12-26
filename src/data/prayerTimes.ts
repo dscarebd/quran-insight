@@ -116,7 +116,7 @@ const getPrayerTime = (
   return isMorning ? midday - hourAngle : midday + hourAngle;
 };
 
-// Format time as HH:MM
+// Format time as HH:MM AM/PM (12-hour format)
 const formatTime = (hours: number): string => {
   if (isNaN(hours)) return '--:--';
   
@@ -124,10 +124,15 @@ const formatTime = (hours: number): string => {
   if (h < 0) h += 24;
   if (h >= 24) h -= 24;
   
-  const hour = Math.floor(h);
-  const minute = Math.round((h - hour) * 60);
+  const hour24 = Math.floor(h);
+  const minute = Math.round((h - hour24) * 60);
   
-  return `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
+  // Convert to 12-hour format
+  const period = hour24 >= 12 ? 'PM' : 'AM';
+  let hour12 = hour24 % 12;
+  if (hour12 === 0) hour12 = 12;
+  
+  return `${hour12}:${minute.toString().padStart(2, '0')} ${period}`;
 };
 
 // Calculate prayer times for a given location and date
@@ -182,6 +187,24 @@ export const calculatePrayerTimes = (
   };
 };
 
+// Helper to parse 12-hour time format to minutes
+const parseTimeToMinutes = (timeStr: string): number => {
+  if (timeStr === '--:--') return -1;
+  
+  const match = timeStr.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
+  if (!match) return -1;
+  
+  let hours = parseInt(match[1], 10);
+  const minutes = parseInt(match[2], 10);
+  const period = match[3].toUpperCase();
+  
+  // Convert to 24-hour format
+  if (period === 'PM' && hours !== 12) hours += 12;
+  if (period === 'AM' && hours === 12) hours = 0;
+  
+  return hours * 60 + minutes;
+};
+
 // Get next prayer from current time
 export const getNextPrayer = (times: PrayerTimes): { name: string; time: string; nameAr: string; nameBn: string } | null => {
   const now = new Date();
@@ -197,9 +220,8 @@ export const getNextPrayer = (times: PrayerTimes): { name: string; time: string;
   ];
   
   for (const prayer of prayers) {
-    if (prayer.time === '--:--') continue;
-    const [h, m] = prayer.time.split(':').map(Number);
-    const prayerMinutes = h * 60 + m;
+    const prayerMinutes = parseTimeToMinutes(prayer.time);
+    if (prayerMinutes < 0) continue;
     
     if (prayerMinutes > currentTime) {
       return prayer;
@@ -246,11 +268,20 @@ export const defaultLocations: Record<string, Location> = {
 export const getTimeRemaining = (prayerTime: string): { hours: number; minutes: number; totalMinutes: number } | null => {
   if (prayerTime === '--:--') return null;
   
-  const now = new Date();
-  const [h, m] = prayerTime.split(':').map(Number);
+  const match = prayerTime.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
+  if (!match) return null;
   
+  let hours = parseInt(match[1], 10);
+  const minutes = parseInt(match[2], 10);
+  const period = match[3].toUpperCase();
+  
+  // Convert to 24-hour format
+  if (period === 'PM' && hours !== 12) hours += 12;
+  if (period === 'AM' && hours === 12) hours = 0;
+  
+  const now = new Date();
   let prayerDate = new Date();
-  prayerDate.setHours(h, m, 0, 0);
+  prayerDate.setHours(hours, minutes, 0, 0);
   
   // If prayer time has passed, it's for tomorrow
   if (prayerDate <= now) {
@@ -259,8 +290,8 @@ export const getTimeRemaining = (prayerTime: string): { hours: number; minutes: 
   
   const diffMs = prayerDate.getTime() - now.getTime();
   const totalMinutes = Math.floor(diffMs / (1000 * 60));
-  const hours = Math.floor(totalMinutes / 60);
-  const minutes = totalMinutes % 60;
+  const remainingHours = Math.floor(totalMinutes / 60);
+  const remainingMinutes = totalMinutes % 60;
   
-  return { hours, minutes, totalMinutes };
+  return { hours: remainingHours, minutes: remainingMinutes, totalMinutes };
 };
