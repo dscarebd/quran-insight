@@ -4,9 +4,10 @@ import { HandHeart, ChevronRight, Heart, Copy, Check } from "lucide-react";
 import { duaCategories, Dua, DuaCategory } from "@/data/duas";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
+import { Language } from "@/types/language";
 
 interface DailyDuaProps {
-  language: "bn" | "en";
+  language: Language;
 }
 
 // Get all duas from all categories

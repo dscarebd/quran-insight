@@ -3,11 +3,11 @@ import { useNavigate } from "react-router-dom";
 import { Sparkles, ChevronRight, Bookmark } from "lucide-react";
 import { dailyVerses } from "@/data/surahs";
 import { cn } from "@/lib/utils";
+import { Language } from "@/types/language";
 
 interface DailyVerseProps {
-  language: "bn" | "en";
+  language: Language;
 }
-
 export const DailyVerse = ({ language }: DailyVerseProps) => {
   const [verse, setVerse] = useState(dailyVerses[0]);
   const [isBookmarked, setIsBookmarked] = useState(false);

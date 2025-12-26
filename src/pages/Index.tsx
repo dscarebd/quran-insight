@@ -7,9 +7,10 @@ import { DesktopDailyContent } from "@/components/desktop/DesktopDailyContent";
 import { useToast } from "@/hooks/use-toast";
 import { getVersesBySurah, Verse } from "@/data/verses";
 import { surahs } from "@/data/surahs";
+import { Language, t } from "@/types/language";
 
 interface IndexProps {
-  language: "bn" | "en";
+  language: Language;
 }
 
 const Index = ({ language }: IndexProps) => {
@@ -58,15 +59,11 @@ const Index = ({ language }: IndexProps) => {
     const topResults = results.slice(0, 10);
 
     if (topResults.length === 0) {
-      return language === "bn" 
-        ? "দুঃখিত, আপনার অনুসন্ধানের সাথে মিলে যায় এমন কোনো আয়াত পাওয়া যায়নি।"
-        : "Sorry, no verses found matching your search.";
+      return t("noResults", language);
     }
 
     // Format results as markdown
-    let response = language === "bn" 
-      ? `**"${query}" এর জন্য অফলাইন অনুসন্ধান ফলাফল:**\n\n`
-      : `**Offline search results for "${query}":**\n\n`;
+    let response = `**"${query}" ${t("offlineSearchResults", language)}:**\n\n`;
 
     topResults.forEach((result, index) => {
       const { verse, surahName } = result;

@@ -5,9 +5,10 @@ import { dailyVerses } from "@/data/surahs";
 import { duaCategories, Dua, DuaCategory } from "@/data/duas";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
+import { Language } from "@/types/language";
 
 interface DesktopDailyContentProps {
-  language: "bn" | "en";
+  language: Language;
 }
 
 const getAllDuas = (): { dua: Dua; category: DuaCategory }[] => {

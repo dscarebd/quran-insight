@@ -3,10 +3,11 @@ import { useNavigate } from "react-router-dom";
 import { LanguageToggle } from "./LanguageToggle";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import appLogo from "@/assets/app-logo.png";
+import { Language, t } from "@/types/language";
 
 interface HeaderProps {
-  language: "bn" | "en";
-  onLanguageChange: (lang: "bn" | "en") => void;
+  language: Language;
+  onLanguageChange: (lang: Language) => void;
 }
 
 export const Header = ({ language, onLanguageChange }: HeaderProps) => {

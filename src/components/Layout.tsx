@@ -6,11 +6,12 @@ import { DesktopHeader } from "@/components/DesktopHeader";
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 import { useVisitorTracking } from "@/hooks/useVisitorTracking";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { Language } from "@/types/language";
 
 interface LayoutProps {
   children: React.ReactNode;
-  language: "bn" | "en";
-  onLanguageChange: (lang: "bn" | "en") => void;
+  language: Language;
+  onLanguageChange: (lang: Language) => void;
 }
 
 export const Layout = ({ children, language, onLanguageChange }: LayoutProps) => {

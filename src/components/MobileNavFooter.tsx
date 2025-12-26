@@ -8,9 +8,10 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sh
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Language, t } from "@/types/language";
 
 interface MobileNavFooterProps {
-  language: "bn" | "en";
+  language: Language;
 }
 
 export const MobileNavFooter = ({ language }: MobileNavFooterProps) => {

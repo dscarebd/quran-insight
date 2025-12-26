@@ -3,11 +3,11 @@ import { useNavigate } from "react-router-dom";
 import { Book, BookOpen, HandHeart, Bookmark } from "lucide-react";
 import { cn, formatNumber } from "@/lib/utils";
 import { duaCategories } from "@/data/duas";
+import { Language } from "@/types/language";
 
 interface QuickAccessCardsProps {
-  language: "bn" | "en";
+  language: Language;
 }
-
 // Calculate total duas count
 const getTotalDuasCount = () => {
   return duaCategories.reduce((total, category) => total + category.duas.length, 0);

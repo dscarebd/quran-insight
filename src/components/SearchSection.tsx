@@ -2,9 +2,10 @@ import { useState, useEffect, useRef } from "react";
 import { Search, Mic, MicOff, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
+import { Language } from "@/types/language";
 
 interface SearchSectionProps {
-  language: "bn" | "en";
+  language: Language;
   onSearch: (query: string) => void;
   isLoading?: boolean;
 }
