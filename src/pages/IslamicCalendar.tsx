@@ -183,38 +183,38 @@ const IslamicCalendar = ({ language }: IslamicCalendarProps) => {
 
       <div className="container mx-auto px-4 py-4 lg:py-6 max-w-6xl">
 
-        {/* Current Date Display - All Three Formats */}
-        <Card className="mb-6 bg-gradient-to-br from-primary/10 to-primary/5 border-primary/20">
-          <CardContent className="p-4 sm:p-6">
+        {/* Current Date Display - Compact for Mobile */}
+        <Card className="mb-4 sm:mb-6 bg-gradient-to-br from-primary/10 to-primary/5 border-primary/20">
+          <CardContent className="p-3 sm:p-4">
             <p className={cn(
-              "text-sm text-muted-foreground mb-3 text-center",
+              "text-xs sm:text-sm text-muted-foreground mb-2 text-center",
               language === "bn" && "font-bengali",
               language === "hi" && "font-hindi"
             )}>
               {currentDateLabel[language]}
             </p>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
+            <div className="grid grid-cols-3 gap-2 sm:gap-4 text-center">
               {/* English/Gregorian */}
-              <div className="p-3 rounded-lg bg-background/50">
-                <p className="text-xs text-muted-foreground mb-1">English</p>
-                <p className="font-semibold text-foreground">
-                  {today.toLocaleDateString('en-US', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
+              <div className="p-2 sm:p-3 rounded-lg bg-background/50">
+                <p className="text-[10px] sm:text-xs text-muted-foreground mb-0.5 sm:mb-1">English</p>
+                <p className="text-xs sm:text-sm font-semibold text-foreground">
+                  {today.toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })}
                 </p>
               </div>
               
               {/* Bengali/Hijri */}
-              <div className="p-3 rounded-lg bg-background/50">
-                <p className="text-xs text-muted-foreground mb-1 font-bengali">বাংলা (হিজরি)</p>
-                <p className="font-semibold text-primary font-bengali">
-                  {toBengaliNumber(currentHijri.day)} {hijriMonths.bn[currentHijri.month - 1]}, {toBengaliNumber(currentHijri.year)} হিজরি
+              <div className="p-2 sm:p-3 rounded-lg bg-background/50">
+                <p className="text-[10px] sm:text-xs text-muted-foreground mb-0.5 sm:mb-1 font-bengali">বাংলা</p>
+                <p className="text-xs sm:text-sm font-semibold text-primary font-bengali">
+                  {toBengaliNumber(currentHijri.day)} {hijriMonths.bn[currentHijri.month - 1]}
                 </p>
               </div>
               
               {/* Arabic/Hijri */}
-              <div className="p-3 rounded-lg bg-background/50">
-                <p className="text-xs text-muted-foreground mb-1">العربية</p>
-                <p className="font-semibold text-primary text-lg" dir="rtl">
-                  {formatArabicHijriDate(currentHijri.day, currentHijri.month, currentHijri.year)}
+              <div className="p-2 sm:p-3 rounded-lg bg-background/50">
+                <p className="text-[10px] sm:text-xs text-muted-foreground mb-0.5 sm:mb-1">العربية</p>
+                <p className="text-xs sm:text-sm font-semibold text-primary" dir="rtl">
+                  {toArabicNumber(currentHijri.day)} {hijriMonths.ar[currentHijri.month - 1]}
                 </p>
               </div>
             </div>

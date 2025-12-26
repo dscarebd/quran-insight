@@ -316,10 +316,10 @@ export const sunnahFastingInfo = {
 // Hijri to Gregorian Conversion
 // =============================================
 
-// Reference date: 1 Muharram 1447 = June 26, 2025 (verified astronomical calculation)
+// Reference date: 1 Rajab 1447 = December 22, 2025 (verified astronomical calculation)
 // This provides accurate conversion for current dates
-const REFERENCE_HIJRI = { year: 1447, month: 1, day: 1 };
-const REFERENCE_GREGORIAN = new Date(2025, 5, 26); // June 26, 2025
+const REFERENCE_HIJRI = { year: 1447, month: 7, day: 1 };
+const REFERENCE_GREGORIAN = new Date(2025, 11, 22); // December 22, 2025
 
 // Average length of a Hijri month and year (lunar calendar)
 const HIJRI_MONTH_LENGTH = 29.530589;
