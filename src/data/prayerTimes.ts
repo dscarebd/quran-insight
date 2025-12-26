@@ -201,9 +201,44 @@ export const prayerNames = {
 // Default locations
 export const defaultLocations: Record<string, Location> = {
   dhaka: { latitude: 23.8103, longitude: 90.4125, city: 'Dhaka' },
+  chittagong: { latitude: 22.3569, longitude: 91.7832, city: 'Chittagong' },
+  sylhet: { latitude: 24.8949, longitude: 91.8687, city: 'Sylhet' },
+  rajshahi: { latitude: 24.3745, longitude: 88.6042, city: 'Rajshahi' },
   kolkata: { latitude: 22.5726, longitude: 88.3639, city: 'Kolkata' },
+  mumbai: { latitude: 19.0760, longitude: 72.8777, city: 'Mumbai' },
   delhi: { latitude: 28.7041, longitude: 77.1025, city: 'Delhi' },
   makkah: { latitude: 21.4225, longitude: 39.8262, city: 'Makkah' },
+  madinah: { latitude: 24.5247, longitude: 39.5692, city: 'Madinah' },
+  dubai: { latitude: 25.2048, longitude: 55.2708, city: 'Dubai' },
+  cairo: { latitude: 30.0444, longitude: 31.2357, city: 'Cairo' },
+  istanbul: { latitude: 41.0082, longitude: 28.9784, city: 'Istanbul' },
+  jakarta: { latitude: -6.2088, longitude: 106.8456, city: 'Jakarta' },
+  kualalumpur: { latitude: 3.1390, longitude: 101.6869, city: 'Kuala Lumpur' },
   london: { latitude: 51.5074, longitude: -0.1278, city: 'London' },
   newyork: { latitude: 40.7128, longitude: -74.0060, city: 'New York' },
+  toronto: { latitude: 43.6532, longitude: -79.3832, city: 'Toronto' },
+  sydney: { latitude: -33.8688, longitude: 151.2093, city: 'Sydney' },
+};
+
+// Get time remaining until next prayer
+export const getTimeRemaining = (prayerTime: string): { hours: number; minutes: number; totalMinutes: number } | null => {
+  if (prayerTime === '--:--') return null;
+  
+  const now = new Date();
+  const [h, m] = prayerTime.split(':').map(Number);
+  
+  let prayerDate = new Date();
+  prayerDate.setHours(h, m, 0, 0);
+  
+  // If prayer time has passed, it's for tomorrow
+  if (prayerDate <= now) {
+    prayerDate.setDate(prayerDate.getDate() + 1);
+  }
+  
+  const diffMs = prayerDate.getTime() - now.getTime();
+  const totalMinutes = Math.floor(diffMs / (1000 * 60));
+  const hours = Math.floor(totalMinutes / 60);
+  const minutes = totalMinutes % 60;
+  
+  return { hours, minutes, totalMinutes };
 };

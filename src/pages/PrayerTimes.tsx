@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import {
   calculatePrayerTimes,
   getNextPrayer,
+  getTimeRemaining,
   prayerNames,
   defaultLocations,
   PrayerTimes as PrayerTimesType,
@@ -29,6 +30,7 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
   const [selectedCity, setSelectedCity] = useState('dhaka');
   const [method, setMethod] = useState<CalculationMethod>('Karachi');
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [timeRemaining, setTimeRemaining] = useState<{ hours: number; minutes: number } | null>(null);
 
   const pageTitle = {
     en: 'Prayer Times',
@@ -60,20 +62,28 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
     hi: 'मेरा स्थान उपयोग करें'
   };
 
-  // Update current time every minute
+  // Update current time every second for countdown
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentTime(new Date());
-    }, 60000);
+      if (nextPrayer) {
+        const remaining = getTimeRemaining(nextPrayer.time);
+        setTimeRemaining(remaining);
+      }
+    }, 1000);
     return () => clearInterval(timer);
-  }, []);
+  }, [nextPrayer]);
 
   // Calculate prayer times when location or method changes
   useEffect(() => {
     const times = calculatePrayerTimes(location, new Date(), method);
     setPrayerTimes(times);
-    setNextPrayer(getNextPrayer(times));
-  }, [location, method, currentTime]);
+    const next = getNextPrayer(times);
+    setNextPrayer(next);
+    if (next) {
+      setTimeRemaining(getTimeRemaining(next.time));
+    }
+  }, [location, method]);
 
   // Get user's location
   const getUserLocation = () => {
@@ -145,12 +155,39 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
 
   const cityNames: Record<string, { en: string; bn: string }> = {
     dhaka: { en: 'Dhaka', bn: 'ঢাকা' },
+    chittagong: { en: 'Chittagong', bn: 'চট্টগ্রাম' },
+    sylhet: { en: 'Sylhet', bn: 'সিলেট' },
+    rajshahi: { en: 'Rajshahi', bn: 'রাজশাহী' },
     kolkata: { en: 'Kolkata', bn: 'কলকাতা' },
+    mumbai: { en: 'Mumbai', bn: 'মুম্বাই' },
     delhi: { en: 'Delhi', bn: 'দিল্লি' },
     makkah: { en: 'Makkah', bn: 'মক্কা' },
+    madinah: { en: 'Madinah', bn: 'মদিনা' },
+    dubai: { en: 'Dubai', bn: 'দুবাই' },
+    cairo: { en: 'Cairo', bn: 'কায়রো' },
+    istanbul: { en: 'Istanbul', bn: 'ইস্তাম্বুল' },
+    jakarta: { en: 'Jakarta', bn: 'জাকার্তা' },
+    kualalumpur: { en: 'Kuala Lumpur', bn: 'কুয়ালালামপুর' },
     london: { en: 'London', bn: 'লন্ডন' },
     newyork: { en: 'New York', bn: 'নিউ ইয়র্ক' },
+    toronto: { en: 'Toronto', bn: 'টরন্টো' },
+    sydney: { en: 'Sydney', bn: 'সিডনি' },
     custom: { en: 'Your Location', bn: 'আপনার অবস্থান' },
+  };
+
+  const formatTimeRemaining = (remaining: { hours: number; minutes: number } | null, lang: Language) => {
+    if (!remaining) return '';
+    const { hours, minutes } = remaining;
+    if (lang === 'bn') {
+      if (hours > 0) {
+        return `${toBengaliNumber(hours)} ঘণ্টা ${toBengaliNumber(minutes)} মিনিট বাকি`;
+      }
+      return `${toBengaliNumber(minutes)} মিনিট বাকি`;
+    }
+    if (hours > 0) {
+      return `${hours}h ${minutes}m remaining`;
+    }
+    return `${minutes}m remaining`;
   };
 
   return (
@@ -264,6 +301,15 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
               <p className="text-2xl font-semibold text-foreground mt-2">
                 {formatTimeDisplay(nextPrayer.time, language)}
               </p>
+              {/* Time Remaining Countdown */}
+              {timeRemaining && (
+                <p className={cn(
+                  "text-sm text-muted-foreground mt-2 animate-pulse",
+                  language === "bn" && "font-bengali"
+                )}>
+                  {formatTimeRemaining(timeRemaining, language)}
+                </p>
+              )}
             </CardContent>
           </Card>
         )}
