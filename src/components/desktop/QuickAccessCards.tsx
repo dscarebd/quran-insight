@@ -28,7 +28,7 @@ export const QuickAccessCards = ({ language }: QuickAccessCardsProps) => {
       descEn: "Beautiful names with meanings",
       descBn: "সুন্দর নামসমূহ ও অর্থ",
       path: "/names-of-allah",
-      gradient: "from-emerald-500 to-teal-600",
+      gradient: "from-sky-500 to-blue-600",
       count: 99,
     },
     {
