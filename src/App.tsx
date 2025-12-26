@@ -35,6 +35,7 @@ const AdminEmailsManagement = lazy(() => import("./pages/admin/AdminEmailsManage
 const Analytics = lazy(() => import("./pages/admin/Analytics"));
 const DuaCategoriesManagement = lazy(() => import("./pages/admin/DuaCategoriesManagement"));
 const DuasManagement = lazy(() => import("./pages/admin/DuasManagement"));
+const ImportDuas = lazy(() => import("./pages/admin/ImportDuas"));
 
 const queryClient = new QueryClient();
 
@@ -149,6 +150,7 @@ const AppContent = () => {
         <Route path="verses" element={<VersesManagement />} />
         <Route path="dua-categories" element={<DuaCategoriesManagement />} />
         <Route path="duas" element={<DuasManagement />} />
+        <Route path="import-duas" element={<ImportDuas />} />
         <Route path="import-verses" element={<ImportVerses />} />
         <Route path="users" element={<UsersManagement />} />
         <Route path="admin-emails" element={<AdminEmailsManagement />} />
