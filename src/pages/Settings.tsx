@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { Info, Moon, Sun, BookOpen, Type, ChevronRight, FileText, ChevronDown } from "lucide-react";
+import { Info, Moon, Sun, BookOpen, Type, ChevronRight, FileText, ChevronDown, Globe, Palette } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { useTheme } from "next-themes";
@@ -86,7 +86,7 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
             </div>
           </section>
 
-          {/* Language Section */}
+          {/* Language Dropdown */}
           <section>
             <h2 className={cn(
               "mb-3 text-sm font-medium text-muted-foreground uppercase tracking-wider",
@@ -94,37 +94,63 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
             )}>
               {language === "bn" ? "ভাষা" : "Language"}
             </h2>
-            <div className="grid grid-cols-2 gap-2">
-              <button
-                onClick={() => onLanguageChange("bn")}
-                className={cn(
-                  "flex items-center justify-center gap-1.5 rounded-lg border border-border bg-card px-2 py-2.5 transition-colors",
-                  language === "bn" ? "border-primary bg-primary/5" : "hover:bg-muted/50"
-                )}
-              >
-                <span className="font-bengali text-xs">ব</span>
-                <p className="font-bengali text-xs font-medium">বাংলা</p>
-                {language === "bn" && (
-                  <div className="h-1.5 w-1.5 rounded-full bg-primary" />
-                )}
-              </button>
-              <button
-                onClick={() => onLanguageChange("en")}
-                className={cn(
-                  "flex items-center justify-center gap-1.5 rounded-lg border border-border bg-card px-2 py-2.5 transition-colors",
-                  language === "en" ? "border-primary bg-primary/5" : "hover:bg-muted/50"
-                )}
-              >
-                <span className="text-xs font-medium">A</span>
-                <p className="text-xs font-medium">English</p>
-                {language === "en" && (
-                  <div className="h-1.5 w-1.5 rounded-full bg-primary" />
-                )}
-              </button>
-            </div>
+            <Collapsible>
+              <CollapsibleTrigger className="w-full">
+                <div className="rounded-xl border border-border bg-card overflow-hidden text-left hover:bg-muted/50 transition-colors">
+                  <div className="p-4">
+                    <div className="flex items-center gap-4">
+                      <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
+                        <Globe className="h-6 w-6 text-primary" />
+                      </div>
+                      <div className="flex-1 text-left">
+                        <h3 className={cn("text-sm font-semibold", language === "bn" && "font-bengali")}>
+                          {language === "bn" ? "অ্যাপ ভাষা" : "App Language"}
+                        </h3>
+                        <p className={cn("text-xs text-muted-foreground", language === "bn" && "font-bengali")}>
+                          {language === "bn" ? "বাংলা" : "English"}
+                        </p>
+                      </div>
+                      <ChevronDown className="h-5 w-5 text-muted-foreground transition-transform duration-200" />
+                    </div>
+                  </div>
+                </div>
+              </CollapsibleTrigger>
+              <CollapsibleContent>
+                <div className="mt-3 rounded-xl border border-border bg-card p-4">
+                  <div className="grid grid-cols-2 gap-2">
+                    <button
+                      onClick={() => onLanguageChange("bn")}
+                      className={cn(
+                        "flex items-center justify-center gap-1.5 rounded-lg border border-border bg-card px-3 py-3 transition-colors",
+                        language === "bn" ? "border-primary bg-primary/5" : "hover:bg-muted/50"
+                      )}
+                    >
+                      <span className="font-bengali text-sm">ব</span>
+                      <p className="font-bengali text-sm font-medium">বাংলা</p>
+                      {language === "bn" && (
+                        <div className="h-1.5 w-1.5 rounded-full bg-primary" />
+                      )}
+                    </button>
+                    <button
+                      onClick={() => onLanguageChange("en")}
+                      className={cn(
+                        "flex items-center justify-center gap-1.5 rounded-lg border border-border bg-card px-3 py-3 transition-colors",
+                        language === "en" ? "border-primary bg-primary/5" : "hover:bg-muted/50"
+                      )}
+                    >
+                      <span className="text-sm font-medium">A</span>
+                      <p className="text-sm font-medium">English</p>
+                      {language === "en" && (
+                        <div className="h-1.5 w-1.5 rounded-full bg-primary" />
+                      )}
+                    </button>
+                  </div>
+                </div>
+              </CollapsibleContent>
+            </Collapsible>
           </section>
 
-          {/* Theme Section */}
+          {/* Theme Dropdown */}
           <section>
             <h2 className={cn(
               "mb-3 text-sm font-medium text-muted-foreground uppercase tracking-wider",
@@ -132,26 +158,54 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
             )}>
               {language === "bn" ? "থিম" : "Theme"}
             </h2>
-            <div className="grid grid-cols-2 gap-2">
-              {themeOptions.map((option) => (
-                <button
-                  key={option.value}
-                  onClick={() => setTheme(option.value)}
-                  className={cn(
-                    "flex items-center justify-center gap-1.5 rounded-lg border border-border bg-card px-2 py-2.5 transition-colors",
-                    theme === option.value ? "border-primary bg-primary/5" : "hover:bg-muted/50"
-                  )}
-                >
-                  <option.icon className="h-4 w-4" />
-                  <p className={cn("text-xs font-medium", language === "bn" && "font-bengali")}>
-                    {language === "bn" ? option.labelBn : option.labelEn}
-                  </p>
-                  {theme === option.value && (
-                    <div className="h-1.5 w-1.5 rounded-full bg-primary" />
-                  )}
-                </button>
-              ))}
-            </div>
+            <Collapsible>
+              <CollapsibleTrigger className="w-full">
+                <div className="rounded-xl border border-border bg-card overflow-hidden text-left hover:bg-muted/50 transition-colors">
+                  <div className="p-4">
+                    <div className="flex items-center gap-4">
+                      <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
+                        <Palette className="h-6 w-6 text-primary" />
+                      </div>
+                      <div className="flex-1 text-left">
+                        <h3 className={cn("text-sm font-semibold", language === "bn" && "font-bengali")}>
+                          {language === "bn" ? "অ্যাপ থিম" : "App Theme"}
+                        </h3>
+                        <p className={cn("text-xs text-muted-foreground", language === "bn" && "font-bengali")}>
+                          {theme === "light" 
+                            ? (language === "bn" ? "লাইট" : "Light")
+                            : (language === "bn" ? "ডার্ক" : "Dark")}
+                        </p>
+                      </div>
+                      <ChevronDown className="h-5 w-5 text-muted-foreground transition-transform duration-200" />
+                    </div>
+                  </div>
+                </div>
+              </CollapsibleTrigger>
+              <CollapsibleContent>
+                <div className="mt-3 rounded-xl border border-border bg-card p-4">
+                  <div className="grid grid-cols-2 gap-2">
+                    {themeOptions.map((option) => (
+                      <button
+                        key={option.value}
+                        onClick={() => setTheme(option.value)}
+                        className={cn(
+                          "flex items-center justify-center gap-1.5 rounded-lg border border-border bg-card px-3 py-3 transition-colors",
+                          theme === option.value ? "border-primary bg-primary/5" : "hover:bg-muted/50"
+                        )}
+                      >
+                        <option.icon className="h-4 w-4" />
+                        <p className={cn("text-sm font-medium", language === "bn" && "font-bengali")}>
+                          {language === "bn" ? option.labelBn : option.labelEn}
+                        </p>
+                        {theme === option.value && (
+                          <div className="h-1.5 w-1.5 rounded-full bg-primary" />
+                        )}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </CollapsibleContent>
+            </Collapsible>
           </section>
 
           {/* Reading Mode Section */}
