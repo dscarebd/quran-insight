@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { quranPages, getPageByNumber, getJuzForPage } from "@/data/pages";
 import { surahs } from "@/data/surahs";
-import { Book, ZoomIn, ZoomOut, Search, Info, Volume2, ChevronDown } from "lucide-react";
+import { Book, ZoomIn, ZoomOut, Search, Info, Volume2, ChevronDown, Type } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -767,7 +767,7 @@ const ReadPage = ({ language, readingMode = "normal", arabicFont = "amiri", onAr
         )}
       </main>
 
-      {/* Fixed Zoom Controls (Desktop) */}
+      {/* Fixed Zoom Controls (Desktop - Left) */}
       <div className="fixed left-4 top-1/2 -translate-y-1/2 z-40 hidden md:flex flex-col gap-2">
         <Button
           variant="outline"
@@ -775,6 +775,7 @@ const ReadPage = ({ language, readingMode = "normal", arabicFont = "amiri", onAr
           onClick={zoomIn}
           disabled={fontSizeIndex >= FONT_SIZES.length - 1}
           className="h-10 w-10 rounded-lg bg-background/80 backdrop-blur"
+          title={language === "bn" ? "বড় করুন" : "Zoom In"}
         >
           <ZoomIn className="h-5 w-5" />
         </Button>
@@ -784,8 +785,37 @@ const ReadPage = ({ language, readingMode = "normal", arabicFont = "amiri", onAr
           onClick={zoomOut}
           disabled={fontSizeIndex <= 0}
           className="h-10 w-10 rounded-lg bg-background/80 backdrop-blur"
+          title={language === "bn" ? "ছোট করুন" : "Zoom Out"}
         >
           <ZoomOut className="h-5 w-5" />
+        </Button>
+      </div>
+
+      {/* Fixed Font Switch (Desktop - Right) */}
+      <div className="fixed right-4 top-1/2 -translate-y-1/2 z-40 hidden md:flex flex-col gap-2">
+        <Button
+          variant={arabicFont === "uthmani" ? "default" : "outline"}
+          size="icon"
+          onClick={() => onArabicFontChange?.("uthmani")}
+          className={cn(
+            "h-10 w-10 rounded-lg backdrop-blur",
+            arabicFont === "uthmani" ? "bg-primary text-primary-foreground" : "bg-background/80"
+          )}
+          title={language === "bn" ? "উসমানী ফন্ট" : "Uthmani Font"}
+        >
+          <span className="font-uthmani text-lg">ع</span>
+        </Button>
+        <Button
+          variant={arabicFont === "amiri" ? "default" : "outline"}
+          size="icon"
+          onClick={() => onArabicFontChange?.("amiri")}
+          className={cn(
+            "h-10 w-10 rounded-lg backdrop-blur",
+            arabicFont === "amiri" ? "bg-primary text-primary-foreground" : "bg-background/80"
+          )}
+          title={language === "bn" ? "আমিরী ফন্ট" : "Amiri Font"}
+        >
+          <span className="font-arabic text-lg">ع</span>
         </Button>
       </div>
 
