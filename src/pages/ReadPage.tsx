@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { quranPages, getPageByNumber, getJuzForPage } from "@/data/pages";
 import { surahs } from "@/data/surahs";
-import { ChevronLeft, ChevronRight, Book, ZoomIn, ZoomOut, Search, Settings } from "lucide-react";
+import { ChevronLeft, ChevronRight, Book, ZoomIn, ZoomOut, Search, Info, Volume2, ChevronUp, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -28,8 +28,8 @@ interface ReadPageProps {
 }
 
 // Font size presets
-const FONT_SIZES = [20, 24, 28, 32, 36, 40, 44, 48];
-const DEFAULT_FONT_INDEX = 2; // 28px default
+const FONT_SIZES = [24, 28, 32, 36, 40, 44, 48, 52];
+const DEFAULT_FONT_INDEX = 2; // 32px default
 
 const ReadPage = ({ language, readingMode = "normal", arabicFont = "amiri", onArabicFontChange }: ReadPageProps) => {
   const { pageNumber } = useParams();
@@ -57,7 +57,6 @@ const ReadPage = ({ language, readingMode = "normal", arabicFont = "amiri", onAr
     return saved ? parseInt(saved) : DEFAULT_FONT_INDEX;
   });
   const [showZoomIndicator, setShowZoomIndicator] = useState(false);
-  const [showFontIndicator, setShowFontIndicator] = useState(false);
 
   // Touch gesture refs
   const contentRef = useRef<HTMLDivElement>(null);
@@ -126,7 +125,6 @@ const ReadPage = ({ language, readingMode = "normal", arabicFont = "amiri", onAr
             element.scrollIntoView({ behavior: 'instant', block: 'center' });
           }
         } else {
-          // Scroll to current surah in surah list
           const currentSurahNum = pageData?.startSurah || 1;
           const element = surahListRefs.current[currentSurahNum];
           if (element) {
@@ -151,16 +149,16 @@ const ReadPage = ({ language, readingMode = "normal", arabicFont = "amiri", onAr
     return num.toString();
   };
 
-  // Get surah names for current page
-  const getSurahNamesForPage = () => {
-    if (!pageData) return "";
-    const startSurah = surahs.find(s => s.number === pageData.startSurah);
-    const endSurah = surahs.find(s => s.number === pageData.endSurah);
-    
-    if (pageData.startSurah === pageData.endSurah) {
-      return startSurah?.nameArabic || "";
-    }
-    return `${startSurah?.nameArabic || ""} - ${endSurah?.nameArabic || ""}`;
+  // Convert to Arabic numerals
+  const toArabicNumerals = (num: number): string => {
+    const arabicNumerals = ["٠", "١", "٢", "٣", "٤", "٥", "٦", "٧", "٨", "٩"];
+    return num.toString().split("").map(d => arabicNumerals[parseInt(d)]).join("");
+  };
+
+  // Get primary surah for current page
+  const getPrimarySurah = () => {
+    if (!pageData) return null;
+    return surahs.find(s => s.number === pageData.startSurah);
   };
 
   // Zoom functions
@@ -180,15 +178,6 @@ const ReadPage = ({ language, readingMode = "normal", arabicFont = "amiri", onAr
     }
   }, [fontSizeIndex]);
 
-  const resetZoom = useCallback(() => {
-    setFontSizeIndex(DEFAULT_FONT_INDEX);
-    setShowZoomIndicator(true);
-    setTimeout(() => setShowZoomIndicator(false), 1500);
-    toast.success(language === "bn" ? "ফন্ট সাইজ রিসেট হয়েছে" : "Font size reset", {
-      className: language === "bn" ? "font-bengali" : "",
-    });
-  }, [language]);
-
   // Navigate to page
   const goToPage = useCallback((page: number) => {
     if (page >= 1 && page <= 604) {
@@ -199,13 +188,11 @@ const ReadPage = ({ language, readingMode = "normal", arabicFont = "amiri", onAr
   // Touch event handlers for swipe and pinch zoom
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
     if (e.touches.length === 2) {
-      // Pinch start
       isPinching.current = true;
       const dx = e.touches[0].clientX - e.touches[1].clientX;
       const dy = e.touches[0].clientY - e.touches[1].clientY;
       initialPinchDistance.current = Math.sqrt(dx * dx + dy * dy);
     } else if (e.touches.length === 1) {
-      // Swipe start
       touchStartX.current = e.touches[0].clientX;
       touchStartY.current = e.touches[0].clientY;
     }
@@ -213,13 +200,11 @@ const ReadPage = ({ language, readingMode = "normal", arabicFont = "amiri", onAr
 
   const handleTouchMove = useCallback((e: React.TouchEvent) => {
     if (e.touches.length === 2 && isPinching.current) {
-      // Pinch move - calculate new distance
       const dx = e.touches[0].clientX - e.touches[1].clientX;
       const dy = e.touches[0].clientY - e.touches[1].clientY;
       const currentDistance = Math.sqrt(dx * dx + dy * dy);
       const diff = currentDistance - initialPinchDistance.current;
 
-      // Threshold for zoom change
       if (Math.abs(diff) > 50) {
         if (diff > 0) {
           zoomIn();
@@ -243,13 +228,10 @@ const ReadPage = ({ language, readingMode = "normal", arabicFont = "amiri", onAr
       const diffX = touchEndX - touchStartX.current;
       const diffY = touchEndY - touchStartY.current;
 
-      // Only handle horizontal swipes (ignore vertical scrolling)
       if (Math.abs(diffX) > 80 && Math.abs(diffX) > Math.abs(diffY) * 1.5) {
         if (diffX > 0) {
-          // Swipe right → go to previous page
           goToPage(currentPage - 1);
         } else {
-          // Swipe left → go to next page
           goToPage(currentPage + 1);
         }
       }
@@ -263,10 +245,9 @@ const ReadPage = ({ language, readingMode = "normal", arabicFont = "amiri", onAr
       
       setLoading(true);
       try {
-        // Try to refresh session if expired
         const { data: { session } } = await supabase.auth.getSession();
         if (!session) {
-          // Use anonymous access - the verses table should be publicly readable
+          // Use anonymous access
         }
 
         let query = supabase
@@ -348,7 +329,6 @@ const ReadPage = ({ language, readingMode = "normal", arabicFont = "amiri", onAr
   const getSurahStartPage = (surahNumber: number): number => {
     const page = quranPages.find(p => p.startSurah === surahNumber && p.startVerse === 1);
     if (page) return page.pageNumber;
-    // Fallback: find any page that contains this surah
     const fallbackPage = quranPages.find(p => p.startSurah <= surahNumber && p.endSurah >= surahNumber);
     return fallbackPage?.pageNumber || 1;
   };
@@ -362,263 +342,71 @@ const ReadPage = ({ language, readingMode = "normal", arabicFont = "amiri", onAr
     return acc;
   }, {} as Record<number, Verse[]>);
 
+  const primarySurah = getPrimarySurah();
+
+  // Get next/previous surah info
+  const getNextSurah = () => {
+    if (!pageData) return null;
+    return surahs.find(s => s.number === pageData.endSurah + 1);
+  };
+
+  const navigateToNextSurah = () => {
+    const nextSurah = getNextSurah();
+    if (nextSurah) {
+      const startPage = getSurahStartPage(nextSurah.number);
+      goToPage(startPage);
+    }
+  };
+
+  const navigateToSurahStart = () => {
+    if (primarySurah) {
+      const startPage = getSurahStartPage(primarySurah.number);
+      goToPage(startPage);
+    }
+  };
+
   return (
     <div className={cn(
       "min-h-screen flex flex-col",
       readingMode === "sepia" ? "sepia" : "bg-background"
     )}>
-      {/* Header */}
+      {/* Top Header Bar */}
       <header className={cn(
-        "sticky top-0 z-10 backdrop-blur border-b border-border",
+        "sticky top-0 z-10 backdrop-blur border-b border-border/50",
         readingMode === "sepia" ? "bg-[hsl(35,30%,94%)]/95" : "bg-background/95"
       )}>
-        <div className="flex items-center justify-between px-4 py-3">
-          <div className="flex flex-col items-start">
-            <span className={cn("text-lg text-foreground", arabicFont === "uthmani" ? "font-uthmani" : "font-arabic")}>
-              {getSurahNamesForPage()}
-            </span>
-            <span className={cn("text-xs text-muted-foreground", language === "bn" && "font-bengali")}>
-              {language === "bn" 
-                ? `পৃষ্ঠা ${formatNum(currentPage, language)} • পারা ${formatNum(juzNumber, language)}`
-                : language === "hi"
-                ? `पृष्ठ ${formatNum(currentPage, language)} • जुज़ ${formatNum(juzNumber, language)}`
-                : `Page ${currentPage} • Juz ${juzNumber}`
-              }
-            </span>
-          </div>
-
-          <div className="flex items-center gap-1">
-            {/* Zoom Controls */}
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={zoomOut}
-              disabled={fontSizeIndex <= 0}
-              className="h-8 w-8"
-            >
-              <ZoomOut className="h-4 w-4" />
-            </Button>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={zoomIn}
-              disabled={fontSizeIndex >= FONT_SIZES.length - 1}
-              className="h-8 w-8"
-            >
-              <ZoomIn className="h-4 w-4" />
-            </Button>
-            {/* Arabic Font Toggle */}
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => {
-                onArabicFontChange?.(arabicFont === "amiri" ? "uthmani" : "amiri");
-                setShowFontIndicator(true);
-                setTimeout(() => setShowFontIndicator(false), 1500);
-              }}
-              className="h-8 w-8"
-              title={arabicFont === "amiri" ? "Switch to Uthmani" : "Switch to Amiri"}
-            >
-              <Settings className="h-4 w-4" />
-            </Button>
-          </div>
-        </div>
-      </header>
-
-      {/* Zoom Indicator */}
-      {showZoomIndicator && (
-        <div className="fixed top-20 left-1/2 -translate-x-1/2 z-50 bg-foreground/90 text-background px-4 py-2 rounded-full animate-fade-in">
-          <span className={cn("text-sm font-medium", language === "bn" && "font-bengali")}>
-            {language === "bn" ? `ফন্ট: ${currentFontSize}px` : `Font: ${currentFontSize}px`}
-          </span>
-        </div>
-      )}
-
-      {/* Font Change Indicator */}
-      {showFontIndicator && (
-        <div className="fixed top-20 left-1/2 -translate-x-1/2 z-50 bg-foreground/90 text-background px-4 py-2 rounded-full animate-fade-in">
-          <span className={cn("text-sm font-medium", language === "bn" && "font-bengali")}>
-            {arabicFont === "uthmani" 
-              ? (language === "bn" ? "উসমানী ফন্ট" : "Uthmani Font")
-              : (language === "bn" ? "আমিরী ফন্ট" : "Amiri Font")
-            }
-          </span>
-        </div>
-      )}
-
-      {/* Content - Arabic Only with Touch Gestures */}
-      <main 
-        ref={contentRef}
-        className="flex-1 overflow-auto pb-24 touch-pan-y"
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
-      >
-        {loading ? (
-          <div className="p-6 space-y-4">
-            {[...Array(10)].map((_, i) => (
-              <Skeleton key={i} className="h-8 w-full" />
-            ))}
-          </div>
-        ) : (
-          <div className="p-4 sm:p-6">
-            {Object.entries(versesBySurah).map(([surahNum, surahVerses]) => {
-              const surah = surahs.find(s => s.number === parseInt(surahNum));
-              const isStartOfSurah = surahVerses[0]?.verse_number === 1;
-
-              return (
-                <div key={surahNum} className="mb-6">
-                  {/* Surah Header (if starting new surah) */}
-                  {isStartOfSurah && (
-                    <div className="mb-6 text-center">
-                      <div className="inline-block bg-card border border-border rounded-lg px-6 py-3 mb-4">
-                        <h2 
-                          className={cn("text-foreground", arabicFont === "uthmani" ? "font-uthmani" : "font-arabic")}
-                          style={{ fontSize: `${currentFontSize + 4}px` }}
-                        >
-                          {surah?.nameArabic}
-                        </h2>
-                        <p className={cn("text-sm text-muted-foreground mt-1", language === "bn" && "font-bengali")}>
-                          {language === "bn" ? surah?.nameBengali : surah?.nameEnglish}
-                        </p>
-                      </div>
-                      {/* Bismillah (except for Surah 9) */}
-                      {parseInt(surahNum) !== 9 && parseInt(surahNum) !== 1 && (
-                        <p 
-                          className={cn("text-foreground/80 mb-4", arabicFont === "uthmani" ? "font-uthmani" : "font-arabic")}
-                          dir="rtl"
-                          style={{ fontSize: `${currentFontSize}px` }}
-                        >
-                          بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
-                        </p>
-                      )}
-                    </div>
-                  )}
-
-                  {/* Verses - Continuous Arabic Text */}
-                  <div 
-                    className="text-right" 
-                    dir="rtl"
-                    style={{ lineHeight: currentFontSize > 36 ? 3.5 : 3 }}
-                  >
-                    {surahVerses.map((verse) => {
-                      const verseKey = `${verse.surah_number}-${verse.verse_number}`;
-                      const isLastRead = lastReadVerse === `${currentPage}-${verseKey}`;
-                      
-                      return (
-                        <span 
-                          key={verseKey} 
-                          ref={(el) => { verseRefs.current[verseKey] = el; }}
-                          className={cn(
-                            "inline cursor-pointer rounded-sm transition-all duration-300",
-                            isLastRead && "bg-primary/20 px-1"
-                          )}
-                          onClick={() => handleVerseClick(verse.surah_number, verse.verse_number)}
-                        >
-                          <span 
-                            className={cn("text-foreground", arabicFont === "uthmani" ? "font-uthmani" : "font-arabic")}
-                            style={{ fontSize: `${currentFontSize}px` }}
-                          >
-                            {verse.arabic}
-                          </span>
-                          <span 
-                            className={cn("inline-flex items-center justify-center mx-1 text-primary", arabicFont === "uthmani" ? "font-uthmani" : "font-arabic")}
-                            style={{ fontSize: `${currentFontSize * 0.7}px` }}
-                          >
-                            ﴿{formatNum(verse.verse_number, "en").split("").map(d => "٠١٢٣٤٥٦٧٨٩"[parseInt(d)]).join("")}﴾
-                          </span>
-                        </span>
-                      );
-                    })}
-                  </div>
-                </div>
-              );
-            })}
-
-          </div>
-        )}
-      </main>
-
-      {/* Navigation Footer - positioned above mobile nav */}
-      <footer className="fixed bottom-16 left-0 right-0 bg-background/95 backdrop-blur border-t border-border md:bottom-0 z-40">
-        <div className="flex items-center justify-between px-4 py-3 max-w-screen-md mx-auto">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => goToPage(currentPage + 1)}
-            disabled={currentPage >= 604}
-            className={cn("gap-2", language === "bn" && "font-bengali")}
-          >
-            <ChevronLeft className="h-4 w-4" />
-            {language === "bn" ? "পরবর্তী" : "Next"}
-          </Button>
-
+        <div className="flex items-center justify-between px-4 py-2 max-w-4xl mx-auto">
+          {/* Surah Selector */}
           <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
             <SheetTrigger asChild>
-              <button className="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-muted transition-colors">
-                <Book className="h-4 w-4 text-muted-foreground" />
-                <span className={cn("text-sm font-medium", (language === "bn" || language === "hi") && "font-bengali")}>
-                  {formatNum(currentPage, language)} / {formatNum(604, language)}
+              <button className="flex items-center gap-2 hover:bg-muted/50 px-3 py-1.5 rounded-lg transition-colors">
+                <span className={cn(
+                  "text-sm font-medium",
+                  language === "bn" && "font-bengali"
+                )}>
+                  {language === "bn" ? primarySurah?.nameBengali : primarySurah?.nameEnglish}
                 </span>
+                <ChevronDown className="h-4 w-4 text-muted-foreground" />
               </button>
             </SheetTrigger>
             <SheetContent side="bottom" className="h-[80vh] rounded-t-2xl px-0">
               <SheetHeader className="px-4 pb-3 border-b border-border">
                 <SheetTitle className={cn("text-center", language === "bn" && "font-bengali")}>
-                  {language === "bn" ? "পৃষ্ঠা নির্বাচন করুন" : "Select Page"}
+                  {language === "bn" ? "নির্বাচন করুন" : "Select"}
                 </SheetTitle>
               </SheetHeader>
               
               <Tabs value={selectorTab} onValueChange={(v) => setSelectorTab(v as "page" | "surah")} className="flex flex-col h-[calc(80vh-60px)]">
                 <div className="px-4 pt-3">
                   <TabsList className="w-full grid grid-cols-2">
-                    <TabsTrigger value="page" className={cn(language === "bn" && "font-bengali")}>
-                      {language === "bn" ? "পৃষ্ঠা" : "Page"}
-                    </TabsTrigger>
                     <TabsTrigger value="surah" className={cn(language === "bn" && "font-bengali")}>
                       {language === "bn" ? "সূরা" : "Surah"}
                     </TabsTrigger>
+                    <TabsTrigger value="page" className={cn(language === "bn" && "font-bengali")}>
+                      {language === "bn" ? "পৃষ্ঠা" : "Page"}
+                    </TabsTrigger>
                   </TabsList>
                 </div>
-
-                <TabsContent value="page" className="flex-1 mt-0 overflow-hidden">
-                  <div className="px-4 py-3">
-                    <div className="relative">
-                      <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                      <Input
-                        placeholder={language === "bn" ? "পৃষ্ঠা নম্বর খুঁজুন..." : "Search page number..."}
-                        value={pageSearch}
-                        onChange={(e) => setPageSearch(e.target.value)}
-                        className={cn("pl-9", language === "bn" && "font-bengali")}
-                      />
-                    </div>
-                  </div>
-                  <ScrollArea className="h-[calc(80vh-200px)]">
-                    <div className="p-2 grid grid-cols-5 gap-2">
-                      {filteredPages.map((page) => (
-                        <Button
-                          key={page.pageNumber}
-                          ref={(el) => {
-                            pageListRefs.current[page.pageNumber] = el;
-                          }}
-                          variant={page.pageNumber === currentPage ? "default" : "outline"}
-                          size="sm"
-                          className={cn(
-                            "h-10 text-sm font-bengali",
-                            page.pageNumber === currentPage && "bg-primary text-primary-foreground"
-                          )}
-                          onClick={() => {
-                            goToPage(page.pageNumber);
-                            setSheetOpen(false);
-                            setPageSearch("");
-                          }}
-                        >
-                          {formatNum(page.pageNumber, language)}
-                        </Button>
-                      ))}
-                    </div>
-                  </ScrollArea>
-                </TabsContent>
 
                 <TabsContent value="surah" className="flex-1 mt-0 overflow-hidden">
                   <div className="px-4 py-3">
@@ -669,7 +457,7 @@ const ReadPage = ({ language, readingMode = "normal", arabicFont = "amiri", onAr
                               )}>
                                 {language === "bn" ? surah.nameBengali : surah.nameEnglish}
                                 <span className="mx-1">•</span>
-                                {formatNum(surah.totalVerses, language)} {language === "bn" ? "আয়াত" : language === "hi" ? "आयतें" : "verses"}
+                                {formatNum(surah.totalVerses, language)} {language === "bn" ? "আয়াত" : "verses"}
                               </p>
                             </div>
                           </button>
@@ -678,9 +466,298 @@ const ReadPage = ({ language, readingMode = "normal", arabicFont = "amiri", onAr
                     </div>
                   </ScrollArea>
                 </TabsContent>
+
+                <TabsContent value="page" className="flex-1 mt-0 overflow-hidden">
+                  <div className="px-4 py-3">
+                    <div className="relative">
+                      <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                      <Input
+                        placeholder={language === "bn" ? "পৃষ্ঠা নম্বর খুঁজুন..." : "Search page number..."}
+                        value={pageSearch}
+                        onChange={(e) => setPageSearch(e.target.value)}
+                        className={cn("pl-9", language === "bn" && "font-bengali")}
+                      />
+                    </div>
+                  </div>
+                  <ScrollArea className="h-[calc(80vh-200px)]">
+                    <div className="p-2 grid grid-cols-5 gap-2">
+                      {filteredPages.map((page) => (
+                        <Button
+                          key={page.pageNumber}
+                          ref={(el) => {
+                            pageListRefs.current[page.pageNumber] = el;
+                          }}
+                          variant={page.pageNumber === currentPage ? "default" : "outline"}
+                          size="sm"
+                          className={cn(
+                            "h-10 text-sm font-bengali",
+                            page.pageNumber === currentPage && "bg-primary text-primary-foreground"
+                          )}
+                          onClick={() => {
+                            goToPage(page.pageNumber);
+                            setSheetOpen(false);
+                            setPageSearch("");
+                          }}
+                        >
+                          {formatNum(page.pageNumber, language)}
+                        </Button>
+                      ))}
+                    </div>
+                  </ScrollArea>
+                </TabsContent>
               </Tabs>
             </SheetContent>
           </Sheet>
+
+          {/* Page/Juz Info */}
+          <span className={cn("text-sm text-muted-foreground", language === "bn" && "font-bengali")}>
+            {language === "bn" 
+              ? `পারা ${formatNum(juzNumber, language)} - পৃষ্ঠা ${formatNum(currentPage, language)}`
+              : `Juz ${juzNumber} - Page ${currentPage}`
+            }
+          </span>
+        </div>
+      </header>
+
+      {/* Zoom Indicator */}
+      {showZoomIndicator && (
+        <div className="fixed top-20 left-1/2 -translate-x-1/2 z-50 bg-foreground/90 text-background px-4 py-2 rounded-full animate-fade-in">
+          <span className={cn("text-sm font-medium", language === "bn" && "font-bengali")}>
+            {language === "bn" ? `ফন্ট: ${currentFontSize}px` : `Font: ${currentFontSize}px`}
+          </span>
+        </div>
+      )}
+
+      {/* Main Content */}
+      <main 
+        ref={contentRef}
+        className="flex-1 overflow-auto pb-32 touch-pan-y"
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+      >
+        {loading ? (
+          <div className="p-6 space-y-4 max-w-4xl mx-auto">
+            {[...Array(10)].map((_, i) => (
+              <Skeleton key={i} className="h-8 w-full" />
+            ))}
+          </div>
+        ) : (
+          <div className="max-w-4xl mx-auto">
+            {Object.entries(versesBySurah).map(([surahNum, surahVerses]) => {
+              const surah = surahs.find(s => s.number === parseInt(surahNum));
+              const isStartOfSurah = surahVerses[0]?.verse_number === 1;
+
+              return (
+                <div key={surahNum} className="mb-8">
+                  {/* Surah Title Header */}
+                  {isStartOfSurah && (
+                    <div className="py-8 text-center">
+                      {/* Decorative Surah Title */}
+                      <div className="relative inline-block">
+                        <div className="surah-title-frame px-8 py-4">
+                          <h1 
+                            className={cn(
+                              "text-foreground surah-title-text",
+                              arabicFont === "uthmani" ? "font-uthmani" : "font-arabic"
+                            )}
+                            style={{ fontSize: `${currentFontSize + 8}px` }}
+                          >
+                            {surah?.nameArabic}
+                          </h1>
+                        </div>
+                      </div>
+
+                      {/* Info Buttons */}
+                      <div className="flex items-center justify-center gap-6 mt-6 px-4">
+                        <button className={cn(
+                          "flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors",
+                          language === "bn" && "font-bengali"
+                        )}>
+                          <Info className="h-4 w-4" />
+                          {language === "bn" ? "সূরা তথ্য" : "Surah Info"}
+                        </button>
+                        <button className={cn(
+                          "flex items-center gap-2 text-sm text-primary hover:text-primary/80 transition-colors",
+                          language === "bn" && "font-bengali"
+                        )}>
+                          <Volume2 className="h-4 w-4" />
+                          {language === "bn" ? "অডিও চালান" : "Play Audio"}
+                        </button>
+                      </div>
+
+                      {/* Bismillah */}
+                      {parseInt(surahNum) !== 9 && parseInt(surahNum) !== 1 && (
+                        <p 
+                          className={cn(
+                            "text-foreground/80 mt-8 bismillah-text",
+                            arabicFont === "uthmani" ? "font-uthmani" : "font-arabic"
+                          )}
+                          dir="rtl"
+                          style={{ fontSize: `${currentFontSize}px` }}
+                        >
+                          بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
+                        </p>
+                      )}
+                    </div>
+                  )}
+
+                  {/* Continuous Arabic Verses */}
+                  <div 
+                    className="text-center px-4 sm:px-8 md:px-12" 
+                    dir="rtl"
+                    style={{ lineHeight: currentFontSize > 40 ? 3.2 : 2.8 }}
+                  >
+                    {surahVerses.map((verse) => {
+                      const verseKey = `${verse.surah_number}-${verse.verse_number}`;
+                      const isLastRead = lastReadVerse === `${currentPage}-${verseKey}`;
+                      
+                      return (
+                        <span 
+                          key={verseKey} 
+                          ref={(el) => { verseRefs.current[verseKey] = el; }}
+                          className={cn(
+                            "inline cursor-pointer rounded transition-all duration-300",
+                            isLastRead && "bg-primary/20 px-1"
+                          )}
+                          onClick={() => handleVerseClick(verse.surah_number, verse.verse_number)}
+                        >
+                          <span 
+                            className={cn(
+                              "text-foreground",
+                              arabicFont === "uthmani" ? "font-uthmani" : "font-arabic"
+                            )}
+                            style={{ fontSize: `${currentFontSize}px` }}
+                          >
+                            {verse.arabic}
+                          </span>
+                          {/* Decorative Verse Number */}
+                          <span 
+                            className="verse-number-circle inline-flex items-center justify-center mx-2"
+                            style={{ 
+                              width: `${currentFontSize * 1.2}px`, 
+                              height: `${currentFontSize * 1.2}px`,
+                              fontSize: `${currentFontSize * 0.5}px`
+                            }}
+                          >
+                            {toArabicNumerals(verse.verse_number)}
+                          </span>
+                        </span>
+                      );
+                    })}
+                  </div>
+
+                  {/* Page Number Indicator */}
+                  <div className="text-center mt-8 text-muted-foreground text-sm">
+                    {formatNum(currentPage, language)}
+                  </div>
+                </div>
+              );
+            })}
+
+            {/* Bottom Navigation Buttons */}
+            <div className="flex items-center justify-center gap-4 py-8 px-4">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={navigateToSurahStart}
+                className={cn("gap-2", language === "bn" && "font-bengali")}
+              >
+                {language === "bn" ? "সুরার শুরু" : "Surah Start"}
+              </Button>
+              {getNextSurah() && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={navigateToNextSurah}
+                  className={cn("gap-2", language === "bn" && "font-bengali")}
+                >
+                  {language === "bn" ? "পরবর্তী সূরা" : "Next Surah"}
+                  <ChevronLeft className="h-4 w-4" />
+                </Button>
+              )}
+            </div>
+          </div>
+        )}
+      </main>
+
+      {/* Fixed Side Navigation (Desktop) */}
+      <div className="fixed right-4 top-1/2 -translate-y-1/2 z-40 hidden md:flex flex-col gap-2">
+        <Button
+          variant="outline"
+          size="icon"
+          onClick={() => goToPage(currentPage - 1)}
+          disabled={currentPage <= 1}
+          className="h-10 w-10 rounded-lg bg-background/80 backdrop-blur"
+        >
+          <ChevronUp className="h-5 w-5" />
+        </Button>
+        <Button
+          variant="outline"
+          size="icon"
+          onClick={() => goToPage(currentPage + 1)}
+          disabled={currentPage >= 604}
+          className="h-10 w-10 rounded-lg bg-background/80 backdrop-blur"
+        >
+          <ChevronDown className="h-5 w-5" />
+        </Button>
+      </div>
+
+      {/* Fixed Zoom Controls (Desktop) */}
+      <div className="fixed left-4 top-1/2 -translate-y-1/2 z-40 hidden md:flex flex-col gap-2">
+        <Button
+          variant="outline"
+          size="icon"
+          onClick={zoomIn}
+          disabled={fontSizeIndex >= FONT_SIZES.length - 1}
+          className="h-10 w-10 rounded-lg bg-background/80 backdrop-blur"
+        >
+          <ZoomIn className="h-5 w-5" />
+        </Button>
+        <Button
+          variant="outline"
+          size="icon"
+          onClick={zoomOut}
+          disabled={fontSizeIndex <= 0}
+          className="h-10 w-10 rounded-lg bg-background/80 backdrop-blur"
+        >
+          <ZoomOut className="h-5 w-5" />
+        </Button>
+      </div>
+
+      {/* Mobile Bottom Navigation */}
+      <footer className="fixed bottom-16 left-0 right-0 bg-background/95 backdrop-blur border-t border-border md:hidden z-40">
+        <div className="flex items-center justify-between px-4 py-3">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={zoomOut}
+            disabled={fontSizeIndex <= 0}
+            className="h-10 w-10"
+          >
+            <ZoomOut className="h-5 w-5" />
+          </Button>
+
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => goToPage(currentPage + 1)}
+            disabled={currentPage >= 604}
+            className={cn("gap-2", language === "bn" && "font-bengali")}
+          >
+            <ChevronLeft className="h-4 w-4" />
+            {language === "bn" ? "পরবর্তী" : "Next"}
+          </Button>
+
+          <button 
+            onClick={() => setSheetOpen(true)}
+            className="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-muted transition-colors"
+          >
+            <Book className="h-4 w-4 text-muted-foreground" />
+            <span className={cn("text-sm font-medium", language === "bn" && "font-bengali")}>
+              {formatNum(currentPage, language)}
+            </span>
+          </button>
 
           <Button
             variant="outline"
@@ -689,8 +766,18 @@ const ReadPage = ({ language, readingMode = "normal", arabicFont = "amiri", onAr
             disabled={currentPage <= 1}
             className={cn("gap-2", language === "bn" && "font-bengali")}
           >
-            {language === "bn" ? "পূর্ববর্তী" : "Previous"}
+            {language === "bn" ? "পূর্ববর্তী" : "Prev"}
             <ChevronRight className="h-4 w-4" />
+          </Button>
+
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={zoomIn}
+            disabled={fontSizeIndex >= FONT_SIZES.length - 1}
+            className="h-10 w-10"
+          >
+            <ZoomIn className="h-5 w-5" />
           </Button>
         </div>
       </footer>
