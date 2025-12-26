@@ -5,6 +5,7 @@ export interface IslamicEvent {
   nameEn: string;
   nameBn: string;
   nameHi: string;
+  nameAr: string;
   descriptionEn: string;
   descriptionBn: string;
   descriptionHi: string;
@@ -27,8 +28,34 @@ export const hijriMonths = {
     'मुहर्रम', 'सफ़र', 'रबीउल अव्वल', 'रबीउस सानी',
     'जमादिउल अव्वल', 'जमादिउस सानी', 'रजब', 'शाबान',
     'रमज़ान', 'शव्वाल', 'ज़िलक़ाद', 'ज़िलहिज्जा'
+  ],
+  ar: [
+    'ٱلْمُحَرَّم', 'صَفَر', 'رَبِيع ٱلْأَوَّل', 'رَبِيع ٱلثَّانِي',
+    'جُمَادَىٰ ٱلْأُولَىٰ', 'جُمَادَىٰ ٱلثَّانِيَة', 'رَجَب', 'شَعْبَان',
+    'رَمَضَان', 'شَوَّال', 'ذُو ٱلْقَعْدَة', 'ذُو ٱلْحِجَّة'
   ]
 };
+
+// Bengali numerals
+export const bengaliNumerals = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
+export const arabicNumerals = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+
+export const toBengaliNumber = (num: number): string => {
+  return num.toString().split('').map(d => bengaliNumerals[parseInt(d)] || d).join('');
+};
+
+export const toArabicNumber = (num: number): string => {
+  return num.toString().split('').map(d => arabicNumerals[parseInt(d)] || d).join('');
+};
+
+// Bengali month names for Gregorian calendar
+export const bengaliMonths = [
+  "জানুয়ারি", "ফেব্রুয়ারি", "মার্চ", "এপ্রিল", "মে", "জুন",
+  "জুলাই", "আগস্ট", "সেপ্টেম্বর", "অক্টোবর", "নভেম্বর", "ডিসেম্বর"
+];
+
+export const bengaliDays = ["রবি", "সোম", "মঙ্গল", "বুধ", "বৃহঃ", "শুক্র", "শনি"];
+export const englishDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 export const islamicEvents: IslamicEvent[] = [
   // Muharram (Month 1)
@@ -39,6 +66,7 @@ export const islamicEvents: IslamicEvent[] = [
     nameEn: 'Islamic New Year',
     nameBn: 'ইসলামিক নববর্ষ',
     nameHi: 'इस्लामी नया साल',
+    nameAr: 'رأس السنة الهجرية',
     descriptionEn: 'Beginning of the new Islamic Hijri year',
     descriptionBn: 'নতুন ইসলামিক হিজরি বছরের শুরু',
     descriptionHi: 'नए इस्लामी हिजरी वर्ष की शुरुआत',
@@ -51,6 +79,7 @@ export const islamicEvents: IslamicEvent[] = [
     nameEn: 'Day of Ashura',
     nameBn: 'আশুরা',
     nameHi: 'आशूरा का दिन',
+    nameAr: 'يوم عاشوراء',
     descriptionEn: 'Commemorates the martyrdom of Imam Hussain (RA)',
     descriptionBn: 'ইমাম হোসাইন (রা.) এর শাহাদাত স্মরণ',
     descriptionHi: 'इमाम हुसैन (रज़ि.) की शहादत की याद',
@@ -65,6 +94,7 @@ export const islamicEvents: IslamicEvent[] = [
     nameEn: 'Mawlid an-Nabi',
     nameBn: 'ঈদে মিলাদুন্নবী',
     nameHi: 'ईद मिलाद-उन-नबी',
+    nameAr: 'المولد النبوي',
     descriptionEn: 'Birthday of Prophet Muhammad (PBUH)',
     descriptionBn: 'রাসূলুল্লাহ (সা.) এর জন্মদিন',
     descriptionHi: 'पैगंबर मुहम्मद (स.) का जन्मदिन',
@@ -79,6 +109,7 @@ export const islamicEvents: IslamicEvent[] = [
     nameEn: 'Shab-e-Meraj (Isra and Mi\'raj)',
     nameBn: 'শবে মেরাজ',
     nameHi: 'शब-ए-मेराज',
+    nameAr: 'ليلة الإسراء والمعراج',
     descriptionEn: 'Night Journey and Ascension of Prophet (PBUH)',
     descriptionBn: 'রাসূল (সা.) এর রাত্রি ভ্রমণ ও ঊর্ধ্বারোহণ',
     descriptionHi: 'पैगंबर (स.) की रात की यात्रा और स्वर्गारोहण',
@@ -93,6 +124,7 @@ export const islamicEvents: IslamicEvent[] = [
     nameEn: 'Shab-e-Barat (Mid-Sha\'ban)',
     nameBn: 'শবে বরাত',
     nameHi: 'शब-ए-बारात',
+    nameAr: 'ليلة البراءة',
     descriptionEn: 'Night of Forgiveness - prayers and worship',
     descriptionBn: 'মাগফিরাতের রাত - দোয়া ও ইবাদত',
     descriptionHi: 'क्षमा की रात - प्रार्थना और इबादत',
@@ -107,6 +139,7 @@ export const islamicEvents: IslamicEvent[] = [
     nameEn: 'Beginning of Ramadan',
     nameBn: 'রমজান শুরু',
     nameHi: 'रमज़ान की शुरुआत',
+    nameAr: 'بداية رمضان',
     descriptionEn: 'Start of the blessed month of fasting',
     descriptionBn: 'পবিত্র রোজার মাসের শুরু',
     descriptionHi: 'पवित्र रोज़े के महीने की शुरुआत',
@@ -119,6 +152,7 @@ export const islamicEvents: IslamicEvent[] = [
     nameEn: 'Laylatul Qadr (Night of Power)',
     nameBn: 'লাইলাতুল কদর',
     nameHi: 'लैलतुल क़द्र',
+    nameAr: 'ليلة القدر',
     descriptionEn: 'The most blessed night, better than a thousand months',
     descriptionBn: 'সবচেয়ে বরকতময় রাত, হাজার মাসের চেয়ে উত্তম',
     descriptionHi: 'सबसे बरकत वाली रात, हज़ार महीनों से बेहतर',
@@ -133,6 +167,7 @@ export const islamicEvents: IslamicEvent[] = [
     nameEn: 'Eid-ul-Fitr',
     nameBn: 'ঈদুল ফিতর',
     nameHi: 'ईद-उल-फ़ित्र',
+    nameAr: 'عيد الفطر',
     descriptionEn: 'Festival of Breaking the Fast after Ramadan',
     descriptionBn: 'রমজানের পর রোজা ভাঙার উৎসব',
     descriptionHi: 'रमज़ान के बाद रोज़ा तोड़ने का त्योहार',
@@ -147,6 +182,7 @@ export const islamicEvents: IslamicEvent[] = [
     nameEn: 'Start of Dhul Hijjah',
     nameBn: 'জিলহজ মাস শুরু',
     nameHi: 'ज़िलहिज्जा की शुरुआत',
+    nameAr: 'بداية ذي الحجة',
     descriptionEn: 'Beginning of the sacred month of Hajj',
     descriptionBn: 'পবিত্র হজ মাসের শুরু',
     descriptionHi: 'पवित्र हज महीने की शुरुआत',
@@ -159,6 +195,7 @@ export const islamicEvents: IslamicEvent[] = [
     nameEn: 'Day of Arafah',
     nameBn: 'আরাফাত দিবস',
     nameHi: 'अराफ़ात का दिन',
+    nameAr: 'يوم عرفة',
     descriptionEn: 'Most important day of Hajj - fasting is highly recommended',
     descriptionBn: 'হজের সবচেয়ে গুরুত্বপূর্ণ দিন - রোজা রাখা অত্যন্ত পুণ্যময়',
     descriptionHi: 'हज का सबसे महत्वपूर्ण दिन - रोज़ा रखना अत्यंत पुण्यकारी',
@@ -171,6 +208,7 @@ export const islamicEvents: IslamicEvent[] = [
     nameEn: 'Eid-ul-Adha',
     nameBn: 'ঈদুল আযহা (কোরবানি)',
     nameHi: 'ईद-उल-अज़हा (क़ुर्बानी)',
+    nameAr: 'عيد الأضحى',
     descriptionEn: 'Festival of Sacrifice - commemorates Ibrahim\'s devotion',
     descriptionBn: 'কোরবানির ঈদ - ইব্রাহীম (আ.) এর আত্মত্যাগের স্মরণ',
     descriptionHi: 'क़ुर्बानी का त्योहार - इब्राहीम (अ.) की भक्ति की याद',
@@ -183,6 +221,7 @@ export const islamicEvents: IslamicEvent[] = [
     nameEn: 'Days of Tashreeq Begin',
     nameBn: 'আইয়ামে তাশরীক শুরু',
     nameHi: 'अय्यामे तशरीक़ की शुरुआत',
+    nameAr: 'أيام التشريق',
     descriptionEn: 'Three days of celebration after Eid-ul-Adha (11-13 Dhul Hijjah)',
     descriptionBn: 'ঈদুল আযহার পর তিন দিন উদযাপন (১১-১৩ জিলহজ)',
     descriptionHi: 'ईद-उल-अज़हा के बाद तीन दिन का जश्न (11-13 ज़िलहिज्जा)',
@@ -215,8 +254,110 @@ export const categoryLabels = {
   }
 };
 
-// Get upcoming events count (approximate - for display purposes)
+// =============================================
+// Hijri to Gregorian Conversion
+// =============================================
+
+// Reference date: 1 Muharram 1446 = July 7, 2024
+const REFERENCE_HIJRI = { year: 1446, month: 1, day: 1 };
+const REFERENCE_GREGORIAN = new Date(2024, 6, 7); // July 7, 2024
+
+// Average length of a Hijri month and year
+const HIJRI_MONTH_LENGTH = 29.530589;
+const HIJRI_YEAR_LENGTH = 354.36667;
+
+export const hijriToGregorian = (hijriYear: number, hijriMonth: number, hijriDay: number): Date => {
+  const yearDiff = hijriYear - REFERENCE_HIJRI.year;
+  const monthDiff = hijriMonth - REFERENCE_HIJRI.month;
+  const dayDiff = hijriDay - REFERENCE_HIJRI.day;
+  
+  const totalDays = Math.round(
+    yearDiff * HIJRI_YEAR_LENGTH + 
+    monthDiff * HIJRI_MONTH_LENGTH + 
+    dayDiff
+  );
+  
+  const result = new Date(REFERENCE_GREGORIAN);
+  result.setDate(result.getDate() + totalDays);
+  return result;
+};
+
+export const gregorianToHijri = (date: Date): { year: number; month: number; day: number } => {
+  const diffTime = date.getTime() - REFERENCE_GREGORIAN.getTime();
+  const diffDays = diffTime / (1000 * 60 * 60 * 24);
+  
+  let totalDays = diffDays;
+  let hijriYear = REFERENCE_HIJRI.year;
+  let hijriMonth = REFERENCE_HIJRI.month;
+  let hijriDay = REFERENCE_HIJRI.day;
+  
+  // Add/subtract years
+  while (totalDays >= HIJRI_YEAR_LENGTH) {
+    totalDays -= HIJRI_YEAR_LENGTH;
+    hijriYear++;
+  }
+  while (totalDays < 0) {
+    totalDays += HIJRI_YEAR_LENGTH;
+    hijriYear--;
+  }
+  
+  // Add months
+  while (totalDays >= HIJRI_MONTH_LENGTH) {
+    totalDays -= HIJRI_MONTH_LENGTH;
+    hijriMonth++;
+    if (hijriMonth > 12) {
+      hijriMonth = 1;
+      hijriYear++;
+    }
+  }
+  
+  hijriDay = Math.round(totalDays) + 1;
+  
+  // Normalize
+  if (hijriDay > 30) {
+    hijriDay = 1;
+    hijriMonth++;
+    if (hijriMonth > 12) {
+      hijriMonth = 1;
+      hijriYear++;
+    }
+  }
+  if (hijriDay < 1) hijriDay = 1;
+  
+  return { year: hijriYear, month: hijriMonth, day: hijriDay };
+};
+
+export const getCurrentHijriDate = (): { year: number; month: number; day: number } => {
+  return gregorianToHijri(new Date());
+};
+
+export const getEventGregorianDate = (event: IslamicEvent, hijriYear: number): Date => {
+  return hijriToGregorian(hijriYear, event.hijriMonth, event.hijriDay);
+};
+
+// Get upcoming events with their Gregorian dates
+export const getUpcomingEvents = (count: number = 10): Array<IslamicEvent & { gregorianDate: Date; daysUntil: number; hijriYear: number }> => {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const currentHijri = getCurrentHijriDate();
+  
+  const eventsWithDates = islamicEvents.flatMap(event => {
+    // Check this year and next year
+    return [currentHijri.year, currentHijri.year + 1].map(year => {
+      const gregorianDate = getEventGregorianDate(event, year);
+      gregorianDate.setHours(0, 0, 0, 0);
+      const daysUntil = Math.ceil((gregorianDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+      return { ...event, gregorianDate, daysUntil, hijriYear: year };
+    });
+  });
+  
+  return eventsWithDates
+    .filter(e => e.daysUntil >= 0)
+    .sort((a, b) => a.daysUntil - b.daysUntil)
+    .slice(0, count);
+};
+
+// Get upcoming events count (for display in cards)
 export const getUpcomingEventsCount = (): number => {
-  // Return total events as they all occur within a year
-  return islamicEvents.length;
+  return getUpcomingEvents(30).filter(e => e.daysUntil <= 30).length;
 };
