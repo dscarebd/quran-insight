@@ -247,37 +247,39 @@ const NamesOfAllah = ({ language, arabicFont = "amiri" }: NamesOfAllahProps) => 
               </SheetHeader>
 
               <div className="py-6 space-y-6 overflow-y-auto">
-                {/* Transliterations */}
+                {/* Transliteration */}
                 <div className="space-y-3">
-                  <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">
-                    Transliteration
+                  <h3 className={cn(
+                    "text-sm font-semibold text-muted-foreground uppercase tracking-wide",
+                    language === "bn" && "font-bengali"
+                  )}>
+                    {language === "bn" ? "উচ্চারণ" : "Transliteration"}
                   </h3>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <div className="p-3 rounded-lg bg-muted/50">
-                      <p className="text-xs text-muted-foreground mb-1">English</p>
-                      <p className="font-medium">{selectedName.transliteration}</p>
-                    </div>
-                    <div className="p-3 rounded-lg bg-muted/50">
-                      <p className="text-xs text-muted-foreground mb-1">বাংলা</p>
-                      <p className="font-medium font-bengali">{selectedName.transliterationBn}</p>
-                    </div>
+                  <div className="p-4 rounded-lg bg-muted/50">
+                    <p className={cn(
+                      "text-lg font-medium",
+                      language === "bn" && "font-bengali"
+                    )}>
+                      {language === "bn" ? selectedName.transliterationBn : selectedName.transliteration}
+                    </p>
                   </div>
                 </div>
 
-                {/* Meanings */}
+                {/* Meaning */}
                 <div className="space-y-3">
-                  <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">
+                  <h3 className={cn(
+                    "text-sm font-semibold text-muted-foreground uppercase tracking-wide",
+                    language === "bn" && "font-bengali"
+                  )}>
                     {language === "bn" ? "অর্থ" : "Meaning"}
                   </h3>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <div className="p-4 rounded-lg bg-primary/5 border border-primary/10">
-                      <p className="text-xs text-muted-foreground mb-1">English</p>
-                      <p className="text-lg font-medium text-primary">{selectedName.meaningEn}</p>
-                    </div>
-                    <div className="p-4 rounded-lg bg-primary/5 border border-primary/10">
-                      <p className="text-xs text-muted-foreground mb-1">বাংলা</p>
-                      <p className="text-lg font-medium text-primary font-bengali">{selectedName.meaningBn}</p>
-                    </div>
+                  <div className="p-4 rounded-lg bg-primary/5 border border-primary/10">
+                    <p className={cn(
+                      "text-xl font-medium text-primary",
+                      language === "bn" && "font-bengali"
+                    )}>
+                      {language === "bn" ? selectedName.meaningBn : selectedName.meaningEn}
+                    </p>
                   </div>
                 </div>
 
