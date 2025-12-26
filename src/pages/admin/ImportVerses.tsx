@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { Loader2, Upload, CheckCircle2, AlertCircle, RefreshCw, Download, FileUp, FileSpreadsheet } from "lucide-react";
+import { Loader2, Upload, CheckCircle2, AlertCircle, RefreshCw, Download, FileUp, FileSpreadsheet, Trash2, BookOpen } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -15,12 +15,17 @@ const ImportVerses = () => {
   const [isExportingCsv, setIsExportingCsv] = useState(false);
   const [isRestoring, setIsRestoring] = useState(false);
   const [isRestoringCsv, setIsRestoringCsv] = useState(false);
+  const [isClearingTafsir, setIsClearingTafsir] = useState(false);
+  const [isFixingTafsir, setIsFixingTafsir] = useState(false);
   const [exportProgress, setExportProgress] = useState(0);
   const [restoreProgress, setRestoreProgress] = useState(0);
   const [arabicProgress, setArabicProgress] = useState(0);
+  const [tafsirProgress, setTafsirProgress] = useState(0);
   const [arabicStatus, setArabicStatus] = useState("");
+  const [tafsirStatus, setTafsirStatus] = useState("");
   const [result, setResult] = useState<{success?: boolean; message?: string; error?: string} | null>(null);
   const [arabicResult, setArabicResult] = useState<{success?: boolean; message?: string; error?: string; totalUpdated?: number} | null>(null);
+  const [tafsirResult, setTafsirResult] = useState<{success?: boolean; message?: string; error?: string; clearedCount?: number; totalUpdated?: number} | null>(null);
   const [restoreResult, setRestoreResult] = useState<{success?: boolean; message?: string; surahsRestored?: number; versesRestored?: number; errors?: string[]} | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const csvSurahInputRef = useRef<HTMLInputElement>(null);
@@ -451,7 +456,105 @@ const ImportVerses = () => {
     }
   };
 
-  const isDisabled = isImporting || isUpdatingArabic || isExporting || isRestoring || isExportingCsv || isRestoringCsv;
+  // Clear wrong language tafsir
+  const clearWrongTafsir = async () => {
+    setIsClearingTafsir(true);
+    setTafsirResult(null);
+    
+    try {
+      setTafsirStatus("Clearing non-Bengali tafsir data...");
+      
+      const { data, error } = await supabase.functions.invoke('update-arabic-verses', {
+        body: { clearWrongTafsir: true }
+      });
+
+      if (error) throw error;
+
+      setTafsirResult({
+        success: true,
+        message: data.message,
+        clearedCount: data.clearedCount
+      });
+      
+      toast({
+        title: "Clear Complete",
+        description: data.message,
+      });
+
+    } catch (error: any) {
+      console.error('Clear tafsir error:', error);
+      setTafsirResult({ error: error.message });
+      toast({
+        title: "Clear Failed",
+        description: error.message,
+        variant: "destructive",
+      });
+    } finally {
+      setIsClearingTafsir(false);
+      setTafsirStatus("");
+    }
+  };
+
+  // Fix Bengali tafsir - re-fetch only tafsir
+  const fixBengaliTafsir = async () => {
+    setIsFixingTafsir(true);
+    setTafsirResult(null);
+    setTafsirProgress(0);
+    
+    const totalSurahs = 114;
+    const batchSize = 5;
+    let totalUpdated = 0;
+    const errors: string[] = [];
+
+    try {
+      for (let startSurah = 1; startSurah <= totalSurahs; startSurah += batchSize) {
+        const endSurah = Math.min(startSurah + batchSize - 1, totalSurahs);
+        setTafsirStatus(`Fetching Bengali tafsir for Surah ${startSurah} - ${endSurah}...`);
+        
+        const { data, error } = await supabase.functions.invoke('update-arabic-verses', {
+          body: { startSurah, endSurah, tafsirOnly: true }
+        });
+
+        if (error) {
+          console.error(`Error updating tafsir ${startSurah}-${endSurah}:`, error);
+          errors.push(`Surahs ${startSurah}-${endSurah}: ${error.message}`);
+        } else if (data) {
+          totalUpdated += data.totalUpdated || 0;
+          if (data.errors) {
+            errors.push(...data.errors);
+          }
+        }
+
+        const progress = Math.round((endSurah / totalSurahs) * 100);
+        setTafsirProgress(progress);
+      }
+
+      setTafsirStatus("Complete!");
+      setTafsirResult({
+        success: true,
+        message: `Successfully updated ${totalUpdated} verses with Bengali tafsir`,
+        totalUpdated
+      });
+      
+      toast({
+        title: "Tafsir Update Complete",
+        description: `Updated ${totalUpdated} verses with Bengali tafsir`,
+      });
+
+    } catch (error: any) {
+      console.error('Tafsir update error:', error);
+      setTafsirResult({ error: error.message });
+      toast({
+        title: "Update Failed",
+        description: error.message,
+        variant: "destructive",
+      });
+    } finally {
+      setIsFixingTafsir(false);
+    }
+  };
+
+  const isDisabled = isImporting || isUpdatingArabic || isExporting || isRestoring || isExportingCsv || isRestoringCsv || isClearingTafsir || isFixingTafsir;
 
   return (
     <div className="space-y-6">
@@ -676,6 +779,90 @@ const ImportVerses = () => {
                   <p>{arabicResult.message}</p>
                 ) : (
                   <p>Error: {arabicResult.error}</p>
+                )}
+              </div>
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
+      {/* Fix Tafsir Card */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <BookOpen className="h-5 w-5" />
+            Fix Bengali Tafsir
+          </CardTitle>
+          <CardDescription>
+            The tafsir data is currently mixed with multiple languages (Russian, French, Malayalam, etc.). 
+            Use these tools to clear wrong data and re-fetch proper Bengali tafsir from Quran.com.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="flex flex-wrap gap-3">
+            <Button 
+              onClick={clearWrongTafsir} 
+              disabled={isDisabled}
+              variant="destructive"
+              className="w-full sm:w-auto"
+            >
+              {isClearingTafsir ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Clearing...
+                </>
+              ) : (
+                <>
+                  <Trash2 className="mr-2 h-4 w-4" />
+                  Step 1: Clear Wrong Tafsir
+                </>
+              )}
+            </Button>
+
+            <Button 
+              onClick={fixBengaliTafsir} 
+              disabled={isDisabled}
+              variant="secondary"
+              className="w-full sm:w-auto"
+            >
+              {isFixingTafsir ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Re-fetching Bengali Tafsir...
+                </>
+              ) : (
+                <>
+                  <RefreshCw className="mr-2 h-4 w-4" />
+                  Step 2: Re-fetch Bengali Tafsir
+                </>
+              )}
+            </Button>
+          </div>
+
+          {(isClearingTafsir || isFixingTafsir) && tafsirStatus && (
+            <div className="space-y-2">
+              <div className="flex justify-between text-sm text-muted-foreground">
+                <span>{tafsirStatus}</span>
+                {isFixingTafsir && <span>{tafsirProgress}%</span>}
+              </div>
+              {isFixingTafsir && <Progress value={tafsirProgress} className="h-2" />}
+            </div>
+          )}
+
+          {tafsirResult && (
+            <div className={`p-4 rounded-lg flex items-start gap-3 ${
+              tafsirResult.success ? 'bg-green-500/10 text-green-600' : 'bg-destructive/10 text-destructive'
+            }`}>
+              {tafsirResult.success ? (
+                <CheckCircle2 className="h-5 w-5 flex-shrink-0 mt-0.5" />
+              ) : (
+                <AlertCircle className="h-5 w-5 flex-shrink-0 mt-0.5" />
+              )}
+              <div>
+                {tafsirResult.success ? (
+                  <p>{tafsirResult.message}</p>
+                ) : (
+                  <p>Error: {tafsirResult.error}</p>
                 )}
               </div>
             </div>
