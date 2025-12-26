@@ -1,6 +1,5 @@
 import { useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
-import { ArrowLeft, Search, Volume2, Loader2, Star, X } from "lucide-react";
+import { Search, Volume2, Loader2, Star, X, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
@@ -15,7 +14,6 @@ interface NamesOfAllahProps {
 }
 
 const NamesOfAllah = ({ language, arabicFont = "amiri" }: NamesOfAllahProps) => {
-  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedName, setSelectedName] = useState<AllahName | null>(null);
   const [playingId, setPlayingId] = useState<number | null>(null);
@@ -105,14 +103,9 @@ const NamesOfAllah = ({ language, arabicFont = "amiri" }: NamesOfAllahProps) => 
       <div className="sticky top-0 z-40 bg-background/95 backdrop-blur-md border-b border-border">
         <div className="max-w-7xl mx-auto px-4 py-3 sm:py-4">
           <div className="flex items-center gap-3">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => navigate(-1)}
-              className="shrink-0"
-            >
-              <ArrowLeft className="h-5 w-5" />
-            </Button>
+            <div className="flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-xl bg-gradient-to-br from-sky-500 to-blue-600 text-white shadow-md shrink-0">
+              <Sparkles className="h-5 w-5 sm:h-6 sm:w-6" />
+            </div>
             <div className="flex-1 min-w-0">
               <h1 className={cn(
                 "text-lg sm:text-xl font-bold text-foreground truncate",

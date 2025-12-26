@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { ArrowLeft, Copy, Check } from "lucide-react";
+import { Copy, Check, HandHeart } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { Language } from "@/types/language";
@@ -247,7 +246,6 @@ const allDuas: DailyDuaItem[] = [
 ];
 
 const DailyDuaPage = ({ language, arabicFont = "amiri" }: DailyDuaPageProps) => {
-  const navigate = useNavigate();
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
   const handleCopy = async (dua: DailyDuaItem) => {
@@ -270,14 +268,9 @@ const DailyDuaPage = ({ language, arabicFont = "amiri" }: DailyDuaPageProps) => 
       <div className="sticky top-0 z-10 bg-background/95 backdrop-blur border-b border-border">
         <div className="max-w-4xl mx-auto px-4 py-4">
           <div className="flex items-center gap-3">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => navigate(-1)}
-              className="h-9 w-9"
-            >
-              <ArrowLeft className="h-5 w-5" />
-            </Button>
+            <div className="flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 text-white shadow-md shrink-0">
+              <HandHeart className="h-5 w-5 sm:h-6 sm:w-6" />
+            </div>
             <div>
               <h1 className={cn(
                 "text-xl font-bold text-foreground",
