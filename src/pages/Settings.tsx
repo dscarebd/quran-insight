@@ -5,7 +5,6 @@ import { toast } from "sonner";
 import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
 import { MobileNavFooter } from "@/components/MobileNavFooter";
-import { Slider } from "@/components/ui/slider";
 import annurLogo from "@/assets/annur-digital-logo.jpeg";
 import appLogo from "@/assets/app-logo.png";
 
@@ -186,87 +185,37 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
             </p>
           </section>
 
-          {/* Arabic Font Section */}
+          {/* Font Settings Section */}
           <section>
             <h2 className={cn(
               "mb-3 text-sm font-medium text-muted-foreground uppercase tracking-wider",
               language === "bn" && "font-bengali"
             )}>
-              {language === "bn" ? "আরবি ফন্ট" : "Arabic Font"}
+              {language === "bn" ? "ফন্ট সেটিংস" : "Font Settings"}
             </h2>
-            <div className="grid grid-cols-2 gap-2">
-              <button
-                onClick={() => onArabicFontChange?.("amiri")}
-                className={cn(
-                  "flex flex-col items-center justify-center gap-2 rounded-lg border border-border bg-card px-3 py-4 transition-colors",
-                  arabicFont === "amiri" ? "border-primary bg-primary/5" : "hover:bg-muted/50"
-                )}
-              >
-                <span className="font-arabic text-xl text-foreground">بِسْمِ</span>
-                <div className="flex items-center gap-1.5">
-                  <Type className="h-3.5 w-3.5" />
-                  <p className={cn("text-xs font-medium", language === "bn" && "font-bengali")}>
-                    {language === "bn" ? "আমিরী" : "Amiri"}
-                  </p>
-                  {arabicFont === "amiri" && (
-                    <div className="h-1.5 w-1.5 rounded-full bg-primary" />
-                  )}
+            <button
+              onClick={() => navigate("/font-settings")}
+              className="w-full rounded-xl border border-border bg-card overflow-hidden text-left hover:bg-muted/50 transition-colors"
+            >
+              <div className="p-4">
+                <div className="flex items-center gap-4">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
+                    <Type className="h-6 w-6 text-primary" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className={cn("text-sm font-semibold", language === "bn" && "font-bengali")}>
+                      {language === "bn" ? "ফন্ট ও সাইজ" : "Font & Size"}
+                    </h3>
+                    <p className={cn("text-xs text-muted-foreground", language === "bn" && "font-bengali")}>
+                      {language === "bn" 
+                        ? `${arabicFont === "amiri" ? "আমিরী" : "উসমানী"} • ${fontSize}px` 
+                        : `${arabicFont === "amiri" ? "Amiri" : "Uthmani"} • ${fontSize}px`}
+                    </p>
+                  </div>
+                  <ChevronRight className="h-5 w-5 text-muted-foreground" />
                 </div>
-              </button>
-              <button
-                onClick={() => onArabicFontChange?.("uthmani")}
-                className={cn(
-                  "flex flex-col items-center justify-center gap-2 rounded-lg border border-border bg-card px-3 py-4 transition-colors",
-                  arabicFont === "uthmani" ? "border-primary bg-primary/5" : "hover:bg-muted/50"
-                )}
-              >
-                <span className="font-uthmani text-xl text-foreground">بِسْمِ</span>
-                <div className="flex items-center gap-1.5">
-                  <Type className="h-3.5 w-3.5" />
-                  <p className={cn("text-xs font-medium", language === "bn" && "font-bengali")}>
-                    {language === "bn" ? "উসমানী" : "Uthmani"}
-                  </p>
-                  {arabicFont === "uthmani" && (
-                    <div className="h-1.5 w-1.5 rounded-full bg-primary" />
-                  )}
-                </div>
-              </button>
-            </div>
-            <p className={cn("mt-2 text-xs text-muted-foreground", language === "bn" && "font-bengali")}>
-              {language === "bn" ? "কুরআন ও দোয়ার আরবি লেখার জন্য" : "For Arabic text in Quran & Duas"}
-            </p>
-          </section>
-
-          {/* Font Size Section */}
-          <section>
-            <h2 className={cn(
-              "mb-3 text-sm font-medium text-muted-foreground uppercase tracking-wider",
-              language === "bn" && "font-bengali"
-            )}>
-              {language === "bn" ? "ফন্ট সাইজ" : "Font Size"}
-            </h2>
-            <div className="rounded-xl border border-border bg-card p-4">
-              <div className="flex items-center justify-between mb-3">
-                <span className={cn("text-xs text-muted-foreground", language === "bn" && "font-bengali")}>
-                  {language === "bn" ? "ছোট" : "Small"}
-                </span>
-                <span className="text-sm font-semibold text-primary">{fontSize}px</span>
-                <span className={cn("text-xs text-muted-foreground", language === "bn" && "font-bengali")}>
-                  {language === "bn" ? "বড়" : "Large"}
-                </span>
               </div>
-              <Slider
-                value={[fontSize]}
-                onValueChange={(value) => onFontSizeChange?.(value[0])}
-                min={15}
-                max={20}
-                step={1}
-                className="w-full"
-              />
-              <p className={cn("mt-3 text-xs text-muted-foreground text-center", language === "bn" && "font-bengali")}>
-                {language === "bn" ? "পুরো অ্যাপের টেক্সট সাইজ পরিবর্তন করুন" : "Adjust text size across the entire app"}
-              </p>
-            </div>
+            </button>
           </section>
           <section>
             <h2 className={cn(
