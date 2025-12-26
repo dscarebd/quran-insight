@@ -101,7 +101,7 @@ const Developer = ({ language }: DeveloperProps) => {
         </div>
 
         {/* Content */}
-        <div className="mx-auto max-w-2xl p-4 pb-24 space-y-6">
+        <div className="mx-auto max-w-2xl p-4 pb-4 space-y-6">
           {/* Developer Card */}
           <div className="rounded-xl border border-border bg-gradient-to-br from-primary/5 to-primary/10 overflow-hidden">
             <div className="p-5">

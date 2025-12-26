@@ -1,7 +1,6 @@
-import { ArrowLeft, Book, BookOpen, Heart, ExternalLink, Palette, User } from "lucide-react";
+import { ArrowLeft, Book, BookOpen, Heart, ExternalLink, Palette } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
-import { MobileNavFooter } from "@/components/MobileNavFooter";
 import { Language } from "@/types/language";
 
 interface SourcesCreditsProps {
@@ -177,15 +176,14 @@ const SourcesCredits = ({ language }: SourcesCreditsProps) => {
   );
 
   return (
-    <>
-      <div className="min-h-screen bg-background">
-        {/* Header */}
-        <div className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm border-b border-border">
-          <div className="flex items-center gap-3 px-4 py-3">
-            <button
-              onClick={() => navigate(-1)}
-              className="flex h-9 w-9 items-center justify-center rounded-full bg-muted/50 hover:bg-muted transition-colors"
-            >
+    <div className="min-h-screen bg-background pb-4">
+      {/* Header */}
+      <div className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm border-b border-border">
+        <div className="flex items-center gap-3 px-4 py-3">
+          <button
+            onClick={() => navigate(-1)}
+            className="flex h-9 w-9 items-center justify-center rounded-full bg-muted/50 hover:bg-muted transition-colors"
+          >
               <ArrowLeft className="h-5 w-5" />
             </button>
             <h1 className={cn("text-lg font-semibold", language === "bn" && "font-bengali")}>
@@ -195,7 +193,7 @@ const SourcesCredits = ({ language }: SourcesCreditsProps) => {
         </div>
 
         {/* Content */}
-        <div className="mx-auto max-w-2xl p-4 pb-24 space-y-6">
+        <div className="mx-auto max-w-2xl p-4 pb-4 space-y-6">
           {/* Introduction */}
           <div className="rounded-xl border border-border bg-gradient-to-br from-primary/5 to-primary/10 p-4">
             <div className="flex items-start gap-3">
@@ -278,11 +276,9 @@ const SourcesCredits = ({ language }: SourcesCreditsProps) => {
                 ? "এই অ্যাপটি শুধুমাত্র শিক্ষামূলক উদ্দেশ্যে তৈরি। সমস্ত কন্টেন্ট প্রামাণিক উৎস থেকে সংগ্রহ করা হয়েছে এবং সঠিকতা নিশ্চিত করার জন্য যাচাই করা হয়েছে।"
                 : "This app is created for educational purposes only. All content has been collected from authentic sources and verified for accuracy."}
             </p>
-          </div>
         </div>
       </div>
-      <MobileNavFooter language={language} />
-    </>
+    </div>
   );
 };
 
