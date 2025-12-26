@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { quranPages, getPageByNumber, getJuzForPage } from "@/data/pages";
 import { surahs } from "@/data/surahs";
-import { ChevronLeft, ChevronRight, Book, ZoomIn, ZoomOut, Search, Info, Volume2, ChevronUp, ChevronDown } from "lucide-react";
+import { Book, ZoomIn, ZoomOut, Search, Info, Volume2, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -20,6 +20,12 @@ interface Verse {
   arabic: string;
 }
 
+interface PageData {
+  pageNumber: number;
+  verses: Verse[];
+  juzNumber: number;
+}
+
 interface ReadPageProps {
   language: Language;
   readingMode?: "normal" | "sepia";
@@ -34,13 +40,18 @@ const DEFAULT_FONT_INDEX = 2; // 32px default
 const ReadPage = ({ language, readingMode = "normal", arabicFont = "amiri", onArabicFontChange }: ReadPageProps) => {
   const { pageNumber } = useParams();
   const navigate = useNavigate();
-  const currentPage = parseInt(pageNumber || "1");
-  const [verses, setVerses] = useState<Verse[]>([]);
+  const initialPage = parseInt(pageNumber || "1");
+  
+  // Store loaded pages data
+  const [loadedPages, setLoadedPages] = useState<PageData[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [currentVisiblePage, setCurrentVisiblePage] = useState(initialPage);
+  
   const [pageSearch, setPageSearch] = useState("");
   const [surahSearch, setSurahSearch] = useState("");
   const [sheetOpen, setSheetOpen] = useState(false);
-  const [selectorTab, setSelectorTab] = useState<"page" | "surah">("page");
+  const [selectorTab, setSelectorTab] = useState<"page" | "surah">("surah");
   
   // Last read verse state
   const [lastReadVerse, setLastReadVerse] = useState<string | null>(() => {
@@ -48,9 +59,17 @@ const ReadPage = ({ language, readingMode = "normal", arabicFont = "amiri", onAr
     return saved || null;
   });
   
-  // Verse refs for scrolling to last read
+  // Refs
   const verseRefs = useRef<{ [key: string]: HTMLSpanElement | null }>({});
+  const pageRefs = useRef<{ [key: number]: HTMLDivElement | null }>({});
+  const contentRef = useRef<HTMLDivElement>(null);
+  const observerRef = useRef<IntersectionObserver | null>(null);
+  const bottomSentinelRef = useRef<HTMLDivElement>(null);
+  const topSentinelRef = useRef<HTMLDivElement>(null);
   
+  const pageListRefs = useRef<{ [key: number]: HTMLButtonElement | null }>({});
+  const surahListRefs = useRef<{ [key: number]: HTMLButtonElement | null }>({});
+
   // Font zoom state
   const [fontSizeIndex, setFontSizeIndex] = useState(() => {
     const saved = localStorage.getItem("quran-font-size-index");
@@ -58,19 +77,13 @@ const ReadPage = ({ language, readingMode = "normal", arabicFont = "amiri", onAr
   });
   const [showZoomIndicator, setShowZoomIndicator] = useState(false);
 
-  // Touch gesture refs
-  const contentRef = useRef<HTMLDivElement>(null);
-  const touchStartX = useRef<number>(0);
-  const touchStartY = useRef<number>(0);
+  // Touch gesture refs for pinch zoom
   const initialPinchDistance = useRef<number>(0);
   const isPinching = useRef<boolean>(false);
-  
-  const pageListRefs = useRef<{ [key: number]: HTMLButtonElement | null }>({});
-  const surahListRefs = useRef<{ [key: number]: HTMLButtonElement | null }>({});
 
-  const pageData = getPageByNumber(currentPage);
-  const juzNumber = getJuzForPage(currentPage);
   const currentFontSize = FONT_SIZES[fontSizeIndex];
+  const currentPageData = getPageByNumber(currentVisiblePage);
+  const juzNumber = getJuzForPage(currentVisiblePage);
 
   // Save font size preference
   useEffect(() => {
@@ -79,32 +92,19 @@ const ReadPage = ({ language, readingMode = "normal", arabicFont = "amiri", onAr
 
   // Save last read page
   useEffect(() => {
-    localStorage.setItem("quran-last-read-page", currentPage.toString());
-  }, [currentPage]);
+    localStorage.setItem("quran-last-read-page", currentVisiblePage.toString());
+  }, [currentVisiblePage]);
 
-  // Scroll to last read verse on page load
+  // Update URL when visible page changes
   useEffect(() => {
-    if (!loading && lastReadVerse && verses.length > 0) {
-      const [savedPage, savedSurah, savedVerse] = lastReadVerse.split("-");
-      if (parseInt(savedPage) === currentPage) {
-        const verseKey = `${savedSurah}-${savedVerse}`;
-        const timer = setTimeout(() => {
-          const element = verseRefs.current[verseKey];
-          if (element) {
-            element.scrollIntoView({
-              behavior: 'smooth',
-              block: 'center'
-            });
-          }
-        }, 300);
-        return () => clearTimeout(timer);
-      }
+    if (currentVisiblePage !== initialPage && !loading) {
+      navigate(`/read/${currentVisiblePage}`, { replace: true });
     }
-  }, [loading, lastReadVerse, verses, currentPage]);
+  }, [currentVisiblePage, initialPage, navigate, loading]);
 
   // Handle verse click - mark as last read
-  const handleVerseClick = useCallback((surahNumber: number, verseNumber: number) => {
-    const verseKey = `${currentPage}-${surahNumber}-${verseNumber}`;
+  const handleVerseClick = useCallback((pageNum: number, surahNumber: number, verseNumber: number) => {
+    const verseKey = `${pageNum}-${surahNumber}-${verseNumber}`;
     setLastReadVerse(verseKey);
     localStorage.setItem("quran-last-read-verse", verseKey);
     toast.success(
@@ -113,28 +113,7 @@ const ReadPage = ({ language, readingMode = "normal", arabicFont = "amiri", onAr
         : `Surah ${surahNumber}, Verse ${verseNumber} - Saved as last read`,
       { className: language === "bn" ? "font-bengali" : "" }
     );
-  }, [currentPage, language]);
-
-  // Scroll to current page/surah when sheet opens
-  useEffect(() => {
-    if (sheetOpen && !pageSearch && !surahSearch) {
-      const timer = setTimeout(() => {
-        if (selectorTab === "page") {
-          const element = pageListRefs.current[currentPage];
-          if (element) {
-            element.scrollIntoView({ behavior: 'instant', block: 'center' });
-          }
-        } else {
-          const currentSurahNum = pageData?.startSurah || 1;
-          const element = surahListRefs.current[currentSurahNum];
-          if (element) {
-            element.scrollIntoView({ behavior: 'instant', block: 'center' });
-          }
-        }
-      }, 300);
-      return () => clearTimeout(timer);
-    }
-  }, [sheetOpen, currentPage, pageSearch, surahSearch, selectorTab, pageData]);
+  }, [language]);
 
   // Format number based on language
   const formatNum = (num: number, lang: Language): string => {
@@ -157,8 +136,8 @@ const ReadPage = ({ language, readingMode = "normal", arabicFont = "amiri", onAr
 
   // Get primary surah for current page
   const getPrimarySurah = () => {
-    if (!pageData) return null;
-    return surahs.find(s => s.number === pageData.startSurah);
+    if (!currentPageData) return null;
+    return surahs.find(s => s.number === currentPageData.startSurah);
   };
 
   // Zoom functions
@@ -181,20 +160,192 @@ const ReadPage = ({ language, readingMode = "normal", arabicFont = "amiri", onAr
   // Navigate to page
   const goToPage = useCallback((page: number) => {
     if (page >= 1 && page <= 604) {
+      // Reset and load from new page
+      setLoadedPages([]);
+      setLoading(true);
+      setCurrentVisiblePage(page);
       navigate(`/read/${page}`);
     }
   }, [navigate]);
 
-  // Touch event handlers for swipe and pinch zoom
+  // Fetch verses for a specific page
+  const fetchVersesForPage = useCallback(async (pageNum: number): Promise<Verse[]> => {
+    const pageData = getPageByNumber(pageNum);
+    if (!pageData) return [];
+
+    try {
+      if (pageData.startSurah === pageData.endSurah) {
+        const { data, error } = await supabase
+          .from("verses")
+          .select("surah_number, verse_number, arabic")
+          .eq("surah_number", pageData.startSurah)
+          .gte("verse_number", pageData.startVerse)
+          .lte("verse_number", pageData.endVerse)
+          .order("verse_number", { ascending: true });
+
+        if (error) throw error;
+        return data || [];
+      } else {
+        const { data: allVerses, error } = await supabase
+          .from("verses")
+          .select("surah_number, verse_number, arabic")
+          .gte("surah_number", pageData.startSurah)
+          .lte("surah_number", pageData.endSurah)
+          .order("surah_number", { ascending: true })
+          .order("verse_number", { ascending: true });
+
+        if (error) throw error;
+
+        if (allVerses) {
+          return allVerses.filter(v => {
+            if (v.surah_number === pageData.startSurah) {
+              return v.verse_number >= pageData.startVerse;
+            }
+            if (v.surah_number === pageData.endSurah) {
+              return v.verse_number <= pageData.endVerse;
+            }
+            return true;
+          });
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching verses for page", pageNum, error);
+    }
+    return [];
+  }, []);
+
+  // Load initial pages
+  useEffect(() => {
+    const loadInitialPages = async () => {
+      setLoading(true);
+      const pagesToLoad = [];
+      
+      // Load current page and a few ahead
+      for (let i = initialPage; i <= Math.min(initialPage + 2, 604); i++) {
+        const verses = await fetchVersesForPage(i);
+        pagesToLoad.push({
+          pageNumber: i,
+          verses,
+          juzNumber: getJuzForPage(i)
+        });
+      }
+      
+      setLoadedPages(pagesToLoad);
+      setLoading(false);
+    };
+
+    loadInitialPages();
+  }, [initialPage, fetchVersesForPage]);
+
+  // Load more pages when scrolling down
+  const loadMorePagesDown = useCallback(async () => {
+    if (loadingMore || loadedPages.length === 0) return;
+    
+    const lastPage = loadedPages[loadedPages.length - 1]?.pageNumber || 0;
+    if (lastPage >= 604) return;
+
+    setLoadingMore(true);
+    const newPages: PageData[] = [];
+    
+    for (let i = lastPage + 1; i <= Math.min(lastPage + 3, 604); i++) {
+      const verses = await fetchVersesForPage(i);
+      newPages.push({
+        pageNumber: i,
+        verses,
+        juzNumber: getJuzForPage(i)
+      });
+    }
+    
+    setLoadedPages(prev => [...prev, ...newPages]);
+    setLoadingMore(false);
+  }, [loadedPages, loadingMore, fetchVersesForPage]);
+
+  // Load more pages when scrolling up
+  const loadMorePagesUp = useCallback(async () => {
+    if (loadingMore || loadedPages.length === 0) return;
+    
+    const firstPage = loadedPages[0]?.pageNumber || 1;
+    if (firstPage <= 1) return;
+
+    setLoadingMore(true);
+    const newPages: PageData[] = [];
+    
+    for (let i = Math.max(firstPage - 3, 1); i < firstPage; i++) {
+      const verses = await fetchVersesForPage(i);
+      newPages.push({
+        pageNumber: i,
+        verses,
+        juzNumber: getJuzForPage(i)
+      });
+    }
+    
+    setLoadedPages(prev => [...newPages, ...prev]);
+    setLoadingMore(false);
+  }, [loadedPages, loadingMore, fetchVersesForPage]);
+
+  // Set up intersection observer for infinite scroll
+  useEffect(() => {
+    const bottomObserver = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          loadMorePagesDown();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    const topObserver = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          loadMorePagesUp();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (bottomSentinelRef.current) {
+      bottomObserver.observe(bottomSentinelRef.current);
+    }
+
+    if (topSentinelRef.current) {
+      topObserver.observe(topSentinelRef.current);
+    }
+
+    return () => {
+      bottomObserver.disconnect();
+      topObserver.disconnect();
+    };
+  }, [loadMorePagesDown, loadMorePagesUp]);
+
+  // Track which page is currently visible
+  useEffect(() => {
+    observerRef.current = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const pageNum = parseInt(entry.target.getAttribute('data-page') || '1');
+            setCurrentVisiblePage(pageNum);
+          }
+        });
+      },
+      { threshold: 0.5 }
+    );
+
+    // Observe all loaded page elements
+    Object.values(pageRefs.current).forEach((ref) => {
+      if (ref) observerRef.current?.observe(ref);
+    });
+
+    return () => observerRef.current?.disconnect();
+  }, [loadedPages]);
+
+  // Touch event handlers for pinch zoom
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
     if (e.touches.length === 2) {
       isPinching.current = true;
       const dx = e.touches[0].clientX - e.touches[1].clientX;
       const dy = e.touches[0].clientY - e.touches[1].clientY;
       initialPinchDistance.current = Math.sqrt(dx * dx + dy * dy);
-    } else if (e.touches.length === 1) {
-      touchStartX.current = e.touches[0].clientX;
-      touchStartY.current = e.touches[0].clientY;
     }
   }, []);
 
@@ -206,107 +357,16 @@ const ReadPage = ({ language, readingMode = "normal", arabicFont = "amiri", onAr
       const diff = currentDistance - initialPinchDistance.current;
 
       if (Math.abs(diff) > 50) {
-        if (diff > 0) {
-          zoomIn();
-        } else {
-          zoomOut();
-        }
+        if (diff > 0) zoomIn();
+        else zoomOut();
         initialPinchDistance.current = currentDistance;
       }
     }
   }, [zoomIn, zoomOut]);
 
-  const handleTouchEnd = useCallback((e: React.TouchEvent) => {
-    if (isPinching.current) {
-      isPinching.current = false;
-      return;
-    }
-
-    if (e.changedTouches.length === 1) {
-      const touchEndX = e.changedTouches[0].clientX;
-      const touchEndY = e.changedTouches[0].clientY;
-      const diffX = touchEndX - touchStartX.current;
-      const diffY = touchEndY - touchStartY.current;
-
-      if (Math.abs(diffX) > 80 && Math.abs(diffX) > Math.abs(diffY) * 1.5) {
-        if (diffX > 0) {
-          goToPage(currentPage - 1);
-        } else {
-          goToPage(currentPage + 1);
-        }
-      }
-    }
-  }, [currentPage, goToPage]);
-
-  // Fetch verses for current page
-  useEffect(() => {
-    const fetchVerses = async () => {
-      if (!pageData) return;
-      
-      setLoading(true);
-      try {
-        const { data: { session } } = await supabase.auth.getSession();
-        if (!session) {
-          // Use anonymous access
-        }
-
-        let query = supabase
-          .from("verses")
-          .select("surah_number, verse_number, arabic")
-          .order("surah_number", { ascending: true })
-          .order("verse_number", { ascending: true });
-
-        if (pageData.startSurah === pageData.endSurah) {
-          query = query
-            .eq("surah_number", pageData.startSurah)
-            .gte("verse_number", pageData.startVerse)
-            .lte("verse_number", pageData.endVerse);
-        } else {
-          const { data: allVerses, error: allVersesError } = await supabase
-            .from("verses")
-            .select("surah_number, verse_number, arabic")
-            .gte("surah_number", pageData.startSurah)
-            .lte("surah_number", pageData.endSurah)
-            .order("surah_number", { ascending: true })
-            .order("verse_number", { ascending: true });
-
-          if (allVersesError) {
-            console.error("Error fetching verses:", allVersesError);
-            setLoading(false);
-            return;
-          }
-
-          if (allVerses) {
-            const filteredVerses = allVerses.filter(v => {
-              if (v.surah_number === pageData.startSurah) {
-                return v.verse_number >= pageData.startVerse;
-              }
-              if (v.surah_number === pageData.endSurah) {
-                return v.verse_number <= pageData.endVerse;
-              }
-              return true;
-            });
-            setVerses(filteredVerses);
-            setLoading(false);
-            return;
-          }
-        }
-
-        const { data, error } = await query;
-        if (error) {
-          console.error("Error fetching verses:", error);
-        } else {
-          setVerses(data || []);
-        }
-      } catch (error) {
-        console.error("Error fetching verses:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchVerses();
-  }, [currentPage, pageData]);
+  const handleTouchEnd = useCallback(() => {
+    isPinching.current = false;
+  }, []);
 
   // Filter pages for search
   const filteredPages = quranPages.filter(p => 
@@ -334,36 +394,38 @@ const ReadPage = ({ language, readingMode = "normal", arabicFont = "amiri", onAr
   };
 
   // Group verses by surah for display
-  const versesBySurah = verses.reduce((acc, verse) => {
-    if (!acc[verse.surah_number]) {
-      acc[verse.surah_number] = [];
-    }
-    acc[verse.surah_number].push(verse);
-    return acc;
-  }, {} as Record<number, Verse[]>);
+  const groupVersesBySurah = (verses: Verse[]) => {
+    return verses.reduce((acc, verse) => {
+      if (!acc[verse.surah_number]) {
+        acc[verse.surah_number] = [];
+      }
+      acc[verse.surah_number].push(verse);
+      return acc;
+    }, {} as Record<number, Verse[]>);
+  };
 
   const primarySurah = getPrimarySurah();
 
-  // Get next/previous surah info
-  const getNextSurah = () => {
-    if (!pageData) return null;
-    return surahs.find(s => s.number === pageData.endSurah + 1);
-  };
-
-  const navigateToNextSurah = () => {
-    const nextSurah = getNextSurah();
-    if (nextSurah) {
-      const startPage = getSurahStartPage(nextSurah.number);
-      goToPage(startPage);
+  // Scroll to current page/surah when sheet opens
+  useEffect(() => {
+    if (sheetOpen && !pageSearch && !surahSearch) {
+      const timer = setTimeout(() => {
+        if (selectorTab === "page") {
+          const element = pageListRefs.current[currentVisiblePage];
+          if (element) {
+            element.scrollIntoView({ behavior: 'instant', block: 'center' });
+          }
+        } else {
+          const currentSurahNum = currentPageData?.startSurah || 1;
+          const element = surahListRefs.current[currentSurahNum];
+          if (element) {
+            element.scrollIntoView({ behavior: 'instant', block: 'center' });
+          }
+        }
+      }, 300);
+      return () => clearTimeout(timer);
     }
-  };
-
-  const navigateToSurahStart = () => {
-    if (primarySurah) {
-      const startPage = getSurahStartPage(primarySurah.number);
-      goToPage(startPage);
-    }
-  };
+  }, [sheetOpen, currentVisiblePage, pageSearch, surahSearch, selectorTab, currentPageData]);
 
   return (
     <div className={cn(
@@ -423,7 +485,7 @@ const ReadPage = ({ language, readingMode = "normal", arabicFont = "amiri", onAr
                   <ScrollArea className="h-[calc(80vh-200px)]">
                     <div className="py-1">
                       {filteredSurahs.map((surah) => {
-                        const isCurrentSurah = pageData && surah.number >= pageData.startSurah && surah.number <= pageData.endSurah;
+                        const isCurrentSurah = currentPageData && surah.number >= currentPageData.startSurah && surah.number <= currentPageData.endSurah;
                         return (
                           <button
                             key={surah.number}
@@ -487,11 +549,11 @@ const ReadPage = ({ language, readingMode = "normal", arabicFont = "amiri", onAr
                           ref={(el) => {
                             pageListRefs.current[page.pageNumber] = el;
                           }}
-                          variant={page.pageNumber === currentPage ? "default" : "outline"}
+                          variant={page.pageNumber === currentVisiblePage ? "default" : "outline"}
                           size="sm"
                           className={cn(
                             "h-10 text-sm font-bengali",
-                            page.pageNumber === currentPage && "bg-primary text-primary-foreground"
+                            page.pageNumber === currentVisiblePage && "bg-primary text-primary-foreground"
                           )}
                           onClick={() => {
                             goToPage(page.pageNumber);
@@ -512,8 +574,8 @@ const ReadPage = ({ language, readingMode = "normal", arabicFont = "amiri", onAr
           {/* Page/Juz Info */}
           <span className={cn("text-sm text-muted-foreground", language === "bn" && "font-bengali")}>
             {language === "bn" 
-              ? `পারা ${formatNum(juzNumber, language)} - পৃষ্ঠা ${formatNum(currentPage, language)}`
-              : `Juz ${juzNumber} - Page ${currentPage}`
+              ? `পারা ${formatNum(juzNumber, language)} - পৃষ্ঠা ${formatNum(currentVisiblePage, language)}`
+              : `Juz ${juzNumber} - Page ${currentVisiblePage}`
             }
           </span>
         </div>
@@ -528,10 +590,10 @@ const ReadPage = ({ language, readingMode = "normal", arabicFont = "amiri", onAr
         </div>
       )}
 
-      {/* Main Content */}
+      {/* Main Content with Infinite Scroll */}
       <main 
         ref={contentRef}
-        className="flex-1 overflow-auto pb-32 touch-pan-y"
+        className="flex-1 overflow-auto pb-24 touch-pan-y"
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
@@ -544,164 +606,160 @@ const ReadPage = ({ language, readingMode = "normal", arabicFont = "amiri", onAr
           </div>
         ) : (
           <div className="max-w-4xl mx-auto">
-            {Object.entries(versesBySurah).map(([surahNum, surahVerses]) => {
-              const surah = surahs.find(s => s.number === parseInt(surahNum));
-              const isStartOfSurah = surahVerses[0]?.verse_number === 1;
+            {/* Top sentinel for loading previous pages */}
+            <div ref={topSentinelRef} className="h-4" />
+            
+            {loadingMore && loadedPages[0]?.pageNumber > 1 && (
+              <div className="flex justify-center py-4">
+                <div className={cn("text-sm text-muted-foreground", language === "bn" && "font-bengali")}>
+                  {language === "bn" ? "লোড হচ্ছে..." : "Loading..."}
+                </div>
+              </div>
+            )}
 
+            {/* Render all loaded pages */}
+            {loadedPages.map((pageData) => {
+              const versesBySurah = groupVersesBySurah(pageData.verses);
+              const pageInfo = getPageByNumber(pageData.pageNumber);
+              
               return (
-                <div key={surahNum} className="mb-8">
-                  {/* Surah Title Header */}
-                  {isStartOfSurah && (
-                    <div className="py-8 text-center">
-                      {/* Decorative Surah Title */}
-                      <div className="relative inline-block">
-                        <div className="surah-title-frame px-8 py-4">
-                          <h1 
-                            className={cn(
-                              "text-foreground surah-title-text",
-                              arabicFont === "uthmani" ? "font-uthmani" : "font-arabic"
+                <div 
+                  key={pageData.pageNumber}
+                  ref={(el) => { pageRefs.current[pageData.pageNumber] = el; }}
+                  data-page={pageData.pageNumber}
+                  className="border-b border-border/30 pb-8 mb-8"
+                >
+                  {Object.entries(versesBySurah).map(([surahNum, surahVerses]) => {
+                    const surah = surahs.find(s => s.number === parseInt(surahNum));
+                    const isStartOfSurah = surahVerses[0]?.verse_number === 1;
+
+                    return (
+                      <div key={`${pageData.pageNumber}-${surahNum}`} className="mb-6">
+                        {/* Surah Title Header */}
+                        {isStartOfSurah && (
+                          <div className="py-8 text-center">
+                            <div className="relative inline-block">
+                              <div className="surah-title-frame px-8 py-4">
+                                <h1 
+                                  className={cn(
+                                    "text-foreground surah-title-text",
+                                    arabicFont === "uthmani" ? "font-uthmani" : "font-arabic"
+                                  )}
+                                  style={{ fontSize: `${currentFontSize + 8}px` }}
+                                >
+                                  {surah?.nameArabic}
+                                </h1>
+                              </div>
+                            </div>
+
+                            {/* Info Buttons */}
+                            <div className="flex items-center justify-center gap-6 mt-6 px-4">
+                              <button className={cn(
+                                "flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors",
+                                language === "bn" && "font-bengali"
+                              )}>
+                                <Info className="h-4 w-4" />
+                                {language === "bn" ? "সূরা তথ্য" : "Surah Info"}
+                              </button>
+                              <button className={cn(
+                                "flex items-center gap-2 text-sm text-primary hover:text-primary/80 transition-colors",
+                                language === "bn" && "font-bengali"
+                              )}>
+                                <Volume2 className="h-4 w-4" />
+                                {language === "bn" ? "অডিও চালান" : "Play Audio"}
+                              </button>
+                            </div>
+
+                            {/* Bismillah */}
+                            {parseInt(surahNum) !== 9 && parseInt(surahNum) !== 1 && (
+                              <p 
+                                className={cn(
+                                  "text-foreground/80 mt-8 bismillah-text",
+                                  arabicFont === "uthmani" ? "font-uthmani" : "font-arabic"
+                                )}
+                                dir="rtl"
+                                style={{ fontSize: `${currentFontSize}px` }}
+                              >
+                                بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
+                              </p>
                             )}
-                            style={{ fontSize: `${currentFontSize + 8}px` }}
-                          >
-                            {surah?.nameArabic}
-                          </h1>
+                          </div>
+                        )}
+
+                        {/* Continuous Arabic Verses */}
+                        <div 
+                          className="text-center px-4 sm:px-8 md:px-12" 
+                          dir="rtl"
+                          style={{ lineHeight: currentFontSize > 40 ? 3.2 : 2.8 }}
+                        >
+                          {surahVerses.map((verse) => {
+                            const verseKey = `${pageData.pageNumber}-${verse.surah_number}-${verse.verse_number}`;
+                            const isLastRead = lastReadVerse === verseKey;
+                            
+                            return (
+                              <span 
+                                key={verseKey} 
+                                ref={(el) => { verseRefs.current[verseKey] = el; }}
+                                className={cn(
+                                  "inline cursor-pointer rounded transition-all duration-300",
+                                  isLastRead && "bg-primary/20 px-1"
+                                )}
+                                onClick={() => handleVerseClick(pageData.pageNumber, verse.surah_number, verse.verse_number)}
+                              >
+                                <span 
+                                  className={cn(
+                                    "text-foreground",
+                                    arabicFont === "uthmani" ? "font-uthmani" : "font-arabic"
+                                  )}
+                                  style={{ fontSize: `${currentFontSize}px` }}
+                                >
+                                  {verse.arabic}
+                                </span>
+                                {/* Decorative Verse Number */}
+                                <span 
+                                  className="verse-number-circle inline-flex items-center justify-center mx-2"
+                                  style={{ 
+                                    width: `${currentFontSize * 1.2}px`, 
+                                    height: `${currentFontSize * 1.2}px`,
+                                    fontSize: `${currentFontSize * 0.5}px`
+                                  }}
+                                >
+                                  {toArabicNumerals(verse.verse_number)}
+                                </span>
+                              </span>
+                            );
+                          })}
                         </div>
                       </div>
-
-                      {/* Info Buttons */}
-                      <div className="flex items-center justify-center gap-6 mt-6 px-4">
-                        <button className={cn(
-                          "flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors",
-                          language === "bn" && "font-bengali"
-                        )}>
-                          <Info className="h-4 w-4" />
-                          {language === "bn" ? "সূরা তথ্য" : "Surah Info"}
-                        </button>
-                        <button className={cn(
-                          "flex items-center gap-2 text-sm text-primary hover:text-primary/80 transition-colors",
-                          language === "bn" && "font-bengali"
-                        )}>
-                          <Volume2 className="h-4 w-4" />
-                          {language === "bn" ? "অডিও চালান" : "Play Audio"}
-                        </button>
-                      </div>
-
-                      {/* Bismillah */}
-                      {parseInt(surahNum) !== 9 && parseInt(surahNum) !== 1 && (
-                        <p 
-                          className={cn(
-                            "text-foreground/80 mt-8 bismillah-text",
-                            arabicFont === "uthmani" ? "font-uthmani" : "font-arabic"
-                          )}
-                          dir="rtl"
-                          style={{ fontSize: `${currentFontSize}px` }}
-                        >
-                          بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
-                        </p>
-                      )}
-                    </div>
-                  )}
-
-                  {/* Continuous Arabic Verses */}
-                  <div 
-                    className="text-center px-4 sm:px-8 md:px-12" 
-                    dir="rtl"
-                    style={{ lineHeight: currentFontSize > 40 ? 3.2 : 2.8 }}
-                  >
-                    {surahVerses.map((verse) => {
-                      const verseKey = `${verse.surah_number}-${verse.verse_number}`;
-                      const isLastRead = lastReadVerse === `${currentPage}-${verseKey}`;
-                      
-                      return (
-                        <span 
-                          key={verseKey} 
-                          ref={(el) => { verseRefs.current[verseKey] = el; }}
-                          className={cn(
-                            "inline cursor-pointer rounded transition-all duration-300",
-                            isLastRead && "bg-primary/20 px-1"
-                          )}
-                          onClick={() => handleVerseClick(verse.surah_number, verse.verse_number)}
-                        >
-                          <span 
-                            className={cn(
-                              "text-foreground",
-                              arabicFont === "uthmani" ? "font-uthmani" : "font-arabic"
-                            )}
-                            style={{ fontSize: `${currentFontSize}px` }}
-                          >
-                            {verse.arabic}
-                          </span>
-                          {/* Decorative Verse Number */}
-                          <span 
-                            className="verse-number-circle inline-flex items-center justify-center mx-2"
-                            style={{ 
-                              width: `${currentFontSize * 1.2}px`, 
-                              height: `${currentFontSize * 1.2}px`,
-                              fontSize: `${currentFontSize * 0.5}px`
-                            }}
-                          >
-                            {toArabicNumerals(verse.verse_number)}
-                          </span>
-                        </span>
-                      );
-                    })}
-                  </div>
+                    );
+                  })}
 
                   {/* Page Number Indicator */}
-                  <div className="text-center mt-8 text-muted-foreground text-sm">
-                    {formatNum(currentPage, language)}
+                  <div className="text-center mt-6 text-muted-foreground text-sm">
+                    <span className={cn(language === "bn" && "font-bengali")}>
+                      {language === "bn" 
+                        ? `পৃষ্ঠা ${formatNum(pageData.pageNumber, language)}`
+                        : `Page ${pageData.pageNumber}`
+                      }
+                    </span>
                   </div>
                 </div>
               );
             })}
 
-            {/* Bottom Navigation Buttons */}
-            <div className="flex items-center justify-center gap-4 py-8 px-4">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={navigateToSurahStart}
-                className={cn("gap-2", language === "bn" && "font-bengali")}
-              >
-                {language === "bn" ? "সুরার শুরু" : "Surah Start"}
-              </Button>
-              {getNextSurah() && (
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={navigateToNextSurah}
-                  className={cn("gap-2", language === "bn" && "font-bengali")}
-                >
-                  {language === "bn" ? "পরবর্তী সূরা" : "Next Surah"}
-                  <ChevronLeft className="h-4 w-4" />
-                </Button>
-              )}
-            </div>
+            {/* Bottom sentinel for loading more pages */}
+            <div ref={bottomSentinelRef} className="h-4" />
+            
+            {loadingMore && (
+              <div className="flex justify-center py-4">
+                <div className={cn("text-sm text-muted-foreground", language === "bn" && "font-bengali")}>
+                  {language === "bn" ? "আরো লোড হচ্ছে..." : "Loading more..."}
+                </div>
+              </div>
+            )}
           </div>
         )}
       </main>
-
-      {/* Fixed Side Navigation (Desktop) */}
-      <div className="fixed right-4 top-1/2 -translate-y-1/2 z-40 hidden md:flex flex-col gap-2">
-        <Button
-          variant="outline"
-          size="icon"
-          onClick={() => goToPage(currentPage - 1)}
-          disabled={currentPage <= 1}
-          className="h-10 w-10 rounded-lg bg-background/80 backdrop-blur"
-        >
-          <ChevronUp className="h-5 w-5" />
-        </Button>
-        <Button
-          variant="outline"
-          size="icon"
-          onClick={() => goToPage(currentPage + 1)}
-          disabled={currentPage >= 604}
-          className="h-10 w-10 rounded-lg bg-background/80 backdrop-blur"
-        >
-          <ChevronDown className="h-5 w-5" />
-        </Button>
-      </div>
 
       {/* Fixed Zoom Controls (Desktop) */}
       <div className="fixed left-4 top-1/2 -translate-y-1/2 z-40 hidden md:flex flex-col gap-2">
@@ -726,8 +784,8 @@ const ReadPage = ({ language, readingMode = "normal", arabicFont = "amiri", onAr
       </div>
 
       {/* Mobile Bottom Navigation */}
-      <footer className="fixed bottom-16 left-0 right-0 bg-background/95 backdrop-blur border-t border-border md:hidden z-40">
-        <div className="flex items-center justify-between px-4 py-3">
+      <footer className="fixed bottom-16 left-0 right-0 bg-background/95 backdrop-blur border-t border-border md:bottom-0 z-40">
+        <div className="flex items-center justify-center gap-4 px-4 py-3">
           <Button
             variant="ghost"
             size="icon"
@@ -738,37 +796,18 @@ const ReadPage = ({ language, readingMode = "normal", arabicFont = "amiri", onAr
             <ZoomOut className="h-5 w-5" />
           </Button>
 
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => goToPage(currentPage + 1)}
-            disabled={currentPage >= 604}
-            className={cn("gap-2", language === "bn" && "font-bengali")}
-          >
-            <ChevronLeft className="h-4 w-4" />
-            {language === "bn" ? "পরবর্তী" : "Next"}
-          </Button>
-
           <button 
             onClick={() => setSheetOpen(true)}
-            className="flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-muted transition-colors"
+            className="flex items-center gap-2 px-4 py-2 rounded-lg bg-muted/50 hover:bg-muted transition-colors"
           >
             <Book className="h-4 w-4 text-muted-foreground" />
             <span className={cn("text-sm font-medium", language === "bn" && "font-bengali")}>
-              {formatNum(currentPage, language)}
+              {language === "bn" 
+                ? `পৃষ্ঠা ${formatNum(currentVisiblePage, language)} / ${formatNum(604, language)}`
+                : `Page ${currentVisiblePage} / 604`
+              }
             </span>
           </button>
-
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => goToPage(currentPage - 1)}
-            disabled={currentPage <= 1}
-            className={cn("gap-2", language === "bn" && "font-bengali")}
-          >
-            {language === "bn" ? "পূর্ববর্তী" : "Prev"}
-            <ChevronRight className="h-4 w-4" />
-          </Button>
 
           <Button
             variant="ghost"
