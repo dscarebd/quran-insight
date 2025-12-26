@@ -194,48 +194,9 @@ const Dua = ({ language, arabicFont = "amiri" }: DuaProps) => {
     <>
       <div className="min-h-screen bg-background">
         <div className="mx-auto max-w-6xl px-4 py-6 lg:px-6 lg:py-8">
-          {/* Desktop Header with Search */}
-          <div className="hidden lg:flex lg:items-center lg:justify-between gap-4 mb-6">
-            <div>
-              <div className="flex items-center gap-3 mb-2">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-500/10 text-amber-600">
-                  <LucideIcons.HandHeart className="h-5 w-5" />
-                </div>
-                <h1 className={cn(
-                  "text-2xl lg:text-3xl font-bold text-foreground",
-                  language === "bn" && "font-bengali"
-                )}>
-                  {language === "bn" ? "দোয়া সমূহ" : "All Duas"}
-                </h1>
-              </div>
-              <p className={cn(
-                "text-muted-foreground",
-                language === "bn" && "font-bengali"
-              )}>
-                {language === "bn" 
-                  ? "প্রামাণিক দোয়া ও মোনাজাত সংকলন" 
-                  : "Collection of authentic prayers and supplications"}
-              </p>
-            </div>
-
-            {/* Desktop Search */}
-            <div className="relative w-80">
-              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-              <Input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder={language === "bn" ? "দোয়া খুঁজুন..." : "Search duas..."}
-                className={cn(
-                  "pl-9 rounded-xl",
-                  language === "bn" && "font-bengali placeholder:font-bengali"
-                )}
-              />
-            </div>
-          </div>
-
           {/* Tabs */}
           <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as "all" | "favorites")} className="w-full">
+            {/* Mobile Tabs */}
             <div className="lg:hidden px-0 pt-3">
               <TabsList className="w-full grid grid-cols-2">
                 <TabsTrigger value="all" className={cn(language === "bn" && "font-bengali")}>
@@ -253,8 +214,48 @@ const Dua = ({ language, arabicFont = "amiri" }: DuaProps) => {
               </TabsList>
             </div>
 
-            {/* Desktop Tabs */}
+            {/* Desktop Header with Search and Tabs */}
             <div className="hidden lg:block mb-6">
+              <div className="flex items-center justify-between gap-4 mb-4">
+                <div>
+                  <div className="flex items-center gap-3 mb-2">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-500/10 text-amber-600">
+                      <LucideIcons.HandHeart className="h-5 w-5" />
+                    </div>
+                    <h1 className={cn(
+                      "text-2xl lg:text-3xl font-bold text-foreground",
+                      language === "bn" && "font-bengali"
+                    )}>
+                      {language === "bn" ? "দোয়া সমূহ" : "All Duas"}
+                    </h1>
+                  </div>
+                  <p className={cn(
+                    "text-muted-foreground",
+                    language === "bn" && "font-bengali"
+                  )}>
+                    {language === "bn" 
+                      ? "প্রামাণিক দোয়া ও মোনাজাত সংকলন" 
+                      : "Collection of authentic prayers and supplications"}
+                  </p>
+                </div>
+
+                {/* Desktop Search */}
+                <div className="relative w-80">
+                  <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                  <Input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder={language === "bn" ? "দোয়া খুঁজুন..." : "Search duas..."}
+                    className={cn(
+                      "pl-9 rounded-xl",
+                      language === "bn" && "font-bengali placeholder:font-bengali"
+                    )}
+                  />
+                </div>
+              </div>
+
+              {/* Desktop Tabs below search */}
               <TabsList>
                 <TabsTrigger value="all" className={cn(language === "bn" && "font-bengali")}>
                   {language === "bn" ? "সব দোয়া" : "All Duas"}
