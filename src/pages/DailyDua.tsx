@@ -19,7 +19,8 @@ interface DailyDuaItem {
   english: string;
   transliteration?: string;
   transliterationBn?: string;
-  reference?: string;
+  referenceBn?: string;
+  referenceEn?: string;
 }
 
 const allDuas: DailyDuaItem[] = [
@@ -32,7 +33,8 @@ const allDuas: DailyDuaItem[] = [
     english: "In Your name, O Allah, I die and I live.",
     transliteration: "Bismika Allahumma amutu wa ahya",
     transliterationBn: "বিসমিকা আল্লাহুম্মা আমুতু ওয়া আহইয়া",
-    reference: "সহীহ বুখারী"
+    referenceBn: "সহীহ বুখারী",
+    referenceEn: "Sahih Bukhari"
   },
   {
     id: "after-waking",
@@ -43,7 +45,8 @@ const allDuas: DailyDuaItem[] = [
     english: "All praise is for Allah who gave us life after having taken it from us and unto Him is the resurrection.",
     transliteration: "Alhamdu lillahil-ladhi ahyana ba'da ma amatana wa ilayhin-nushur",
     transliterationBn: "আলহামদু লিল্লাহিল্লাযী আহইয়ানা বা'দা মা আমাতানা ওয়া ইলাইহিন নুশুর",
-    reference: "সহীহ বুখারী"
+    referenceBn: "সহীহ বুখারী",
+    referenceEn: "Sahih Bukhari"
   },
   {
     id: "before-eating",
@@ -54,7 +57,8 @@ const allDuas: DailyDuaItem[] = [
     english: "In the name of Allah.",
     transliteration: "Bismillah",
     transliterationBn: "বিসমিল্লাহ",
-    reference: "সহীহ মুসলিম"
+    referenceBn: "সহীহ মুসলিম",
+    referenceEn: "Sahih Muslim"
   },
   {
     id: "after-eating",
@@ -65,7 +69,8 @@ const allDuas: DailyDuaItem[] = [
     english: "All praise is for Allah who fed us, gave us drink, and made us Muslims.",
     transliteration: "Alhamdu lillahil-ladhi at'amana wa saqana wa ja'alana muslimin",
     transliterationBn: "আলহামদু লিল্লাহিল্লাযী আত'আমানা ওয়া সাক্বানা ওয়া জা'আলানা মুসলিমীন",
-    reference: "তিরমিযী"
+    referenceBn: "তিরমিযী",
+    referenceEn: "Tirmidhi"
   },
   {
     id: "entering-mosque",
@@ -76,7 +81,8 @@ const allDuas: DailyDuaItem[] = [
     english: "O Allah, open for me the gates of Your mercy.",
     transliteration: "Allahumma-ftah li abwaba rahmatik",
     transliterationBn: "আল্লাহুম্মাফতাহ লী আবওয়াবা রাহমাতিক",
-    reference: "সহীহ মুসলিম"
+    referenceBn: "সহীহ মুসলিম",
+    referenceEn: "Sahih Muslim"
   },
   {
     id: "leaving-mosque",
@@ -87,7 +93,8 @@ const allDuas: DailyDuaItem[] = [
     english: "O Allah, I ask You from Your bounty.",
     transliteration: "Allahumma inni as'aluka min fadlik",
     transliterationBn: "আল্লাহুম্মা ইন্নী আসআলুকা মিন ফাদলিক",
-    reference: "সহীহ মুসলিম"
+    referenceBn: "সহীহ মুসলিম",
+    referenceEn: "Sahih Muslim"
   },
   {
     id: "after-salah",
@@ -98,7 +105,8 @@ const allDuas: DailyDuaItem[] = [
     english: "I seek forgiveness from Allah. (3 times)",
     transliteration: "Astaghfirullah, Astaghfirullah, Astaghfirullah",
     transliterationBn: "আস্তাগফিরুল্লাহ, আস্তাগফিরুল্লাহ, আস্তাগফিরুল্লাহ",
-    reference: "সহীহ মুসলিম"
+    referenceBn: "সহীহ মুসলিম",
+    referenceEn: "Sahih Muslim"
   },
   {
     id: "after-salah-2",
@@ -109,7 +117,8 @@ const allDuas: DailyDuaItem[] = [
     english: "Glory be to Allah, All praise is for Allah, and Allah is the Greatest. (33 times each)",
     transliteration: "SubhanAllah, Alhamdulillah, Allahu Akbar",
     transliterationBn: "সুবহানাল্লাহ, আলহামদুলিল্লাহ, আল্লাহু আকবার",
-    reference: "সহীহ মুসলিম"
+    referenceBn: "সহীহ মুসলিম",
+    referenceEn: "Sahih Muslim"
   },
   {
     id: "morning",
@@ -120,7 +129,8 @@ const allDuas: DailyDuaItem[] = [
     english: "We have reached the morning and the kingdom belongs to Allah, the Lord of all worlds.",
     transliteration: "Asbahna wa asbahal-mulku lillahi Rabbil-'alamin",
     transliterationBn: "আসবাহনা ওয়া আসবাহাল মুলকু লিল্লাহি রাব্বিল আলামীন",
-    reference: "আবু দাউদ"
+    referenceBn: "আবু দাউদ",
+    referenceEn: "Abu Dawud"
   },
   {
     id: "evening",
@@ -131,7 +141,8 @@ const allDuas: DailyDuaItem[] = [
     english: "We have reached the evening and the kingdom belongs to Allah, the Lord of all worlds.",
     transliteration: "Amsayna wa amsal-mulku lillahi Rabbil-'alamin",
     transliterationBn: "আমসাইনা ওয়া আমসাল মুলকু লিল্লাহি রাব্বিল আলামীন",
-    reference: "আবু দাউদ"
+    referenceBn: "আবু দাউদ",
+    referenceEn: "Abu Dawud"
   },
   {
     id: "entering-home",
@@ -142,7 +153,8 @@ const allDuas: DailyDuaItem[] = [
     english: "In the name of Allah we enter, in the name of Allah we leave, and upon our Lord we rely.",
     transliteration: "Bismillahi walajna, wa bismillahi kharajna, wa 'ala Allahi rabbina tawakkalna",
     transliterationBn: "বিসমিল্লাহি ওয়ালাজনা, ওয়া বিসমিল্লাহি খারাজনা, ওয়া আলা আল্লাহি রাব্বিনা তাওয়াক্কালনা",
-    reference: "আবু দাউদ"
+    referenceBn: "আবু দাউদ",
+    referenceEn: "Abu Dawud"
   },
   {
     id: "leaving-home",
@@ -153,7 +165,8 @@ const allDuas: DailyDuaItem[] = [
     english: "In the name of Allah, I place my trust in Allah. There is no might or power except with Allah.",
     transliteration: "Bismillahi tawakkaltu 'alallahi la hawla wa la quwwata illa billah",
     transliterationBn: "বিসমিল্লাহি তাওয়াক্কালতু আলাল্লাহি লা হাওলা ওয়া লা কুওয়াতা ইল্লা বিল্লাহ",
-    reference: "তিরমিযী"
+    referenceBn: "তিরমিযী",
+    referenceEn: "Tirmidhi"
   },
   {
     id: "starting-journey",
@@ -164,7 +177,8 @@ const allDuas: DailyDuaItem[] = [
     english: "Glory to Him who has subjected this to us, and we could never have it. And indeed, to our Lord we will return.",
     transliteration: "Subhanal-ladhi sakh-khara lana hadha wa ma kunna lahu muqrinin wa inna ila Rabbina lamunqalibun",
     transliterationBn: "সুবহানাল্লাযী সাখ্খারা লানা হাযা ওয়া মা কুন্না লাহু মুক্বরিনীন ওয়া ইন্না ইলা রাব্বিনা লামুনক্বালিবূন",
-    reference: "সূরা যুখরুফ ৪৩:১৩-১৪"
+    referenceBn: "সূরা যুখরুফ ৪৩:১৩-১৪",
+    referenceEn: "Surah Az-Zukhruf 43:13-14"
   },
   {
     id: "before-wudu",
@@ -175,7 +189,8 @@ const allDuas: DailyDuaItem[] = [
     english: "In the name of Allah.",
     transliteration: "Bismillah",
     transliterationBn: "বিসমিল্লাহ",
-    reference: "তিরমিযী"
+    referenceBn: "তিরমিযী",
+    referenceEn: "Tirmidhi"
   },
   {
     id: "after-wudu",
@@ -186,7 +201,8 @@ const allDuas: DailyDuaItem[] = [
     english: "I bear witness that there is no god but Allah alone, with no partner, and I bear witness that Muhammad is His servant and Messenger.",
     transliteration: "Ash-hadu an la ilaha illallahu wahdahu la sharika lahu wa ash-hadu anna Muhammadan 'abduhu wa rasuluh",
     transliterationBn: "আশহাদু আন লা ইলাহা ইল্লাল্লাহু ওয়াহদাহু লা শারীকা লাহু ওয়া আশহাদু আন্না মুহাম্মাদান আবদুহু ওয়া রাসূলুহ",
-    reference: "সহীহ মুসলিম"
+    referenceBn: "সহীহ মুসলিম",
+    referenceEn: "Sahih Muslim"
   },
   {
     id: "wearing-new-clothes",
@@ -197,7 +213,8 @@ const allDuas: DailyDuaItem[] = [
     english: "O Allah, for You is all praise, You have clothed me with it. I ask You for its goodness and the goodness for which it was made, and I seek refuge in You from its evil and the evil for which it was made.",
     transliteration: "Allahumma lakal-hamdu anta kasawtaneehi, as'aluka khayrahu wa khayra ma suni'a lahu, wa a'udhu bika min sharrihi wa sharri ma suni'a lah",
     transliterationBn: "আল্লাহুম্মা লাকাল হামদু আনতা কাসাওতানীহি, আসআলুকা খাইরাহু ওয়া খাইরা মা সুনিআ লাহু, ওয়া আউযু বিকা মিন শাররিহি ওয়া শাররি মা সুনিআ লাহ",
-    reference: "তিরমিযী"
+    referenceBn: "তিরমিযী",
+    referenceEn: "Tirmidhi"
   },
   {
     id: "entering-bathroom",
@@ -208,7 +225,8 @@ const allDuas: DailyDuaItem[] = [
     english: "O Allah, I seek refuge in You from male and female evil spirits.",
     transliteration: "Allahumma inni a'udhu bika minal-khubuthi wal-khaba'ith",
     transliterationBn: "আল্লাহুম্মা ইন্নী আউযু বিকা মিনাল খুবুসি ওয়াল খাবাইস",
-    reference: "সহীহ বুখারী"
+    referenceBn: "সহীহ বুখারী",
+    referenceEn: "Sahih Bukhari"
   },
   {
     id: "leaving-bathroom",
@@ -219,7 +237,8 @@ const allDuas: DailyDuaItem[] = [
     english: "I seek Your forgiveness.",
     transliteration: "Ghufranaka",
     transliterationBn: "গুফরানাকা",
-    reference: "তিরমিযী"
+    referenceBn: "তিরমিযী",
+    referenceEn: "Tirmidhi"
   },
   {
     id: "before-drinking-water",
@@ -230,7 +249,8 @@ const allDuas: DailyDuaItem[] = [
     english: "In the name of Allah.",
     transliteration: "Bismillah",
     transliterationBn: "বিসমিল্লাহ",
-    reference: "সহীহ মুসলিম"
+    referenceBn: "সহীহ মুসলিম",
+    referenceEn: "Sahih Muslim"
   },
   {
     id: "after-drinking-water",
@@ -241,7 +261,8 @@ const allDuas: DailyDuaItem[] = [
     english: "All praise is for Allah.",
     transliteration: "Alhamdulillah",
     transliterationBn: "আলহামদুলিল্লাহ",
-    reference: "তিরমিযী"
+    referenceBn: "তিরমিযী",
+    referenceEn: "Tirmidhi"
   }
 ];
 
@@ -250,7 +271,8 @@ const DailyDuaPage = ({ language, arabicFont = "amiri" }: DailyDuaPageProps) => 
 
   const handleCopy = async (dua: DailyDuaItem) => {
     const translitText = language === "bn" ? dua.transliterationBn : dua.transliteration;
-    const textToCopy = `${dua.arabic}\n\n${translitText ? translitText + "\n\n" : ""}${language === "bn" ? dua.bengali : dua.english}${dua.reference ? `\n\n(${dua.reference})` : ""}`;
+    const refText = language === "bn" ? dua.referenceBn : dua.referenceEn;
+    const textToCopy = `${dua.arabic}\n\n${translitText ? translitText + "\n\n" : ""}${language === "bn" ? dua.bengali : dua.english}${refText ? `\n\n(${refText})` : ""}`;
     
     try {
       await navigator.clipboard.writeText(textToCopy);
@@ -354,12 +376,12 @@ const DailyDuaPage = ({ language, arabicFont = "amiri" }: DailyDuaPageProps) => 
               </p>
 
               {/* Reference */}
-              {dua.reference && (
+              {(language === "bn" ? dua.referenceBn : dua.referenceEn) && (
                 <span className={cn(
                   "inline-block rounded-full bg-muted px-3 py-1 text-xs text-muted-foreground",
                   language === "bn" && "font-bengali"
                 )}>
-                  {dua.reference}
+                  {language === "bn" ? dua.referenceBn : dua.referenceEn}
                 </span>
               )}
             </div>
