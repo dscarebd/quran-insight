@@ -7019,6 +7019,7 @@ export const duaCategories: DuaCategory[] = [
     nameEnglish: "Travel Duas",
     nameBengali: "সফরের দোয়া",
     nameHindi: "सफ़र की दुआएं",
+    icon: "Plane",
     duas: [
       {
         id: "travel-1",
@@ -7479,6 +7480,7 @@ export const duaCategories: DuaCategory[] = [
     nameEnglish: "Fear, Hardship & Trials",
     nameBengali: "বিপদের দোয়া",
     nameHindi: "डर, मुसीबत और आज़माइश की दुआएं",
+    icon: "AlertTriangle",
     duas: [
       {
         id: "hardship-1",
@@ -7939,6 +7941,7 @@ export const duaCategories: DuaCategory[] = [
     nameEnglish: "Hereafter & Akhirah",
     nameBengali: "আখিরাতের দোয়া",
     nameHindi: "आख़िरत की दुआएं",
+    icon: "Sunrise",
     duas: [
       {
         id: "akhirah-1",
@@ -8399,6 +8402,7 @@ export const duaCategories: DuaCategory[] = [
     nameEnglish: "Death & Funeral",
     nameBengali: "মৃত্যু ও জানাজা",
     nameHindi: "मौत और जनाज़े की दुआएं",
+    icon: "Moon",
     duas: [
       {
         id: "death-1",
@@ -8859,6 +8863,7 @@ export const duaCategories: DuaCategory[] = [
     nameEnglish: "Special Occasions",
     nameBengali: "বিশেষ উপলক্ষ",
     nameHindi: "ख़ास मौक़ों की दुआएं",
+    icon: "Star",
     duas: [
       {
         id: "special-1",
@@ -9319,6 +9324,7 @@ export const duaCategories: DuaCategory[] = [
     nameEnglish: "Forgiveness & Tawbah",
     nameBengali: "ক্ষমা ও তাওবা",
     nameHindi: "माफ़ी और तौबा की दुआएं",
+    icon: "Heart",
     duas: [
       {
         id: "forgiveness-1",
