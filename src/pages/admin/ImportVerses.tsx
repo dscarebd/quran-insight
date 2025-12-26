@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { Loader2, Upload, CheckCircle2, AlertCircle, RefreshCw, Download, FileUp, FileSpreadsheet, Trash2, BookOpen, Sparkles } from "lucide-react";
+import { Loader2, Upload, CheckCircle2, AlertCircle, RefreshCw, Download, FileUp, FileSpreadsheet, Trash2, BookOpen, Sparkles, FileText } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -19,6 +19,7 @@ const ImportVerses = () => {
   const [isFixingTafsir, setIsFixingTafsir] = useState(false);
   const [isFetchingTafheem, setIsFetchingTafheem] = useState(false);
   const [isGeneratingAiTafsir, setIsGeneratingAiTafsir] = useState(false);
+  const [isImportingCsvTafsir, setIsImportingCsvTafsir] = useState(false);
   const [exportProgress, setExportProgress] = useState(0);
   const [restoreProgress, setRestoreProgress] = useState(0);
   const [arabicProgress, setArabicProgress] = useState(0);
@@ -32,6 +33,7 @@ const ImportVerses = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const csvSurahInputRef = useRef<HTMLInputElement>(null);
   const csvVerseInputRef = useRef<HTMLInputElement>(null);
+  const tafsirCsvInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
 
   const downloadFile = (content: string, filename: string, type: string) => {
@@ -679,7 +681,103 @@ const ImportVerses = () => {
     }
   };
 
-  const isDisabled = isImporting || isUpdatingArabic || isExporting || isRestoring || isExportingCsv || isRestoringCsv || isClearingTafsir || isFixingTafsir || isFetchingTafheem || isGeneratingAiTafsir;
+  // Import tafsir from uploaded CSV file (semicolon-delimited)
+  const importTafsirFromCsv = async () => {
+    setIsImportingCsvTafsir(true);
+    setTafsirResult(null);
+    setTafsirProgress(0);
+    
+    try {
+      setTafsirStatus("Fetching CSV file...");
+      
+      // Fetch the CSV file
+      const response = await fetch('/data/verses-tafsir-import.csv');
+      if (!response.ok) {
+        throw new Error("CSV file not found. Please upload the file first.");
+      }
+      const csvText = await response.text();
+      
+      // Parse semicolon-delimited CSV
+      const lines = csvText.split('\n').filter(line => line.trim());
+      const headers = lines[0].split(';');
+      
+      const surahIdx = headers.indexOf('surah_number');
+      const verseIdx = headers.indexOf('verse_number');
+      const tafsirBengaliIdx = headers.indexOf('tafsir_bengali');
+      
+      if (surahIdx === -1 || verseIdx === -1 || tafsirBengaliIdx === -1) {
+        throw new Error("Invalid CSV format. Required columns: surah_number, verse_number, tafsir_bengali");
+      }
+
+      // Parse all rows with tafsir
+      const tafsirData: { surah_number: number; verse_number: number; tafsir_bengali: string }[] = [];
+      
+      for (let i = 1; i < lines.length; i++) {
+        const values = lines[i].split(';');
+        const tafsirBengali = values[tafsirBengaliIdx]?.trim();
+        
+        if (tafsirBengali && tafsirBengali.length > 0) {
+          tafsirData.push({
+            surah_number: parseInt(values[surahIdx]),
+            verse_number: parseInt(values[verseIdx]),
+            tafsir_bengali: tafsirBengali.replace(/^"|"$/g, ''), // Remove surrounding quotes
+          });
+        }
+      }
+
+      setTafsirStatus(`Found ${tafsirData.length} verses with tafsir. Importing...`);
+      
+      let totalUpdated = 0;
+      const batchSize = 100;
+      
+      for (let i = 0; i < tafsirData.length; i += batchSize) {
+        const batch = tafsirData.slice(i, i + batchSize);
+        
+        // Update each verse in the batch
+        for (const item of batch) {
+          const { error } = await supabase
+            .from('verses')
+            .update({ tafsir_bengali: item.tafsir_bengali })
+            .eq('surah_number', item.surah_number)
+            .eq('verse_number', item.verse_number)
+            .is('tafsir_bengali', null); // Only update where tafsir is missing
+          
+          if (!error) {
+            totalUpdated++;
+          }
+        }
+        
+        const progress = Math.round(((i + batch.length) / tafsirData.length) * 100);
+        setTafsirProgress(progress);
+        setTafsirStatus(`Imported ${i + batch.length}/${tafsirData.length} tafsirs...`);
+      }
+
+      setTafsirStatus("Complete!");
+      setTafsirResult({
+        success: true,
+        message: `Successfully imported ${totalUpdated} Bengali tafsirs from CSV`,
+        totalUpdated
+      });
+      
+      toast({
+        title: "CSV Tafsir Import Complete",
+        description: `Imported ${totalUpdated} Bengali tafsirs from uploaded CSV`,
+      });
+
+    } catch (error: any) {
+      console.error('CSV tafsir import error:', error);
+      setTafsirResult({ error: error.message });
+      toast({
+        title: "Import Failed",
+        description: error.message,
+        variant: "destructive",
+      });
+    } finally {
+      setIsImportingCsvTafsir(false);
+    }
+  };
+
+  const isDisabled = isImporting || isUpdatingArabic || isExporting || isRestoring || isExportingCsv || isRestoringCsv || isClearingTafsir || isFixingTafsir || isFetchingTafheem || isGeneratingAiTafsir || isImportingCsvTafsir;
 
   return (
     <div className="space-y-6">
@@ -1000,15 +1098,34 @@ const ImportVerses = () => {
                 </>
               )}
             </Button>
+
+            <Button 
+              onClick={importTafsirFromCsv} 
+              disabled={isDisabled}
+              variant="outline"
+              className="w-full sm:w-auto"
+            >
+              {isImportingCsvTafsir ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Importing from CSV...
+                </>
+              ) : (
+                <>
+                  <FileText className="mr-2 h-4 w-4" />
+                  Option D: Import from CSV
+                </>
+              )}
+            </Button>
           </div>
 
-          {(isClearingTafsir || isFixingTafsir || isFetchingTafheem || isGeneratingAiTafsir) && tafsirStatus && (
+          {(isClearingTafsir || isFixingTafsir || isFetchingTafheem || isGeneratingAiTafsir || isImportingCsvTafsir) && tafsirStatus && (
             <div className="space-y-2">
               <div className="flex justify-between text-sm text-muted-foreground">
                 <span>{tafsirStatus}</span>
-                {(isFixingTafsir || isFetchingTafheem || isGeneratingAiTafsir) && <span>{tafsirProgress}%</span>}
+                {(isFixingTafsir || isFetchingTafheem || isGeneratingAiTafsir || isImportingCsvTafsir) && <span>{tafsirProgress}%</span>}
               </div>
-              {(isFixingTafsir || isFetchingTafheem || isGeneratingAiTafsir) && <Progress value={tafsirProgress} className="h-2" />}
+              {(isFixingTafsir || isFetchingTafheem || isGeneratingAiTafsir || isImportingCsvTafsir) && <Progress value={tafsirProgress} className="h-2" />}
             </div>
           )}
 
