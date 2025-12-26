@@ -17,18 +17,18 @@ const navItems = [
     icon: BookOpen 
   },
   { 
-    path: "/surah/1", 
+    path: "/surah", 
     labelEn: "Surah", 
     labelBn: "সূরা",
     icon: Book,
-    matchPattern: /^\/surah\// 
+    matchPattern: /^\/surah/ 
   },
   { 
-    path: "/para/1", 
+    path: "/para", 
     labelEn: "Para", 
     labelBn: "পারা",
     icon: BookOpen,
-    matchPattern: /^\/para\// 
+    matchPattern: /^\/para/ 
   },
   { 
     path: "/dua", 
