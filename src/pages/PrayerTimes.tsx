@@ -86,18 +86,51 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
     }
   }, [location, method]);
 
+  // Auto-detect calculation method based on coordinates
+  const getMethodForLocation = (lat: number, lon: number): CalculationMethod => {
+    // Bangladesh: lat ~20-27, lon ~88-93
+    if (lat >= 20 && lat <= 27 && lon >= 88 && lon <= 93) return 'IFB';
+    
+    // Singapore: lat ~1-2, lon ~103-105
+    if (lat >= 1 && lat <= 2 && lon >= 103 && lon <= 105) return 'MUIS';
+    
+    // France: lat ~41-51, lon ~-5 to 10
+    if (lat >= 41 && lat <= 51 && lon >= -5 && lon <= 10) return 'UOIF';
+    
+    // Arabian Peninsula (Saudi, UAE, Qatar, etc.): lat ~12-32, lon ~34-60
+    if (lat >= 12 && lat <= 32 && lon >= 34 && lon <= 60) return 'Makkah';
+    
+    // North America (USA, Canada): lat ~25-72, lon ~-170 to -50
+    if (lat >= 25 && lat <= 72 && lon >= -170 && lon <= -50) return 'ISNA';
+    
+    // Pakistan/India/Afghanistan: lat ~8-37, lon ~60-97 (excluding Bangladesh)
+    if (lat >= 8 && lat <= 37 && lon >= 60 && lon <= 97) return 'Karachi';
+    
+    // Egypt/North Africa: lat ~22-37, lon ~-17 to 35
+    if (lat >= 22 && lat <= 37 && lon >= -17 && lon <= 35) return 'Egypt';
+    
+    // Default to Muslim World League for other regions (Europe, Far East, etc.)
+    return 'MWL';
+  };
+
   // Get user's location
   const getUserLocation = () => {
     setIsLoading(true);
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
+          const { latitude, longitude } = position.coords;
           setLocation({
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
+            latitude,
+            longitude,
             city: language === 'bn' ? 'আপনার অবস্থান' : 'Your Location'
           });
           setSelectedCity('custom');
+          
+          // Auto-detect and set calculation method based on location
+          const detectedMethod = getMethodForLocation(latitude, longitude);
+          setMethod(detectedMethod);
+          
           setIsLoading(false);
           toast.success(language === 'bn' ? 'অবস্থান পাওয়া গেছে' : 'Location found');
         },
@@ -115,15 +148,20 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
 
   // Bangladesh cities for auto-selecting IFB method
   const bangladeshCities = ['dhaka', 'chittagong', 'sylhet', 'rajshahi'];
+  
+  // Saudi/Gulf cities for Makkah method
+  const saudiCities = ['makkah', 'medina', 'riyadh', 'jeddah'];
 
   // Handle city change
   const handleCityChange = (city: string) => {
     setSelectedCity(city);
     if (city !== 'custom' && defaultLocations[city]) {
       setLocation(defaultLocations[city]);
-      // Auto-select IFB for Bangladesh cities
+      // Auto-select method based on city
       if (bangladeshCities.includes(city)) {
         setMethod('IFB');
+      } else if (saudiCities.includes(city)) {
+        setMethod('Makkah');
       }
     }
   };
