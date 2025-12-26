@@ -19,6 +19,7 @@ import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
 import ReadPage from "./pages/ReadPage";
 import Dua from "./pages/Dua";
+import SourcesCredits from "./pages/SourcesCredits";
 
 // Lazy load admin pages
 const Admin = lazy(() => import("./pages/Admin"));
@@ -109,6 +110,11 @@ const AppContent = () => {
       <Route path="/settings" element={
         <Layout language={language} onLanguageChange={setLanguage}>
           <Settings language={language} onLanguageChange={setLanguage} readingMode={readingMode} onReadingModeChange={setReadingMode} arabicFont={arabicFont} onArabicFontChange={setArabicFont} fontSize={fontSize} onFontSizeChange={setFontSize} />
+        </Layout>
+      } />
+      <Route path="/sources-credits" element={
+        <Layout language={language} onLanguageChange={setLanguage}>
+          <SourcesCredits language={language} />
         </Layout>
       } />
       <Route path="/auth" element={

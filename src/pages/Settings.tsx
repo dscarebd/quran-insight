@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { ArrowLeft, Info, Moon, Sun, BookOpen, Globe, Mail, Heart, Type } from "lucide-react";
+import { ArrowLeft, Info, Moon, Sun, BookOpen, Globe, Mail, Heart, Type, ChevronRight, FileText } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { useTheme } from "next-themes";
@@ -364,7 +364,7 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
             )}>
               {language === "bn" ? "অ্যাপ তথ্য" : "App Info"}
             </h2>
-            <div className="rounded-xl border border-border bg-card overflow-hidden">
+            <div className="rounded-xl border border-border bg-card overflow-hidden divide-y divide-border">
               <div className="flex items-center gap-3 px-4 py-3.5">
                 <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10">
                   <Info className="h-5 w-5 text-primary" />
@@ -378,6 +378,23 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
                   </p>
                 </div>
               </div>
+              <button
+                onClick={() => navigate("/sources-credits")}
+                className="flex items-center gap-3 px-4 py-3.5 w-full text-left hover:bg-muted/50 transition-colors"
+              >
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10">
+                  <FileText className="h-5 w-5 text-primary" />
+                </div>
+                <div className="flex-1">
+                  <p className={cn("text-sm font-medium", language === "bn" && "font-bengali")}>
+                    {language === "bn" ? "সূত্র ও কৃতজ্ঞতা" : "Sources & Credits"}
+                  </p>
+                  <p className={cn("text-xs text-muted-foreground", language === "bn" && "font-bengali")}>
+                    {language === "bn" ? "কুরআন, দোয়া ও হাদিসের উৎস" : "Quran, Dua & Hadith sources"}
+                  </p>
+                </div>
+                <ChevronRight className="h-5 w-5 text-muted-foreground" />
+              </button>
             </div>
           </section>
         </div>
