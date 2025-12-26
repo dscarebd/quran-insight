@@ -3,12 +3,13 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Loader2, Upload, CheckCircle, AlertCircle } from "lucide-react";
+import { Loader2, Upload, CheckCircle, AlertCircle, Download } from "lucide-react";
 import { duaCategories } from "@/data/duas";
 import { Progress } from "@/components/ui/progress";
 
 const ImportDuas = () => {
   const [isImporting, setIsImporting] = useState(false);
+  const [isExporting, setIsExporting] = useState(false);
   const [progress, setProgress] = useState(0);
   const [currentCategory, setCurrentCategory] = useState("");
   const [result, setResult] = useState<{
@@ -19,6 +20,63 @@ const ImportDuas = () => {
     errors?: string[];
   } | null>(null);
   const { toast } = useToast();
+
+  const handleExport = async () => {
+    setIsExporting(true);
+    try {
+      // Fetch categories
+      const { data: categories, error: catError } = await supabase
+        .from('dua_categories')
+        .select('*')
+        .order('display_order');
+
+      if (catError) throw catError;
+
+      // Fetch all duas
+      const { data: duas, error: duaError } = await supabase
+        .from('duas')
+        .select('*')
+        .order('category_id, dua_id');
+
+      if (duaError) throw duaError;
+
+      // Create export data
+      const exportData = {
+        exportedAt: new Date().toISOString(),
+        categories: categories || [],
+        duas: duas || [],
+        stats: {
+          totalCategories: categories?.length || 0,
+          totalDuas: duas?.length || 0
+        }
+      };
+
+      // Download as JSON
+      const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `duas-backup-${new Date().toISOString().split('T')[0]}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+
+      toast({
+        title: "Export Successful",
+        description: `Exported ${exportData.stats.totalCategories} categories and ${exportData.stats.totalDuas} duas`,
+      });
+    } catch (error) {
+      console.error("Export error:", error);
+      toast({
+        title: "Export Failed",
+        description: "Failed to export duas. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsExporting(false);
+    }
+  };
 
   const handleImport = async () => {
     setIsImporting(true);
@@ -144,9 +202,24 @@ const ImportDuas = () => {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h2 className="text-2xl font-bold">Import Duas</h2>
-        <p className="text-muted-foreground">Import duas from local data file to database</p>
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-2xl font-bold">Import/Export Duas</h2>
+          <p className="text-muted-foreground">Import duas from local file or export from database</p>
+        </div>
+        <Button onClick={handleExport} disabled={isExporting || isImporting} variant="outline">
+          {isExporting ? (
+            <>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              Exporting...
+            </>
+          ) : (
+            <>
+              <Download className="mr-2 h-4 w-4" />
+              Export All Duas
+            </>
+          )}
+        </Button>
       </div>
 
       <Card>
@@ -158,7 +231,7 @@ const ImportDuas = () => {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          <Button onClick={handleImport} disabled={isImporting}>
+          <Button onClick={handleImport} disabled={isImporting || isExporting}>
             {isImporting ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />

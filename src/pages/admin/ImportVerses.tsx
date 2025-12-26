@@ -3,17 +3,99 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { Loader2, Upload, CheckCircle2, AlertCircle, RefreshCw } from "lucide-react";
+import { Loader2, Upload, CheckCircle2, AlertCircle, RefreshCw, Download } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 
 const ImportVerses = () => {
   const [isImporting, setIsImporting] = useState(false);
   const [isUpdatingArabic, setIsUpdatingArabic] = useState(false);
+  const [isExporting, setIsExporting] = useState(false);
+  const [exportProgress, setExportProgress] = useState(0);
   const [arabicProgress, setArabicProgress] = useState(0);
   const [arabicStatus, setArabicStatus] = useState("");
   const [result, setResult] = useState<{success?: boolean; message?: string; error?: string} | null>(null);
   const [arabicResult, setArabicResult] = useState<{success?: boolean; message?: string; error?: string; totalUpdated?: number} | null>(null);
   const { toast } = useToast();
+
+  const handleExportVerses = async () => {
+    setIsExporting(true);
+    setExportProgress(0);
+    try {
+      // Fetch surahs first
+      const { data: surahs, error: surahError } = await supabase
+        .from('surahs')
+        .select('*')
+        .order('number');
+
+      if (surahError) throw surahError;
+      setExportProgress(10);
+
+      // Fetch all verses in batches (to handle large data)
+      const allVerses: any[] = [];
+      const batchSize = 1000;
+      let offset = 0;
+      let hasMore = true;
+
+      while (hasMore) {
+        const { data: verses, error: verseError } = await supabase
+          .from('verses')
+          .select('*')
+          .order('surah_number, verse_number')
+          .range(offset, offset + batchSize - 1);
+
+        if (verseError) throw verseError;
+
+        if (verses && verses.length > 0) {
+          allVerses.push(...verses);
+          offset += batchSize;
+          setExportProgress(10 + Math.min(80, Math.round((allVerses.length / 6236) * 80)));
+        } else {
+          hasMore = false;
+        }
+      }
+
+      setExportProgress(95);
+
+      // Create export data
+      const exportData = {
+        exportedAt: new Date().toISOString(),
+        surahs: surahs || [],
+        verses: allVerses,
+        stats: {
+          totalSurahs: surahs?.length || 0,
+          totalVerses: allVerses.length
+        }
+      };
+
+      // Download as JSON
+      const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `quran-verses-backup-${new Date().toISOString().split('T')[0]}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+
+      setExportProgress(100);
+
+      toast({
+        title: "Export Successful",
+        description: `Exported ${exportData.stats.totalSurahs} surahs and ${exportData.stats.totalVerses} verses`,
+      });
+    } catch (error) {
+      console.error("Export error:", error);
+      toast({
+        title: "Export Failed",
+        description: "Failed to export verses. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsExporting(false);
+      setExportProgress(0);
+    }
+  };
 
   const handleImport = async () => {
     setIsImporting(true);
@@ -109,11 +191,30 @@ const ImportVerses = () => {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold">Import Verses</h1>
-        <p className="text-muted-foreground">
-          Import missing verses and update Arabic text from Quran.com
-        </p>
+      <div className="flex items-center justify-between flex-wrap gap-4">
+        <div>
+          <h1 className="text-2xl font-bold">Import/Export Verses</h1>
+          <p className="text-muted-foreground">
+            Import missing verses, update from Quran.com, or export backup
+          </p>
+        </div>
+        <Button 
+          onClick={handleExportVerses} 
+          disabled={isExporting || isImporting || isUpdatingArabic} 
+          variant="outline"
+        >
+          {isExporting ? (
+            <>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              Exporting... {exportProgress}%
+            </>
+          ) : (
+            <>
+              <Download className="mr-2 h-4 w-4" />
+              Export All Verses
+            </>
+          )}
+        </Button>
       </div>
 
       <Card>
