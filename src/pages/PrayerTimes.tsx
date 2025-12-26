@@ -319,8 +319,9 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
 
         {/* Location & Settings */}
         <Card className="mb-6">
-          <CardContent className="p-4">
-            <div className="grid sm:grid-cols-3 gap-4">
+          <CardContent className="p-4 space-y-4">
+            {/* Row 1: Location & Calculation Method - 50/50 */}
+            <div className="grid grid-cols-2 gap-3">
               {/* City Selection */}
               <div>
                 <label className={cn(
@@ -372,27 +373,25 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
                   </SelectContent>
                 </Select>
               </div>
-
-              {/* Use Location Button */}
-              <div className="flex items-end">
-                <Button
-                  variant="outline"
-                  onClick={getUserLocation}
-                  disabled={isLoading}
-                  className={cn(
-                    "w-full",
-                    language === "bn" && "font-bengali"
-                  )}
-                >
-                  {isLoading ? (
-                    <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
-                  ) : (
-                    <MapPin className="w-4 h-4 mr-2" />
-                  )}
-                  {useLocationLabel[language]}
-                </Button>
-              </div>
             </div>
+
+            {/* Row 2: Use Location Button - Full Width */}
+            <Button
+              variant="outline"
+              onClick={getUserLocation}
+              disabled={isLoading}
+              className={cn(
+                "w-full",
+                language === "bn" && "font-bengali"
+              )}
+            >
+              {isLoading ? (
+                <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
+              ) : (
+                <MapPin className="w-4 h-4 mr-2" />
+              )}
+              {useLocationLabel[language]}
+            </Button>
           </CardContent>
         </Card>
 
