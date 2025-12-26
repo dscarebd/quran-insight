@@ -11,16 +11,17 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Language } from "@/types/language";
 
 interface SurahDetailProps {
-  language: "bn" | "en";
+  language: Language;
   readingMode?: "normal" | "sepia";
   arabicFont?: "amiri" | "uthmani";
 }
 
 interface VerseCardProps {
   verse: Verse;
-  language: "bn" | "en";
+  language: Language;
   index: number;
   isBookmarked: boolean;
   onToggleBookmark: (surahNumber: number, verseNumber: number) => void;

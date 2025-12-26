@@ -2,9 +2,10 @@ import { ArrowLeft, Book, BookOpen, Heart, ExternalLink, Palette, User } from "l
 import { useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { MobileNavFooter } from "@/components/MobileNavFooter";
+import { Language } from "@/types/language";
 
 interface SourcesCreditsProps {
-  language: "bn" | "en";
+  language: Language;
 }
 
 const SourcesCredits = ({ language }: SourcesCreditsProps) => {

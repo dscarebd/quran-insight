@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { MobileNavFooter } from "@/components/MobileNavFooter";
 import annurLogo from "@/assets/annur-digital-logo.jpeg";
+import { Language } from "@/types/language";
 
 // Telegram SVG Icon Component
 const TelegramIcon = ({ className }: { className?: string }) => (
@@ -14,7 +15,7 @@ const TelegramIcon = ({ className }: { className?: string }) => (
 );
 
 interface DeveloperProps {
-  language: "bn" | "en";
+  language: Language;
 }
 
 const Developer = ({ language }: DeveloperProps) => {

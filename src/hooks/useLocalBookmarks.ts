@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { toast } from 'sonner';
+import { Language } from '@/types/language';
 
 interface VerseBookmark {
   id: string;
@@ -33,13 +34,14 @@ export const useLocalBookmarks = () => {
     return bookmarks.some(b => b.surah_number === surahNumber && b.verse_number === verseNumber);
   }, [bookmarks]);
 
-  const toggleBookmark = useCallback((surahNumber: number, verseNumber: number, language: 'bn' | 'en' = 'en') => {
+  const toggleBookmark = useCallback((surahNumber: number, verseNumber: number, language: Language = 'en') => {
     const existing = bookmarks.find(b => b.surah_number === surahNumber && b.verse_number === verseNumber);
 
     if (existing) {
       const newBookmarks = bookmarks.filter(b => b.id !== existing.id);
       saveToStorage(newBookmarks);
-      toast.success(language === 'bn' ? 'বুকমার্ক মুছে ফেলা হয়েছে' : 'Bookmark Removed');
+      const msg = language === 'bn' ? 'বুকমার্ক মুছে ফেলা হয়েছে' : language === 'hi' ? 'बुकमार्क हटाया गया' : 'Bookmark Removed';
+      toast.success(msg);
     } else {
       const newBookmark: VerseBookmark = {
         id: `${surahNumber}-${verseNumber}-${Date.now()}`,
@@ -49,14 +51,16 @@ export const useLocalBookmarks = () => {
       };
       const newBookmarks = [newBookmark, ...bookmarks];
       saveToStorage(newBookmarks);
-      toast.success(language === 'bn' ? 'বুকমার্ক করা হয়েছে' : 'Bookmarked');
+      const msg = language === 'bn' ? 'বুকমার্ক করা হয়েছে' : language === 'hi' ? 'बुकमार्क किया गया' : 'Bookmarked';
+      toast.success(msg);
     }
   }, [bookmarks, saveToStorage]);
 
-  const removeBookmark = useCallback((id: string, language: 'bn' | 'en' = 'en') => {
+  const removeBookmark = useCallback((id: string, language: Language = 'en') => {
     const newBookmarks = bookmarks.filter(b => b.id !== id);
     saveToStorage(newBookmarks);
-    toast.success(language === 'bn' ? 'বুকমার্ক মুছে ফেলা হয়েছে' : 'Bookmark Removed');
+    const msg = language === 'bn' ? 'বুকমার্ক মুছে ফেলা হয়েছে' : language === 'hi' ? 'बुकमार्क हटाया गया' : 'Bookmark Removed';
+    toast.success(msg);
   }, [bookmarks, saveToStorage]);
 
   const getBookmarkedVerseKeys = useCallback((): Set<string> => {

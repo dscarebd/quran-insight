@@ -13,9 +13,10 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Language } from "@/types/language";
 
 interface BookmarksProps {
-  language: "bn" | "en";
+  language: Language;
   readingMode?: "normal" | "sepia";
   arabicFont?: "amiri" | "uthmani";
 }

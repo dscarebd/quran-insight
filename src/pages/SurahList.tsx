@@ -3,9 +3,10 @@ import { Book, ChevronRight, Search } from "lucide-react";
 import { useState } from "react";
 import { surahs } from "@/data/surahs";
 import { cn, formatNumber } from "@/lib/utils";
+import { Language } from "@/types/language";
 
 interface SurahListProps {
-  language: "bn" | "en";
+  language: Language;
 }
 
 const SurahList = ({ language }: SurahListProps) => {
