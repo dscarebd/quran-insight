@@ -577,8 +577,53 @@ const ReadPage = ({ language, readingMode = "normal", arabicFont = "amiri", onAr
             </SheetContent>
           </Sheet>
 
+          {/* Tablet Controls - Font & Zoom */}
+          <div className="hidden sm:flex md:hidden items-center gap-1">
+            {/* Zoom Controls */}
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={zoomOut}
+              disabled={fontSizeIndex <= 0}
+              className="h-8 w-8"
+            >
+              <ZoomOut className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={zoomIn}
+              disabled={fontSizeIndex >= FONT_SIZES.length - 1}
+              className="h-8 w-8"
+            >
+              <ZoomIn className="h-4 w-4" />
+            </Button>
+            
+            {/* Font Switch */}
+            <div className="flex items-center border border-border rounded-lg overflow-hidden ml-2">
+              <button
+                onClick={() => onArabicFontChange?.("uthmani")}
+                className={cn(
+                  "px-2 py-1 text-xs transition-colors",
+                  arabicFont === "uthmani" ? "bg-primary text-primary-foreground" : "bg-background hover:bg-muted"
+                )}
+              >
+                Uthmani
+              </button>
+              <button
+                onClick={() => onArabicFontChange?.("amiri")}
+                className={cn(
+                  "px-2 py-1 text-xs transition-colors",
+                  arabicFont === "amiri" ? "bg-primary text-primary-foreground" : "bg-background hover:bg-muted"
+                )}
+              >
+                Amiri
+              </button>
+            </div>
+          </div>
+
           {/* Page/Juz Info */}
-          <span className={cn("text-sm text-muted-foreground", language === "bn" && "font-bengali")}>
+          <span className={cn("text-sm text-muted-foreground sm:hidden md:block", language === "bn" && "font-bengali")}>
             {language === "bn" 
               ? `পারা ${formatNum(juzNumber, language)} - পৃষ্ঠা ${formatNum(currentVisiblePage, language)}`
               : `Juz ${juzNumber} - Page ${currentVisiblePage}`
