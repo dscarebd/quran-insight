@@ -17,6 +17,7 @@ const ImportVerses = () => {
   const [isRestoringCsv, setIsRestoringCsv] = useState(false);
   const [isClearingTafsir, setIsClearingTafsir] = useState(false);
   const [isFixingTafsir, setIsFixingTafsir] = useState(false);
+  const [isFetchingTafheem, setIsFetchingTafheem] = useState(false);
   const [exportProgress, setExportProgress] = useState(0);
   const [restoreProgress, setRestoreProgress] = useState(0);
   const [arabicProgress, setArabicProgress] = useState(0);
@@ -554,7 +555,66 @@ const ImportVerses = () => {
     }
   };
 
-  const isDisabled = isImporting || isUpdatingArabic || isExporting || isRestoring || isExportingCsv || isRestoringCsv || isClearingTafsir || isFixingTafsir;
+  // Fetch Bengali tafsir from alQuranBD (Tafhimul Quran)
+  const fetchTafheemTafsir = async () => {
+    setIsFetchingTafheem(true);
+    setTafsirResult(null);
+    setTafsirProgress(0);
+    
+    const totalSurahs = 114;
+    const batchSize = 5;
+    let totalUpdated = 0;
+    const errors: string[] = [];
+
+    try {
+      for (let startSurah = 1; startSurah <= totalSurahs; startSurah += batchSize) {
+        const endSurah = Math.min(startSurah + batchSize - 1, totalSurahs);
+        setTafsirStatus(`Fetching Tafhimul Quran for Surah ${startSurah} - ${endSurah}...`);
+        
+        const { data, error } = await supabase.functions.invoke('fetch-bengali-tafsir', {
+          body: { startSurah, endSurah }
+        });
+
+        if (error) {
+          console.error(`Error fetching tafsir ${startSurah}-${endSurah}:`, error);
+          errors.push(`Surahs ${startSurah}-${endSurah}: ${error.message}`);
+        } else if (data) {
+          totalUpdated += data.totalUpdated || 0;
+          if (data.errors) {
+            errors.push(...data.errors);
+          }
+        }
+
+        const progress = Math.round((endSurah / totalSurahs) * 100);
+        setTafsirProgress(progress);
+      }
+
+      setTafsirStatus("Complete!");
+      setTafsirResult({
+        success: true,
+        message: `Successfully fetched ${totalUpdated} verses with Tafhimul Quran tafsir`,
+        totalUpdated
+      });
+      
+      toast({
+        title: "Tafhimul Quran Import Complete",
+        description: `Updated ${totalUpdated} verses with Bengali tafsir from alQuranBD`,
+      });
+
+    } catch (error: any) {
+      console.error('Tafheem fetch error:', error);
+      setTafsirResult({ error: error.message });
+      toast({
+        title: "Fetch Failed",
+        description: error.message,
+        variant: "destructive",
+      });
+    } finally {
+      setIsFetchingTafheem(false);
+    }
+  };
+
+  const isDisabled = isImporting || isUpdatingArabic || isExporting || isRestoring || isExportingCsv || isRestoringCsv || isClearingTafsir || isFixingTafsir || isFetchingTafheem;
 
   return (
     <div className="space-y-6">
@@ -794,8 +854,8 @@ const ImportVerses = () => {
             Fix Bengali Tafsir
           </CardTitle>
           <CardDescription>
-            The tafsir data is currently mixed with multiple languages (Russian, French, Malayalam, etc.). 
-            Use these tools to clear wrong data and re-fetch proper Bengali tafsir from Quran.com.
+            Clear wrong language data and import complete Bengali tafsir. 
+            <strong> Option B (Tafhimul Quran)</strong> is recommended for complete coverage.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -828,24 +888,43 @@ const ImportVerses = () => {
               {isFixingTafsir ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Re-fetching Bengali Tafsir...
+                  Re-fetching from Quran.com...
                 </>
               ) : (
                 <>
                   <RefreshCw className="mr-2 h-4 w-4" />
-                  Step 2: Re-fetch Bengali Tafsir
+                  Option A: Quran.com Tafsir
+                </>
+              )}
+            </Button>
+
+            <Button 
+              onClick={fetchTafheemTafsir} 
+              disabled={isDisabled}
+              variant="default"
+              className="w-full sm:w-auto"
+            >
+              {isFetchingTafheem ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Fetching Tafhimul Quran...
+                </>
+              ) : (
+                <>
+                  <BookOpen className="mr-2 h-4 w-4" />
+                  Option B: Tafhimul Quran (Complete)
                 </>
               )}
             </Button>
           </div>
 
-          {(isClearingTafsir || isFixingTafsir) && tafsirStatus && (
+          {(isClearingTafsir || isFixingTafsir || isFetchingTafheem) && tafsirStatus && (
             <div className="space-y-2">
               <div className="flex justify-between text-sm text-muted-foreground">
                 <span>{tafsirStatus}</span>
-                {isFixingTafsir && <span>{tafsirProgress}%</span>}
+                {(isFixingTafsir || isFetchingTafheem) && <span>{tafsirProgress}%</span>}
               </div>
-              {isFixingTafsir && <Progress value={tafsirProgress} className="h-2" />}
+              {(isFixingTafsir || isFetchingTafheem) && <Progress value={tafsirProgress} className="h-2" />}
             </div>
           )}
 
