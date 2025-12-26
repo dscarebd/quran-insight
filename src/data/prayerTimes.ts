@@ -1,13 +1,18 @@
 // Prayer Times Calculation based on sun position
 // Using commonly accepted calculation methods
 
+export interface PrayerTimeRange {
+  start: string;
+  end: string;
+}
+
 export interface PrayerTimes {
-  fajr: string;
-  sunrise: string;
-  dhuhr: string;
-  asr: string;
-  maghrib: string;
-  isha: string;
+  fajr: PrayerTimeRange;
+  sunrise: string;  // Single time, not a range
+  dhuhr: PrayerTimeRange;
+  asr: PrayerTimeRange;
+  maghrib: PrayerTimeRange;
+  isha: PrayerTimeRange;
 }
 
 export interface Location {
@@ -160,10 +165,9 @@ export const calculatePrayerTimes = (
   // Dhuhr (add a few minutes after midday)
   const dhuhr = midday + 1 / 60; // 1 minute after midday
   
-  // Asr (Hanafi: shadow = 2x object + noon shadow, Shafi: shadow = 1x object + noon shadow)
-  // Using Shafi method by default
+  // Asr - Using Hanafi method (shadow = 2x object height + noon shadow)
   const noonShadow = Math.abs(Math.tan(toRadians(latitude - declination)));
-  const asrAngle = toDegrees(Math.atan(1 / (1 + noonShadow)));
+  const asrAngle = toDegrees(Math.atan(1 / (2 + noonShadow)));
   const asr = getPrayerTime(latitude, declination, asrAngle, equationOfTime, longitude, timezone, false);
   
   // Maghrib (at sunset)
@@ -177,13 +181,18 @@ export const calculatePrayerTimes = (
     isha = getPrayerTime(latitude, declination, params.ishaAngle, equationOfTime, longitude, timezone, false);
   }
   
+  // Calculate next day's Fajr for Isha end time
+  const nextDayJd = getJulianDay(new Date(date.getTime() + 24 * 60 * 60 * 1000));
+  const nextDaySun = getSunPosition(nextDayJd);
+  const nextFajr = getPrayerTime(latitude, nextDaySun.declination, params.fajrAngle, nextDaySun.equationOfTime, longitude, timezone, true);
+
   return {
-    fajr: formatTime(fajr),
+    fajr: { start: formatTime(fajr), end: formatTime(sunrise) },
     sunrise: formatTime(sunrise),
-    dhuhr: formatTime(dhuhr),
-    asr: formatTime(asr),
-    maghrib: formatTime(maghrib),
-    isha: formatTime(isha),
+    dhuhr: { start: formatTime(dhuhr), end: formatTime(asr) },
+    asr: { start: formatTime(asr), end: formatTime(maghrib) },
+    maghrib: { start: formatTime(maghrib), end: formatTime(isha) },
+    isha: { start: formatTime(isha), end: formatTime(nextFajr) },
   };
 };
 
@@ -211,12 +220,12 @@ export const getNextPrayer = (times: PrayerTimes): { name: string; time: string;
   const currentTime = now.getHours() * 60 + now.getMinutes();
   
   const prayers = [
-    { name: 'Fajr', nameAr: 'الفجر', nameBn: 'ফজর', time: times.fajr },
+    { name: 'Fajr', nameAr: 'الفجر', nameBn: 'ফজর', time: times.fajr.start },
     { name: 'Sunrise', nameAr: 'الشروق', nameBn: 'সূর্যোদয়', time: times.sunrise },
-    { name: 'Dhuhr', nameAr: 'الظهر', nameBn: 'যোহর', time: times.dhuhr },
-    { name: 'Asr', nameAr: 'العصر', nameBn: 'আসর', time: times.asr },
-    { name: 'Maghrib', nameAr: 'المغرب', nameBn: 'মাগরিব', time: times.maghrib },
-    { name: 'Isha', nameAr: 'العشاء', nameBn: 'ইশা', time: times.isha },
+    { name: 'Dhuhr', nameAr: 'الظهر', nameBn: 'যোহর', time: times.dhuhr.start },
+    { name: 'Asr', nameAr: 'العصر', nameBn: 'আসর', time: times.asr.start },
+    { name: 'Maghrib', nameAr: 'المغرب', nameBn: 'মাগরিব', time: times.maghrib.start },
+    { name: 'Isha', nameAr: 'العشاء', nameBn: 'ইশা', time: times.isha.start },
   ];
   
   for (const prayer of prayers) {
