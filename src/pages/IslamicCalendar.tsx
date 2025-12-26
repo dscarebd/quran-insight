@@ -147,20 +147,41 @@ const IslamicCalendar = ({ language }: IslamicCalendarProps) => {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="container mx-auto px-4 py-6 max-w-6xl">
-        {/* Header */}
-        <div className="text-center mb-6">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-rose-500 to-pink-600 text-white shadow-lg mb-4">
-            <CalendarDays className="w-8 h-8" />
+      {/* Sticky Header for Mobile/Tablet */}
+      <div className="sticky top-0 z-40 bg-background/95 backdrop-blur-md border-b border-border lg:hidden">
+        <div className="max-w-6xl mx-auto px-4 py-3 sm:py-4">
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-xl bg-gradient-to-br from-rose-500 to-pink-600 text-white shadow-md shrink-0">
+              <CalendarDays className="h-5 w-5 sm:h-6 sm:w-6" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <h1 className={cn(
+                "text-lg sm:text-xl font-bold text-foreground truncate",
+                language === "bn" && "font-bengali",
+                language === "hi" && "font-hindi"
+              )}>
+                {pageTitle[language]}
+              </h1>
+            </div>
           </div>
-          <h1 className={cn(
-            "text-2xl sm:text-3xl font-bold text-foreground mb-2",
-            language === "bn" && "font-bengali",
-            language === "hi" && "font-hindi"
-          )}>
-            {pageTitle[language]}
-          </h1>
         </div>
+      </div>
+
+      {/* Desktop Header */}
+      <div className="hidden lg:block text-center py-6">
+        <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-rose-500 to-pink-600 text-white shadow-lg mb-4">
+          <CalendarDays className="w-8 h-8" />
+        </div>
+        <h1 className={cn(
+          "text-2xl sm:text-3xl font-bold text-foreground mb-2",
+          language === "bn" && "font-bengali",
+          language === "hi" && "font-hindi"
+        )}>
+          {pageTitle[language]}
+        </h1>
+      </div>
+
+      <div className="container mx-auto px-4 py-4 lg:py-6 max-w-6xl">
 
         {/* Current Date Display - All Three Formats */}
         <Card className="mb-6 bg-gradient-to-br from-primary/10 to-primary/5 border-primary/20">
