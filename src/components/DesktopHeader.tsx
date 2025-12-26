@@ -63,8 +63,8 @@ export const DesktopHeader = ({ language, onLanguageChange }: DesktopHeaderProps
 
   return (
     <header className="sticky top-0 z-50 hidden lg:block border-b border-border bg-card/98 backdrop-blur-md">
-      {/* Islamic ornamental border */}
-      <div className="h-1 bg-gradient-to-r from-transparent via-gold to-transparent opacity-60" />
+      {/* Ornamental border */}
+      <div className="h-1 bg-gradient-to-r from-transparent via-primary to-transparent opacity-40" />
       
       <div className="mx-auto max-w-7xl px-6">
         <div className="flex h-16 items-center justify-between">
@@ -79,13 +79,13 @@ export const DesktopHeader = ({ language, onLanguageChange }: DesktopHeaderProps
                 alt="Quran Insight" 
                 className="h-10 w-10 rounded-xl shadow-md transition-transform group-hover:scale-105" 
               />
-              <div className="absolute -inset-1 rounded-xl bg-gradient-to-br from-gold/20 to-primary/20 opacity-0 group-hover:opacity-100 transition-opacity -z-10" />
+              <div className="absolute -inset-1 rounded-xl bg-gradient-to-br from-primary/20 to-primary/10 opacity-0 group-hover:opacity-100 transition-opacity -z-10" />
             </div>
             <div className="flex flex-col">
               <span className="text-xl font-bold text-primary tracking-tight">
                 Quran Insight
               </span>
-              <span className="text-[10px] text-gold font-medium tracking-widest uppercase">
+              <span className="text-[10px] text-muted-foreground font-medium tracking-widest uppercase">
                 {language === "bn" ? "কুরআন অন্বেষণ" : "Explore the Quran"}
               </span>
             </div>
@@ -112,7 +112,7 @@ export const DesktopHeader = ({ language, onLanguageChange }: DesktopHeaderProps
                     {language === "bn" ? item.labelBn : item.labelEn}
                   </span>
                   {active && (
-                    <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-8 h-0.5 bg-gradient-to-r from-gold via-gold-light to-gold rounded-full" />
+                    <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-8 h-0.5 bg-gradient-to-r from-primary via-primary to-primary rounded-full" />
                   )}
                 </button>
               );
