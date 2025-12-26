@@ -398,36 +398,41 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
         {/* Next Prayer Card */}
         {nextPrayer && (
           <Card className="mb-6 bg-gradient-to-br from-primary/10 to-primary/5 border-primary/20">
-            <CardContent className="p-6 text-center">
-              <p className={cn(
-                "text-sm text-muted-foreground mb-2",
-                language === "bn" && "font-bengali"
-              )}>
-                {nextPrayerLabel[language]}
-              </p>
-              <div className="flex items-center justify-center gap-3">
-                <h2 className={cn(
-                  "text-3xl font-bold text-primary",
-                  language === "bn" && "font-bengali"
-                )}>
-                  {language === 'bn' ? nextPrayer.nameBn : nextPrayer.name}
-                </h2>
-                <span className="text-xl text-primary" dir="rtl">
-                  {nextPrayer.nameAr}
-                </span>
-              </div>
-              <p className="text-2xl font-semibold text-foreground mt-2">
-                {formatTimeDisplay(nextPrayer.time, language)}
-              </p>
-              {/* Time Remaining Countdown */}
-              {timeRemaining && (
+            <CardContent className="p-4">
+              {/* Row 1: Label + Prayer Name */}
+              <div className="flex items-center justify-between">
                 <p className={cn(
-                  "text-sm text-muted-foreground mt-2 animate-pulse",
+                  "text-sm text-muted-foreground",
                   language === "bn" && "font-bengali"
                 )}>
-                  {formatTimeRemaining(timeRemaining, language)}
+                  {nextPrayerLabel[language]}
                 </p>
-              )}
+                <div className="flex items-center gap-2">
+                  <h2 className={cn(
+                    "text-xl font-bold text-primary",
+                    language === "bn" && "font-bengali"
+                  )}>
+                    {language === 'bn' ? nextPrayer.nameBn : nextPrayer.name}
+                  </h2>
+                  <span className="text-lg text-primary" dir="rtl">
+                    {nextPrayer.nameAr}
+                  </span>
+                </div>
+              </div>
+              {/* Row 2: Time + Remaining */}
+              <div className="flex items-center justify-between mt-1">
+                <p className="text-xl font-semibold text-foreground">
+                  {formatTimeDisplay(nextPrayer.time, language)}
+                </p>
+                {timeRemaining && (
+                  <p className={cn(
+                    "text-sm text-muted-foreground animate-pulse",
+                    language === "bn" && "font-bengali"
+                  )}>
+                    {formatTimeRemaining(timeRemaining, language)}
+                  </p>
+                )}
+              </div>
             </CardContent>
           </Card>
         )}
