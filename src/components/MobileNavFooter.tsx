@@ -52,8 +52,7 @@ export const MobileNavFooter = ({ language }: MobileNavFooterProps) => {
       path: "/read",
       isActive: location.pathname.startsWith("/read"),
       action: () => {
-        const lastReadPage = localStorage.getItem("quran-last-read-page") || "1";
-        navigate(`/read/${lastReadPage}`);
+        navigate("/read");
       },
     },
     {
