@@ -40,7 +40,7 @@ export const DailyDua = ({ language }: DailyDuaProps) => {
   }, []);
 
   const handleViewAll = () => {
-    navigate("/dua");
+    navigate("/daily-dua");
   };
 
   const handleCopy = async () => {
@@ -123,7 +123,7 @@ export const DailyDua = ({ language }: DailyDuaProps) => {
               language === "bn" && "font-bengali"
             )}
           >
-            {language === "bn" ? "সব দোয়া দেখুন" : "View All Duas"}
+            {language === "bn" ? "সব দৈনিক দোয়া" : "All Daily Duas"}
             <ChevronRight className="h-4 w-4" />
           </button>
         </div>
