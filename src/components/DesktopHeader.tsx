@@ -94,8 +94,7 @@ export const DesktopHeader = ({ language, onLanguageChange }: DesktopHeaderProps
   };
 
   const handleReadClick = () => {
-    const lastReadPage = localStorage.getItem("quran-last-read-page") || "1";
-    navigate(`/read/${lastReadPage}`);
+    navigate("/read");
   };
 
   const navItems = [

@@ -3,7 +3,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Layout } from "@/components/Layout";
 import { AuthProvider } from "@/hooks/useAuth";
 import { Loader2 } from "lucide-react";
@@ -24,6 +24,12 @@ import SourcesCredits from "./pages/SourcesCredits";
 import Developer from "./pages/Developer";
 import IslamicCalendar from "./pages/IslamicCalendar";
 import PrayerTimes from "./pages/PrayerTimes";
+
+// Component to redirect to last read page
+const ReadPageRedirect = (props: any) => {
+  const lastReadPage = localStorage.getItem("quran-last-read-page") || "1";
+  return <Navigate to={`/read/${lastReadPage}`} replace />;
+};
 
 // Lazy load admin pages
 const Admin = lazy(() => import("./pages/Admin"));
@@ -105,6 +111,11 @@ const AppContent = () => {
       <Route path="/para/:paraNumber" element={
         <Layout language={language} onLanguageChange={setLanguage}>
           <ParaDetail language={language} readingMode={readingMode} arabicFont={arabicFont} />
+        </Layout>
+      } />
+      <Route path="/read" element={
+        <Layout language={language} onLanguageChange={setLanguage}>
+          <ReadPageRedirect language={language} readingMode={readingMode} arabicFont={arabicFont} onArabicFontChange={setArabicFont} />
         </Layout>
       } />
       <Route path="/read/:pageNumber" element={
