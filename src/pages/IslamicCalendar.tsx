@@ -481,8 +481,8 @@ const IslamicCalendar = ({ language }: IslamicCalendarProps) => {
           </div>
         </div>
 
-        {/* All Events by Month */}
-        <Card className="mt-6">
+        {/* All Events by Month - Hidden on Mobile */}
+        <Card className="mt-6 hidden sm:block">
           <CardHeader>
             <CardTitle className={cn(
               "text-lg",
