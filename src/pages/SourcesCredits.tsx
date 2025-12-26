@@ -247,44 +247,26 @@ const SourcesCredits = ({ language }: SourcesCreditsProps) => {
                 {language === "bn" ? "লোগো ক্রেডিট" : "Logo Credits"}
               </h2>
             </div>
-            <div className="grid grid-cols-2 gap-3">
-              {logoCredits.map((credit, index) => {
-                const CardWrapper = credit.url ? 'a' : 'div';
-                const cardProps = credit.url ? {
-                  href: credit.url,
-                  target: "_blank",
-                  rel: "noopener noreferrer",
-                } : {};
-                
-                return (
-                  <CardWrapper
-                    key={index}
-                    {...cardProps}
-                    className={cn(
-                      "flex flex-col items-center gap-2 rounded-xl border border-border bg-card p-4 text-center",
-                      credit.url && "hover:bg-muted/50 transition-colors cursor-pointer"
-                    )}
-                  >
-                    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
-                      <User className="h-6 w-6 text-primary" />
-                    </div>
-                    <div>
-                      <h3 className={cn("text-sm font-semibold", language === "bn" && "font-bengali")}>
-                        {language === "bn" ? credit.nameBn : credit.nameEn}
-                      </h3>
-                      <p className={cn("text-xs text-muted-foreground mt-1", language === "bn" && "font-bengali")}>
-                        {language === "bn" ? credit.descriptionBn : credit.descriptionEn}
-                      </p>
-                      {credit.url && (
-                        <div className="flex items-center justify-center gap-1 mt-2 text-primary">
-                          <ExternalLink className="h-3 w-3" />
-                          <span className="text-xs">Behance</span>
-                        </div>
-                      )}
-                    </div>
-                  </CardWrapper>
-                );
-              })}
+            <div className="space-y-2">
+              {logoCredits.map((credit, index) => (
+                <a
+                  key={index}
+                  href={credit.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 rounded-xl border border-border bg-card p-4 transition-colors hover:bg-muted/50"
+                >
+                  <div className="flex-1">
+                    <h3 className={cn("text-sm font-semibold", language === "bn" && "font-bengali")}>
+                      {language === "bn" ? credit.nameBn : credit.nameEn}
+                    </h3>
+                    <p className={cn("text-xs text-muted-foreground mt-1", language === "bn" && "font-bengali")}>
+                      {language === "bn" ? credit.descriptionBn : credit.descriptionEn}
+                    </p>
+                  </div>
+                  <ExternalLink className="h-4 w-4 text-muted-foreground" />
+                </a>
+              ))}
             </div>
           </section>
 
