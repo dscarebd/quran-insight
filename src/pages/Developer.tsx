@@ -146,8 +146,8 @@ const Developer = ({ language }: DeveloperProps) => {
             <div className="rounded-xl border border-border bg-card p-4">
               <p className={cn("text-sm text-muted-foreground leading-relaxed", language === "bn" && "font-bengali")}>
                 {language === "bn" 
-                  ? "আন-নূর ডিজিটাল একটি ক্রিয়েটিভ ডিজিটাল এজেন্সি যা ওয়েব ডেভেলপমেন্ট, সফটওয়্যার ডিজাইন এবং ডিজিটাল সমাধান প্রদান করে। আমরা উম্মাহর সেবায় নিবেদিত এবং ইসলামিক অ্যাপ্লিকেশন তৈরিতে বিশেষজ্ঞ।"
-                  : "An-Nur Digital is a creative digital agency providing web development, software design, and digital solutions. We are dedicated to serving the Ummah and specialize in building Islamic applications."}
+                  ? "আন-নূর ডিজিটাল একটি ক্রিয়েটিভ ডিজিটাল এজেন্সি যা ওয়েব ডেভেলপমেন্ট, সফটওয়্যার ডিজাইন এবং ডিজিটাল সমাধান প্রদান করে।"
+                  : "An-Nur Digital is a creative digital agency providing web development, software design, and digital solutions."}
               </p>
             </div>
           </section>
