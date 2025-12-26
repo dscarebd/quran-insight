@@ -480,11 +480,11 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
                     
                     {/* Time - Show range in one line or single time */}
                     {isRange && endTime ? (
-                      <p className="text-lg font-bold text-foreground">
+                      <p className="text-sm sm:text-base font-bold text-foreground whitespace-nowrap">
                         {formatTimeDisplay(startTime, language)} - {formatTimeDisplay(endTime, language)}
                       </p>
                     ) : (
-                      <p className="text-xl font-bold text-foreground">
+                      <p className="text-base sm:text-lg font-bold text-foreground">
                         {formatTimeDisplay(startTime, language)}
                       </p>
                     )}
