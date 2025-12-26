@@ -47,6 +47,11 @@ const ReadPage = ({ language, readingMode = "normal", arabicFont = "amiri", onAr
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
   const [currentVisiblePage, setCurrentVisiblePage] = useState(initialPage);
+
+  // Keep currentVisiblePage in sync when navigating directly to a page URL
+  useEffect(() => {
+    setCurrentVisiblePage(initialPage);
+  }, [initialPage]);
   
   const [pageSearch, setPageSearch] = useState("");
   const [surahSearch, setSurahSearch] = useState("");
@@ -70,6 +75,26 @@ const ReadPage = ({ language, readingMode = "normal", arabicFont = "amiri", onAr
   const pageListRefs = useRef<{ [key: number]: HTMLButtonElement | null }>({});
   const surahListRefs = useRef<{ [key: number]: HTMLButtonElement | null }>({});
 
+  // Ensure we land on the requested page after refresh (avoid snapping back to page 1)
+  const didScrollToInitialRef = useRef(false);
+  useEffect(() => {
+    didScrollToInitialRef.current = false;
+  }, [initialPage]);
+
+  useEffect(() => {
+    if (loading) return;
+    if (didScrollToInitialRef.current) return;
+
+    const container = contentRef.current;
+    const el = pageRefs.current[initialPage];
+    if (!container || !el) return;
+
+    didScrollToInitialRef.current = true;
+
+    requestAnimationFrame(() => {
+      el.scrollIntoView({ behavior: "auto", block: "start" });
+    });
+  }, [loading, loadedPages, initialPage]);
   // Font zoom state
   const [fontSizeIndex, setFontSizeIndex] = useState(() => {
     const saved = localStorage.getItem("quran-font-size-index");
@@ -90,13 +115,20 @@ const ReadPage = ({ language, readingMode = "normal", arabicFont = "amiri", onAr
     localStorage.setItem("quran-font-size-index", fontSizeIndex.toString());
   }, [fontSizeIndex]);
 
-  // Save last read page (debounced to prevent rapid updates)
-  const lastSavedPage = useRef(currentVisiblePage);
+  // Save last read page
+  // - Always persist the current URL page on entry/refresh
+  // - Then keep updating as the user scrolls
   useEffect(() => {
-    if (currentVisiblePage !== lastSavedPage.current) {
-      lastSavedPage.current = currentVisiblePage;
-      localStorage.setItem("quran-last-read-page", currentVisiblePage.toString());
-    }
+    if (!Number.isFinite(initialPage)) return;
+    localStorage.setItem("quran-last-read-page", String(initialPage));
+  }, [initialPage]);
+
+  // Save last read page (debounced to prevent rapid updates)
+  const lastSavedPage = useRef<number | null>(null);
+  useEffect(() => {
+    if (lastSavedPage.current === currentVisiblePage) return;
+    lastSavedPage.current = currentVisiblePage;
+    localStorage.setItem("quran-last-read-page", currentVisiblePage.toString());
   }, [currentVisiblePage]);
 
   // Handle verse click - mark as last read
@@ -215,18 +247,22 @@ const ReadPage = ({ language, readingMode = "normal", arabicFont = "amiri", onAr
   useEffect(() => {
     const loadInitialPages = async () => {
       setLoading(true);
-      const pagesToLoad = [];
-      
-      // Load current page and a few ahead
-      for (let i = initialPage; i <= Math.min(initialPage + 2, 604); i++) {
+      const pagesToLoad: PageData[] = [];
+
+      // Load a window around the requested page so we can scroll to it reliably
+      // (prevents the "top sentinel" from auto-loading all the way back to page 1)
+      const startPage = Math.max(initialPage - 2, 1);
+      const endPage = Math.min(initialPage + 2, 604);
+
+      for (let i = startPage; i <= endPage; i++) {
         const verses = await fetchVersesForPage(i);
         pagesToLoad.push({
           pageNumber: i,
           verses,
-          juzNumber: getJuzForPage(i)
+          juzNumber: getJuzForPage(i),
         });
       }
-      
+
       setLoadedPages(pagesToLoad);
       setLoading(false);
     };
@@ -260,23 +296,38 @@ const ReadPage = ({ language, readingMode = "normal", arabicFont = "amiri", onAr
   // Load more pages when scrolling up
   const loadMorePagesUp = useCallback(async () => {
     if (loadingMore || loadedPages.length === 0) return;
-    
+
     const firstPage = loadedPages[0]?.pageNumber || 1;
     if (firstPage <= 1) return;
 
+    const container = contentRef.current;
+    const prevScrollHeight = container?.scrollHeight ?? 0;
+
     setLoadingMore(true);
     const newPages: PageData[] = [];
-    
+
     for (let i = Math.max(firstPage - 3, 1); i < firstPage; i++) {
       const verses = await fetchVersesForPage(i);
       newPages.push({
         pageNumber: i,
         verses,
-        juzNumber: getJuzForPage(i)
+        juzNumber: getJuzForPage(i),
       });
     }
-    
-    setLoadedPages(prev => [...newPages, ...prev]);
+
+    setLoadedPages((prev) => [...newPages, ...prev]);
+
+    // Preserve visual position when prepending content
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        const c = contentRef.current;
+        if (!c) return;
+        const newScrollHeight = c.scrollHeight;
+        const diff = newScrollHeight - prevScrollHeight;
+        if (diff > 0) c.scrollTop += diff;
+      });
+    });
+
     setLoadingMore(false);
   }, [loadedPages, loadingMore, fetchVersesForPage]);
 
@@ -293,6 +344,10 @@ const ReadPage = ({ language, readingMode = "normal", arabicFont = "amiri", onAr
 
     const topObserver = new IntersectionObserver(
       (entries) => {
+        // Don't auto-prepend pages on initial mount; it can pull us back to page 1
+        // before we scroll to the requested page.
+        if (!didScrollToInitialRef.current) return;
+
         if (entries[0].isIntersecting) {
           loadMorePagesUp();
         }
