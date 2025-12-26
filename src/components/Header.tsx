@@ -1,17 +1,39 @@
-import { Bookmark } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { Bookmark, ZoomIn, ZoomOut } from "lucide-react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { LanguageToggle } from "./LanguageToggle";
 import { SidebarTrigger } from "@/components/ui/sidebar";
+import { Button } from "@/components/ui/button";
 import appLogo from "@/assets/app-logo.png";
 import { Language, t } from "@/types/language";
+import { cn } from "@/lib/utils";
 
 interface HeaderProps {
   language: Language;
   onLanguageChange: (lang: Language) => void;
+  // ReadPage controls (optional, only passed when on ReadPage)
+  arabicFont?: "amiri" | "uthmani";
+  onArabicFontChange?: (font: "amiri" | "uthmani") => void;
+  onZoomIn?: () => void;
+  onZoomOut?: () => void;
+  canZoomIn?: boolean;
+  canZoomOut?: boolean;
 }
 
-export const Header = ({ language, onLanguageChange }: HeaderProps) => {
+export const Header = ({
+  language,
+  onLanguageChange,
+  arabicFont,
+  onArabicFontChange,
+  onZoomIn,
+  onZoomOut,
+  canZoomIn = true,
+  canZoomOut = true,
+}: HeaderProps) => {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // Check if we're on the ReadPage
+  const isReadPage = location.pathname.startsWith("/read");
 
   return (
     <header className="sticky top-0 z-40 flex items-center justify-between border-b border-border bg-card/95 px-4 py-3 backdrop-blur-md">
@@ -33,8 +55,56 @@ export const Header = ({ language, onLanguageChange }: HeaderProps) => {
         </h1>
       </div>
       
-      {/* Desktop: Settings button, Mobile/Tablet: Bookmark button */}
+      {/* Right side controls */}
       <div className="flex items-center gap-2">
+        {/* Tablet-only ReadPage controls (visible on sm-lg, hidden on mobile xs and desktop lg+) */}
+        {isReadPage && onZoomIn && onZoomOut && onArabicFontChange && (
+          <div className="hidden sm:flex lg:hidden items-center gap-1">
+            {/* Zoom Controls */}
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={onZoomOut}
+              disabled={!canZoomOut}
+              className="h-8 w-8"
+            >
+              <ZoomOut className="h-4 w-4" />
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={onZoomIn}
+              disabled={!canZoomIn}
+              className="h-8 w-8"
+            >
+              <ZoomIn className="h-4 w-4" />
+            </Button>
+            
+            {/* Font Switch */}
+            <div className="flex items-center border border-border rounded-lg overflow-hidden ml-1">
+              <button
+                onClick={() => onArabicFontChange("uthmani")}
+                className={cn(
+                  "px-2 py-1 text-xs transition-colors",
+                  arabicFont === "uthmani" ? "bg-primary text-primary-foreground" : "bg-background hover:bg-muted"
+                )}
+              >
+                Uthmani
+              </button>
+              <button
+                onClick={() => onArabicFontChange("amiri")}
+                className={cn(
+                  "px-2 py-1 text-xs transition-colors",
+                  arabicFont === "amiri" ? "bg-primary text-primary-foreground" : "bg-background hover:bg-muted"
+                )}
+              >
+                Amiri
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Bookmark button (Mobile/Tablet) */}
         <button 
           onClick={() => navigate("/bookmarks")}
           className="flex lg:hidden h-9 w-9 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
