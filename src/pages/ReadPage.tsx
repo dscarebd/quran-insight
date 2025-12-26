@@ -741,23 +741,6 @@ const ReadPage = ({
                               </div>
                             </div>
 
-                            {/* Info Buttons */}
-                            <div className="flex items-center justify-center gap-6 mt-6 px-4">
-                              <button className={cn(
-                                "flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors",
-                                language === "bn" && "font-bengali"
-                              )}>
-                                <Info className="h-4 w-4" />
-                                {language === "bn" ? "সূরা তথ্য" : "Surah Info"}
-                              </button>
-                              <button className={cn(
-                                "flex items-center gap-2 text-sm text-primary hover:text-primary/80 transition-colors",
-                                language === "bn" && "font-bengali"
-                              )}>
-                                <Volume2 className="h-4 w-4" />
-                                {language === "bn" ? "অডিও চালান" : "Play Audio"}
-                              </button>
-                            </div>
 
                             {/* Bismillah */}
                             {parseInt(surahNum) !== 9 && parseInt(surahNum) !== 1 && (
