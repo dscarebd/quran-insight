@@ -81,7 +81,7 @@ export const DesktopHeader = ({ language, onLanguageChange }: DesktopHeaderProps
               />
               <div className="absolute -inset-1 rounded-xl bg-gradient-to-br from-primary/20 to-primary/10 opacity-0 group-hover:opacity-100 transition-opacity -z-10" />
             </div>
-            <div className="flex flex-col">
+            <div className="flex flex-col items-start">
               <span className={cn(
                 "text-xl font-bold text-primary tracking-tight",
                 language === "bn" && "font-bengali"
@@ -89,7 +89,7 @@ export const DesktopHeader = ({ language, onLanguageChange }: DesktopHeaderProps
                 {language === "bn" ? "কুরআন ইনসাইট" : "Quran Insight"}
               </span>
               <span className={cn(
-                "text-[10px] text-muted-foreground font-medium tracking-widest uppercase",
+                "text-[10px] text-muted-foreground font-medium tracking-widest",
                 language === "bn" && "font-bengali"
               )}>
                 {language === "bn" ? "সহজে কুরআন শিখুন" : "For Learning Quran Easily"}
