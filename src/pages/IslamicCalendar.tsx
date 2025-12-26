@@ -193,7 +193,7 @@ const IslamicCalendar = ({ language }: IslamicCalendarProps) => {
             )}>
               {currentDateLabel[language]}
             </p>
-            <div className="grid grid-cols-3 gap-2 sm:gap-4 text-center">
+            <div className="grid grid-cols-2 gap-2 sm:gap-4 text-center">
               {/* English/Gregorian */}
               <div className="p-2 sm:p-3 rounded-lg bg-background/50">
                 <p className="text-[10px] sm:text-xs text-muted-foreground mb-0.5 sm:mb-1">English</p>
@@ -204,17 +204,9 @@ const IslamicCalendar = ({ language }: IslamicCalendarProps) => {
               
               {/* Bengali/Hijri */}
               <div className="p-2 sm:p-3 rounded-lg bg-background/50">
-                <p className="text-[10px] sm:text-xs text-muted-foreground mb-0.5 sm:mb-1 font-bengali">বাংলা</p>
+                <p className="text-[10px] sm:text-xs text-muted-foreground mb-0.5 sm:mb-1 font-bengali">বাংলা (হিজরি)</p>
                 <p className="text-xs sm:text-sm font-semibold text-primary font-bengali">
                   {toBengaliNumber(currentHijri.day)} {hijriMonths.bn[currentHijri.month - 1]}
-                </p>
-              </div>
-              
-              {/* Arabic/Hijri */}
-              <div className="p-2 sm:p-3 rounded-lg bg-background/50">
-                <p className="text-[10px] sm:text-xs text-muted-foreground mb-0.5 sm:mb-1">العربية</p>
-                <p className="text-xs sm:text-sm font-semibold text-primary" dir="rtl">
-                  {toArabicNumber(currentHijri.day)} {hijriMonths.ar[currentHijri.month - 1]}
                 </p>
               </div>
             </div>
