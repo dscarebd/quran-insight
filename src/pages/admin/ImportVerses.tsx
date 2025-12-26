@@ -681,6 +681,23 @@ const ImportVerses = () => {
     }
   };
 
+  // Parse semicolon-delimited CSV line (handles quoted fields)
+  const parseSemicolonCsvLine = (line: string): string[] => {
+    const result: string[] = [];
+    let current = '';
+    let inQuotes = false;
+    for (let i = 0; i < line.length; i++) {
+      const char = line[i];
+      if (char === '"') {
+        if (inQuotes && line[i + 1] === '"') { current += '"'; i++; }
+        else { inQuotes = !inQuotes; }
+      } else if (char === ';' && !inQuotes) { result.push(current); current = ''; }
+      else { current += char; }
+    }
+    result.push(current);
+    return result;
+  };
+
   // Import tafsir from uploaded CSV file (semicolon-delimited)
   const importTafsirFromCsv = async () => {
     setIsImportingCsvTafsir(true);
@@ -697,9 +714,9 @@ const ImportVerses = () => {
       }
       const csvText = await response.text();
       
-      // Parse semicolon-delimited CSV
+      // Parse semicolon-delimited CSV with proper quote handling
       const lines = csvText.split('\n').filter(line => line.trim());
-      const headers = lines[0].split(';');
+      const headers = parseSemicolonCsvLine(lines[0]);
       
       const surahIdx = headers.indexOf('surah_number');
       const verseIdx = headers.indexOf('verse_number');
@@ -713,14 +730,14 @@ const ImportVerses = () => {
       const tafsirData: { surah_number: number; verse_number: number; tafsir_bengali: string }[] = [];
       
       for (let i = 1; i < lines.length; i++) {
-        const values = lines[i].split(';');
+        const values = parseSemicolonCsvLine(lines[i]);
         const tafsirBengali = values[tafsirBengaliIdx]?.trim();
         
         if (tafsirBengali && tafsirBengali.length > 0) {
           tafsirData.push({
             surah_number: parseInt(values[surahIdx]),
             verse_number: parseInt(values[verseIdx]),
-            tafsir_bengali: tafsirBengali.replace(/^"|"$/g, ''), // Remove surrounding quotes
+            tafsir_bengali: tafsirBengali,
           });
         }
       }
