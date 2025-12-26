@@ -5,8 +5,10 @@ import { cn, formatNumber } from "@/lib/utils";
 import { surahs } from "@/data/surahs";
 import { quranPages, getPageByNumber } from "@/data/pages";
 
+import { Language } from "@/types/language";
+
 interface ContinueReadingProps {
-  language: "bn" | "en";
+  language: Language;
 }
 
 export const ContinueReading = ({ language }: ContinueReadingProps) => {

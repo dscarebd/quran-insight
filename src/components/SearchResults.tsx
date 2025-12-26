@@ -1,12 +1,13 @@
 import { Bot, Sparkles } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import { cn } from "@/lib/utils";
+import { Language } from "@/types/language";
 
 interface SearchResultsProps {
   query: string;
   response: string;
   isLoading: boolean;
-  language: "bn" | "en";
+  language: Language;
 }
 
 export const SearchResults = ({ query, response, isLoading, language }: SearchResultsProps) => {

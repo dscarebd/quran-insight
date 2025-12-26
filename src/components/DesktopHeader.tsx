@@ -3,10 +3,11 @@ import { Book, BookOpen, HandHeart, Bookmark, Settings } from "lucide-react";
 import { LanguageToggle } from "./LanguageToggle";
 import appLogo from "@/assets/app-logo.png";
 import { cn } from "@/lib/utils";
+import { Language, t } from "@/types/language";
 
 interface DesktopHeaderProps {
-  language: "bn" | "en";
-  onLanguageChange: (lang: "bn" | "en") => void;
+  language: Language;
+  onLanguageChange: (lang: Language) => void;
 }
 
 const navItems = [

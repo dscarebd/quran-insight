@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { Info, Moon, Sun, BookOpen, Type, ChevronRight, FileText, ChevronDown, Globe, Palette } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
@@ -9,10 +9,11 @@ import { Slider } from "@/components/ui/slider";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import annurLogo from "@/assets/annur-digital-logo.jpeg";
 import appLogo from "@/assets/app-logo.png";
+import { Language, t, languageNames } from "@/types/language";
 
 interface SettingsProps {
-  language: "bn" | "en";
-  onLanguageChange: (lang: "bn" | "en") => void;
+  language: Language;
+  onLanguageChange: (lang: Language) => void;
   readingMode?: "normal" | "sepia";
   onReadingModeChange?: (mode: "normal" | "sepia") => void;
   arabicFont?: "amiri" | "uthmani";

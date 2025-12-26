@@ -9,6 +9,7 @@ import { AuthProvider } from "@/hooks/useAuth";
 import { Loader2 } from "lucide-react";
 import { useContentProtection } from "@/hooks/useContentProtection";
 import { useFontSize } from "@/hooks/useFontSize";
+import { Language } from "@/types/language";
 import Index from "./pages/Index";
 import SurahList from "./pages/SurahList";
 import SurahDetail from "./pages/SurahDetail";
@@ -42,7 +43,10 @@ const LoadingFallback = () => (
 );
 
 const AppContent = () => {
-  const [language, setLanguage] = useState<"bn" | "en">("bn");
+  const [language, setLanguage] = useState<Language>(() => {
+    const saved = localStorage.getItem("quran-language");
+    return (saved as Language) || "bn";
+  });
   const [readingMode, setReadingMode] = useState<"normal" | "sepia">(() => {
     const saved = localStorage.getItem("quran-reading-mode");
     return (saved as "normal" | "sepia") || "normal";

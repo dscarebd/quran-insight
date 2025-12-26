@@ -16,9 +16,10 @@ import {
   SidebarMenuButton,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { Language, t } from "@/types/language";
 
 interface AppSidebarProps {
-  language: "bn" | "en";
+  language: Language;
   activeTab: "search" | "bookmarks";
   onTabChange: (tab: "search" | "bookmarks") => void;
 }
