@@ -150,7 +150,7 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
             </Collapsible>
           </section>
 
-          {/* Theme Dropdown */}
+          {/* Theme & Reading Mode Dropdown */}
           <section>
             <h2 className={cn(
               "mb-3 text-sm font-medium text-muted-foreground uppercase tracking-wider",
@@ -168,12 +168,16 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
                       </div>
                       <div className="flex-1 text-left">
                         <h3 className={cn("text-sm font-semibold", language === "bn" && "font-bengali")}>
-                          {language === "bn" ? "অ্যাপ থিম" : "App Theme"}
+                          {language === "bn" ? "থিম ও রিডিং মোড" : "Theme & Reading Mode"}
                         </h3>
                         <p className={cn("text-xs text-muted-foreground", language === "bn" && "font-bengali")}>
                           {theme === "light" 
                             ? (language === "bn" ? "লাইট" : "Light")
                             : (language === "bn" ? "ডার্ক" : "Dark")}
+                          {" • "}
+                          {readingMode === "normal"
+                            ? (language === "bn" ? "সাধারণ" : "Normal")
+                            : (language === "bn" ? "সেপিয়া" : "Sepia")}
                         </p>
                       </div>
                       <ChevronDown className="h-5 w-5 text-muted-foreground transition-transform duration-200" />
@@ -182,63 +186,66 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
                 </div>
               </CollapsibleTrigger>
               <CollapsibleContent>
-                <div className="mt-3 rounded-xl border border-border bg-card p-4">
-                  <div className="grid grid-cols-2 gap-2">
-                    {themeOptions.map((option) => (
-                      <button
-                        key={option.value}
-                        onClick={() => setTheme(option.value)}
-                        className={cn(
-                          "flex items-center justify-center gap-1.5 rounded-lg border border-border bg-card px-3 py-3 transition-colors",
-                          theme === option.value ? "border-primary bg-primary/5" : "hover:bg-muted/50"
-                        )}
-                      >
-                        <option.icon className="h-4 w-4" />
-                        <p className={cn("text-sm font-medium", language === "bn" && "font-bengali")}>
-                          {language === "bn" ? option.labelBn : option.labelEn}
-                        </p>
-                        {theme === option.value && (
-                          <div className="h-1.5 w-1.5 rounded-full bg-primary" />
-                        )}
-                      </button>
-                    ))}
+                <div className="mt-3 space-y-4 rounded-xl border border-border bg-card p-4">
+                  {/* App Theme */}
+                  <div>
+                    <p className={cn("text-xs font-medium text-muted-foreground mb-2", language === "bn" && "font-bengali")}>
+                      {language === "bn" ? "অ্যাপ থিম" : "App Theme"}
+                    </p>
+                    <div className="grid grid-cols-2 gap-2">
+                      {themeOptions.map((option) => (
+                        <button
+                          key={option.value}
+                          onClick={() => setTheme(option.value)}
+                          className={cn(
+                            "flex items-center justify-center gap-1.5 rounded-lg border border-border bg-card px-3 py-3 transition-colors",
+                            theme === option.value ? "border-primary bg-primary/5" : "hover:bg-muted/50"
+                          )}
+                        >
+                          <option.icon className="h-4 w-4" />
+                          <p className={cn("text-sm font-medium", language === "bn" && "font-bengali")}>
+                            {language === "bn" ? option.labelBn : option.labelEn}
+                          </p>
+                          {theme === option.value && (
+                            <div className="h-1.5 w-1.5 rounded-full bg-primary" />
+                          )}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Reading Mode */}
+                  <div>
+                    <p className={cn("text-xs font-medium text-muted-foreground mb-2", language === "bn" && "font-bengali")}>
+                      {language === "bn" ? "রিডিং মোড" : "Reading Mode"}
+                    </p>
+                    <div className="grid grid-cols-2 gap-2">
+                      {readingModeOptions.map((option) => (
+                        <button
+                          key={option.value}
+                          onClick={() => onReadingModeChange?.(option.value as "normal" | "sepia")}
+                          className={cn(
+                            "flex items-center justify-center gap-1.5 rounded-lg border border-border bg-card px-3 py-3 transition-colors",
+                            readingMode === option.value ? "border-primary bg-primary/5" : "hover:bg-muted/50"
+                          )}
+                        >
+                          <option.icon className="h-4 w-4" />
+                          <p className={cn("text-sm font-medium", language === "bn" && "font-bengali")}>
+                            {language === "bn" ? option.labelBn : option.labelEn}
+                          </p>
+                          {readingMode === option.value && (
+                            <div className="h-1.5 w-1.5 rounded-full bg-primary" />
+                          )}
+                        </button>
+                      ))}
+                    </div>
+                    <p className={cn("mt-2 text-xs text-muted-foreground", language === "bn" && "font-bengali")}>
+                      {language === "bn" ? "শুধুমাত্র পড়ার পৃষ্ঠায় প্রযোজ্য" : "Applies only to reading pages"}
+                    </p>
                   </div>
                 </div>
               </CollapsibleContent>
             </Collapsible>
-          </section>
-
-          {/* Reading Mode Section */}
-          <section>
-            <h2 className={cn(
-              "mb-3 text-sm font-medium text-muted-foreground uppercase tracking-wider",
-              language === "bn" && "font-bengali"
-            )}>
-              {language === "bn" ? "রিডিং মোড" : "Reading Mode"}
-            </h2>
-            <div className="grid grid-cols-2 gap-2">
-              {readingModeOptions.map((option) => (
-                <button
-                  key={option.value}
-                  onClick={() => onReadingModeChange?.(option.value as "normal" | "sepia")}
-                  className={cn(
-                    "flex items-center justify-center gap-1.5 rounded-lg border border-border bg-card px-2 py-2.5 transition-colors",
-                    readingMode === option.value ? "border-primary bg-primary/5" : "hover:bg-muted/50"
-                  )}
-                >
-                  <option.icon className="h-4 w-4" />
-                  <p className={cn("text-xs font-medium", language === "bn" && "font-bengali")}>
-                    {language === "bn" ? option.labelBn : option.labelEn}
-                  </p>
-                  {readingMode === option.value && (
-                    <div className="h-1.5 w-1.5 rounded-full bg-primary" />
-                  )}
-                </button>
-              ))}
-            </div>
-            <p className={cn("mt-2 text-xs text-muted-foreground", language === "bn" && "font-bengali")}>
-              {language === "bn" ? "শুধুমাত্র পড়ার পৃষ্ঠায় প্রযোজ্য" : "Applies only to reading pages"}
-            </p>
           </section>
 
           {/* Font Settings Dropdown */}
