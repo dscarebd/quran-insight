@@ -94,8 +94,8 @@ export const DesktopHeroSearch = ({ language, onSearch, isLoading }: DesktopHero
         {/* Icon */}
         <div className="mb-6 flex justify-center">
           <div className="relative flex h-16 w-16 items-center justify-center rounded-2xl bg-white/10 backdrop-blur-sm shadow-lg border border-white/20">
-            <Sparkles className="h-8 w-8 text-gold-light" />
-            <div className="absolute -right-1 -top-1 h-4 w-4 animate-pulse rounded-full bg-gold shadow-gold" />
+            <Sparkles className="h-8 w-8 text-white" />
+            <div className="absolute -right-1 -top-1 h-4 w-4 animate-pulse rounded-full bg-white shadow-lg" />
           </div>
         </div>
 
