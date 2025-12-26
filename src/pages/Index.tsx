@@ -4,9 +4,13 @@ import { DailyVerse } from "@/components/DailyVerse";
 import { DailyDua } from "@/components/DailyDua";
 import { SearchResults } from "@/components/SearchResults";
 import { ContinueReading } from "@/components/ContinueReading";
+import { DesktopHeroSearch } from "@/components/desktop/DesktopHeroSearch";
+import { QuickAccessCards } from "@/components/desktop/QuickAccessCards";
+import { DesktopDailyContent } from "@/components/desktop/DesktopDailyContent";
 import { useToast } from "@/hooks/use-toast";
 import { getVersesBySurah, Verse } from "@/data/verses";
 import { surahs } from "@/data/surahs";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface IndexProps {
   language: "bn" | "en";
@@ -18,6 +22,7 @@ const Index = ({ language }: IndexProps) => {
   const [aiResponse, setAiResponse] = useState("");
   const { toast } = useToast();
   const abortControllerRef = useRef<AbortController | null>(null);
+  const isMobile = useIsMobile();
 
   // Offline search through local verses
   const searchOffline = (query: string): string => {
@@ -195,6 +200,53 @@ const Index = ({ language }: IndexProps) => {
     }
   };
 
+  // Desktop layout
+  if (!isMobile) {
+    return (
+      <div className="flex-1 overflow-y-auto overflow-x-hidden">
+        <div className="mx-auto max-w-6xl px-6 py-8 pb-24">
+          {/* Hero Search Section */}
+          <DesktopHeroSearch
+            language={language}
+            onSearch={handleSearch}
+            isLoading={isSearching}
+          />
+          
+          {/* Search Results */}
+          <SearchResults
+            query={searchQuery}
+            response={aiResponse}
+            isLoading={isSearching}
+            language={language}
+          />
+          
+          {!searchQuery && (
+            <>
+              {/* Quick Access Cards */}
+              <div className="mt-10">
+                <h2 className={`mb-6 text-xl font-semibold text-foreground ${language === "bn" ? "font-bengali" : ""}`}>
+                  {language === "bn" ? "দ্রুত প্রবেশ" : "Quick Access"}
+                </h2>
+                <QuickAccessCards language={language} />
+              </div>
+              
+              {/* Daily Content */}
+              <div className="mt-10">
+                <h2 className={`mb-6 text-xl font-semibold text-foreground ${language === "bn" ? "font-bengali" : ""}`}>
+                  {language === "bn" ? "আজকের বিশেষ" : "Today's Featured"}
+                </h2>
+                <DesktopDailyContent language={language} />
+              </div>
+            </>
+          )}
+          
+          <ContinueReading language={language} />
+        </div>
+      </div>
+    );
+  }
+
+  // Mobile layout (existing)
   return (
     <div className="flex-1 overflow-y-auto overflow-x-hidden islamic-pattern">
       <div className="mx-auto max-w-4xl px-3 py-6 pb-32 sm:px-4 md:px-6 md:py-12 md:pb-24">
