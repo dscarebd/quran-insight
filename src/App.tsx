@@ -20,6 +20,7 @@ import Bookmarks from "./pages/Bookmarks";
 import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
 import Dua from "./pages/Dua";
+import DailyDuaPage from "./pages/DailyDua";
 import SourcesCredits from "./pages/SourcesCredits";
 import Developer from "./pages/Developer";
 import IslamicCalendar from "./pages/IslamicCalendar";
@@ -131,6 +132,11 @@ const AppContent = () => {
       <Route path="/dua" element={
         <Layout language={language} onLanguageChange={setLanguage}>
           <Dua language={language} arabicFont={arabicFont} />
+        </Layout>
+      } />
+      <Route path="/daily-dua" element={
+        <Layout language={language} onLanguageChange={setLanguage}>
+          <DailyDuaPage language={language} arabicFont={arabicFont} />
         </Layout>
       } />
       <Route path="/islamic-calendar" element={
