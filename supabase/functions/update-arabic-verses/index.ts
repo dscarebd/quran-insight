@@ -108,10 +108,10 @@ serve(async (req) => {
     const errors: string[] = [];
 
     // Translation IDs: 20 = Sahih International (English), 161 = Bengali (Taisirul Quran)
-    // Tafsir ID: 164 = Tafsir Ibn Kathir (Bengali)
+    // Bengali Tafsir IDs: 166 = Abu Bakr Zakaria (most complete), 165 = Ahsanul Bayaan, 164 = Ibn Kathir
     const ENGLISH_TRANSLATION_ID = 20;
     const BENGALI_TRANSLATION_ID = 161;
-    const BENGALI_TAFSIR_ID = 164;
+    const BENGALI_TAFSIR_ID = 166; // Abu Bakr Zakaria - more complete Bengali tafsir
 
     for (const surah of surahsToProcess) {
       try {
