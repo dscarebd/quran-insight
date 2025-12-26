@@ -10,7 +10,9 @@ import { Loader2 } from "lucide-react";
 import { useContentProtection } from "@/hooks/useContentProtection";
 import { useFontSize } from "@/hooks/useFontSize";
 import Index from "./pages/Index";
+import SurahList from "./pages/SurahList";
 import SurahDetail from "./pages/SurahDetail";
+import ParaList from "./pages/ParaList";
 import ParaDetail from "./pages/ParaDetail";
 import Bookmarks from "./pages/Bookmarks";
 import Settings from "./pages/Settings";
@@ -69,9 +71,19 @@ const AppContent = () => {
           <Index language={language} />
         </Layout>
       } />
+      <Route path="/surah" element={
+        <Layout language={language} onLanguageChange={setLanguage}>
+          <SurahList language={language} />
+        </Layout>
+      } />
       <Route path="/surah/:surahNumber" element={
         <Layout language={language} onLanguageChange={setLanguage}>
           <SurahDetail language={language} readingMode={readingMode} arabicFont={arabicFont} />
+        </Layout>
+      } />
+      <Route path="/para" element={
+        <Layout language={language} onLanguageChange={setLanguage}>
+          <ParaList language={language} />
         </Layout>
       } />
       <Route path="/para/:paraNumber" element={
