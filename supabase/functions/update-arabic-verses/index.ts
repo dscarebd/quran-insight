@@ -112,7 +112,9 @@ serve(async (req) => {
     // 381 = Fathul Majid, 166 = Abu Bakr Zakaria, 165 = Ahsanul Bayaan, 164 = Ibn Kathir
     const ENGLISH_TRANSLATION_ID = 20;
     const BENGALI_TRANSLATION_ID = 161;
-    const BENGALI_TAFSIR_IDS = [381, 166, 165, 164]; // Try in order for best Bengali coverage
+    // For large surahs (>200 verses), only try 2 sources to avoid timeout
+    const BENGALI_TAFSIR_IDS_FULL = [381, 166, 165, 164];
+    const BENGALI_TAFSIR_IDS_REDUCED = [166, 381]; // Just 2 sources for large surahs
 
     for (const surah of surahsToProcess) {
       try {
@@ -150,9 +152,21 @@ serve(async (req) => {
           console.log(`Received ${bengaliData.translations?.length || 0} Bengali translations`);
         }
 
+        // Get verse count to determine which source list to use
+        const { data: surahInfoForSize } = await supabase
+          .from("surahs")
+          .select("total_verses")
+          .eq("number", surah)
+          .single();
+        
+        const surahVerseCount = surahInfoForSize?.total_verses || 0;
+        // For large surahs (>150 verses like Al-Baqarah), use reduced sources to avoid timeout
+        const tafsirIds = surahVerseCount > 150 ? BENGALI_TAFSIR_IDS_REDUCED : BENGALI_TAFSIR_IDS_FULL;
+        console.log(`Surah ${surah} has ${surahVerseCount} verses, using ${tafsirIds.length} tafsir sources`);
+
         // Fetch Bengali tafsir from multiple sources to maximize coverage
         let bengaliTafsirData: TafsirResponse = { tafsirs: [] };
-        for (const tafsirId of BENGALI_TAFSIR_IDS) {
+        for (const tafsirId of tafsirIds) {
           const bengaliTafsirUrl = `https://api.quran.com/api/v4/quran/tafsirs/${tafsirId}?chapter_number=${surah}`;
           const bengaliTafsirResponse = await fetch(bengaliTafsirUrl);
           if (bengaliTafsirResponse.ok) {
@@ -174,10 +188,10 @@ serve(async (req) => {
               }
             }
           }
-          // Small delay between API calls
-          await new Promise(resolve => setTimeout(resolve, 200));
+          // Minimal delay between API calls
+          await new Promise(resolve => setTimeout(resolve, 100));
         }
-        console.log(`Received ${bengaliTafsirData.tafsirs?.length || 0} Bengali tafsirs (merged from multiple sources)`);
+        console.log(`Received ${bengaliTafsirData.tafsirs?.length || 0} Bengali tafsirs (merged from ${tafsirIds.length} sources)`);
 
         // Get verse count from database if in tafsirOnly mode
         let verseCount = arabicData.verses.length;
