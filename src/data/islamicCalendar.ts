@@ -342,27 +342,21 @@ export const hijriToGregorian = (hijriYear: number, hijriMonth: number, hijriDay
 };
 
 export const gregorianToHijri = (date: Date): { year: number; month: number; day: number } => {
-  const diffTime = date.getTime() - REFERENCE_GREGORIAN.getTime();
-  const diffDays = diffTime / (1000 * 60 * 60 * 24);
+  // Normalize date to start of day to avoid timezone issues
+  const normalizedDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  const normalizedRef = new Date(REFERENCE_GREGORIAN.getFullYear(), REFERENCE_GREGORIAN.getMonth(), REFERENCE_GREGORIAN.getDate());
   
-  let totalDays = diffDays;
+  const diffTime = normalizedDate.getTime() - normalizedRef.getTime();
+  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+  
+  // Simple calculation: day = reference day + diff days
   let hijriYear = REFERENCE_HIJRI.year;
   let hijriMonth = REFERENCE_HIJRI.month;
-  let hijriDay = REFERENCE_HIJRI.day;
+  let hijriDay = REFERENCE_HIJRI.day + diffDays;
   
-  // Add/subtract years
-  while (totalDays >= HIJRI_YEAR_LENGTH) {
-    totalDays -= HIJRI_YEAR_LENGTH;
-    hijriYear++;
-  }
-  while (totalDays < 0) {
-    totalDays += HIJRI_YEAR_LENGTH;
-    hijriYear--;
-  }
-  
-  // Add months
-  while (totalDays >= HIJRI_MONTH_LENGTH) {
-    totalDays -= HIJRI_MONTH_LENGTH;
+  // Handle month overflow
+  while (hijriDay > 30) {
+    hijriDay -= 30;
     hijriMonth++;
     if (hijriMonth > 12) {
       hijriMonth = 1;
@@ -370,18 +364,15 @@ export const gregorianToHijri = (date: Date): { year: number; month: number; day
     }
   }
   
-  hijriDay = Math.round(totalDays) + 1;
-  
-  // Normalize
-  if (hijriDay > 30) {
-    hijriDay = 1;
-    hijriMonth++;
-    if (hijriMonth > 12) {
-      hijriMonth = 1;
-      hijriYear++;
+  // Handle month underflow
+  while (hijriDay < 1) {
+    hijriMonth--;
+    if (hijriMonth < 1) {
+      hijriMonth = 12;
+      hijriYear--;
     }
+    hijriDay += 30;
   }
-  if (hijriDay < 1) hijriDay = 1;
   
   return { year: hijriYear, month: hijriMonth, day: hijriDay };
 };
