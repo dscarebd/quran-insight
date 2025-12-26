@@ -153,7 +153,7 @@ export const DesktopDailyContent = ({ language }: DesktopDailyContentProps) => {
           
           {/* View All */}
           <button 
-            onClick={() => navigate("/dua")}
+            onClick={() => navigate("/daily-dua")}
             className={cn(
               "mx-auto flex items-center gap-1.5 rounded-full bg-gold/10 px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-medium text-gold-dark transition-colors hover:bg-gold hover:text-white",
               language === "bn" && "font-bengali"
