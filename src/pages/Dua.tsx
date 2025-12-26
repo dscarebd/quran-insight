@@ -216,7 +216,7 @@ const Dua = ({ language, arabicFont = "amiri" }: DuaProps) => {
 
             {/* Desktop Header with Search and Tabs */}
             <div className="hidden lg:block mb-6">
-              <div className="flex items-center justify-between gap-4 mb-4">
+              <div className="flex items-start justify-between gap-4">
                 <div>
                   <div className="flex items-center gap-3 mb-2">
                     <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-500/10 text-amber-600">
@@ -239,37 +239,39 @@ const Dua = ({ language, arabicFont = "amiri" }: DuaProps) => {
                   </p>
                 </div>
 
-                {/* Desktop Search */}
-                <div className="relative w-80">
-                  <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                  <Input
-                    type="text"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder={language === "bn" ? "দোয়া খুঁজুন..." : "Search duas..."}
-                    className={cn(
-                      "pl-9 rounded-xl",
-                      language === "bn" && "font-bengali placeholder:font-bengali"
-                    )}
-                  />
+                {/* Desktop Search and Tabs */}
+                <div className="flex flex-col items-end gap-3">
+                  <div className="relative w-80">
+                    <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                    <Input
+                      type="text"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      placeholder={language === "bn" ? "দোয়া খুঁজুন..." : "Search duas..."}
+                      className={cn(
+                        "pl-9 rounded-xl",
+                        language === "bn" && "font-bengali placeholder:font-bengali"
+                      )}
+                    />
+                  </div>
+                  
+                  {/* Desktop Tabs below search */}
+                  <TabsList>
+                    <TabsTrigger value="all" className={cn(language === "bn" && "font-bengali")}>
+                      {language === "bn" ? "সব দোয়া" : "All Duas"}
+                    </TabsTrigger>
+                    <TabsTrigger value="favorites" className={cn("gap-1.5", language === "bn" && "font-bengali")}>
+                      <Heart className="h-4 w-4" />
+                      {language === "bn" ? "পছন্দের" : "Favorites"}
+                      {bookmarks.length > 0 && (
+                        <span className="ml-1 text-xs bg-primary/20 px-1.5 py-0.5 rounded-full">
+                          {bookmarks.length}
+                        </span>
+                      )}
+                    </TabsTrigger>
+                  </TabsList>
                 </div>
               </div>
-
-              {/* Desktop Tabs below search */}
-              <TabsList>
-                <TabsTrigger value="all" className={cn(language === "bn" && "font-bengali")}>
-                  {language === "bn" ? "সব দোয়া" : "All Duas"}
-                </TabsTrigger>
-                <TabsTrigger value="favorites" className={cn("gap-1.5", language === "bn" && "font-bengali")}>
-                  <Heart className="h-4 w-4" />
-                  {language === "bn" ? "পছন্দের" : "Favorites"}
-                  {bookmarks.length > 0 && (
-                    <span className="ml-1 text-xs bg-primary/20 px-1.5 py-0.5 rounded-full">
-                      {bookmarks.length}
-                    </span>
-                  )}
-                </TabsTrigger>
-              </TabsList>
             </div>
 
             <TabsContent value="all" className="mt-0">
