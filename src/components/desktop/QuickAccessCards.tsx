@@ -1,49 +1,23 @@
-import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Book, BookOpen, HandHeart, Bookmark } from "lucide-react";
+import { Book, BookOpen, HandHeart, CalendarDays } from "lucide-react";
 import { cn, formatNumber } from "@/lib/utils";
 import { duaCategories } from "@/data/duas";
+import { getUpcomingEventsCount } from "@/data/islamicCalendar";
 import { Language } from "@/types/language";
 
 interface QuickAccessCardsProps {
   language: Language;
 }
+
 // Calculate total duas count
 const getTotalDuasCount = () => {
   return duaCategories.reduce((total, category) => total + category.duas.length, 0);
 };
 
-// Get bookmarks count from localStorage
-const getBookmarksCount = () => {
-  try {
-    const verseBookmarks = localStorage.getItem('quran_verse_bookmarks');
-    const duaBookmarks = localStorage.getItem('quran_dua_bookmarks');
-    
-    const verseCount = verseBookmarks ? JSON.parse(verseBookmarks).length : 0;
-    const duaCount = duaBookmarks ? JSON.parse(duaBookmarks).length : 0;
-    
-    return verseCount + duaCount;
-  } catch {
-    return 0;
-  }
-};
-
 export const QuickAccessCards = ({ language }: QuickAccessCardsProps) => {
   const navigate = useNavigate();
-  const [bookmarkCount, setBookmarkCount] = useState(0);
   const duaCount = getTotalDuasCount();
-
-  useEffect(() => {
-    setBookmarkCount(getBookmarksCount());
-    
-    // Listen for storage changes to update bookmark count
-    const handleStorageChange = () => {
-      setBookmarkCount(getBookmarksCount());
-    };
-    
-    window.addEventListener('storage', handleStorageChange);
-    return () => window.removeEventListener('storage', handleStorageChange);
-  }, []);
+  const calendarEventsCount = getUpcomingEventsCount();
 
   const quickLinks = [
     {
@@ -80,15 +54,15 @@ export const QuickAccessCards = ({ language }: QuickAccessCardsProps) => {
       count: duaCount,
     },
     {
-      id: "bookmarks",
-      icon: Bookmark,
-      labelEn: "My Bookmarks",
-      labelBn: "আমার বুকমার্ক",
-      descEn: "Your saved verses and duas",
-      descBn: "আপনার সংরক্ষিত আয়াত ও দোয়া",
-      path: "/bookmarks",
+      id: "calendar",
+      icon: CalendarDays,
+      labelEn: "Islamic Calendar",
+      labelBn: "ইসলামিক ক্যালেন্ডার",
+      descEn: "Holidays and Islamic occasions",
+      descBn: "ছুটি ও ইসলামিক অনুষ্ঠান",
+      path: "/islamic-calendar",
       gradient: "from-rose-500 to-pink-600",
-      count: bookmarkCount > 0 ? bookmarkCount : undefined,
+      count: calendarEventsCount,
     },
   ];
 
