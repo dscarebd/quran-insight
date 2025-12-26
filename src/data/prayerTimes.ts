@@ -22,7 +22,7 @@ export interface Location {
 }
 
 // Calculation methods
-export type CalculationMethod = 'MWL' | 'ISNA' | 'Egypt' | 'Makkah' | 'Karachi';
+export type CalculationMethod = 'MWL' | 'ISNA' | 'Egypt' | 'Makkah' | 'Karachi' | 'IFB';
 
 interface MethodParams {
   fajrAngle: number;
@@ -36,6 +36,7 @@ const calculationMethods: Record<CalculationMethod, MethodParams> = {
   Egypt: { fajrAngle: 19.5, ishaAngle: 17.5 }, // Egyptian General Authority
   Makkah: { fajrAngle: 18.5, ishaAngle: 0, ishaMinutes: 90 }, // Umm al-Qura, Makkah
   Karachi: { fajrAngle: 18, ishaAngle: 18 },  // University of Islamic Sciences, Karachi
+  IFB: { fajrAngle: 18, ishaAngle: 18 },      // Islamic Foundation Bangladesh
 };
 
 // Convert degrees to radians
