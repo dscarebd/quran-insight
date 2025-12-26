@@ -25,6 +25,7 @@ import SourcesCredits from "./pages/SourcesCredits";
 import Developer from "./pages/Developer";
 import IslamicCalendar from "./pages/IslamicCalendar";
 import PrayerTimes from "./pages/PrayerTimes";
+import NamesOfAllah from "./pages/NamesOfAllah";
 
 // Component to redirect to last read page
 const ReadPageRedirect = () => {
@@ -147,6 +148,11 @@ const AppContent = () => {
       <Route path="/prayer-times" element={
         <Layout language={language} onLanguageChange={setLanguage}>
           <PrayerTimes language={language} />
+        </Layout>
+      } />
+      <Route path="/names-of-allah" element={
+        <Layout language={language} onLanguageChange={setLanguage}>
+          <NamesOfAllah language={language} arabicFont={arabicFont} />
         </Layout>
       } />
       <Route path="/settings" element={
