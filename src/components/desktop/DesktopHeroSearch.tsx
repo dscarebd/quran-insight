@@ -76,12 +76,12 @@ export const DesktopHeroSearch = ({ language, onSearch, isLoading }: DesktopHero
   };
 
   return (
-    <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-primary via-primary to-emerald-700 p-8 lg:p-12">
+    <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-gradient-to-br from-primary via-primary to-emerald-700 p-5 sm:p-8 lg:p-12">
       {/* Islamic geometric pattern overlay */}
       <div className="absolute inset-0 opacity-10">
         <div className="absolute inset-0" style={{
           backgroundImage: `url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M40 0l40 40-40 40L0 40 40 0zm0 10L10 40l30 30 30-30-30-30z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-          backgroundSize: '80px 80px'
+          backgroundSize: '60px 60px'
         }} />
       </div>
       
@@ -92,22 +92,22 @@ export const DesktopHeroSearch = ({ language, onSearch, isLoading }: DesktopHero
       {/* Content */}
       <div className="relative z-10">
         {/* Icon */}
-        <div className="mb-6 flex justify-center">
-          <div className="relative flex h-16 w-16 items-center justify-center rounded-2xl bg-white/10 backdrop-blur-sm shadow-lg border border-white/20">
-            <Sparkles className="h-8 w-8 text-white" />
-            <div className="absolute -right-1 -top-1 h-4 w-4 animate-pulse rounded-full bg-white shadow-lg" />
+        <div className="mb-4 sm:mb-6 flex justify-center">
+          <div className="relative flex h-12 w-12 sm:h-16 sm:w-16 items-center justify-center rounded-xl sm:rounded-2xl bg-white/10 backdrop-blur-sm shadow-lg border border-white/20">
+            <Sparkles className="h-6 w-6 sm:h-8 sm:w-8 text-white" />
+            <div className="absolute -right-1 -top-1 h-3 w-3 sm:h-4 sm:w-4 animate-pulse rounded-full bg-white shadow-lg" />
           </div>
         </div>
 
         {/* Title */}
         <h1 className={cn(
-          "mb-3 text-center text-3xl lg:text-4xl font-bold text-white",
+          "mb-2 sm:mb-3 text-center text-xl sm:text-3xl lg:text-4xl font-bold text-white",
           language === "bn" && "font-bengali"
         )}>
           {language === "bn" ? "কুরআন ইনসাইট" : "Quran Insight"}
         </h1>
         <p className={cn(
-          "mb-8 text-center text-white/80 max-w-xl mx-auto",
+          "mb-5 sm:mb-8 text-center text-sm sm:text-base text-white/80 max-w-xl mx-auto px-2",
           language === "bn" && "font-bengali"
         )}>
           {language === "bn"
@@ -124,7 +124,7 @@ export const DesktopHeroSearch = ({ language, onSearch, isLoading }: DesktopHero
               isListening && "ring-4 ring-red-500/30"
             )}
           >
-            <Search className="absolute left-5 h-5 w-5 text-muted-foreground" />
+            <Search className="absolute left-4 sm:left-5 h-4 w-4 sm:h-5 sm:w-5 text-muted-foreground" />
             <input
               type="text"
               value={query}
@@ -133,41 +133,41 @@ export const DesktopHeroSearch = ({ language, onSearch, isLoading }: DesktopHero
               onBlur={() => setIsFocused(false)}
               placeholder={language === "bn" ? "উদাহরণ: নামাজ সম্পর্কে কুরআন কি বলে?" : "Example: What does Quran say about prayer?"}
               className={cn(
-                "min-w-0 flex-1 bg-transparent pl-14 pr-4 py-4 text-foreground focus:outline-none",
+                "min-w-0 flex-1 bg-transparent pl-11 sm:pl-14 pr-2 sm:pr-4 py-3 sm:py-4 text-sm sm:text-base text-foreground focus:outline-none",
                 "placeholder:text-muted-foreground font-bengali placeholder:font-bengali"
               )}
               disabled={isLoading}
             />
             
-            <div className="flex items-center gap-2 pr-3">
+            <div className="flex items-center gap-1.5 sm:gap-2 pr-2 sm:pr-3">
               <button
                 type="button"
                 onClick={toggleVoiceSearch}
                 disabled={isLoading}
                 className={cn(
-                  "flex h-10 w-10 items-center justify-center rounded-full transition-all",
+                  "flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-full transition-all",
                   isListening 
                     ? "bg-red-500 text-white animate-pulse" 
                     : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
                 )}
               >
-                {isListening ? <MicOff className="h-5 w-5" /> : <Mic className="h-5 w-5" />}
+                {isListening ? <MicOff className="h-4 w-4 sm:h-5 sm:w-5" /> : <Mic className="h-4 w-4 sm:h-5 sm:w-5" />}
               </button>
               
               <button
                 type="submit"
                 disabled={isLoading || !query.trim()}
                 className={cn(
-                  "flex h-10 w-10 items-center justify-center rounded-full bg-primary text-primary-foreground transition-all",
+                  "flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-full bg-primary text-primary-foreground transition-all",
                   isLoading || !query.trim()
                     ? "opacity-50 cursor-not-allowed"
                     : "hover:scale-105 hover:shadow-lg active:scale-95"
                 )}
               >
                 {isLoading ? (
-                  <div className="h-5 w-5 animate-spin rounded-full border-2 border-primary-foreground border-t-transparent" />
+                  <div className="h-4 w-4 sm:h-5 sm:w-5 animate-spin rounded-full border-2 border-primary-foreground border-t-transparent" />
                 ) : (
-                  <Search className="h-5 w-5" />
+                  <Search className="h-4 w-4 sm:h-5 sm:w-5" />
                 )}
               </button>
             </div>

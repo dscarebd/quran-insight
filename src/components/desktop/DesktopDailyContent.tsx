@@ -58,33 +58,33 @@ export const DesktopDailyContent = ({ language }: DesktopDailyContentProps) => {
   };
 
   return (
-    <div className="grid lg:grid-cols-2 gap-6">
+    <div className="grid gap-4 sm:gap-6 lg:grid-cols-2">
       {/* Daily Verse Card */}
-      <div className="group relative overflow-hidden rounded-2xl border border-border bg-card p-6 transition-all hover:shadow-elevated">
+      <div className="group relative overflow-hidden rounded-xl sm:rounded-2xl border border-border bg-card p-4 sm:p-6 transition-all hover:shadow-elevated">
         {/* Decorative corner */}
         <div className="absolute -right-8 -top-8 h-24 w-24 rounded-full bg-gradient-to-br from-primary/20 to-transparent blur-2xl" />
         
         {/* Header */}
-        <div className="mb-4 flex items-center justify-between">
+        <div className="mb-3 sm:mb-4 flex items-center justify-between">
           <div className="flex items-center gap-2 text-primary">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10">
-              <Sparkles className="h-4 w-4" />
+            <div className="flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-lg bg-primary/10">
+              <Sparkles className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
             </div>
-            <span className={cn("font-medium", language === "bn" && "font-bengali")}>
+            <span className={cn("text-sm sm:text-base font-medium", language === "bn" && "font-bengali")}>
               {language === "bn" ? "আজকের আয়াত" : "Verse of the Day"}
             </span>
           </div>
-          <div className="h-px flex-1 mx-4 bg-gradient-to-r from-border via-gold/30 to-border" />
+          <div className="h-px flex-1 mx-3 sm:mx-4 bg-gradient-to-r from-border via-gold/30 to-border" />
         </div>
         
         {/* Arabic */}
-        <p className="mb-4 text-center font-uthmani text-2xl leading-loose text-foreground">
+        <p className="mb-3 sm:mb-4 text-center font-uthmani text-xl sm:text-2xl leading-loose text-foreground">
           {verse.arabic}
         </p>
         
         {/* Translation */}
         <p className={cn(
-          "mb-4 text-center text-muted-foreground leading-relaxed",
+          "mb-3 sm:mb-4 text-center text-sm sm:text-base text-muted-foreground leading-relaxed",
           language === "bn" && "font-bengali"
         )}>
           {language === "bn" ? verse.bengali : verse.english}
@@ -94,43 +94,43 @@ export const DesktopDailyContent = ({ language }: DesktopDailyContentProps) => {
         <button 
           onClick={() => navigate(`/surah/${verse.surahNumber}?verse=${verse.verseNumber}`)}
           className={cn(
-            "mx-auto flex items-center gap-1.5 rounded-full bg-primary/10 px-4 py-2 text-sm font-medium text-primary transition-colors hover:bg-primary hover:text-primary-foreground",
+            "mx-auto flex items-center gap-1.5 rounded-full bg-primary/10 px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-medium text-primary transition-colors hover:bg-primary hover:text-primary-foreground",
             language === "bn" && "font-bengali"
           )}
         >
           {language === "bn" ? verse.referenceBengali : verse.referenceEnglish}
-          <ChevronRight className="h-4 w-4" />
+          <ChevronRight className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
         </button>
       </div>
 
       {/* Daily Dua Card */}
       {duaData && (
-        <div className="group relative overflow-hidden rounded-2xl border border-border bg-card p-6 transition-all hover:shadow-elevated">
+        <div className="group relative overflow-hidden rounded-xl sm:rounded-2xl border border-border bg-card p-4 sm:p-6 transition-all hover:shadow-elevated">
           {/* Decorative corner */}
           <div className="absolute -right-8 -top-8 h-24 w-24 rounded-full bg-gradient-to-br from-gold/20 to-transparent blur-2xl" />
           
           {/* Header */}
-          <div className="mb-4 flex items-center justify-between">
+          <div className="mb-3 sm:mb-4 flex items-center justify-between">
             <div className="flex items-center gap-2 text-gold-dark">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gold/10">
-                <HandHeart className="h-4 w-4" />
+              <div className="flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-lg bg-gold/10">
+                <HandHeart className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
               </div>
-              <span className={cn("font-medium text-foreground", language === "bn" && "font-bengali")}>
+              <span className={cn("text-sm sm:text-base font-medium text-foreground", language === "bn" && "font-bengali")}>
                 {language === "bn" ? "আজকের দোয়া" : "Dua of the Day"}
               </span>
             </div>
             <button
               onClick={handleCopyDua}
-              className="flex h-8 w-8 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+              className="flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
             >
-              {isCopied ? <Check className="h-4 w-4 text-green-500" /> : <Copy className="h-4 w-4" />}
+              {isCopied ? <Check className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-green-500" /> : <Copy className="h-3.5 w-3.5 sm:h-4 sm:w-4" />}
             </button>
           </div>
           
           {/* Title */}
           {(duaData.dua.titleBengali || duaData.dua.titleEnglish) && (
             <p className={cn(
-              "mb-3 text-center text-sm font-medium text-gold-dark",
+              "mb-2 sm:mb-3 text-center text-xs sm:text-sm font-medium text-gold-dark",
               language === "bn" && "font-bengali"
             )}>
               {language === "bn" ? duaData.dua.titleBengali : duaData.dua.titleEnglish}
@@ -138,13 +138,13 @@ export const DesktopDailyContent = ({ language }: DesktopDailyContentProps) => {
           )}
           
           {/* Arabic */}
-          <p className="mb-4 text-center font-uthmani text-2xl leading-loose text-foreground">
+          <p className="mb-3 sm:mb-4 text-center font-uthmani text-xl sm:text-2xl leading-loose text-foreground">
             {duaData.dua.arabic}
           </p>
           
           {/* Translation */}
           <p className={cn(
-            "mb-4 text-center text-muted-foreground leading-relaxed line-clamp-3",
+            "mb-3 sm:mb-4 text-center text-sm sm:text-base text-muted-foreground leading-relaxed line-clamp-3",
             language === "bn" && "font-bengali"
           )}>
             {language === "bn" ? duaData.dua.bengali : duaData.dua.english}
@@ -154,12 +154,12 @@ export const DesktopDailyContent = ({ language }: DesktopDailyContentProps) => {
           <button 
             onClick={() => navigate("/dua")}
             className={cn(
-              "mx-auto flex items-center gap-1.5 rounded-full bg-gold/10 px-4 py-2 text-sm font-medium text-gold-dark transition-colors hover:bg-gold hover:text-white",
+              "mx-auto flex items-center gap-1.5 rounded-full bg-gold/10 px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-medium text-gold-dark transition-colors hover:bg-gold hover:text-white",
               language === "bn" && "font-bengali"
             )}
           >
             {language === "bn" ? "সব দোয়া দেখুন" : "View All Duas"}
-            <ChevronRight className="h-4 w-4" />
+            <ChevronRight className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
           </button>
         </div>
       )}

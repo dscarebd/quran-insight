@@ -93,14 +93,14 @@ export const QuickAccessCards = ({ language }: QuickAccessCardsProps) => {
   ];
 
   return (
-    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+    <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
       {quickLinks.map((link) => {
         const Icon = link.icon;
         return (
           <button
             key={link.id}
             onClick={() => navigate(link.path)}
-            className="group relative overflow-hidden rounded-2xl bg-card border border-border p-5 text-left transition-all duration-300 hover:shadow-elevated hover:-translate-y-1"
+            className="group relative overflow-hidden rounded-xl sm:rounded-2xl bg-card border border-border p-4 sm:p-5 text-left transition-all duration-300 hover:shadow-elevated hover:-translate-y-1"
           >
             {/* Gradient overlay on hover */}
             <div className={cn(
@@ -110,21 +110,21 @@ export const QuickAccessCards = ({ language }: QuickAccessCardsProps) => {
             
             {/* Icon */}
             <div className={cn(
-              "mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br text-white shadow-md transition-transform group-hover:scale-110",
+              "mb-2 sm:mb-3 flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-lg sm:rounded-xl bg-gradient-to-br text-white shadow-md transition-transform group-hover:scale-110",
               link.gradient
             )}>
-              <Icon className="h-6 w-6" />
+              <Icon className="h-5 w-5 sm:h-6 sm:w-6" />
             </div>
             
             {/* Content */}
             <h3 className={cn(
-              "font-semibold text-foreground mb-1",
+              "font-semibold text-sm sm:text-base text-foreground mb-0.5 sm:mb-1",
               language === "bn" && "font-bengali"
             )}>
               {language === "bn" ? link.labelBn : link.labelEn}
             </h3>
             <p className={cn(
-              "text-sm text-muted-foreground line-clamp-2",
+              "text-xs sm:text-sm text-muted-foreground line-clamp-2 hidden sm:block",
               language === "bn" && "font-bengali"
             )}>
               {language === "bn" ? link.descBn : link.descEn}
