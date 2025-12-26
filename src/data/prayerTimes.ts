@@ -61,14 +61,36 @@ const getJulianDay = (date: Date): number => {
 
 // Calculate sun's equation of time and declination
 const getSunPosition = (jd: number): { declination: number; equationOfTime: number } => {
-  const d = jd - 2451545.0;
-  const g = 357.529 + 0.98560028 * d;
-  const q = 280.459 + 0.98564736 * d;
-  const l = q + 1.915 * Math.sin(toRadians(g)) + 0.020 * Math.sin(toRadians(2 * g));
-  const e = 23.439 - 0.00000036 * d;
-  const ra = toDegrees(Math.atan2(Math.cos(toRadians(e)) * Math.sin(toRadians(l)), Math.cos(toRadians(l)))) / 15;
-  const declination = toDegrees(Math.asin(Math.sin(toRadians(e)) * Math.sin(toRadians(l))));
-  const equationOfTime = q / 15 - (ra < 0 ? ra + 24 : ra);
+  const d = jd - 2451545.0; // Days since J2000.0
+  
+  // Mean longitude of the sun
+  const L = (280.46646 + 0.9856474 * d) % 360;
+  
+  // Mean anomaly of the sun
+  const g = toRadians((357.5291 + 0.98560028 * d) % 360);
+  
+  // Ecliptic longitude
+  const lambda = toRadians(L + 1.9148 * Math.sin(g) + 0.02 * Math.sin(2 * g));
+  
+  // Obliquity of the ecliptic
+  const epsilon = toRadians(23.439 - 0.0000004 * d);
+  
+  // Sun's declination
+  const declination = toDegrees(Math.asin(Math.sin(epsilon) * Math.sin(lambda)));
+  
+  // Equation of time (in minutes)
+  const y = Math.tan(epsilon / 2) * Math.tan(epsilon / 2);
+  const L_rad = toRadians(L);
+  const eot = 4 * toDegrees(
+    y * Math.sin(2 * L_rad) -
+    2 * 0.0167 * Math.sin(g) +
+    4 * 0.0167 * y * Math.sin(g) * Math.cos(2 * L_rad) -
+    0.5 * y * y * Math.sin(4 * L_rad) -
+    1.25 * 0.0167 * 0.0167 * Math.sin(2 * g)
+  );
+  
+  // Convert equation of time from minutes to hours
+  const equationOfTime = eot / 60;
   
   return { declination, equationOfTime };
 };
