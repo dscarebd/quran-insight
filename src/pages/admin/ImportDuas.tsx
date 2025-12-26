@@ -3,7 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Loader2, Upload, CheckCircle, AlertCircle, Download, FileUp } from "lucide-react";
+import { Loader2, Upload, CheckCircle, AlertCircle, Download, FileUp, FileSpreadsheet } from "lucide-react";
 import { duaCategories } from "@/data/duas";
 import { Progress } from "@/components/ui/progress";
 import { Input } from "@/components/ui/input";
@@ -12,7 +12,9 @@ import { Label } from "@/components/ui/label";
 const ImportDuas = () => {
   const [isImporting, setIsImporting] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
+  const [isExportingCsv, setIsExportingCsv] = useState(false);
   const [isRestoring, setIsRestoring] = useState(false);
+  const [isRestoringCsv, setIsRestoringCsv] = useState(false);
   const [progress, setProgress] = useState(0);
   const [currentCategory, setCurrentCategory] = useState("");
   const [restoreProgress, setRestoreProgress] = useState(0);
@@ -31,12 +33,208 @@ const ImportDuas = () => {
     errors?: string[];
   } | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const csvFileInputRef = useRef<HTMLInputElement>(null);
+  const csvCategoryInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
+
+  // CSV Export for Categories
+  const handleExportCategoriesCsv = async () => {
+    setIsExportingCsv(true);
+    try {
+      const { data: categories, error } = await supabase
+        .from('dua_categories')
+        .select('*')
+        .order('display_order');
+
+      if (error) throw error;
+
+      const headers = ['category_id', 'name_english', 'name_bengali', 'name_hindi', 'icon', 'display_order'];
+      const csvContent = [
+        headers.join(','),
+        ...(categories || []).map(cat => 
+          headers.map(h => `"${String(cat[h as keyof typeof cat] || '').replace(/"/g, '""')}"`).join(',')
+        )
+      ].join('\n');
+
+      downloadFile(csvContent, `dua-categories-${new Date().toISOString().split('T')[0]}.csv`, 'text/csv');
+
+      toast({ title: "Export Successful", description: `Exported ${categories?.length || 0} categories to CSV` });
+    } catch (error) {
+      console.error("CSV export error:", error);
+      toast({ title: "Export Failed", description: "Failed to export categories.", variant: "destructive" });
+    } finally {
+      setIsExportingCsv(false);
+    }
+  };
+
+  // CSV Export for Duas
+  const handleExportDuasCsv = async () => {
+    setIsExportingCsv(true);
+    try {
+      const { data: duas, error } = await supabase
+        .from('duas')
+        .select('*')
+        .order('category_id, dua_id');
+
+      if (error) throw error;
+
+      const headers = ['category_id', 'dua_id', 'title_english', 'title_bengali', 'title_hindi', 'arabic', 'transliteration', 'transliteration_bengali', 'transliteration_hindi', 'english', 'bengali', 'hindi', 'reference'];
+      const csvContent = [
+        headers.join(','),
+        ...(duas || []).map(dua => 
+          headers.map(h => `"${String(dua[h as keyof typeof dua] || '').replace(/"/g, '""')}"`).join(',')
+        )
+      ].join('\n');
+
+      downloadFile(csvContent, `duas-${new Date().toISOString().split('T')[0]}.csv`, 'text/csv');
+
+      toast({ title: "Export Successful", description: `Exported ${duas?.length || 0} duas to CSV` });
+    } catch (error) {
+      console.error("CSV export error:", error);
+      toast({ title: "Export Failed", description: "Failed to export duas.", variant: "destructive" });
+    } finally {
+      setIsExportingCsv(false);
+    }
+  };
+
+  const downloadFile = (content: string, filename: string, type: string) => {
+    const blob = new Blob([content], { type });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
+  const parseCsv = (csvText: string): Record<string, string>[] => {
+    const lines = csvText.split('\n').filter(line => line.trim());
+    if (lines.length < 2) return [];
+    
+    const headers = parseCsvLine(lines[0]);
+    return lines.slice(1).map(line => {
+      const values = parseCsvLine(line);
+      const obj: Record<string, string> = {};
+      headers.forEach((header, i) => {
+        obj[header] = values[i] || '';
+      });
+      return obj;
+    });
+  };
+
+  const parseCsvLine = (line: string): string[] => {
+    const result: string[] = [];
+    let current = '';
+    let inQuotes = false;
+    
+    for (let i = 0; i < line.length; i++) {
+      const char = line[i];
+      if (char === '"') {
+        if (inQuotes && line[i + 1] === '"') {
+          current += '"';
+          i++;
+        } else {
+          inQuotes = !inQuotes;
+        }
+      } else if (char === ',' && !inQuotes) {
+        result.push(current);
+        current = '';
+      } else {
+        current += char;
+      }
+    }
+    result.push(current);
+    return result;
+  };
+
+  // CSV Import for Categories
+  const handleImportCategoriesCsv = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    setIsRestoringCsv(true);
+    setRestoreProgress(0);
+    try {
+      const text = await file.text();
+      const rows = parseCsv(text);
+      
+      let restored = 0;
+      for (let i = 0; i < rows.length; i++) {
+        const row = rows[i];
+        const { error } = await supabase.from('dua_categories').upsert({
+          category_id: row.category_id,
+          name_english: row.name_english,
+          name_bengali: row.name_bengali,
+          name_hindi: row.name_hindi || null,
+          icon: row.icon || 'BookOpen',
+          display_order: parseInt(row.display_order) || i,
+        }, { onConflict: 'category_id' });
+        
+        if (!error) restored++;
+        setRestoreProgress(Math.round(((i + 1) / rows.length) * 100));
+      }
+
+      toast({ title: "Import Successful", description: `Imported ${restored} categories from CSV` });
+    } catch (error) {
+      console.error("CSV import error:", error);
+      toast({ title: "Import Failed", description: "Failed to import categories.", variant: "destructive" });
+    } finally {
+      setIsRestoringCsv(false);
+      if (csvCategoryInputRef.current) csvCategoryInputRef.current.value = '';
+    }
+  };
+
+  // CSV Import for Duas
+  const handleImportDuasCsv = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    setIsRestoringCsv(true);
+    setRestoreProgress(0);
+    try {
+      const text = await file.text();
+      const rows = parseCsv(text);
+      
+      let restored = 0;
+      const batchSize = 20;
+      for (let i = 0; i < rows.length; i += batchSize) {
+        const batch = rows.slice(i, i + batchSize);
+        const duasToInsert = batch.map(row => ({
+          category_id: row.category_id,
+          dua_id: row.dua_id,
+          title_english: row.title_english,
+          title_bengali: row.title_bengali,
+          title_hindi: row.title_hindi || null,
+          arabic: row.arabic,
+          transliteration: row.transliteration || null,
+          transliteration_bengali: row.transliteration_bengali || null,
+          transliteration_hindi: row.transliteration_hindi || null,
+          english: row.english,
+          bengali: row.bengali,
+          hindi: row.hindi || null,
+          reference: row.reference || null,
+        }));
+
+        const { error } = await supabase.from('duas').upsert(duasToInsert, { onConflict: 'category_id,dua_id' });
+        if (!error) restored += batch.length;
+        setRestoreProgress(Math.round(((i + batch.length) / rows.length) * 100));
+      }
+
+      toast({ title: "Import Successful", description: `Imported ${restored} duas from CSV` });
+    } catch (error) {
+      console.error("CSV import error:", error);
+      toast({ title: "Import Failed", description: "Failed to import duas.", variant: "destructive" });
+    } finally {
+      setIsRestoringCsv(false);
+      if (csvFileInputRef.current) csvFileInputRef.current.value = '';
+    }
+  };
 
   const handleExport = async () => {
     setIsExporting(true);
     try {
-      // Fetch categories
       const { data: categories, error: catError } = await supabase
         .from('dua_categories')
         .select('*')
@@ -44,7 +242,6 @@ const ImportDuas = () => {
 
       if (catError) throw catError;
 
-      // Fetch all duas
       const { data: duas, error: duaError } = await supabase
         .from('duas')
         .select('*')
@@ -52,39 +249,19 @@ const ImportDuas = () => {
 
       if (duaError) throw duaError;
 
-      // Create export data
       const exportData = {
         exportedAt: new Date().toISOString(),
         categories: categories || [],
         duas: duas || [],
-        stats: {
-          totalCategories: categories?.length || 0,
-          totalDuas: duas?.length || 0
-        }
+        stats: { totalCategories: categories?.length || 0, totalDuas: duas?.length || 0 }
       };
 
-      // Download as JSON
-      const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `duas-backup-${new Date().toISOString().split('T')[0]}.json`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
+      downloadFile(JSON.stringify(exportData, null, 2), `duas-backup-${new Date().toISOString().split('T')[0]}.json`, 'application/json');
 
-      toast({
-        title: "Export Successful",
-        description: `Exported ${exportData.stats.totalCategories} categories and ${exportData.stats.totalDuas} duas`,
-      });
+      toast({ title: "Export Successful", description: `Exported ${exportData.stats.totalCategories} categories and ${exportData.stats.totalDuas} duas` });
     } catch (error) {
       console.error("Export error:", error);
-      toast({
-        title: "Export Failed",
-        description: "Failed to export duas. Please try again.",
-        variant: "destructive",
-      });
+      toast({ title: "Export Failed", description: "Failed to export duas.", variant: "destructive" });
     } finally {
       setIsExporting(false);
     }
@@ -328,7 +505,7 @@ const ImportDuas = () => {
 
   // Count total duas
   const totalDuas = duaCategories.reduce((sum, cat) => sum + cat.duas.length, 0);
-  const isDisabled = isImporting || isExporting || isRestoring;
+  const isDisabled = isImporting || isExporting || isRestoring || isExportingCsv || isRestoringCsv;
 
   return (
     <div className="space-y-6">
@@ -337,20 +514,74 @@ const ImportDuas = () => {
           <h2 className="text-2xl font-bold">Import/Export Duas</h2>
           <p className="text-muted-foreground">Import duas from local file, export, or restore from backup</p>
         </div>
-        <Button onClick={handleExport} disabled={isDisabled} variant="outline">
-          {isExporting ? (
-            <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              Exporting...
-            </>
-          ) : (
-            <>
-              <Download className="mr-2 h-4 w-4" />
-              Export All Duas
-            </>
-          )}
-        </Button>
+        <div className="flex gap-2 flex-wrap">
+          <Button onClick={handleExport} disabled={isDisabled} variant="outline">
+            {isExporting ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Download className="mr-2 h-4 w-4" />}
+            Export JSON
+          </Button>
+        </div>
       </div>
+
+      {/* CSV Export/Import Section */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <FileSpreadsheet className="h-5 w-5" />
+            CSV Export & Import
+          </CardTitle>
+          <CardDescription>
+            Export or import categories and duas as CSV files for easy editing in spreadsheet applications.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <h4 className="font-medium">Categories</h4>
+              <div className="flex gap-2">
+                <Button onClick={handleExportCategoriesCsv} disabled={isDisabled} variant="outline" size="sm">
+                  {isExportingCsv ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Download className="mr-2 h-4 w-4" />}
+                  Export CSV
+                </Button>
+                <div>
+                  <Input
+                    ref={csvCategoryInputRef}
+                    type="file"
+                    accept=".csv"
+                    onChange={handleImportCategoriesCsv}
+                    disabled={isDisabled}
+                    className="cursor-pointer w-auto"
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="space-y-2">
+              <h4 className="font-medium">Duas</h4>
+              <div className="flex gap-2">
+                <Button onClick={handleExportDuasCsv} disabled={isDisabled} variant="outline" size="sm">
+                  {isExportingCsv ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Download className="mr-2 h-4 w-4" />}
+                  Export CSV
+                </Button>
+                <div>
+                  <Input
+                    ref={csvFileInputRef}
+                    type="file"
+                    accept=".csv"
+                    onChange={handleImportDuasCsv}
+                    disabled={isDisabled}
+                    className="cursor-pointer w-auto"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          {isRestoringCsv && (
+            <div className="space-y-2">
+              <Progress value={restoreProgress} className="w-full" />
+              <p className="text-sm text-muted-foreground">Importing... {restoreProgress}%</p>
+            </div>
+          )}
+        </CardContent>
+      </Card>
 
       {/* Restore from Backup */}
       <Card>

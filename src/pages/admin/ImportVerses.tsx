@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { Loader2, Upload, CheckCircle2, AlertCircle, RefreshCw, Download, FileUp } from "lucide-react";
+import { Loader2, Upload, CheckCircle2, AlertCircle, RefreshCw, Download, FileUp, FileSpreadsheet } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -12,7 +12,9 @@ const ImportVerses = () => {
   const [isImporting, setIsImporting] = useState(false);
   const [isUpdatingArabic, setIsUpdatingArabic] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
+  const [isExportingCsv, setIsExportingCsv] = useState(false);
   const [isRestoring, setIsRestoring] = useState(false);
+  const [isRestoringCsv, setIsRestoringCsv] = useState(false);
   const [exportProgress, setExportProgress] = useState(0);
   const [restoreProgress, setRestoreProgress] = useState(0);
   const [arabicProgress, setArabicProgress] = useState(0);
@@ -21,82 +23,222 @@ const ImportVerses = () => {
   const [arabicResult, setArabicResult] = useState<{success?: boolean; message?: string; error?: string; totalUpdated?: number} | null>(null);
   const [restoreResult, setRestoreResult] = useState<{success?: boolean; message?: string; surahsRestored?: number; versesRestored?: number; errors?: string[]} | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const csvSurahInputRef = useRef<HTMLInputElement>(null);
+  const csvVerseInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
 
-  const handleExportVerses = async () => {
-    setIsExporting(true);
+  const downloadFile = (content: string, filename: string, type: string) => {
+    const blob = new Blob([content], { type });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
+  const parseCsv = (csvText: string): Record<string, string>[] => {
+    const lines = csvText.split('\n').filter(line => line.trim());
+    if (lines.length < 2) return [];
+    const headers = parseCsvLine(lines[0]);
+    return lines.slice(1).map(line => {
+      const values = parseCsvLine(line);
+      const obj: Record<string, string> = {};
+      headers.forEach((header, i) => { obj[header] = values[i] || ''; });
+      return obj;
+    });
+  };
+
+  const parseCsvLine = (line: string): string[] => {
+    const result: string[] = [];
+    let current = '';
+    let inQuotes = false;
+    for (let i = 0; i < line.length; i++) {
+      const char = line[i];
+      if (char === '"') {
+        if (inQuotes && line[i + 1] === '"') { current += '"'; i++; }
+        else { inQuotes = !inQuotes; }
+      } else if (char === ',' && !inQuotes) { result.push(current); current = ''; }
+      else { current += char; }
+    }
+    result.push(current);
+    return result;
+  };
+
+  // CSV Export for Surahs
+  const handleExportSurahsCsv = async () => {
+    setIsExportingCsv(true);
+    try {
+      const { data: surahs, error } = await supabase.from('surahs').select('*').order('number');
+      if (error) throw error;
+
+      const headers = ['number', 'name_arabic', 'name_english', 'name_bengali', 'meaning_english', 'meaning_bengali', 'revelation_type', 'total_verses'];
+      const csvContent = [
+        headers.join(','),
+        ...(surahs || []).map(s => headers.map(h => `"${String(s[h as keyof typeof s] || '').replace(/"/g, '""')}"`).join(','))
+      ].join('\n');
+
+      downloadFile(csvContent, `surahs-${new Date().toISOString().split('T')[0]}.csv`, 'text/csv');
+      toast({ title: "Export Successful", description: `Exported ${surahs?.length || 0} surahs to CSV` });
+    } catch (error) {
+      console.error("CSV export error:", error);
+      toast({ title: "Export Failed", description: "Failed to export surahs.", variant: "destructive" });
+    } finally {
+      setIsExportingCsv(false);
+    }
+  };
+
+  // CSV Export for Verses
+  const handleExportVersesCsv = async () => {
+    setIsExportingCsv(true);
     setExportProgress(0);
     try {
-      // Fetch surahs first
-      const { data: surahs, error: surahError } = await supabase
-        .from('surahs')
-        .select('*')
-        .order('number');
-
-      if (surahError) throw surahError;
-      setExportProgress(10);
-
-      // Fetch all verses in batches (to handle large data)
       const allVerses: any[] = [];
       const batchSize = 1000;
       let offset = 0;
       let hasMore = true;
 
       while (hasMore) {
-        const { data: verses, error: verseError } = await supabase
-          .from('verses')
-          .select('*')
-          .order('surah_number, verse_number')
-          .range(offset, offset + batchSize - 1);
+        const { data: verses, error } = await supabase.from('verses').select('*').order('surah_number, verse_number').range(offset, offset + batchSize - 1);
+        if (error) throw error;
+        if (verses && verses.length > 0) { allVerses.push(...verses); offset += batchSize; setExportProgress(Math.min(90, Math.round((allVerses.length / 6236) * 90))); }
+        else { hasMore = false; }
+      }
 
+      const headers = ['surah_number', 'verse_number', 'arabic', 'english', 'bengali', 'tafsir_english', 'tafsir_bengali'];
+      const csvContent = [
+        headers.join(','),
+        ...allVerses.map(v => headers.map(h => `"${String(v[h as keyof typeof v] || '').replace(/"/g, '""')}"`).join(','))
+      ].join('\n');
+
+      downloadFile(csvContent, `verses-${new Date().toISOString().split('T')[0]}.csv`, 'text/csv');
+      setExportProgress(100);
+      toast({ title: "Export Successful", description: `Exported ${allVerses.length} verses to CSV` });
+    } catch (error) {
+      console.error("CSV export error:", error);
+      toast({ title: "Export Failed", description: "Failed to export verses.", variant: "destructive" });
+    } finally {
+      setIsExportingCsv(false);
+      setExportProgress(0);
+    }
+  };
+
+  // CSV Import for Surahs
+  const handleImportSurahsCsv = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    setIsRestoringCsv(true);
+    setRestoreProgress(0);
+    try {
+      const text = await file.text();
+      const rows = parseCsv(text);
+      let restored = 0;
+
+      for (let i = 0; i < rows.length; i++) {
+        const row = rows[i];
+        const { error } = await supabase.from('surahs').upsert({
+          number: parseInt(row.number),
+          name_arabic: row.name_arabic,
+          name_english: row.name_english,
+          name_bengali: row.name_bengali,
+          meaning_english: row.meaning_english,
+          meaning_bengali: row.meaning_bengali,
+          revelation_type: row.revelation_type,
+          total_verses: parseInt(row.total_verses),
+        }, { onConflict: 'number' });
+        if (!error) restored++;
+        setRestoreProgress(Math.round(((i + 1) / rows.length) * 100));
+      }
+
+      toast({ title: "Import Successful", description: `Imported ${restored} surahs from CSV` });
+    } catch (error) {
+      console.error("CSV import error:", error);
+      toast({ title: "Import Failed", description: "Failed to import surahs.", variant: "destructive" });
+    } finally {
+      setIsRestoringCsv(false);
+      if (csvSurahInputRef.current) csvSurahInputRef.current.value = '';
+    }
+  };
+
+  // CSV Import for Verses
+  const handleImportVersesCsv = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    setIsRestoringCsv(true);
+    setRestoreProgress(0);
+    try {
+      const text = await file.text();
+      const rows = parseCsv(text);
+      let restored = 0;
+      const batchSize = 100;
+
+      for (let i = 0; i < rows.length; i += batchSize) {
+        const batch = rows.slice(i, i + batchSize);
+        const versesToInsert = batch.map(row => ({
+          surah_number: parseInt(row.surah_number),
+          verse_number: parseInt(row.verse_number),
+          arabic: row.arabic,
+          english: row.english,
+          bengali: row.bengali,
+          tafsir_english: row.tafsir_english || null,
+          tafsir_bengali: row.tafsir_bengali || null,
+        }));
+
+        const { error } = await supabase.from('verses').upsert(versesToInsert, { onConflict: 'surah_number,verse_number' });
+        if (!error) restored += batch.length;
+        setRestoreProgress(Math.round(((i + batch.length) / rows.length) * 100));
+      }
+
+      toast({ title: "Import Successful", description: `Imported ${restored} verses from CSV` });
+    } catch (error) {
+      console.error("CSV import error:", error);
+      toast({ title: "Import Failed", description: "Failed to import verses.", variant: "destructive" });
+    } finally {
+      setIsRestoringCsv(false);
+      if (csvVerseInputRef.current) csvVerseInputRef.current.value = '';
+    }
+  };
+
+  const handleExportVerses = async () => {
+    setIsExporting(true);
+    setExportProgress(0);
+    try {
+      const { data: surahs, error: surahError } = await supabase.from('surahs').select('*').order('number');
+      if (surahError) throw surahError;
+      setExportProgress(10);
+
+      const allVerses: any[] = [];
+      const batchSize = 1000;
+      let offset = 0;
+      let hasMore = true;
+
+      while (hasMore) {
+        const { data: verses, error: verseError } = await supabase.from('verses').select('*').order('surah_number, verse_number').range(offset, offset + batchSize - 1);
         if (verseError) throw verseError;
-
-        if (verses && verses.length > 0) {
-          allVerses.push(...verses);
-          offset += batchSize;
-          setExportProgress(10 + Math.min(80, Math.round((allVerses.length / 6236) * 80)));
-        } else {
-          hasMore = false;
-        }
+        if (verses && verses.length > 0) { allVerses.push(...verses); offset += batchSize; setExportProgress(10 + Math.min(80, Math.round((allVerses.length / 6236) * 80))); }
+        else { hasMore = false; }
       }
 
       setExportProgress(95);
 
-      // Create export data
       const exportData = {
         exportedAt: new Date().toISOString(),
         surahs: surahs || [],
         verses: allVerses,
-        stats: {
-          totalSurahs: surahs?.length || 0,
-          totalVerses: allVerses.length
-        }
+        stats: { totalSurahs: surahs?.length || 0, totalVerses: allVerses.length }
       };
 
-      // Download as JSON
-      const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `quran-verses-backup-${new Date().toISOString().split('T')[0]}.json`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-
+      downloadFile(JSON.stringify(exportData, null, 2), `quran-verses-backup-${new Date().toISOString().split('T')[0]}.json`, 'application/json');
       setExportProgress(100);
 
-      toast({
-        title: "Export Successful",
-        description: `Exported ${exportData.stats.totalSurahs} surahs and ${exportData.stats.totalVerses} verses`,
-      });
+      toast({ title: "Export Successful", description: `Exported ${exportData.stats.totalSurahs} surahs and ${exportData.stats.totalVerses} verses` });
     } catch (error) {
       console.error("Export error:", error);
-      toast({
-        title: "Export Failed",
-        description: "Failed to export verses. Please try again.",
-        variant: "destructive",
-      });
+      toast({ title: "Export Failed", description: "Failed to export verses.", variant: "destructive" });
     } finally {
       setIsExporting(false);
       setExportProgress(0);
@@ -309,35 +451,60 @@ const ImportVerses = () => {
     }
   };
 
-  const isDisabled = isImporting || isUpdatingArabic || isExporting || isRestoring;
+  const isDisabled = isImporting || isUpdatingArabic || isExporting || isRestoring || isExportingCsv || isRestoringCsv;
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between flex-wrap gap-4">
         <div>
           <h1 className="text-2xl font-bold">Import/Export Verses</h1>
-          <p className="text-muted-foreground">
-            Import verses, update from Quran.com, export backup, or restore
-          </p>
+          <p className="text-muted-foreground">Import verses, update from Quran.com, export backup, or restore</p>
         </div>
-        <Button 
-          onClick={handleExportVerses} 
-          disabled={isDisabled} 
-          variant="outline"
-        >
-          {isExporting ? (
-            <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              Exporting... {exportProgress}%
-            </>
-          ) : (
-            <>
-              <Download className="mr-2 h-4 w-4" />
-              Export All Verses
-            </>
-          )}
+        <Button onClick={handleExportVerses} disabled={isDisabled} variant="outline">
+          {isExporting ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" />Exporting... {exportProgress}%</> : <><Download className="mr-2 h-4 w-4" />Export JSON</>}
         </Button>
       </div>
+
+      {/* CSV Export/Import Section */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <FileSpreadsheet className="h-5 w-5" />
+            CSV Export & Import
+          </CardTitle>
+          <CardDescription>Export or import surahs and verses as CSV files for easy editing in spreadsheet applications.</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <h4 className="font-medium">Surahs</h4>
+              <div className="flex gap-2">
+                <Button onClick={handleExportSurahsCsv} disabled={isDisabled} variant="outline" size="sm">
+                  {isExportingCsv ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Download className="mr-2 h-4 w-4" />}
+                  Export CSV
+                </Button>
+                <Input ref={csvSurahInputRef} type="file" accept=".csv" onChange={handleImportSurahsCsv} disabled={isDisabled} className="cursor-pointer w-auto" />
+              </div>
+            </div>
+            <div className="space-y-2">
+              <h4 className="font-medium">Verses</h4>
+              <div className="flex gap-2">
+                <Button onClick={handleExportVersesCsv} disabled={isDisabled} variant="outline" size="sm">
+                  {isExportingCsv ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Download className="mr-2 h-4 w-4" />}
+                  Export CSV
+                </Button>
+                <Input ref={csvVerseInputRef} type="file" accept=".csv" onChange={handleImportVersesCsv} disabled={isDisabled} className="cursor-pointer w-auto" />
+              </div>
+            </div>
+          </div>
+          {isRestoringCsv && (
+            <div className="space-y-2">
+              <Progress value={restoreProgress} className="w-full" />
+              <p className="text-sm text-muted-foreground">Importing... {restoreProgress}%</p>
+            </div>
+          )}
+        </CardContent>
+      </Card>
 
       {/* Restore from Backup */}
       <Card>
