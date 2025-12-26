@@ -618,13 +618,14 @@ export const duaCategories: DuaCategory[] = [
     id: "morning-evening",
     nameEnglish: "Morning & Evening Dhikr",
     nameBengali: "সকাল-সন্ধ্যার যিকর",
+    nameHindi: "सुबह-शाम के अज़कार",
     icon: "Sunrise",
     duas: [
-      { id: "me-001", titleBengali: "সকালের ঘোষণা", titleEnglish: "Morning Declaration", arabic: "أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ", transliteration: "Asbahna wa asbahal-mulku lillah", transliterationBengali: "আসবাহনা ওয়া আসবাহাল মুলকু লিল্লাহ", bengali: "আমরা সকালে উপনীত হয়েছি এবং সমস্ত কর্তৃত্ব আল্লাহর", english: "We have entered the morning and all dominion belongs to Allah", reference: "সহীহ মুসলিম, হাদিস নং ২৭২৩" },
-      { id: "me-002", titleBengali: "সন্ধ্যার ঘোষণা", titleEnglish: "Evening Declaration", arabic: "أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ", transliteration: "Amsayna wa amsal-mulku lillah", transliterationBengali: "আমসাইনা ওয়া আমসাল মুলকু লিল্লাহ", bengali: "আমরা সন্ধ্যায় উপনীত হয়েছি এবং সমস্ত কর্তৃত্ব আল্লাহর", english: "We have entered the evening and all dominion belongs to Allah", reference: "সহীহ মুসলিম, হাদিস নং ২৭২৩" },
-      { id: "me-003", titleBengali: "নিরাপত্তার দোয়া", titleEnglish: "Protection Dua", arabic: "بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ", transliteration: "Bismillahil-ladhi la yadurru", transliterationBengali: "বিসমিল্লাহিল্লাজি লা ইয়াদুর্রু", bengali: "আল্লাহর নামে—যাঁর নামে কিছুই ক্ষতি করতে পারে না", english: "In the name of Allah with whose name nothing can harm", reference: "সুনান আবু দাউদ, হাদিস নং ৫০৮৮" },
-      { id: "me-004", titleBengali: "সুস্থতার দোয়া", titleEnglish: "Wellbeing Dua", arabic: "اللَّهُمَّ عَافِنِي فِي بَدَنِي", transliteration: "Allahumma 'afini fi badani", transliterationBengali: "আল্লাহুম্মা আফিনি ফি বাদানি", bengali: "হে আল্লাহ আমার শরীরে সুস্থতা দিন", english: "O Allah grant me health in my body", reference: "সুনান তিরমিযী, হাদিস নং ৩৪৯৯" },
-      { id: "me-005", titleBengali: "ঈমান রক্ষার দোয়া", titleEnglish: "Faith Protection", arabic: "يَا مُقَلِّبَ الْقُلُوبِ ثَبِّتْ قَلْبِي", transliteration: "Ya Muqallibal-qulub thabbit qalbi", transliterationBengali: "ইয়া মুকাল্লিবাল কুলুব সাব্বিত কালবি", bengali: "হে হৃদয় পরিবর্তনকারী, আমার হৃদয়কে স্থির রাখুন", english: "O Turner of hearts keep my heart firm", reference: "সুনান তিরমিযী, হাদিস নং ২১৪০" },
+      { id: "me-001", titleBengali: "সকালের ঘোষণা", titleEnglish: "Morning Declaration", titleHindi: "सुबह की घोषणा", arabic: "أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ", transliteration: "Asbahna wa asbahal-mulku lillah", transliterationBengali: "আসবাহনা ওয়া আসবাহাল মুলকু লিল্লাহ", transliterationHindi: "असबहना व असबहल मुल्कु लिल्लाह", bengali: "আমরা সকালে উপনীত হয়েছি এবং সমস্ত কর্তৃত্ব আল্লাহর", english: "We have entered the morning and all dominion belongs to Allah", hindi: "हमने सुबह में प्रवेश किया और सारी बादशाहत अल्लाह की है", reference: "সহীহ মুসলিম, হাদিস নং ২৭২৩" },
+      { id: "me-002", titleBengali: "সন্ধ্যার ঘোষণা", titleEnglish: "Evening Declaration", titleHindi: "शाम की घोषणा", arabic: "أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ", transliteration: "Amsayna wa amsal-mulku lillah", transliterationBengali: "আমসাইনা ওয়া আমসাল মুলকু লিল্লাহ", transliterationHindi: "अमसैना व अमसल मुल्कु लिल्लाह", bengali: "আমরা সন্ধ্যায় উপনীত হয়েছি এবং সমস্ত কর্তৃত্ব আল্লাহর", english: "We have entered the evening and all dominion belongs to Allah", hindi: "हमने शाम में प्रवेश किया और सारी बादशाहत अल्लाह की है", reference: "সহীহ মুসলিম, হাদিস নং ২৭২৩" },
+      { id: "me-003", titleBengali: "নিরাপত্তার দোয়া", titleEnglish: "Protection Dua", titleHindi: "सुरक्षा की दुआ", arabic: "بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ", transliteration: "Bismillahil-ladhi la yadurru", transliterationBengali: "বিসমিল্লাহিল্লাজি লা ইয়াদুর্রু", transliterationHindi: "बिस्मिल्लाहिल्लज़ी ला यज़ुर्रु", bengali: "আল্লাহর নামে—যাঁর নামে কিছুই ক্ষতি করতে পারে না", english: "In the name of Allah with whose name nothing can harm", hindi: "अल्लाह के नाम से—जिसके नाम से कुछ भी नुकसान नहीं पहुँचा सकता", reference: "সুনান আবু দাউদ, হাদিস নং ৫০৮৮" },
+      { id: "me-004", titleBengali: "সুস্থতার দোয়া", titleEnglish: "Wellbeing Dua", titleHindi: "अच्छी सेहत की दुआ", arabic: "اللَّهُمَّ عَافِنِي فِي بَدَنِي", transliteration: "Allahumma 'afini fi badani", transliterationBengali: "আল্লাহুম্মা আফিনি ফি বাদানি", transliterationHindi: "अल्लाहुम्मा आफ़िनी फ़ी बदनी", bengali: "হে আল্লাহ আমার শরীরে সুস্থতা দিন", english: "O Allah grant me health in my body", hindi: "ऐ अल्लाह मेरे शरीर में सेहत दे", reference: "সুনান তিরমিযী, হাদিস নং ৩৪৯৯" },
+      { id: "me-005", titleBengali: "ঈমান রক্ষার দোয়া", titleEnglish: "Faith Protection", titleHindi: "ईमान की हिफ़ाज़त की दुआ", arabic: "يَا مُقَلِّبَ الْقُلُوبِ ثَبِّتْ قَلْبِي", transliteration: "Ya Muqallibal-qulub thabbit qalbi", transliterationBengali: "ইয়া মুকাল্লিবাল কুলুব সাব্বিত কালবি", transliterationHindi: "या मुक़ल्लिबल क़ुलूब सब्बित क़ल्बी", bengali: "হে হৃদয় পরিবর্তনকারী, আমার হৃদয়কে স্থির রাখুন", english: "O Turner of hearts keep my heart firm", hindi: "ऐ दिलों को फेरने वाले, मेरे दिल को मज़बूत रख", reference: "সুনান তিরমিযী, হাদিস নং ২১৪০" },
       { id: "me-006", titleBengali: "ক্ষমা প্রার্থনা", titleEnglish: "Seeking Forgiveness", arabic: "أَسْتَغْفِرُ اللَّهَ وَأَتُوبُ إِلَيْهِ", transliteration: "Astaghfirullaha wa atubu ilayh", transliterationBengali: "আস্তাগফিরুল্লাহা ওয়া আতুবু ইলাইহ", bengali: "আমি আল্লাহর কাছে ক্ষমা চাই ও তাঁর দিকে ফিরে আসি", english: "I seek forgiveness from Allah and repent to Him", reference: "সহীহ মুসলিম, হাদিস নং ২৭০২" },
       { id: "me-007", titleBengali: "কৃতজ্ঞতার দোয়া", titleEnglish: "Gratitude", arabic: "اللَّهُمَّ مَا أَصْبَحَ بِي مِنْ نِعْمَةٍ", transliteration: "Allahumma ma asbaha bi min ni'mah", transliterationBengali: "আল্লাহুম্মা মা আসবাহা বি মিন নি'মাহ", bengali: "আমার উপর যে সকল নিয়ামত এসেছে তা আপনার পক্ষ থেকে", english: "Whatever blessing I have is from You", reference: "সুনান আবু দাউদ, হাদিস নং ৫০৭৩" },
       { id: "me-008", titleBengali: "অকল্যাণ থেকে রক্ষা", titleEnglish: "Protection from Evil", arabic: "أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ", transliteration: "A'udhu bikalimatillahit-tammati", transliterationBengali: "আউযু বিকালিমাতিল্লাহিত্তাম্মাত", bengali: "আমি আল্লাহর পরিপূর্ণ বাক্যের আশ্রয় চাই", english: "I seek refuge in the perfect words of Allah", reference: "সহীহ মুসলিম, হাদিস নং ২৭০৯" },
@@ -679,17 +680,21 @@ export const duaCategories: DuaCategory[] = [
     id: "protection",
     nameEnglish: "Protection & Safety",
     nameBengali: "হিফাজতের দোয়া",
+    nameHindi: "हिफ़ाज़त की दुआएं",
     icon: "Shield",
     duas: [
       {
         id: "protection-1",
         titleBengali: "শয়তান থেকে রক্ষা",
         titleEnglish: "Protection from Satan",
+        titleHindi: "शैतान से बचाव",
         arabic: "أَعُوذُ بِاللَّهِ مِنَ الشَّيْطَانِ الرَّجِيمِ",
         transliteration: "A'udhu billahi minash-shaitanir-rajim",
         transliterationBengali: "আ'ঊযু বিল্লাহি মিনাশ শাইতানির রাজীম",
+        transliterationHindi: "अऊज़ु बिल्लाहि मिनश्-शैतानिर्-रजीम",
         bengali: "আমি অভিশপ্ত শয়তান থেকে আল্লাহর কাছে আশ্রয় চাই",
         english: "I seek refuge in Allah from the accursed Satan",
+        hindi: "मैं शैतान मरदूद से अल्लाह की पनाह माँगता हूँ",
         reference: "সূরা আন-নাহল ১৬:৯৮"
       },
       {
@@ -1239,17 +1244,21 @@ export const duaCategories: DuaCategory[] = [
     id: "quran-duas",
     nameEnglish: "Duas from the Qur'an",
     nameBengali: "কুরআনের দোয়া",
+    nameHindi: "क़ुरआन की दुआएं",
     icon: "BookOpen",
     duas: [
       {
         id: "quran-1",
         titleBengali: "দুনিয়া ও আখিরাতের কল্যাণ",
         titleEnglish: "Good in This World & Hereafter",
+        titleHindi: "दुनिया और आख़िरत में भलाई",
         arabic: "رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ",
         transliteration: "Rabbana atina fid-dunya hasanatan wa fil-akhirati hasanatan wa qina 'adhaban-nar",
         transliterationBengali: "রাব্বানা আতিনা ফিদ্দুনিয়া হাসানাতাও ওয়া ফিল আখিরাতি হাসানাতাও ওয়া ক্বিনা 'আযাবান নার",
+        transliterationHindi: "रब्बना आतिना फ़िद्दुनिया हसनतव व फ़िल आख़िरति हसनतव व क़िना अज़ाबन्नार",
         bengali: "হে আমাদের রব! আমাদেরকে দুনিয়াতে কল্যাণ দাও এবং আখিরাতেও কল্যাণ দাও এবং আমাদেরকে জাহান্নামের আযাব থেকে রক্ষা কর।",
         english: "Our Lord, give us in this world that which is good and in the Hereafter that which is good and protect us from the punishment of the Fire.",
+        hindi: "ऐ हमारे रब! हमें दुनिया में भलाई दे और आख़िरत में भी भलाई दे और हमें जहन्नम के अज़ाब से बचा।",
         reference: "সূরা বাকারা ২:২০১"
       },
       {
@@ -1801,17 +1810,21 @@ export const duaCategories: DuaCategory[] = [
     id: "sunnah-duas",
     nameEnglish: "Duas from the Sunnah",
     nameBengali: "হাদীসের দোয়া",
+    nameHindi: "हदीस की दुआएं",
     icon: "BookMarked",
     duas: [
       {
         id: "sunnah-1",
         titleBengali: "হিদায়াত ও তাকওয়ার দোয়া",
         titleEnglish: "For Guidance & Piety",
+        titleHindi: "हिदायत और तक़वा की दुआ",
         arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْهُدَى وَالتُّقَى وَالْعَفَافَ وَالْغِنَى",
         transliteration: "Allahumma inni as'alukal-huda wat-tuqa wal-'afafa wal-ghina",
         transliterationBengali: "আল্লাহুম্মা ইন্নী আসআলুকাল হুদা ওয়াত তুক্বা ওয়াল 'আফাফা ওয়াল গিনা",
+        transliterationHindi: "अल्लाहुम्मा इन्नी असअलुकल हुदा वत्तुक़ा वल अफ़ाफ़ वल ग़िना",
         bengali: "হে আল্লাহ! আমি তোমার কাছে হিদায়াত, তাকওয়া, পবিত্রতা এবং অভাবমুক্তি প্রার্থনা করি।",
         english: "O Allah, I ask You for guidance, piety, chastity and self-sufficiency.",
+        hindi: "ऐ अल्लाह! मैं तुझसे हिदायत, तक़वा, पाकीज़गी और बेनियाज़ी माँगता हूँ।",
         reference: "সহীহ মুসলিম, হাদিস নং ২৭২১"
       },
       {
@@ -2361,17 +2374,21 @@ export const duaCategories: DuaCategory[] = [
     id: "guidance-iman",
     nameEnglish: "Guidance & Iman",
     nameBengali: "ঈমান ও হিদায়াত",
+    nameHindi: "ईमान और हिदायत",
     icon: "Compass",
     duas: [
       {
         id: "guidance-1",
         titleBengali: "সরল পথের দোয়া",
         titleEnglish: "The Straight Path",
+        titleHindi: "सीधे रास्ते की दुआ",
         arabic: "اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ",
         transliteration: "Ihdinas-siratal-mustaqim",
         transliterationBengali: "ইহদিনাস সিরাতাল মুস্তাক্বীম",
+        transliterationHindi: "इहदिनस्सिरातल मुस्तक़ीम",
         bengali: "আমাদেরকে সরল পথ দেখাও।",
         english: "Guide us to the straight path.",
+        hindi: "हमें सीधे रास्ते पर चला।",
         reference: "সূরা ফাতিহা ১:৬"
       },
       {
@@ -2921,15 +2938,20 @@ export const duaCategories: DuaCategory[] = [
     id: "knowledge-study",
     nameEnglish: "Knowledge & Study",
     nameBengali: "জ্ঞান ও পড়াশোনার দোয়া",
+    nameHindi: "इल्म और पढ़ाई की दुआएं",
     icon: "GraduationCap",
     duas: [
       {
         id: "knowledge-1",
         titleBengali: "জ্ঞান বৃদ্ধির দোয়া",
         titleEnglish: "Increase in Knowledge",
+        titleHindi: "इल्म बढ़ाने की दुआ",
         arabic: "رَبِّ زِدْنِي عِلْمًا",
+        transliteration: "Rabbi zidni 'ilma",
+        transliterationHindi: "रब्बी ज़िदनी इल्मा",
         bengali: "হে আমার রব! আমার জ্ঞান বৃদ্ধি করে দাও।",
         english: "My Lord, increase me in knowledge.",
+        hindi: "ऐ मेरे रब! मेरा इल्म बढ़ा दे।",
         reference: "সূরা ত্বহা ২০:১১৪"
       },
       {
@@ -3461,15 +3483,18 @@ export const duaCategories: DuaCategory[] = [
     id: "rizq-wealth",
     nameEnglish: "Rizq & Wealth",
     nameBengali: "রিজিকের দোয়া",
+    nameHindi: "रिज़्क़ और दौलत की दुआएं",
     icon: "Wallet",
     duas: [
       {
         id: "rizq-1",
         titleBengali: "পবিত্র রিজিকের দোয়া",
         titleEnglish: "For Pure Provision",
+        titleHindi: "पाक रोज़ी की दुआ",
         arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ رِزْقًا طَيِّبًا، وَعِلْمًا نَافِعًا، وَعَمَلًا مُتَقَبَّلًا",
         bengali: "হে আল্লাহ! আমি তোমার কাছে পবিত্র রিজিক, উপকারী জ্ঞান এবং কবুলযোগ্য আমল প্রার্থনা করি।",
         english: "O Allah, I ask You for good provision, beneficial knowledge, and accepted deeds.",
+        hindi: "ऐ अल्लाह! मैं तुझसे पाक रोज़ी, फ़ायदेमंद इल्म और क़बूल होने वाले अमल माँगता हूँ।",
         reference: "ইবনে মাজাহ, হাদিস নং ৯২৫"
       },
       {
@@ -4003,17 +4028,21 @@ export const duaCategories: DuaCategory[] = [
     id: "health-healing",
     nameEnglish: "Health & Healing",
     nameBengali: "সুস্থতার দোয়া",
+    nameHindi: "सेहत और शिफ़ा की दुआएं",
     icon: "Heart",
     duas: [
       {
         id: "health-1",
         titleBengali: "রোগ সুস্থতার দোয়া",
         titleEnglish: "For Complete Healing",
+        titleHindi: "मुकम्मल शिफ़ा की दुआ",
         arabic: "اللَّهُمَّ رَبَّ النَّاسِ، أَذْهِبِ الْبَأْسَ، اشْفِ أَنْتَ الشَّافِي، لاَ شِفَاءَ إِلاَّ شِفَاؤُكَ، شِفَاءً لاَ يُغَادِرُ سَقَمًا",
         transliteration: "Allahumma Rabban-nas, adhibil-ba's, ishfi antash-shafi, la shifa'a illa shifa'uk, shifa'an la yughadiru saqama",
         transliterationBengali: "আল্লাহুম্মা রাব্বান নাস, আযহিবিল বা'স, ইশফি আনতাশ শাফী, লা শিফা'আ ইল্লা শিফা'উক, শিফা'আন লা ইউগাদিরু সাক্বামা",
+        transliterationHindi: "अल्लाहुम्मा रब्बन्नास, अज़हिबिल बा'स, इशफ़ि अंतश्-शाफ़ी, ला शिफ़ाअ इल्ला शिफ़ाउक, शिफ़ाअन ला युग़ादिरु सक़मा",
         bengali: "হে আল্লাহ! মানুষের রব! কষ্ট দূর কর, সুস্থতা দান কর। তুমিই সুস্থতা দানকারী। তোমার সুস্থতা ছাড়া কোন সুস্থতা নেই। এমন সুস্থতা দাও যা কোন রোগ রেখে যায় না।",
         english: "O Allah, Lord of mankind, remove the hardship. Cure, for You are the Healer. There is no cure except Your cure, a cure that leaves no illness.",
+        hindi: "ऐ अल्लाह! लोगों के रब! तकलीफ़ दूर कर, शिफ़ा दे। तू ही शिफ़ा देने वाला है। तेरी शिफ़ा के बिना कोई शिफ़ा नहीं। ऐसी शिफ़ा दे जो कोई बीमारी बाक़ी न छोड़े।",
         reference: "সহীহ বুখারী, হাদিস নং ৫৬৭৫; সহীহ মুসলিম, হাদিস নং ২১৯১"
       },
       {
@@ -4563,17 +4592,21 @@ export const duaCategories: DuaCategory[] = [
     id: "stress-anxiety",
     nameEnglish: "Stress, Anxiety & Sadness",
     nameBengali: "দুশ্চিন্তার দোয়া",
+    nameHindi: "परेशानी, चिंता और ग़म की दुआएं",
     icon: "Brain",
     duas: [
       {
         id: "stress-1",
         titleBengali: "বিপদে পড়ার দোয়া",
         titleEnglish: "In Times of Distress",
+        titleHindi: "मुसीबत के वक़्त की दुआ",
         arabic: "لاَ إِلَهَ إِلاَّ اللهُ الْعَظِيمُ الْحَلِيمُ، لاَ إِلَهَ إِلاَّ اللهُ رَبُّ الْعَرْشِ الْعَظِيمِ، لاَ إِلَهَ إِلاَّ اللهُ رَبُّ السَّمَوَاتِ وَرَبُّ الأَرْضِ وَرَبُّ الْعَرْشِ الْكَرِيمِ",
         transliteration: "La ilaha illallahul-'Azimul-Halim, la ilaha illallahu Rabbul-'Arshil-'Azim, la ilaha illallahu Rabbus-samawati wa Rabbul-ardi wa Rabbul-'Arshil-Karim",
         transliterationBengali: "লা ইলাহা ইল্লাল্লাহুল 'আযীমুল হালীম, লা ইলাহা ইল্লাল্লাহু রাব্বুল 'আরশিল 'আযীম, লা ইলাহা ইল্লাল্লাহু রাব্বুস সামাওয়াতি ওয়া রাব্বুল আরদি ওয়া রাব্বুল 'আরশিল কারীম",
+        transliterationHindi: "ला इलाहा इल्लल्लाहुल अज़ीमुल हलीम, ला इलाहा इल्लल्लाहु रब्बुल अर्शिल अज़ीम, ला इलाहा इल्लल्लाहु रब्बुस्समावाति व रब्बुल अर्ज़ि व रब्बुल अर्शिल करीम",
         bengali: "আল্লাহ ছাড়া কোন ইলাহ নেই, তিনি মহান, সহনশীল। আল্লাহ ছাড়া কোন ইলাহ নেই, তিনি মহান আরশের রব। আল্লাহ ছাড়া কোন ইলাহ নেই, তিনি আসমানসমূহের রব, জমিনের রব এবং সম্মানিত আরশের রব।",
         english: "There is no deity except Allah, the Magnificent, the Forbearing. There is no deity except Allah, Lord of the Mighty Throne. There is no deity except Allah, Lord of the heavens, Lord of the earth, and Lord of the Noble Throne.",
+        hindi: "अल्लाह के सिवा कोई माबूद नहीं, वह अज़ीम है, हलीम है। अल्लाह के सिवा कोई माबूद नहीं, वह अज़ीम अर्श का रब है। अल्लाह के सिवा कोई माबूद नहीं, वह आसमानों का रब है, ज़मीन का रब है और करीम अर्श का रब है।",
         reference: "সহীহ বুখারী, হাদিস নং ৬৩৪৬; সহীহ মুসলিম, হাদিস নং ২৭৩০"
       },
       {
@@ -5123,15 +5156,20 @@ export const duaCategories: DuaCategory[] = [
     id: "work-success",
     nameEnglish: "Work & Success",
     nameBengali: "কাজ ও সফলতার দোয়া",
+    nameHindi: "काम और कामयाबी की दुआएं",
     icon: "Briefcase",
     duas: [
       {
         id: "work-1",
         titleBengali: "কাজ শুরুর দোয়া",
         titleEnglish: "Starting Work",
+        titleHindi: "काम शुरू करने की दुआ",
         arabic: "بِسْمِ اللهِ تَوَكَّلْتُ عَلَى اللهِ لاَ حَوْلَ وَلاَ قُوَّةَ إِلاَّ بِاللهِ",
+        transliteration: "Bismillahi tawakkaltu 'alallahi la hawla wa la quwwata illa billah",
+        transliterationHindi: "बिस्मिल्लाहि तवक्कल्तु अलल्लाहि ला हौला वला क़ुव्वता इल्ला बिल्लाह",
         bengali: "আল্লাহর নামে, আল্লাহর উপর ভরসা করলাম, আল্লাহর সাহায্য ছাড়া কোন উপায় নেই এবং কোন শক্তি নেই।",
         english: "In the name of Allah, I place my trust in Allah, there is no might nor power except with Allah.",
+        hindi: "अल्लाह के नाम से, अल्लाह पर भरोसा किया, अल्लाह की मदद के बिना कोई ताक़त और कोई ज़ोर नहीं।",
         reference: "আবু দাউদ, হাদিস নং ৫০৯৫; তিরমিযী, হাদিস নং ৩৪২৬"
       },
       {
@@ -5583,6 +5621,7 @@ export const duaCategories: DuaCategory[] = [
     id: "family-relationships",
     nameEnglish: "Family & Relationships",
     nameBengali: "পরিবারের দোয়া",
+    nameHindi: "परिवार और रिश्तों की दुआएं",
     icon: "Users",
     duas: [
       {
@@ -6063,6 +6102,7 @@ export const duaCategories: DuaCategory[] = [
     id: "marriage-spouse",
     nameEnglish: "Marriage & Spouse",
     nameBengali: "বিবাহের দোয়া",
+    nameHindi: "शादी और जीवनसाथी की दुआएं",
     icon: "HeartHandshake",
     duas: [
       {
@@ -6515,6 +6555,7 @@ export const duaCategories: DuaCategory[] = [
     id: "children-duas",
     nameEnglish: "Children Duas",
     nameBengali: "সন্তানের দোয়া",
+    nameHindi: "बच्चों की दुआएं",
     icon: "Baby",
     duas: [
       {
@@ -6977,7 +7018,7 @@ export const duaCategories: DuaCategory[] = [
     id: "travel-duas",
     nameEnglish: "Travel Duas",
     nameBengali: "সফরের দোয়া",
-    icon: "Plane",
+    nameHindi: "सफ़र की दुआएं",
     duas: [
       {
         id: "travel-1",
@@ -7437,7 +7478,7 @@ export const duaCategories: DuaCategory[] = [
     id: "fear-hardship",
     nameEnglish: "Fear, Hardship & Trials",
     nameBengali: "বিপদের দোয়া",
-    icon: "AlertTriangle",
+    nameHindi: "डर, मुसीबत और आज़माइश की दुआएं",
     duas: [
       {
         id: "hardship-1",
@@ -7897,7 +7938,7 @@ export const duaCategories: DuaCategory[] = [
     id: "akhirah-duas",
     nameEnglish: "Hereafter & Akhirah",
     nameBengali: "আখিরাতের দোয়া",
-    icon: "Sunrise",
+    nameHindi: "आख़िरत की दुआएं",
     duas: [
       {
         id: "akhirah-1",
@@ -8357,7 +8398,7 @@ export const duaCategories: DuaCategory[] = [
     id: "death-funeral",
     nameEnglish: "Death & Funeral",
     nameBengali: "মৃত্যু ও জানাজা",
-    icon: "Moon",
+    nameHindi: "मौत और जनाज़े की दुआएं",
     duas: [
       {
         id: "death-1",
@@ -8817,7 +8858,7 @@ export const duaCategories: DuaCategory[] = [
     id: "special-occasions",
     nameEnglish: "Special Occasions",
     nameBengali: "বিশেষ উপলক্ষ",
-    icon: "Star",
+    nameHindi: "ख़ास मौक़ों की दुआएं",
     duas: [
       {
         id: "special-1",
@@ -9277,7 +9318,7 @@ export const duaCategories: DuaCategory[] = [
     id: "forgiveness",
     nameEnglish: "Forgiveness & Tawbah",
     nameBengali: "ক্ষমা ও তাওবা",
-    icon: "Heart",
+    nameHindi: "माफ़ी और तौबा की दुआएं",
     duas: [
       {
         id: "forgiveness-1",
