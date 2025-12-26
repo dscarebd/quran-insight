@@ -46,6 +46,34 @@ serve(async (req) => {
       });
     }
     
+    // Prompt injection detection - check for suspicious patterns
+    const promptInjectionPatterns = [
+      /ignore\s+(all\s+)?previous\s+instructions/i,
+      /disregard\s+(all\s+)?previous/i,
+      /forget\s+(all\s+)?your\s+(instructions|rules)/i,
+      /you\s+are\s+now\s+a/i,
+      /act\s+as\s+(if\s+you\s+are\s+)?a/i,
+      /pretend\s+(to\s+be|you\s+are)/i,
+      /new\s+instructions?:/i,
+      /system\s*:\s*/i,
+      /\[system\]/i,
+      /\[admin\]/i,
+      /override\s+(your\s+)?instructions/i,
+      /bypass\s+(your\s+)?rules/i,
+      /jailbreak/i,
+      /do\s+anything\s+now/i,
+      /developer\s+mode/i,
+    ];
+    
+    const hasPromptInjection = promptInjectionPatterns.some(pattern => pattern.test(trimmedQuery));
+    if (hasPromptInjection) {
+      console.error("Prompt injection attempt detected:", trimmedQuery.substring(0, 50));
+      return new Response(JSON.stringify({ error: "Invalid query format. Please ask a genuine question about Islamic knowledge." }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+    
     // Validate language is only 'bn' or 'en' (whitelist approach)
     const validLanguages = ['bn', 'en'];
     const validatedLanguage = validLanguages.includes(language) ? language : 'en';
