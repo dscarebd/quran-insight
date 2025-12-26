@@ -119,12 +119,14 @@ const SourcesCredits = ({ language }: SourcesCreditsProps) => {
       nameBn: "লোগো স্মিথ",
       descriptionEn: "Logo design and branding",
       descriptionBn: "লোগো ডিজাইন ও ব্র্যান্ডিং",
+      url: null,
     },
     {
       nameEn: "Abdulla Mohamed (Addhu)",
       nameBn: "আব্দুল্লাহ মোহাম্মদ (আদ্ধু)",
       descriptionEn: "Logo design and creative direction",
       descriptionBn: "লোগো ডিজাইন ও ক্রিয়েটিভ ডিরেকশন",
+      url: "https://www.behance.net/addhu",
     },
   ];
 
@@ -246,24 +248,43 @@ const SourcesCredits = ({ language }: SourcesCreditsProps) => {
               </h2>
             </div>
             <div className="grid grid-cols-2 gap-3">
-              {logoCredits.map((credit, index) => (
-                <div
-                  key={index}
-                  className="flex flex-col items-center gap-2 rounded-xl border border-border bg-card p-4 text-center"
-                >
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
-                    <User className="h-6 w-6 text-primary" />
-                  </div>
-                  <div>
-                    <h3 className={cn("text-sm font-semibold", language === "bn" && "font-bengali")}>
-                      {language === "bn" ? credit.nameBn : credit.nameEn}
-                    </h3>
-                    <p className={cn("text-xs text-muted-foreground mt-1", language === "bn" && "font-bengali")}>
-                      {language === "bn" ? credit.descriptionBn : credit.descriptionEn}
-                    </p>
-                  </div>
-                </div>
-              ))}
+              {logoCredits.map((credit, index) => {
+                const CardWrapper = credit.url ? 'a' : 'div';
+                const cardProps = credit.url ? {
+                  href: credit.url,
+                  target: "_blank",
+                  rel: "noopener noreferrer",
+                } : {};
+                
+                return (
+                  <CardWrapper
+                    key={index}
+                    {...cardProps}
+                    className={cn(
+                      "flex flex-col items-center gap-2 rounded-xl border border-border bg-card p-4 text-center",
+                      credit.url && "hover:bg-muted/50 transition-colors cursor-pointer"
+                    )}
+                  >
+                    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
+                      <User className="h-6 w-6 text-primary" />
+                    </div>
+                    <div>
+                      <h3 className={cn("text-sm font-semibold", language === "bn" && "font-bengali")}>
+                        {language === "bn" ? credit.nameBn : credit.nameEn}
+                      </h3>
+                      <p className={cn("text-xs text-muted-foreground mt-1", language === "bn" && "font-bengali")}>
+                        {language === "bn" ? credit.descriptionBn : credit.descriptionEn}
+                      </p>
+                      {credit.url && (
+                        <div className="flex items-center justify-center gap-1 mt-2 text-primary">
+                          <ExternalLink className="h-3 w-3" />
+                          <span className="text-xs">Behance</span>
+                        </div>
+                      )}
+                    </div>
+                  </CardWrapper>
+                );
+              })}
             </div>
           </section>
 
