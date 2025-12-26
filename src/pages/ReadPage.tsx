@@ -90,17 +90,14 @@ const ReadPage = ({ language, readingMode = "normal", arabicFont = "amiri", onAr
     localStorage.setItem("quran-font-size-index", fontSizeIndex.toString());
   }, [fontSizeIndex]);
 
-  // Save last read page
+  // Save last read page (debounced to prevent rapid updates)
+  const lastSavedPage = useRef(currentVisiblePage);
   useEffect(() => {
-    localStorage.setItem("quran-last-read-page", currentVisiblePage.toString());
-  }, [currentVisiblePage]);
-
-  // Update URL when visible page changes
-  useEffect(() => {
-    if (currentVisiblePage !== initialPage && !loading) {
-      navigate(`/read/${currentVisiblePage}`, { replace: true });
+    if (currentVisiblePage !== lastSavedPage.current) {
+      lastSavedPage.current = currentVisiblePage;
+      localStorage.setItem("quran-last-read-page", currentVisiblePage.toString());
     }
-  }, [currentVisiblePage, initialPage, navigate, loading]);
+  }, [currentVisiblePage]);
 
   // Handle verse click - mark as last read
   const handleVerseClick = useCallback((pageNum: number, surahNumber: number, verseNumber: number) => {
@@ -317,18 +314,24 @@ const ReadPage = ({ language, readingMode = "normal", arabicFont = "amiri", onAr
     };
   }, [loadMorePagesDown, loadMorePagesUp]);
 
-  // Track which page is currently visible
+  // Track which page is currently visible (with debouncing)
   useEffect(() => {
+    let timeoutId: NodeJS.Timeout;
+    
     observerRef.current = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const pageNum = parseInt(entry.target.getAttribute('data-page') || '1');
-            setCurrentVisiblePage(pageNum);
-          }
-        });
+        // Find the most visible entry
+        const visibleEntry = entries.find(entry => entry.isIntersecting && entry.intersectionRatio > 0.3);
+        if (visibleEntry) {
+          const pageNum = parseInt(visibleEntry.target.getAttribute('data-page') || '1');
+          // Debounce the update to prevent rapid changes
+          clearTimeout(timeoutId);
+          timeoutId = setTimeout(() => {
+            setCurrentVisiblePage(prev => prev !== pageNum ? pageNum : prev);
+          }, 200);
+        }
       },
-      { threshold: 0.5 }
+      { threshold: [0.3, 0.5, 0.7] }
     );
 
     // Observe all loaded page elements
@@ -336,7 +339,10 @@ const ReadPage = ({ language, readingMode = "normal", arabicFont = "amiri", onAr
       if (ref) observerRef.current?.observe(ref);
     });
 
-    return () => observerRef.current?.disconnect();
+    return () => {
+      clearTimeout(timeoutId);
+      observerRef.current?.disconnect();
+    };
   }, [loadedPages]);
 
   // Touch event handlers for pinch zoom
