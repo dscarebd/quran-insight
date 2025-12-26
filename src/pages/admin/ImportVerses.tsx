@@ -620,23 +620,50 @@ const ImportVerses = () => {
     }
   };
 
-  // Generate Bengali tafsir using AI for missing verses
+  // Generate Bengali tafsir using AI for missing verses (efficient - only missing)
   const generateAiTafsir = async () => {
     setIsGeneratingAiTafsir(true);
     setTafsirResult(null);
     setTafsirProgress(0);
     
-    const totalSurahs = 114;
     let totalGenerated = 0;
     const errors: string[] = [];
 
     try {
-      // Process ONE surah at a time
-      for (let surah = 1; surah <= totalSurahs; surah++) {
-        setTafsirStatus(`Generating AI tafsir for Surah ${surah}/114...`);
+      // First, get all surahs that have missing tafsir
+      setTafsirStatus("Finding surahs with missing tafsir...");
+      
+      const { data: missingData, error: queryError } = await supabase
+        .from('verses')
+        .select('surah_number')
+        .is('tafsir_bengali', null);
+      
+      if (queryError) throw queryError;
+      
+      if (!missingData || missingData.length === 0) {
+        setTafsirStatus("Complete!");
+        setTafsirResult({
+          success: true,
+          message: "All verses already have Bengali tafsir!",
+          totalUpdated: 0
+        });
+        toast({ title: "Already Complete", description: "All verses have Bengali tafsir." });
+        return;
+      }
+      
+      // Get unique surahs with missing tafsir
+      const uniqueSurahs = [...new Set(missingData.map(v => v.surah_number))].sort((a, b) => a - b);
+      const totalMissing = missingData.length;
+      
+      setTafsirStatus(`Found ${totalMissing} verses without tafsir in ${uniqueSurahs.length} surahs...`);
+      
+      // Process only surahs that have missing tafsir
+      for (let i = 0; i < uniqueSurahs.length; i++) {
+        const surah = uniqueSurahs[i];
+        setTafsirStatus(`Generating AI tafsir for Surah ${surah} (${i + 1}/${uniqueSurahs.length})...`);
         
         const { data, error } = await supabase.functions.invoke('generate-tafsir', {
-          body: { surahNumber: surah, batchSize: 5 }
+          body: { surahNumber: surah, batchSize: 3, maxVersesPerCall: 20 }
         });
 
         if (error) {
@@ -649,11 +676,11 @@ const ImportVerses = () => {
           }
         }
 
-        const progress = Math.round((surah / totalSurahs) * 100);
+        const progress = Math.round(((i + 1) / uniqueSurahs.length) * 100);
         setTafsirProgress(progress);
         
         // Delay between API calls to avoid rate limiting
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        await new Promise(resolve => setTimeout(resolve, 1500));
       }
 
       setTafsirStatus("Complete!");
@@ -1109,10 +1136,10 @@ const ImportVerses = () => {
                   Generating AI Tafsir...
                 </>
               ) : (
-                <>
-                  <Sparkles className="mr-2 h-4 w-4" />
-                  Option C: AI-Generated (Complete)
-                </>
+              <>
+                <Sparkles className="mr-2 h-4 w-4" />
+                Option C: AI-Generated (Fill Missing)
+              </>
               )}
             </Button>
 
