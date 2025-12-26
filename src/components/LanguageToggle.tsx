@@ -6,7 +6,7 @@ interface LanguageToggleProps {
   onToggle: (lang: Language) => void;
 }
 
-const languages: Language[] = ["bn", "en", "hi"];
+const languages: Language[] = ["bn", "en"];
 
 export const LanguageToggle = ({ language, onToggle }: LanguageToggleProps) => {
   return (
