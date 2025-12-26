@@ -299,6 +299,9 @@ const ReadPage = ({
     const newPages: PageData[] = [];
     
     for (let i = lastPage + 1; i <= Math.min(lastPage + 3, 604); i++) {
+      // Skip if page already exists
+      if (loadedPages.some(p => p.pageNumber === i)) continue;
+      
       const verses = await fetchVersesForPage(i);
       newPages.push({
         pageNumber: i,
@@ -307,7 +310,9 @@ const ReadPage = ({
       });
     }
     
-    setLoadedPages(prev => [...prev, ...newPages]);
+    if (newPages.length > 0) {
+      setLoadedPages(prev => [...prev, ...newPages]);
+    }
     setLoadingMore(false);
   }, [loadedPages, loadingMore, fetchVersesForPage]);
 
@@ -325,6 +330,9 @@ const ReadPage = ({
     const newPages: PageData[] = [];
 
     for (let i = Math.max(firstPage - 3, 1); i < firstPage; i++) {
+      // Skip if page already exists
+      if (loadedPages.some(p => p.pageNumber === i)) continue;
+      
       const verses = await fetchVersesForPage(i);
       newPages.push({
         pageNumber: i,
@@ -333,7 +341,9 @@ const ReadPage = ({
       });
     }
 
-    setLoadedPages((prev) => [...newPages, ...prev]);
+    if (newPages.length > 0) {
+      setLoadedPages((prev) => [...newPages, ...prev]);
+    }
 
     // Preserve visual position when prepending content
     requestAnimationFrame(() => {
