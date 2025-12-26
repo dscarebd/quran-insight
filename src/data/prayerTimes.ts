@@ -130,8 +130,15 @@ const formatTime = (hours: number): string => {
   if (h < 0) h += 24;
   if (h >= 24) h -= 24;
   
-  const hour24 = Math.floor(h);
-  const minute = Math.round((h - hour24) * 60);
+  let hour24 = Math.floor(h);
+  let minute = Math.round((h - hour24) * 60);
+  
+  // Handle minute overflow (when rounding produces 60)
+  if (minute >= 60) {
+    minute = 0;
+    hour24 += 1;
+    if (hour24 >= 24) hour24 = 0;
+  }
   
   // Convert to 12-hour format
   const period = hour24 >= 12 ? 'PM' : 'AM';
