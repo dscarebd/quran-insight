@@ -1,17 +1,21 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Loader2, Upload, CheckCircle, AlertCircle, Download } from "lucide-react";
+import { Loader2, Upload, CheckCircle, AlertCircle, Download, FileUp } from "lucide-react";
 import { duaCategories } from "@/data/duas";
 import { Progress } from "@/components/ui/progress";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 const ImportDuas = () => {
   const [isImporting, setIsImporting] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
+  const [isRestoring, setIsRestoring] = useState(false);
   const [progress, setProgress] = useState(0);
   const [currentCategory, setCurrentCategory] = useState("");
+  const [restoreProgress, setRestoreProgress] = useState(0);
   const [result, setResult] = useState<{
     success: boolean;
     message?: string;
@@ -19,6 +23,14 @@ const ImportDuas = () => {
     duasImported?: number;
     errors?: string[];
   } | null>(null);
+  const [restoreResult, setRestoreResult] = useState<{
+    success: boolean;
+    message?: string;
+    categoriesRestored?: number;
+    duasRestored?: number;
+    errors?: string[];
+  } | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
 
   const handleExport = async () => {
@@ -75,6 +87,123 @@ const ImportDuas = () => {
       });
     } finally {
       setIsExporting(false);
+    }
+  };
+
+  const handleRestoreFromBackup = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    setIsRestoring(true);
+    setRestoreResult(null);
+    setRestoreProgress(0);
+
+    try {
+      const text = await file.text();
+      const backupData = JSON.parse(text);
+
+      if (!backupData.categories || !backupData.duas) {
+        throw new Error("Invalid backup file format. Missing categories or duas.");
+      }
+
+      let categoriesRestored = 0;
+      let duasRestored = 0;
+      const errors: string[] = [];
+      const totalItems = backupData.categories.length + backupData.duas.length;
+      let processedItems = 0;
+
+      // Restore categories
+      for (const category of backupData.categories) {
+        const { error } = await supabase
+          .from('dua_categories')
+          .upsert({
+            id: category.id,
+            category_id: category.category_id,
+            name_english: category.name_english,
+            name_bengali: category.name_bengali,
+            name_hindi: category.name_hindi,
+            icon: category.icon,
+            display_order: category.display_order,
+          }, {
+            onConflict: 'category_id'
+          });
+
+        if (error) {
+          errors.push(`Category ${category.category_id}: ${error.message}`);
+        } else {
+          categoriesRestored++;
+        }
+        processedItems++;
+        setRestoreProgress(Math.round((processedItems / totalItems) * 100));
+      }
+
+      // Restore duas in batches
+      const batchSize = 20;
+      for (let i = 0; i < backupData.duas.length; i += batchSize) {
+        const batch = backupData.duas.slice(i, i + batchSize);
+        
+        const duasToInsert = batch.map((dua: any) => ({
+          category_id: dua.category_id,
+          dua_id: dua.dua_id,
+          title_english: dua.title_english,
+          title_bengali: dua.title_bengali,
+          title_hindi: dua.title_hindi,
+          arabic: dua.arabic,
+          transliteration: dua.transliteration,
+          transliteration_bengali: dua.transliteration_bengali,
+          transliteration_hindi: dua.transliteration_hindi,
+          english: dua.english,
+          bengali: dua.bengali,
+          hindi: dua.hindi,
+          reference: dua.reference,
+        }));
+
+        const { error } = await supabase
+          .from('duas')
+          .upsert(duasToInsert, {
+            onConflict: 'category_id,dua_id'
+          });
+
+        if (error) {
+          errors.push(`Duas batch: ${error.message}`);
+        } else {
+          duasRestored += batch.length;
+        }
+        processedItems += batch.length;
+        setRestoreProgress(Math.round((processedItems / totalItems) * 100));
+      }
+
+      setRestoreProgress(100);
+      setRestoreResult({
+        success: errors.length === 0,
+        message: `Restored ${categoriesRestored} categories and ${duasRestored} duas`,
+        categoriesRestored,
+        duasRestored,
+        errors: errors.length > 0 ? errors : undefined
+      });
+
+      toast({
+        title: errors.length === 0 ? "Restore Successful" : "Restore Completed with Errors",
+        description: `Restored ${categoriesRestored} categories and ${duasRestored} duas`,
+        variant: errors.length > 0 ? "destructive" : "default",
+      });
+
+    } catch (error) {
+      console.error("Restore error:", error);
+      setRestoreResult({
+        success: false,
+        message: error instanceof Error ? error.message : "Unknown error occurred",
+      });
+      toast({
+        title: "Restore Failed",
+        description: error instanceof Error ? error.message : "Failed to restore from backup.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsRestoring(false);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
     }
   };
 
@@ -199,15 +328,16 @@ const ImportDuas = () => {
 
   // Count total duas
   const totalDuas = duaCategories.reduce((sum, cat) => sum + cat.duas.length, 0);
+  const isDisabled = isImporting || isExporting || isRestoring;
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between flex-wrap gap-4">
         <div>
           <h2 className="text-2xl font-bold">Import/Export Duas</h2>
-          <p className="text-muted-foreground">Import duas from local file or export from database</p>
+          <p className="text-muted-foreground">Import duas from local file, export, or restore from backup</p>
         </div>
-        <Button onClick={handleExport} disabled={isExporting || isImporting} variant="outline">
+        <Button onClick={handleExport} disabled={isDisabled} variant="outline">
           {isExporting ? (
             <>
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -222,6 +352,74 @@ const ImportDuas = () => {
         </Button>
       </div>
 
+      {/* Restore from Backup */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <FileUp className="h-5 w-5" />
+            Restore from Backup
+          </CardTitle>
+          <CardDescription>
+            Upload a previously exported JSON backup file to restore duas and categories.
+            Existing entries will be updated with backup data.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="flex items-center gap-4">
+            <div className="flex-1">
+              <Label htmlFor="backup-file" className="sr-only">Backup File</Label>
+              <Input
+                id="backup-file"
+                ref={fileInputRef}
+                type="file"
+                accept=".json"
+                onChange={handleRestoreFromBackup}
+                disabled={isDisabled}
+                className="cursor-pointer"
+              />
+            </div>
+          </div>
+
+          {isRestoring && (
+            <div className="space-y-2">
+              <Progress value={restoreProgress} className="w-full" />
+              <p className="text-sm text-muted-foreground">
+                Restoring... {restoreProgress}%
+              </p>
+            </div>
+          )}
+
+          {restoreResult && (
+            <div className={`p-4 rounded-lg ${restoreResult.success ? 'bg-green-50 dark:bg-green-900/20' : 'bg-red-50 dark:bg-red-900/20'}`}>
+              <div className="flex items-center gap-2">
+                {restoreResult.success ? (
+                  <CheckCircle className="h-5 w-5 text-green-600" />
+                ) : (
+                  <AlertCircle className="h-5 w-5 text-red-600" />
+                )}
+                <span className="font-medium">
+                  {restoreResult.success ? 'Restore Complete' : 'Restore Failed'}
+                </span>
+              </div>
+              {restoreResult.message && (
+                <p className="mt-2 text-sm">{restoreResult.message}</p>
+              )}
+              {restoreResult.errors && restoreResult.errors.length > 0 && (
+                <div className="mt-2">
+                  <p className="text-sm font-medium text-red-600">Errors:</p>
+                  <ul className="text-sm text-red-600 list-disc list-inside max-h-40 overflow-y-auto">
+                    {restoreResult.errors.map((err, i) => (
+                      <li key={i}>{err}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
+      {/* Import from Local File */}
       <Card>
         <CardHeader>
           <CardTitle>Import from Local File</CardTitle>
@@ -231,7 +429,7 @@ const ImportDuas = () => {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          <Button onClick={handleImport} disabled={isImporting || isExporting}>
+          <Button onClick={handleImport} disabled={isDisabled}>
             {isImporting ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -289,6 +487,7 @@ const ImportDuas = () => {
         </CardContent>
       </Card>
 
+      {/* Available Categories */}
       <Card>
         <CardHeader>
           <CardTitle>Available Categories</CardTitle>

@@ -1,20 +1,26 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { Loader2, Upload, CheckCircle2, AlertCircle, RefreshCw, Download } from "lucide-react";
+import { Loader2, Upload, CheckCircle2, AlertCircle, RefreshCw, Download, FileUp } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 const ImportVerses = () => {
   const [isImporting, setIsImporting] = useState(false);
   const [isUpdatingArabic, setIsUpdatingArabic] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
+  const [isRestoring, setIsRestoring] = useState(false);
   const [exportProgress, setExportProgress] = useState(0);
+  const [restoreProgress, setRestoreProgress] = useState(0);
   const [arabicProgress, setArabicProgress] = useState(0);
   const [arabicStatus, setArabicStatus] = useState("");
   const [result, setResult] = useState<{success?: boolean; message?: string; error?: string} | null>(null);
   const [arabicResult, setArabicResult] = useState<{success?: boolean; message?: string; error?: string; totalUpdated?: number} | null>(null);
+  const [restoreResult, setRestoreResult] = useState<{success?: boolean; message?: string; surahsRestored?: number; versesRestored?: number; errors?: string[]} | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
 
   const handleExportVerses = async () => {
@@ -94,6 +100,120 @@ const ImportVerses = () => {
     } finally {
       setIsExporting(false);
       setExportProgress(0);
+    }
+  };
+
+  const handleRestoreFromBackup = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    setIsRestoring(true);
+    setRestoreResult(null);
+    setRestoreProgress(0);
+
+    try {
+      const text = await file.text();
+      const backupData = JSON.parse(text);
+
+      if (!backupData.surahs || !backupData.verses) {
+        throw new Error("Invalid backup file format. Missing surahs or verses.");
+      }
+
+      let surahsRestored = 0;
+      let versesRestored = 0;
+      const errors: string[] = [];
+
+      // Restore surahs first
+      setRestoreProgress(5);
+      for (const surah of backupData.surahs) {
+        const { error } = await supabase
+          .from('surahs')
+          .upsert({
+            id: surah.id,
+            number: surah.number,
+            name_arabic: surah.name_arabic,
+            name_english: surah.name_english,
+            name_bengali: surah.name_bengali,
+            meaning_english: surah.meaning_english,
+            meaning_bengali: surah.meaning_bengali,
+            revelation_type: surah.revelation_type,
+            total_verses: surah.total_verses,
+          }, {
+            onConflict: 'number'
+          });
+
+        if (error) {
+          errors.push(`Surah ${surah.number}: ${error.message}`);
+        } else {
+          surahsRestored++;
+        }
+      }
+
+      setRestoreProgress(15);
+
+      // Restore verses in batches
+      const batchSize = 100;
+      const totalVerses = backupData.verses.length;
+
+      for (let i = 0; i < totalVerses; i += batchSize) {
+        const batch = backupData.verses.slice(i, i + batchSize);
+        
+        const versesToInsert = batch.map((verse: any) => ({
+          surah_number: verse.surah_number,
+          verse_number: verse.verse_number,
+          arabic: verse.arabic,
+          bengali: verse.bengali,
+          english: verse.english,
+          tafsir_bengali: verse.tafsir_bengali,
+          tafsir_english: verse.tafsir_english,
+        }));
+
+        const { error } = await supabase
+          .from('verses')
+          .upsert(versesToInsert, {
+            onConflict: 'surah_number,verse_number'
+          });
+
+        if (error) {
+          errors.push(`Verses batch ${i}-${i + batch.length}: ${error.message}`);
+        } else {
+          versesRestored += batch.length;
+        }
+
+        setRestoreProgress(15 + Math.round((i / totalVerses) * 85));
+      }
+
+      setRestoreProgress(100);
+      setRestoreResult({
+        success: errors.length === 0,
+        message: `Restored ${surahsRestored} surahs and ${versesRestored} verses`,
+        surahsRestored,
+        versesRestored,
+        errors: errors.length > 0 ? errors : undefined
+      });
+
+      toast({
+        title: errors.length === 0 ? "Restore Successful" : "Restore Completed with Errors",
+        description: `Restored ${surahsRestored} surahs and ${versesRestored} verses`,
+        variant: errors.length > 0 ? "destructive" : "default",
+      });
+
+    } catch (error) {
+      console.error("Restore error:", error);
+      setRestoreResult({
+        success: false,
+        message: error instanceof Error ? error.message : "Unknown error occurred",
+      });
+      toast({
+        title: "Restore Failed",
+        description: error instanceof Error ? error.message : "Failed to restore from backup.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsRestoring(false);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
     }
   };
 
@@ -189,18 +309,20 @@ const ImportVerses = () => {
     }
   };
 
+  const isDisabled = isImporting || isUpdatingArabic || isExporting || isRestoring;
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between flex-wrap gap-4">
         <div>
           <h1 className="text-2xl font-bold">Import/Export Verses</h1>
           <p className="text-muted-foreground">
-            Import missing verses, update from Quran.com, or export backup
+            Import verses, update from Quran.com, export backup, or restore
           </p>
         </div>
         <Button 
           onClick={handleExportVerses} 
-          disabled={isExporting || isImporting || isUpdatingArabic} 
+          disabled={isDisabled} 
           variant="outline"
         >
           {isExporting ? (
@@ -217,6 +339,73 @@ const ImportVerses = () => {
         </Button>
       </div>
 
+      {/* Restore from Backup */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <FileUp className="h-5 w-5" />
+            Restore from Backup
+          </CardTitle>
+          <CardDescription>
+            Upload a previously exported JSON backup file to restore surahs and verses.
+            Existing entries will be updated with backup data.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="flex items-center gap-4">
+            <div className="flex-1">
+              <Label htmlFor="backup-file" className="sr-only">Backup File</Label>
+              <Input
+                id="backup-file"
+                ref={fileInputRef}
+                type="file"
+                accept=".json"
+                onChange={handleRestoreFromBackup}
+                disabled={isDisabled}
+                className="cursor-pointer"
+              />
+            </div>
+          </div>
+
+          {isRestoring && (
+            <div className="space-y-2">
+              <Progress value={restoreProgress} className="w-full" />
+              <p className="text-sm text-muted-foreground">
+                Restoring... {restoreProgress}%
+              </p>
+            </div>
+          )}
+
+          {restoreResult && (
+            <div className={`p-4 rounded-lg flex items-start gap-3 ${
+              restoreResult.success ? 'bg-green-500/10 text-green-600' : 'bg-destructive/10 text-destructive'
+            }`}>
+              {restoreResult.success ? (
+                <CheckCircle2 className="h-5 w-5 flex-shrink-0 mt-0.5" />
+              ) : (
+                <AlertCircle className="h-5 w-5 flex-shrink-0 mt-0.5" />
+              )}
+              <div>
+                <p>{restoreResult.message}</p>
+                {restoreResult.errors && restoreResult.errors.length > 0 && (
+                  <div className="mt-2">
+                    <p className="text-sm font-medium">Errors:</p>
+                    <ul className="text-sm list-disc list-inside max-h-40 overflow-y-auto">
+                      {restoreResult.errors.slice(0, 10).map((err, i) => (
+                        <li key={i}>{err}</li>
+                      ))}
+                      {restoreResult.errors.length > 10 && (
+                        <li>... and {restoreResult.errors.length - 10} more errors</li>
+                      )}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
       <Card>
         <CardHeader>
           <CardTitle>Complete Verses Import</CardTitle>
@@ -228,7 +417,7 @@ const ImportVerses = () => {
         <CardContent className="space-y-4">
           <Button 
             onClick={handleImport} 
-            disabled={isImporting || isUpdatingArabic}
+            disabled={isDisabled}
             className="w-full sm:w-auto"
           >
             {isImporting ? (
@@ -279,7 +468,7 @@ const ImportVerses = () => {
         <CardContent className="space-y-4">
           <Button 
             onClick={updateArabicVerses} 
-            disabled={isImporting || isUpdatingArabic}
+            disabled={isDisabled}
             variant="secondary"
             className="w-full sm:w-auto"
           >
