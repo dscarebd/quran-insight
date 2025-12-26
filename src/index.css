@@ -260,6 +260,51 @@
   .glow-text {
     text-shadow: 0 0 20px hsl(168 76% 36% / 0.3);
   }
+  /* Surah Title Frame */
+  .surah-title-frame {
+    position: relative;
+    display: inline-block;
+  }
+
+  .surah-title-frame::before,
+  .surah-title-frame::after {
+    content: '❁';
+    @apply text-primary/40;
+    font-size: 1.5rem;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .surah-title-frame::before {
+    left: -1.5rem;
+  }
+
+  .surah-title-frame::after {
+    right: -1.5rem;
+  }
+
+  .surah-title-text {
+    text-decoration: underline;
+    text-decoration-color: hsl(var(--primary) / 0.3);
+    text-underline-offset: 8px;
+    text-decoration-thickness: 2px;
+  }
+
+  /* Verse Number Circle */
+  .verse-number-circle {
+    @apply text-primary;
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='30' cy='30' r='28' fill='none' stroke='%2310b981' stroke-width='2'/%3E%3Ccircle cx='30' cy='30' r='24' fill='none' stroke='%2310b981' stroke-width='1' stroke-opacity='0.5'/%3E%3C/svg%3E") center/contain no-repeat;
+    vertical-align: middle;
+  }
+
+  .dark .verse-number-circle {
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='30' cy='30' r='28' fill='none' stroke='%2334d399' stroke-width='2'/%3E%3Ccircle cx='30' cy='30' r='24' fill='none' stroke='%2334d399' stroke-width='1' stroke-opacity='0.5'/%3E%3C/svg%3E") center/contain no-repeat;
+  }
+
+  .bismillah-text {
+    letter-spacing: 0.05em;
+  }
 }
 
 @layer utilities {
