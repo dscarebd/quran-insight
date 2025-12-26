@@ -29,7 +29,7 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
   const [nextPrayer, setNextPrayer] = useState<{ name: string; time: string; nameAr: string; nameBn: string } | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedCity, setSelectedCity] = useState('dhaka');
-  const [method, setMethod] = useState<CalculationMethod>('Karachi');
+  const [method, setMethod] = useState<CalculationMethod>('IFB');
   const [currentTime, setCurrentTime] = useState(new Date());
   const [timeRemaining, setTimeRemaining] = useState<{ hours: number; minutes: number } | null>(null);
 
@@ -113,11 +113,18 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
     }
   };
 
+  // Bangladesh cities for auto-selecting IFB method
+  const bangladeshCities = ['dhaka', 'chittagong', 'sylhet', 'rajshahi'];
+
   // Handle city change
   const handleCityChange = (city: string) => {
     setSelectedCity(city);
     if (city !== 'custom' && defaultLocations[city]) {
       setLocation(defaultLocations[city]);
+      // Auto-select IFB for Bangladesh cities
+      if (bangladeshCities.includes(city)) {
+        setMethod('IFB');
+      }
     }
   };
 
@@ -256,11 +263,12 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
+                    <SelectItem value="IFB">{language === 'bn' ? 'ইসলামিক ফাউন্ডেশন বাংলাদেশ' : 'Islamic Foundation Bangladesh'}</SelectItem>
+                    <SelectItem value="Karachi">Karachi</SelectItem>
                     <SelectItem value="MWL">Muslim World League</SelectItem>
                     <SelectItem value="ISNA">ISNA</SelectItem>
                     <SelectItem value="Egypt">Egypt</SelectItem>
                     <SelectItem value="Makkah">Umm al-Qura (Makkah)</SelectItem>
-                    <SelectItem value="Karachi">Karachi</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -366,19 +374,11 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
                       {names.ar}
                     </p>
                     
-                    {/* Time - Show range or single time */}
+                    {/* Time - Show range in one line or single time */}
                     {isRange && endTime ? (
-                      <div className="space-y-1">
-                        <p className="text-lg font-bold text-foreground">
-                          {formatTimeDisplay(startTime, language)}
-                        </p>
-                        <p className="text-xs text-muted-foreground">
-                          {language === 'bn' ? 'থেকে' : 'to'}
-                        </p>
-                        <p className="text-lg font-bold text-foreground">
-                          {formatTimeDisplay(endTime, language)}
-                        </p>
-                      </div>
+                      <p className="text-lg font-bold text-foreground">
+                        {formatTimeDisplay(startTime, language)} - {formatTimeDisplay(endTime, language)}
+                      </p>
                     ) : (
                       <p className="text-xl font-bold text-foreground">
                         {formatTimeDisplay(startTime, language)}
