@@ -302,7 +302,7 @@ const Dua = ({ language, arabicFont = "amiri" }: DuaProps) => {
             ) : (
               /* Categories Grid */
               <div className="p-4 pb-4">
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
                   {filteredCategories.map((category, index) => (
                     <button
                       key={category.id}
