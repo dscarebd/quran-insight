@@ -795,27 +795,23 @@ const ReadPage = ({ language, readingMode = "normal", arabicFont = "amiri", onAr
       <div className="fixed right-4 top-1/2 -translate-y-1/2 z-40 hidden md:flex flex-col gap-2">
         <Button
           variant={arabicFont === "uthmani" ? "default" : "outline"}
-          size="icon"
           onClick={() => onArabicFontChange?.("uthmani")}
           className={cn(
-            "h-10 w-10 rounded-lg backdrop-blur",
+            "h-10 px-4 rounded-lg backdrop-blur text-sm",
             arabicFont === "uthmani" ? "bg-primary text-primary-foreground" : "bg-background/80"
           )}
-          title={language === "bn" ? "উসমানী ফন্ট" : "Uthmani Font"}
         >
-          <span className="font-uthmani text-lg">ع</span>
+          Uthmani
         </Button>
         <Button
           variant={arabicFont === "amiri" ? "default" : "outline"}
-          size="icon"
           onClick={() => onArabicFontChange?.("amiri")}
           className={cn(
-            "h-10 w-10 rounded-lg backdrop-blur",
+            "h-10 px-4 rounded-lg backdrop-blur text-sm",
             arabicFont === "amiri" ? "bg-primary text-primary-foreground" : "bg-background/80"
           )}
-          title={language === "bn" ? "আমিরী ফন্ট" : "Amiri Font"}
         >
-          <span className="font-arabic text-lg">ع</span>
+          Amiri
         </Button>
       </div>
 
