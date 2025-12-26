@@ -22,6 +22,7 @@ import ReadPage from "./pages/ReadPage";
 import Dua from "./pages/Dua";
 import SourcesCredits from "./pages/SourcesCredits";
 import Developer from "./pages/Developer";
+import IslamicCalendar from "./pages/IslamicCalendar";
 
 // Lazy load admin pages
 const Admin = lazy(() => import("./pages/Admin"));
@@ -118,6 +119,11 @@ const AppContent = () => {
       <Route path="/dua" element={
         <Layout language={language} onLanguageChange={setLanguage}>
           <Dua language={language} arabicFont={arabicFont} />
+        </Layout>
+      } />
+      <Route path="/islamic-calendar" element={
+        <Layout language={language} onLanguageChange={setLanguage}>
+          <IslamicCalendar language={language} />
         </Layout>
       } />
       <Route path="/settings" element={
