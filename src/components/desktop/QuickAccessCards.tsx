@@ -103,16 +103,6 @@ export const QuickAccessCards = ({ language }: QuickAccessCardsProps) => {
             )}>
               {language === "bn" ? link.descBn : link.descEn}
             </p>
-            
-            {/* Count badge */}
-            {link.count !== undefined && (
-              <span className={cn(
-                "absolute top-4 right-4 text-xs font-medium text-muted-foreground bg-muted px-2 py-1 rounded-full",
-                language === "bn" && "font-bengali"
-              )}>
-                {formatNumber(link.count, language)}
-              </span>
-            )}
           </button>
         );
       })}
