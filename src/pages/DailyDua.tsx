@@ -19,6 +19,7 @@ interface DailyDuaItem {
   bengali: string;
   english: string;
   transliteration?: string;
+  transliterationBn?: string;
   reference?: string;
 }
 
@@ -31,6 +32,7 @@ const allDuas: DailyDuaItem[] = [
     bengali: "হে আল্লাহ! তোমার নামেই মৃত্যুবরণ করি এবং জীবিত হই।",
     english: "In Your name, O Allah, I die and I live.",
     transliteration: "Bismika Allahumma amutu wa ahya",
+    transliterationBn: "বিসমিকা আল্লাহুম্মা আমুতু ওয়া আহইয়া",
     reference: "সহীহ বুখারী"
   },
   {
@@ -41,6 +43,7 @@ const allDuas: DailyDuaItem[] = [
     bengali: "সমস্ত প্রশংসা আল্লাহর জন্য, যিনি আমাদের মৃত্যুর পর জীবিত করেছেন এবং তাঁর কাছেই আমাদের ফিরে যেতে হবে।",
     english: "All praise is for Allah who gave us life after having taken it from us and unto Him is the resurrection.",
     transliteration: "Alhamdu lillahil-ladhi ahyana ba'da ma amatana wa ilayhin-nushur",
+    transliterationBn: "আলহামদু লিল্লাহিল্লাযী আহইয়ানা বা'দা মা আমাতানা ওয়া ইলাইহিন নুশুর",
     reference: "সহীহ বুখারী"
   },
   {
@@ -51,6 +54,7 @@ const allDuas: DailyDuaItem[] = [
     bengali: "আল্লাহর নামে শুরু করছি।",
     english: "In the name of Allah.",
     transliteration: "Bismillah",
+    transliterationBn: "বিসমিল্লাহ",
     reference: "সহীহ মুসলিম"
   },
   {
@@ -61,6 +65,7 @@ const allDuas: DailyDuaItem[] = [
     bengali: "সমস্ত প্রশংসা আল্লাহর জন্য, যিনি আমাদের খাওয়ালেন, পান করালেন এবং আমাদের মুসলিম বানালেন।",
     english: "All praise is for Allah who fed us, gave us drink, and made us Muslims.",
     transliteration: "Alhamdu lillahil-ladhi at'amana wa saqana wa ja'alana muslimin",
+    transliterationBn: "আলহামদু লিল্লাহিল্লাযী আত'আমানা ওয়া সাক্বানা ওয়া জা'আলানা মুসলিমীন",
     reference: "তিরমিযী"
   },
   {
@@ -71,6 +76,7 @@ const allDuas: DailyDuaItem[] = [
     bengali: "হে আল্লাহ! আমার জন্য তোমার রহমতের দরজাগুলো খুলে দাও।",
     english: "O Allah, open for me the gates of Your mercy.",
     transliteration: "Allahumma-ftah li abwaba rahmatik",
+    transliterationBn: "আল্লাহুম্মাফতাহ লী আবওয়াবা রাহমাতিক",
     reference: "সহীহ মুসলিম"
   },
   {
@@ -81,6 +87,7 @@ const allDuas: DailyDuaItem[] = [
     bengali: "হে আল্লাহ! আমি তোমার অনুগ্রহ প্রার্থনা করছি।",
     english: "O Allah, I ask You from Your bounty.",
     transliteration: "Allahumma inni as'aluka min fadlik",
+    transliterationBn: "আল্লাহুম্মা ইন্নী আসআলুকা মিন ফাদলিক",
     reference: "সহীহ মুসলিম"
   },
   {
@@ -91,6 +98,7 @@ const allDuas: DailyDuaItem[] = [
     bengali: "আমি আল্লাহর কাছে ক্ষমা চাই। (তিনবার)",
     english: "I seek forgiveness from Allah. (3 times)",
     transliteration: "Astaghfirullah, Astaghfirullah, Astaghfirullah",
+    transliterationBn: "আস্তাগফিরুল্লাহ, আস্তাগফিরুল্লাহ, আস্তাগফিরুল্লাহ",
     reference: "সহীহ মুসলিম"
   },
   {
@@ -101,6 +109,7 @@ const allDuas: DailyDuaItem[] = [
     bengali: "আল্লাহ পবিত্র, সমস্ত প্রশংসা আল্লাহর এবং আল্লাহ সবচেয়ে বড়। (৩৩ বার করে)",
     english: "Glory be to Allah, All praise is for Allah, and Allah is the Greatest. (33 times each)",
     transliteration: "SubhanAllah, Alhamdulillah, Allahu Akbar",
+    transliterationBn: "সুবহানাল্লাহ, আলহামদুলিল্লাহ, আল্লাহু আকবার",
     reference: "সহীহ মুসলিম"
   },
   {
@@ -111,6 +120,7 @@ const allDuas: DailyDuaItem[] = [
     bengali: "আমরা সকালে উপনীত হলাম এবং সকল রাজত্ব আল্লাহর জন্য, যিনি সমস্ত জগতের প্রতিপালক।",
     english: "We have reached the morning and the kingdom belongs to Allah, the Lord of all worlds.",
     transliteration: "Asbahna wa asbahal-mulku lillahi Rabbil-'alamin",
+    transliterationBn: "আসবাহনা ওয়া আসবাহাল মুলকু লিল্লাহি রাব্বিল আলামীন",
     reference: "আবু দাউদ"
   },
   {
@@ -121,6 +131,7 @@ const allDuas: DailyDuaItem[] = [
     bengali: "আমরা সন্ধ্যায় উপনীত হলাম এবং সকল রাজত্ব আল্লাহর জন্য, যিনি সমস্ত জগতের প্রতিপালক।",
     english: "We have reached the evening and the kingdom belongs to Allah, the Lord of all worlds.",
     transliteration: "Amsayna wa amsal-mulku lillahi Rabbil-'alamin",
+    transliterationBn: "আমসাইনা ওয়া আমসাল মুলকু লিল্লাহি রাব্বিল আলামীন",
     reference: "আবু দাউদ"
   },
   {
@@ -131,6 +142,7 @@ const allDuas: DailyDuaItem[] = [
     bengali: "আল্লাহর নামে আমরা প্রবেশ করলাম, আল্লাহর নামে আমরা বের হলাম এবং আমাদের প্রতিপালক আল্লাহর উপর আমরা ভরসা করলাম।",
     english: "In the name of Allah we enter, in the name of Allah we leave, and upon our Lord we rely.",
     transliteration: "Bismillahi walajna, wa bismillahi kharajna, wa 'ala Allahi rabbina tawakkalna",
+    transliterationBn: "বিসমিল্লাহি ওয়ালাজনা, ওয়া বিসমিল্লাহি খারাজনা, ওয়া আলা আল্লাহি রাব্বিনা তাওয়াক্কালনা",
     reference: "আবু দাউদ"
   },
   {
@@ -141,6 +153,7 @@ const allDuas: DailyDuaItem[] = [
     bengali: "আল্লাহর নামে, আমি আল্লাহর উপর ভরসা করলাম। আল্লাহর সাহায্য ছাড়া কোন শক্তি ও ক্ষমতা নেই।",
     english: "In the name of Allah, I place my trust in Allah. There is no might or power except with Allah.",
     transliteration: "Bismillahi tawakkaltu 'alallahi la hawla wa la quwwata illa billah",
+    transliterationBn: "বিসমিল্লাহি তাওয়াক্কালতু আলাল্লাহি লা হাওলা ওয়া লা কুওয়াতা ইল্লা বিল্লাহ",
     reference: "তিরমিযী"
   },
   {
@@ -151,6 +164,7 @@ const allDuas: DailyDuaItem[] = [
     bengali: "পবিত্র সেই সত্তা যিনি এটি আমাদের অধীন করে দিয়েছেন, আমরা এর সামর্থ্য রাখতাম না। আমাদের অবশ্যই আমাদের প্রতিপালকের কাছে ফিরে যেতে হবে।",
     english: "Glory to Him who has subjected this to us, and we could never have it. And indeed, to our Lord we will return.",
     transliteration: "Subhanal-ladhi sakh-khara lana hadha wa ma kunna lahu muqrinin wa inna ila Rabbina lamunqalibun",
+    transliterationBn: "সুবহানাল্লাযী সাখ্খারা লানা হাযা ওয়া মা কুন্না লাহু মুক্বরিনীন ওয়া ইন্না ইলা রাব্বিনা লামুনক্বালিবূন",
     reference: "সূরা যুখরুফ ৪৩:১৩-১৪"
   },
   {
@@ -161,6 +175,7 @@ const allDuas: DailyDuaItem[] = [
     bengali: "আল্লাহর নামে শুরু করছি।",
     english: "In the name of Allah.",
     transliteration: "Bismillah",
+    transliterationBn: "বিসমিল্লাহ",
     reference: "তিরমিযী"
   },
   {
@@ -171,6 +186,7 @@ const allDuas: DailyDuaItem[] = [
     bengali: "আমি সাক্ষ্য দিচ্ছি যে, আল্লাহ ছাড়া কোন উপাস্য নেই, তিনি একক, তাঁর কোন শরীক নেই এবং আমি সাক্ষ্য দিচ্ছি যে, মুহাম্মাদ তাঁর বান্দা ও রাসূল।",
     english: "I bear witness that there is no god but Allah alone, with no partner, and I bear witness that Muhammad is His servant and Messenger.",
     transliteration: "Ash-hadu an la ilaha illallahu wahdahu la sharika lahu wa ash-hadu anna Muhammadan 'abduhu wa rasuluh",
+    transliterationBn: "আশহাদু আন লা ইলাহা ইল্লাল্লাহু ওয়াহদাহু লা শারীকা লাহু ওয়া আশহাদু আন্না মুহাম্মাদান আবদুহু ওয়া রাসূলুহ",
     reference: "সহীহ মুসলিম"
   },
   {
@@ -181,6 +197,7 @@ const allDuas: DailyDuaItem[] = [
     bengali: "হে আল্লাহ! তোমার জন্য সমস্ত প্রশংসা, তুমি আমাকে এটি পরিয়েছ। আমি তোমার কাছে এর কল্যাণ এবং যে উদ্দেশ্যে এটি তৈরি হয়েছে তার কল্যাণ চাই এবং এর অকল্যাণ ও যে উদ্দেশ্যে এটি তৈরি হয়েছে তার অকল্যাণ থেকে আশ্রয় চাই।",
     english: "O Allah, for You is all praise, You have clothed me with it. I ask You for its goodness and the goodness for which it was made, and I seek refuge in You from its evil and the evil for which it was made.",
     transliteration: "Allahumma lakal-hamdu anta kasawtaneehi, as'aluka khayrahu wa khayra ma suni'a lahu, wa a'udhu bika min sharrihi wa sharri ma suni'a lah",
+    transliterationBn: "আল্লাহুম্মা লাকাল হামদু আনতা কাসাওতানীহি, আসআলুকা খাইরাহু ওয়া খাইরা মা সুনিআ লাহু, ওয়া আউযু বিকা মিন শাররিহি ওয়া শাররি মা সুনিআ লাহ",
     reference: "তিরমিযী"
   },
   {
@@ -191,6 +208,7 @@ const allDuas: DailyDuaItem[] = [
     bengali: "হে আল্লাহ! আমি তোমার কাছে পুরুষ ও মহিলা শয়তান থেকে আশ্রয় চাই।",
     english: "O Allah, I seek refuge in You from male and female evil spirits.",
     transliteration: "Allahumma inni a'udhu bika minal-khubuthi wal-khaba'ith",
+    transliterationBn: "আল্লাহুম্মা ইন্নী আউযু বিকা মিনাল খুবুসি ওয়াল খাবাইস",
     reference: "সহীহ বুখারী"
   },
   {
@@ -201,6 +219,7 @@ const allDuas: DailyDuaItem[] = [
     bengali: "হে আল্লাহ! তোমার ক্ষমা চাই।",
     english: "I seek Your forgiveness.",
     transliteration: "Ghufranaka",
+    transliterationBn: "গুফরানাকা",
     reference: "তিরমিযী"
   },
   {
@@ -211,6 +230,7 @@ const allDuas: DailyDuaItem[] = [
     bengali: "আল্লাহর নামে শুরু করছি।",
     english: "In the name of Allah.",
     transliteration: "Bismillah",
+    transliterationBn: "বিসমিল্লাহ",
     reference: "সহীহ মুসলিম"
   },
   {
@@ -221,6 +241,7 @@ const allDuas: DailyDuaItem[] = [
     bengali: "সমস্ত প্রশংসা আল্লাহর জন্য।",
     english: "All praise is for Allah.",
     transliteration: "Alhamdulillah",
+    transliterationBn: "আলহামদুলিল্লাহ",
     reference: "তিরমিযী"
   }
 ];
@@ -230,7 +251,8 @@ const DailyDuaPage = ({ language, arabicFont = "amiri" }: DailyDuaPageProps) => 
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
   const handleCopy = async (dua: DailyDuaItem) => {
-    const textToCopy = `${dua.arabic}\n\n${language === "bn" ? dua.bengali : dua.english}${dua.reference ? `\n\n(${dua.reference})` : ""}`;
+    const translitText = language === "bn" ? dua.transliterationBn : dua.transliteration;
+    const textToCopy = `${dua.arabic}\n\n${translitText ? translitText + "\n\n" : ""}${language === "bn" ? dua.bengali : dua.english}${dua.reference ? `\n\n(${dua.reference})` : ""}`;
     
     try {
       await navigator.clipboard.writeText(textToCopy);
@@ -317,10 +339,16 @@ const DailyDuaPage = ({ language, arabicFont = "amiri" }: DailyDuaPageProps) => 
                 {dua.arabic}
               </p>
 
-              {/* Transliteration - only show in English mode */}
-              {dua.transliteration && language === "en" && (
-                <p className="text-sm text-muted-foreground italic mb-3">
-                  {dua.transliteration}
+              {/* Transliteration */}
+              {(language === "bn" ? dua.transliterationBn : dua.transliteration) && (
+                <p className={cn(
+                  "text-sm text-muted-foreground mb-3",
+                  language === "bn" ? "font-bengali" : "italic"
+                )}>
+                  <span className={cn("font-medium", language === "bn" && "font-bengali")}>
+                    {language === "bn" ? "উচ্চারণ: " : "Transliteration: "}
+                  </span>
+                  {language === "bn" ? dua.transliterationBn : dua.transliteration}
                 </p>
               )}
 
