@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { Loader2, Upload, CheckCircle2, AlertCircle, RefreshCw, Download, FileUp, FileSpreadsheet, Trash2, BookOpen } from "lucide-react";
+import { Loader2, Upload, CheckCircle2, AlertCircle, RefreshCw, Download, FileUp, FileSpreadsheet, Trash2, BookOpen, Sparkles } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -18,6 +18,7 @@ const ImportVerses = () => {
   const [isClearingTafsir, setIsClearingTafsir] = useState(false);
   const [isFixingTafsir, setIsFixingTafsir] = useState(false);
   const [isFetchingTafheem, setIsFetchingTafheem] = useState(false);
+  const [isGeneratingAiTafsir, setIsGeneratingAiTafsir] = useState(false);
   const [exportProgress, setExportProgress] = useState(0);
   const [restoreProgress, setRestoreProgress] = useState(0);
   const [arabicProgress, setArabicProgress] = useState(0);
@@ -617,7 +618,68 @@ const ImportVerses = () => {
     }
   };
 
-  const isDisabled = isImporting || isUpdatingArabic || isExporting || isRestoring || isExportingCsv || isRestoringCsv || isClearingTafsir || isFixingTafsir || isFetchingTafheem;
+  // Generate Bengali tafsir using AI for missing verses
+  const generateAiTafsir = async () => {
+    setIsGeneratingAiTafsir(true);
+    setTafsirResult(null);
+    setTafsirProgress(0);
+    
+    const totalSurahs = 114;
+    let totalGenerated = 0;
+    const errors: string[] = [];
+
+    try {
+      // Process ONE surah at a time
+      for (let surah = 1; surah <= totalSurahs; surah++) {
+        setTafsirStatus(`Generating AI tafsir for Surah ${surah}/114...`);
+        
+        const { data, error } = await supabase.functions.invoke('generate-tafsir', {
+          body: { surahNumber: surah, batchSize: 5 }
+        });
+
+        if (error) {
+          console.error(`Error generating tafsir Surah ${surah}:`, error);
+          errors.push(`Surah ${surah}: ${error.message}`);
+        } else if (data) {
+          totalGenerated += data.totalGenerated || 0;
+          if (data.errors) {
+            errors.push(...data.errors);
+          }
+        }
+
+        const progress = Math.round((surah / totalSurahs) * 100);
+        setTafsirProgress(progress);
+        
+        // Delay between API calls to avoid rate limiting
+        await new Promise(resolve => setTimeout(resolve, 1000));
+      }
+
+      setTafsirStatus("Complete!");
+      setTafsirResult({
+        success: true,
+        message: `Successfully generated Bengali tafsir for ${totalGenerated} verses using AI`,
+        totalUpdated: totalGenerated
+      });
+      
+      toast({
+        title: "AI Tafsir Generation Complete",
+        description: `Generated Bengali tafsir for ${totalGenerated} verses`,
+      });
+
+    } catch (error: any) {
+      console.error('AI tafsir generation error:', error);
+      setTafsirResult({ error: error.message });
+      toast({
+        title: "Generation Failed",
+        description: error.message,
+        variant: "destructive",
+      });
+    } finally {
+      setIsGeneratingAiTafsir(false);
+    }
+  };
+
+  const isDisabled = isImporting || isUpdatingArabic || isExporting || isRestoring || isExportingCsv || isRestoringCsv || isClearingTafsir || isFixingTafsir || isFetchingTafheem || isGeneratingAiTafsir;
 
   return (
     <div className="space-y-6">
@@ -904,7 +966,7 @@ const ImportVerses = () => {
             <Button 
               onClick={fetchTafheemTafsir} 
               disabled={isDisabled}
-              variant="default"
+              variant="secondary"
               className="w-full sm:w-auto"
             >
               {isFetchingTafheem ? (
@@ -915,19 +977,38 @@ const ImportVerses = () => {
               ) : (
                 <>
                   <BookOpen className="mr-2 h-4 w-4" />
-                  Option B: Tafhimul Quran (Complete)
+                  Option B: Tafhimul Quran
+                </>
+              )}
+            </Button>
+
+            <Button 
+              onClick={generateAiTafsir} 
+              disabled={isDisabled}
+              variant="default"
+              className="w-full sm:w-auto"
+            >
+              {isGeneratingAiTafsir ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Generating AI Tafsir...
+                </>
+              ) : (
+                <>
+                  <Sparkles className="mr-2 h-4 w-4" />
+                  Option C: AI-Generated (Complete)
                 </>
               )}
             </Button>
           </div>
 
-          {(isClearingTafsir || isFixingTafsir || isFetchingTafheem) && tafsirStatus && (
+          {(isClearingTafsir || isFixingTafsir || isFetchingTafheem || isGeneratingAiTafsir) && tafsirStatus && (
             <div className="space-y-2">
               <div className="flex justify-between text-sm text-muted-foreground">
                 <span>{tafsirStatus}</span>
-                {(isFixingTafsir || isFetchingTafheem) && <span>{tafsirProgress}%</span>}
+                {(isFixingTafsir || isFetchingTafheem || isGeneratingAiTafsir) && <span>{tafsirProgress}%</span>}
               </div>
-              {(isFixingTafsir || isFetchingTafheem) && <Progress value={tafsirProgress} className="h-2" />}
+              {(isFixingTafsir || isFetchingTafheem || isGeneratingAiTafsir) && <Progress value={tafsirProgress} className="h-2" />}
             </div>
           )}
 
