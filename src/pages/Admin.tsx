@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate, Outlet, useLocation } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
-import { Loader2, Book, Users, Mail, FileText, LogOut, Home, Upload, BarChart3 } from "lucide-react";
+import { Loader2, Book, Users, Mail, FileText, LogOut, Home, Upload, BarChart3, BookOpen, FolderOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { NavLink } from "@/components/NavLink";
 import { cn } from "@/lib/utils";
@@ -23,9 +23,11 @@ const adminNavItems = [
   { title: "Analytics", url: "/admin/analytics", icon: BarChart3, showInMobile: true },
   { title: "Surahs", url: "/admin/surahs", icon: Book, showInMobile: true },
   { title: "Verses", url: "/admin/verses", icon: FileText, showInMobile: false },
+  { title: "Dua Categories", url: "/admin/dua-categories", icon: FolderOpen, showInMobile: false },
+  { title: "Duas", url: "/admin/duas", icon: BookOpen, showInMobile: true },
   { title: "Import", url: "/admin/import-verses", icon: Upload, showInMobile: false },
   { title: "Users", url: "/admin/users", icon: Users, showInMobile: false },
-  { title: "Emails", url: "/admin/admin-emails", icon: Mail, showInMobile: true },
+  { title: "Emails", url: "/admin/admin-emails", icon: Mail, showInMobile: false },
 ];
 
 const mobileNavItems = adminNavItems.filter(item => item.showInMobile);

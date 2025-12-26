@@ -80,6 +80,99 @@ export type Database = {
         }
         Relationships: []
       }
+      dua_categories: {
+        Row: {
+          category_id: string
+          created_at: string
+          display_order: number
+          icon: string
+          id: string
+          name_bengali: string
+          name_english: string
+          name_hindi: string | null
+          updated_at: string
+        }
+        Insert: {
+          category_id: string
+          created_at?: string
+          display_order?: number
+          icon?: string
+          id?: string
+          name_bengali: string
+          name_english: string
+          name_hindi?: string | null
+          updated_at?: string
+        }
+        Update: {
+          category_id?: string
+          created_at?: string
+          display_order?: number
+          icon?: string
+          id?: string
+          name_bengali?: string
+          name_english?: string
+          name_hindi?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      duas: {
+        Row: {
+          arabic: string
+          bengali: string
+          category_id: string
+          created_at: string
+          dua_id: string
+          english: string
+          hindi: string | null
+          id: string
+          reference: string | null
+          title_bengali: string
+          title_english: string
+          title_hindi: string | null
+          transliteration: string | null
+          transliteration_bengali: string | null
+          transliteration_hindi: string | null
+          updated_at: string
+        }
+        Insert: {
+          arabic: string
+          bengali: string
+          category_id: string
+          created_at?: string
+          dua_id: string
+          english: string
+          hindi?: string | null
+          id?: string
+          reference?: string | null
+          title_bengali: string
+          title_english: string
+          title_hindi?: string | null
+          transliteration?: string | null
+          transliteration_bengali?: string | null
+          transliteration_hindi?: string | null
+          updated_at?: string
+        }
+        Update: {
+          arabic?: string
+          bengali?: string
+          category_id?: string
+          created_at?: string
+          dua_id?: string
+          english?: string
+          hindi?: string | null
+          id?: string
+          reference?: string | null
+          title_bengali?: string
+          title_english?: string
+          title_hindi?: string | null
+          transliteration?: string | null
+          transliteration_bengali?: string | null
+          transliteration_hindi?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       page_views: {
         Row: {
           created_at: string
