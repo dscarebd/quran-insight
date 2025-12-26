@@ -2,11 +2,14 @@ export interface Dua {
   id: string;
   titleBengali?: string;
   titleEnglish?: string;
+  titleHindi?: string;
   arabic: string;
   transliteration?: string;
   transliterationBengali?: string;
+  transliterationHindi?: string;
   bengali: string;
   english: string;
+  hindi?: string;
   reference?: string;
 }
 
@@ -14,6 +17,7 @@ export interface DuaCategory {
   id: string;
   nameEnglish: string;
   nameBengali: string;
+  nameHindi?: string;
   icon: string;
   duas: Dua[];
 }
@@ -26,105 +30,133 @@ export const duaCategories: DuaCategory[] = [
     id: "daily-life",
     nameEnglish: "Daily Life Duas",
     nameBengali: "দৈনন্দিন দোয়া",
+    nameHindi: "दैनिक दुआएं",
     icon: "Calendar",
     duas: [
       {
         id: "daily-1",
         titleBengali: "রাগ নিয়ন্ত্রণের দোয়া",
         titleEnglish: "Anger Control",
+        titleHindi: "क्रोध नियंत्रण की दुआ",
         arabic: "أَعُوذُ بِاللَّهِ مِنَ الشَّيْطَانِ الرَّجِيمِ",
         transliteration: "A'udhu billahi minash-shaytanir-rajim",
         transliterationBengali: "আ'ঊযু বিল্লাহি মিনাশ শাইতানির রাজীম",
+        transliterationHindi: "अऊज़ु बिल्लाहि मिनश्-शैतानिर्-रजीम",
         bengali: "আমি বিতাড়িত শয়তান থেকে আল্লাহর আশ্রয় চাই",
         english: "I seek refuge in Allah from the accursed Satan",
+        hindi: "मैं शैतान मरदूद से अल्लाह की पनाह माँगता हूँ",
         reference: "সহীহ বুখারী, হাদিস নং ৩২৮২"
       },
       {
         id: "daily-2",
         titleBengali: "খাবার শুরুর দোয়া",
         titleEnglish: "Before Eating",
+        titleHindi: "खाना खाने से पहले की दुआ",
         arabic: "بِسْمِ اللَّهِ",
         transliteration: "Bismillah",
         transliterationBengali: "বিসমিল্লাহ",
+        transliterationHindi: "बिस्मिल्लाह",
         bengali: "আল্লাহর নামে (খাবার শুরু করছি)",
         english: "In the name of Allah",
+        hindi: "अल्लाह के नाम से (खाना शुरू करता हूँ)",
         reference: "সহীহ মুসলিম, হাদিস নং ২০১৮"
       },
       {
         id: "daily-3",
         titleBengali: "খাবার শেষে দোয়া",
         titleEnglish: "After Eating",
+        titleHindi: "खाना खाने के बाद की दुआ",
         arabic: "الْحَمْدُ لِلَّهِ الَّذِي أَطْعَمَنِي هَذَا",
         transliteration: "Alhamdulillahilladhi at'amani hadha",
         transliterationBengali: "আলহামদুলিল্লাহিল্লাযী আত'আমানী হাযা",
+        transliterationHindi: "अल्हम्दुलिल्लाहिल्लज़ी अत्अमनी हाज़ा",
         bengali: "সমস্ত প্রশংসা আল্লাহর যিনি আমাকে এই খাবার দিয়েছেন",
         english: "Praise be to Allah who fed me this",
+        hindi: "सभी तारीफ़ अल्लाह की जिसने मुझे यह खाना खिलाया",
         reference: "সুনান তিরমিযী, হাদিস নং ৩৪৫৮"
       },
       {
         id: "daily-4",
         titleBengali: "ঘুমানোর আগে দোয়া",
         titleEnglish: "Before Sleeping",
+        titleHindi: "सोने से पहले की दुआ",
         arabic: "بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا",
         transliteration: "Bismika Allahumma amutu wa ahya",
         transliterationBengali: "বিসমিকা আল্লাহুম্মা আমূতু ওয়া আহইয়া",
+        transliterationHindi: "बिस्मिका अल्लाहुम्मा अमूतु व अह्या",
         bengali: "হে আল্লাহ আপনার নামে আমি ঘুমাই ও জাগি",
         english: "In Your name I die and live",
+        hindi: "ऐ अल्लाह तेरे नाम से मैं सोता और जागता हूँ",
         reference: "সহীহ বুখারী, হাদিস নং ৬৩২৪"
       },
       {
         id: "daily-5",
         titleBengali: "ঘুম থেকে ওঠার দোয়া",
         titleEnglish: "After Waking Up",
+        titleHindi: "उठने के बाद की दुआ",
         arabic: "الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا",
         transliteration: "Alhamdulillahil-ladhi ahyana",
         transliterationBengali: "আলহামদুলিল্লাহিল্লাযী আহইয়ানা",
+        transliterationHindi: "अल्हम्दुलिल्लाहिल्लज़ी अह्यानना",
         bengali: "সমস্ত প্রশংসা আল্লাহর যিনি আমাদের জীবিত করেছেন",
         english: "Praise be to Allah who gave us life",
+        hindi: "सभी तारीफ़ अल्लाह की जिसने हमें ज़िंदा किया",
         reference: "সহীহ বুখারী, হাদিস নং ৬৩১২"
       },
       {
         id: "daily-6",
         titleBengali: "টয়লেটে প্রবেশের দোয়া",
         titleEnglish: "Entering Toilet",
+        titleHindi: "शौचालय में प्रवेश की दुआ",
         arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْخُبُثِ",
         transliteration: "Allahumma inni a'udhu bika minal-khubthi",
         transliterationBengali: "আল্লাহুম্মা ইন্নী আ'ঊযু বিকা মিনাল খুবুসি",
+        transliterationHindi: "अल्लाहुम्मा इन्नी अऊज़ु बिका मिनल खुबसि",
         bengali: "হে আল্লাহ অপবিত্রতা থেকে আপনার আশ্রয় চাই",
         english: "O Allah I seek refuge in You from impurity",
+        hindi: "ऐ अल्लाह मैं तेरी पनाह माँगता हूँ नापाकी से",
         reference: "সহীহ বুখারী, হাদিস নং ১৪২"
       },
       {
         id: "daily-7",
         titleBengali: "টয়লেট থেকে বের হওয়ার দোয়া",
         titleEnglish: "Leaving Toilet",
+        titleHindi: "शौचालय से बाहर निकलने की दुआ",
         arabic: "غُفْرَانَكَ",
         transliteration: "Ghufranak",
         transliterationBengali: "গুফরানাক",
+        transliterationHindi: "ग़ुफ़रानक",
         bengali: "হে আল্লাহ আপনার ক্ষমা চাই",
         english: "I seek Your forgiveness",
+        hindi: "ऐ अल्लाह मैं तेरी माफ़ी चाहता हूँ",
         reference: "সুনান আবু দাউদ, হাদিস নং ৩০"
       },
       {
         id: "daily-8",
         titleBengali: "বাড়ি থেকে বের হওয়ার দোয়া",
         titleEnglish: "Leaving Home",
+        titleHindi: "घर से निकलने की दुआ",
         arabic: "بِسْمِ اللَّهِ تَوَكَّلْتُ عَلَى اللَّهِ",
         transliteration: "Bismillahi tawakkaltu 'alallah",
         transliterationBengali: "বিসমিল্লাহি তাওয়াক্কালতু 'আলাল্লাহ",
+        transliterationHindi: "बिस्मिल्लाहि तवक्कल्तु अलल्लाह",
         bengali: "আল্লাহর উপর ভরসা করে বের হচ্ছি",
         english: "In the name of Allah I trust in Allah",
+        hindi: "अल्लाह के नाम से, अल्लाह पर भरोसा करके निकलता हूँ",
         reference: "সুনান আবু দাউদ, হাদিস নং ৫০৯৫"
       },
       {
         id: "daily-9",
         titleBengali: "বাড়িতে প্রবেশের দোয়া",
         titleEnglish: "Entering Home",
+        titleHindi: "घर में प्रवेश की दुआ",
         arabic: "بِسْمِ اللَّهِ وَلَجْنَا",
         transliteration: "Bismillahi walajna",
         transliterationBengali: "বিসমিল্লাহি ওয়ালাজনা",
+        transliterationHindi: "बिस्मिल्लाहि वलज्ना",
         bengali: "আল্লাহর নামে আমরা ঘরে প্রবেশ করছি",
         english: "In the name of Allah we enter",
+        hindi: "अल्लाह के नाम से हम घर में दाखिल होते हैं",
         reference: "সহীহ মুসলিম, হাদিস নং ২০১৮"
       },
       {

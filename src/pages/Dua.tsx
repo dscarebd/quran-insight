@@ -36,6 +36,31 @@ const Dua = ({ language, arabicFont = "amiri" }: DuaProps) => {
   const [activeTab, setActiveTab] = useState<"all" | "favorites">("all");
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
+  // Helper functions for language-specific content
+  const getDuaTitle = (dua: DuaType) => {
+    if (language === "bn") return dua.titleBengali || dua.titleEnglish;
+    if (language === "hi") return dua.titleHindi || dua.titleEnglish;
+    return dua.titleEnglish;
+  };
+
+  const getDuaTranslation = (dua: DuaType) => {
+    if (language === "bn") return dua.bengali;
+    if (language === "hi") return dua.hindi || dua.english;
+    return dua.english;
+  };
+
+  const getDuaTransliteration = (dua: DuaType) => {
+    if (language === "bn") return dua.transliterationBengali || dua.transliteration;
+    if (language === "hi") return dua.transliterationHindi || dua.transliteration;
+    return dua.transliteration;
+  };
+
+  const getCategoryName = (category: DuaCategory) => {
+    if (language === "bn") return category.nameBengali;
+    if (language === "hi") return category.nameHindi || category.nameEnglish;
+    return category.nameEnglish;
+  };
+
   // Check if a dua matches the search query
   const duaMatchesSearch = (dua: DuaType, query: string): boolean => {
     const lowerQuery = query.toLowerCase();
@@ -43,14 +68,17 @@ const Dua = ({ language, arabicFont = "amiri" }: DuaProps) => {
       // Search in titles
       (dua.titleBengali?.includes(query) || false) ||
       (dua.titleEnglish?.toLowerCase().includes(lowerQuery) || false) ||
+      (dua.titleHindi?.includes(query) || false) ||
       // Search in Arabic text
       dua.arabic.includes(query) ||
       // Search in translations
       dua.bengali.includes(query) ||
       dua.english.toLowerCase().includes(lowerQuery) ||
+      (dua.hindi?.includes(query) || false) ||
       // Search in transliterations
       (dua.transliteration?.toLowerCase().includes(lowerQuery) || false) ||
       (dua.transliterationBengali?.includes(query) || false) ||
+      (dua.transliterationHindi?.includes(query) || false) ||
       // Search in reference
       (dua.reference?.includes(query) || false)
     );
@@ -71,6 +99,7 @@ const Dua = ({ language, arabicFont = "amiri" }: DuaProps) => {
     return (
       category.nameEnglish.toLowerCase().includes(query) ||
       category.nameBengali.includes(query) ||
+      (category.nameHindi?.includes(query) || false) ||
       category.duas.some(dua => duaMatchesSearch(dua, searchQuery.trim()))
     );
   });
@@ -316,12 +345,12 @@ const Dua = ({ language, arabicFont = "amiri" }: DuaProps) => {
                       </div>
                       <div className="flex-1 min-w-0">
                         {/* Dua Title */}
-                        {(dua.titleBengali || dua.titleEnglish) && (
+                        {(dua.titleBengali || dua.titleEnglish || dua.titleHindi) && (
                           <p className={cn(
                             "text-sm font-medium text-foreground mb-1",
-                            language === "bn" && "font-bengali"
+                            (language === "bn" || language === "hi") && "font-bengali"
                           )}>
-                            {language === "bn" ? dua.titleBengali : dua.titleEnglish}
+                            {getDuaTitle(dua)}
                           </p>
                         )}
                         <p className={cn("text-base text-foreground line-clamp-1 text-right", arabicFont === "uthmani" ? "font-uthmani" : "font-arabic")} dir="rtl">
@@ -329,9 +358,9 @@ const Dua = ({ language, arabicFont = "amiri" }: DuaProps) => {
                         </p>
                         <p className={cn(
                           "text-xs text-muted-foreground mt-1",
-                          language === "bn" && "font-bengali"
+                          (language === "bn" || language === "hi") && "font-bengali"
                         )}>
-                          {language === "bn" ? category.nameBengali : category.nameEnglish}
+                          {getCategoryName(category)}
                         </p>
                       </div>
                       <button
@@ -378,15 +407,15 @@ const Dua = ({ language, arabicFont = "amiri" }: DuaProps) => {
                       <div className="text-center">
                         <p className={cn(
                           "text-sm font-medium line-clamp-2",
-                          language === "bn" && "font-bengali"
+                          (language === "bn" || language === "hi") && "font-bengali"
                         )}>
-                          {language === "bn" ? category.nameBengali : category.nameEnglish}
+                          {getCategoryName(category)}
                         </p>
                         <p className={cn(
                           "text-xs text-muted-foreground mt-0.5",
-                          language === "bn" && "font-bengali"
+                          (language === "bn" || language === "hi") && "font-bengali"
                         )}>
-                          {formatNumber(category.duas.length, language)} {language === "bn" ? "দোয়া" : "duas"}
+                          {formatNumber(category.duas.length, language)} {language === "bn" ? "দোয়া" : language === "hi" ? "दुआएं" : "duas"}
                         </p>
                       </div>
                     </button>
@@ -449,8 +478,8 @@ const Dua = ({ language, arabicFont = "amiri" }: DuaProps) => {
       <Sheet open={!!selectedCategory} onOpenChange={(open) => !open && setSelectedCategory(null)}>
         <SheetContent side="bottom" className="h-[85vh] rounded-t-2xl px-0">
           <SheetHeader className="px-4 pb-3 border-b border-border">
-            <SheetTitle className={cn("text-center", language === "bn" && "font-bengali")}>
-              {language === "bn" ? selectedCategory?.nameBengali : selectedCategory?.nameEnglish}
+            <SheetTitle className={cn("text-center", (language === "bn" || language === "hi") && "font-bengali")}>
+              {selectedCategory ? getCategoryName(selectedCategory) : ""}
             </SheetTitle>
           </SheetHeader>
           <ScrollArea className="h-[calc(85vh-70px)]">
@@ -466,12 +495,12 @@ const Dua = ({ language, arabicFont = "amiri" }: DuaProps) => {
                   </div>
                   <div className="flex-1 min-w-0 text-left">
                     {/* Dua Title */}
-                    {(dua.titleBengali || dua.titleEnglish) && (
+                    {(dua.titleBengali || dua.titleEnglish || dua.titleHindi) && (
                       <p className={cn(
                         "text-sm font-medium text-foreground mb-1",
-                        language === "bn" && "font-bengali"
+                        (language === "bn" || language === "hi") && "font-bengali"
                       )}>
-                        {language === "bn" ? dua.titleBengali : dua.titleEnglish}
+                        {getDuaTitle(dua)}
                       </p>
                     )}
                     <p className={cn("text-base text-foreground line-clamp-1 text-right", arabicFont === "uthmani" ? "font-uthmani" : "font-arabic")} dir="rtl">
@@ -479,12 +508,12 @@ const Dua = ({ language, arabicFont = "amiri" }: DuaProps) => {
                     </p>
                     <p className={cn(
                       "text-xs text-muted-foreground mt-1 line-clamp-1",
-                      language === "bn" && "font-bengali"
+                      (language === "bn" || language === "hi") && "font-bengali"
                     )}>
-                      {language === "bn" 
-                        ? (dua.bengali.length > 40 ? `${dua.bengali.substring(0, 40)}...` : dua.bengali)
-                        : (dua.english.length > 40 ? `${dua.english.substring(0, 40)}...` : dua.english)
-                      }
+                      {(() => {
+                        const translation = getDuaTranslation(dua);
+                        return translation.length > 40 ? `${translation.substring(0, 40)}...` : translation;
+                      })()}
                     </p>
                   </div>
                   <button
@@ -545,21 +574,19 @@ const Dua = ({ language, arabicFont = "amiri" }: DuaProps) => {
               </div>
 
               {/* Transliteration */}
-              {(selectedDua?.transliteration || selectedDua?.transliterationBengali) && (
+              {(selectedDua?.transliteration || selectedDua?.transliterationBengali || selectedDua?.transliterationHindi) && (
                 <div className="space-y-2">
                   <h3 className={cn(
                     "text-sm font-medium text-muted-foreground",
-                    language === "bn" && "font-bengali"
+                    (language === "bn" || language === "hi") && "font-bengali"
                   )}>
-                    {language === "bn" ? "উচ্চারণ" : "Transliteration"}
+                    {language === "bn" ? "উচ্চারণ" : language === "hi" ? "उच्चारण" : "Transliteration"}
                   </h3>
                   <p className={cn(
                     "text-base leading-relaxed text-foreground",
-                    language === "bn" ? "font-bengali" : "italic"
+                    (language === "bn" || language === "hi") ? "font-bengali" : "italic"
                   )}>
-                    {language === "bn" 
-                      ? (selectedDua.transliterationBengali || selectedDua.transliteration)
-                      : selectedDua.transliteration}
+                    {selectedDua ? getDuaTransliteration(selectedDua) : ""}
                   </p>
                 </div>
               )}
@@ -568,15 +595,15 @@ const Dua = ({ language, arabicFont = "amiri" }: DuaProps) => {
               <div className="space-y-2">
                 <h3 className={cn(
                   "text-sm font-medium text-muted-foreground",
-                  language === "bn" && "font-bengali"
+                  (language === "bn" || language === "hi") && "font-bengali"
                 )}>
-                  {language === "bn" ? "বাংলা অনুবাদ" : "English Translation"}
+                  {language === "bn" ? "বাংলা অনুবাদ" : language === "hi" ? "हिंदी अनुवाद" : "English Translation"}
                 </h3>
                 <p className={cn(
                   "text-base leading-relaxed text-foreground",
-                  language === "bn" && "font-bengali"
+                  (language === "bn" || language === "hi") && "font-bengali"
                 )}>
-                  {language === "bn" ? selectedDua?.bengali : selectedDua?.english}
+                  {selectedDua ? getDuaTranslation(selectedDua) : ""}
                 </p>
               </div>
 
@@ -585,9 +612,9 @@ const Dua = ({ language, arabicFont = "amiri" }: DuaProps) => {
                 <div className="flex items-center justify-center">
                   <span className={cn(
                     "text-xs text-muted-foreground bg-muted px-3 py-1.5 rounded-full",
-                    language === "bn" && "font-bengali"
+                    (language === "bn" || language === "hi") && "font-bengali"
                   )}>
-                    {language === "bn" ? "সূত্র: " : "Reference: "}{selectedDua.reference}
+                    {language === "bn" ? "সূত্র: " : language === "hi" ? "संदर्भ: " : "Reference: "}{selectedDua.reference}
                   </span>
                 </div>
               )}
