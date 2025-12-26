@@ -22,7 +22,7 @@ export interface Location {
 }
 
 // Calculation methods
-export type CalculationMethod = 'MWL' | 'ISNA' | 'Egypt' | 'Makkah' | 'Karachi' | 'IFB';
+export type CalculationMethod = 'MWL' | 'ISNA' | 'Egypt' | 'Makkah' | 'Karachi' | 'IFB' | 'UOIF' | 'MUIS';
 
 interface MethodParams {
   fajrAngle: number;
@@ -31,12 +31,14 @@ interface MethodParams {
 }
 
 const calculationMethods: Record<CalculationMethod, MethodParams> = {
-  MWL: { fajrAngle: 18, ishaAngle: 17 },      // Muslim World League
-  ISNA: { fajrAngle: 15, ishaAngle: 15 },     // Islamic Society of North America
-  Egypt: { fajrAngle: 19.5, ishaAngle: 17.5 }, // Egyptian General Authority
-  Makkah: { fajrAngle: 18.5, ishaAngle: 0, ishaMinutes: 90 }, // Umm al-Qura, Makkah
-  Karachi: { fajrAngle: 18, ishaAngle: 18 },  // University of Islamic Sciences, Karachi
+  MWL: { fajrAngle: 18, ishaAngle: 17 },      // Muslim World League - Europe, Far East, Parts of USA
+  ISNA: { fajrAngle: 15, ishaAngle: 15 },     // Islamic Society of North America - USA, Canada, UK
+  Egypt: { fajrAngle: 19.5, ishaAngle: 17.5 }, // Egyptian General Authority - Africa, Syria, Iraq, Lebanon, Malaysia
+  Makkah: { fajrAngle: 18.5, ishaAngle: 0, ishaMinutes: 90 }, // Umm al-Qura - Arabian Peninsula
+  Karachi: { fajrAngle: 18, ishaAngle: 18 },  // University of Islamic Sciences - Pakistan, India, Afghanistan
   IFB: { fajrAngle: 18, ishaAngle: 18 },      // Islamic Foundation Bangladesh
+  UOIF: { fajrAngle: 12, ishaAngle: 12 },     // Union des Organisations Islamiques de France
+  MUIS: { fajrAngle: 20, ishaAngle: 18 },     // Majlis Ugama Islam Singapura - Singapore
 };
 
 // Convert degrees to radians
