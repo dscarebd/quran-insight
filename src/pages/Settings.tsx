@@ -1,10 +1,12 @@
-import { useRef } from "react";
-import { Info, Moon, Sun, BookOpen, Type, ChevronRight, FileText } from "lucide-react";
+import { useRef, useState } from "react";
+import { Info, Moon, Sun, BookOpen, Type, ChevronRight, FileText, ChevronDown } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
 import { MobileNavFooter } from "@/components/MobileNavFooter";
+import { Slider } from "@/components/ui/slider";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import annurLogo from "@/assets/annur-digital-logo.jpeg";
 import appLogo from "@/assets/app-logo.png";
 
@@ -185,7 +187,7 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
             </p>
           </section>
 
-          {/* Font Settings Section */}
+          {/* Font Settings Dropdown */}
           <section>
             <h2 className={cn(
               "mb-3 text-sm font-medium text-muted-foreground uppercase tracking-wider",
@@ -193,29 +195,100 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
             )}>
               {language === "bn" ? "ফন্ট সেটিংস" : "Font Settings"}
             </h2>
-            <button
-              onClick={() => navigate("/font-settings")}
-              className="w-full rounded-xl border border-border bg-card overflow-hidden text-left hover:bg-muted/50 transition-colors"
-            >
-              <div className="p-4">
-                <div className="flex items-center gap-4">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
-                    <Type className="h-6 w-6 text-primary" />
+            <Collapsible>
+              <CollapsibleTrigger className="w-full">
+                <div className="rounded-xl border border-border bg-card overflow-hidden text-left hover:bg-muted/50 transition-colors">
+                  <div className="p-4">
+                    <div className="flex items-center gap-4">
+                      <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
+                        <Type className="h-6 w-6 text-primary" />
+                      </div>
+                      <div className="flex-1 text-left">
+                        <h3 className={cn("text-sm font-semibold", language === "bn" && "font-bengali")}>
+                          {language === "bn" ? "ফন্ট ও সাইজ" : "Font & Size"}
+                        </h3>
+                        <p className={cn("text-xs text-muted-foreground", language === "bn" && "font-bengali")}>
+                          {language === "bn" 
+                            ? `${arabicFont === "amiri" ? "আমিরী" : "উসমানী"} • ${fontSize}px` 
+                            : `${arabicFont === "amiri" ? "Amiri" : "Uthmani"} • ${fontSize}px`}
+                        </p>
+                      </div>
+                      <ChevronDown className="h-5 w-5 text-muted-foreground transition-transform duration-200 group-data-[state=open]:rotate-180" />
+                    </div>
                   </div>
-                  <div className="flex-1">
-                    <h3 className={cn("text-sm font-semibold", language === "bn" && "font-bengali")}>
-                      {language === "bn" ? "ফন্ট ও সাইজ" : "Font & Size"}
-                    </h3>
-                    <p className={cn("text-xs text-muted-foreground", language === "bn" && "font-bengali")}>
-                      {language === "bn" 
-                        ? `${arabicFont === "amiri" ? "আমিরী" : "উসমানী"} • ${fontSize}px` 
-                        : `${arabicFont === "amiri" ? "Amiri" : "Uthmani"} • ${fontSize}px`}
-                    </p>
-                  </div>
-                  <ChevronRight className="h-5 w-5 text-muted-foreground" />
                 </div>
-              </div>
-            </button>
+              </CollapsibleTrigger>
+              <CollapsibleContent>
+                <div className="mt-3 space-y-4 rounded-xl border border-border bg-card p-4">
+                  {/* Arabic Font Selection */}
+                  <div>
+                    <p className={cn("text-xs font-medium text-muted-foreground mb-2", language === "bn" && "font-bengali")}>
+                      {language === "bn" ? "আরবি ফন্ট" : "Arabic Font"}
+                    </p>
+                    <div className="grid grid-cols-2 gap-2">
+                      <button
+                        onClick={() => onArabicFontChange?.("amiri")}
+                        className={cn(
+                          "flex flex-col items-center justify-center gap-2 rounded-lg border border-border bg-card px-3 py-3 transition-colors",
+                          arabicFont === "amiri" ? "border-primary bg-primary/5" : "hover:bg-muted/50"
+                        )}
+                      >
+                        <span className="font-arabic text-lg text-foreground">بِسْمِ</span>
+                        <div className="flex items-center gap-1.5">
+                          <p className={cn("text-xs font-medium", language === "bn" && "font-bengali")}>
+                            {language === "bn" ? "আমিরী" : "Amiri"}
+                          </p>
+                          {arabicFont === "amiri" && (
+                            <div className="h-1.5 w-1.5 rounded-full bg-primary" />
+                          )}
+                        </div>
+                      </button>
+                      <button
+                        onClick={() => onArabicFontChange?.("uthmani")}
+                        className={cn(
+                          "flex flex-col items-center justify-center gap-2 rounded-lg border border-border bg-card px-3 py-3 transition-colors",
+                          arabicFont === "uthmani" ? "border-primary bg-primary/5" : "hover:bg-muted/50"
+                        )}
+                      >
+                        <span className="font-uthmani text-lg text-foreground">بِسْمِ</span>
+                        <div className="flex items-center gap-1.5">
+                          <p className={cn("text-xs font-medium", language === "bn" && "font-bengali")}>
+                            {language === "bn" ? "উসমানী" : "Uthmani"}
+                          </p>
+                          {arabicFont === "uthmani" && (
+                            <div className="h-1.5 w-1.5 rounded-full bg-primary" />
+                          )}
+                        </div>
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Font Size Slider */}
+                  <div>
+                    <p className={cn("text-xs font-medium text-muted-foreground mb-2", language === "bn" && "font-bengali")}>
+                      {language === "bn" ? "ফন্ট সাইজ" : "Font Size"}
+                    </p>
+                    <div className="flex items-center justify-between mb-2">
+                      <span className={cn("text-xs text-muted-foreground", language === "bn" && "font-bengali")}>
+                        {language === "bn" ? "ছোট" : "Small"}
+                      </span>
+                      <span className="text-sm font-semibold text-primary">{fontSize}px</span>
+                      <span className={cn("text-xs text-muted-foreground", language === "bn" && "font-bengali")}>
+                        {language === "bn" ? "বড়" : "Large"}
+                      </span>
+                    </div>
+                    <Slider
+                      value={[fontSize]}
+                      onValueChange={(value) => onFontSizeChange?.(value[0])}
+                      min={15}
+                      max={20}
+                      step={1}
+                      className="w-full"
+                    />
+                  </div>
+                </div>
+              </CollapsibleContent>
+            </Collapsible>
           </section>
           <section>
             <h2 className={cn(
