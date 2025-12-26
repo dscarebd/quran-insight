@@ -488,8 +488,8 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
             </div>
             <p className="text-xs text-muted-foreground mt-2">
               {language === 'bn' 
-                ? `হিসাব পদ্ধতি: ${method}` 
-                : `Calculation Method: ${method}`
+                ? `হিসাব পদ্ধতি: ${method} | আসর: হানাফি` 
+                : `Calculation Method: ${method} | Asr: Hanafi`
               }
             </p>
           </CardContent>
