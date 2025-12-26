@@ -119,7 +119,7 @@ const SourcesCredits = ({ language }: SourcesCreditsProps) => {
       nameBn: "লোগো স্মিথ",
       descriptionEn: "Logo design and branding",
       descriptionBn: "লোগো ডিজাইন ও ব্র্যান্ডিং",
-      url: null,
+      url: "https://www.behance.net/LogoSmithStudio",
     },
     {
       nameEn: "Abdulla Mohamed (Addhu)",
