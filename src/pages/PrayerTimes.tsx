@@ -264,11 +264,13 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="IFB">{language === 'bn' ? 'ইসলামিক ফাউন্ডেশন বাংলাদেশ' : 'Islamic Foundation Bangladesh'}</SelectItem>
-                    <SelectItem value="Karachi">Karachi</SelectItem>
-                    <SelectItem value="MWL">Muslim World League</SelectItem>
-                    <SelectItem value="ISNA">ISNA</SelectItem>
-                    <SelectItem value="Egypt">Egypt</SelectItem>
-                    <SelectItem value="Makkah">Umm al-Qura (Makkah)</SelectItem>
+                    <SelectItem value="Karachi">{language === 'bn' ? 'করাচি বিশ্ববিদ্যালয়' : 'University of Karachi'}</SelectItem>
+                    <SelectItem value="MWL">{language === 'bn' ? 'মুসলিম ওয়ার্ল্ড লীগ' : 'Muslim World League'}</SelectItem>
+                    <SelectItem value="ISNA">{language === 'bn' ? 'ইসলামিক সোসাইটি অফ নর্থ আমেরিকা' : 'ISNA (North America)'}</SelectItem>
+                    <SelectItem value="Egypt">{language === 'bn' ? 'মিশর জেনারেল অথরিটি' : 'Egyptian General Authority'}</SelectItem>
+                    <SelectItem value="Makkah">{language === 'bn' ? 'উম্মুল কুরা (মক্কা)' : 'Umm al-Qura (Makkah)'}</SelectItem>
+                    <SelectItem value="UOIF">{language === 'bn' ? 'ফ্রান্স ইসলামিক সংগঠন' : 'UOIF (France)'}</SelectItem>
+                    <SelectItem value="MUIS">{language === 'bn' ? 'সিঙ্গাপুর ইসলামিক কাউন্সিল' : 'MUIS (Singapore)'}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
