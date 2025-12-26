@@ -224,7 +224,7 @@ const Index = ({ language }: IndexProps) => {
             {/* Daily Content */}
             <div className="mt-8 sm:mt-10">
               <h2 className={`mb-4 sm:mb-6 text-lg sm:text-xl font-semibold text-foreground ${language === "bn" ? "font-bengali" : ""}`}>
-                {language === "bn" ? "আজকের বিশেষ" : "Today's Featured"}
+                {language === "bn" ? "আজকের আয়াত ও দোয়া" : "Today's Featured Verse & Dua"}
               </h2>
               <DesktopDailyContent language={language} />
             </div>
