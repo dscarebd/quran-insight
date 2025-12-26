@@ -316,11 +316,12 @@ export const sunnahFastingInfo = {
 // Hijri to Gregorian Conversion
 // =============================================
 
-// Reference date: 1 Muharram 1446 = July 7, 2024
-const REFERENCE_HIJRI = { year: 1446, month: 1, day: 1 };
-const REFERENCE_GREGORIAN = new Date(2024, 6, 7); // July 7, 2024
+// Reference date: 1 Muharram 1447 = June 26, 2025 (verified astronomical calculation)
+// This provides accurate conversion for current dates
+const REFERENCE_HIJRI = { year: 1447, month: 1, day: 1 };
+const REFERENCE_GREGORIAN = new Date(2025, 5, 26); // June 26, 2025
 
-// Average length of a Hijri month and year
+// Average length of a Hijri month and year (lunar calendar)
 const HIJRI_MONTH_LENGTH = 29.530589;
 const HIJRI_YEAR_LENGTH = 354.36667;
 
