@@ -72,8 +72,8 @@ const VerseCard = ({ verse, language, index, isBookmarked, onToggleBookmark, ara
         {language === "bn" ? verse.bengali : verse.english}
       </p>
 
-      {/* Tafsir Toggle */}
-      {(verse.tafsirBengali || verse.tafsirEnglish) && (
+      {/* Tafsir Toggle - Hidden for now, will be added later */}
+      {/* {(verse.tafsirBengali || verse.tafsirEnglish) && (
         <div className="mt-4 border-t border-border pt-4">
           <button
             onClick={() => setShowTafsir(!showTafsir)}
@@ -92,7 +92,7 @@ const VerseCard = ({ verse, language, index, isBookmarked, onToggleBookmark, ara
             </div>
           )}
         </div>
-      )}
+      )} */}
     </div>
   );
 };
