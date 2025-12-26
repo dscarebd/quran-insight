@@ -25,32 +25,32 @@ const ParaList = ({ language }: ParaListProps) => {
   return (
     <div className="flex-1 overflow-y-auto">
       <div className="mx-auto max-w-6xl px-4 py-6 lg:px-6 lg:py-8">
-        {/* Header */}
-        <div className="mb-6 lg:mb-8">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-500/10 text-blue-600">
-              <BookOpen className="h-5 w-5" />
+        {/* Header with Search */}
+        <div className="mb-6 lg:mb-8 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+          <div>
+            <div className="flex items-center gap-3 mb-2">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-500/10 text-blue-600">
+                <BookOpen className="h-5 w-5" />
+              </div>
+              <h1 className={cn(
+                "text-2xl lg:text-3xl font-bold text-foreground",
+                language === "bn" && "font-bengali"
+              )}>
+                {language === "bn" ? "পারা সমূহ" : "All Paras"}
+              </h1>
             </div>
-            <h1 className={cn(
-              "text-2xl lg:text-3xl font-bold text-foreground",
+            <p className={cn(
+              "text-muted-foreground lg:ml-13",
               language === "bn" && "font-bengali"
             )}>
-              {language === "bn" ? "পারা সমূহ" : "All Paras"}
-            </h1>
+              {language === "bn" 
+                ? "পবিত্র কুরআনের ৩০টি পারা (জুয)" 
+                : "30 Juz (parts) of the Holy Quran"}
+            </p>
           </div>
-          <p className={cn(
-            "text-muted-foreground ml-13",
-            language === "bn" && "font-bengali"
-          )}>
-            {language === "bn" 
-              ? "পবিত্র কুরআনের ৩০টি পারা (জুয)" 
-              : "30 Juz (parts) of the Holy Quran"}
-          </p>
-        </div>
 
-        {/* Search */}
-        <div className="mb-6">
-          <div className="relative max-w-md">
+          {/* Search */}
+          <div className="relative w-full lg:w-80">
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <input
               type="text"
