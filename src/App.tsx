@@ -5,6 +5,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Layout } from "@/components/Layout";
+import { ReadPageWrapper } from "@/components/ReadPageWrapper";
 import { AuthProvider } from "@/hooks/useAuth";
 import { Loader2 } from "lucide-react";
 import { useContentProtection } from "@/hooks/useContentProtection";
@@ -18,7 +19,6 @@ import ParaDetail from "./pages/ParaDetail";
 import Bookmarks from "./pages/Bookmarks";
 import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
-import ReadPage from "./pages/ReadPage";
 import Dua from "./pages/Dua";
 import SourcesCredits from "./pages/SourcesCredits";
 import Developer from "./pages/Developer";
@@ -26,7 +26,7 @@ import IslamicCalendar from "./pages/IslamicCalendar";
 import PrayerTimes from "./pages/PrayerTimes";
 
 // Component to redirect to last read page
-const ReadPageRedirect = (props: any) => {
+const ReadPageRedirect = () => {
   const lastReadPage = localStorage.getItem("quran-last-read-page") || "1";
   return <Navigate to={`/read/${lastReadPage}`} replace />;
 };
@@ -113,15 +113,15 @@ const AppContent = () => {
           <ParaDetail language={language} readingMode={readingMode} arabicFont={arabicFont} />
         </Layout>
       } />
-      <Route path="/read" element={
-        <Layout language={language} onLanguageChange={setLanguage}>
-          <ReadPageRedirect language={language} readingMode={readingMode} arabicFont={arabicFont} onArabicFontChange={setArabicFont} />
-        </Layout>
-      } />
+      <Route path="/read" element={<ReadPageRedirect />} />
       <Route path="/read/:pageNumber" element={
-        <Layout language={language} onLanguageChange={setLanguage}>
-          <ReadPage language={language} readingMode={readingMode} arabicFont={arabicFont} onArabicFontChange={setArabicFont} />
-        </Layout>
+        <ReadPageWrapper
+          language={language}
+          onLanguageChange={setLanguage}
+          readingMode={readingMode}
+          arabicFont={arabicFont}
+          onArabicFontChange={setArabicFont}
+        />
       } />
       <Route path="/bookmarks" element={
         <Layout language={language} onLanguageChange={setLanguage}>

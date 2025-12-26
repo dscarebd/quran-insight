@@ -12,9 +12,26 @@ interface LayoutProps {
   children: React.ReactNode;
   language: Language;
   onLanguageChange: (lang: Language) => void;
+  // Optional ReadPage controls for tablet header
+  arabicFont?: "amiri" | "uthmani";
+  onArabicFontChange?: (font: "amiri" | "uthmani") => void;
+  onZoomIn?: () => void;
+  onZoomOut?: () => void;
+  canZoomIn?: boolean;
+  canZoomOut?: boolean;
 }
 
-export const Layout = ({ children, language, onLanguageChange }: LayoutProps) => {
+export const Layout = ({
+  children,
+  language,
+  onLanguageChange,
+  arabicFont,
+  onArabicFontChange,
+  onZoomIn,
+  onZoomOut,
+  canZoomIn,
+  canZoomOut,
+}: LayoutProps) => {
   const [activeTab, setActiveTab] = useState<"search" | "bookmarks">("search");
   const isMobile = useIsMobile();
   
@@ -42,7 +59,16 @@ export const Layout = ({ children, language, onLanguageChange }: LayoutProps) =>
         onTabChange={setActiveTab}
       />
       <SidebarInset className="flex flex-col pb-14 lg:pb-0">
-        <Header language={language} onLanguageChange={onLanguageChange} />
+        <Header
+          language={language}
+          onLanguageChange={onLanguageChange}
+          arabicFont={arabicFont}
+          onArabicFontChange={onArabicFontChange}
+          onZoomIn={onZoomIn}
+          onZoomOut={onZoomOut}
+          canZoomIn={canZoomIn}
+          canZoomOut={canZoomOut}
+        />
         <div className="flex-1 overflow-y-auto">
           {children}
         </div>

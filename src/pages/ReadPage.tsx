@@ -31,13 +31,23 @@ interface ReadPageProps {
   readingMode?: "normal" | "sepia";
   arabicFont?: "amiri" | "uthmani";
   onArabicFontChange?: (font: "amiri" | "uthmani") => void;
+  // Optional: allow parent to control font size (for tablet header controls)
+  fontSizeIndex?: number;
+  onFontSizeIndexChange?: (index: number) => void;
 }
 
 // Font size presets
-const FONT_SIZES = [24, 28, 32, 36, 40, 44, 48, 52];
-const DEFAULT_FONT_INDEX = 2; // 32px default
+export const FONT_SIZES = [24, 28, 32, 36, 40, 44, 48, 52];
+export const DEFAULT_FONT_INDEX = 2; // 32px default
 
-const ReadPage = ({ language, readingMode = "normal", arabicFont = "amiri", onArabicFontChange }: ReadPageProps) => {
+const ReadPage = ({
+  language,
+  readingMode = "normal",
+  arabicFont = "amiri",
+  onArabicFontChange,
+  fontSizeIndex: controlledFontSizeIndex,
+  onFontSizeIndexChange,
+}: ReadPageProps) => {
   const { pageNumber } = useParams();
   const navigate = useNavigate();
   const initialPage = parseInt(pageNumber || "1");
@@ -95,11 +105,17 @@ const ReadPage = ({ language, readingMode = "normal", arabicFont = "amiri", onAr
       el.scrollIntoView({ behavior: "auto", block: "start" });
     });
   }, [loading, loadedPages, initialPage]);
-  // Font zoom state
-  const [fontSizeIndex, setFontSizeIndex] = useState(() => {
+
+  // Font zoom state - use controlled mode if parent provides props
+  const [internalFontSizeIndex, setInternalFontSizeIndex] = useState(() => {
     const saved = localStorage.getItem("quran-font-size-index");
     return saved ? parseInt(saved) : DEFAULT_FONT_INDEX;
   });
+
+  // Use controlled value if provided, otherwise use internal state
+  const fontSizeIndex = controlledFontSizeIndex !== undefined ? controlledFontSizeIndex : internalFontSizeIndex;
+  const setFontSizeIndex = onFontSizeIndexChange || setInternalFontSizeIndex;
+
   const [showZoomIndicator, setShowZoomIndicator] = useState(false);
 
   // Touch gesture refs for pinch zoom
@@ -110,10 +126,12 @@ const ReadPage = ({ language, readingMode = "normal", arabicFont = "amiri", onAr
   const currentPageData = getPageByNumber(currentVisiblePage);
   const juzNumber = getJuzForPage(currentVisiblePage);
 
-  // Save font size preference
+  // Save font size preference (only for internal state mode)
   useEffect(() => {
-    localStorage.setItem("quran-font-size-index", fontSizeIndex.toString());
-  }, [fontSizeIndex]);
+    if (controlledFontSizeIndex === undefined) {
+      localStorage.setItem("quran-font-size-index", fontSizeIndex.toString());
+    }
+  }, [fontSizeIndex, controlledFontSizeIndex]);
 
   // Save last read page
   // - Always persist the current URL page on entry/refresh
@@ -632,53 +650,8 @@ const ReadPage = ({ language, readingMode = "normal", arabicFont = "amiri", onAr
             </SheetContent>
           </Sheet>
 
-          {/* Tablet Controls - Font & Zoom (show on sm and md, hide on lg+) */}
-          <div className="hidden sm:flex lg:hidden items-center gap-1">
-            {/* Zoom Controls */}
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={zoomOut}
-              disabled={fontSizeIndex <= 0}
-              className="h-8 w-8"
-            >
-              <ZoomOut className="h-4 w-4" />
-            </Button>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={zoomIn}
-              disabled={fontSizeIndex >= FONT_SIZES.length - 1}
-              className="h-8 w-8"
-            >
-              <ZoomIn className="h-4 w-4" />
-            </Button>
-            
-            {/* Font Switch */}
-            <div className="flex items-center border border-border rounded-lg overflow-hidden ml-2">
-              <button
-                onClick={() => onArabicFontChange?.("uthmani")}
-                className={cn(
-                  "px-2 py-1 text-xs transition-colors",
-                  arabicFont === "uthmani" ? "bg-primary text-primary-foreground" : "bg-background hover:bg-muted"
-                )}
-              >
-                Uthmani
-              </button>
-              <button
-                onClick={() => onArabicFontChange?.("amiri")}
-                className={cn(
-                  "px-2 py-1 text-xs transition-colors",
-                  arabicFont === "amiri" ? "bg-primary text-primary-foreground" : "bg-background hover:bg-muted"
-                )}
-              >
-                Amiri
-              </button>
-            </div>
-          </div>
-
-          {/* Page/Juz Info (hide on tablet where controls are shown) */}
-          <span className={cn("text-sm text-muted-foreground sm:hidden lg:block", language === "bn" && "font-bengali")}>
+          {/* Page/Juz Info */}
+          <span className={cn("text-sm text-muted-foreground", language === "bn" && "font-bengali")}>
             {language === "bn" 
               ? `পারা ${formatNum(juzNumber, language)} - পৃষ্ঠা ${formatNum(currentVisiblePage, language)}`
               : `Juz ${juzNumber} - Page ${currentVisiblePage}`
