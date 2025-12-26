@@ -174,12 +174,18 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
     if (!match) return time;
     
     const hours = parseInt(match[1], 10);
-    const minutes = parseInt(match[2], 10);
+    let minutes = parseInt(match[2], 10);
     const period = match[3].toUpperCase();
+    
+    // Safety check - minutes should never be >= 60
+    if (minutes >= 60) {
+      minutes = minutes % 60;
+    }
     
     if (lang === 'bn') {
       const periodBn = period === 'AM' ? 'AM' : 'PM';
-      return `${toBengaliNumber(hours)}:${toBengaliNumber(minutes).padStart(2, '০')} ${periodBn}`;
+      const minStr = minutes < 10 ? '০' + toBengaliNumber(minutes) : toBengaliNumber(minutes);
+      return `${toBengaliNumber(hours)}:${minStr} ${periodBn}`;
     }
     
     return `${hours}:${minutes.toString().padStart(2, '0')} ${period}`;

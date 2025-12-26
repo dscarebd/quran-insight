@@ -126,21 +126,27 @@ const getPrayerTime = (
 
 // Format time as HH:MM AM/PM (12-hour format)
 const formatTime = (hours: number): string => {
-  if (isNaN(hours)) return '--:--';
+  if (isNaN(hours) || !isFinite(hours)) return '--:--';
   
+  // Normalize hours to 0-24 range
   let h = hours;
-  if (h < 0) h += 24;
-  if (h >= 24) h -= 24;
+  while (h < 0) h += 24;
+  while (h >= 24) h -= 24;
   
   let hour24 = Math.floor(h);
-  let minute = Math.round((h - hour24) * 60);
+  let minute = Math.floor((h - hour24) * 60); // Use floor instead of round to avoid 60
   
-  // Handle minute overflow (when rounding produces 60)
+  // Ensure minute is valid (0-59)
   if (minute >= 60) {
-    minute = 0;
-    hour24 += 1;
-    if (hour24 >= 24) hour24 = 0;
+    minute = 59;
   }
+  if (minute < 0) {
+    minute = 0;
+  }
+  
+  // Ensure hour24 is valid (0-23)
+  if (hour24 >= 24) hour24 = hour24 % 24;
+  if (hour24 < 0) hour24 = 0;
   
   // Convert to 12-hour format
   const period = hour24 >= 12 ? 'PM' : 'AM';
@@ -157,7 +163,11 @@ export const calculatePrayerTimes = (
   method: CalculationMethod = 'MWL'
 ): PrayerTimes => {
   const { latitude, longitude } = location;
-  const timezone = -date.getTimezoneOffset() / 60;
+  
+  // Use location-based timezone (longitude / 15) instead of browser timezone
+  // This ensures correct times regardless of where the user is viewing from
+  const timezone = Math.round(longitude / 15);
+  
   const jd = getJulianDay(date);
   const { declination, equationOfTime } = getSunPosition(jd);
   const params = calculationMethods[method];
@@ -176,9 +186,16 @@ export const calculatePrayerTimes = (
   const dhuhr = midday + 1 / 60; // 1 minute after midday
   
   // Asr - Using Hanafi method (shadow = 2x object height + noon shadow)
-  const noonShadow = Math.abs(Math.tan(toRadians(latitude - declination)));
-  const asrAngle = toDegrees(Math.atan(1 / (2 + noonShadow)));
-  const asr = getPrayerTime(latitude, declination, asrAngle, equationOfTime, longitude, timezone, false);
+  // Calculate Asr using shadow length ratio
+  const asrShadowFactor = 2; // Hanafi uses 2, Shafi uses 1
+  const asrCotAngle = asrShadowFactor + Math.tan(toRadians(Math.abs(latitude - declination)));
+  const asrAngle = toDegrees(Math.atan(1 / asrCotAngle));
+  
+  // For Asr, we calculate differently - it's based on the sun's altitude
+  const asrCosAngle = (Math.sin(toRadians(90 - asrAngle)) - Math.sin(toRadians(latitude)) * Math.sin(toRadians(declination))) /
+    (Math.cos(toRadians(latitude)) * Math.cos(toRadians(declination)));
+  const asrHourAngle = Math.abs(asrCosAngle) <= 1 ? toDegrees(Math.acos(asrCosAngle)) / 15 : 3;
+  const asr = midday + asrHourAngle;
   
   // Maghrib (at sunset)
   const maghrib = sunset;
