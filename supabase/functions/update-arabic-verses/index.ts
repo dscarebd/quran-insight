@@ -108,10 +108,11 @@ serve(async (req) => {
     const errors: string[] = [];
 
     // Translation IDs: 20 = Sahih International (English), 161 = Bengali (Taisirul Quran)
-    // Bengali Tafsir IDs: 166 = Abu Bakr Zakaria (most complete), 165 = Ahsanul Bayaan, 164 = Ibn Kathir
+    // Bengali Tafsir IDs - try multiple sources for better coverage
+    // 381 = Fathul Majid, 166 = Abu Bakr Zakaria, 165 = Ahsanul Bayaan, 164 = Ibn Kathir
     const ENGLISH_TRANSLATION_ID = 20;
     const BENGALI_TRANSLATION_ID = 161;
-    const BENGALI_TAFSIR_ID = 166; // Abu Bakr Zakaria - more complete Bengali tafsir
+    const BENGALI_TAFSIR_IDS = [381, 166, 165, 164]; // Try in order for best Bengali coverage
 
     for (const surah of surahsToProcess) {
       try {
@@ -149,11 +150,34 @@ serve(async (req) => {
           console.log(`Received ${bengaliData.translations?.length || 0} Bengali translations`);
         }
 
-        // Fetch Bengali tafsir - use verse-by-verse API for better accuracy
-        const bengaliTafsirUrl = `https://api.quran.com/api/v4/quran/tafsirs/${BENGALI_TAFSIR_ID}?chapter_number=${surah}`;
-        const bengaliTafsirResponse = await fetch(bengaliTafsirUrl);
-        const bengaliTafsirData: TafsirResponse = bengaliTafsirResponse.ok ? await bengaliTafsirResponse.json() : { tafsirs: [] };
-        console.log(`Received ${bengaliTafsirData.tafsirs?.length || 0} Bengali tafsirs`);
+        // Fetch Bengali tafsir from multiple sources to maximize coverage
+        let bengaliTafsirData: TafsirResponse = { tafsirs: [] };
+        for (const tafsirId of BENGALI_TAFSIR_IDS) {
+          const bengaliTafsirUrl = `https://api.quran.com/api/v4/quran/tafsirs/${tafsirId}?chapter_number=${surah}`;
+          const bengaliTafsirResponse = await fetch(bengaliTafsirUrl);
+          if (bengaliTafsirResponse.ok) {
+            const data: TafsirResponse = await bengaliTafsirResponse.json();
+            if (data.tafsirs && data.tafsirs.length > 0) {
+              // Merge tafsirs - prefer first source with Bengali text for each verse
+              if (bengaliTafsirData.tafsirs.length === 0) {
+                bengaliTafsirData = data;
+              } else {
+                // Fill in missing verses from this source
+                for (let idx = 0; idx < data.tafsirs.length; idx++) {
+                  if (!bengaliTafsirData.tafsirs[idx]?.text && data.tafsirs[idx]?.text) {
+                    bengaliTafsirData.tafsirs[idx] = data.tafsirs[idx];
+                  } else if (bengaliTafsirData.tafsirs[idx]?.text && !isBengaliText(bengaliTafsirData.tafsirs[idx].text) && data.tafsirs[idx]?.text && isBengaliText(data.tafsirs[idx].text.replace(/<[^>]*>/g, ''))) {
+                    // Replace non-Bengali with Bengali from this source
+                    bengaliTafsirData.tafsirs[idx] = data.tafsirs[idx];
+                  }
+                }
+              }
+            }
+          }
+          // Small delay between API calls
+          await new Promise(resolve => setTimeout(resolve, 200));
+        }
+        console.log(`Received ${bengaliTafsirData.tafsirs?.length || 0} Bengali tafsirs (merged from multiple sources)`);
 
         // Get verse count from database if in tafsirOnly mode
         let verseCount = arabicData.verses.length;
