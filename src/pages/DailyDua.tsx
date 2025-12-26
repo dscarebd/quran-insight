@@ -317,8 +317,8 @@ const DailyDuaPage = ({ language, arabicFont = "amiri" }: DailyDuaPageProps) => 
                 {dua.arabic}
               </p>
 
-              {/* Transliteration */}
-              {dua.transliteration && (
+              {/* Transliteration - only show in English mode */}
+              {dua.transliteration && language === "en" && (
                 <p className="text-sm text-muted-foreground italic mb-3">
                   {dua.transliteration}
                 </p>
