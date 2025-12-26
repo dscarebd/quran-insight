@@ -12,6 +12,7 @@ import {
   prayerNames,
   defaultLocations,
   PrayerTimes as PrayerTimesType,
+  PrayerTimeRange,
   Location,
   CalculationMethod
 } from "@/data/prayerTimes";
@@ -329,8 +330,13 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
             {(Object.keys(prayerNames) as Array<keyof typeof prayerNames>).map((prayerKey) => {
               const names = prayerNames[prayerKey];
-              const time = prayerTimes[prayerKey];
+              const timeData = prayerTimes[prayerKey];
               const isNextPrayer = nextPrayer?.name.toLowerCase() === prayerKey;
+              
+              // Check if it's a range or single time (sunrise)
+              const isRange = typeof timeData === 'object' && 'start' in timeData;
+              const startTime = isRange ? (timeData as PrayerTimeRange).start : (timeData as string);
+              const endTime = isRange ? (timeData as PrayerTimeRange).end : null;
               
               return (
                 <Card
@@ -360,10 +366,24 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
                       {names.ar}
                     </p>
                     
-                    {/* Time */}
-                    <p className="text-xl font-bold text-foreground">
-                      {formatTimeDisplay(time, language)}
-                    </p>
+                    {/* Time - Show range or single time */}
+                    {isRange && endTime ? (
+                      <div className="space-y-1">
+                        <p className="text-lg font-bold text-foreground">
+                          {formatTimeDisplay(startTime, language)}
+                        </p>
+                        <p className="text-xs text-muted-foreground">
+                          {language === 'bn' ? 'থেকে' : 'to'}
+                        </p>
+                        <p className="text-lg font-bold text-foreground">
+                          {formatTimeDisplay(endTime, language)}
+                        </p>
+                      </div>
+                    ) : (
+                      <p className="text-xl font-bold text-foreground">
+                        {formatTimeDisplay(startTime, language)}
+                      </p>
+                    )}
                   </CardContent>
                 </Card>
               );
