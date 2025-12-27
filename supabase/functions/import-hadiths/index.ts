@@ -1,11 +1,14 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
+declare const EdgeRuntime: {
+  waitUntil: (promise: Promise<unknown>) => void;
+};
+
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
-// Using hadithapi.pages.dev - free, no API key required
 const BOOK_MAPPINGS: Record<string, { slug: string; apiName: string; totalHadiths: number }> = {
   bukhari: { slug: "bukhari", apiName: "bukhari", totalHadiths: 7563 },
   muslim: { slug: "muslim", apiName: "muslim", totalHadiths: 3032 },
@@ -25,8 +28,96 @@ interface HadithApiResponse {
   refno: string;
 }
 
+async function importAllHadiths(bookSlug: string, supabaseUrl: string, supabaseKey: string) {
+  const supabase = createClient(supabaseUrl, supabaseKey);
+  const bookMapping = BOOK_MAPPINGS[bookSlug];
+  const batchSize = 50;
+  
+  console.log(`[Background] Starting full import for ${bookSlug}, total: ${bookMapping.totalHadiths}`);
+
+  for (let startId = 1; startId <= bookMapping.totalHadiths; startId += batchSize) {
+    const endId = Math.min(startId + batchSize - 1, bookMapping.totalHadiths);
+    
+    const hadithsToInsert: Array<{
+      book_slug: string;
+      hadith_number: number;
+      arabic: string | null;
+      english: string | null;
+      bengali: string | null;
+      narrator_english: string | null;
+      narrator_bengali: string | null;
+      grade: string | null;
+      grade_bengali: string | null;
+      chapter_number: number | null;
+      chapter_name_english: string | null;
+      chapter_name_bengali: string | null;
+    }> = [];
+
+    // Fetch hadiths in parallel (10 at a time)
+    for (let id = startId; id <= endId; id += 10) {
+      const promises = [];
+      for (let i = id; i < Math.min(id + 10, endId + 1); i++) {
+        promises.push(
+          fetch(`https://hadithapi.pages.dev/api/${bookMapping.apiName}/${i}`, {
+            headers: { "Accept": "application/json", "User-Agent": "QuranInsight/1.0" },
+          })
+            .then(res => res.ok ? res.json() : null)
+            .then((hadith: HadithApiResponse | null) => {
+              if (hadith) {
+                hadithsToInsert.push({
+                  book_slug: bookSlug,
+                  hadith_number: i,
+                  arabic: hadith.hadith_arabic || null,
+                  english: hadith.hadith_english || null,
+                  bengali: null,
+                  narrator_english: hadith.header || null,
+                  narrator_bengali: null,
+                  grade: null,
+                  grade_bengali: null,
+                  chapter_number: null,
+                  chapter_name_english: hadith.chapter_title || null,
+                  chapter_name_bengali: null,
+                });
+              }
+            })
+            .catch(err => console.error(`Error fetching hadith ${i}:`, err))
+        );
+      }
+      await Promise.all(promises);
+      await new Promise(resolve => setTimeout(resolve, 50)); // Small delay to avoid rate limiting
+    }
+
+    // Insert batch
+    if (hadithsToInsert.length > 0) {
+      const { error } = await supabase
+        .from("hadiths")
+        .upsert(hadithsToInsert, { onConflict: "book_slug,hadith_number", ignoreDuplicates: false });
+      
+      if (error) {
+        console.error(`[Background] Insert error at ${startId}-${endId}:`, error);
+      } else {
+        console.log(`[Background] Imported ${hadithsToInsert.length} hadiths (${startId}-${endId})`);
+      }
+    }
+
+    // Update progress in hadith_books
+    const { count } = await supabase
+      .from("hadiths")
+      .select("id", { count: "exact", head: true })
+      .eq("book_slug", bookSlug);
+
+    if (count !== null) {
+      await supabase
+        .from("hadith_books")
+        .update({ total_hadiths: count })
+        .eq("slug", bookSlug);
+    }
+  }
+
+  console.log(`[Background] Completed import for ${bookSlug}`);
+}
+
 Deno.serve(async (req) => {
-  // Handle CORS preflight requests
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
@@ -36,7 +127,7 @@ Deno.serve(async (req) => {
     const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
     const supabase = createClient(supabaseUrl, supabaseKey);
 
-    const { bookSlug, startId = 1, batchSize = 100 } = await req.json();
+    const { bookSlug, fullImport = false, startId = 1, batchSize = 50 } = await req.json();
 
     if (!bookSlug || !BOOK_MAPPINGS[bookSlug]) {
       return new Response(
@@ -45,6 +136,24 @@ Deno.serve(async (req) => {
       );
     }
 
+    // Full import mode - use background task
+    if (fullImport) {
+      console.log(`Starting full background import for ${bookSlug}`);
+      
+      // Start background task
+      EdgeRuntime.waitUntil(importAllHadiths(bookSlug, supabaseUrl, supabaseKey));
+
+      return new Response(
+        JSON.stringify({
+          success: true,
+          message: `Started background import for ${bookSlug}. Refresh to see progress.`,
+          backgroundImport: true,
+        }),
+        { headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    // Regular batch import mode (existing logic)
     const bookMapping = BOOK_MAPPINGS[bookSlug];
     const endId = Math.min(startId + batchSize - 1, bookMapping.totalHadiths);
     
@@ -65,7 +174,6 @@ Deno.serve(async (req) => {
       chapter_name_bengali: string | null;
     }> = [];
 
-    // Fetch hadiths one by one (API returns single hadith)
     const fetchPromises: Promise<void>[] = [];
     
     for (let id = startId; id <= endId; id++) {
@@ -73,21 +181,17 @@ Deno.serve(async (req) => {
         try {
           const apiUrl = `https://hadithapi.pages.dev/api/${bookMapping.apiName}/${id}`;
           const response = await fetch(apiUrl, {
-            headers: {
-              "Accept": "application/json",
-              "User-Agent": "QuranInsight/1.0",
-            },
+            headers: { "Accept": "application/json", "User-Agent": "QuranInsight/1.0" },
           });
 
           if (response.ok) {
             const hadith: HadithApiResponse = await response.json();
-            
             hadithsToInsert.push({
               book_slug: bookSlug,
               hadith_number: id,
               arabic: hadith.hadith_arabic || null,
               english: hadith.hadith_english || null,
-              bengali: null, // API doesn't provide Bengali, we'll add later
+              bengali: null,
               narrator_english: hadith.header || null,
               narrator_bengali: null,
               grade: null,
@@ -103,7 +207,6 @@ Deno.serve(async (req) => {
       })();
       fetchPromises.push(promise);
       
-      // Add small delay every 10 requests to avoid rate limiting
       if (fetchPromises.length % 10 === 0) {
         await Promise.all(fetchPromises);
         fetchPromises.length = 0;
@@ -111,9 +214,7 @@ Deno.serve(async (req) => {
       }
     }
     
-    // Wait for remaining promises
     await Promise.all(fetchPromises);
-
     console.log(`Fetched ${hadithsToInsert.length} hadiths`);
 
     if (hadithsToInsert.length === 0) {
@@ -129,13 +230,9 @@ Deno.serve(async (req) => {
       );
     }
 
-    // Upsert hadiths (insert or update on conflict)
     const { data: insertedData, error: insertError } = await supabase
       .from("hadiths")
-      .upsert(hadithsToInsert, { 
-        onConflict: "book_slug,hadith_number",
-        ignoreDuplicates: false 
-      })
+      .upsert(hadithsToInsert, { onConflict: "book_slug,hadith_number", ignoreDuplicates: false })
       .select("id");
 
     if (insertError) {
@@ -146,7 +243,6 @@ Deno.serve(async (req) => {
       );
     }
 
-    // Update the total count in hadith_books
     const { count } = await supabase
       .from("hadiths")
       .select("id", { count: "exact", head: true })

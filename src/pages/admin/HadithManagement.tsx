@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Book, Download, Loader2, RefreshCw, CheckCircle, XCircle, Pause, Play } from "lucide-react";
+import { Book, Download, Loader2, RefreshCw, CheckCircle, XCircle, Pause, Play, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
@@ -22,7 +22,7 @@ interface ImportProgress {
   currentId: number;
   totalExpected: number;
   imported: number;
-  status: "idle" | "importing" | "paused" | "success" | "error";
+  status: "idle" | "importing" | "paused" | "success" | "error" | "background";
   error?: string;
 }
 
@@ -42,6 +42,7 @@ const HadithManagement = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [importProgress, setImportProgress] = useState<Record<string, ImportProgress>>({});
   const [pauseFlags, setPauseFlags] = useState<Record<string, boolean>>({});
+  const [backgroundImports, setBackgroundImports] = useState<Record<string, boolean>>({});
 
   const fetchBooks = async () => {
     const { data, error } = await supabase
@@ -188,6 +189,51 @@ const HadithManagement = () => {
     }
   };
 
+  const fullImport = async (bookSlug: string) => {
+    const expected = expectedCounts[bookSlug] || 0;
+    
+    setBackgroundImports(prev => ({ ...prev, [bookSlug]: true }));
+    setImportProgress(prev => ({
+      ...prev,
+      [bookSlug]: {
+        bookSlug,
+        currentId: 0,
+        totalExpected: expected,
+        imported: 0,
+        status: "background",
+      },
+    }));
+
+    try {
+      const response = await supabase.functions.invoke("import-hadiths", {
+        body: { bookSlug, fullImport: true },
+      });
+
+      if (response.error) {
+        throw new Error(response.error.message);
+      }
+
+      toast({
+        title: "Background Import Started",
+        description: `${bookSlug} is importing in the background. Click Refresh to see progress.`,
+      });
+    } catch (error) {
+      console.error("Full import error:", error);
+      setBackgroundImports(prev => ({ ...prev, [bookSlug]: false }));
+      toast({
+        title: "Import Failed",
+        description: error instanceof Error ? error.message : "Unknown error",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const refreshCounts = async () => {
+    await fetchBooks();
+    await fetchActualCounts();
+    toast({ title: "Refreshed", description: "Counts updated" });
+  };
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center py-12">
@@ -203,9 +249,25 @@ const HadithManagement = () => {
           <h2 className="text-2xl font-bold">Hadith Management</h2>
           <p className="text-muted-foreground">Import and manage hadith collections from hadithapi.pages.dev</p>
         </div>
-        <Button variant="outline" onClick={fetchBooks}>
+        <Button variant="outline" onClick={refreshCounts}>
           <RefreshCw className="h-4 w-4 mr-2" />
           Refresh
+        </Button>
+      </div>
+
+      <div className="flex flex-wrap gap-2">
+        <Button 
+          onClick={async () => {
+            for (const slug of Object.keys(expectedCounts)) {
+              if ((actualCounts[slug] || 0) < expectedCounts[slug]) {
+                await fullImport(slug);
+                await new Promise(r => setTimeout(r, 500));
+              }
+            }
+          }}
+        >
+          <Zap className="h-4 w-4 mr-2" />
+          Import All Books (Background)
         </Button>
       </div>
 
@@ -241,12 +303,18 @@ const HadithManagement = () => {
                       Paused
                     </Badge>
                   )}
-                  {progress?.status === "success" && (
-                    <Badge variant="default" className="bg-emerald-500">
-                      <CheckCircle className="h-3 w-3 mr-1" />
-                      Done
-                    </Badge>
-                  )}
+                   {progress?.status === "success" && (
+                     <Badge variant="default" className="bg-emerald-500">
+                       <CheckCircle className="h-3 w-3 mr-1" />
+                       Done
+                     </Badge>
+                   )}
+                   {progress?.status === "background" && (
+                     <Badge variant="secondary" className="animate-pulse bg-blue-500 text-white">
+                       <Zap className="h-3 w-3 mr-1" />
+                       Background
+                     </Badge>
+                   )}
                   {progress?.status === "error" && (
                     <Badge variant="destructive">
                       <XCircle className="h-3 w-3 mr-1" />
@@ -273,11 +341,17 @@ const HadithManagement = () => {
                   <p className="text-xs text-muted-foreground text-right">{percentage}% complete</p>
                 </div>
 
-                {progress?.status === "importing" && (
-                  <div className="text-sm text-muted-foreground">
-                    Importing hadith #{progress.currentId}...
-                  </div>
-                )}
+                 {progress?.status === "background" && (
+                   <div className="text-sm text-blue-600">
+                     Importing in background... Click Refresh to see progress.
+                   </div>
+                 )}
+
+                 {progress?.status === "importing" && (
+                   <div className="text-sm text-muted-foreground">
+                     Importing hadith #{progress.currentId}...
+                   </div>
+                 )}
 
                 {progress?.status === "paused" && (
                   <div className="text-sm text-amber-600">
@@ -289,8 +363,13 @@ const HadithManagement = () => {
                   <p className="text-sm text-destructive">{progress.error}</p>
                 )}
 
-                <div className="flex gap-2">
-                  {progress?.status === "importing" ? (
+                 <div className="flex gap-2">
+                   {progress?.status === "background" ? (
+                     <Button className="flex-1" variant="outline" onClick={refreshCounts}>
+                       <RefreshCw className="h-4 w-4 mr-2" />
+                       Check Progress
+                     </Button>
+                   ) : progress?.status === "importing" ? (
                     <Button
                       className="flex-1"
                       variant="outline"
@@ -307,31 +386,42 @@ const HadithManagement = () => {
                       <Play className="h-4 w-4 mr-2" />
                       Resume
                     </Button>
-                  ) : (
-                   <Button
-                     className="flex-1"
-                     variant={isDone ? "outline" : "default"}
-                     onClick={() => importBook(book.slug, isDone ? 1 : (actualCount > 0 ? actualCount + 1 : 1))}
-                   >
-                     {isDone ? (
-                       <>
-                         <RefreshCw className="h-4 w-4 mr-2" />
-                         Re-import
-                       </>
-                     ) : actualCount > 0 ? (
-                       <>
-                         <Play className="h-4 w-4 mr-2" />
-                         Continue
-                       </>
-                     ) : (
-                       <>
-                         <Download className="h-4 w-4 mr-2" />
-                         Import
-                       </>
-                     )}
-                   </Button>
-                  )}
-                </div>
+                   ) : (
+                     <>
+                       <Button
+                         className="flex-1"
+                         variant={isDone ? "outline" : "default"}
+                         onClick={() => importBook(book.slug, isDone ? 1 : (actualCount > 0 ? actualCount + 1 : 1))}
+                       >
+                         {isDone ? (
+                           <>
+                             <RefreshCw className="h-4 w-4 mr-2" />
+                             Re-import
+                           </>
+                         ) : actualCount > 0 ? (
+                           <>
+                             <Play className="h-4 w-4 mr-2" />
+                             Continue
+                           </>
+                         ) : (
+                           <>
+                             <Download className="h-4 w-4 mr-2" />
+                             Import
+                           </>
+                         )}
+                       </Button>
+                       {!isDone && actualCount === 0 && (
+                         <Button
+                           variant="secondary"
+                           onClick={() => fullImport(book.slug)}
+                           title="Import all hadiths in background"
+                         >
+                           <Zap className="h-4 w-4" />
+                         </Button>
+                       )}
+                     </>
+                   )}
+                 </div>
               </CardContent>
             </Card>
           );
