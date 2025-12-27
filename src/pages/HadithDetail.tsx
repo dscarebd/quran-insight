@@ -102,13 +102,13 @@ const HadithDetail = ({ language, arabicFont }: HadithDetailProps) => {
     const fetchChapters = async () => {
       if (!bookSlug) return;
 
-      const translationFilter = language === "bn" ? "bengali.neq." : "english.neq.";
+      const translationColumn = language === "bn" ? "bengali" : "english";
 
       const { data, error } = await supabase
         .from("hadiths")
         .select("chapter_number, chapter_name_english, chapter_name_bengali")
         .eq("book_slug", bookSlug)
-        .or(translationFilter)
+        .not(translationColumn, "is", null)
         .not("chapter_number", "is", null);
 
       if (error) {
@@ -151,13 +151,13 @@ const HadithDetail = ({ language, arabicFont }: HadithDetailProps) => {
     const to = from + HADITHS_PER_PAGE - 1;
 
     // Filter by selected language translation availability
-    const translationFilter = language === "bn" ? "bengali.neq." : "english.neq.";
+    const translationColumn = language === "bn" ? "bengali" : "english";
 
     let query = supabase
       .from("hadiths")
       .select("*")
       .eq("book_slug", bookSlug)
-      .or(translationFilter);
+      .not(translationColumn, "is", null);
 
     // Filter by chapter if selected
     if (chapterNum !== null) {
