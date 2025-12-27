@@ -1,12 +1,10 @@
-import { useState, useRef } from "react";
-import { Search, Volume2, Loader2, Star, X, Sparkles } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import { Search, Star, X, Sparkles } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
 import { allahNames, AllahName } from "@/data/allahNames";
 import { Language } from "@/types/language";
-import { toast } from "sonner";
 
 interface NamesOfAllahProps {
   language: Language;
@@ -16,9 +14,6 @@ interface NamesOfAllahProps {
 const NamesOfAllah = ({ language, arabicFont = "amiri" }: NamesOfAllahProps) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedName, setSelectedName] = useState<AllahName | null>(null);
-  const [playingId, setPlayingId] = useState<number | null>(null);
-  const [loadingId, setLoadingId] = useState<number | null>(null);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const filteredNames = allahNames.filter((name) => {
     const query = searchQuery.toLowerCase();
@@ -30,72 +25,6 @@ const NamesOfAllah = ({ language, arabicFont = "amiri" }: NamesOfAllahProps) => 
       name.meaningBn.includes(searchQuery)
     );
   });
-
-  const playAudio = async (name: AllahName, e?: React.MouseEvent) => {
-    e?.stopPropagation();
-    
-    // If already playing this name, stop it
-    if (playingId === name.id) {
-      if (audioRef.current) {
-        audioRef.current.pause();
-        audioRef.current = null;
-      }
-      setPlayingId(null);
-      return;
-    }
-
-    // Stop any currently playing audio
-    if (audioRef.current) {
-      audioRef.current.pause();
-      audioRef.current = null;
-    }
-
-    setLoadingId(name.id);
-    setPlayingId(null);
-
-    try {
-      const response = await fetch(
-        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/elevenlabs-tts`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
-            Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
-          },
-          body: JSON.stringify({ text: name.arabic }),
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error("Failed to generate audio");
-      }
-
-      const audioBlob = await response.blob();
-      const audioUrl = URL.createObjectURL(audioBlob);
-      const audio = new Audio(audioUrl);
-      audioRef.current = audio;
-
-      audio.onended = () => {
-        setPlayingId(null);
-        URL.revokeObjectURL(audioUrl);
-      };
-
-      audio.onerror = () => {
-        setPlayingId(null);
-        toast.error(language === "bn" ? "অডিও প্লে করতে ব্যর্থ" : "Failed to play audio");
-      };
-
-      setLoadingId(null);
-      setPlayingId(name.id);
-      await audio.play();
-    } catch (error) {
-      console.error("Error playing audio:", error);
-      setLoadingId(null);
-      setPlayingId(null);
-      toast.error(language === "bn" ? "অডিও লোড করতে ব্যর্থ" : "Failed to load audio");
-    }
-  };
 
   return (
     <div className="min-h-screen bg-background pb-4">
@@ -165,21 +94,6 @@ const NamesOfAllah = ({ language, arabicFont = "amiri" }: NamesOfAllahProps) => 
                 <span className="text-xs font-medium text-primary">{name.id}</span>
               </div>
 
-              {/* Play button */}
-              <button
-                onClick={(e) => playAudio(name, e)}
-                disabled={loadingId === name.id}
-                className="absolute top-2 right-2 w-8 h-8 rounded-full bg-muted/80 flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-colors disabled:opacity-50"
-              >
-                {loadingId === name.id ? (
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                ) : (
-                  <Volume2 className={cn(
-                    "h-4 w-4",
-                    playingId === name.id && "text-primary animate-pulse"
-                  )} />
-                )}
-              </button>
 
               {/* Arabic Name */}
               <div className={cn(
@@ -276,29 +190,6 @@ const NamesOfAllah = ({ language, arabicFont = "amiri" }: NamesOfAllahProps) => 
                   </div>
                 </div>
 
-                {/* Play Audio Button */}
-                <div className="pt-4">
-                  <Button
-                    onClick={() => playAudio(selectedName)}
-                    disabled={loadingId === selectedName.id}
-                    className="w-full gap-2"
-                    size="lg"
-                  >
-                    {loadingId === selectedName.id ? (
-                      <Loader2 className="h-5 w-5 animate-spin" />
-                    ) : playingId === selectedName.id ? (
-                      <>
-                        <Volume2 className="h-5 w-5 animate-pulse" />
-                        {language === "bn" ? "বন্ধ করুন" : "Stop"}
-                      </>
-                    ) : (
-                      <>
-                        <Volume2 className="h-5 w-5" />
-                        {language === "bn" ? "উচ্চারণ শুনুন" : "Listen to Pronunciation"}
-                      </>
-                    )}
-                  </Button>
-                </div>
               </div>
             </>
           )}
