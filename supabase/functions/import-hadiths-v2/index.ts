@@ -30,10 +30,20 @@ const BOOK_MAPPINGS: Record<string, {
 
 interface HadithData {
   hadiths: Array<{
-    hadithnumber: number;
+    hadithnumber: number | string;
     text: string;
     grades?: Array<{ name: string; grade: string }>;
   }>;
+}
+
+// Helper to get integer hadith number (skip decimals)
+function getIntegerHadithNumber(num: number | string): number | null {
+  const n = typeof num === 'string' ? parseFloat(num) : num;
+  // Skip decimal numbers like 384.2 - only keep whole numbers
+  if (!Number.isInteger(n)) {
+    return null;
+  }
+  return n;
 }
 
 async function fetchBookData(bookApiName: string, language: string): Promise<HadithData | null> {
@@ -93,27 +103,27 @@ async function importAllHadiths(
 
     console.log(`Found ${primaryData.hadiths.length} hadiths for ${bookSlug}`);
 
-    // Create a map of hadiths by number for each language
-    const arabicMap = new Map(arabicData?.hadiths.map(h => [h.hadithnumber, h]) || []);
-    const englishMap = new Map(englishData?.hadiths.map(h => [h.hadithnumber, h]) || []);
-    const bengaliMap = new Map(bengaliData?.hadiths.map(h => [h.hadithnumber, h]) || []);
+    // Create a map of hadiths by number for each language (using string keys)
+    const arabicMap = new Map(arabicData?.hadiths.map(h => [String(h.hadithnumber), h]) || []);
+    const englishMap = new Map(englishData?.hadiths.map(h => [String(h.hadithnumber), h]) || []);
+    const bengaliMap = new Map(bengaliData?.hadiths.map(h => [String(h.hadithnumber), h]) || []);
 
-    // Process in batches of 100
+    // Process in batches of 100, filtering out non-integer hadith numbers
     const batchSize = 100;
     const allHadithNumbers = [...new Set([
-      ...(arabicData?.hadiths.map(h => h.hadithnumber) || []),
-      ...(englishData?.hadiths.map(h => h.hadithnumber) || []),
+      ...(arabicData?.hadiths.map(h => getIntegerHadithNumber(h.hadithnumber)).filter((n): n is number => n !== null) || []),
+      ...(englishData?.hadiths.map(h => getIntegerHadithNumber(h.hadithnumber)).filter((n): n is number => n !== null) || []),
     ])].sort((a, b) => a - b);
 
-    console.log(`Processing ${allHadithNumbers.length} unique hadiths`);
+    console.log(`Processing ${allHadithNumbers.length} unique hadiths (after filtering decimals)`);
 
     for (let i = 0; i < allHadithNumbers.length; i += batchSize) {
       const batch = allHadithNumbers.slice(i, i + batchSize);
       
       const hadithsToInsert = batch.map(hadithNumber => {
-        const arabicHadith = arabicMap.get(hadithNumber);
-        const englishHadith = englishMap.get(hadithNumber);
-        const bengaliHadith = bengaliMap.get(hadithNumber);
+        const arabicHadith = arabicMap.get(String(hadithNumber));
+        const englishHadith = englishMap.get(String(hadithNumber));
+        const bengaliHadith = bengaliMap.get(String(hadithNumber));
 
         // Get grade from English data (usually has grades)
         const grade = englishHadith?.grades?.[0]?.grade || null;
@@ -205,20 +215,25 @@ Deno.serve(async (req) => {
       bookConfig.hasBengali ? fetchBookData(bookConfig.apiName, "bengali") : Promise.resolve(null),
     ]);
 
-    // Just insert first 10 for testing
-    const testHadiths = (arabicData?.hadiths || englishData?.hadiths || []).slice(0, 10);
-    const arabicMap = new Map(arabicData?.hadiths.map(h => [h.hadithnumber, h]) || []);
-    const englishMap = new Map(englishData?.hadiths.map(h => [h.hadithnumber, h]) || []);
-    const bengaliMap = new Map(bengaliData?.hadiths.map(h => [h.hadithnumber, h]) || []);
+    // Just insert first 10 for testing, filtering out decimal hadith numbers
+    const testHadiths = (arabicData?.hadiths || englishData?.hadiths || [])
+      .filter(h => getIntegerHadithNumber(h.hadithnumber) !== null)
+      .slice(0, 10);
+    const arabicMap = new Map(arabicData?.hadiths.map(h => [String(h.hadithnumber), h]) || []);
+    const englishMap = new Map(englishData?.hadiths.map(h => [String(h.hadithnumber), h]) || []);
+    const bengaliMap = new Map(bengaliData?.hadiths.map(h => [String(h.hadithnumber), h]) || []);
 
-    const hadithsToInsert = testHadiths.map(h => ({
-      book_slug: bookSlug,
-      hadith_number: h.hadithnumber,
-      arabic: arabicMap.get(h.hadithnumber)?.text || null,
-      english: englishMap.get(h.hadithnumber)?.text || null,
-      bengali: bengaliMap.get(h.hadithnumber)?.text || null,
-      grade: englishMap.get(h.hadithnumber)?.grades?.[0]?.grade || null,
-    }));
+    const hadithsToInsert = testHadiths.map(h => {
+      const intNumber = getIntegerHadithNumber(h.hadithnumber)!;
+      return {
+        book_slug: bookSlug,
+        hadith_number: intNumber,
+        arabic: arabicMap.get(String(h.hadithnumber))?.text || null,
+        english: englishMap.get(String(h.hadithnumber))?.text || null,
+        bengali: bengaliMap.get(String(h.hadithnumber))?.text || null,
+        grade: englishMap.get(String(h.hadithnumber))?.grades?.[0]?.grade || null,
+      };
+    });
 
     const { error } = await supabase
       .from("hadiths")
