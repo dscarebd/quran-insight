@@ -142,7 +142,7 @@ export const DesktopHeroSearch = ({ language, onSearch, isLoading, hasResults, o
               disabled={isLoading}
             />
             
-            <div className="flex items-center gap-1.5 sm:gap-2 pr-2 sm:pr-3">
+            <div className="flex items-center gap-1 sm:gap-1.5 pr-1.5 sm:pr-2 shrink-0">
               {/* Clear button */}
               {(query || hasResults) && (
                 <button
@@ -151,9 +151,9 @@ export const DesktopHeroSearch = ({ language, onSearch, isLoading, hasResults, o
                     setQuery("");
                     onClear?.();
                   }}
-                  className="flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-full text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-all"
+                  className="flex h-7 w-7 sm:h-9 sm:w-9 items-center justify-center rounded-full text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-all shrink-0"
                 >
-                  <X className="h-4 w-4 sm:h-5 sm:w-5" />
+                  <X className="h-4 w-4" />
                 </button>
               )}
               
@@ -162,29 +162,29 @@ export const DesktopHeroSearch = ({ language, onSearch, isLoading, hasResults, o
                 onClick={toggleVoiceSearch}
                 disabled={isLoading}
                 className={cn(
-                  "flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-full transition-all",
+                  "flex h-7 w-7 sm:h-9 sm:w-9 items-center justify-center rounded-full transition-all shrink-0",
                   isListening 
                     ? "bg-red-500 text-white animate-pulse" 
                     : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
                 )}
               >
-                {isListening ? <MicOff className="h-4 w-4 sm:h-5 sm:w-5" /> : <Mic className="h-4 w-4 sm:h-5 sm:w-5" />}
+                {isListening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
               </button>
               
               <button
                 type="submit"
                 disabled={isLoading || !query.trim()}
                 className={cn(
-                  "flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-full bg-primary text-primary-foreground transition-all",
+                  "flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-full bg-primary text-primary-foreground transition-all shrink-0",
                   isLoading || !query.trim()
                     ? "opacity-50 cursor-not-allowed"
                     : "hover:scale-105 hover:shadow-lg active:scale-95"
                 )}
               >
                 {isLoading ? (
-                  <div className="h-4 w-4 sm:h-5 sm:w-5 animate-spin rounded-full border-2 border-primary-foreground border-t-transparent" />
+                  <div className="h-4 w-4 animate-spin rounded-full border-2 border-primary-foreground border-t-transparent" />
                 ) : (
-                  <Search className="h-4 w-4 sm:h-5 sm:w-5" />
+                  <Search className="h-4 w-4" />
                 )}
               </button>
             </div>
