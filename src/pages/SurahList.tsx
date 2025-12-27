@@ -66,34 +66,37 @@ const SurahList = ({ language }: SurahListProps) => {
 
         {/* Tabs */}
         <Tabs defaultValue="surah" className="w-full">
-          <TabsList className="grid w-full max-w-md grid-cols-2 mb-6">
-            <TabsTrigger value="surah" className={cn("gap-2", language === "bn" && "font-bengali")}>
-              <Book className="h-4 w-4" />
-              {language === "bn" ? "সূরা" : "Surah"}
-              <span className="text-xs text-muted-foreground">(114)</span>
-            </TabsTrigger>
-            <TabsTrigger value="para" className={cn("gap-2", language === "bn" && "font-bengali")}>
-              <Layers className="h-4 w-4" />
-              {language === "bn" ? "পারা" : "Para"}
-              <span className="text-xs text-muted-foreground">(30)</span>
-            </TabsTrigger>
-          </TabsList>
-
           {/* Surah Tab */}
           <TabsContent value="surah" className="mt-0">
-            {/* Search */}
-            <div className="relative w-full lg:w-80 mb-6">
-              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-              <input
-                type="text"
-                value={surahSearch}
-                onChange={(e) => setSurahSearch(e.target.value)}
-                placeholder={language === "bn" ? "সূরা খুঁজুন..." : "Search surah..."}
-                className={cn(
-                  "w-full rounded-xl border border-input bg-card py-3 pl-10 pr-4 text-sm placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20",
-                  language === "bn" && "font-bengali placeholder:font-bengali"
-                )}
-              />
+            {/* Tabs and Search Row */}
+            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-6">
+              <TabsList className="grid w-full lg:w-auto max-w-md grid-cols-2">
+                <TabsTrigger value="surah" className={cn("gap-2", language === "bn" && "font-bengali")}>
+                  <Book className="h-4 w-4" />
+                  {language === "bn" ? "সূরা" : "Surah"}
+                  <span className="text-xs text-muted-foreground">(114)</span>
+                </TabsTrigger>
+                <TabsTrigger value="para" className={cn("gap-2", language === "bn" && "font-bengali")}>
+                  <Layers className="h-4 w-4" />
+                  {language === "bn" ? "পারা" : "Para"}
+                  <span className="text-xs text-muted-foreground">(30)</span>
+                </TabsTrigger>
+              </TabsList>
+              
+              {/* Search */}
+              <div className="relative w-full lg:w-80">
+                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <input
+                  type="text"
+                  value={surahSearch}
+                  onChange={(e) => setSurahSearch(e.target.value)}
+                  placeholder={language === "bn" ? "সূরা খুঁজুন..." : "Search surah..."}
+                  className={cn(
+                    "w-full rounded-xl border border-input bg-card py-3 pl-10 pr-4 text-sm placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20",
+                    language === "bn" && "font-bengali placeholder:font-bengali"
+                  )}
+                />
+              </div>
             </div>
 
             {/* Surah Grid */}
@@ -161,19 +164,35 @@ const SurahList = ({ language }: SurahListProps) => {
 
           {/* Para Tab */}
           <TabsContent value="para" className="mt-0">
-            {/* Search */}
-            <div className="relative w-full lg:w-80 mb-6">
-              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-              <input
-                type="text"
-                value={paraSearch}
-                onChange={(e) => setParaSearch(e.target.value)}
-                placeholder={language === "bn" ? "পারা খুঁজুন..." : "Search para..."}
-                className={cn(
-                  "w-full rounded-xl border border-input bg-card py-3 pl-10 pr-4 text-sm placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20",
-                  language === "bn" && "font-bengali placeholder:font-bengali"
-                )}
-              />
+            {/* Tabs and Search Row */}
+            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-6">
+              <TabsList className="grid w-full lg:w-auto max-w-md grid-cols-2">
+                <TabsTrigger value="surah" className={cn("gap-2", language === "bn" && "font-bengali")}>
+                  <Book className="h-4 w-4" />
+                  {language === "bn" ? "সূরা" : "Surah"}
+                  <span className="text-xs text-muted-foreground">(114)</span>
+                </TabsTrigger>
+                <TabsTrigger value="para" className={cn("gap-2", language === "bn" && "font-bengali")}>
+                  <Layers className="h-4 w-4" />
+                  {language === "bn" ? "পারা" : "Para"}
+                  <span className="text-xs text-muted-foreground">(30)</span>
+                </TabsTrigger>
+              </TabsList>
+              
+              {/* Search */}
+              <div className="relative w-full lg:w-80">
+                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <input
+                  type="text"
+                  value={paraSearch}
+                  onChange={(e) => setParaSearch(e.target.value)}
+                  placeholder={language === "bn" ? "পারা খুঁজুন..." : "Search para..."}
+                  className={cn(
+                    "w-full rounded-xl border border-input bg-card py-3 pl-10 pr-4 text-sm placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20",
+                    language === "bn" && "font-bengali placeholder:font-bengali"
+                  )}
+                />
+              </div>
             </div>
 
             {/* Para Grid */}
