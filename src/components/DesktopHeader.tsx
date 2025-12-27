@@ -1,5 +1,5 @@
 import { useNavigate, useLocation } from "react-router-dom";
-import { Book, BookOpen, HandHeart, Bookmark, Settings, BookText } from "lucide-react";
+import { Book, BookOpen, HandHeart, Settings, BookText } from "lucide-react";
 import { LanguageToggle } from "./LanguageToggle";
 import appLogo from "@/assets/app-logo.png";
 import { cn } from "@/lib/utils";
@@ -42,18 +42,19 @@ export const DesktopHeader = ({ language, onLanguageChange }: DesktopHeaderProps
       action: () => navigate("/read"),
     },
     { 
+      path: "/hadith", 
+      labelEn: "Hadith", 
+      labelBn: "হাদিস",
+      icon: BookOpen,
+      matchPattern: /^\/hadith/,
+      action: () => navigate("/hadith"),
+    },
+    { 
       path: "/dua", 
       labelEn: "Dua", 
       labelBn: "দোয়া",
       icon: HandHeart,
       action: () => navigate("/dua"),
-    },
-    { 
-      path: "/bookmarks", 
-      labelEn: "Bookmarks", 
-      labelBn: "বুকমার্ক",
-      icon: Bookmark,
-      action: () => navigate("/bookmarks"),
     },
     { 
       path: "/settings", 
