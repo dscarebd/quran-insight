@@ -62,90 +62,115 @@ const duaCategories = [
     icon: "Heart",
     duas: [
       { id: "salah-1", titleBengali: "নামাজ শুরুর দোয়া", titleEnglish: "Opening Dua of Prayer", arabic: "سُبْحَانَكَ اللَّهُمَّ وَبِحَمْدِكَ", transliteration: "Subhanaka Allahumma wa bihamdik", transliterationBengali: "সুবহানাকা আল্লাহুম্মা ওয়া বিহামদিকা", bengali: "হে আল্লাহ আপনি পবিত্র এবং আপনার প্রশংসা", english: "Glory be to You O Allah and praise be to You", reference: "সহীহ বুখারী, হাদিস নং ৭৪৪" },
-      { id: "salah-2", titleBengali: "রুকুর তাসবীহ", titleEnglish: "Tasbeeh in Ruku", arabic: "سُبْحَانَ رَبِّيَ الْعَظِيمِ", transliteration: "Subhana rabbiyal 'azim", transliterationBengali: "সুবহানা রব্বিয়াল 'আযীম", bengali: "পবিত্র আমার মহান রব", english: "Glory be to my Lord the Most Great", reference: "সহীহ মুসলিম, হাদিস নং ৭৭২" },
-      { id: "salah-3", titleBengali: "সিজদার তাসবীহ", titleEnglish: "Tasbeeh in Sujood", arabic: "سُبْحَانَ رَبِّيَ الْأَعْلَى", transliteration: "Subhana rabbiyal a'la", transliterationBengali: "সুবহানা রব্বিয়াল আ'লা", bengali: "পবিত্র আমার সর্বোচ্চ রব", english: "Glory be to my Lord the Most High", reference: "সহীহ মুসলিম, হাদিস নং ৭৭২" },
-      { id: "salah-4", titleBengali: "তাশাহহুদ", titleEnglish: "Tashahhud", arabic: "التَّحِيَّاتُ لِلَّهِ وَالصَّلَوَاتُ", transliteration: "At-tahiyyatu lillahi was-salawat", transliterationBengali: "আত্তাহিয়্যাতু লিল্লাহি ওয়াস সালাওয়াত", bengali: "সমস্ত অভিবাদন আল্লাহর জন্য এবং সকল সালাত", english: "All greetings are for Allah and all prayers", reference: "সহীহ বুখারী, হাদিস নং ৮৩১" },
-      { id: "salah-5", titleBengali: "দরূদ শরীফ", titleEnglish: "Durood Shareef", arabic: "اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ", transliteration: "Allahumma salli 'ala Muhammad", transliterationBengali: "আল্লাহুম্মা সাল্লি 'আলা মুহাম্মাদ", bengali: "হে আল্লাহ মুহাম্মাদের উপর দরূদ পাঠান", english: "O Allah send blessings upon Muhammad", reference: "সহীহ বুখারী, হাদিস নং ৩৩৭০" }
-    ]
-  },
-  {
-    id: "quran",
-    nameEnglish: "Quranic Duas",
-    nameBengali: "কুরআনের দোয়া",
-    nameHindi: "कुरआन की दुआएं",
-    icon: "BookOpen",
-    duas: [
-      { id: "quran-1", titleBengali: "সূরা ফাতিহা", titleEnglish: "Surah Fatiha", titleHindi: "सूरह फातिहा", arabic: "الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ", transliteration: "Alhamdu lillahi rabbil 'alamin", transliterationBengali: "আলহামদু লিল্লাহি রব্বিল 'আলামীন", transliterationHindi: "अलहम्दु लिल्लाहि रब्बिल आलमीन", bengali: "সমস্ত প্রশংসা আল্লাহর যিনি বিশ্বজগতের রব", english: "Praise be to Allah, Lord of all the worlds", hindi: "सभी तारीफ़ अल्लाह की जो सारे जहानों का रब है", reference: "সূরা আল-ফাতিহা ১:২" },
-      { id: "quran-2", titleBengali: "হেদায়েতের দোয়া", titleEnglish: "Guidance Dua", titleHindi: "हिदायत की दुआ", arabic: "رَبَّنَا لَا تُزِغْ قُلُوبَنَا", transliteration: "Rabbana la tuzigh qulubana", transliterationBengali: "রব্বানা লা তুযিগ কুলুবানা", transliterationHindi: "रब्बना ला तुज़िग़ क़ुलूबना", bengali: "হে আমাদের রব আমাদের অন্তর বিপথগামী করো না", english: "Our Lord do not let our hearts deviate", hindi: "ऐ हमारे रब हमारे दिलों को गुमराह मत कर", reference: "সূরা আলে ইমরান ৩:৮" },
-      { id: "quran-3", titleBengali: "দুনিয়া ও আখিরাতের দোয়া", titleEnglish: "Dunya and Akhirah Dua", titleHindi: "दुनिया और आखिरत की दुआ", arabic: "رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً", transliteration: "Rabbana atina fid-dunya hasanah", transliterationBengali: "রব্বানা আতিনা ফিদ দুনইয়া হাসানাহ", transliterationHindi: "रब्बना आतिना फ़िद्दुनिया हसनतन", bengali: "হে আমাদের রব দুনিয়াতে কল্যাণ দাও", english: "Our Lord give us good in this world", hindi: "ऐ हमारे रब हमें दुनिया में भलाई दे", reference: "সূরা আল-বাক়ারাহ ২:২০১" },
-      { id: "quran-4", titleBengali: "ধৈর্যের দোয়া", titleEnglish: "Patience Dua", titleHindi: "सब्र की दुआ", arabic: "رَبَّنَا أَفْرِغْ عَلَيْنَا صَبْرًا", transliteration: "Rabbana afrigh 'alayna sabra", transliterationBengali: "রব্বানা আফরিগ 'আলাইনা সাবরা", transliterationHindi: "रब्बना अफ़रिग़ अलैना सब्रन", bengali: "হে আমাদের রব আমাদের ধৈর্য দান করো", english: "Our Lord pour upon us patience", hindi: "ऐ हमारे रब हम पर सब्र नाज़िल फ़रमा", reference: "সূরা আল-বাক়ারাহ ২:২৫০" },
-      { id: "quran-5", titleBengali: "ক্ষমার দোয়া", titleEnglish: "Forgiveness Dua", titleHindi: "माफ़ी की दुआ", arabic: "رَبَّنَا اغْفِرْ لَنَا ذُنُوبَنَا", transliteration: "Rabbanagh-fir lana dhunubana", transliterationBengali: "রব্বানাগফির লানা যুনূবানা", transliterationHindi: "रब्बनग़्फ़िर लना ज़ुनूबना", bengali: "হে আমাদের রব আমাদের গুনাহ ক্ষমা করো", english: "Our Lord forgive us our sins", hindi: "ऐ हमारे रब हमारे गुनाहों को माफ़ कर", reference: "সূরা আলে ইমরান ৩:১৪৭" }
+      { id: "salah-2", titleBengali: "রুকুর দোয়া", titleEnglish: "Ruku Dua", arabic: "سُبْحَانَ رَبِّيَ الْعَظِيمِ", transliteration: "Subhana rabbiyal-azim", transliterationBengali: "সুবহানা রব্বিয়াল আযীম", bengali: "আমার মহান রব পবিত্র", english: "Glory be to my Lord the Almighty", reference: "সহীহ মুসলিম, হাদিস নং ৭৭২" },
+      { id: "salah-3", titleBengali: "সিজদার দোয়া", titleEnglish: "Sujud Dua", arabic: "سُبْحَانَ رَبِّيَ الْأَعْلَى", transliteration: "Subhana rabbiyal-a'la", transliterationBengali: "সুবহানা রব্বিয়াল আ'লা", bengali: "আমার সর্বোচ্চ রব পবিত্র", english: "Glory be to my Lord the Most High", reference: "সহীহ মুসলিম, হাদিস নং ৭৭২" },
+      { id: "salah-4", titleBengali: "তাশাহহুদ", titleEnglish: "Tashahhud", arabic: "التَّحِيَّاتُ لِلَّهِ وَالصَّلَوَاتُ", transliteration: "At-tahiyyatu lillahi was-salawatu", transliterationBengali: "আত্তাহিয়্যাতু লিল্লাহি ওয়াস সালাওয়াতু", bengali: "সকল সম্মান ও নামাজ আল্লাহর জন্য", english: "All greetings and prayers are for Allah", reference: "সহীহ বুখারী, হাদিস নং ৮৩১" },
+      { id: "salah-5", titleBengali: "দুরুদ শরীফ", titleEnglish: "Durood Sharif", arabic: "اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ", transliteration: "Allahumma salli ala Muhammad", transliterationBengali: "আল্লাহুম্মা সাল্লি 'আলা মুহাম্মাদ", bengali: "হে আল্লাহ মুহাম্মাদের উপর রহমত বর্ষণ করুন", english: "O Allah send blessings upon Muhammad", reference: "সহীহ বুখারী, হাদিস নং ৩৩৭০" }
     ]
   },
   {
     id: "travel",
     nameEnglish: "Travel Duas",
-    nameBengali: "ভ্রমণের দোয়া",
+    nameBengali: "সফরের দোয়া",
     nameHindi: "सफ़र की दुआएं",
-    icon: "Plane",
+    icon: "MapPin",
     duas: [
-      { id: "travel-1", titleBengali: "সফর শুরুর দোয়া", titleEnglish: "Starting Journey", arabic: "سُبْحَانَ الَّذِي سَخَّرَ لَنَا هَذَا", transliteration: "Subhanal-ladhi sakhkhara lana hadha", transliterationBengali: "সুবহানাল্লাযী সাখখারা লানা হাযা", bengali: "পবিত্র তিনি যিনি এটি আমাদের বশীভূত করে দিয়েছেন", english: "Glory to Him who has subjected this to us", reference: "সূরা আয-যুখরুফ ৪৩:১৩" },
-      { id: "travel-2", titleBengali: "যানবাহনে চড়ার দোয়া", titleEnglish: "Boarding Vehicle", arabic: "بِسْمِ اللَّهِ وَالْحَمْدُ لِلَّهِ", transliteration: "Bismillahi wal hamdulillah", transliterationBengali: "বিসমিল্লাহি ওয়াল হামদুলিল্লাহ", bengali: "আল্লাহর নামে এবং সমস্ত প্রশংসা আল্লাহর", english: "In the name of Allah and praise be to Allah", reference: "সুনান আবু দাউদ, হাদিস নং ২৬০২" },
-      { id: "travel-3", titleBengali: "সফরের সুরক্ষা", titleEnglish: "Travel Protection", arabic: "اللَّهُمَّ إِنَّا نَسْأَلُكَ فِي سَفَرِنَا", transliteration: "Allahumma inna nas'aluka fi safarina", transliterationBengali: "আল্লাহুম্মা ইন্না নাস'আলুকা ফী সাফারিনা", bengali: "হে আল্লাহ আমরা এই সফরে তোমার কাছে চাই", english: "O Allah we ask You in our journey", reference: "সহীহ মুসলিম, হাদিস নং ১৩৪২" },
-      { id: "travel-4", titleBengali: "সফর থেকে ফেরার দোয়া", titleEnglish: "Returning from Journey", arabic: "آيِبُونَ تَائِبُونَ عَابِدُونَ", transliteration: "Ayibuna ta'ibuna 'abidun", transliterationBengali: "আয়িবুনা তা'ইবুনা 'আবিদুন", bengali: "আমরা ফিরছি, তওবা করছি, ইবাদত করছি", english: "We return repentant worshipping", reference: "সহীহ বুখারী, হাদিস নং ১৭৯৭" },
-      { id: "travel-5", titleBengali: "নতুন শহরে প্রবেশ", titleEnglish: "Entering New City", arabic: "اللَّهُمَّ رَبَّ السَّمَوَاتِ السَّبْعِ", transliteration: "Allahumma rabbas-samawatis-sab'", transliterationBengali: "আল্লাহুম্মা রব্বাস সামাওয়াতিস সাব'", bengali: "হে আল্লাহ সাত আসমানের রব", english: "O Allah Lord of the seven heavens", reference: "ইবনে হিব্বান, হাদিস নং ২৭০৭" }
+      { id: "travel-1", titleBengali: "যানবাহনে ওঠার দোয়া", titleEnglish: "Upon Boarding Vehicle", arabic: "سُبْحَانَ الَّذِي سَخَّرَ لَنَا هَذَا", transliteration: "Subhanal-ladhi sakh-khara lana hadha", transliterationBengali: "সুবহানাল্লাযী সাখখারা লানা হাযা", bengali: "পবিত্র সেই সত্তা যিনি এটা আমাদের অধীন করে দিয়েছেন", english: "Glory be to Him who has subjected this to us", reference: "সূরা যুখরুফ ৪৩:১৩-১৪" },
+      { id: "travel-2", titleBengali: "সফর শুরুর দোয়া", titleEnglish: "Starting Journey", arabic: "اللَّهُمَّ هَوِّنْ عَلَيْنَا سَفَرَنَا", transliteration: "Allahumma hawwin alayna safarana", transliterationBengali: "আল্লাহুম্মা হাওয়িন 'আলাইনা সাফারানা", bengali: "হে আল্লাহ আমাদের সফর সহজ করে দিন", english: "O Allah make our journey easy for us", reference: "সহীহ মুসলিম, হাদিস নং ১৩৪২" },
+      { id: "travel-3", titleBengali: "সফর থেকে ফেরার দোয়া", titleEnglish: "Returning from Journey", arabic: "آيِبُونَ تَائِبُونَ عَابِدُونَ", transliteration: "Ayibuna ta'ibuna 'abidun", transliterationBengali: "আইবূনা তা'ইবূনা 'আবিদূন", bengali: "আমরা প্রত্যাবর্তনকারী তওবাকারী ইবাদতকারী", english: "We return repenting worshipping", reference: "সহীহ বুখারী, হাদিস নং ১৭৯৭" }
     ]
   },
   {
     id: "health",
     nameEnglish: "Health & Healing",
-    nameBengali: "সুস্থতার দোয়া",
+    nameBengali: "স্বাস্থ্য ও রোগমুক্তি",
     nameHindi: "स्वास्थ्य की दुआएं",
-    icon: "Activity",
+    icon: "Heart",
     duas: [
-      { id: "health-1", titleBengali: "অসুস্থতায় দোয়া", titleEnglish: "When Sick", titleHindi: "बीमारी में दुआ", arabic: "اللَّهُمَّ رَبَّ النَّاسِ أَذْهِبِ الْبَأْسَ", transliteration: "Allahumma rabban-nasi adhhibil-ba's", transliterationBengali: "আল্লাহুম্মা রব্বান নাসি আযহিবিল বা'স", transliterationHindi: "अल्लाहुम्मा रब्बन्नासि अज़हिबिल बा'स", bengali: "হে আল্লাহ মানুষের রব কষ্ট দূর করুন", english: "O Allah Lord of people remove the affliction", hindi: "ऐ अल्लाह लोगों के रब तकलीफ़ दूर कर दे", reference: "সহীহ বুখারী, হাদিস নং ৫৭৫০" },
-      { id: "health-2", titleBengali: "রোগীকে দেখতে গিয়ে দোয়া", titleEnglish: "Visiting the Sick", titleHindi: "बीमार की तीमारदारी में दुआ", arabic: "لَا بَأْسَ طَهُورٌ إِنْ شَاءَ اللَّهُ", transliteration: "La ba'sa tahurun in sha'Allah", transliterationBengali: "লা বা'সা তাহুরুন ইন শা'আল্লাহ", transliterationHindi: "ला बा'स तहूरुन इन शा अल्लाह", bengali: "কোনো সমস্যা নেই, ইনশাআল্লাহ পবিত্রতা হবে", english: "No harm, it is a purification if Allah wills", hindi: "कोई बात नहीं, इंशाअल्लाह पाक हो जाओगे", reference: "সহীহ বুখারী, হাদিস নং ৫৬৫৬" },
-      { id: "health-3", titleBengali: "ব্যথার জায়গায় দোয়া", titleEnglish: "For Pain", titleHindi: "दर्द के लिए दुआ", arabic: "بِسْمِ اللَّهِ ثَلَاثًا", transliteration: "Bismillahi thalathan", transliterationBengali: "বিসমিল্লাহি সালাসান", transliterationHindi: "बिस्मिल्लाहि सलासन", bengali: "তিনবার আল্লাহর নামে", english: "In the name of Allah three times", hindi: "तीन बार अल्लाह के नाम से", reference: "সহীহ মুসলিম, হাদিস নং ২২০২" },
-      { id: "health-4", titleBengali: "সুস্থতার জন্য দোয়া", titleEnglish: "For Good Health", titleHindi: "अच्छी सेहत के लिए दुआ", arabic: "اللَّهُمَّ عَافِنِي فِي بَدَنِي", transliteration: "Allahumma 'afini fi badani", transliterationBengali: "আল্লাহুম্মা 'আফিনী ফী বাদানী", transliterationHindi: "अल्लाहुम्मा आफ़िनी फ़ी बदनी", bengali: "হে আল্লাহ আমার শরীরে সুস্থতা দাও", english: "O Allah grant me health in my body", hindi: "ऐ अल्लाह मुझे मेरे जिस्म में सेहत दे", reference: "সুনান আবু দাউদ, হাদিস নং ৫০৯০" },
-      { id: "health-5", titleBengali: "চোখের সুরক্ষা", titleEnglish: "Eye Protection", arabic: "اللَّهُمَّ مَتِّعْنِي بِسَمْعِي وَبَصَرِي", transliteration: "Allahumma matti'ni bisam'i wa basari", transliterationBengali: "আল্লাহুম্মা মাত্তি'নী বিসাম'ঈ ওয়া বাসারী", bengali: "হে আল্লাহ আমাকে শ্রবণ ও দৃষ্টি দ্বারা উপকৃত কর", english: "O Allah let me enjoy my hearing and sight", reference: "সুনান তিরমিযী, হাদিস নং ৩৫০২" }
+      { id: "health-1", titleBengali: "রোগ থেকে মুক্তির দোয়া", titleEnglish: "Healing Dua", arabic: "اللَّهُمَّ رَبَّ النَّاسِ أَذْهِبِ الْبَاسَ", transliteration: "Allahumma rabban-nasi adhhibil-ba's", transliterationBengali: "আল্লাহুম্মা রব্বান নাসি আযহিবিল বা'স", bengali: "হে আল্লাহ মানুষের রব কষ্ট দূর করে দিন", english: "O Allah Lord of mankind remove the affliction", reference: "সহীহ বুখারী, হাদিস নং ৫৭৫০" },
+      { id: "health-2", titleBengali: "অসুস্থ দেখে দোয়া", titleEnglish: "Visiting the Sick", arabic: "لَا بَأْسَ طَهُورٌ إِنْ شَاءَ اللَّهُ", transliteration: "La ba'sa tahur in sha Allah", transliterationBengali: "লা বা'সা তাহূর ইন শা আল্লাহ", bengali: "কোনো ক্ষতি নেই ইনশাআল্লাহ পবিত্রতা হবে", english: "No worry it is a purification if Allah wills", reference: "সহীহ বুখারী, হাদিস নং ৩৬১৬" }
     ]
   }
 ];
 
+async function verifyAdminRole(supabase: any, authHeader: string): Promise<{ isAdmin: boolean; error?: string }> {
+  try {
+    const token = authHeader.replace('Bearer ', '');
+    const { data: { user }, error: userError } = await supabase.auth.getUser(token);
+    
+    if (userError || !user) {
+      return { isAdmin: false, error: 'Invalid or expired token' };
+    }
+
+    const { data: hasRole, error: roleError } = await supabase.rpc('has_role', {
+      _user_id: user.id,
+      _role: 'admin'
+    });
+
+    if (roleError) {
+      console.error('Role check error:', roleError);
+      return { isAdmin: false, error: 'Failed to verify admin role' };
+    }
+
+    return { isAdmin: !!hasRole };
+  } catch (error) {
+    console.error('Auth verification error:', error);
+    return { isAdmin: false, error: 'Authentication failed' };
+  }
+}
+
 Deno.serve(async (req) => {
   // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
-    return new Response(null, { headers: corsHeaders });
+    return new Response(null, { headers: corsHeaders })
   }
 
   try {
-    console.log('Starting dua import process...');
+    const supabaseUrl = Deno.env.get('SUPABASE_URL')!
+    const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
+    const supabaseAnonKey = Deno.env.get('SUPABASE_ANON_KEY')!
     
-    // Create Supabase client
-    const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
-    const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
-    const supabase = createClient(supabaseUrl, supabaseKey);
+    // Create client with anon key for auth verification
+    const authClient = createClient(supabaseUrl, supabaseAnonKey)
+    
+    // Verify admin role
+    const authHeader = req.headers.get('Authorization')
+    if (!authHeader) {
+      return new Response(
+        JSON.stringify({ error: 'Authorization header required' }),
+        { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      )
+    }
+
+    const { isAdmin, error: authError } = await verifyAdminRole(authClient, authHeader)
+    if (!isAdmin) {
+      console.log('Admin access denied:', authError)
+      return new Response(
+        JSON.stringify({ error: authError || 'Admin access required' }),
+        { status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      )
+    }
+
+    console.log('Admin access verified, proceeding with import...')
+    
+    // Use service role client for database operations
+    const supabase = createClient(supabaseUrl, supabaseServiceKey)
 
     let categoriesImported = 0;
     let duasImported = 0;
-    let errors: string[] = [];
+    const errors: string[] = [];
 
-    // Import categories first
-    for (let i = 0; i < duaCategories.length; i++) {
-      const category = duaCategories[i];
-      
-      console.log(`Importing category: ${category.nameEnglish}`);
-      
-      // Insert or update category
+    // Import each category and its duas
+    for (const category of duaCategories) {
+      // Upsert the category
       const { error: categoryError } = await supabase
         .from('dua_categories')
         .upsert({
           category_id: category.id,
           name_english: category.nameEnglish,
           name_bengali: category.nameBengali,
-          name_hindi: category.nameHindi || null,
-          icon: category.icon,
-          display_order: i
+          name_hindi: category.nameHindi,
+          icon: category.icon
         }, {
           onConflict: 'category_id'
         });

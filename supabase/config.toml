@@ -4,19 +4,19 @@ project_id = "iacjtvvlyxkmrzaxkedk"
 verify_jwt = false
 
 [functions.update-arabic-verses]
-verify_jwt = false
+verify_jwt = true
 
 [functions.import-verses]
-verify_jwt = false
+verify_jwt = true
 
 [functions.import-duas]
-verify_jwt = false
+verify_jwt = true
 
 [functions.fetch-bengali-tafsir]
-verify_jwt = false
+verify_jwt = true
 
 [functions.generate-tafsir]
-verify_jwt = false
+verify_jwt = true
 
 [functions.elevenlabs-tts]
 verify_jwt = false
