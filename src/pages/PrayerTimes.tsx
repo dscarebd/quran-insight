@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { Clock, MapPin, RefreshCw, Sunrise, Sun, Sunset, Moon } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { Clock, MapPin, RefreshCw, Sunrise, Sun, Sunset, Moon, CalendarDays } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Language } from "@/types/language";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -24,6 +25,7 @@ interface PrayerTimesProps {
 }
 
 const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
+  const navigate = useNavigate();
   const [location, setLocation] = useState<Location>(defaultLocations.dhaka);
   const [prayerTimes, setPrayerTimes] = useState<PrayerTimesType | null>(null);
   const [nextPrayer, setNextPrayer] = useState<{ name: string; time: string; nameAr: string; nameBn: string } | null>(null);
@@ -37,6 +39,12 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
     en: 'Prayer Times',
     bn: 'নামাজের সময়',
     hi: 'नमाज़ का समय'
+  };
+
+  const calendarLabel = {
+    en: 'Islamic Calendar',
+    bn: 'ইসলামিক ক্যালেন্ডার',
+    hi: 'इस्लामी कैलेंडर'
   };
 
   const locationLabel = {
@@ -298,6 +306,18 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
                 {pageTitle[language]}
               </h1>
             </div>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => navigate('/islamic-calendar')}
+              className={cn(
+                "shrink-0 gap-1.5",
+                language === "bn" && "font-bengali"
+              )}
+            >
+              <CalendarDays className="h-4 w-4" />
+              <span className="hidden sm:inline">{calendarLabel[language]}</span>
+            </Button>
           </div>
         </div>
       </div>
@@ -313,6 +333,17 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
         )}>
           {pageTitle[language]}
         </h1>
+        <Button
+          variant="outline"
+          onClick={() => navigate('/islamic-calendar')}
+          className={cn(
+            "gap-2",
+            language === "bn" && "font-bengali"
+          )}
+        >
+          <CalendarDays className="h-4 w-4" />
+          {calendarLabel[language]}
+        </Button>
       </div>
 
       <div className="container mx-auto px-4 py-4 lg:py-6 max-w-4xl">
