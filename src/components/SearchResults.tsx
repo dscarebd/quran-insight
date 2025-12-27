@@ -1,34 +1,20 @@
-import { Bot, Sparkles, ArrowLeft } from "lucide-react";
+import { Bot, Sparkles } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import { cn } from "@/lib/utils";
 import { Language } from "@/types/language";
-import { Button } from "@/components/ui/button";
 
 interface SearchResultsProps {
   query: string;
   response: string;
   isLoading: boolean;
   language: Language;
-  onClear?: () => void;
 }
 
-export const SearchResults = ({ query, response, isLoading, language, onClear }: SearchResultsProps) => {
+export const SearchResults = ({ query, response, isLoading, language }: SearchResultsProps) => {
   if (!query && !response) return null;
 
   return (
     <div className="mt-8 animate-fade-in">
-      {/* Back Button */}
-      {onClear && (
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={onClear}
-          className={cn("mb-4 gap-2", language === "bn" && "font-bengali")}
-        >
-          <ArrowLeft className="h-4 w-4" />
-          {language === "bn" ? "পিছনে যান" : "Back"}
-        </Button>
-      )}
 
       {/* User Query */}
       <div className="mb-4 flex items-start gap-3">

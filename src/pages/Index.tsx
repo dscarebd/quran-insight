@@ -219,14 +219,6 @@ const Index = ({ language }: IndexProps) => {
             response={aiResponse}
             isLoading={isSearching}
             language={language}
-            onClear={() => {
-              setSearchQuery("");
-              setAiResponse("");
-              if (abortControllerRef.current) {
-                abortControllerRef.current.abort();
-              }
-              setIsSearching(false);
-            }}
           />
         )}
         
