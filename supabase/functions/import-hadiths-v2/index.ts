@@ -23,8 +23,8 @@ const BOOK_MAPPINGS: Record<string, {
   nasai: { apiName: "nasai", displayName: "Sunan an-Nasa'i", hasBengali: true },
   ibnmajah: { apiName: "ibnmajah", displayName: "Sunan Ibn Majah", hasBengali: true },
   malik: { apiName: "malik", displayName: "Muwatta Malik", hasBengali: true },
-  nawawi: { apiName: "nawawi40", displayName: "Forty Hadith Nawawi", hasBengali: true },
-  qudsi: { apiName: "qudsi40", displayName: "Forty Hadith Qudsi", hasBengali: false },
+  nawawi: { apiName: "nawawi", displayName: "Forty Hadith Nawawi", hasBengali: true },
+  qudsi: { apiName: "qudsi", displayName: "Forty Hadith Qudsi", hasBengali: false },
   dehlawi: { apiName: "dehlawi", displayName: "Forty Hadith Shah Waliullah Dehlawi", hasBengali: false },
 };
 
