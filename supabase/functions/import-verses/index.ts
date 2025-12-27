@@ -6,6 +6,32 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
+async function verifyAdminRole(supabase: any, authHeader: string): Promise<{ isAdmin: boolean; error?: string }> {
+  try {
+    const token = authHeader.replace('Bearer ', '');
+    const { data: { user }, error: userError } = await supabase.auth.getUser(token);
+    
+    if (userError || !user) {
+      return { isAdmin: false, error: 'Invalid or expired token' };
+    }
+
+    const { data: hasRole, error: roleError } = await supabase.rpc('has_role', {
+      _user_id: user.id,
+      _role: 'admin'
+    });
+
+    if (roleError) {
+      console.error('Role check error:', roleError);
+      return { isAdmin: false, error: 'Failed to verify admin role' };
+    }
+
+    return { isAdmin: !!hasRole };
+  } catch (error) {
+    console.error('Auth verification error:', error);
+    return { isAdmin: false, error: 'Authentication failed' };
+  }
+}
+
 serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -14,6 +40,32 @@ serve(async (req) => {
   try {
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
     const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+    const supabaseAnonKey = Deno.env.get("SUPABASE_ANON_KEY")!;
+    
+    // Create client with anon key for auth verification
+    const authClient = createClient(supabaseUrl, supabaseAnonKey);
+    
+    // Verify admin role
+    const authHeader = req.headers.get('Authorization');
+    if (!authHeader) {
+      return new Response(
+        JSON.stringify({ error: "Authorization header required" }),
+        { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    const { isAdmin, error: authError } = await verifyAdminRole(authClient, authHeader);
+    if (!isAdmin) {
+      console.log('Admin access denied:', authError);
+      return new Response(
+        JSON.stringify({ error: authError || "Admin access required" }),
+        { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    console.log('Admin access verified, proceeding with import...');
+    
+    // Use service role client for database operations
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
     // Parse CSV from request body
