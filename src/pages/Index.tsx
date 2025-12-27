@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { SearchResults } from "@/components/SearchResults";
 import { ContinueReading } from "@/components/ContinueReading";
 import { DesktopHeroSearch } from "@/components/desktop/DesktopHeroSearch";
@@ -19,6 +19,23 @@ const Index = ({ language }: IndexProps) => {
   const [aiResponse, setAiResponse] = useState("");
   const { toast } = useToast();
   const abortControllerRef = useRef<AbortController | null>(null);
+
+  // Clear search function
+  const clearSearch = useCallback(() => {
+    setSearchQuery("");
+    setAiResponse("");
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+    setIsSearching(false);
+  }, []);
+
+  // Listen for home navigation event to clear search
+  useEffect(() => {
+    const handleClearSearch = () => clearSearch();
+    window.addEventListener("clear-home-search", handleClearSearch);
+    return () => window.removeEventListener("clear-home-search", handleClearSearch);
+  }, [clearSearch]);
 
   // Offline search through local verses
   const searchOffline = (query: string): string => {
@@ -202,14 +219,7 @@ const Index = ({ language }: IndexProps) => {
           onSearch={handleSearch}
           isLoading={isSearching}
           hasResults={!!searchQuery}
-          onClear={() => {
-            setSearchQuery("");
-            setAiResponse("");
-            if (abortControllerRef.current) {
-              abortControllerRef.current.abort();
-            }
-            setIsSearching(false);
-          }}
+          onClear={clearSearch}
         />
         
         {/* Search Results */}
