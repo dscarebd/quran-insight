@@ -28,6 +28,7 @@ import PrayerTimes from "./pages/PrayerTimes";
 import NamesOfAllah from "./pages/NamesOfAllah";
 import HadithList from "./pages/HadithList";
 import HadithDetail from "./pages/HadithDetail";
+import HadithSearch from "./pages/HadithSearch";
 // Component to redirect to last read page
 const ReadPageRedirect = () => {
   const lastReadPage = localStorage.getItem("quran-last-read-page") || "1";
@@ -165,6 +166,11 @@ const AppContent = () => {
       <Route path="/hadith/:bookSlug" element={
         <Layout language={language} onLanguageChange={setLanguage}>
           <HadithDetail language={language} arabicFont={arabicFont} />
+        </Layout>
+      } />
+      <Route path="/hadith-search" element={
+        <Layout language={language} onLanguageChange={setLanguage}>
+          <HadithSearch language={language} arabicFont={arabicFont} />
         </Layout>
       } />
       <Route path="/settings" element={
