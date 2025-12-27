@@ -92,18 +92,21 @@ const HadithDetail = ({ language, arabicFont }: HadithDetailProps) => {
     fetchBook();
   }, [bookSlug]);
 
-  // Fetch hadiths - only those with content (arabic, english, or bengali)
+  // Fetch hadiths - only those with translation in selected language
   const fetchHadiths = useCallback(async (pageNum: number, reset = false) => {
     if (!bookSlug) return;
 
     const from = (pageNum - 1) * HADITHS_PER_PAGE;
     const to = from + HADITHS_PER_PAGE - 1;
 
+    // Filter by selected language translation availability
+    const translationFilter = language === "bn" ? "bengali.neq." : "english.neq.";
+
     const { data, error } = await supabase
       .from("hadiths")
       .select("*")
       .eq("book_slug", bookSlug)
-      .or("arabic.neq.,english.neq.,bengali.neq.")
+      .or(translationFilter)
       .order("hadith_number", { ascending: true })
       .range(from, to);
 
@@ -117,17 +120,18 @@ const HadithDetail = ({ language, arabicFont }: HadithDetailProps) => {
       }
       setHasMore((data?.length || 0) === HADITHS_PER_PAGE);
     }
-  }, [bookSlug]);
+  }, [bookSlug, language]);
 
-  // Initial fetch
+  // Initial fetch and refetch when language changes
   useEffect(() => {
     const init = async () => {
       setIsLoading(true);
+      setPage(1);
       await fetchHadiths(1, true);
       setIsLoading(false);
     };
     init();
-  }, [fetchHadiths]);
+  }, [fetchHadiths, language]);
 
   // Fetch bookmarks
   useEffect(() => {
