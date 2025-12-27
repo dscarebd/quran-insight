@@ -43,15 +43,18 @@ export const QuickAccessCards = ({ language }: QuickAccessCardsProps) => {
       count: 6,
     },
     {
-      id: "prayer",
+      id: "prayer-calendar",
       icon: Clock,
-      labelEn: "Prayer Times",
-      labelBn: "নামাজের সময়",
-      descEn: "Location-based prayer schedule",
-      descBn: "অবস্থান ভিত্তিক নামাজের সময়সূচী",
+      secondIcon: CalendarDays,
+      labelEn: "Prayer & Calendar",
+      labelBn: "নামাজ ও ক্যালেন্ডার",
+      descEn: "Prayer times & Islamic calendar",
+      descBn: "নামাজের সময় ও ইসলামিক ক্যালেন্ডার",
       path: "/prayer-times",
+      secondPath: "/islamic-calendar",
       gradient: "from-violet-500 to-purple-600",
       count: 5,
+      secondCount: calendarEventsCount,
     },
     {
       id: "dua",
@@ -64,23 +67,89 @@ export const QuickAccessCards = ({ language }: QuickAccessCardsProps) => {
       gradient: "from-amber-500 to-orange-600",
       count: duaCount,
     },
-    {
-      id: "calendar",
-      icon: CalendarDays,
-      labelEn: "Islamic Calendar",
-      labelBn: "ইসলামিক ক্যালেন্ডার",
-      descEn: "Holidays and Islamic occasions",
-      descBn: "ছুটি ও ইসলামিক অনুষ্ঠান",
-      path: "/islamic-calendar",
-      gradient: "from-rose-500 to-pink-600",
-      count: calendarEventsCount,
-    },
   ];
 
   return (
     <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
       {quickLinks.map((link) => {
         const Icon = link.icon;
+        const SecondIcon = (link as any).secondIcon;
+        const secondPath = (link as any).secondPath;
+        
+        // Combined card with two sections
+        if (secondPath) {
+          return (
+            <div
+              key={link.id}
+              className="group relative overflow-hidden rounded-xl sm:rounded-2xl bg-card border border-border text-left transition-all duration-300 hover:shadow-elevated"
+            >
+              {/* Gradient overlay on hover */}
+              <div className={cn(
+                "absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-300 bg-gradient-to-br pointer-events-none",
+                link.gradient
+              )} />
+              
+              {/* Two clickable sections */}
+              <div className="flex flex-col divide-y divide-border">
+                {/* Prayer Times section */}
+                <button
+                  onClick={() => navigate(link.path)}
+                  className="flex items-center gap-3 p-3 sm:p-4 hover:bg-accent/50 transition-colors"
+                >
+                  <div className={cn(
+                    "flex h-9 w-9 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br text-white shadow-md",
+                    link.gradient
+                  )}>
+                    <Icon className="h-4 w-4 sm:h-5 sm:w-5" />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <h3 className={cn(
+                      "font-semibold text-sm text-foreground truncate",
+                      language === "bn" && "font-bengali"
+                    )}>
+                      {language === "bn" ? "নামাজের সময়" : "Prayer Times"}
+                    </h3>
+                    <p className={cn(
+                      "text-xs text-muted-foreground truncate",
+                      language === "bn" && "font-bengali"
+                    )}>
+                      {language === "bn" ? "অবস্থান ভিত্তিক নামাজের সময়সূচী" : "Location-based prayer schedule"}
+                    </p>
+                  </div>
+                </button>
+                
+                {/* Islamic Calendar section */}
+                <button
+                  onClick={() => navigate(secondPath)}
+                  className="flex items-center gap-3 p-3 sm:p-4 hover:bg-accent/50 transition-colors"
+                >
+                  <div className={cn(
+                    "flex h-9 w-9 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br text-white shadow-md",
+                    "from-rose-500 to-pink-600"
+                  )}>
+                    <SecondIcon className="h-4 w-4 sm:h-5 sm:w-5" />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <h3 className={cn(
+                      "font-semibold text-sm text-foreground truncate",
+                      language === "bn" && "font-bengali"
+                    )}>
+                      {language === "bn" ? "ইসলামিক ক্যালেন্ডার" : "Islamic Calendar"}
+                    </h3>
+                    <p className={cn(
+                      "text-xs text-muted-foreground truncate",
+                      language === "bn" && "font-bengali"
+                    )}>
+                      {language === "bn" ? "ছুটি ও ইসলামিক অনুষ্ঠান" : "Holidays & Islamic occasions"}
+                    </p>
+                  </div>
+                </button>
+              </div>
+            </div>
+          );
+        }
+        
+        // Regular single card
         return (
           <button
             key={link.id}
