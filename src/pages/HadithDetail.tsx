@@ -92,7 +92,7 @@ const HadithDetail = ({ language, arabicFont }: HadithDetailProps) => {
     fetchBook();
   }, [bookSlug]);
 
-  // Fetch hadiths
+  // Fetch hadiths - only those with content (arabic, english, or bengali)
   const fetchHadiths = useCallback(async (pageNum: number, reset = false) => {
     if (!bookSlug) return;
 
@@ -103,6 +103,7 @@ const HadithDetail = ({ language, arabicFont }: HadithDetailProps) => {
       .from("hadiths")
       .select("*")
       .eq("book_slug", bookSlug)
+      .or("arabic.neq.,english.neq.,bengali.neq.")
       .order("hadith_number", { ascending: true })
       .range(from, to);
 
