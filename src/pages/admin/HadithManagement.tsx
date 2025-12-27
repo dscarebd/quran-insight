@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Book, Download, Loader2, RefreshCw, CheckCircle, XCircle, Pause, Play, Zap } from "lucide-react";
+import { Book, Download, Loader2, RefreshCw, CheckCircle, XCircle, Pause, Play, Zap, Languages } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
@@ -39,10 +39,12 @@ const HadithManagement = () => {
   const { toast } = useToast();
   const [books, setBooks] = useState<HadithBook[]>([]);
   const [actualCounts, setActualCounts] = useState<Record<string, number>>({});
+  const [bengaliCounts, setBengaliCounts] = useState<Record<string, number>>({});
   const [isLoading, setIsLoading] = useState(true);
   const [importProgress, setImportProgress] = useState<Record<string, ImportProgress>>({});
   const [pauseFlags, setPauseFlags] = useState<Record<string, boolean>>({});
   const [backgroundImports, setBackgroundImports] = useState<Record<string, boolean>>({});
+  const [bengaliImporting, setBengaliImporting] = useState<Record<string, boolean>>({});
 
   const fetchBooks = async () => {
     const { data, error } = await supabase
@@ -61,14 +63,24 @@ const HadithManagement = () => {
   // Fetch actual hadith counts from the hadiths table
   const fetchActualCounts = async () => {
     const counts: Record<string, number> = {};
+    const bnCounts: Record<string, number> = {};
     for (const slug of Object.keys(expectedCounts)) {
       const { count } = await supabase
         .from("hadiths")
         .select("id", { count: "exact", head: true })
         .eq("book_slug", slug);
       counts[slug] = count || 0;
+
+      // Count hadiths with Bengali translations
+      const { count: bnCount } = await supabase
+        .from("hadiths")
+        .select("id", { count: "exact", head: true })
+        .eq("book_slug", slug)
+        .not("bengali", "is", null);
+      bnCounts[slug] = bnCount || 0;
     }
     setActualCounts(counts);
+    setBengaliCounts(bnCounts);
   };
 
   useEffect(() => {
@@ -234,6 +246,44 @@ const HadithManagement = () => {
     toast({ title: "Refreshed", description: "Counts updated" });
   };
 
+  const importBengali = async (bookSlug: string) => {
+    setBengaliImporting(prev => ({ ...prev, [bookSlug]: true }));
+
+    try {
+      const response = await supabase.functions.invoke("import-bengali-hadiths", {
+        body: { bookSlug, fullImport: true },
+      });
+
+      if (response.error) {
+        throw new Error(response.error.message);
+      }
+
+      toast({
+        title: "Bengali Import Started",
+        description: `Bengali translations for ${bookSlug} importing in background. Click Refresh to see progress.`,
+      });
+    } catch (error) {
+      console.error("Bengali import error:", error);
+      setBengaliImporting(prev => ({ ...prev, [bookSlug]: false }));
+      toast({
+        title: "Import Failed",
+        description: error instanceof Error ? error.message : "Unknown error",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const importAllBengali = async () => {
+    for (const slug of Object.keys(expectedCounts)) {
+      const actualCount = actualCounts[slug] || 0;
+      const bnCount = bengaliCounts[slug] || 0;
+      if (actualCount > 0 && bnCount < actualCount) {
+        await importBengali(slug);
+        await new Promise(r => setTimeout(r, 500));
+      }
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center py-12">
@@ -269,6 +319,10 @@ const HadithManagement = () => {
           <Zap className="h-4 w-4 mr-2" />
           Import All Books (Background)
         </Button>
+        <Button variant="secondary" onClick={importAllBengali}>
+          <Languages className="h-4 w-4 mr-2" />
+          Import All Bengali (Background)
+        </Button>
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -276,8 +330,10 @@ const HadithManagement = () => {
           const progress = importProgress[book.slug];
           const expected = expectedCounts[book.slug] || 0;
           const actualCount = actualCounts[book.slug] || 0;
+          const bnCount = bengaliCounts[book.slug] || 0;
           const currentCount = progress?.imported || actualCount;
           const percentage = expected > 0 ? Math.round((currentCount / expected) * 100) : 0;
+          const bnPercentage = actualCount > 0 ? Math.round((bnCount / actualCount) * 100) : 0;
           const isDone = currentCount >= expected;
 
           return (
@@ -329,17 +385,48 @@ const HadithManagement = () => {
                    )}
                  </div>
                </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-2">
-                  <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Progress</span>
-                    <span className="font-medium">
-                      {currentCount.toLocaleString()} / {expected.toLocaleString()}
-                    </span>
-                  </div>
-                  <Progress value={percentage} className="h-2" />
-                  <p className="text-xs text-muted-foreground text-right">{percentage}% complete</p>
-                </div>
+               <CardContent className="space-y-4">
+                 <div className="space-y-2">
+                   <div className="flex justify-between text-sm">
+                     <span className="text-muted-foreground">Hadiths</span>
+                     <span className="font-medium">
+                       {currentCount.toLocaleString()} / {expected.toLocaleString()}
+                     </span>
+                   </div>
+                   <Progress value={percentage} className="h-2" />
+                   <p className="text-xs text-muted-foreground text-right">{percentage}% complete</p>
+                 </div>
+
+                 {actualCount > 0 && (
+                   <div className="space-y-2">
+                     <div className="flex justify-between text-sm">
+                       <span className="text-muted-foreground flex items-center gap-1">
+                         <Languages className="h-3 w-3" /> Bengali
+                       </span>
+                       <span className="font-medium">
+                         {bnCount.toLocaleString()} / {actualCount.toLocaleString()}
+                       </span>
+                     </div>
+                     <Progress value={bnPercentage} className="h-2 bg-muted" />
+                     <div className="flex justify-between items-center">
+                       <p className="text-xs text-muted-foreground">{bnPercentage}% translated</p>
+                       {bnCount < actualCount && !bengaliImporting[book.slug] && (
+                         <Button
+                           size="sm"
+                           variant="ghost"
+                           className="h-6 text-xs"
+                           onClick={() => importBengali(book.slug)}
+                         >
+                           <Languages className="h-3 w-3 mr-1" />
+                           Import Bengali
+                         </Button>
+                       )}
+                       {bengaliImporting[book.slug] && (
+                         <span className="text-xs text-blue-600 animate-pulse">Importing...</span>
+                       )}
+                     </div>
+                   </div>
+                 )}
 
                  {progress?.status === "background" && (
                    <div className="text-sm text-blue-600">
