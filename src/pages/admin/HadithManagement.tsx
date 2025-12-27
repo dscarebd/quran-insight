@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Book, Download, Loader2, RefreshCw, CheckCircle, XCircle, Pause, Play, Zap, Languages } from "lucide-react";
+import { Book, Download, Loader2, RefreshCw, CheckCircle, XCircle, Pause, Play, Zap, Languages, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
@@ -26,13 +26,18 @@ interface ImportProgress {
   error?: string;
 }
 
-const expectedCounts: Record<string, number> = {
-  bukhari: 7563,
-  muslim: 3032,
-  abudawud: 3998,
-  tirmidhi: 3956,
-  nasai: 5662,
-  ibnmajah: 4342,
+// Book configurations for the new API (fawazahmed0/hadith-api)
+const BOOK_CONFIG: Record<string, { expectedCount: number; hasBengali: boolean }> = {
+  bukhari: { expectedCount: 7563, hasBengali: true },
+  muslim: { expectedCount: 3032, hasBengali: true },
+  abudawud: { expectedCount: 5274, hasBengali: true },
+  tirmidhi: { expectedCount: 3956, hasBengali: true },
+  nasai: { expectedCount: 5758, hasBengali: true },
+  ibnmajah: { expectedCount: 4342, hasBengali: true },
+  malik: { expectedCount: 1832, hasBengali: true },
+  nawawi: { expectedCount: 42, hasBengali: true },
+  qudsi: { expectedCount: 40, hasBengali: false },
+  dehlawi: { expectedCount: 40, hasBengali: false },
 };
 
 const HadithManagement = () => {
@@ -42,9 +47,7 @@ const HadithManagement = () => {
   const [bengaliCounts, setBengaliCounts] = useState<Record<string, number>>({});
   const [isLoading, setIsLoading] = useState(true);
   const [importProgress, setImportProgress] = useState<Record<string, ImportProgress>>({});
-  const [pauseFlags, setPauseFlags] = useState<Record<string, boolean>>({});
   const [backgroundImports, setBackgroundImports] = useState<Record<string, boolean>>({});
-  const [bengaliImporting, setBengaliImporting] = useState<Record<string, boolean>>({});
 
   const fetchBooks = async () => {
     const { data, error } = await supabase
@@ -64,7 +67,8 @@ const HadithManagement = () => {
   const fetchActualCounts = async () => {
     const counts: Record<string, number> = {};
     const bnCounts: Record<string, number> = {};
-    for (const slug of Object.keys(expectedCounts)) {
+    
+    for (const slug of Object.keys(BOOK_CONFIG)) {
       const { count } = await supabase
         .from("hadiths")
         .select("id", { count: "exact", head: true })
@@ -88,91 +92,38 @@ const HadithManagement = () => {
     fetchActualCounts();
   }, []);
 
-  const importBook = async (bookSlug: string, startFrom: number = 1) => {
-    const batchSize = 50; // Smaller batches for reliability
-    let currentStartId = startFrom;
-    let hasMore = true;
-    let totalImported = 0;
-    const expected = expectedCounts[bookSlug] || 0;
+  const importBook = async (bookSlug: string) => {
+    const config = BOOK_CONFIG[bookSlug];
+    if (!config) return;
 
-    // Reset pause flag
-    setPauseFlags(prev => ({ ...prev, [bookSlug]: false }));
-
+    setBackgroundImports(prev => ({ ...prev, [bookSlug]: true }));
     setImportProgress(prev => ({
       ...prev,
       [bookSlug]: {
         bookSlug,
-        currentId: currentStartId,
-        totalExpected: expected,
+        currentId: 0,
+        totalExpected: config.expectedCount,
         imported: 0,
-        status: "importing",
+        status: "background",
       },
     }));
 
     try {
-      while (hasMore && !pauseFlags[bookSlug]) {
-        const response = await supabase.functions.invoke("import-hadiths", {
-          body: { bookSlug, startId: currentStartId, batchSize },
-        });
+      const response = await supabase.functions.invoke("import-hadiths-v2", {
+        body: { bookSlug, fullImport: true },
+      });
 
-        if (response.error) {
-          throw new Error(response.error.message);
-        }
-
-        const { imported, nextStartId, hasMore: more, totalInBook } = response.data;
-        totalImported = totalInBook || (totalImported + imported);
-        hasMore = more;
-        currentStartId = nextStartId;
-
-        setImportProgress(prev => ({
-          ...prev,
-          [bookSlug]: {
-            bookSlug,
-            currentId: currentStartId,
-            totalExpected: expected,
-            imported: totalImported,
-            status: pauseFlags[bookSlug] ? "paused" : "importing",
-          },
-        }));
-
-        // Small delay between batches
-        if (hasMore) {
-          await new Promise(resolve => setTimeout(resolve, 500));
-        }
+      if (response.error) {
+        throw new Error(response.error.message);
       }
 
-      if (pauseFlags[bookSlug]) {
-        setImportProgress(prev => ({
-          ...prev,
-          [bookSlug]: {
-            ...prev[bookSlug],
-            status: "paused",
-          },
-        }));
-        toast({
-          title: "Import Paused",
-          description: `Paused at hadith ${currentStartId}. Click Resume to continue.`,
-        });
-      } else {
-        setImportProgress(prev => ({
-          ...prev,
-          [bookSlug]: {
-            ...prev[bookSlug],
-            status: "success",
-          },
-        }));
-
-        toast({
-          title: "Import Complete",
-          description: `Successfully imported hadiths from ${bookSlug}`,
-        });
-      }
-
-      // Refresh books and counts
-      fetchBooks();
-      fetchActualCounts();
+      toast({
+        title: "Import Started",
+        description: `${bookSlug} is importing in the background with Arabic, English${config.hasBengali ? ", and Bengali" : ""}. Click Refresh to see progress.`,
+      });
     } catch (error) {
       console.error("Import error:", error);
+      setBackgroundImports(prev => ({ ...prev, [bookSlug]: false }));
       setImportProgress(prev => ({
         ...prev,
         [bookSlug]: {
@@ -181,7 +132,6 @@ const HadithManagement = () => {
           error: error instanceof Error ? error.message : "Unknown error",
         },
       }));
-
       toast({
         title: "Import Failed",
         description: error instanceof Error ? error.message : "Unknown error",
@@ -190,98 +140,24 @@ const HadithManagement = () => {
     }
   };
 
-  const pauseImport = (bookSlug: string) => {
-    setPauseFlags(prev => ({ ...prev, [bookSlug]: true }));
-  };
-
-  const resumeImport = (bookSlug: string) => {
-    const progress = importProgress[bookSlug];
-    if (progress && progress.status === "paused") {
-      importBook(bookSlug, progress.currentId);
-    }
-  };
-
-  const fullImport = async (bookSlug: string) => {
-    const expected = expectedCounts[bookSlug] || 0;
-    
-    setBackgroundImports(prev => ({ ...prev, [bookSlug]: true }));
-    setImportProgress(prev => ({
-      ...prev,
-      [bookSlug]: {
-        bookSlug,
-        currentId: 0,
-        totalExpected: expected,
-        imported: 0,
-        status: "background",
-      },
-    }));
-
-    try {
-      const response = await supabase.functions.invoke("import-hadiths", {
-        body: { bookSlug, fullImport: true },
-      });
-
-      if (response.error) {
-        throw new Error(response.error.message);
+  const importAllBooks = async () => {
+    for (const slug of Object.keys(BOOK_CONFIG)) {
+      const actualCount = actualCounts[slug] || 0;
+      const expected = BOOK_CONFIG[slug].expectedCount;
+      if (actualCount < expected * 0.9) { // Import if less than 90% complete
+        await importBook(slug);
+        await new Promise(r => setTimeout(r, 1000)); // 1 second delay between starting imports
       }
-
-      toast({
-        title: "Background Import Started",
-        description: `${bookSlug} is importing in the background. Click Refresh to see progress.`,
-      });
-    } catch (error) {
-      console.error("Full import error:", error);
-      setBackgroundImports(prev => ({ ...prev, [bookSlug]: false }));
-      toast({
-        title: "Import Failed",
-        description: error instanceof Error ? error.message : "Unknown error",
-        variant: "destructive",
-      });
     }
   };
 
   const refreshCounts = async () => {
+    setIsLoading(true);
     await fetchBooks();
     await fetchActualCounts();
+    setBackgroundImports({});
+    setIsLoading(false);
     toast({ title: "Refreshed", description: "Counts updated" });
-  };
-
-  const importBengali = async (bookSlug: string) => {
-    setBengaliImporting(prev => ({ ...prev, [bookSlug]: true }));
-
-    try {
-      const response = await supabase.functions.invoke("import-bengali-hadiths", {
-        body: { bookSlug, fullImport: true },
-      });
-
-      if (response.error) {
-        throw new Error(response.error.message);
-      }
-
-      toast({
-        title: "Bengali Import Started",
-        description: `Bengali translations for ${bookSlug} importing in background. Click Refresh to see progress.`,
-      });
-    } catch (error) {
-      console.error("Bengali import error:", error);
-      setBengaliImporting(prev => ({ ...prev, [bookSlug]: false }));
-      toast({
-        title: "Import Failed",
-        description: error instanceof Error ? error.message : "Unknown error",
-        variant: "destructive",
-      });
-    }
-  };
-
-  const importAllBengali = async () => {
-    for (const slug of Object.keys(expectedCounts)) {
-      const actualCount = actualCounts[slug] || 0;
-      const bnCount = bengaliCounts[slug] || 0;
-      if (actualCount > 0 && bnCount < actualCount) {
-        await importBengali(slug);
-        await new Promise(r => setTimeout(r, 500));
-      }
-    }
   };
 
   if (isLoading) {
@@ -297,7 +173,7 @@ const HadithManagement = () => {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-bold">Hadith Management</h2>
-          <p className="text-muted-foreground">Import and manage hadith collections from hadithapi.pages.dev</p>
+          <p className="text-muted-foreground">Import and manage hadith collections (10 books with Arabic, English & Bengali)</p>
         </div>
         <Button variant="outline" onClick={refreshCounts}>
           <RefreshCw className="h-4 w-4 mr-2" />
@@ -306,35 +182,25 @@ const HadithManagement = () => {
       </div>
 
       <div className="flex flex-wrap gap-2">
-        <Button 
-          onClick={async () => {
-            for (const slug of Object.keys(expectedCounts)) {
-              if ((actualCounts[slug] || 0) < expectedCounts[slug]) {
-                await fullImport(slug);
-                await new Promise(r => setTimeout(r, 500));
-              }
-            }
-          }}
-        >
+        <Button onClick={importAllBooks}>
           <Zap className="h-4 w-4 mr-2" />
-          Import All Books (Background)
-        </Button>
-        <Button variant="secondary" onClick={importAllBengali}>
-          <Languages className="h-4 w-4 mr-2" />
-          Import All Bengali (Background)
+          Import All Books
         </Button>
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {books.map((book) => {
+          const config = BOOK_CONFIG[book.slug];
+          if (!config) return null; // Skip books not in our config
+          
           const progress = importProgress[book.slug];
-          const expected = expectedCounts[book.slug] || 0;
+          const expected = config.expectedCount;
           const actualCount = actualCounts[book.slug] || 0;
           const bnCount = bengaliCounts[book.slug] || 0;
-          const currentCount = progress?.imported || actualCount;
-          const percentage = expected > 0 ? Math.round((currentCount / expected) * 100) : 0;
+          const percentage = expected > 0 ? Math.round((actualCount / expected) * 100) : 0;
           const bnPercentage = actualCount > 0 ? Math.round((bnCount / actualCount) * 100) : 0;
-          const isDone = currentCount >= expected;
+          const isDone = actualCount >= expected * 0.9; // 90% threshold for "done"
+          const isImporting = backgroundImports[book.slug] || progress?.status === "background";
 
           return (
             <Card key={book.id}>
@@ -349,100 +215,69 @@ const HadithManagement = () => {
                       <CardDescription className="font-arabic">{book.name_arabic}</CardDescription>
                     </div>
                   </div>
-                  {progress?.status === "importing" && (
-                    <Badge variant="secondary" className="animate-pulse">
-                      Importing...
-                    </Badge>
-                  )}
-                  {progress?.status === "paused" && (
-                    <Badge variant="outline" className="text-amber-600">
-                      Paused
-                    </Badge>
-                  )}
-                   {progress?.status === "success" && (
-                     <Badge variant="default" className="bg-emerald-500">
-                       <CheckCircle className="h-3 w-3 mr-1" />
-                       Done
-                     </Badge>
-                   )}
-                   {progress?.status === "background" && (
-                     <Badge variant="secondary" className="animate-pulse bg-blue-500 text-white">
-                       <Zap className="h-3 w-3 mr-1" />
-                       Background
-                     </Badge>
-                   )}
-                  {progress?.status === "error" && (
-                    <Badge variant="destructive">
-                      <XCircle className="h-3 w-3 mr-1" />
-                      Error
-                    </Badge>
-                   )}
-                   {!progress && isDone && (
-                     <Badge variant="default" className="bg-emerald-500">
-                       <CheckCircle className="h-3 w-3 mr-1" />
-                       Done
-                     </Badge>
-                   )}
-                 </div>
-               </CardHeader>
-               <CardContent className="space-y-4">
-                 <div className="space-y-2">
-                   <div className="flex justify-between text-sm">
-                     <span className="text-muted-foreground">Hadiths</span>
-                     <span className="font-medium">
-                       {currentCount.toLocaleString()} / {expected.toLocaleString()}
-                     </span>
-                   </div>
-                   <Progress value={percentage} className="h-2" />
-                   <p className="text-xs text-muted-foreground text-right">{percentage}% complete</p>
-                 </div>
+                  <div className="flex flex-col gap-1 items-end">
+                    {isImporting && (
+                      <Badge variant="secondary" className="animate-pulse bg-blue-500 text-white">
+                        <Zap className="h-3 w-3 mr-1" />
+                        Importing
+                      </Badge>
+                    )}
+                    {!isImporting && isDone && (
+                      <Badge variant="default" className="bg-emerald-500">
+                        <CheckCircle className="h-3 w-3 mr-1" />
+                        Done
+                      </Badge>
+                    )}
+                    {progress?.status === "error" && (
+                      <Badge variant="destructive">
+                        <XCircle className="h-3 w-3 mr-1" />
+                        Error
+                      </Badge>
+                    )}
+                    {config.hasBengali ? (
+                      <Badge variant="outline" className="text-xs bg-green-50 text-green-700 border-green-200">
+                        <Languages className="h-3 w-3 mr-1" />
+                        Bengali
+                      </Badge>
+                    ) : (
+                      <Badge variant="outline" className="text-xs bg-amber-50 text-amber-700 border-amber-200">
+                        <AlertCircle className="h-3 w-3 mr-1" />
+                        No Bengali
+                      </Badge>
+                    )}
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="space-y-2">
+                  <div className="flex justify-between text-sm">
+                    <span className="text-muted-foreground">Hadiths</span>
+                    <span className="font-medium">
+                      {actualCount.toLocaleString()} / {expected.toLocaleString()}
+                    </span>
+                  </div>
+                  <Progress value={percentage} className="h-2" />
+                  <p className="text-xs text-muted-foreground text-right">{percentage}% complete</p>
+                </div>
 
-                 {actualCount > 0 && (
-                   <div className="space-y-2">
-                     <div className="flex justify-between text-sm">
-                       <span className="text-muted-foreground flex items-center gap-1">
-                         <Languages className="h-3 w-3" /> Bengali
-                       </span>
-                       <span className="font-medium">
-                         {bnCount.toLocaleString()} / {actualCount.toLocaleString()}
-                       </span>
-                     </div>
-                     <Progress value={bnPercentage} className="h-2 bg-muted" />
-                     <div className="flex justify-between items-center">
-                       <p className="text-xs text-muted-foreground">{bnPercentage}% translated</p>
-                       {bnCount < actualCount && !bengaliImporting[book.slug] && (
-                         <Button
-                           size="sm"
-                           variant="ghost"
-                           className="h-6 text-xs"
-                           onClick={() => importBengali(book.slug)}
-                         >
-                           <Languages className="h-3 w-3 mr-1" />
-                           Import Bengali
-                         </Button>
-                       )}
-                       {bengaliImporting[book.slug] && (
-                         <span className="text-xs text-blue-600 animate-pulse">Importing...</span>
-                       )}
-                     </div>
-                   </div>
-                 )}
+                {actualCount > 0 && config.hasBengali && (
+                  <div className="space-y-2">
+                    <div className="flex justify-between text-sm">
+                      <span className="text-muted-foreground flex items-center gap-1">
+                        <Languages className="h-3 w-3" /> Bengali
+                      </span>
+                      <span className="font-medium">
+                        {bnCount.toLocaleString()} / {actualCount.toLocaleString()}
+                      </span>
+                    </div>
+                    <Progress value={bnPercentage} className="h-2 bg-muted" />
+                    <p className="text-xs text-muted-foreground text-right">{bnPercentage}% translated</p>
+                  </div>
+                )}
 
-                 {progress?.status === "background" && (
-                   <div className="text-sm text-blue-600">
-                     Importing in background... Click Refresh to see progress.
-                   </div>
-                 )}
-
-                 {progress?.status === "importing" && (
-                   <div className="text-sm text-muted-foreground">
-                     Importing hadith #{progress.currentId}...
-                   </div>
-                 )}
-
-                {progress?.status === "paused" && (
-                  <div className="text-sm text-amber-600">
-                    Paused at hadith #{progress.currentId}
+                {isImporting && (
+                  <div className="text-sm text-blue-600">
+                    Importing in background... Click Refresh to see progress.
                   </div>
                 )}
 
@@ -450,65 +285,37 @@ const HadithManagement = () => {
                   <p className="text-sm text-destructive">{progress.error}</p>
                 )}
 
-                 <div className="flex gap-2">
-                   {progress?.status === "background" ? (
-                     <Button className="flex-1" variant="outline" onClick={refreshCounts}>
-                       <RefreshCw className="h-4 w-4 mr-2" />
-                       Check Progress
-                     </Button>
-                   ) : progress?.status === "importing" ? (
+                <div className="flex gap-2">
+                  {isImporting ? (
+                    <Button className="flex-1" variant="outline" onClick={refreshCounts}>
+                      <RefreshCw className="h-4 w-4 mr-2" />
+                      Check Progress
+                    </Button>
+                  ) : (
                     <Button
                       className="flex-1"
-                      variant="outline"
-                      onClick={() => pauseImport(book.slug)}
+                      variant={isDone ? "outline" : "default"}
+                      onClick={() => importBook(book.slug)}
                     >
-                      <Pause className="h-4 w-4 mr-2" />
-                      Pause
+                      {isDone ? (
+                        <>
+                          <RefreshCw className="h-4 w-4 mr-2" />
+                          Re-import
+                        </>
+                      ) : actualCount > 0 ? (
+                        <>
+                          <Play className="h-4 w-4 mr-2" />
+                          Continue
+                        </>
+                      ) : (
+                        <>
+                          <Download className="h-4 w-4 mr-2" />
+                          Import
+                        </>
+                      )}
                     </Button>
-                  ) : progress?.status === "paused" ? (
-                    <Button
-                      className="flex-1"
-                      onClick={() => resumeImport(book.slug)}
-                    >
-                      <Play className="h-4 w-4 mr-2" />
-                      Resume
-                    </Button>
-                   ) : (
-                     <>
-                       <Button
-                         className="flex-1"
-                         variant={isDone ? "outline" : "default"}
-                         onClick={() => importBook(book.slug, isDone ? 1 : (actualCount > 0 ? actualCount + 1 : 1))}
-                       >
-                         {isDone ? (
-                           <>
-                             <RefreshCw className="h-4 w-4 mr-2" />
-                             Re-import
-                           </>
-                         ) : actualCount > 0 ? (
-                           <>
-                             <Play className="h-4 w-4 mr-2" />
-                             Continue
-                           </>
-                         ) : (
-                           <>
-                             <Download className="h-4 w-4 mr-2" />
-                             Import
-                           </>
-                         )}
-                       </Button>
-                       {!isDone && actualCount === 0 && (
-                         <Button
-                           variant="secondary"
-                           onClick={() => fullImport(book.slug)}
-                           title="Import all hadiths in background"
-                         >
-                           <Zap className="h-4 w-4" />
-                         </Button>
-                       )}
-                     </>
-                   )}
-                 </div>
+                  )}
+                </div>
               </CardContent>
             </Card>
           );

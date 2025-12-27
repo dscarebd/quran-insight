@@ -29,3 +29,6 @@ verify_jwt = false
 
 [functions.import-bengali-hadiths]
 verify_jwt = false
+
+[functions.import-hadiths-v2]
+verify_jwt = false
