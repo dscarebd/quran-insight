@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
+import HadithChapterNav from "@/components/HadithChapterNav";
 
 interface HadithDetailProps {
   language: Language;
@@ -40,9 +41,11 @@ interface Hadith {
   chapter_name_bengali: string | null;
 }
 
-interface HadithBookmark {
-  book_slug: string;
-  hadith_number: number;
+interface Chapter {
+  chapter_number: number;
+  chapter_name_english: string | null;
+  chapter_name_bengali: string | null;
+  hadith_count: number;
 }
 
 const HADITHS_PER_PAGE = 20;
@@ -63,6 +66,8 @@ const HadithDetail = ({ language, arabicFont }: HadithDetailProps) => {
   
   const [book, setBook] = useState<HadithBook | null>(null);
   const [hadiths, setHadiths] = useState<Hadith[]>([]);
+  const [chapters, setChapters] = useState<Chapter[]>([]);
+  const [selectedChapter, setSelectedChapter] = useState<number | null>(null);
   const [bookmarks, setBookmarks] = useState<Set<string>>(new Set());
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
@@ -92,8 +97,54 @@ const HadithDetail = ({ language, arabicFont }: HadithDetailProps) => {
     fetchBook();
   }, [bookSlug]);
 
+  // Fetch chapters
+  useEffect(() => {
+    const fetchChapters = async () => {
+      if (!bookSlug) return;
+
+      const translationFilter = language === "bn" ? "bengali.neq." : "english.neq.";
+
+      const { data, error } = await supabase
+        .from("hadiths")
+        .select("chapter_number, chapter_name_english, chapter_name_bengali")
+        .eq("book_slug", bookSlug)
+        .or(translationFilter)
+        .not("chapter_number", "is", null);
+
+      if (error) {
+        console.error("Error fetching chapters:", error);
+        return;
+      }
+
+      // Group by chapter and count
+      const chapterMap = new Map<number, Chapter>();
+      data?.forEach((h) => {
+        if (h.chapter_number !== null) {
+          const existing = chapterMap.get(h.chapter_number);
+          if (existing) {
+            existing.hadith_count++;
+          } else {
+            chapterMap.set(h.chapter_number, {
+              chapter_number: h.chapter_number,
+              chapter_name_english: h.chapter_name_english,
+              chapter_name_bengali: h.chapter_name_bengali,
+              hadith_count: 1,
+            });
+          }
+        }
+      });
+
+      const sortedChapters = Array.from(chapterMap.values()).sort(
+        (a, b) => a.chapter_number - b.chapter_number
+      );
+      setChapters(sortedChapters);
+    };
+
+    fetchChapters();
+  }, [bookSlug, language]);
+
   // Fetch hadiths - only those with translation in selected language
-  const fetchHadiths = useCallback(async (pageNum: number, reset = false) => {
+  const fetchHadiths = useCallback(async (pageNum: number, reset = false, chapterNum: number | null = null) => {
     if (!bookSlug) return;
 
     const from = (pageNum - 1) * HADITHS_PER_PAGE;
@@ -102,11 +153,18 @@ const HadithDetail = ({ language, arabicFont }: HadithDetailProps) => {
     // Filter by selected language translation availability
     const translationFilter = language === "bn" ? "bengali.neq." : "english.neq.";
 
-    const { data, error } = await supabase
+    let query = supabase
       .from("hadiths")
       .select("*")
       .eq("book_slug", bookSlug)
-      .or(translationFilter)
+      .or(translationFilter);
+
+    // Filter by chapter if selected
+    if (chapterNum !== null) {
+      query = query.eq("chapter_number", chapterNum);
+    }
+
+    const { data, error } = await query
       .order("hadith_number", { ascending: true })
       .range(from, to);
 
@@ -122,16 +180,23 @@ const HadithDetail = ({ language, arabicFont }: HadithDetailProps) => {
     }
   }, [bookSlug, language]);
 
-  // Initial fetch and refetch when language changes
+  // Initial fetch and refetch when language or chapter changes
   useEffect(() => {
     const init = async () => {
       setIsLoading(true);
       setPage(1);
-      await fetchHadiths(1, true);
+      await fetchHadiths(1, true, selectedChapter);
       setIsLoading(false);
     };
     init();
-  }, [fetchHadiths, language]);
+  }, [fetchHadiths, language, selectedChapter]);
+
+  // Handle chapter selection
+  const handleChapterSelect = (chapterNumber: number | null) => {
+    setSelectedChapter(chapterNumber);
+    setPage(1);
+    setHadiths([]);
+  };
 
   // Fetch bookmarks
   useEffect(() => {
@@ -160,7 +225,7 @@ const HadithDetail = ({ language, arabicFont }: HadithDetailProps) => {
           setIsLoadingMore(true);
           const nextPage = page + 1;
           setPage(nextPage);
-          fetchHadiths(nextPage).finally(() => setIsLoadingMore(false));
+          fetchHadiths(nextPage, false, selectedChapter).finally(() => setIsLoadingMore(false));
         }
       },
       { threshold: 0.1 }
@@ -171,7 +236,7 @@ const HadithDetail = ({ language, arabicFont }: HadithDetailProps) => {
     }
 
     return () => observer.disconnect();
-  }, [hasMore, isLoadingMore, isLoading, page, fetchHadiths]);
+  }, [hasMore, isLoadingMore, isLoading, page, fetchHadiths, selectedChapter]);
 
   const toggleBookmark = async (hadith: Hadith) => {
     if (!user) {
@@ -298,7 +363,7 @@ const HadithDetail = ({ language, arabicFont }: HadithDetailProps) => {
           >
             <ArrowLeft className="h-5 w-5" />
           </Button>
-          <div className="min-w-0">
+          <div className="min-w-0 flex-1">
             <h1 className={cn(
               "font-semibold text-lg truncate",
               language === "bn" && "font-bengali"
@@ -310,6 +375,17 @@ const HadithDetail = ({ language, arabicFont }: HadithDetailProps) => {
             </p>
           </div>
         </div>
+        {/* Chapter Navigation */}
+        {chapters.length > 0 && (
+          <div className="mx-auto max-w-3xl mt-3">
+            <HadithChapterNav
+              chapters={chapters}
+              selectedChapter={selectedChapter}
+              onSelectChapter={handleChapterSelect}
+              language={language}
+            />
+          </div>
+        )}
       </div>
 
       {/* Hadiths List */}

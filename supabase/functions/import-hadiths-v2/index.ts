@@ -28,12 +28,18 @@ const BOOK_MAPPINGS: Record<string, {
   dehlawi: { apiName: "dehlawi", displayName: "Forty Hadith Shah Waliullah Dehlawi", hasBengali: false },
 };
 
+interface HadithEntry {
+  hadithnumber: number | string;
+  text: string;
+  grades?: Array<{ name: string; grade: string }>;
+  reference?: { book: number; hadith: number };
+}
+
 interface HadithData {
-  hadiths: Array<{
-    hadithnumber: number | string;
-    text: string;
-    grades?: Array<{ name: string; grade: string }>;
-  }>;
+  metadata?: {
+    sections?: Record<string, string>;
+  };
+  hadiths: HadithEntry[];
 }
 
 // Helper to get integer hadith number (skip decimals)
@@ -94,12 +100,16 @@ async function importAllHadiths(
       return;
     }
 
-    // Use Arabic as the primary source, fall back to English
-    const primaryData = arabicData || englishData;
+    // Use English as the primary source for metadata (sections)
+    const primaryData = englishData || arabicData;
     if (!primaryData) {
       console.error(`No primary data for ${bookSlug}`);
       return;
     }
+
+    // Extract section/chapter names from metadata
+    const sections = primaryData.metadata?.sections || {};
+    console.log(`Found ${Object.keys(sections).length} chapters/sections`);
 
     console.log(`Found ${primaryData.hadiths.length} hadiths for ${bookSlug}`);
 
@@ -127,6 +137,12 @@ async function importAllHadiths(
 
         // Get grade from English data (usually has grades)
         const grade = englishHadith?.grades?.[0]?.grade || null;
+        
+        // Get chapter number from reference.book
+        const chapterNumber = englishHadith?.reference?.book ?? arabicHadith?.reference?.book ?? null;
+        
+        // Get chapter name from sections metadata
+        const chapterNameEnglish = chapterNumber !== null ? sections[String(chapterNumber)] || null : null;
 
         return {
           book_slug: bookSlug,
@@ -135,6 +151,8 @@ async function importAllHadiths(
           english: englishHadith?.text || null,
           bengali: bengaliHadith?.text || null,
           grade: grade,
+          chapter_number: chapterNumber,
+          chapter_name_english: chapterNameEnglish,
         };
       });
 
@@ -162,7 +180,7 @@ async function importAllHadiths(
       console.error(`Error updating total count:`, updateError);
     }
 
-    console.log(`✅ Completed import for ${bookSlug}: ${allHadithNumbers.length} hadiths`);
+    console.log(`✅ Completed import for ${bookSlug}: ${allHadithNumbers.length} hadiths with chapter data`);
   } catch (error) {
     console.error(`Error in importAllHadiths for ${bookSlug}:`, error);
   }
@@ -215,6 +233,8 @@ Deno.serve(async (req) => {
       bookConfig.hasBengali ? fetchBookData(bookConfig.apiName, "bengali") : Promise.resolve(null),
     ]);
 
+    const sections = englishData?.metadata?.sections || {};
+
     // Just insert first 10 for testing, filtering out decimal hadith numbers
     const testHadiths = (arabicData?.hadiths || englishData?.hadiths || [])
       .filter(h => getIntegerHadithNumber(h.hadithnumber) !== null)
@@ -225,6 +245,10 @@ Deno.serve(async (req) => {
 
     const hadithsToInsert = testHadiths.map(h => {
       const intNumber = getIntegerHadithNumber(h.hadithnumber)!;
+      const englishHadith = englishMap.get(String(h.hadithnumber));
+      const arabicHadith = arabicMap.get(String(h.hadithnumber));
+      const chapterNumber = englishHadith?.reference?.book ?? arabicHadith?.reference?.book ?? null;
+      
       return {
         book_slug: bookSlug,
         hadith_number: intNumber,
@@ -232,6 +256,8 @@ Deno.serve(async (req) => {
         english: englishMap.get(String(h.hadithnumber))?.text || null,
         bengali: bengaliMap.get(String(h.hadithnumber))?.text || null,
         grade: englishMap.get(String(h.hadithnumber))?.grades?.[0]?.grade || null,
+        chapter_number: chapterNumber,
+        chapter_name_english: chapterNumber !== null ? sections[String(chapterNumber)] || null : null,
       };
     });
 
