@@ -20,6 +20,7 @@ const ImportVerses = () => {
   const [isFetchingTafheem, setIsFetchingTafheem] = useState(false);
   const [isGeneratingAiTafsir, setIsGeneratingAiTafsir] = useState(false);
   const [isImportingCsvTafsir, setIsImportingCsvTafsir] = useState(false);
+  const [isImportingFullTafsir, setIsImportingFullTafsir] = useState(false);
   const [exportProgress, setExportProgress] = useState(0);
   const [restoreProgress, setRestoreProgress] = useState(0);
   const [arabicProgress, setArabicProgress] = useState(0);
@@ -29,6 +30,7 @@ const ImportVerses = () => {
   const [result, setResult] = useState<{success?: boolean; message?: string; error?: string} | null>(null);
   const [arabicResult, setArabicResult] = useState<{success?: boolean; message?: string; error?: string; totalUpdated?: number} | null>(null);
   const [tafsirResult, setTafsirResult] = useState<{success?: boolean; message?: string; error?: string; clearedCount?: number; totalUpdated?: number} | null>(null);
+  const [fullTafsirResult, setFullTafsirResult] = useState<{success?: boolean; message?: string; error?: string; updatedBengali?: number; updatedEnglish?: number} | null>(null);
   const [restoreResult, setRestoreResult] = useState<{success?: boolean; message?: string; surahsRestored?: number; versesRestored?: number; errors?: string[]} | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const csvSurahInputRef = useRef<HTMLInputElement>(null);
@@ -821,7 +823,63 @@ const ImportVerses = () => {
     }
   };
 
-  const isDisabled = isImporting || isUpdatingArabic || isExporting || isRestoring || isExportingCsv || isRestoringCsv || isClearingTafsir || isFixingTafsir || isFetchingTafheem || isGeneratingAiTafsir || isImportingCsvTafsir;
+  // Import both Bengali and English tafsir from full CSV file
+  const importFullTafsirFromCsv = async () => {
+    setIsImportingFullTafsir(true);
+    setFullTafsirResult(null);
+    setTafsirProgress(0);
+    
+    try {
+      setTafsirStatus("Fetching tafsir CSV file...");
+      
+      // Fetch the CSV file
+      const response = await fetch('/data/quran-verses-tafsir.csv');
+      if (!response.ok) {
+        throw new Error("CSV file not found at /data/quran-verses-tafsir.csv");
+      }
+      const csvData = await response.text();
+      
+      setTafsirStatus("Uploading to server for processing...");
+      setTafsirProgress(20);
+      
+      // Call the edge function
+      const { data, error } = await supabase.functions.invoke('import-tafsir', {
+        body: { csvData }
+      });
+
+      if (error) throw error;
+      
+      setTafsirProgress(100);
+      setTafsirStatus("Complete!");
+      setFullTafsirResult({
+        success: true,
+        message: data.message,
+        updatedBengali: data.updatedBengali,
+        updatedEnglish: data.updatedEnglish,
+      });
+      
+      toast({
+        title: "Tafsir Import Complete",
+        description: data.message,
+      });
+
+    } catch (error: any) {
+      console.error('Full tafsir import error:', error);
+      setFullTafsirResult({ 
+        success: false,
+        error: error.message 
+      });
+      toast({
+        title: "Import Failed",
+        description: error.message,
+        variant: "destructive",
+      });
+    } finally {
+      setIsImportingFullTafsir(false);
+    }
+  };
+
+  const isDisabled = isImporting || isUpdatingArabic || isExporting || isRestoring || isExportingCsv || isRestoringCsv || isClearingTafsir || isFixingTafsir || isFetchingTafheem || isGeneratingAiTafsir || isImportingCsvTafsir || isImportingFullTafsir;
 
   return (
     <div className="space-y-6">
@@ -984,6 +1042,74 @@ const ImportVerses = () => {
                   <p>{result.message}</p>
                 ) : (
                   <p>Error: {result.error}</p>
+                )}
+              </div>
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
+      {/* Import Bengali & English Tafsir from CSV */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <FileText className="h-5 w-5" />
+            Import Bengali & English Tafsir
+          </CardTitle>
+          <CardDescription>
+            Import Bengali and English tafsir from the quran-verses-tafsir.csv file.
+            This will update existing verses with tafsir data. 
+            <strong className="text-amber-600 ml-1">Note: 187 verses are missing Bengali tafsir in the source CSV.</strong>
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <Button 
+            onClick={importFullTafsirFromCsv} 
+            disabled={isDisabled}
+            className="w-full sm:w-auto"
+          >
+            {isImportingFullTafsir ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Importing Tafsir...
+              </>
+            ) : (
+              <>
+                <Upload className="mr-2 h-4 w-4" />
+                Import Bengali & English Tafsir
+              </>
+            )}
+          </Button>
+
+          {isImportingFullTafsir && tafsirStatus && (
+            <div className="space-y-2">
+              <div className="flex justify-between text-sm text-muted-foreground">
+                <span>{tafsirStatus}</span>
+                <span>{tafsirProgress}%</span>
+              </div>
+              <Progress value={tafsirProgress} className="h-2" />
+            </div>
+          )}
+
+          {fullTafsirResult && (
+            <div className={`p-4 rounded-lg flex items-start gap-3 ${
+              fullTafsirResult.success ? 'bg-green-500/10 text-green-600' : 'bg-destructive/10 text-destructive'
+            }`}>
+              {fullTafsirResult.success ? (
+                <CheckCircle2 className="h-5 w-5 flex-shrink-0 mt-0.5" />
+              ) : (
+                <AlertCircle className="h-5 w-5 flex-shrink-0 mt-0.5" />
+              )}
+              <div>
+                {fullTafsirResult.success ? (
+                  <div>
+                    <p>{fullTafsirResult.message}</p>
+                    <p className="text-sm mt-1">
+                      Bengali: {fullTafsirResult.updatedBengali} verses | English: {fullTafsirResult.updatedEnglish} verses
+                    </p>
+                  </div>
+                ) : (
+                  <p>Error: {fullTafsirResult.error}</p>
                 )}
               </div>
             </div>
