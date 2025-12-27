@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { Search, Mic, MicOff, Sparkles } from "lucide-react";
+import { Search, Mic, MicOff, Sparkles, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { Language } from "@/types/language";
@@ -8,11 +8,13 @@ interface DesktopHeroSearchProps {
   language: Language;
   onSearch: (query: string) => void;
   isLoading?: boolean;
+  hasResults?: boolean;
+  onClear?: () => void;
 }
 
 const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
 
-export const DesktopHeroSearch = ({ language, onSearch, isLoading }: DesktopHeroSearchProps) => {
+export const DesktopHeroSearch = ({ language, onSearch, isLoading, hasResults, onClear }: DesktopHeroSearchProps) => {
   const [query, setQuery] = useState("");
   const [isFocused, setIsFocused] = useState(false);
   const [isListening, setIsListening] = useState(false);
@@ -141,6 +143,20 @@ export const DesktopHeroSearch = ({ language, onSearch, isLoading }: DesktopHero
             />
             
             <div className="flex items-center gap-1.5 sm:gap-2 pr-2 sm:pr-3">
+              {/* Clear button */}
+              {(query || hasResults) && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setQuery("");
+                    onClear?.();
+                  }}
+                  className="flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-full text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-all"
+                >
+                  <X className="h-4 w-4 sm:h-5 sm:w-5" />
+                </button>
+              )}
+              
               <button
                 type="button"
                 onClick={toggleVoiceSearch}
