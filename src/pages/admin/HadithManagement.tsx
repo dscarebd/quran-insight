@@ -38,6 +38,7 @@ const expectedCounts: Record<string, number> = {
 const HadithManagement = () => {
   const { toast } = useToast();
   const [books, setBooks] = useState<HadithBook[]>([]);
+  const [actualCounts, setActualCounts] = useState<Record<string, number>>({});
   const [isLoading, setIsLoading] = useState(true);
   const [importProgress, setImportProgress] = useState<Record<string, ImportProgress>>({});
   const [pauseFlags, setPauseFlags] = useState<Record<string, boolean>>({});
@@ -56,8 +57,22 @@ const HadithManagement = () => {
     setIsLoading(false);
   };
 
+  // Fetch actual hadith counts from the hadiths table
+  const fetchActualCounts = async () => {
+    const counts: Record<string, number> = {};
+    for (const slug of Object.keys(expectedCounts)) {
+      const { count } = await supabase
+        .from("hadiths")
+        .select("id", { count: "exact", head: true })
+        .eq("book_slug", slug);
+      counts[slug] = count || 0;
+    }
+    setActualCounts(counts);
+  };
+
   useEffect(() => {
     fetchBooks();
+    fetchActualCounts();
   }, []);
 
   const importBook = async (bookSlug: string, startFrom: number = 1) => {
@@ -140,8 +155,9 @@ const HadithManagement = () => {
         });
       }
 
-      // Refresh books to update counts
+      // Refresh books and counts
       fetchBooks();
+      fetchActualCounts();
     } catch (error) {
       console.error("Import error:", error);
       setImportProgress(prev => ({
@@ -197,8 +213,10 @@ const HadithManagement = () => {
         {books.map((book) => {
           const progress = importProgress[book.slug];
           const expected = expectedCounts[book.slug] || 0;
-          const currentCount = progress?.imported || book.total_hadiths;
+          const actualCount = actualCounts[book.slug] || 0;
+          const currentCount = progress?.imported || actualCount;
           const percentage = expected > 0 ? Math.round((currentCount / expected) * 100) : 0;
+          const isDone = currentCount >= expected;
 
           return (
             <Card key={book.id}>
@@ -234,9 +252,15 @@ const HadithManagement = () => {
                       <XCircle className="h-3 w-3 mr-1" />
                       Error
                     </Badge>
-                  )}
-                </div>
-              </CardHeader>
+                   )}
+                   {!progress && isDone && (
+                     <Badge variant="default" className="bg-emerald-500">
+                       <CheckCircle className="h-3 w-3 mr-1" />
+                       Done
+                     </Badge>
+                   )}
+                 </div>
+               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm">
@@ -284,28 +308,28 @@ const HadithManagement = () => {
                       Resume
                     </Button>
                   ) : (
-                    <Button
-                      className="flex-1"
-                      variant={currentCount >= expected ? "outline" : "default"}
-                      onClick={() => importBook(book.slug, currentCount > 0 ? currentCount + 1 : 1)}
-                    >
-                      {currentCount >= expected ? (
-                        <>
-                          <RefreshCw className="h-4 w-4 mr-2" />
-                          Re-import
-                        </>
-                      ) : currentCount > 0 ? (
-                        <>
-                          <Play className="h-4 w-4 mr-2" />
-                          Continue
-                        </>
-                      ) : (
-                        <>
-                          <Download className="h-4 w-4 mr-2" />
-                          Import
-                        </>
-                      )}
-                    </Button>
+                   <Button
+                     className="flex-1"
+                     variant={isDone ? "outline" : "default"}
+                     onClick={() => importBook(book.slug, isDone ? 1 : (actualCount > 0 ? actualCount + 1 : 1))}
+                   >
+                     {isDone ? (
+                       <>
+                         <RefreshCw className="h-4 w-4 mr-2" />
+                         Re-import
+                       </>
+                     ) : actualCount > 0 ? (
+                       <>
+                         <Play className="h-4 w-4 mr-2" />
+                         Continue
+                       </>
+                     ) : (
+                       <>
+                         <Download className="h-4 w-4 mr-2" />
+                         Import
+                       </>
+                     )}
+                   </Button>
                   )}
                 </div>
               </CardContent>
