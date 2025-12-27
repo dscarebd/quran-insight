@@ -29,12 +29,12 @@ interface ImportProgress {
 // Book configurations for the new API (fawazahmed0/hadith-api)
 const BOOK_CONFIG: Record<string, { expectedCount: number; hasBengali: boolean }> = {
   bukhari: { expectedCount: 7563, hasBengali: true },
-  muslim: { expectedCount: 3032, hasBengali: true },
+  muslim: { expectedCount: 7563, hasBengali: true },
   abudawud: { expectedCount: 5274, hasBengali: true },
   tirmidhi: { expectedCount: 3956, hasBengali: true },
   nasai: { expectedCount: 5758, hasBengali: true },
-  ibnmajah: { expectedCount: 4342, hasBengali: true },
-  malik: { expectedCount: 1832, hasBengali: true },
+  ibnmajah: { expectedCount: 4341, hasBengali: true },
+  malik: { expectedCount: 1858, hasBengali: true },
   nawawi: { expectedCount: 42, hasBengali: true },
   qudsi: { expectedCount: 40, hasBengali: false },
   dehlawi: { expectedCount: 40, hasBengali: false },
