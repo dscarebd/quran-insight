@@ -10,7 +10,6 @@ declare const EdgeRuntime: {
 };
 
 // Book mappings for fawazahmed0/hadith-api
-// API: https://cdn.jsdelivr.net/gh/fawazahmed0/hadith-api@1/editions/
 const BOOK_MAPPINGS: Record<string, { 
   apiName: string; 
   displayName: string;
@@ -35,9 +34,15 @@ interface HadithEntry {
   reference?: { book: number; hadith: number };
 }
 
+interface SectionDetail {
+  hadithnumber_first: number;
+  hadithnumber_last: number;
+}
+
 interface HadithData {
   metadata?: {
     sections?: Record<string, string>;
+    section_details?: Record<string, SectionDetail>;
   };
   hadiths: HadithEntry[];
 }
@@ -45,11 +50,28 @@ interface HadithData {
 // Helper to get integer hadith number (skip decimals)
 function getIntegerHadithNumber(num: number | string): number | null {
   const n = typeof num === 'string' ? parseFloat(num) : num;
-  // Skip decimal numbers like 384.2 - only keep whole numbers
   if (!Number.isInteger(n)) {
     return null;
   }
   return n;
+}
+
+// Find chapter for a hadith number using section_details ranges
+function findChapterFromSectionDetails(
+  hadithNumber: number,
+  sectionDetails: Record<string, SectionDetail>,
+  sections: Record<string, string>
+): { chapterNumber: number | null; chapterName: string | null } {
+  for (const [sectionKey, details] of Object.entries(sectionDetails)) {
+    if (hadithNumber >= details.hadithnumber_first && hadithNumber <= details.hadithnumber_last) {
+      const chapterNum = parseInt(sectionKey, 10);
+      return {
+        chapterNumber: chapterNum,
+        chapterName: sections[sectionKey] || null
+      };
+    }
+  }
+  return { chapterNumber: null, chapterName: null };
 }
 
 async function fetchBookData(bookApiName: string, language: string): Promise<HadithData | null> {
@@ -107,9 +129,13 @@ async function importAllHadiths(
       return;
     }
 
-    // Extract section/chapter names from metadata
+    // Extract section/chapter names and details from metadata
     const sections = primaryData.metadata?.sections || {};
+    const sectionDetails = primaryData.metadata?.section_details || {};
+    const hasSectionDetails = Object.keys(sectionDetails).length > 0;
+    
     console.log(`Found ${Object.keys(sections).length} chapters/sections`);
+    console.log(`Has section_details: ${hasSectionDetails}`);
 
     console.log(`Found ${primaryData.hadiths.length} hadiths for ${bookSlug}`);
 
@@ -138,11 +164,20 @@ async function importAllHadiths(
         // Get grade from English data (usually has grades)
         const grade = englishHadith?.grades?.[0]?.grade || null;
         
-        // Get chapter number from reference.book
-        const chapterNumber = englishHadith?.reference?.book ?? arabicHadith?.reference?.book ?? null;
+        // Determine chapter info - first try section_details (range-based), then reference.book
+        let chapterNumber: number | null = null;
+        let chapterNameEnglish: string | null = null;
         
-        // Get chapter name from sections metadata
-        const chapterNameEnglish = chapterNumber !== null ? sections[String(chapterNumber)] || null : null;
+        if (hasSectionDetails) {
+          // Use section_details to find chapter by hadith number range
+          const chapterInfo = findChapterFromSectionDetails(hadithNumber, sectionDetails, sections);
+          chapterNumber = chapterInfo.chapterNumber;
+          chapterNameEnglish = chapterInfo.chapterName;
+        } else {
+          // Fallback: use reference.book from hadith entry
+          chapterNumber = englishHadith?.reference?.book ?? arabicHadith?.reference?.book ?? null;
+          chapterNameEnglish = chapterNumber !== null ? sections[String(chapterNumber)] || null : null;
+        }
 
         return {
           book_slug: bookSlug,
@@ -234,6 +269,8 @@ Deno.serve(async (req) => {
     ]);
 
     const sections = englishData?.metadata?.sections || {};
+    const sectionDetails = englishData?.metadata?.section_details || {};
+    const hasSectionDetails = Object.keys(sectionDetails).length > 0;
 
     // Just insert first 10 for testing, filtering out decimal hadith numbers
     const testHadiths = (arabicData?.hadiths || englishData?.hadiths || [])
@@ -247,7 +284,18 @@ Deno.serve(async (req) => {
       const intNumber = getIntegerHadithNumber(h.hadithnumber)!;
       const englishHadith = englishMap.get(String(h.hadithnumber));
       const arabicHadith = arabicMap.get(String(h.hadithnumber));
-      const chapterNumber = englishHadith?.reference?.book ?? arabicHadith?.reference?.book ?? null;
+      
+      let chapterNumber: number | null = null;
+      let chapterNameEnglish: string | null = null;
+      
+      if (hasSectionDetails) {
+        const chapterInfo = findChapterFromSectionDetails(intNumber, sectionDetails, sections);
+        chapterNumber = chapterInfo.chapterNumber;
+        chapterNameEnglish = chapterInfo.chapterName;
+      } else {
+        chapterNumber = englishHadith?.reference?.book ?? arabicHadith?.reference?.book ?? null;
+        chapterNameEnglish = chapterNumber !== null ? sections[String(chapterNumber)] || null : null;
+      }
       
       return {
         book_slug: bookSlug,
@@ -257,7 +305,7 @@ Deno.serve(async (req) => {
         bengali: bengaliMap.get(String(h.hadithnumber))?.text || null,
         grade: englishMap.get(String(h.hadithnumber))?.grades?.[0]?.grade || null,
         chapter_number: chapterNumber,
-        chapter_name_english: chapterNumber !== null ? sections[String(chapterNumber)] || null : null,
+        chapter_name_english: chapterNameEnglish,
       };
     });
 
