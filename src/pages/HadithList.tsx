@@ -29,6 +29,10 @@ const bookGradients: Record<string, string> = {
   tirmidhi: "from-amber-500 to-orange-600",
   nasai: "from-rose-500 to-pink-600",
   ibnmajah: "from-cyan-500 to-sky-600",
+  malik: "from-lime-500 to-green-600",
+  nawawi: "from-fuchsia-500 to-pink-600",
+  qudsi: "from-indigo-500 to-violet-600",
+  dehlawi: "from-teal-500 to-cyan-600",
 };
 
 const HadithList = ({ language }: HadithListProps) => {
