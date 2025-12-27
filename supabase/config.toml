@@ -4,28 +4,28 @@ project_id = "iacjtvvlyxkmrzaxkedk"
 verify_jwt = false
 
 [functions.update-arabic-verses]
-verify_jwt = true
+verify_jwt = false
 
 [functions.import-verses]
-verify_jwt = true
+verify_jwt = false
 
 [functions.import-duas]
-verify_jwt = true
+verify_jwt = false
 
 [functions.fetch-bengali-tafsir]
-verify_jwt = true
+verify_jwt = false
 
 [functions.generate-tafsir]
-verify_jwt = true
+verify_jwt = false
 
 [functions.elevenlabs-tts]
 verify_jwt = false
 
 [functions.import-tafsir]
-verify_jwt = true
+verify_jwt = false
 
 [functions.import-hadiths]
-verify_jwt = true
+verify_jwt = false
 
 [functions.import-bengali-hadiths]
-verify_jwt = true
+verify_jwt = false
