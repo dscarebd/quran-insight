@@ -32,16 +32,6 @@ export const QuickAccessCards = ({ language }: QuickAccessCardsProps) => {
       count: 99,
     },
     {
-      id: "bookmarks",
-      icon: Bookmark,
-      labelEn: "Bookmarks",
-      labelBn: "বুকমার্ক",
-      descEn: "Your saved verses & duas",
-      descBn: "আপনার সংরক্ষিত আয়াত ও দোয়া",
-      path: "/bookmarks",
-      gradient: "from-emerald-500 to-teal-600",
-    },
-    {
       id: "prayer-calendar",
       icon: Clock,
       labelEn: "Prayer & Calendar",
@@ -62,6 +52,16 @@ export const QuickAccessCards = ({ language }: QuickAccessCardsProps) => {
       path: "/daily-dua",
       gradient: "from-amber-500 to-orange-600",
       count: duaCount,
+    },
+    {
+      id: "bookmarks",
+      icon: Bookmark,
+      labelEn: "Bookmarks",
+      labelBn: "বুকমার্ক",
+      descEn: "Your saved verses & duas",
+      descBn: "আপনার সংরক্ষিত আয়াত ও দোয়া",
+      path: "/bookmarks",
+      gradient: "from-emerald-500 to-teal-600",
     },
   ];
 
