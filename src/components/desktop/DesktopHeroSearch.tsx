@@ -78,6 +78,93 @@ export const DesktopHeroSearch = ({ language, onSearch, isLoading, hasResults, o
     }
   };
 
+  // Collapsed mode when there are results
+  if (hasResults) {
+    return (
+      <div className="relative overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-r from-primary to-emerald-700 p-3 sm:p-4">
+        {/* Islamic geometric pattern overlay */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute inset-0" style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M40 0l40 40-40 40L0 40 40 0zm0 10L10 40l30 30 30-30-30-30z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+            backgroundSize: '60px 60px'
+          }} />
+        </div>
+        
+        {/* Compact Search Form */}
+        <form onSubmit={handleSubmit} className="relative z-10 mx-auto max-w-2xl">
+          <div
+            className={cn(
+              "relative flex items-center rounded-full bg-white/95 backdrop-blur-sm transition-all duration-300 shadow-lg",
+              isFocused && "ring-4 ring-gold/30",
+              isListening && "ring-4 ring-red-500/30"
+            )}
+          >
+            <Search className="absolute left-4 h-4 w-4 text-muted-foreground" />
+            <input
+              type="text"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              onFocus={() => setIsFocused(true)}
+              onBlur={() => setIsFocused(false)}
+              placeholder={language === "bn" ? "আবার অনুসন্ধান করুন..." : "Search again..."}
+              className={cn(
+                "min-w-0 flex-1 bg-transparent pl-10 pr-2 py-2.5 sm:py-3 text-sm text-foreground focus:outline-none",
+                "placeholder:text-muted-foreground font-bengali placeholder:font-bengali"
+              )}
+              disabled={isLoading}
+            />
+            
+            <div className="flex items-center gap-1 pr-1.5 shrink-0">
+              {(query || hasResults) && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setQuery("");
+                    onClear?.();
+                  }}
+                  className="flex h-7 w-7 items-center justify-center rounded-full text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-all shrink-0"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              )}
+              
+              <button
+                type="button"
+                onClick={toggleVoiceSearch}
+                disabled={isLoading}
+                className={cn(
+                  "flex h-7 w-7 items-center justify-center rounded-full transition-all shrink-0",
+                  isListening 
+                    ? "bg-red-500 text-white animate-pulse" 
+                    : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                )}
+              >
+                {isListening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
+              </button>
+              
+              <button
+                type="submit"
+                disabled={isLoading || !query.trim()}
+                className={cn(
+                  "flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground transition-all shrink-0",
+                  isLoading || !query.trim()
+                    ? "opacity-50 cursor-not-allowed"
+                    : "hover:scale-105 hover:shadow-lg active:scale-95"
+                )}
+              >
+                {isLoading ? (
+                  <div className="h-4 w-4 animate-spin rounded-full border-2 border-primary-foreground border-t-transparent" />
+                ) : (
+                  <Search className="h-4 w-4" />
+                )}
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    );
+  }
+
   return (
     <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-gradient-to-br from-primary via-primary to-emerald-700 p-5 sm:p-8 lg:p-12">
       {/* Islamic geometric pattern overlay */}
