@@ -823,13 +823,36 @@ const ImportVerses = () => {
     }
   };
 
+  // Helper to filter CSV rows by surah range (client-side filtering to reduce payload)
+  const filterCsvBySurahRange = (csvText: string, startSurah: number, endSurah: number): string => {
+    const lines = csvText.split('\n');
+    if (lines.length < 2) return csvText;
+
+    const header = lines[0];
+    const headerCols = header.split(';');
+    const surahIdx = headerCols.findIndex(h => h.toLowerCase().includes('surah'));
+    if (surahIdx === -1) return csvText;
+
+    const filteredLines = [header];
+    for (let i = 1; i < lines.length; i++) {
+      const line = lines[i].trim();
+      if (!line) continue;
+      const cols = line.split(';');
+      const surahNum = parseInt(cols[surahIdx], 10);
+      if (!isNaN(surahNum) && surahNum >= startSurah && surahNum <= endSurah) {
+        filteredLines.push(lines[i]);
+      }
+    }
+    return filteredLines.join('\n');
+  };
+
   // Phased import of Bengali and English tafsir from CSV file
   const importFullTafsirFromCsv = async () => {
     setIsImportingFullTafsir(true);
     setFullTafsirResult(null);
     setTafsirProgress(0);
 
-    // Define phases by surah ranges
+    // Define phases by surah ranges (smaller chunks to avoid timeouts)
     const phases = [
       { start: 1, end: 10, name: "Phase 1/6" },
       { start: 11, end: 25, name: "Phase 2/6" },
@@ -841,10 +864,16 @@ const ImportVerses = () => {
 
     let totalBengali = 0;
     let totalEnglish = 0;
+    let fullCsvData = '';
 
     try {
-      const csvUrl = new URL('/data/quran-verses-tafsir.csv', window.location.origin).toString();
-      setTafsirStatus("Starting phased tafsir import...");
+      setTafsirStatus("Fetching tafsir CSV file...");
+
+      // Fetch CSV once
+      const response = await fetch('/data/quran-verses-tafsir.csv');
+      if (!response.ok) throw new Error("CSV file not found");
+      fullCsvData = await response.text();
+      console.log(`Loaded CSV with ${fullCsvData.split('\n').length} lines`);
 
       for (let i = 0; i < phases.length; i++) {
         const phase = phases[i];
@@ -853,23 +882,27 @@ const ImportVerses = () => {
         setTafsirStatus(`${phase.name}: Importing Surahs ${phase.start}-${phase.end}...`);
         setTafsirProgress(progressBase);
 
-        // Call the backend function using a URL (no large CSV payload sent from the browser)
+        // Filter CSV client-side to only send relevant rows (reduces payload)
+        const filteredCsv = filterCsvBySurahRange(fullCsvData, phase.start, phase.end);
+        const rowCount = filteredCsv.split('\n').length - 1;
+        console.log(`${phase.name}: Sending ${rowCount} rows for Surahs ${phase.start}-${phase.end}`);
+
+        // Call the backend function with filtered CSV data
         const { data, error } = await supabase.functions.invoke('import-tafsir-url', {
           body: {
-            csvUrl,
+            csvData: filteredCsv,
             startSurah: phase.start,
             endSurah: phase.end,
           },
         });
 
         if (error) throw error;
-        
+
         totalBengali += data.updatedBengali || 0;
         totalEnglish += data.updatedEnglish || 0;
-        
+
         console.log(`${phase.name} complete:`, data.message);
-        
-        // Update progress after each phase
+
         const progressAfter = Math.round(((i + 1) / phases.length) * 100);
         setTafsirProgress(progressAfter);
         setTafsirStatus(`${phase.name} complete. Total: ${totalBengali} Bengali, ${totalEnglish} English`);

@@ -31,12 +31,6 @@ const parseSemicolonCsvLine = (line: string): string[] => {
   return result;
 };
 
-const asInt = (val: string | undefined) => {
-  if (!val) return NaN;
-  const n = parseInt(val, 10);
-  return Number.isFinite(n) ? n : NaN;
-};
-
 serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -48,56 +42,45 @@ serve(async (req) => {
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
     const body = await req.json().catch(() => ({}));
-    const csvUrl: string | undefined = body.csvUrl;
     const csvData: string | undefined = body.csvData;
     const startSurah: number = body.startSurah ?? 1;
     const endSurah: number = body.endSurah ?? 114;
 
-    if (!csvUrl && !csvData) {
-      throw new Error("csvUrl or csvData is required");
+    if (!csvData) {
+      throw new Error("csvData is required");
     }
 
-    console.log(`Starting tafsir import (URL-based) for Surahs ${startSurah}-${endSurah}...`);
+    console.log(`Starting tafsir import for Surahs ${startSurah}-${endSurah}...`);
 
-    let csvText = csvData ?? "";
-    if (!csvText && csvUrl) {
-      console.log(`Fetching CSV from: ${csvUrl}`);
-      const resp = await fetch(csvUrl);
-      if (!resp.ok) throw new Error(`Failed to fetch CSV (${resp.status})`);
-      csvText = await resp.text();
-    }
-
-    const lines = csvText.split("\n").filter((l) => l.trim());
+    const lines = csvData.split("\n").filter((l) => l.trim());
     if (lines.length < 2) throw new Error("CSV is empty");
 
     const headers = parseSemicolonCsvLine(lines[0]);
+    console.log("CSV headers:", headers);
 
-    const idIdx = headers.findIndex((h) => h.toLowerCase() === "id");
     const surahIdx = headers.findIndex((h) => h.toLowerCase().includes("surah"));
     const verseIdx = headers.findIndex((h) => h.toLowerCase().includes("verse") || h.toLowerCase().includes("ayah"));
     const tafsirBengaliIdx = headers.findIndex((h) => h.toLowerCase().includes("tafsir_bengali") || h.toLowerCase().includes("tafsir_bn"));
     const tafsirEnglishIdx = headers.findIndex((h) => h.toLowerCase().includes("tafsir_english") || h.toLowerCase().includes("tafsir_en"));
 
     console.log(
-      `Column indices - id: ${idIdx}, surah: ${surahIdx}, verse: ${verseIdx}, tafsir_bengali: ${tafsirBengaliIdx}, tafsir_english: ${tafsirEnglishIdx}`,
+      `Column indices - surah: ${surahIdx}, verse: ${verseIdx}, tafsir_bengali: ${tafsirBengaliIdx}, tafsir_english: ${tafsirEnglishIdx}`,
     );
 
-    if (idIdx === -1) throw new Error("CSV missing required column: id");
     if (surahIdx === -1 || verseIdx === -1) {
-      throw new Error("Invalid CSV format. Required columns: surah_number (or surah), verse_number (or ayah)");
+      throw new Error("Invalid CSV format. Required columns: surah_number, verse_number");
     }
 
-    type UpdateRow = { id: number; tafsir_bengali?: string | null; tafsir_english?: string | null };
+    type UpdateItem = { surah_number: number; verse_number: number; tafsir_bengali?: string; tafsir_english?: string };
 
-    const updates: UpdateRow[] = [];
+    const updates: UpdateItem[] = [];
 
     for (let i = 1; i < lines.length; i++) {
       const values = parseSemicolonCsvLine(lines[i]);
-      const id = asInt(values[idIdx]);
-      const surah = asInt(values[surahIdx]);
-      const verse = asInt(values[verseIdx]);
+      const surah = parseInt(values[surahIdx], 10);
+      const verse = parseInt(values[verseIdx], 10);
 
-      if (Number.isNaN(id) || Number.isNaN(surah) || Number.isNaN(verse)) continue;
+      if (isNaN(surah) || isNaN(verse)) continue;
       if (surah < startSurah || surah > endSurah) continue;
 
       const bn = tafsirBengaliIdx !== -1 ? values[tafsirBengaliIdx]?.trim() : undefined;
@@ -105,7 +88,8 @@ serve(async (req) => {
 
       if ((bn && bn.length > 0) || (en && en.length > 0)) {
         updates.push({
-          id,
+          surah_number: surah,
+          verse_number: verse,
           tafsir_bengali: bn && bn.length > 0 ? bn : undefined,
           tafsir_english: en && en.length > 0 ? en : undefined,
         });
@@ -118,26 +102,38 @@ serve(async (req) => {
     let updatedEnglish = 0;
     const errors: string[] = [];
 
-    const batchSize = 250;
+    // Process in batches of 50 for speed
+    const batchSize = 50;
     for (let i = 0; i < updates.length; i += batchSize) {
       const batch = updates.slice(i, i + batchSize);
 
-      // Counters (best-effort)
-      for (const row of batch) {
-        if (row.tafsir_bengali) updatedBengali++;
-        if (row.tafsir_english) updatedEnglish++;
+      // Use Promise.all for parallel updates within batch
+      const results = await Promise.all(
+        batch.map(async (item) => {
+          const updateData: { tafsir_bengali?: string; tafsir_english?: string } = {};
+          if (item.tafsir_bengali) updateData.tafsir_bengali = item.tafsir_bengali;
+          if (item.tafsir_english) updateData.tafsir_english = item.tafsir_english;
+
+          const { error } = await supabase
+            .from("verses")
+            .update(updateData)
+            .eq("surah_number", item.surah_number)
+            .eq("verse_number", item.verse_number);
+
+          return { item, error };
+        })
+      );
+
+      for (const r of results) {
+        if (r.error) {
+          errors.push(`${r.item.surah_number}:${r.item.verse_number}: ${r.error.message}`);
+        } else {
+          if (r.item.tafsir_bengali) updatedBengali++;
+          if (r.item.tafsir_english) updatedEnglish++;
+        }
       }
 
-      const { error } = await supabase
-        .from("verses")
-        .upsert(batch, { onConflict: "id", defaultToNull: false });
-
-      if (error) {
-        errors.push(error.message);
-        console.error("Batch upsert error:", error);
-      }
-
-      console.log(`Upserted ${Math.min(i + batchSize, updates.length)}/${updates.length} rows`);
+      console.log(`Processed ${Math.min(i + batchSize, updates.length)}/${updates.length} verses`);
     }
 
     const message = `Surahs ${startSurah}-${endSurah}: ${updatedBengali} Bengali, ${updatedEnglish} English`;
