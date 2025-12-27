@@ -6,6 +6,7 @@ import { duaCategories, Dua, DuaCategory } from "@/data/duas";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { Language } from "@/types/language";
+import { HadithOfTheDay } from "@/components/HadithOfTheDay";
 
 interface DesktopDailyContentProps {
   language: Language;
@@ -59,7 +60,7 @@ export const DesktopDailyContent = ({ language }: DesktopDailyContentProps) => {
   };
 
   return (
-    <div className="grid gap-4 sm:gap-6 lg:grid-cols-2">
+    <div className="grid gap-4 sm:gap-6 lg:grid-cols-3">
       {/* Daily Verse Card */}
       <div className="group relative overflow-hidden rounded-xl sm:rounded-2xl border border-border bg-card p-4 sm:p-6 transition-all hover:shadow-elevated">
         {/* Decorative corner */}
@@ -164,6 +165,9 @@ export const DesktopDailyContent = ({ language }: DesktopDailyContentProps) => {
           </button>
         </div>
       )}
+
+      {/* Hadith of the Day */}
+      <HadithOfTheDay language={language} compact />
     </div>
   );
 };
