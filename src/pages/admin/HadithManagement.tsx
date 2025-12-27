@@ -1,12 +1,11 @@
 import { useState, useEffect } from "react";
-import { Book, Download, Loader2, RefreshCw, CheckCircle, XCircle } from "lucide-react";
+import { Book, Download, Loader2, RefreshCw, CheckCircle, XCircle, Pause, Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { cn } from "@/lib/utils";
 
 interface HadithBook {
   id: string;
@@ -20,10 +19,10 @@ interface HadithBook {
 
 interface ImportProgress {
   bookSlug: string;
-  currentPage: number;
-  totalPages: number;
+  currentId: number;
+  totalExpected: number;
   imported: number;
-  status: "idle" | "importing" | "success" | "error";
+  status: "idle" | "importing" | "paused" | "success" | "error";
   error?: string;
 }
 
@@ -41,6 +40,7 @@ const HadithManagement = () => {
   const [books, setBooks] = useState<HadithBook[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [importProgress, setImportProgress] = useState<Record<string, ImportProgress>>({});
+  const [pauseFlags, setPauseFlags] = useState<Record<string, boolean>>({});
 
   const fetchBooks = async () => {
     const { data, error } = await supabase
@@ -60,68 +60,85 @@ const HadithManagement = () => {
     fetchBooks();
   }, []);
 
-  const importBook = async (bookSlug: string) => {
-    const perPage = 100;
-    let page = 1;
+  const importBook = async (bookSlug: string, startFrom: number = 1) => {
+    const batchSize = 50; // Smaller batches for reliability
+    let currentStartId = startFrom;
     let hasMore = true;
     let totalImported = 0;
+    const expected = expectedCounts[bookSlug] || 0;
+
+    // Reset pause flag
+    setPauseFlags(prev => ({ ...prev, [bookSlug]: false }));
 
     setImportProgress(prev => ({
       ...prev,
       [bookSlug]: {
         bookSlug,
-        currentPage: 1,
-        totalPages: 1,
+        currentId: currentStartId,
+        totalExpected: expected,
         imported: 0,
         status: "importing",
       },
     }));
 
     try {
-      while (hasMore) {
+      while (hasMore && !pauseFlags[bookSlug]) {
         const response = await supabase.functions.invoke("import-hadiths", {
-          body: { bookSlug, page, perPage },
+          body: { bookSlug, startId: currentStartId, batchSize },
         });
 
         if (response.error) {
           throw new Error(response.error.message);
         }
 
-        const { imported, pagination, totalInBook } = response.data;
-        totalImported += imported;
+        const { imported, nextStartId, hasMore: more, totalInBook } = response.data;
+        totalImported = totalInBook || (totalImported + imported);
+        hasMore = more;
+        currentStartId = nextStartId;
 
         setImportProgress(prev => ({
           ...prev,
           [bookSlug]: {
             bookSlug,
-            currentPage: pagination?.current_page || page,
-            totalPages: pagination?.last_page || 1,
-            imported: totalInBook || totalImported,
-            status: "importing",
+            currentId: currentStartId,
+            totalExpected: expected,
+            imported: totalImported,
+            status: pauseFlags[bookSlug] ? "paused" : "importing",
           },
         }));
 
-        hasMore = pagination?.current_page < pagination?.last_page;
-        page++;
-
-        // Small delay to avoid rate limiting
+        // Small delay between batches
         if (hasMore) {
           await new Promise(resolve => setTimeout(resolve, 500));
         }
       }
 
-      setImportProgress(prev => ({
-        ...prev,
-        [bookSlug]: {
-          ...prev[bookSlug],
-          status: "success",
-        },
-      }));
+      if (pauseFlags[bookSlug]) {
+        setImportProgress(prev => ({
+          ...prev,
+          [bookSlug]: {
+            ...prev[bookSlug],
+            status: "paused",
+          },
+        }));
+        toast({
+          title: "Import Paused",
+          description: `Paused at hadith ${currentStartId}. Click Resume to continue.`,
+        });
+      } else {
+        setImportProgress(prev => ({
+          ...prev,
+          [bookSlug]: {
+            ...prev[bookSlug],
+            status: "success",
+          },
+        }));
 
-      toast({
-        title: "Import Complete",
-        description: `Successfully imported ${totalImported} hadiths from ${bookSlug}`,
-      });
+        toast({
+          title: "Import Complete",
+          description: `Successfully imported hadiths from ${bookSlug}`,
+        });
+      }
 
       // Refresh books to update counts
       fetchBooks();
@@ -144,9 +161,14 @@ const HadithManagement = () => {
     }
   };
 
-  const importAllBooks = async () => {
-    for (const book of books) {
-      await importBook(book.slug);
+  const pauseImport = (bookSlug: string) => {
+    setPauseFlags(prev => ({ ...prev, [bookSlug]: true }));
+  };
+
+  const resumeImport = (bookSlug: string) => {
+    const progress = importProgress[bookSlug];
+    if (progress && progress.status === "paused") {
+      importBook(bookSlug, progress.currentId);
     }
   };
 
@@ -163,25 +185,20 @@ const HadithManagement = () => {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-bold">Hadith Management</h2>
-          <p className="text-muted-foreground">Import and manage hadith collections</p>
+          <p className="text-muted-foreground">Import and manage hadith collections from hadithapi.pages.dev</p>
         </div>
-        <div className="flex gap-2">
-          <Button variant="outline" onClick={fetchBooks}>
-            <RefreshCw className="h-4 w-4 mr-2" />
-            Refresh
-          </Button>
-          <Button onClick={importAllBooks}>
-            <Download className="h-4 w-4 mr-2" />
-            Import All
-          </Button>
-        </div>
+        <Button variant="outline" onClick={fetchBooks}>
+          <RefreshCw className="h-4 w-4 mr-2" />
+          Refresh
+        </Button>
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {books.map((book) => {
           const progress = importProgress[book.slug];
           const expected = expectedCounts[book.slug] || 0;
-          const percentage = expected > 0 ? Math.round((book.total_hadiths / expected) * 100) : 0;
+          const currentCount = progress?.imported || book.total_hadiths;
+          const percentage = expected > 0 ? Math.round((currentCount / expected) * 100) : 0;
 
           return (
             <Card key={book.id}>
@@ -199,6 +216,11 @@ const HadithManagement = () => {
                   {progress?.status === "importing" && (
                     <Badge variant="secondary" className="animate-pulse">
                       Importing...
+                    </Badge>
+                  )}
+                  {progress?.status === "paused" && (
+                    <Badge variant="outline" className="text-amber-600">
+                      Paused
                     </Badge>
                   )}
                   {progress?.status === "success" && (
@@ -220,7 +242,7 @@ const HadithManagement = () => {
                   <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">Progress</span>
                     <span className="font-medium">
-                      {book.total_hadiths.toLocaleString()} / {expected.toLocaleString()}
+                      {currentCount.toLocaleString()} / {expected.toLocaleString()}
                     </span>
                   </div>
                   <Progress value={percentage} className="h-2" />
@@ -229,7 +251,13 @@ const HadithManagement = () => {
 
                 {progress?.status === "importing" && (
                   <div className="text-sm text-muted-foreground">
-                    Page {progress.currentPage} of {progress.totalPages}
+                    Importing hadith #{progress.currentId}...
+                  </div>
+                )}
+
+                {progress?.status === "paused" && (
+                  <div className="text-sm text-amber-600">
+                    Paused at hadith #{progress.currentId}
                   </div>
                 )}
 
@@ -237,29 +265,49 @@ const HadithManagement = () => {
                   <p className="text-sm text-destructive">{progress.error}</p>
                 )}
 
-                <Button
-                  className="w-full"
-                  variant={book.total_hadiths >= expected ? "outline" : "default"}
-                  disabled={progress?.status === "importing"}
-                  onClick={() => importBook(book.slug)}
-                >
+                <div className="flex gap-2">
                   {progress?.status === "importing" ? (
-                    <>
-                      <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                      Importing...
-                    </>
-                  ) : book.total_hadiths >= expected ? (
-                    <>
-                      <RefreshCw className="h-4 w-4 mr-2" />
-                      Re-import
-                    </>
+                    <Button
+                      className="flex-1"
+                      variant="outline"
+                      onClick={() => pauseImport(book.slug)}
+                    >
+                      <Pause className="h-4 w-4 mr-2" />
+                      Pause
+                    </Button>
+                  ) : progress?.status === "paused" ? (
+                    <Button
+                      className="flex-1"
+                      onClick={() => resumeImport(book.slug)}
+                    >
+                      <Play className="h-4 w-4 mr-2" />
+                      Resume
+                    </Button>
                   ) : (
-                    <>
-                      <Download className="h-4 w-4 mr-2" />
-                      Import Hadiths
-                    </>
+                    <Button
+                      className="flex-1"
+                      variant={currentCount >= expected ? "outline" : "default"}
+                      onClick={() => importBook(book.slug, currentCount > 0 ? currentCount + 1 : 1)}
+                    >
+                      {currentCount >= expected ? (
+                        <>
+                          <RefreshCw className="h-4 w-4 mr-2" />
+                          Re-import
+                        </>
+                      ) : currentCount > 0 ? (
+                        <>
+                          <Play className="h-4 w-4 mr-2" />
+                          Continue
+                        </>
+                      ) : (
+                        <>
+                          <Download className="h-4 w-4 mr-2" />
+                          Import
+                        </>
+                      )}
+                    </Button>
                   )}
-                </Button>
+                </div>
               </CardContent>
             </Card>
           );

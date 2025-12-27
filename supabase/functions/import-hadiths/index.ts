@@ -5,42 +5,25 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
-interface HadithBanglaResponse {
-  status: number;
-  hadiths: Array<{
-    id: number;
-    book_key: string;
-    book_name: string;
-    chapter_no: string;
-    chapter: string;
-    section_no: string;
-    section: string;
-    hadith_no: string;
-    hadith_english: string;
-    narrator: string;
-    narrator_bengali: string;
-    ar: string;
-    bn: string;
-    note: string;
-    grade: string;
-    grade_bn: string;
-  }>;
-  pagination: {
-    current_page: number;
-    last_page: number;
-    per_page: number;
-    total: number;
-  };
-}
-
-const BOOK_MAPPINGS: Record<string, { slug: string; apiKey: string }> = {
-  bukhari: { slug: "bukhari", apiKey: "bukhari" },
-  muslim: { slug: "muslim", apiKey: "muslim" },
-  abudawud: { slug: "abudawud", apiKey: "abudawud" },
-  tirmidhi: { slug: "tirmidhi", apiKey: "tirmidhi" },
-  nasai: { slug: "nasai", apiKey: "nasai" },
-  ibnmajah: { slug: "ibnmajah", apiKey: "ibnmajah" },
+// Using hadithapi.pages.dev - free, no API key required
+const BOOK_MAPPINGS: Record<string, { slug: string; apiName: string; totalHadiths: number }> = {
+  bukhari: { slug: "bukhari", apiName: "bukhari", totalHadiths: 7563 },
+  muslim: { slug: "muslim", apiName: "muslim", totalHadiths: 3032 },
+  abudawud: { slug: "abudawud", apiName: "abudawud", totalHadiths: 3998 },
+  tirmidhi: { slug: "tirmidhi", apiName: "tirmidhi", totalHadiths: 3956 },
+  nasai: { slug: "nasai", apiName: "nasai", totalHadiths: 5662 },
+  ibnmajah: { slug: "ibnmajah", apiName: "ibnmajah", totalHadiths: 4342 },
 };
+
+interface HadithApiResponse {
+  id: number;
+  header: string;
+  hadith_english: string;
+  hadith_arabic: string;
+  book: string;
+  chapter_title: string;
+  refno: string;
+}
 
 Deno.serve(async (req) => {
   // Handle CORS preflight requests
@@ -53,7 +36,7 @@ Deno.serve(async (req) => {
     const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
     const supabase = createClient(supabaseUrl, supabaseKey);
 
-    const { bookSlug, page = 1, perPage = 100 } = await req.json();
+    const { bookSlug, startId = 1, batchSize = 100 } = await req.json();
 
     if (!bookSlug || !BOOK_MAPPINGS[bookSlug]) {
       return new Response(
@@ -63,58 +46,88 @@ Deno.serve(async (req) => {
     }
 
     const bookMapping = BOOK_MAPPINGS[bookSlug];
-    console.log(`Fetching hadiths from ${bookSlug}, page ${page}, perPage ${perPage}`);
+    const endId = Math.min(startId + batchSize - 1, bookMapping.totalHadiths);
+    
+    console.log(`Fetching hadiths from ${bookSlug}, IDs ${startId} to ${endId}`);
 
-    // Fetch from hadithbangla API (has Bengali, Arabic, and English)
-    const apiUrl = `https://hadithbangla.com/api/v1/hadith?book=${bookMapping.apiKey}&page=${page}&limit=${perPage}`;
-    console.log(`Fetching from: ${apiUrl}`);
+    const hadithsToInsert: Array<{
+      book_slug: string;
+      hadith_number: number;
+      arabic: string | null;
+      english: string | null;
+      bengali: string | null;
+      narrator_english: string | null;
+      narrator_bengali: string | null;
+      grade: string | null;
+      grade_bengali: string | null;
+      chapter_number: number | null;
+      chapter_name_english: string | null;
+      chapter_name_bengali: string | null;
+    }> = [];
 
-    const response = await fetch(apiUrl, {
-      headers: {
-        "Accept": "application/json",
-        "User-Agent": "QuranInsight/1.0",
-      },
-    });
+    // Fetch hadiths one by one (API returns single hadith)
+    const fetchPromises: Promise<void>[] = [];
+    
+    for (let id = startId; id <= endId; id++) {
+      const promise = (async () => {
+        try {
+          const apiUrl = `https://hadithapi.pages.dev/api/${bookMapping.apiName}/${id}`;
+          const response = await fetch(apiUrl, {
+            headers: {
+              "Accept": "application/json",
+              "User-Agent": "QuranInsight/1.0",
+            },
+          });
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error(`API error: ${response.status} - ${errorText}`);
-      return new Response(
-        JSON.stringify({ error: `API error: ${response.status}` }),
-        { status: response.status, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-      );
+          if (response.ok) {
+            const hadith: HadithApiResponse = await response.json();
+            
+            hadithsToInsert.push({
+              book_slug: bookSlug,
+              hadith_number: id,
+              arabic: hadith.hadith_arabic || null,
+              english: hadith.hadith_english || null,
+              bengali: null, // API doesn't provide Bengali, we'll add later
+              narrator_english: hadith.header || null,
+              narrator_bengali: null,
+              grade: null,
+              grade_bengali: null,
+              chapter_number: null,
+              chapter_name_english: hadith.chapter_title || null,
+              chapter_name_bengali: null,
+            });
+          }
+        } catch (err) {
+          console.error(`Error fetching hadith ${id}:`, err);
+        }
+      })();
+      fetchPromises.push(promise);
+      
+      // Add small delay every 10 requests to avoid rate limiting
+      if (fetchPromises.length % 10 === 0) {
+        await Promise.all(fetchPromises);
+        fetchPromises.length = 0;
+        await new Promise(resolve => setTimeout(resolve, 100));
+      }
     }
+    
+    // Wait for remaining promises
+    await Promise.all(fetchPromises);
 
-    const data: HadithBanglaResponse = await response.json();
-    console.log(`Received ${data.hadiths?.length || 0} hadiths`);
+    console.log(`Fetched ${hadithsToInsert.length} hadiths`);
 
-    if (!data.hadiths || data.hadiths.length === 0) {
+    if (hadithsToInsert.length === 0) {
       return new Response(
         JSON.stringify({ 
           success: true, 
-          message: "No hadiths found for this page",
-          pagination: data.pagination,
-          imported: 0
+          message: "No hadiths found for this range",
+          imported: 0,
+          nextStartId: endId + 1,
+          hasMore: endId < bookMapping.totalHadiths,
         }),
         { headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
-
-    // Transform and prepare hadiths for insertion
-    const hadithsToInsert = data.hadiths.map((hadith) => ({
-      book_slug: bookSlug,
-      hadith_number: parseInt(hadith.hadith_no) || hadith.id,
-      arabic: hadith.ar || null,
-      english: hadith.hadith_english || null,
-      bengali: hadith.bn || null,
-      narrator_english: hadith.narrator || null,
-      narrator_bengali: hadith.narrator_bengali || null,
-      grade: hadith.grade || null,
-      grade_bengali: hadith.grade_bn || null,
-      chapter_number: hadith.chapter_no ? parseInt(hadith.chapter_no) : null,
-      chapter_name_english: hadith.chapter || null,
-      chapter_name_bengali: hadith.section || null,
-    }));
 
     // Upsert hadiths (insert or update on conflict)
     const { data: insertedData, error: insertError } = await supabase
@@ -152,8 +165,12 @@ Deno.serve(async (req) => {
       JSON.stringify({
         success: true,
         imported: insertedData?.length || 0,
-        pagination: data.pagination,
+        startId,
+        endId,
+        nextStartId: endId + 1,
+        hasMore: endId < bookMapping.totalHadiths,
         totalInBook: count,
+        expectedTotal: bookMapping.totalHadiths,
       }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
