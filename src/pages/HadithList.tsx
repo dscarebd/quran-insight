@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { BookOpen, ChevronRight, Book } from "lucide-react";
+import { BookOpen, ChevronRight, Book, Search } from "lucide-react";
 import { cn, formatNumber } from "@/lib/utils";
 import { Language } from "@/types/language";
 import { supabase } from "@/integrations/supabase/client";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Button } from "@/components/ui/button";
 
 interface HadithListProps {
   language: Language;
@@ -73,20 +74,32 @@ const HadithList = ({ language }: HadithListProps) => {
       <div className="mx-auto max-w-4xl">
         {/* Header */}
         <div className="mb-6">
-          <h1 className={cn(
-            "text-2xl sm:text-3xl font-bold text-foreground mb-2",
-            language === "bn" && "font-bengali"
-          )}>
-            {language === "bn" ? "হাদিস সংকলন" : "Hadith Collections"}
-          </h1>
-          <p className={cn(
-            "text-muted-foreground",
-            language === "bn" && "font-bengali"
-          )}>
-            {language === "bn" 
-              ? "ছয়টি প্রধান হাদিস সংকলন"
-              : "The six major hadith collections"}
-          </p>
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <h1 className={cn(
+                "text-2xl sm:text-3xl font-bold text-foreground mb-2",
+                language === "bn" && "font-bengali"
+              )}>
+                {language === "bn" ? "হাদিস সংকলন" : "Hadith Collections"}
+              </h1>
+              <p className={cn(
+                "text-muted-foreground",
+                language === "bn" && "font-bengali"
+              )}>
+                {language === "bn" 
+                  ? "দশটি হাদিস সংকলন"
+                  : "Ten hadith collections"}
+              </p>
+            </div>
+            <Button
+              onClick={() => navigate("/hadith-search")}
+              variant="outline"
+              className="shrink-0"
+            >
+              <Search className="h-4 w-4 mr-2" />
+              {language === "bn" ? "অনুসন্ধান" : "Search"}
+            </Button>
+          </div>
         </div>
 
         {/* Books Grid */}
