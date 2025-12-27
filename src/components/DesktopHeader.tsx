@@ -20,7 +20,10 @@ export const DesktopHeader = ({ language, onLanguageChange }: DesktopHeaderProps
       labelEn: "Home", 
       labelBn: "হোম",
       icon: BookOpen,
-      action: () => navigate("/"),
+      action: () => {
+        window.dispatchEvent(new CustomEvent("clear-home-search"));
+        navigate("/");
+      },
     },
     { 
       path: "/surah", 

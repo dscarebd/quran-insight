@@ -31,7 +31,10 @@ export const MobileNavFooter = ({ language }: MobileNavFooterProps) => {
       labelBn: "হোম",
       path: "/",
       isActive: location.pathname === "/",
-      action: () => navigate("/"),
+      action: () => {
+        window.dispatchEvent(new CustomEvent("clear-home-search"));
+        navigate("/");
+      },
     },
     {
       icon: BookOpen,
