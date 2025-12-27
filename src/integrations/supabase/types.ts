@@ -173,6 +173,131 @@ export type Database = {
         }
         Relationships: []
       }
+      hadith_bookmarks: {
+        Row: {
+          book_slug: string
+          created_at: string
+          hadith_number: number
+          id: string
+          user_id: string
+        }
+        Insert: {
+          book_slug: string
+          created_at?: string
+          hadith_number: number
+          id?: string
+          user_id: string
+        }
+        Update: {
+          book_slug?: string
+          created_at?: string
+          hadith_number?: number
+          id?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      hadith_books: {
+        Row: {
+          created_at: string
+          display_order: number
+          icon: string
+          id: string
+          name_arabic: string
+          name_bengali: string
+          name_english: string
+          slug: string
+          total_hadiths: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          display_order?: number
+          icon?: string
+          id?: string
+          name_arabic: string
+          name_bengali: string
+          name_english: string
+          slug: string
+          total_hadiths?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          display_order?: number
+          icon?: string
+          id?: string
+          name_arabic?: string
+          name_bengali?: string
+          name_english?: string
+          slug?: string
+          total_hadiths?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      hadiths: {
+        Row: {
+          arabic: string | null
+          bengali: string | null
+          book_slug: string
+          chapter_name_bengali: string | null
+          chapter_name_english: string | null
+          chapter_number: number | null
+          created_at: string
+          english: string | null
+          grade: string | null
+          grade_bengali: string | null
+          hadith_number: number
+          id: string
+          narrator_bengali: string | null
+          narrator_english: string | null
+          updated_at: string
+        }
+        Insert: {
+          arabic?: string | null
+          bengali?: string | null
+          book_slug: string
+          chapter_name_bengali?: string | null
+          chapter_name_english?: string | null
+          chapter_number?: number | null
+          created_at?: string
+          english?: string | null
+          grade?: string | null
+          grade_bengali?: string | null
+          hadith_number: number
+          id?: string
+          narrator_bengali?: string | null
+          narrator_english?: string | null
+          updated_at?: string
+        }
+        Update: {
+          arabic?: string | null
+          bengali?: string | null
+          book_slug?: string
+          chapter_name_bengali?: string | null
+          chapter_name_english?: string | null
+          chapter_number?: number | null
+          created_at?: string
+          english?: string | null
+          grade?: string | null
+          grade_bengali?: string | null
+          hadith_number?: number
+          id?: string
+          narrator_bengali?: string | null
+          narrator_english?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "hadiths_book_slug_fkey"
+            columns: ["book_slug"]
+            isOneToOne: false
+            referencedRelation: "hadith_books"
+            referencedColumns: ["slug"]
+          },
+        ]
+      }
       page_views: {
         Row: {
           created_at: string

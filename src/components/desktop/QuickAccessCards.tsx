@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { HandHeart, CalendarDays, Clock, Sparkles } from "lucide-react";
+import { HandHeart, CalendarDays, Clock, Sparkles, BookOpen } from "lucide-react";
 import { cn, formatNumber } from "@/lib/utils";
 import { duaCategories } from "@/data/duas";
 import { getUpcomingEventsCount } from "@/data/islamicCalendar";
@@ -30,6 +30,17 @@ export const QuickAccessCards = ({ language }: QuickAccessCardsProps) => {
       path: "/names-of-allah",
       gradient: "from-sky-500 to-blue-600",
       count: 99,
+    },
+    {
+      id: "hadith",
+      icon: BookOpen,
+      labelEn: "Hadith",
+      labelBn: "হাদিস",
+      descEn: "Authentic hadith collections",
+      descBn: "প্রামাণিক হাদিস সংকলন",
+      path: "/hadith",
+      gradient: "from-emerald-500 to-teal-600",
+      count: 6,
     },
     {
       id: "prayer",

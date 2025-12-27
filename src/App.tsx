@@ -26,7 +26,8 @@ import Developer from "./pages/Developer";
 import IslamicCalendar from "./pages/IslamicCalendar";
 import PrayerTimes from "./pages/PrayerTimes";
 import NamesOfAllah from "./pages/NamesOfAllah";
-
+import HadithList from "./pages/HadithList";
+import HadithDetail from "./pages/HadithDetail";
 // Component to redirect to last read page
 const ReadPageRedirect = () => {
   const lastReadPage = localStorage.getItem("quran-last-read-page") || "1";
@@ -46,6 +47,7 @@ const Analytics = lazy(() => import("./pages/admin/Analytics"));
 const DuaCategoriesManagement = lazy(() => import("./pages/admin/DuaCategoriesManagement"));
 const DuasManagement = lazy(() => import("./pages/admin/DuasManagement"));
 const ImportDuas = lazy(() => import("./pages/admin/ImportDuas"));
+const HadithManagement = lazy(() => import("./pages/admin/HadithManagement"));
 
 const queryClient = new QueryClient();
 
@@ -155,6 +157,16 @@ const AppContent = () => {
           <NamesOfAllah language={language} arabicFont={arabicFont} />
         </Layout>
       } />
+      <Route path="/hadith" element={
+        <Layout language={language} onLanguageChange={setLanguage}>
+          <HadithList language={language} />
+        </Layout>
+      } />
+      <Route path="/hadith/:bookSlug" element={
+        <Layout language={language} onLanguageChange={setLanguage}>
+          <HadithDetail language={language} arabicFont={arabicFont} />
+        </Layout>
+      } />
       <Route path="/settings" element={
         <Layout language={language} onLanguageChange={setLanguage}>
           <Settings language={language} onLanguageChange={setLanguage} readingMode={readingMode} onReadingModeChange={setReadingMode} arabicFont={arabicFont} onArabicFontChange={setArabicFont} fontSize={fontSize} onFontSizeChange={setFontSize} />
@@ -186,6 +198,7 @@ const AppContent = () => {
         <Route path="dua-categories" element={<DuaCategoriesManagement />} />
         <Route path="duas" element={<DuasManagement />} />
         <Route path="import-duas" element={<ImportDuas />} />
+        <Route path="hadiths" element={<HadithManagement />} />
         <Route path="import-verses" element={<ImportVerses />} />
         <Route path="users" element={<UsersManagement />} />
         <Route path="admin-emails" element={<AdminEmailsManagement />} />
