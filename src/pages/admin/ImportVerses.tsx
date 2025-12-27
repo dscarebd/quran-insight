@@ -823,55 +823,91 @@ const ImportVerses = () => {
     }
   };
 
-  // Import both Bengali and English tafsir from full CSV file
+  // Phased import of Bengali and English tafsir from CSV file
   const importFullTafsirFromCsv = async () => {
     setIsImportingFullTafsir(true);
     setFullTafsirResult(null);
     setTafsirProgress(0);
     
+    // Define phases by surah ranges
+    const phases = [
+      { start: 1, end: 10, name: "Phase 1/6" },
+      { start: 11, end: 25, name: "Phase 2/6" },
+      { start: 26, end: 45, name: "Phase 3/6" },
+      { start: 46, end: 70, name: "Phase 4/6" },
+      { start: 71, end: 95, name: "Phase 5/6" },
+      { start: 96, end: 114, name: "Phase 6/6" },
+    ];
+    
+    let totalBengali = 0;
+    let totalEnglish = 0;
+    let csvData = '';
+    
     try {
       setTafsirStatus("Fetching tafsir CSV file...");
       
-      // Fetch the CSV file
+      // Fetch the CSV file once
       const response = await fetch('/data/quran-verses-tafsir.csv');
       if (!response.ok) {
         throw new Error("CSV file not found at /data/quran-verses-tafsir.csv");
       }
-      const csvData = await response.text();
+      csvData = await response.text();
       
-      setTafsirStatus("Uploading to server for processing...");
-      setTafsirProgress(20);
-      
-      // Call the edge function
-      const { data, error } = await supabase.functions.invoke('import-tafsir', {
-        body: { csvData }
-      });
+      // Process each phase
+      for (let i = 0; i < phases.length; i++) {
+        const phase = phases[i];
+        const progressBase = Math.round((i / phases.length) * 100);
+        
+        setTafsirStatus(`${phase.name}: Importing Surahs ${phase.start}-${phase.end}...`);
+        setTafsirProgress(progressBase);
+        
+        // Call the edge function with surah range
+        const { data, error } = await supabase.functions.invoke('import-tafsir', {
+          body: { 
+            csvData,
+            startSurah: phase.start,
+            endSurah: phase.end
+          }
+        });
 
-      if (error) throw error;
+        if (error) throw error;
+        
+        totalBengali += data.updatedBengali || 0;
+        totalEnglish += data.updatedEnglish || 0;
+        
+        console.log(`${phase.name} complete:`, data.message);
+        
+        // Update progress after each phase
+        const progressAfter = Math.round(((i + 1) / phases.length) * 100);
+        setTafsirProgress(progressAfter);
+        setTafsirStatus(`${phase.name} complete. Total: ${totalBengali} Bengali, ${totalEnglish} English`);
+      }
       
       setTafsirProgress(100);
-      setTafsirStatus("Complete!");
+      setTafsirStatus("All phases complete!");
       setFullTafsirResult({
         success: true,
-        message: data.message,
-        updatedBengali: data.updatedBengali,
-        updatedEnglish: data.updatedEnglish,
+        message: `Successfully imported ${totalBengali} Bengali and ${totalEnglish} English tafsirs`,
+        updatedBengali: totalBengali,
+        updatedEnglish: totalEnglish,
       });
       
       toast({
         title: "Tafsir Import Complete",
-        description: data.message,
+        description: `Imported ${totalBengali} Bengali and ${totalEnglish} English tafsirs`,
       });
 
     } catch (error: any) {
       console.error('Full tafsir import error:', error);
       setFullTafsirResult({ 
         success: false,
-        error: error.message 
+        error: error.message,
+        updatedBengali: totalBengali,
+        updatedEnglish: totalEnglish,
       });
       toast({
         title: "Import Failed",
-        description: error.message,
+        description: `${error.message}. Partial: ${totalBengali} Bengali, ${totalEnglish} English`,
         variant: "destructive",
       });
     } finally {

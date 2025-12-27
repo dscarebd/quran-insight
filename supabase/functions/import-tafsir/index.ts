@@ -42,13 +42,16 @@ serve(async (req) => {
     const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
-    const { csvData } = await req.json();
+    const { csvData, startSurah, endSurah } = await req.json();
 
     if (!csvData) {
       throw new Error("CSV data is required");
     }
 
-    console.log("Starting tafsir import...");
+    const surahStart = startSurah || 1;
+    const surahEnd = endSurah || 114;
+
+    console.log(`Starting tafsir import for Surahs ${surahStart}-${surahEnd}...`);
     
     // Parse semicolon-delimited CSV
     const lines = csvData.split('\n').filter((line: string) => line.trim());
@@ -68,7 +71,7 @@ serve(async (req) => {
       throw new Error("Invalid CSV format. Required columns: surah_number (or surah), verse_number (or ayah)");
     }
 
-    // Parse all rows
+    // Parse rows for the specified surah range only
     const tafsirData: { 
       surah_number: number; 
       verse_number: number; 
@@ -82,6 +85,9 @@ serve(async (req) => {
       const verse = parseInt(values[verseIdx]);
       
       if (isNaN(surah) || isNaN(verse)) continue;
+      
+      // Filter by surah range
+      if (surah < surahStart || surah > surahEnd) continue;
       
       const tafsirBengali = tafsirBengaliIdx !== -1 ? values[tafsirBengaliIdx]?.trim() : undefined;
       const tafsirEnglish = tafsirEnglishIdx !== -1 ? values[tafsirEnglishIdx]?.trim() : undefined;
@@ -97,7 +103,7 @@ serve(async (req) => {
       }
     }
 
-    console.log(`Found ${tafsirData.length} verses with tafsir data`);
+    console.log(`Found ${tafsirData.length} verses with tafsir data for Surahs ${surahStart}-${surahEnd}`);
     
     let updatedBengali = 0;
     let updatedEnglish = 0;
@@ -137,7 +143,7 @@ serve(async (req) => {
       console.log(`Processed ${Math.min(i + batchSize, tafsirData.length)}/${tafsirData.length} verses`);
     }
 
-    const message = `Successfully imported tafsir: ${updatedBengali} Bengali, ${updatedEnglish} English`;
+    const message = `Surahs ${surahStart}-${surahEnd}: ${updatedBengali} Bengali, ${updatedEnglish} English`;
     console.log(message);
 
     return new Response(
@@ -147,6 +153,7 @@ serve(async (req) => {
         updatedBengali,
         updatedEnglish,
         totalProcessed: tafsirData.length,
+        surahRange: { start: surahStart, end: surahEnd },
         errors: errors.length > 0 ? errors.slice(0, 10) : undefined
       }),
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
