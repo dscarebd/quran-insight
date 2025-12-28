@@ -109,6 +109,33 @@ const HadithSearch = ({ language, arabicFont }: HadithSearchProps) => {
       setIsLoadingMore(true);
     }
 
+    const trimmedQuery = searchQuery.trim();
+    
+    // Check if query is a number and a specific book is selected - direct lookup
+    const isNumericQuery = /^\d+$/.test(trimmedQuery);
+    if (isNumericQuery && bookFilter !== "all") {
+      const hadithNumber = parseInt(trimmedQuery, 10);
+      
+      const { data, error } = await supabase
+        .from("hadiths")
+        .select("id, book_slug, hadith_number, arabic, english, bengali, grade")
+        .eq("book_slug", bookFilter)
+        .eq("hadith_number", hadithNumber)
+        .maybeSingle();
+
+      if (error) {
+        console.error("Direct lookup error:", error);
+      } else if (data) {
+        setResults([data]);
+        setAiExplanation("");
+        setHasMore(false);
+        setHasSearched(true);
+        setIsLoading(false);
+        return;
+      }
+      // If no result found, fall through to regular search
+    }
+
     // AI Search mode
     if (isAiMode && reset) {
       try {
@@ -149,7 +176,6 @@ const HadithSearch = ({ language, arabicFont }: HadithSearchProps) => {
     // Regular search
     const from = (pageNum - 1) * RESULTS_PER_PAGE;
     const to = from + RESULTS_PER_PAGE - 1;
-    const trimmedQuery = searchQuery.trim();
 
     let queryBuilder = supabase
       .from("hadiths")
