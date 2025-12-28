@@ -172,11 +172,68 @@ const ReadPage = ({
     localStorage.setItem("quran-last-read-page", currentVisiblePage.toString());
   }, [currentVisiblePage]);
 
-  // Handle verse click - mark as last read
+  // Auto-save reading position as user scrolls (track most visible verse)
+  const verseObserverRef = useRef<IntersectionObserver | null>(null);
+  const lastAutoSavedVerse = useRef<string | null>(null);
+  
+  // Set up verse visibility tracking for auto-save
+  useEffect(() => {
+    if (loading) return;
+    
+    const visibleVerses = new Map<string, number>();
+    
+    verseObserverRef.current = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          const verseKey = entry.target.getAttribute('data-verse-key');
+          if (!verseKey) continue;
+          
+          if (entry.isIntersecting) {
+            visibleVerses.set(verseKey, entry.intersectionRatio);
+          } else {
+            visibleVerses.delete(verseKey);
+          }
+        }
+        
+        // Find the most visible verse
+        let bestKey: string | null = null;
+        let bestRatio = 0;
+        for (const [key, ratio] of visibleVerses.entries()) {
+          if (ratio > bestRatio) {
+            bestRatio = ratio;
+            bestKey = key;
+          }
+        }
+        
+        // Auto-save if we have a clearly visible verse (>50% visible)
+        if (bestKey && bestRatio > 0.5 && lastAutoSavedVerse.current !== bestKey) {
+          lastAutoSavedVerse.current = bestKey;
+          setLastReadVerse(bestKey);
+          localStorage.setItem("quran-last-read-verse", bestKey);
+        }
+      },
+      {
+        root: contentRef.current,
+        threshold: [0, 0.25, 0.5, 0.75, 1.0],
+      }
+    );
+    
+    // Observe all verse elements
+    Object.values(verseRefs.current).forEach((el) => {
+      if (el) verseObserverRef.current?.observe(el);
+    });
+    
+    return () => {
+      verseObserverRef.current?.disconnect();
+    };
+  }, [loading, loadedPages]);
+
+  // Handle verse click - mark as last read (with toast feedback)
   const handleVerseClick = useCallback((pageNum: number, surahNumber: number, verseNumber: number) => {
     const verseKey = `${pageNum}-${surahNumber}-${verseNumber}`;
     setLastReadVerse(verseKey);
     localStorage.setItem("quran-last-read-verse", verseKey);
+    lastAutoSavedVerse.current = verseKey; // Sync with auto-save
     toast.success(
       language === "bn" 
         ? `সূরা ${surahNumber}, আয়াত ${verseNumber} - শেষ পঠিত হিসেবে সংরক্ষিত` 
@@ -846,6 +903,7 @@ const ReadPage = ({
                               <span 
                                 key={verseKey} 
                                 ref={(el) => { verseRefs.current[verseKey] = el; }}
+                                data-verse-key={verseKey}
                                 className={cn(
                                   "inline cursor-pointer rounded transition-all duration-300",
                                   isLastRead && "bg-primary/20 px-1",
