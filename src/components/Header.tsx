@@ -104,13 +104,6 @@ export const Header = ({
           </div>
         )}
 
-        {/* Bookmark button (Mobile/Tablet) */}
-        <button 
-          onClick={() => navigate("/bookmarks")}
-          className="flex lg:hidden h-9 w-9 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
-        >
-          <Bookmark className="h-5 w-5" />
-        </button>
         
         {/* Settings button (Mobile/Tablet) */}
         <button 
