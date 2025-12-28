@@ -4,6 +4,9 @@ import { Language } from "@/types/language";
 import { surahs } from "@/data/surahs";
 import { duaCategories } from "@/data/duas";
 
+const CACHE_KEY = "ai_search_cache";
+const CACHE_EXPIRY_HOURS = 24;
+
 export interface SearchResult {
   type: "verse" | "hadith" | "dua" | "surah";
   title: string;
@@ -24,7 +27,83 @@ export interface AISearchResponse {
   };
   results: SearchResult[];
   isOffline: boolean;
+  isCached?: boolean;
 }
+
+interface CachedSearch {
+  query: string;
+  language: Language;
+  response: AISearchResponse;
+  timestamp: number;
+}
+
+interface SearchCache {
+  searches: CachedSearch[];
+}
+
+// Cache helpers
+const getSearchCache = (): SearchCache => {
+  try {
+    const cached = localStorage.getItem(CACHE_KEY);
+    if (cached) {
+      return JSON.parse(cached);
+    }
+  } catch (e) {
+    console.error("Error reading search cache:", e);
+  }
+  return { searches: [] };
+};
+
+const saveToCache = (query: string, language: Language, response: AISearchResponse) => {
+  try {
+    const cache = getSearchCache();
+    const normalizedQuery = query.toLowerCase().trim();
+    
+    // Remove old entry for same query if exists
+    cache.searches = cache.searches.filter(
+      s => !(s.query.toLowerCase().trim() === normalizedQuery && s.language === language)
+    );
+    
+    // Add new entry
+    cache.searches.push({
+      query: normalizedQuery,
+      language,
+      response: { ...response, isCached: true },
+      timestamp: Date.now()
+    });
+    
+    // Keep only last 50 searches and remove expired ones
+    const expiryTime = Date.now() - (CACHE_EXPIRY_HOURS * 60 * 60 * 1000);
+    cache.searches = cache.searches
+      .filter(s => s.timestamp > expiryTime)
+      .slice(-50);
+    
+    localStorage.setItem(CACHE_KEY, JSON.stringify(cache));
+  } catch (e) {
+    console.error("Error saving to search cache:", e);
+  }
+};
+
+const getFromCache = (query: string, language: Language): AISearchResponse | null => {
+  try {
+    const cache = getSearchCache();
+    const normalizedQuery = query.toLowerCase().trim();
+    const expiryTime = Date.now() - (CACHE_EXPIRY_HOURS * 60 * 60 * 1000);
+    
+    const cached = cache.searches.find(
+      s => s.query === normalizedQuery && 
+           s.language === language && 
+           s.timestamp > expiryTime
+    );
+    
+    if (cached) {
+      return { ...cached.response, isCached: true };
+    }
+  } catch (e) {
+    console.error("Error getting from search cache:", e);
+  }
+  return null;
+};
 
 // Check if user is online
 const useOnlineStatus = () => {
@@ -120,19 +199,30 @@ export const useAISearch = () => {
     setError(null);
 
     try {
-      // If offline, use local data only
+      // Check cache first (works both online and offline)
+      const cachedResponse = getFromCache(query, language);
+      if (cachedResponse) {
+        console.log("Returning cached search result");
+        setResponse(cachedResponse);
+        setIsLoading(false);
+        return;
+      }
+
+      // If offline and no cache, use local data only
       if (!isOnline) {
         console.log("Offline mode: searching local data");
         const localResults = searchLocalData(query, language);
         
-        setResponse({
+        const offlineResponse: AISearchResponse = {
           answer: language === "bn" 
             ? "আপনি বর্তমানে অফলাইন। স্থানীয় ডেটা থেকে ফলাফল দেখানো হচ্ছে।"
             : "You are currently offline. Showing results from local data.",
           references: { verses: [], hadiths: [], duas: [] },
           results: localResults,
           isOffline: true
-        });
+        };
+        
+        setResponse(offlineResponse);
         setIsLoading(false);
         return;
       }
@@ -151,14 +241,16 @@ export const useAISearch = () => {
         console.log("AI search failed, falling back to local search:", data.error);
         const localResults = searchLocalData(query, language);
         
-        setResponse({
+        const fallbackResponse: AISearchResponse = {
           answer: language === "bn"
             ? "AI সার্চ সাময়িকভাবে অনুপলব্ধ। স্থানীয় ফলাফল দেখানো হচ্ছে।"
             : "AI search temporarily unavailable. Showing local results.",
           references: { verses: [], hadiths: [], duas: [] },
           results: localResults,
           isOffline: true
-        });
+        };
+        
+        setResponse(fallbackResponse);
         return;
       }
 
@@ -207,15 +299,27 @@ export const useAISearch = () => {
         });
       });
 
-      setResponse({
+      const aiResponse: AISearchResponse = {
         answer: data.answer,
         references: data.references,
         results,
         isOffline: false
-      });
+      };
+
+      // Cache the successful AI response
+      saveToCache(query, language, aiResponse);
+      
+      setResponse(aiResponse);
 
     } catch (err) {
       console.error("Search error:", err);
+      
+      // Check cache again as fallback
+      const cachedResponse = getFromCache(query, language);
+      if (cachedResponse) {
+        setResponse(cachedResponse);
+        return;
+      }
       
       // Fallback to local search on any error
       const localResults = searchLocalData(query, language);
