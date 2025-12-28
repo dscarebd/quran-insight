@@ -142,12 +142,12 @@ const HadithList = ({ language }: HadithListProps) => {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between gap-2 mb-1">
                     <h3 className={cn(
-                      "font-semibold text-lg text-foreground truncate",
+                      "font-semibold text-base text-foreground truncate",
                       language === "bn" && "font-bengali"
                     )}>
                       {language === "bn" ? book.name_bengali : book.name_english}
                     </h3>
-                    <span className="font-arabic text-lg text-muted-foreground shrink-0">
+                    <span className="font-arabic text-base text-muted-foreground shrink-0">
                       {book.name_arabic}
                     </span>
                   </div>
