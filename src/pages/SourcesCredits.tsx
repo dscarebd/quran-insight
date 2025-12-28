@@ -180,18 +180,11 @@ const SourcesCredits = ({ language }: SourcesCreditsProps) => {
       url: "https://ui.shadcn.com",
     },
     {
-      nameEn: "Supabase (Lovable Cloud)",
-      nameBn: "সুপাবেস (লাভেবল ক্লাউড)",
-      descriptionEn: "Backend database and authentication",
-      descriptionBn: "ব্যাকএন্ড ডাটাবেস ও অথেনটিকেশন",
-      url: "https://supabase.com",
-    },
-    {
-      nameEn: "Capacitor",
-      nameBn: "ক্যাপাসিটর",
-      descriptionEn: "Native mobile app framework",
-      descriptionBn: "নেটিভ মোবাইল অ্যাপ ফ্রেমওয়ার্ক",
-      url: "https://capacitorjs.com",
+      nameEn: "Android Studio",
+      nameBn: "অ্যান্ড্রয়েড স্টুডিও",
+      descriptionEn: "Native Android app development IDE",
+      descriptionBn: "নেটিভ অ্যান্ড্রয়েড অ্যাপ ডেভেলপমেন্ট আইডিই",
+      url: "https://developer.android.com/studio",
     },
   ];
 
