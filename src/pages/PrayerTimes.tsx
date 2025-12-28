@@ -675,19 +675,14 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
                         {nextPrayer.nameAr}
                       </span>
                     </div>
-                    <div className="flex items-center justify-end gap-2">
-                      <p className="text-sm font-medium text-foreground">
-                        {formatTimeDisplay(nextPrayer.time, language)}
+                    {timeRemaining && (
+                      <p className={cn(
+                        "text-xs text-muted-foreground animate-pulse",
+                        language === "bn" && "font-bengali"
+                      )}>
+                        {formatTimeRemaining(timeRemaining, language)}
                       </p>
-                      {timeRemaining && (
-                        <p className={cn(
-                          "text-xs text-muted-foreground animate-pulse",
-                          language === "bn" && "font-bengali"
-                        )}>
-                          {formatTimeRemaining(timeRemaining, language)}
-                        </p>
-                      )}
-                    </div>
+                    )}
                   </div>
                 )}
               </div>
