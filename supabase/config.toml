@@ -32,3 +32,6 @@ verify_jwt = false
 
 [functions.import-hadiths-v2]
 verify_jwt = false
+
+[functions.hadith-ai-search]
+verify_jwt = false
