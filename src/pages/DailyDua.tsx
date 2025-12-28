@@ -28,13 +28,13 @@ const allDuas: DailyDuaItem[] = [
     id: "before-sleep",
     titleBn: "ঘুমানোর আগে",
     titleEn: "Before Sleeping",
-    arabic: "بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا",
+    arabic: "اللَّهُمَّ بِاسْمِكَ أَمُوتُ وَأَحْيَا",
     bengali: "হে আল্লাহ! তোমার নামেই মৃত্যুবরণ করি এবং জীবিত হই।",
-    english: "In Your name, O Allah, I die and I live.",
-    transliteration: "Bismika Allahumma amutu wa ahya",
-    transliterationBn: "বিসমিকা আল্লাহুম্মা আমুতু ওয়া আহইয়া",
-    referenceBn: "সহীহ বুখারী",
-    referenceEn: "Sahih Bukhari"
+    english: "O Allah, in Your name I die and I live.",
+    transliteration: "Allahumma bismika amūtu wa aḥyā",
+    transliterationBn: "আল্লাহুম্মা বিসমিকা আমুতু ওয়া আহইয়া",
+    referenceBn: "সহীহ বুখারী ৬৩১২",
+    referenceEn: "Sahih Bukhari 6312"
   },
   {
     id: "after-waking",
@@ -43,10 +43,10 @@ const allDuas: DailyDuaItem[] = [
     arabic: "الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا وَإِلَيْهِ النُّشُورُ",
     bengali: "সমস্ত প্রশংসা আল্লাহর জন্য, যিনি আমাদের মৃত্যুর পর জীবিত করেছেন এবং তাঁর কাছেই আমাদের ফিরে যেতে হবে।",
     english: "All praise is for Allah who gave us life after having taken it from us and unto Him is the resurrection.",
-    transliteration: "Alhamdu lillahil-ladhi ahyana ba'da ma amatana wa ilayhin-nushur",
+    transliteration: "Alḥamdu lillāhil-ladhī aḥyānā ba'da mā amātanā wa ilayhin-nushūr",
     transliterationBn: "আলহামদু লিল্লাহিল্লাযী আহইয়ানা বা'দা মা আমাতানা ওয়া ইলাইহিন নুশুর",
-    referenceBn: "সহীহ বুখারী",
-    referenceEn: "Sahih Bukhari"
+    referenceBn: "সহীহ বুখারী ৬৩১২",
+    referenceEn: "Sahih Bukhari 6312"
   },
   {
     id: "before-eating",
@@ -55,22 +55,22 @@ const allDuas: DailyDuaItem[] = [
     arabic: "بِسْمِ اللَّهِ",
     bengali: "আল্লাহর নামে শুরু করছি।",
     english: "In the name of Allah.",
-    transliteration: "Bismillah",
+    transliteration: "Bismillāh",
     transliterationBn: "বিসমিল্লাহ",
-    referenceBn: "সহীহ মুসলিম",
-    referenceEn: "Sahih Muslim"
+    referenceBn: "সহীহ মুসলিম ২০২২",
+    referenceEn: "Sahih Muslim 2022"
   },
   {
     id: "after-eating",
     titleBn: "খাওয়ার পর",
     titleEn: "After Eating",
-    arabic: "الْحَمْدُ لِلَّهِ الَّذِي أَطْعَمَنَا وَسَقَانَا وَجَعَلَنَا مُسْلِمِينَ",
-    bengali: "সমস্ত প্রশংসা আল্লাহর জন্য, যিনি আমাদের খাওয়ালেন, পান করালেন এবং আমাদের মুসলিম বানালেন।",
-    english: "All praise is for Allah who fed us, gave us drink, and made us Muslims.",
-    transliteration: "Alhamdu lillahil-ladhi at'amana wa saqana wa ja'alana muslimin",
-    transliterationBn: "আলহামদু লিল্লাহিল্লাযী আত'আমানা ওয়া সাক্বানা ওয়া জা'আলানা মুসলিমীন",
-    referenceBn: "তিরমিযী",
-    referenceEn: "Tirmidhi"
+    arabic: "الْحَمْدُ لِلَّهِ الَّذِي أَطْعَمَنِي هَذَا وَرَزَقَنِيهِ مِنْ غَيْرِ حَوْلٍ مِنِّي وَلَا قُوَّةٍ",
+    bengali: "সমস্ত প্রশংসা আল্লাহর জন্য, যিনি আমাকে এই খাবার খাওয়ালেন এবং আমার কোন শক্তি ও সামর্থ্য ছাড়াই এটি দান করলেন।",
+    english: "All praise is for Allah who fed me this and provided it for me without any might or power from myself.",
+    transliteration: "Alḥamdu lillāhil-ladhī aṭ'amanī hādhā wa razaqanīhi min ghayri ḥawlin minnī wa lā quwwah",
+    transliterationBn: "আলহামদু লিল্লাহিল্লাযী আত'আমানী হাযা ওয়া রাযাক্বানীহি মিন গাইরি হাওলিন মিন্নী ওয়া লা কুওয়াহ",
+    referenceBn: "তিরমিযী ৩৪৫৮, আবু দাউদ ৪০২৩",
+    referenceEn: "Tirmidhi 3458, Abu Dawud 4023"
   },
   {
     id: "entering-mosque",
@@ -79,10 +79,10 @@ const allDuas: DailyDuaItem[] = [
     arabic: "اللَّهُمَّ افْتَحْ لِي أَبْوَابَ رَحْمَتِكَ",
     bengali: "হে আল্লাহ! আমার জন্য তোমার রহমতের দরজাগুলো খুলে দাও।",
     english: "O Allah, open for me the gates of Your mercy.",
-    transliteration: "Allahumma-ftah li abwaba rahmatik",
+    transliteration: "Allāhumma-ftaḥ lī abwāba raḥmatik",
     transliterationBn: "আল্লাহুম্মাফতাহ লী আবওয়াবা রাহমাতিক",
-    referenceBn: "সহীহ মুসলিম",
-    referenceEn: "Sahih Muslim"
+    referenceBn: "সহীহ মুসলিম ৭১৩",
+    referenceEn: "Sahih Muslim 713"
   },
   {
     id: "leaving-mosque",
@@ -91,10 +91,10 @@ const allDuas: DailyDuaItem[] = [
     arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ مِنْ فَضْلِكَ",
     bengali: "হে আল্লাহ! আমি তোমার অনুগ্রহ প্রার্থনা করছি।",
     english: "O Allah, I ask You from Your bounty.",
-    transliteration: "Allahumma inni as'aluka min fadlik",
+    transliteration: "Allāhumma innī as'aluka min faḍlik",
     transliterationBn: "আল্লাহুম্মা ইন্নী আসআলুকা মিন ফাদলিক",
-    referenceBn: "সহীহ মুসলিম",
-    referenceEn: "Sahih Muslim"
+    referenceBn: "সহীহ মুসলিম ৭১৩",
+    referenceEn: "Sahih Muslim 713"
   },
   {
     id: "after-salah",
@@ -103,10 +103,10 @@ const allDuas: DailyDuaItem[] = [
     arabic: "أَسْتَغْفِرُ اللَّهَ، أَسْتَغْفِرُ اللَّهَ، أَسْتَغْفِرُ اللَّهَ",
     bengali: "আমি আল্লাহর কাছে ক্ষমা চাই। (তিনবার)",
     english: "I seek forgiveness from Allah. (3 times)",
-    transliteration: "Astaghfirullah, Astaghfirullah, Astaghfirullah",
+    transliteration: "Astaghfirullāh, Astaghfirullāh, Astaghfirullāh",
     transliterationBn: "আস্তাগফিরুল্লাহ, আস্তাগফিরুল্লাহ, আস্তাগফিরুল্লাহ",
-    referenceBn: "সহীহ মুসলিম",
-    referenceEn: "Sahih Muslim"
+    referenceBn: "সহীহ মুসলিম ৫৯১",
+    referenceEn: "Sahih Muslim 591"
   },
   {
     id: "after-salah-2",
@@ -115,34 +115,34 @@ const allDuas: DailyDuaItem[] = [
     arabic: "سُبْحَانَ اللَّهِ وَالْحَمْدُ لِلَّهِ وَاللَّهُ أَكْبَرُ",
     bengali: "আল্লাহ পবিত্র, সমস্ত প্রশংসা আল্লাহর এবং আল্লাহ সবচেয়ে বড়। (৩৩ বার করে)",
     english: "Glory be to Allah, All praise is for Allah, and Allah is the Greatest. (33 times each)",
-    transliteration: "SubhanAllah, Alhamdulillah, Allahu Akbar",
+    transliteration: "Subḥānallāh, Alḥamdulillāh, Allāhu Akbar",
     transliterationBn: "সুবহানাল্লাহ, আলহামদুলিল্লাহ, আল্লাহু আকবার",
-    referenceBn: "সহীহ মুসলিম",
-    referenceEn: "Sahih Muslim"
+    referenceBn: "সহীহ মুসলিম ৫৯৭",
+    referenceEn: "Sahih Muslim 597"
   },
   {
     id: "morning",
     titleBn: "সকালের দোয়া",
     titleEn: "Morning Dua",
-    arabic: "أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ رَبِّ الْعَالَمِينَ",
-    bengali: "আমরা সকালে উপনীত হলাম এবং সকল রাজত্ব আল্লাহর জন্য, যিনি সমস্ত জগতের প্রতিপালক।",
-    english: "We have reached the morning and the kingdom belongs to Allah, the Lord of all worlds.",
-    transliteration: "Asbahna wa asbahal-mulku lillahi Rabbil-'alamin",
-    transliterationBn: "আসবাহনা ওয়া আসবাহাল মুলকু লিল্লাহি রাব্বিল আলামীন",
-    referenceBn: "আবু দাউদ",
-    referenceEn: "Abu Dawud"
+    arabic: "أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ وَالْحَمْدُ لِلَّهِ لَا إِلَٰهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ",
+    bengali: "আমরা সকালে উপনীত হলাম এবং সকল রাজত্ব ও প্রশংসা আল্লাহর জন্য। আল্লাহ ছাড়া কোন ইলাহ নেই, তিনি একক, তাঁর কোন শরীক নেই।",
+    english: "We have reached the morning and the kingdom belongs to Allah, and all praise is for Allah. None has the right to be worshipped except Allah, alone, without partner.",
+    transliteration: "Aṣbaḥnā wa aṣbaḥal-mulku lillāh, wal-ḥamdu lillāh, lā ilāha illallāhu waḥdahu lā sharīka lah",
+    transliterationBn: "আসবাহনা ওয়া আসবাহাল মুলকু লিল্লাহ, ওয়াল হামদু লিল্লাহ, লা ইলাহা ইল্লাল্লাহু ওয়াহদাহু লা শারীকা লাহ",
+    referenceBn: "সহীহ মুসলিম ২৭২৩",
+    referenceEn: "Sahih Muslim 2723"
   },
   {
     id: "evening",
     titleBn: "সন্ধ্যার দোয়া",
     titleEn: "Evening Dua",
-    arabic: "أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ رَبِّ الْعَالَمِينَ",
-    bengali: "আমরা সন্ধ্যায় উপনীত হলাম এবং সকল রাজত্ব আল্লাহর জন্য, যিনি সমস্ত জগতের প্রতিপালক।",
-    english: "We have reached the evening and the kingdom belongs to Allah, the Lord of all worlds.",
-    transliteration: "Amsayna wa amsal-mulku lillahi Rabbil-'alamin",
-    transliterationBn: "আমসাইনা ওয়া আমসাল মুলকু লিল্লাহি রাব্বিল আলামীন",
-    referenceBn: "আবু দাউদ",
-    referenceEn: "Abu Dawud"
+    arabic: "أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ وَالْحَمْدُ لِلَّهِ لَا إِلَٰهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ",
+    bengali: "আমরা সন্ধ্যায় উপনীত হলাম এবং সকল রাজত্ব ও প্রশংসা আল্লাহর জন্য। আল্লাহ ছাড়া কোন ইলাহ নেই, তিনি একক, তাঁর কোন শরীক নেই।",
+    english: "We have reached the evening and the kingdom belongs to Allah, and all praise is for Allah. None has the right to be worshipped except Allah, alone, without partner.",
+    transliteration: "Amsaynā wa amsal-mulku lillāh, wal-ḥamdu lillāh, lā ilāha illallāhu waḥdahu lā sharīka lah",
+    transliterationBn: "আমসাইনা ওয়া আমসাল মুলকু লিল্লাহ, ওয়াল হামদু লিল্লাহ, লা ইলাহা ইল্লাল্লাহু ওয়াহদাহু লা শারীকা লাহ",
+    referenceBn: "সহীহ মুসলিম ২৭২৩",
+    referenceEn: "Sahih Muslim 2723"
   },
   {
     id: "entering-home",
@@ -151,22 +151,22 @@ const allDuas: DailyDuaItem[] = [
     arabic: "بِسْمِ اللَّهِ وَلَجْنَا، وَبِسْمِ اللَّهِ خَرَجْنَا، وَعَلَى اللَّهِ رَبِّنَا تَوَكَّلْنَا",
     bengali: "আল্লাহর নামে আমরা প্রবেশ করলাম, আল্লাহর নামে আমরা বের হলাম এবং আমাদের প্রতিপালক আল্লাহর উপর আমরা ভরসা করলাম।",
     english: "In the name of Allah we enter, in the name of Allah we leave, and upon our Lord we rely.",
-    transliteration: "Bismillahi walajna, wa bismillahi kharajna, wa 'ala Allahi rabbina tawakkalna",
+    transliteration: "Bismillāhi walajnā, wa bismillāhi kharajnā, wa 'alā Allāhi rabbinā tawakkalnā",
     transliterationBn: "বিসমিল্লাহি ওয়ালাজনা, ওয়া বিসমিল্লাহি খারাজনা, ওয়া আলা আল্লাহি রাব্বিনা তাওয়াক্কালনা",
-    referenceBn: "আবু দাউদ",
-    referenceEn: "Abu Dawud"
+    referenceBn: "আবু দাউদ ৫০৯৬",
+    referenceEn: "Abu Dawud 5096"
   },
   {
     id: "leaving-home",
     titleBn: "ঘর থেকে বের হওয়ার সময়",
     titleEn: "Leaving Home",
-    arabic: "بِسْمِ اللَّهِ تَوَكَّلْتُ عَلَى اللَّهِ لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ",
+    arabic: "بِسْمِ اللَّهِ تَوَكَّلْتُ عَلَى اللَّهِ وَلَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ",
     bengali: "আল্লাহর নামে, আমি আল্লাহর উপর ভরসা করলাম। আল্লাহর সাহায্য ছাড়া কোন শক্তি ও ক্ষমতা নেই।",
     english: "In the name of Allah, I place my trust in Allah. There is no might or power except with Allah.",
-    transliteration: "Bismillahi tawakkaltu 'alallahi la hawla wa la quwwata illa billah",
-    transliterationBn: "বিসমিল্লাহি তাওয়াক্কালতু আলাল্লাহি লা হাওলা ওয়া লা কুওয়াতা ইল্লা বিল্লাহ",
-    referenceBn: "তিরমিযী",
-    referenceEn: "Tirmidhi"
+    transliteration: "Bismillāhi tawakkaltu 'alallāhi wa lā ḥawla wa lā quwwata illā billāh",
+    transliterationBn: "বিসমিল্লাহি তাওয়াক্কালতু আলাল্লাহি ওয়া লা হাওলা ওয়া লা কুওয়াতা ইল্লা বিল্লাহ",
+    referenceBn: "তিরমিযী ৩৪২৬, আবু দাউদ ৫০৯৫",
+    referenceEn: "Tirmidhi 3426, Abu Dawud 5095"
   },
   {
     id: "starting-journey",
@@ -175,10 +175,10 @@ const allDuas: DailyDuaItem[] = [
     arabic: "سُبْحَانَ الَّذِي سَخَّرَ لَنَا هَٰذَا وَمَا كُنَّا لَهُ مُقْرِنِينَ وَإِنَّا إِلَىٰ رَبِّنَا لَمُنقَلِبُونَ",
     bengali: "পবিত্র সেই সত্তা যিনি এটি আমাদের অধীন করে দিয়েছেন, আমরা এর সামর্থ্য রাখতাম না। আমাদের অবশ্যই আমাদের প্রতিপালকের কাছে ফিরে যেতে হবে।",
     english: "Glory to Him who has subjected this to us, and we could never have it. And indeed, to our Lord we will return.",
-    transliteration: "Subhanal-ladhi sakh-khara lana hadha wa ma kunna lahu muqrinin wa inna ila Rabbina lamunqalibun",
+    transliteration: "Subḥānal-ladhī sakh-khara lanā hādhā wa mā kunnā lahu muqrinīn wa innā ilā rabbinā lamunqalibūn",
     transliterationBn: "সুবহানাল্লাযী সাখ্খারা লানা হাযা ওয়া মা কুন্না লাহু মুক্বরিনীন ওয়া ইন্না ইলা রাব্বিনা লামুনক্বালিবূন",
-    referenceBn: "সূরা যুখরুফ ৪৩:১৩-১৪",
-    referenceEn: "Surah Az-Zukhruf 43:13-14"
+    referenceBn: "সূরা যুখরুফ ৪৩:১৩-১৪, সহীহ মুসলিম ১৩৪২",
+    referenceEn: "Surah Az-Zukhruf 43:13-14, Sahih Muslim 1342"
   },
   {
     id: "before-wudu",
@@ -187,10 +187,10 @@ const allDuas: DailyDuaItem[] = [
     arabic: "بِسْمِ اللَّهِ",
     bengali: "আল্লাহর নামে শুরু করছি।",
     english: "In the name of Allah.",
-    transliteration: "Bismillah",
+    transliteration: "Bismillāh",
     transliterationBn: "বিসমিল্লাহ",
-    referenceBn: "তিরমিযী",
-    referenceEn: "Tirmidhi"
+    referenceBn: "আবু দাউদ ১০১, তিরমিযী ২৫",
+    referenceEn: "Abu Dawud 101, Tirmidhi 25"
   },
   {
     id: "after-wudu",
@@ -199,10 +199,10 @@ const allDuas: DailyDuaItem[] = [
     arabic: "أَشْهَدُ أَنْ لَا إِلَٰهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ",
     bengali: "আমি সাক্ষ্য দিচ্ছি যে, আল্লাহ ছাড়া কোন উপাস্য নেই, তিনি একক, তাঁর কোন শরীক নেই এবং আমি সাক্ষ্য দিচ্ছি যে, মুহাম্মাদ তাঁর বান্দা ও রাসূল।",
     english: "I bear witness that there is no god but Allah alone, with no partner, and I bear witness that Muhammad is His servant and Messenger.",
-    transliteration: "Ash-hadu an la ilaha illallahu wahdahu la sharika lahu wa ash-hadu anna Muhammadan 'abduhu wa rasuluh",
+    transliteration: "Ash-hadu an lā ilāha illallāhu waḥdahu lā sharīka lahu wa ash-hadu anna Muḥammadan 'abduhu wa rasūluh",
     transliterationBn: "আশহাদু আন লা ইলাহা ইল্লাল্লাহু ওয়াহদাহু লা শারীকা লাহু ওয়া আশহাদু আন্না মুহাম্মাদান আবদুহু ওয়া রাসূলুহ",
-    referenceBn: "সহীহ মুসলিম",
-    referenceEn: "Sahih Muslim"
+    referenceBn: "সহীহ মুসলিম ২৩৪",
+    referenceEn: "Sahih Muslim 234"
   },
   {
     id: "wearing-new-clothes",
@@ -211,22 +211,22 @@ const allDuas: DailyDuaItem[] = [
     arabic: "اللَّهُمَّ لَكَ الْحَمْدُ أَنْتَ كَسَوْتَنِيهِ، أَسْأَلُكَ خَيْرَهُ وَخَيْرَ مَا صُنِعَ لَهُ، وَأَعُوذُ بِكَ مِنْ شَرِّهِ وَشَرِّ مَا صُنِعَ لَهُ",
     bengali: "হে আল্লাহ! তোমার জন্য সমস্ত প্রশংসা, তুমি আমাকে এটি পরিয়েছ। আমি তোমার কাছে এর কল্যাণ এবং যে উদ্দেশ্যে এটি তৈরি হয়েছে তার কল্যাণ চাই এবং এর অকল্যাণ ও যে উদ্দেশ্যে এটি তৈরি হয়েছে তার অকল্যাণ থেকে আশ্রয় চাই।",
     english: "O Allah, for You is all praise, You have clothed me with it. I ask You for its goodness and the goodness for which it was made, and I seek refuge in You from its evil and the evil for which it was made.",
-    transliteration: "Allahumma lakal-hamdu anta kasawtaneehi, as'aluka khayrahu wa khayra ma suni'a lahu, wa a'udhu bika min sharrihi wa sharri ma suni'a lah",
+    transliteration: "Allāhumma lakal-ḥamdu anta kasawtanīhi, as'aluka khayrahu wa khayra mā ṣuni'a lahu, wa a'ūdhu bika min sharrihi wa sharri mā ṣuni'a lah",
     transliterationBn: "আল্লাহুম্মা লাকাল হামদু আনতা কাসাওতানীহি, আসআলুকা খাইরাহু ওয়া খাইরা মা সুনিআ লাহু, ওয়া আউযু বিকা মিন শাররিহি ওয়া শাররি মা সুনিআ লাহ",
-    referenceBn: "তিরমিযী",
-    referenceEn: "Tirmidhi"
+    referenceBn: "তিরমিযী ১৭৬৭, আবু দাউদ ৪০২০",
+    referenceEn: "Tirmidhi 1767, Abu Dawud 4020"
   },
   {
     id: "entering-bathroom",
     titleBn: "বাথরুমে প্রবেশের সময়",
     titleEn: "Entering the Bathroom",
-    arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْخُبُثِ وَالْخَبَائِثِ",
-    bengali: "হে আল্লাহ! আমি তোমার কাছে পুরুষ ও মহিলা শয়তান থেকে আশ্রয় চাই।",
-    english: "O Allah, I seek refuge in You from male and female evil spirits.",
-    transliteration: "Allahumma inni a'udhu bika minal-khubuthi wal-khaba'ith",
-    transliterationBn: "আল্লাহুম্মা ইন্নী আউযু বিকা মিনাল খুবুসি ওয়াল খাবাইস",
-    referenceBn: "সহীহ বুখারী",
-    referenceEn: "Sahih Bukhari"
+    arabic: "بِسْمِ اللَّهِ، اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْخُبُثِ وَالْخَبَائِثِ",
+    bengali: "আল্লাহর নামে। হে আল্লাহ! আমি তোমার কাছে পুরুষ ও মহিলা শয়তান থেকে আশ্রয় চাই।",
+    english: "In the name of Allah. O Allah, I seek refuge in You from male and female evil spirits.",
+    transliteration: "Bismillāh, Allāhumma innī a'ūdhu bika minal-khubuthi wal-khabā'ith",
+    transliterationBn: "বিসমিল্লাহ, আল্লাহুম্মা ইন্নী আউযু বিকা মিনাল খুবুসি ওয়াল খাবাইস",
+    referenceBn: "সহীহ বুখারী ১৪২, সহীহ মুসলিম ৩৭৫",
+    referenceEn: "Sahih Bukhari 142, Sahih Muslim 375"
   },
   {
     id: "leaving-bathroom",
@@ -235,10 +235,10 @@ const allDuas: DailyDuaItem[] = [
     arabic: "غُفْرَانَكَ",
     bengali: "হে আল্লাহ! তোমার ক্ষমা চাই।",
     english: "I seek Your forgiveness.",
-    transliteration: "Ghufranaka",
+    transliteration: "Ghufrānak",
     transliterationBn: "গুফরানাকা",
-    referenceBn: "তিরমিযী",
-    referenceEn: "Tirmidhi"
+    referenceBn: "তিরমিযী ৭, আবু দাউদ ৩০",
+    referenceEn: "Tirmidhi 7, Abu Dawud 30"
   },
   {
     id: "before-drinking-water",
@@ -247,10 +247,10 @@ const allDuas: DailyDuaItem[] = [
     arabic: "بِسْمِ اللَّهِ",
     bengali: "আল্লাহর নামে শুরু করছি।",
     english: "In the name of Allah.",
-    transliteration: "Bismillah",
+    transliteration: "Bismillāh",
     transliterationBn: "বিসমিল্লাহ",
-    referenceBn: "সহীহ মুসলিম",
-    referenceEn: "Sahih Muslim"
+    referenceBn: "সহীহ মুসলিম ২০২২",
+    referenceEn: "Sahih Muslim 2022"
   },
   {
     id: "after-drinking-water",
@@ -259,10 +259,10 @@ const allDuas: DailyDuaItem[] = [
     arabic: "الْحَمْدُ لِلَّهِ",
     bengali: "সমস্ত প্রশংসা আল্লাহর জন্য।",
     english: "All praise is for Allah.",
-    transliteration: "Alhamdulillah",
+    transliteration: "Alḥamdulillāh",
     transliterationBn: "আলহামদুলিল্লাহ",
-    referenceBn: "তিরমিযী",
-    referenceEn: "Tirmidhi"
+    referenceBn: "তিরমিযী ১৮৮৫",
+    referenceEn: "Tirmidhi 1885"
   }
 ];
 
