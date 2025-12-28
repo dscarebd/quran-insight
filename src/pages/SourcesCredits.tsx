@@ -186,6 +186,13 @@ const SourcesCredits = ({ language }: SourcesCreditsProps) => {
       descriptionBn: "নেটিভ অ্যান্ড্রয়েড অ্যাপ ডেভেলপমেন্ট আইডিই",
       url: "https://developer.android.com/studio",
     },
+    {
+      nameEn: "Xcode",
+      nameBn: "এক্সকোড",
+      descriptionEn: "Native iOS app development IDE",
+      descriptionBn: "নেটিভ আইওএস অ্যাপ ডেভেলপমেন্ট আইডিই",
+      url: "https://developer.apple.com/xcode",
+    },
   ];
 
   const logoCredits = [
