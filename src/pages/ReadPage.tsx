@@ -349,23 +349,26 @@ const ReadPage = ({
   useEffect(() => {
     const loadInitialPages = async () => {
       setLoading(true);
-      const pagesToLoad: PageData[] = [];
 
-      // Load a window around the requested page so we can scroll to it reliably
-      // (prevents the "top sentinel" from auto-loading all the way back to page 1)
-      const startPage = Math.max(initialPage - 2, 1);
-      const endPage = Math.min(initialPage + 2, 604);
+      // Load a smaller window: just the target page + 1 page after for faster initial render
+      const startPage = Math.max(initialPage - 1, 1);
+      const endPage = Math.min(initialPage + 1, 604);
+      const pageNumbers = [];
+      for (let i = startPage; i <= endPage; i++) pageNumbers.push(i);
 
-      for (let i = startPage; i <= endPage; i++) {
-        const verses = await fetchVersesForPage(i);
-        pagesToLoad.push({
-          pageNumber: i,
-          verses,
-          juzNumber: getJuzForPage(i),
-        });
-      }
+      // Fetch all pages in parallel for faster loading
+      const pagesData = await Promise.all(
+        pageNumbers.map(async (pageNum) => {
+          const verses = await fetchVersesForPage(pageNum);
+          return {
+            pageNumber: pageNum,
+            verses,
+            juzNumber: getJuzForPage(pageNum),
+          };
+        })
+      );
 
-      setLoadedPages(pagesToLoad);
+      setLoadedPages(pagesData);
       setLoading(false);
     };
 
@@ -380,19 +383,20 @@ const ReadPage = ({
     if (lastPage >= 604) return;
 
     setLoadingMore(true);
-    const newPages: PageData[] = [];
     
+    // Build list of pages to load
+    const pageNumbers: number[] = [];
     for (let i = lastPage + 1; i <= Math.min(lastPage + 3, 604); i++) {
-      // Skip if page already exists
-      if (loadedPages.some(p => p.pageNumber === i)) continue;
-      
-      const verses = await fetchVersesForPage(i);
-      newPages.push({
-        pageNumber: i,
-        verses,
-        juzNumber: getJuzForPage(i)
-      });
+      if (!loadedPages.some(p => p.pageNumber === i)) pageNumbers.push(i);
     }
+
+    // Fetch in parallel
+    const newPages = await Promise.all(
+      pageNumbers.map(async (pageNum) => {
+        const verses = await fetchVersesForPage(pageNum);
+        return { pageNumber: pageNum, verses, juzNumber: getJuzForPage(pageNum) };
+      })
+    );
     
     if (newPages.length > 0) {
       setLoadedPages(prev => [...prev, ...newPages]);
@@ -411,19 +415,20 @@ const ReadPage = ({
     const prevScrollHeight = container?.scrollHeight ?? 0;
 
     setLoadingMore(true);
-    const newPages: PageData[] = [];
-
+    
+    // Build list of pages to load
+    const pageNumbers: number[] = [];
     for (let i = Math.max(firstPage - 3, 1); i < firstPage; i++) {
-      // Skip if page already exists
-      if (loadedPages.some(p => p.pageNumber === i)) continue;
-      
-      const verses = await fetchVersesForPage(i);
-      newPages.push({
-        pageNumber: i,
-        verses,
-        juzNumber: getJuzForPage(i),
-      });
+      if (!loadedPages.some(p => p.pageNumber === i)) pageNumbers.push(i);
     }
+
+    // Fetch in parallel
+    const newPages = await Promise.all(
+      pageNumbers.map(async (pageNum) => {
+        const verses = await fetchVersesForPage(pageNum);
+        return { pageNumber: pageNum, verses, juzNumber: getJuzForPage(pageNum) };
+      })
+    );
 
     if (newPages.length > 0) {
       setLoadedPages((prev) => [...newPages, ...prev]);
