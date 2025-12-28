@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
-import { Clock, MapPin, Sunrise, Sun, Sunset, Moon } from "lucide-react";
+import { Clock, MapPin, RefreshCw, Sunrise, Sun, Sunset, Moon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Language } from "@/types/language";
 import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import IslamicCalendarSection from "@/components/IslamicCalendarSection";
 import {
@@ -10,9 +11,11 @@ import {
   getNextPrayer,
   getTimeRemaining,
   prayerNames,
+  defaultLocations,
   PrayerTimes as PrayerTimesType,
   PrayerTimeRange,
   Location,
+  CalculationMethod
 } from "@/data/prayerTimes";
 import {
   bangladeshDivisions,
@@ -22,15 +25,24 @@ import {
   defaultBangladeshLocation,
 } from "@/data/bangladeshLocations";
 import { toBengaliNumber } from "@/data/islamicCalendar";
+import { toast } from "sonner";
 
 interface PrayerTimesProps {
   language: Language;
 }
 
 const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
-  // Location state - Bangladesh hierarchical selection
+  const [location, setLocation] = useState<Location>(defaultLocations.dhaka);
+  const [prayerTimes, setPrayerTimes] = useState<PrayerTimesType | null>(null);
+  const [nextPrayer, setNextPrayer] = useState<{ name: string; time: string; nameAr: string; nameBn: string } | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [selectedCity, setSelectedCity] = useState('dhaka');
+  const [currentTime, setCurrentTime] = useState(new Date());
+  const [timeRemaining, setTimeRemaining] = useState<{ hours: number; minutes: number } | null>(null);
+
+  // Bangladesh hierarchical location selection (replaces calculation method)
   const [selectedDivision, setSelectedDivision] = useState<string>(() => {
-    const saved = localStorage.getItem('prayerTimesLocation');
+    const saved = localStorage.getItem('prayerTimesBDLocation');
     if (saved) {
       try {
         return JSON.parse(saved).divisionId || defaultBangladeshLocation.divisionId;
@@ -42,7 +54,7 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
   });
 
   const [selectedDistrict, setSelectedDistrict] = useState<string>(() => {
-    const saved = localStorage.getItem('prayerTimesLocation');
+    const saved = localStorage.getItem('prayerTimesBDLocation');
     if (saved) {
       try {
         return JSON.parse(saved).districtId || defaultBangladeshLocation.districtId;
@@ -54,7 +66,7 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
   });
 
   const [selectedUpazila, setSelectedUpazila] = useState<string>(() => {
-    const saved = localStorage.getItem('prayerTimesLocation');
+    const saved = localStorage.getItem('prayerTimesBDLocation');
     if (saved) {
       try {
         return JSON.parse(saved).upazilaId || defaultBangladeshLocation.upazilaId;
@@ -65,15 +77,19 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
     return defaultBangladeshLocation.upazilaId;
   });
 
-  const [location, setLocation] = useState<Location>({ latitude: 23.8103, longitude: 90.4125, city: 'Dhaka' });
-  const [prayerTimes, setPrayerTimes] = useState<PrayerTimesType | null>(null);
-  const [nextPrayer, setNextPrayer] = useState<{ name: string; time: string; nameAr: string; nameBn: string } | null>(null);
-  const [timeRemaining, setTimeRemaining] = useState<{ hours: number; minutes: number } | null>(null);
+  // Track if using Bangladesh location
+  const [useBangladeshLocation, setUseBangladeshLocation] = useState(false);
 
   const pageTitle = {
     en: 'Prayer Times',
     bn: 'নামাজের সময়',
     hi: 'नमाज़ का समय'
+  };
+
+  const locationLabel = {
+    en: 'Location',
+    bn: 'অবস্থান',
+    hi: 'स्थान'
   };
 
   const divisionLabel = {
@@ -98,6 +114,18 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
     en: 'Next Prayer',
     bn: 'পরবর্তী নামাজ',
     hi: 'अगली नमाज़'
+  };
+
+  const useLocationLabel = {
+    en: 'Use My Location',
+    bn: 'আমার অবস্থান ব্যবহার করুন',
+    hi: 'मेरा स्थान उपयोग करें'
+  };
+
+  const bdLocationLabel = {
+    en: 'Bangladesh Location (Detailed)',
+    bn: 'বাংলাদেশ অবস্থান (বিস্তারিত)',
+    hi: 'बांग्लादेश स्थान (विस्तृत)'
   };
 
   // Get districts based on selected division
@@ -139,30 +167,36 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
     }
   };
 
-  // Save location to localStorage
+  // Save Bangladesh location to localStorage
   useEffect(() => {
-    localStorage.setItem('prayerTimesLocation', JSON.stringify({
-      divisionId: selectedDivision,
-      districtId: selectedDistrict,
-      upazilaId: selectedUpazila
-    }));
-  }, [selectedDivision, selectedDistrict, selectedUpazila]);
-
-  // Update location when upazila changes
-  useEffect(() => {
-    const upazila = getCurrentUpazila();
-    if (upazila) {
-      setLocation({
-        latitude: upazila.latitude,
-        longitude: upazila.longitude,
-        city: language === 'bn' ? upazila.name_bn : upazila.name_en
-      });
+    if (useBangladeshLocation) {
+      localStorage.setItem('prayerTimesBDLocation', JSON.stringify({
+        divisionId: selectedDivision,
+        districtId: selectedDistrict,
+        upazilaId: selectedUpazila
+      }));
     }
-  }, [selectedUpazila, selectedDistrict, selectedDivision, language]);
+  }, [selectedDivision, selectedDistrict, selectedUpazila, useBangladeshLocation]);
+
+  // Update location when Bangladesh upazila changes
+  useEffect(() => {
+    if (useBangladeshLocation) {
+      const upazila = getCurrentUpazila();
+      if (upazila) {
+        setLocation({
+          latitude: upazila.latitude,
+          longitude: upazila.longitude,
+          city: language === 'bn' ? upazila.name_bn : upazila.name_en
+        });
+        setSelectedCity('custom');
+      }
+    }
+  }, [selectedUpazila, selectedDistrict, selectedDivision, useBangladeshLocation, language]);
 
   // Update current time every second for countdown
   useEffect(() => {
     const timer = setInterval(() => {
+      setCurrentTime(new Date());
       if (nextPrayer) {
         const remaining = getTimeRemaining(nextPrayer.time);
         setTimeRemaining(remaining);
@@ -171,7 +205,7 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
     return () => clearInterval(timer);
   }, [nextPrayer]);
 
-  // Calculate prayer times when location changes (always use IFB method for Bangladesh)
+  // Calculate prayer times when location changes (always use IFB for Bangladesh)
   useEffect(() => {
     const times = calculatePrayerTimes(location, new Date(), 'IFB');
     setPrayerTimes(times);
@@ -181,6 +215,58 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
       setTimeRemaining(getTimeRemaining(next.time));
     }
   }, [location]);
+
+  // Get user's location via GPS
+  const getUserLocation = () => {
+    setIsLoading(true);
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          setLocation({
+            latitude,
+            longitude,
+            city: language === 'bn' ? 'আপনার অবস্থান' : 'Your Location'
+          });
+          setSelectedCity('custom');
+          setUseBangladeshLocation(false);
+          setIsLoading(false);
+          toast.success(language === 'bn' ? 'অবস্থান পাওয়া গেছে' : 'Location found');
+        },
+        (error) => {
+          console.error('Geolocation error:', error);
+          setIsLoading(false);
+          toast.error(language === 'bn' ? 'অবস্থান পাওয়া যায়নি' : 'Could not get location');
+        }
+      );
+    } else {
+      setIsLoading(false);
+      toast.error(language === 'bn' ? 'জিওলোকেশন সাপোর্ট নেই' : 'Geolocation not supported');
+    }
+  };
+
+  // Handle city change
+  const handleCityChange = (city: string) => {
+    setSelectedCity(city);
+    setUseBangladeshLocation(false);
+    if (city !== 'custom' && defaultLocations[city]) {
+      setLocation(defaultLocations[city]);
+    }
+  };
+
+  // Enable Bangladesh detailed location
+  const enableBangladeshLocation = () => {
+    setUseBangladeshLocation(true);
+    const upazila = getCurrentUpazila();
+    if (upazila) {
+      setLocation({
+        latitude: upazila.latitude,
+        longitude: upazila.longitude,
+        city: language === 'bn' ? upazila.name_bn : upazila.name_en
+      });
+      setSelectedCity('custom');
+    }
+  };
 
   const formatTimeDisplay = (time: string, lang: Language) => {
     if (time === '--:--') return time;
@@ -229,6 +315,57 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
     }
   };
 
+  const cityNames: Record<string, { en: string; bn: string; tz: string }> = {
+    // UTC-12 to UTC-1
+    baker: { en: 'Baker Island', bn: 'বেকার আইল্যান্ড', tz: '-12:00' },
+    samoa: { en: 'Samoa', bn: 'সামোয়া', tz: '-11:00' },
+    honolulu: { en: 'Honolulu', bn: 'হনলুলু', tz: '-10:00' },
+    anchorage: { en: 'Anchorage', bn: 'অ্যাঙ্কোরেজ', tz: '-09:00' },
+    losangeles: { en: 'Los Angeles', bn: 'লস এঞ্জেলেস', tz: '-08:00' },
+    denver: { en: 'Denver', bn: 'ডেনভার', tz: '-07:00' },
+    chicago: { en: 'Chicago', bn: 'শিকাগো', tz: '-06:00' },
+    newyork: { en: 'New York', bn: 'নিউ ইয়র্ক', tz: '-05:00' },
+    toronto: { en: 'Toronto', bn: 'টরন্টো', tz: '-05:00' },
+    caracas: { en: 'Caracas', bn: 'কারাকাস', tz: '-04:00' },
+    saopaulo: { en: 'São Paulo', bn: 'সাও পাওলো', tz: '-03:00' },
+    atlantic: { en: 'Atlantic', bn: 'আটলান্টিক', tz: '-02:00' },
+    azores: { en: 'Azores', bn: 'আজোরেস', tz: '-01:00' },
+    // UTC+0
+    london: { en: 'London', bn: 'লন্ডন', tz: '+00:00' },
+    // UTC+1 to UTC+6
+    paris: { en: 'Paris', bn: 'প্যারিস', tz: '+01:00' },
+    cairo: { en: 'Cairo', bn: 'কায়রো', tz: '+02:00' },
+    istanbul: { en: 'Istanbul', bn: 'ইস্তাম্বুল', tz: '+03:00' },
+    makkah: { en: 'Makkah', bn: 'মক্কা', tz: '+03:00' },
+    madinah: { en: 'Madinah', bn: 'মদিনা', tz: '+03:00' },
+    dubai: { en: 'Dubai', bn: 'দুবাই', tz: '+04:00' },
+    karachi: { en: 'Karachi', bn: 'করাচি', tz: '+05:00' },
+    kolkata: { en: 'Kolkata', bn: 'কলকাতা', tz: '+05:30' },
+    mumbai: { en: 'Mumbai', bn: 'মুম্বাই', tz: '+05:30' },
+    delhi: { en: 'Delhi', bn: 'দিল্লি', tz: '+05:30' },
+    kathmandu: { en: 'Kathmandu', bn: 'কাঠমান্ডু', tz: '+05:45' },
+    dhaka: { en: 'Dhaka', bn: 'ঢাকা', tz: '+06:00' },
+    chittagong: { en: 'Chittagong', bn: 'চট্টগ্রাম', tz: '+06:00' },
+    sylhet: { en: 'Sylhet', bn: 'সিলেট', tz: '+06:00' },
+    rajshahi: { en: 'Rajshahi', bn: 'রাজশাহী', tz: '+06:00' },
+    // UTC+7 to UTC+14
+    yangon: { en: 'Yangon', bn: 'ইয়াঙ্গুন', tz: '+06:30' },
+    bangkok: { en: 'Bangkok', bn: 'ব্যাংকক', tz: '+07:00' },
+    jakarta: { en: 'Jakarta', bn: 'জাকার্তা', tz: '+07:00' },
+    singapore: { en: 'Singapore', bn: 'সিঙ্গাপুর', tz: '+08:00' },
+    kualalumpur: { en: 'Kuala Lumpur', bn: 'কুয়ালালামপুর', tz: '+08:00' },
+    hongkong: { en: 'Hong Kong', bn: 'হংকং', tz: '+08:00' },
+    beijing: { en: 'Beijing', bn: 'বেইজিং', tz: '+08:00' },
+    tokyo: { en: 'Tokyo', bn: 'টোকিও', tz: '+09:00' },
+    seoul: { en: 'Seoul', bn: 'সিউল', tz: '+09:00' },
+    sydney: { en: 'Sydney', bn: 'সিডনি', tz: '+11:00' },
+    melbourne: { en: 'Melbourne', bn: 'মেলবোর্ন', tz: '+11:00' },
+    fiji: { en: 'Fiji', bn: 'ফিজি', tz: '+12:00' },
+    auckland: { en: 'Auckland', bn: 'অকল্যান্ড', tz: '+13:00' },
+    samoa_east: { en: 'Samoa (East)', bn: 'সামোয়া (পূর্ব)', tz: '+14:00' },
+    custom: { en: 'Your Location', bn: 'আপনার অবস্থান', tz: '' },
+  };
+
   const formatTimeRemaining = (remaining: { hours: number; minutes: number } | null, lang: Language) => {
     if (!remaining) return '';
     const { hours, minutes } = remaining;
@@ -242,18 +379,6 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
       return `${hours}h ${minutes}m remaining`;
     }
     return `${minutes}m remaining`;
-  };
-
-  // Get current location display name
-  const getLocationDisplayName = () => {
-    const division = getDivisionById(selectedDivision);
-    const district = getDistrictById(selectedDivision, selectedDistrict);
-    const upazila = getCurrentUpazila();
-    
-    if (language === 'bn') {
-      return `${upazila?.name_bn || ''}, ${district?.name_bn || ''}, ${division?.name_bn || ''}`;
-    }
-    return `${upazila?.name_en || ''}, ${district?.name_en || ''}, ${division?.name_en || ''}`;
   };
 
   return (
@@ -292,73 +417,138 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
 
       <div className="container mx-auto px-4 py-4 lg:py-6 max-w-4xl">
 
-        {/* Location Selector - 3 Cascading Dropdowns */}
+        {/* Location & Settings */}
         <Card className="mb-6">
           <CardContent className="p-4 space-y-4">
-            {/* Division Selector */}
+            {/* Row 1: City Selection */}
             <div>
               <label className={cn(
                 "text-sm font-medium text-muted-foreground mb-2 block",
                 language === "bn" && "font-bengali"
               )}>
-                {divisionLabel[language]}
+                {locationLabel[language]}
               </label>
-              <Select value={selectedDivision} onValueChange={handleDivisionChange}>
+              <Select value={selectedCity} onValueChange={handleCityChange}>
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  {bangladeshDivisions.map(division => (
-                    <SelectItem key={division.id} value={division.id}>
-                      {language === 'bn' ? division.name_bn : division.name_en}
-                    </SelectItem>
-                  ))}
+                  {Object.keys(cityNames).filter(c => c !== 'custom' || selectedCity === 'custom').map(city => {
+                    const cityData = cityNames[city];
+                    const name = language === 'bn' ? cityData.bn : cityData.en;
+                    const tzDisplay = cityData.tz ? ` (${cityData.tz})` : '';
+                    return (
+                      <SelectItem key={city} value={city}>
+                        {name}{tzDisplay}
+                      </SelectItem>
+                    );
+                  })}
                 </SelectContent>
               </Select>
             </div>
 
-            {/* District Selector */}
-            <div>
-              <label className={cn(
-                "text-sm font-medium text-muted-foreground mb-2 block",
+            {/* Row 2: Use Location Button */}
+            <Button
+              variant="outline"
+              onClick={getUserLocation}
+              disabled={isLoading}
+              className={cn(
+                "w-full",
                 language === "bn" && "font-bengali"
-              )}>
-                {districtLabel[language]}
-              </label>
-              <Select value={selectedDistrict} onValueChange={handleDistrictChange}>
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {getDistricts().map(district => (
-                    <SelectItem key={district.id} value={district.id}>
-                      {language === 'bn' ? district.name_bn : district.name_en}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
+              )}
+            >
+              {isLoading ? (
+                <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
+              ) : (
+                <MapPin className="w-4 h-4 mr-2" />
+              )}
+              {useLocationLabel[language]}
+            </Button>
 
-            {/* Upazila Selector */}
-            <div>
-              <label className={cn(
-                "text-sm font-medium text-muted-foreground mb-2 block",
-                language === "bn" && "font-bengali"
-              )}>
-                {upazilaLabel[language]}
-              </label>
-              <Select value={selectedUpazila} onValueChange={setSelectedUpazila}>
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {getUpazilas().map(upazila => (
-                    <SelectItem key={upazila.id} value={upazila.id}>
-                      {language === 'bn' ? upazila.name_bn : upazila.name_en}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+            {/* Row 3: Bangladesh Detailed Location Toggle */}
+            <div className="border-t pt-4">
+              <Button
+                variant={useBangladeshLocation ? "default" : "outline"}
+                onClick={enableBangladeshLocation}
+                className={cn(
+                  "w-full mb-4",
+                  language === "bn" && "font-bengali"
+                )}
+              >
+                <MapPin className="w-4 h-4 mr-2" />
+                {bdLocationLabel[language]}
+              </Button>
+
+              {/* Bangladesh Cascading Dropdowns */}
+              {useBangladeshLocation && (
+                <div className="space-y-3">
+                  {/* Division */}
+                  <div>
+                    <label className={cn(
+                      "text-sm font-medium text-muted-foreground mb-2 block",
+                      language === "bn" && "font-bengali"
+                    )}>
+                      {divisionLabel[language]}
+                    </label>
+                    <Select value={selectedDivision} onValueChange={handleDivisionChange}>
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {bangladeshDivisions.map(division => (
+                          <SelectItem key={division.id} value={division.id}>
+                            {language === 'bn' ? division.name_bn : division.name_en}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  {/* District */}
+                  <div>
+                    <label className={cn(
+                      "text-sm font-medium text-muted-foreground mb-2 block",
+                      language === "bn" && "font-bengali"
+                    )}>
+                      {districtLabel[language]}
+                    </label>
+                    <Select value={selectedDistrict} onValueChange={handleDistrictChange}>
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {getDistricts().map(district => (
+                          <SelectItem key={district.id} value={district.id}>
+                            {language === 'bn' ? district.name_bn : district.name_en}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  {/* Upazila */}
+                  <div>
+                    <label className={cn(
+                      "text-sm font-medium text-muted-foreground mb-2 block",
+                      language === "bn" && "font-bengali"
+                    )}>
+                      {upazilaLabel[language]}
+                    </label>
+                    <Select value={selectedUpazila} onValueChange={setSelectedUpazila}>
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {getUpazilas().map(upazila => (
+                          <SelectItem key={upazila.id} value={upazila.id}>
+                            {language === 'bn' ? upazila.name_bn : upazila.name_en}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+              )}
             </div>
           </CardContent>
         </Card>
@@ -471,14 +661,16 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
                 "text-sm",
                 language === "bn" && "font-bengali"
               )}>
-                {getLocationDisplayName()}
+                {location.city || (language === 'bn' ? 'অজানা অবস্থান' : 'Unknown Location')}
+              </span>
+              <span className="text-xs">
+                ({location.latitude.toFixed(2)}°, {location.longitude.toFixed(2)}°)
               </span>
             </div>
             <p className="text-xs text-muted-foreground mt-2">
-              ({location.latitude.toFixed(4)}°, {location.longitude.toFixed(4)}°) •{' '}
               {language === 'bn' 
-                ? 'ইসলামিক ফাউন্ডেশন বাংলাদেশ (হানাফি)' 
-                : 'Islamic Foundation Bangladesh (Hanafi)'
+                ? 'হিসাব পদ্ধতি: ইসলামিক ফাউন্ডেশন বাংলাদেশ (হানাফি)' 
+                : 'Calculation Method: Islamic Foundation Bangladesh (Hanafi)'
               }
             </p>
           </CardContent>
