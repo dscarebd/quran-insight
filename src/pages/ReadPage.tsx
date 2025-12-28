@@ -236,9 +236,9 @@ const ReadPage = ({
     lastAutoSavedVerse.current = verseKey; // Sync with auto-save
     toast.success(
       language === "bn" 
-        ? `সূরা ${surahNumber}, আয়াত ${verseNumber} - শেষ পঠিত হিসেবে সংরক্ষিত` 
-        : `Surah ${surahNumber}, Verse ${verseNumber} - Saved as last read`,
-      { className: language === "bn" ? "font-bengali" : "" }
+        ? `সূরা ${surahNumber}:${verseNumber} সংরক্ষিত` 
+        : `Saved ${surahNumber}:${verseNumber}`,
+      { duration: 1000, className: language === "bn" ? "font-bengali text-sm" : "text-sm" }
     );
   }, [language]);
 
