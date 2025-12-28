@@ -1,6 +1,6 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Search, ArrowLeft, Book, Loader2, X, BookOpen } from "lucide-react";
+import { Search, ArrowLeft, Book, Loader2, X, BookOpen, Sparkles } from "lucide-react";
 import { cn, formatNumber } from "@/lib/utils";
 import { Language } from "@/types/language";
 import { supabase } from "@/integrations/supabase/client";
@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useToast } from "@/hooks/use-toast";
 import {
   Select,
   SelectContent,
@@ -62,6 +63,7 @@ const RESULTS_PER_PAGE = 20;
 
 const HadithSearch = ({ language, arabicFont }: HadithSearchProps) => {
   const navigate = useNavigate();
+  const { toast } = useToast();
   const [query, setQuery] = useState("");
   const [selectedBook, setSelectedBook] = useState<string>("all");
   const [books, setBooks] = useState<HadithBook[]>([]);
@@ -71,6 +73,8 @@ const HadithSearch = ({ language, arabicFont }: HadithSearchProps) => {
   const [hasMore, setHasMore] = useState(false);
   const [page, setPage] = useState(1);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const [isAiMode, setIsAiMode] = useState(true);
+  const [aiExplanation, setAiExplanation] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
   const loadMoreRef = useRef<HTMLDivElement>(null);
 
@@ -100,10 +104,49 @@ const HadithSearch = ({ language, arabicFont }: HadithSearchProps) => {
     if (reset) {
       setIsLoading(true);
       setResults([]);
+      setAiExplanation("");
     } else {
       setIsLoadingMore(true);
     }
 
+    // AI Search mode
+    if (isAiMode && reset) {
+      try {
+        const { data, error } = await supabase.functions.invoke("hadith-ai-search", {
+          body: { query: searchQuery.trim(), language, bookFilter }
+        });
+
+        if (error) throw error;
+
+        if (data.error) {
+          toast({
+            variant: "destructive",
+            title: language === "bn" ? "ত্রুটি" : "Error",
+            description: data.error
+          });
+          setIsLoading(false);
+          setHasSearched(true);
+          return;
+        }
+
+        setResults(data.hadiths || []);
+        setAiExplanation(data.explanation || "");
+        setHasMore(false); // AI search doesn't paginate
+        setHasSearched(true);
+        setIsLoading(false);
+        return;
+      } catch (err) {
+        console.error("AI search error:", err);
+        toast({
+          variant: "destructive",
+          title: language === "bn" ? "AI অনুসন্ধান ব্যর্থ" : "AI Search Failed",
+          description: language === "bn" ? "সাধারণ অনুসন্ধান ব্যবহার করা হচ্ছে" : "Falling back to regular search"
+        });
+        // Fall through to regular search
+      }
+    }
+
+    // Regular search
     const from = (pageNum - 1) * RESULTS_PER_PAGE;
     const to = from + RESULTS_PER_PAGE - 1;
     const trimmedQuery = searchQuery.trim();
@@ -136,7 +179,7 @@ const HadithSearch = ({ language, arabicFont }: HadithSearchProps) => {
     setHasSearched(true);
     setIsLoading(false);
     setIsLoadingMore(false);
-  }, []);
+  }, [isAiMode, language, toast]);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -148,6 +191,7 @@ const HadithSearch = ({ language, arabicFont }: HadithSearchProps) => {
     setQuery("");
     setResults([]);
     setHasSearched(false);
+    setAiExplanation("");
     inputRef.current?.focus();
   };
 
@@ -275,6 +319,20 @@ const HadithSearch = ({ language, arabicFont }: HadithSearchProps) => {
                 </SelectContent>
               </Select>
 
+              <Button
+                type="button"
+                variant={isAiMode ? "default" : "outline"}
+                size="icon"
+                onClick={() => setIsAiMode(!isAiMode)}
+                className={cn(
+                  "shrink-0 transition-all",
+                  isAiMode && "bg-gradient-to-r from-violet-500 to-purple-600 hover:from-violet-600 hover:to-purple-700"
+                )}
+                title={language === "bn" ? "AI অনুসন্ধান" : "AI Search"}
+              >
+                <Sparkles className="h-4 w-4" />
+              </Button>
+
               <Button type="submit" disabled={!query.trim() || isLoading}>
                 {isLoading ? (
                   <Loader2 className="h-4 w-4 animate-spin" />
@@ -283,6 +341,18 @@ const HadithSearch = ({ language, arabicFont }: HadithSearchProps) => {
                 )}
               </Button>
             </div>
+
+            {isAiMode && (
+              <p className={cn(
+                "text-xs text-muted-foreground flex items-center gap-1.5",
+                language === "bn" && "font-bengali"
+              )}>
+                <Sparkles className="h-3 w-3 text-violet-500" />
+                {language === "bn" 
+                  ? "AI সক্রিয়: প্রশ্ন করুন যেমন 'নামাজের গুরুত্ব' বা 'সততার হাদিস'"
+                  : "AI enabled: Ask questions like 'importance of prayer' or 'hadiths about honesty'"}
+              </p>
+            )}
           </form>
         </div>
       </div>
@@ -311,14 +381,28 @@ const HadithSearch = ({ language, arabicFont }: HadithSearchProps) => {
           ) : (
             <div className="space-y-4">
               {hasSearched && results.length > 0 && (
-                <p className={cn(
-                  "text-sm text-muted-foreground mb-4",
-                  language === "bn" && "font-bengali"
-                )}>
-                  {language === "bn" 
-                    ? `"${query}" এর জন্য ফলাফল`
-                    : `Results for "${query}"`}
-                </p>
+                <div className="space-y-2">
+                  <p className={cn(
+                    "text-sm text-muted-foreground",
+                    language === "bn" && "font-bengali"
+                  )}>
+                    {language === "bn" 
+                      ? `"${query}" এর জন্য ফলাফল`
+                      : `Results for "${query}"`}
+                  </p>
+                  
+                  {aiExplanation && (
+                    <div className="flex items-start gap-2 p-3 rounded-lg bg-violet-50 dark:bg-violet-950/30 border border-violet-200 dark:border-violet-800">
+                      <Sparkles className="h-4 w-4 text-violet-500 shrink-0 mt-0.5" />
+                      <p className={cn(
+                        "text-sm text-violet-700 dark:text-violet-300",
+                        language === "bn" && "font-bengali"
+                      )}>
+                        {aiExplanation}
+                      </p>
+                    </div>
+                  )}
+                </div>
               )}
 
               {results.map((result) => {
