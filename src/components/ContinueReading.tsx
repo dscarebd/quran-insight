@@ -61,10 +61,10 @@ export const ContinueReading = ({ language }: ContinueReadingProps) => {
   };
 
   return (
-    <div className="fixed bottom-20 left-0 right-0 z-40 px-4 lg:hidden">
+    <div className="mt-6 lg:hidden">
       <button
         onClick={handleContinue}
-        className="w-full flex items-center gap-3 p-3 bg-card hover:bg-card/90 border border-border shadow-xl rounded-xl transition-all duration-200 group backdrop-blur-sm"
+        className="w-full flex items-center gap-3 p-3 bg-card hover:bg-card/90 border border-border shadow-lg rounded-xl transition-all duration-200 group"
       >
         <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
           <BookOpen className="h-5 w-5" />
