@@ -73,7 +73,7 @@ export const DesktopHeader = ({ language, onLanguageChange }: DesktopHeaderProps
   };
 
   return (
-    <header className="sticky top-0 z-50 hidden lg:block border-b border-border bg-card/98 backdrop-blur-md">
+    <header className="fixed top-0 left-0 right-0 z-50 hidden lg:block border-b border-border bg-background/95 backdrop-blur-md">
       {/* Ornamental border */}
       <div className="h-1 bg-gradient-to-r from-transparent via-primary to-transparent opacity-40" />
       

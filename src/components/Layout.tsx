@@ -43,7 +43,7 @@ export const Layout = ({
     return (
       <div className="min-h-screen flex flex-col bg-background">
         <DesktopHeader language={language} onLanguageChange={onLanguageChange} />
-        <main className="flex-1 overflow-y-auto">
+        <main className="flex-1 overflow-y-auto pt-[68px]">
           {children}
         </main>
       </div>
