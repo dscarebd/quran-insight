@@ -630,13 +630,23 @@ const Dua = ({ language, arabicFont = "amiri" }: DuaProps) => {
 
               {/* Reference */}
               {selectedDua?.reference && (
-                <div className="flex items-center justify-center">
+                <div className="flex flex-col items-center gap-2">
                   <span className={cn(
                     "text-xs text-muted-foreground bg-muted px-3 py-1.5 rounded-full",
                     (language === "bn" || language === "hi") && "font-bengali"
                   )}>
                     {language === "bn" ? "সূত্র: " : language === "hi" ? "संदर्भ: " : "Reference: "}{selectedDua.reference}
                   </span>
+                  {(selectedDua.reference === "দোয়া সংকলন" || selectedDua.reference === "সাধারণ প্রার্থনা - জায়েয দোয়া") && (
+                    <p className={cn(
+                      "text-[10px] text-muted-foreground/70 text-center max-w-xs",
+                      language === "bn" && "font-bengali"
+                    )}>
+                      {language === "bn" 
+                        ? "এটি একটি সাধারণ প্রার্থনা যা জায়েয, কিন্তু নির্দিষ্ট হাদিস থেকে প্রমাণিত নয়।" 
+                        : "This is a general permissible prayer, not from a specific hadith."}
+                    </p>
+                  )}
                 </div>
               )}
 
