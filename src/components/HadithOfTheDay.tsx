@@ -207,7 +207,7 @@ export const HadithOfTheDay = ({ language, arabicFont = "uthmani", compact = fal
       
       {/* View More */}
       <button 
-        onClick={() => navigate(`/hadith/${book.slug}`)}
+        onClick={() => navigate(`/hadith/${book.slug}?hadith=${hadith.hadith_number}`)}
         className={cn(
           "mx-auto flex items-center gap-1.5 rounded-full px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-medium transition-colors",
           iconColorClass,
