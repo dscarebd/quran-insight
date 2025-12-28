@@ -521,23 +521,37 @@ const ReadPage = ({
       "min-h-screen flex flex-col",
       readingMode === "sepia" ? "sepia" : "bg-background"
     )}>
-      {/* Top Header Bar */}
+      {/* Top Header Bar - Mobile/Tablet */}
       <header className={cn(
-        "sticky top-0 z-10 backdrop-blur border-b border-border/50",
+        "sticky top-0 z-10 backdrop-blur border-b border-border/50 lg:hidden",
         readingMode === "sepia" ? "bg-[hsl(35,30%,94%)]/95" : "bg-background/95"
       )}>
-        <div className="flex items-center justify-between px-4 py-2 max-w-4xl mx-auto">
+        <div className="flex items-center justify-between px-3 py-2.5 max-w-4xl mx-auto">
           {/* Surah Selector */}
           <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
             <SheetTrigger asChild>
-              <button className="flex items-center gap-2 hover:bg-muted/50 px-3 py-1.5 rounded-lg transition-colors">
-                <span className={cn(
-                  "text-sm font-medium",
+              <button className="flex items-center gap-2 hover:bg-muted/50 px-2.5 py-1.5 rounded-lg transition-colors -ml-1">
+                <div className={cn(
+                  "flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-xs font-semibold text-primary",
                   language === "bn" && "font-bengali"
                 )}>
-                  {language === "bn" ? primarySurah?.nameBengali : primarySurah?.nameEnglish}
-                </span>
-                <ChevronDown className="h-4 w-4 text-muted-foreground" />
+                  {formatNum(primarySurah?.number || 1, language)}
+                </div>
+                <div className="flex flex-col items-start">
+                  <span className={cn(
+                    "text-sm font-semibold text-foreground leading-tight",
+                    arabicFont === "uthmani" ? "font-uthmani" : "font-arabic"
+                  )}>
+                    {primarySurah?.nameArabic}
+                  </span>
+                  <span className={cn(
+                    "text-xs text-muted-foreground leading-tight",
+                    language === "bn" && "font-bengali"
+                  )}>
+                    {language === "bn" ? primarySurah?.nameBengali : primarySurah?.nameEnglish}
+                  </span>
+                </div>
+                <ChevronDown className="h-4 w-4 text-muted-foreground ml-1" />
               </button>
             </SheetTrigger>
             <SheetContent side="bottom" className="h-[80vh] rounded-t-2xl px-0">
@@ -661,12 +675,22 @@ const ReadPage = ({
           </Sheet>
 
           {/* Page/Juz Info */}
-          <span className={cn("text-sm text-muted-foreground", language === "bn" && "font-bengali")}>
-            {language === "bn" 
-              ? `পারা ${formatNum(juzNumber, language)} - পৃষ্ঠা ${formatNum(currentVisiblePage, language)}`
-              : `Juz ${juzNumber} - Page ${currentVisiblePage}`
-            }
-          </span>
+          <div className="flex items-center gap-2">
+            <div className={cn(
+              "flex flex-col items-end text-right",
+              language === "bn" && "font-bengali"
+            )}>
+              <span className="text-xs text-muted-foreground">
+                {language === "bn" ? `পারা ${formatNum(juzNumber, language)}` : `Juz ${juzNumber}`}
+              </span>
+              <span className="text-sm font-medium text-foreground">
+                {language === "bn" 
+                  ? `পৃষ্ঠা ${formatNum(currentVisiblePage, language)}`
+                  : `Page ${currentVisiblePage}`
+                }
+              </span>
+            </div>
+          </div>
         </div>
       </header>
 
