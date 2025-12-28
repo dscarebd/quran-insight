@@ -197,7 +197,7 @@ const Analytics = () => {
     if (path === "/dua") return "Dua";
     if (path === "/bookmarks") return "Bookmarks";
     if (path === "/settings") return "Settings";
-    if (path.startsWith("/admin")) return "Admin Panel";
+    if (path.startsWith("/abdullah")) return "Admin Panel";
     return path;
   };
 
