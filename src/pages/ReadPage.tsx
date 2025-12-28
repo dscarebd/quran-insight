@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { quranPages, getPageByNumber, getJuzForPage } from "@/data/pages";
 import { surahs } from "@/data/surahs";
@@ -49,14 +49,23 @@ const ReadPage = ({
   onFontSizeIndexChange,
 }: ReadPageProps) => {
   const { pageNumber } = useParams();
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const initialPage = parseInt(pageNumber || "1");
+  
+  // Get target verse from URL query param (format: surah:verse)
+  const targetVerseParam = searchParams.get("verse");
+  const targetVerse = targetVerseParam ? {
+    surah: parseInt(targetVerseParam.split(":")[0]),
+    verse: parseInt(targetVerseParam.split(":")[1])
+  } : null;
   
   // Store loaded pages data
   const [loadedPages, setLoadedPages] = useState<PageData[]>([]);
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
   const [currentVisiblePage, setCurrentVisiblePage] = useState(initialPage);
+  const [highlightedVerse, setHighlightedVerse] = useState<string | null>(null);
 
   // Keep currentVisiblePage in sync when navigating directly to a page URL
   useEffect(() => {
@@ -103,8 +112,22 @@ const ReadPage = ({
 
     requestAnimationFrame(() => {
       el.scrollIntoView({ behavior: "auto", block: "start" });
+      
+      // If we have a target verse from URL, scroll to and highlight it
+      if (targetVerse) {
+        setTimeout(() => {
+          const verseKey = `${initialPage}-${targetVerse.surah}-${targetVerse.verse}`;
+          const verseEl = verseRefs.current[verseKey];
+          if (verseEl) {
+            verseEl.scrollIntoView({ behavior: "smooth", block: "center" });
+            setHighlightedVerse(verseKey);
+            // Remove highlight after 3 seconds
+            setTimeout(() => setHighlightedVerse(null), 3000);
+          }
+        }, 300);
+      }
     });
-  }, [loading, loadedPages, initialPage]);
+  }, [loading, loadedPages, initialPage, targetVerse]);
 
   // Font zoom state - use controlled mode if parent provides props
   const [internalFontSizeIndex, setInternalFontSizeIndex] = useState(() => {
@@ -817,6 +840,7 @@ const ReadPage = ({
                           {surahVerses.map((verse) => {
                             const verseKey = `${pageData.pageNumber}-${verse.surah_number}-${verse.verse_number}`;
                             const isLastRead = lastReadVerse === verseKey;
+                            const isHighlighted = highlightedVerse === verseKey;
                             
                             return (
                               <span 
@@ -824,7 +848,8 @@ const ReadPage = ({
                                 ref={(el) => { verseRefs.current[verseKey] = el; }}
                                 className={cn(
                                   "inline cursor-pointer rounded transition-all duration-300",
-                                  isLastRead && "bg-primary/20 px-1"
+                                  isLastRead && "bg-primary/20 px-1",
+                                  isHighlighted && "bg-primary/30 px-1 ring-2 ring-primary/50 animate-pulse"
                                 )}
                                 onClick={() => handleVerseClick(pageData.pageNumber, verse.surah_number, verse.verse_number)}
                               >
