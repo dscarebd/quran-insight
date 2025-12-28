@@ -19,17 +19,17 @@ import {
 } from "@/components/ui/sidebar";
 
 const adminNavItems = [
-  { title: "Dashboard", url: "/admin", icon: Home, showInMobile: true },
-  { title: "Analytics", url: "/admin/analytics", icon: BarChart3, showInMobile: true },
-  { title: "Surahs", url: "/admin/surahs", icon: Book, showInMobile: true },
-  { title: "Verses", url: "/admin/verses", icon: FileText, showInMobile: false },
-  { title: "Hadiths", url: "/admin/hadiths", icon: BookOpen, showInMobile: true },
-  { title: "Dua Categories", url: "/admin/dua-categories", icon: FolderOpen, showInMobile: false },
-  { title: "Duas", url: "/admin/duas", icon: BookOpen, showInMobile: false },
-  { title: "Import Duas", url: "/admin/import-duas", icon: Upload, showInMobile: false },
-  { title: "Import Verses", url: "/admin/import-verses", icon: Upload, showInMobile: false },
-  { title: "Users", url: "/admin/users", icon: Users, showInMobile: false },
-  { title: "Emails", url: "/admin/admin-emails", icon: Mail, showInMobile: false },
+  { title: "Dashboard", url: "/abdullah", icon: Home, showInMobile: true },
+  { title: "Analytics", url: "/abdullah/analytics", icon: BarChart3, showInMobile: true },
+  { title: "Surahs", url: "/abdullah/surahs", icon: Book, showInMobile: true },
+  { title: "Verses", url: "/abdullah/verses", icon: FileText, showInMobile: false },
+  { title: "Hadiths", url: "/abdullah/hadiths", icon: BookOpen, showInMobile: true },
+  { title: "Dua Categories", url: "/abdullah/dua-categories", icon: FolderOpen, showInMobile: false },
+  { title: "Duas", url: "/abdullah/duas", icon: BookOpen, showInMobile: false },
+  { title: "Import Duas", url: "/abdullah/import-duas", icon: Upload, showInMobile: false },
+  { title: "Import Verses", url: "/abdullah/import-verses", icon: Upload, showInMobile: false },
+  { title: "Users", url: "/abdullah/users", icon: Users, showInMobile: false },
+  { title: "Emails", url: "/abdullah/admin-emails", icon: Mail, showInMobile: false },
 ];
 
 const mobileNavItems = adminNavItems.filter(item => item.showInMobile);
@@ -67,14 +67,14 @@ const Admin = () => {
   };
 
   const currentPageTitle = adminNavItems.find(item => 
-    item.url === "/admin" 
-      ? location.pathname === "/admin"
+    item.url === "/abdullah" 
+      ? location.pathname === "/abdullah"
       : location.pathname.startsWith(item.url)
   )?.title || "Admin";
 
   const isActive = (url: string) => {
-    if (url === "/admin") {
-      return location.pathname === "/admin";
+    if (url === "/abdullah") {
+      return location.pathname === "/abdullah";
     }
     return location.pathname.startsWith(url);
   };
@@ -102,7 +102,7 @@ const Admin = () => {
                       <SidebarMenuButton asChild>
                         <NavLink 
                           to={item.url} 
-                          end={item.url === "/admin"}
+                          end={item.url === "/abdullah"}
                           className="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-accent transition-colors"
                           activeClassName="bg-accent text-primary font-medium"
                         >
@@ -159,7 +159,7 @@ const Admin = () => {
               <NavLink
                 key={item.title}
                 to={item.url}
-                end={item.url === "/admin"}
+                end={item.url === "/abdullah"}
                 className={cn(
                   "flex flex-col items-center justify-center gap-0.5 px-2 py-1.5 rounded-lg transition-colors min-w-[48px]",
                   isActive(item.url)

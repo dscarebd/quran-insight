@@ -24,7 +24,7 @@ const Auth = () => {
 
   useEffect(() => {
     if (user) {
-      navigate("/admin");
+      navigate("/abdullah");
     }
   }, [user, navigate]);
 

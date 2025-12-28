@@ -198,7 +198,7 @@ const AppContent = () => {
           <Auth />
         </Suspense>
       } />
-      <Route path="/admin" element={
+      <Route path="/abdullah" element={
         <Suspense fallback={<LoadingFallback />}>
           <Admin />
         </Suspense>
