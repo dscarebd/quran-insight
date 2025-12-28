@@ -1,4 +1,4 @@
-import { Bookmark, ZoomIn, ZoomOut } from "lucide-react";
+import { Bookmark, ZoomIn, ZoomOut, Settings } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { LanguageToggle } from "./LanguageToggle";
 import { SidebarTrigger } from "@/components/ui/sidebar";
@@ -110,6 +110,14 @@ export const Header = ({
           className="flex lg:hidden h-9 w-9 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
         >
           <Bookmark className="h-5 w-5" />
+        </button>
+        
+        {/* Settings button (Mobile/Tablet) */}
+        <button 
+          onClick={() => navigate("/settings")}
+          className="flex lg:hidden h-9 w-9 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+        >
+          <Settings className="h-5 w-5" />
         </button>
       </div>
     </header>
