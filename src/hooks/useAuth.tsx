@@ -52,24 +52,48 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     // THEN check for existing session and try to refresh if expired
     const initializeSession = async () => {
-      const { data: { session }, error } = await supabase.auth.getSession();
-      
-      if (error?.message?.includes('expired') || !session) {
-        // Try to sign out to clear expired tokens
-        await supabase.auth.signOut();
+      try {
+        // First try to refresh the session
+        const { data: refreshData, error: refreshError } = await supabase.auth.refreshSession();
+        
+        if (refreshError || !refreshData.session) {
+          // If refresh fails, get current session
+          const { data: { session }, error } = await supabase.auth.getSession();
+          
+          if (error || !session) {
+            // Clear any stale data and redirect to login
+            await supabase.auth.signOut();
+            setSession(null);
+            setUser(null);
+            setIsAdmin(false);
+            setIsLoading(false);
+            return;
+          }
+          
+          setSession(session);
+          setUser(session?.user ?? null);
+          
+          if (session?.user) {
+            checkAdminRole(session.user.id);
+          } else {
+            setIsLoading(false);
+          }
+        } else {
+          // Refresh successful
+          setSession(refreshData.session);
+          setUser(refreshData.session?.user ?? null);
+          
+          if (refreshData.session?.user) {
+            checkAdminRole(refreshData.session.user.id);
+          } else {
+            setIsLoading(false);
+          }
+        }
+      } catch (error) {
+        console.error("Session initialization error:", error);
         setSession(null);
         setUser(null);
         setIsAdmin(false);
-        setIsLoading(false);
-        return;
-      }
-      
-      setSession(session);
-      setUser(session?.user ?? null);
-      
-      if (session?.user) {
-        checkAdminRole(session.user.id);
-      } else {
         setIsLoading(false);
       }
     };
