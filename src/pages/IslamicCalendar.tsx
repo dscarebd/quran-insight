@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { CalendarDays, Moon, Star, Sparkles, ChevronLeft, ChevronRight, Heart } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Language } from "@/types/language";
@@ -57,6 +57,11 @@ const IslamicCalendar = ({ language }: IslamicCalendarProps) => {
   const upcomingEvents = getUpcomingEvents(10);
   const today = new Date();
   today.setHours(0, 0, 0, 0);
+
+  // Scroll to top when page loads
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const pageTitle = {
     en: 'Islamic Calendar',
@@ -156,7 +161,7 @@ const IslamicCalendar = ({ language }: IslamicCalendarProps) => {
             </div>
             <div className="flex-1 min-w-0">
               <h1 className={cn(
-                "text-lg sm:text-xl font-bold text-foreground truncate",
+                "text-lg sm:text-xl font-semibold text-foreground truncate",
                 language === "bn" && "font-bengali",
                 language === "hi" && "font-hindi"
               )}>
@@ -173,7 +178,7 @@ const IslamicCalendar = ({ language }: IslamicCalendarProps) => {
           <CalendarDays className="w-8 h-8" />
         </div>
         <h1 className={cn(
-          "text-2xl sm:text-3xl font-bold text-foreground mb-2",
+          "text-lg sm:text-xl font-semibold text-foreground mb-2",
           language === "bn" && "font-bengali",
           language === "hi" && "font-hindi"
         )}>

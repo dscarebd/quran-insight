@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Search, Star, X, Sparkles } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
@@ -14,6 +14,11 @@ interface NamesOfAllahProps {
 const NamesOfAllah = ({ language, arabicFont = "amiri" }: NamesOfAllahProps) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedName, setSelectedName] = useState<AllahName | null>(null);
+
+  // Scroll to top when page loads
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const filteredNames = allahNames.filter((name) => {
     const query = searchQuery.toLowerCase();
@@ -37,7 +42,7 @@ const NamesOfAllah = ({ language, arabicFont = "amiri" }: NamesOfAllahProps) => 
             </div>
             <div className="flex-1 min-w-0">
               <h1 className={cn(
-                "text-lg sm:text-xl font-bold text-foreground truncate",
+                "text-lg sm:text-xl font-semibold text-foreground truncate",
                 language === "bn" && "font-bengali"
               )}>
                 {language === "bn" ? "আল্লাহর ৯৯ নাম" : "99 Names of Allah"}
