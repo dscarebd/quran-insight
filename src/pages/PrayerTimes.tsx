@@ -167,6 +167,15 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
     }
   };
 
+  // Handle upazila change - auto close after selection
+  const handleUpazilaChange = (upazilaId: string) => {
+    setSelectedUpazila(upazilaId);
+    // Auto close the dropdown after a brief delay
+    setTimeout(() => {
+      setUseBangladeshLocation(false);
+    }, 300);
+  };
+
   // Save Bangladesh location to localStorage
   useEffect(() => {
     if (useBangladeshLocation) {
@@ -540,7 +549,7 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
                   )}>
                     {upazilaLabel[language]}
                   </label>
-                  <Select value={selectedUpazila} onValueChange={setSelectedUpazila}>
+                  <Select value={selectedUpazila} onValueChange={handleUpazilaChange}>
                     <SelectTrigger>
                       <SelectValue />
                     </SelectTrigger>
