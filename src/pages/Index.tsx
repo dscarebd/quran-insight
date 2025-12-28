@@ -222,6 +222,9 @@ const Index = ({ language }: IndexProps) => {
           onClear={clearSearch}
         />
         
+        {/* Continue Reading - after hero, before quick access (mobile/tablet only) */}
+        <ContinueReading language={language} />
+        
         {/* Search Results */}
         {searchQuery && (
           <SearchResults
@@ -251,8 +254,6 @@ const Index = ({ language }: IndexProps) => {
             </div>
           </>
         )}
-        
-        <ContinueReading language={language} />
       </div>
     </div>
   );
