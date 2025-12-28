@@ -57,7 +57,9 @@ export const ContinueReading = ({ language }: ContinueReadingProps) => {
   if (!surah) return null;
 
   const handleContinue = () => {
-    navigate(`/read/${lastRead.page}`);
+    // Navigate to exact page with verse info for scrolling/highlighting
+    const verseParam = `${lastRead.surahNumber}:${lastRead.verseNumber}`;
+    navigate(`/read/${lastRead.page}?verse=${verseParam}`);
   };
 
   return (
