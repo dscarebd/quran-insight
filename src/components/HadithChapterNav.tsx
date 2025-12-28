@@ -59,7 +59,9 @@ const HadithChapterNav = ({
           <BookOpen className="h-4 w-4 shrink-0" />
           <span className={cn("truncate", language === "bn" && "font-bengali")}>
             {selectedChapter !== null
-              ? selectedChapterData?.chapter_name_english ||
+              ? (language === "bn" && selectedChapterData?.chapter_name_bengali
+                  ? selectedChapterData.chapter_name_bengali
+                  : selectedChapterData?.chapter_name_english) ||
                 `${language === "bn" ? "অধ্যায়" : "Chapter"} ${formatNumber(selectedChapter, language)}`
               : language === "bn"
               ? "সব অধ্যায়"
