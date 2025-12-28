@@ -61,6 +61,7 @@ const HadithChapterNav = ({
             {selectedChapter !== null
               ? language === "bn"
                 ? selectedChapterData?.chapter_name_bengali ||
+                  selectedChapterData?.chapter_name_english ||
                   `${"অধ্যায়"} ${formatNumber(selectedChapter, language)}`
                 : selectedChapterData?.chapter_name_english ||
                   selectedChapterData?.chapter_name_bengali ||
@@ -136,8 +137,9 @@ const HadithChapterNav = ({
                           language === "bn" && "font-bengali"
                         )}
                       >
-                        {language === "bn"
+                      {language === "bn"
                           ? chapter.chapter_name_bengali ||
+                            chapter.chapter_name_english ||
                             `${"অধ্যায়"} ${formatNumber(chapter.chapter_number, language)}`
                           : chapter.chapter_name_english ||
                             chapter.chapter_name_bengali ||
