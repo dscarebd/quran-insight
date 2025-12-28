@@ -38,3 +38,6 @@ verify_jwt = false
 
 [functions.rate-limited-auth]
 verify_jwt = false
+
+[functions.track-page-view]
+verify_jwt = false

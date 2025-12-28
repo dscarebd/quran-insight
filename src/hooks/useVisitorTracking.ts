@@ -27,11 +27,14 @@ export const useVisitorTracking = () => {
       try {
         const visitorId = getVisitorId();
         
-        await supabase.from("page_views").insert({
-          visitor_id: visitorId,
-          page_path: location.pathname,
-          user_agent: navigator.userAgent,
-          referrer: document.referrer || null,
+        // Use edge function with rate limiting and validation
+        await supabase.functions.invoke("track-page-view", {
+          body: {
+            visitor_id: visitorId,
+            page_path: location.pathname,
+            user_agent: navigator.userAgent,
+            referrer: document.referrer || null,
+          },
         });
       } catch (error) {
         // Silently fail - don't disrupt user experience
