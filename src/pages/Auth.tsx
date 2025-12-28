@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
-import { useRateLimit } from "@/hooks/useRateLimit";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -9,6 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useToast } from "@/hooks/use-toast";
 import { Book, Loader2, ShieldAlert, AlertTriangle } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 import { z } from "zod";
 
 const authSchema = z.object({
@@ -20,16 +20,12 @@ const Auth = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { user, signIn } = useAuth();
+  const [serverLocked, setServerLocked] = useState(false);
+  const [lockoutMinutes, setLockoutMinutes] = useState(0);
+  const [remainingAttempts, setRemainingAttempts] = useState(5);
+  const { user } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
-  const {
-    isLocked,
-    attemptsRemaining,
-    formatRemainingTime,
-    recordAttempt,
-    resetAttempts,
-  } = useRateLimit();
 
   useEffect(() => {
     if (user) {
@@ -37,12 +33,29 @@ const Auth = () => {
     }
   }, [user, navigate]);
 
+  // Countdown timer for server lockout
+  useEffect(() => {
+    if (serverLocked && lockoutMinutes > 0) {
+      const timer = setInterval(() => {
+        setLockoutMinutes((prev) => {
+          if (prev <= 1) {
+            setServerLocked(false);
+            setRemainingAttempts(5);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 60000); // Update every minute
+      return () => clearInterval(timer);
+    }
+  }, [serverLocked, lockoutMinutes]);
+
   const handleSubmit = async () => {
     // Check if locked out
-    if (isLocked) {
+    if (serverLocked) {
       toast({
         title: "Too Many Attempts",
-        description: `Please wait ${formatRemainingTime()} before trying again.`,
+        description: `Please wait ${lockoutMinutes} minute${lockoutMinutes !== 1 ? "s" : ""} before trying again.`,
         variant: "destructive",
       });
       return;
@@ -62,15 +75,41 @@ const Auth = () => {
     setIsSubmitting(true);
     
     try {
-      const { error } = await signIn(email, password);
+      // Call the rate-limited auth edge function
+      const { data, error } = await supabase.functions.invoke("rate-limited-auth", {
+        body: { email, password, action: "signin" },
+      });
 
       if (error) {
-        // Record failed attempt
-        recordAttempt();
+        toast({
+          title: "Error",
+          description: "An unexpected error occurred. Please try again.",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      // Check for rate limit lockout
+      if (data.locked) {
+        setServerLocked(true);
+        setLockoutMinutes(data.remainingMinutes || 15);
+        setRemainingAttempts(0);
         
-        let message = error.message;
+        toast({
+          title: "Too Many Attempts",
+          description: data.message || `Please wait ${data.remainingMinutes} minutes.`,
+          variant: "destructive",
+        });
+        return;
+      }
+
+      // Check for auth error
+      if (data.error) {
+        setRemainingAttempts(data.remainingAttempts ?? remainingAttempts - 1);
+        
+        let message = data.error;
         if (message.includes("Invalid login credentials")) {
-          message = `Invalid email or password. ${attemptsRemaining - 1} attempts remaining.`;
+          message = `Invalid email or password. ${data.remainingAttempts ?? remainingAttempts - 1} attempts remaining.`;
         }
         
         toast({
@@ -78,12 +117,23 @@ const Auth = () => {
           description: message,
           variant: "destructive",
         });
-      } else {
-        // Successful login - reset attempts
-        resetAttempts();
+        return;
+      }
+
+      // Successful login - set session
+      if (data.session) {
+        await supabase.auth.setSession({
+          access_token: data.session.access_token,
+          refresh_token: data.session.refresh_token,
+        });
+        
+        setRemainingAttempts(5);
+        toast({
+          title: "Success",
+          description: "Logged in successfully!",
+        });
       }
     } catch (error) {
-      recordAttempt();
       toast({
         title: "Error",
         description: "An unexpected error occurred. Please try again.",
@@ -109,20 +159,20 @@ const Auth = () => {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          {isLocked && (
+          {serverLocked && (
             <Alert variant="destructive">
               <ShieldAlert className="h-4 w-4" />
               <AlertDescription>
-                Too many failed attempts. Please wait {formatRemainingTime()} before trying again.
+                Too many failed attempts from your IP. Please wait {lockoutMinutes} minute{lockoutMinutes !== 1 ? "s" : ""} before trying again.
               </AlertDescription>
             </Alert>
           )}
           
-          {!isLocked && attemptsRemaining < 5 && attemptsRemaining > 0 && (
+          {!serverLocked && remainingAttempts < 5 && remainingAttempts > 0 && (
             <Alert>
               <AlertTriangle className="h-4 w-4" />
               <AlertDescription>
-                {attemptsRemaining} login {attemptsRemaining === 1 ? "attempt" : "attempts"} remaining before temporary lockout.
+                {remainingAttempts} login {remainingAttempts === 1 ? "attempt" : "attempts"} remaining before temporary lockout.
               </AlertDescription>
             </Alert>
           )}
@@ -135,7 +185,7 @@ const Auth = () => {
               placeholder="admin@example.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              disabled={isSubmitting || isLocked}
+              disabled={isSubmitting || serverLocked}
             />
           </div>
           <div className="space-y-2">
@@ -146,24 +196,24 @@ const Auth = () => {
               placeholder="••••••••"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              disabled={isSubmitting || isLocked}
-              onKeyDown={(e) => e.key === "Enter" && !isLocked && handleSubmit()}
+              disabled={isSubmitting || serverLocked}
+              onKeyDown={(e) => e.key === "Enter" && !serverLocked && handleSubmit()}
             />
           </div>
           <Button 
             className="w-full" 
             onClick={handleSubmit}
-            disabled={isSubmitting || isLocked}
+            disabled={isSubmitting || serverLocked}
           >
             {isSubmitting ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 Signing in...
               </>
-            ) : isLocked ? (
+            ) : serverLocked ? (
               <>
                 <ShieldAlert className="mr-2 h-4 w-4" />
-                Locked ({formatRemainingTime()})
+                Locked ({lockoutMinutes}m)
               </>
             ) : (
               "Sign In"
