@@ -508,33 +508,14 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
                 </Select>
               </div>
 
-              {/* Use Location Button */}
-              <div className="flex flex-col justify-end">
-                <Button
-                  variant="outline"
-                  onClick={getUserLocation}
-                  disabled={isLoading}
-                  className={cn(
-                    "w-full h-10",
-                    language === "bn" && "font-bengali"
-                  )}
-                >
-                  {isLoading ? (
-                    <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
-                  ) : (
-                    <MapPin className="w-4 h-4 mr-2" />
-                  )}
-                  {useLocationLabel[language]}
-                </Button>
-              </div>
-
-              {/* Bangladesh Detailed Location Toggle */}
-              <div className="flex flex-col justify-end">
+              {/* Bangladesh Location + GPS Button - Combined in one line for mobile/tablet */}
+              <div className="flex gap-2 lg:col-span-2">
+                {/* Bangladesh Detailed Location Toggle - 90% */}
                 <Button
                   variant={useBangladeshLocation ? "default" : "outline"}
                   onClick={enableBangladeshLocation}
                   className={cn(
-                    "w-full h-10",
+                    "flex-1 h-10",
                     language === "bn" && "font-bengali"
                   )}
                 >
@@ -545,6 +526,22 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
                       : bdLocationLabel[language]
                     }
                   </span>
+                </Button>
+
+                {/* GPS Location Button - Icon only */}
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={getUserLocation}
+                  disabled={isLoading}
+                  className="h-10 w-10 shrink-0"
+                  title={useLocationLabel[language]}
+                >
+                  {isLoading ? (
+                    <RefreshCw className="w-4 h-4 animate-spin" />
+                  ) : (
+                    <MapPin className="w-4 h-4" />
+                  )}
                 </Button>
               </div>
             </div>
