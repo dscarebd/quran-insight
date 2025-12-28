@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { ArrowLeft, ChevronRight, Search, Heart, Copy, Check, Share2 } from "lucide-react";
+import { ArrowLeft, ChevronRight, Search, Heart, Copy, Check, Share2, Sparkles, WifiOff } from "lucide-react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { cn, formatNumber } from "@/lib/utils";
 import { MobileNavFooter } from "@/components/MobileNavFooter";
@@ -12,6 +12,10 @@ import { useLocalDuaBookmarks } from "@/hooks/useLocalDuaBookmarks";
 import { toast } from "sonner";
 import * as LucideIcons from "lucide-react";
 import { Language } from "@/types/language";
+import { useAISearch } from "@/hooks/useAISearch";
+import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
+import ReactMarkdown from "react-markdown";
 
 interface DuaProps {
   language: Language;
@@ -39,6 +43,29 @@ const Dua = ({ language, arabicFont = "amiri" }: DuaProps) => {
   const [selectedDua, setSelectedDua] = useState<DuaType | null>(null);
   const [activeTab, setActiveTab] = useState<"all" | "favorites">("all");
   const [copiedId, setCopiedId] = useState<string | null>(null);
+  
+  // AI Search
+  const { search: aiSearch, isLoading: aiLoading, response: aiResponse, clear: clearAiSearch, isOnline } = useAISearch();
+  const [showAiResults, setShowAiResults] = useState(false);
+
+  const handleAiSearch = () => {
+    if (searchQuery.trim().length >= 2) {
+      aiSearch(searchQuery, language);
+      setShowAiResults(true);
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" && searchQuery.trim().length >= 2) {
+      handleAiSearch();
+    }
+  };
+
+  const clearSearch = () => {
+    setSearchQuery("");
+    clearAiSearch();
+    setShowAiResults(false);
+  };
 
   // Scroll to top when page loads
   useEffect(() => {
@@ -297,18 +324,35 @@ const Dua = ({ language, arabicFont = "amiri" }: DuaProps) => {
 
                 {/* Desktop Search and Tabs */}
                 <div className="flex flex-col items-end gap-3">
-                  <div className="relative w-80">
-                    <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                    <Input
-                      type="text"
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      placeholder={language === "bn" ? "দোয়া খুঁজুন..." : "Search duas..."}
-                      className={cn(
-                        "pl-9 rounded-xl",
-                        language === "bn" && "font-bengali placeholder:font-bengali"
-                      )}
-                    />
+                  <div className="flex gap-2">
+                    <div className="relative w-72">
+                      <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                      <Input
+                        type="text"
+                        value={searchQuery}
+                        onChange={(e) => {
+                          setSearchQuery(e.target.value);
+                          if (!e.target.value.trim()) {
+                            clearSearch();
+                          }
+                        }}
+                        onKeyDown={handleKeyDown}
+                        placeholder={language === "bn" ? "দোয়া খুঁজুন..." : "Search duas..."}
+                        className={cn(
+                          "pl-9 pr-4 rounded-xl",
+                          language === "bn" && "font-bengali placeholder:font-bengali"
+                        )}
+                      />
+                    </div>
+                    <Button
+                      onClick={handleAiSearch}
+                      disabled={searchQuery.trim().length < 2 || aiLoading}
+                      size="sm"
+                      className="gap-1.5 rounded-xl"
+                    >
+                      <Sparkles className="h-4 w-4" />
+                      {language === "bn" ? "AI" : "AI"}
+                    </Button>
                   </div>
                   
                   {/* Desktop Tabs below search */}
@@ -333,20 +377,122 @@ const Dua = ({ language, arabicFont = "amiri" }: DuaProps) => {
             <TabsContent value="all" className="mt-0">
               {/* Mobile Search */}
               <div className="lg:hidden px-0 py-3 border-b border-border">
-                <div className="relative">
-                  <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                  <Input
-                    type="text"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder={language === "bn" ? "দোয়া খুঁজুন..." : "Search duas..."}
-                    className={cn(
-                      "pl-9",
-                      language === "bn" && "font-bengali placeholder:font-bengali"
-                    )}
-                  />
+                <div className="flex gap-2">
+                  <div className="relative flex-1">
+                    <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                    <Input
+                      type="text"
+                      value={searchQuery}
+                      onChange={(e) => {
+                        setSearchQuery(e.target.value);
+                        if (!e.target.value.trim()) {
+                          clearSearch();
+                        }
+                      }}
+                      onKeyDown={handleKeyDown}
+                      placeholder={language === "bn" ? "দোয়া খুঁজুন..." : "Search duas..."}
+                      className={cn(
+                        "pl-9",
+                        language === "bn" && "font-bengali placeholder:font-bengali"
+                      )}
+                    />
+                  </div>
+                  <Button
+                    onClick={handleAiSearch}
+                    disabled={searchQuery.trim().length < 2 || aiLoading}
+                    size="sm"
+                    className="gap-1.5"
+                  >
+                    <Sparkles className="h-4 w-4" />
+                  </Button>
                 </div>
               </div>
+
+            {/* AI Search Results */}
+            {showAiResults && (aiLoading || aiResponse) && (
+              <div className="p-4 border-b border-border">
+                {/* Offline/Cached indicator */}
+                {aiResponse?.isOffline && (
+                  <div className="flex items-center gap-2 mb-3 text-amber-600">
+                    <WifiOff className="h-4 w-4" />
+                    <span className={cn("text-sm", language === "bn" && "font-bengali")}>
+                      {language === "bn" ? "অফলাইন মোড" : "Offline mode"}
+                    </span>
+                  </div>
+                )}
+                {aiResponse?.isCached && !aiResponse.isOffline && (
+                  <div className="flex items-center gap-2 mb-3 text-muted-foreground">
+                    <Sparkles className="h-4 w-4" />
+                    <span className={cn("text-sm", language === "bn" && "font-bengali")}>
+                      {language === "bn" ? "ক্যাশ থেকে" : "From cache"}
+                    </span>
+                  </div>
+                )}
+
+                {aiLoading ? (
+                  <div className="space-y-3">
+                    <Skeleton className="h-4 w-3/4" />
+                    <Skeleton className="h-4 w-full" />
+                    <Skeleton className="h-4 w-2/3" />
+                  </div>
+                ) : aiResponse && (
+                  <div className="space-y-4">
+                    {/* AI Answer */}
+                    <div className={cn(
+                      "prose prose-sm dark:prose-invert max-w-none",
+                      language === "bn" && "font-bengali"
+                    )}>
+                      <ReactMarkdown>{aiResponse.answer}</ReactMarkdown>
+                    </div>
+
+                    {/* AI Results */}
+                    {aiResponse.results.length > 0 && (
+                      <div className="space-y-2">
+                        <p className={cn("text-sm font-medium text-muted-foreground", language === "bn" && "font-bengali")}>
+                          {language === "bn" ? "সম্পর্কিত দোয়া:" : "Related duas:"}
+                        </p>
+                        <div className="grid gap-2">
+                          {aiResponse.results.filter(r => r.type === "dua").slice(0, 5).map((result, idx) => (
+                            <button
+                              key={idx}
+                              onClick={() => navigate(result.link)}
+                              className="flex items-start gap-3 p-3 rounded-lg border border-border bg-card hover:bg-accent text-left transition-colors"
+                            >
+                              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-amber-500/10">
+                                <LucideIcons.HandHelping className="h-4 w-4 text-amber-600" />
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <p className={cn(
+                                  "text-sm font-medium text-foreground",
+                                  language === "bn" && "font-bengali"
+                                )}>
+                                  {language === "bn" ? result.titleBn : result.title}
+                                </p>
+                                <p className={cn(
+                                  "text-xs text-muted-foreground line-clamp-2",
+                                  language === "bn" && "font-bengali"
+                                )}>
+                                  {language === "bn" ? result.contentBn : result.content}
+                                </p>
+                              </div>
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={clearSearch}
+                      className={cn(language === "bn" && "font-bengali")}
+                    >
+                      {language === "bn" ? "বন্ধ করুন" : "Clear"}
+                    </Button>
+                  </div>
+                )}
+              </div>
+            )}
 
             {/* Search Results */}
             {showSearchResults ? (
