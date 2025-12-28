@@ -481,8 +481,8 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
           <CardContent className="p-4 space-y-4">
             {/* Desktop: 3 columns | Mobile: stacked */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
-              {/* City Selection */}
-              <div>
+              {/* City Selection - Desktop only */}
+              <div className="hidden lg:block">
                 <label className={cn(
                   "text-sm font-medium text-muted-foreground mb-2 block",
                   language === "bn" && "font-bengali"
