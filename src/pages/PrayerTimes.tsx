@@ -626,54 +626,56 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
         {(currentPrayer || nextPrayer) && (
           <Card className="mb-6 bg-gradient-to-br from-primary/10 to-primary/5 border-primary/20">
             <CardContent className="p-4">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="flex items-center justify-between gap-4">
                 {/* Current Running Prayer */}
                 {currentPrayer && (
-                  <div className="sm:border-r sm:pr-4 border-primary/20">
-                    <p className={cn(
-                      "text-xs text-muted-foreground mb-1",
-                      language === "bn" && "font-bengali"
-                    )}>
-                      {language === 'bn' ? 'চলমান নামাজ' : 'Current Prayer'}
-                    </p>
-                    <div className="flex items-center gap-2">
-                      <h2 className={cn(
-                        "text-lg font-bold text-emerald-600 dark:text-emerald-400",
+                  <div className="flex items-center gap-3">
+                    <div>
+                      <p className={cn(
+                        "text-xs text-muted-foreground",
                         language === "bn" && "font-bengali"
                       )}>
-                        {language === 'bn' ? currentPrayer.nameBn : currentPrayer.name}
-                      </h2>
-                      <span className="text-base text-emerald-600 dark:text-emerald-400" dir="rtl">
-                        {currentPrayer.nameAr}
-                      </span>
+                        {language === 'bn' ? 'চলমান নামাজ' : 'Current Prayer'}
+                      </p>
+                      <div className="flex items-center gap-1.5">
+                        <span className={cn(
+                          "text-base font-bold text-emerald-600 dark:text-emerald-400",
+                          language === "bn" && "font-bengali"
+                        )}>
+                          {language === 'bn' ? currentPrayer.nameBn : currentPrayer.name}
+                        </span>
+                        <span className="text-sm text-emerald-600 dark:text-emerald-400" dir="rtl">
+                          {currentPrayer.nameAr}
+                        </span>
+                      </div>
+                      <p className="text-xs text-muted-foreground">
+                        {formatTimeDisplay(currentPrayer.time, language)} - {formatTimeDisplay(currentPrayer.endTime, language)}
+                      </p>
                     </div>
-                    <p className="text-sm text-muted-foreground">
-                      {formatTimeDisplay(currentPrayer.time, language)} - {formatTimeDisplay(currentPrayer.endTime, language)}
-                    </p>
                   </div>
                 )}
                 
                 {/* Next Prayer */}
                 {nextPrayer && (
-                  <div>
+                  <div className="text-right">
                     <p className={cn(
-                      "text-xs text-muted-foreground mb-1",
+                      "text-xs text-muted-foreground",
                       language === "bn" && "font-bengali"
                     )}>
                       {nextPrayerLabel[language]}
                     </p>
-                    <div className="flex items-center gap-2">
-                      <h2 className={cn(
-                        "text-lg font-bold text-primary",
+                    <div className="flex items-center justify-end gap-1.5">
+                      <span className={cn(
+                        "text-base font-bold text-primary",
                         language === "bn" && "font-bengali"
                       )}>
                         {language === 'bn' ? nextPrayer.nameBn : nextPrayer.name}
-                      </h2>
-                      <span className="text-base text-primary" dir="rtl">
+                      </span>
+                      <span className="text-sm text-primary" dir="rtl">
                         {nextPrayer.nameAr}
                       </span>
                     </div>
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-center justify-end gap-2">
                       <p className="text-sm font-medium text-foreground">
                         {formatTimeDisplay(nextPrayer.time, language)}
                       </p>
