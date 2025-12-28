@@ -80,6 +80,11 @@ const Bookmarks = ({ language, readingMode = "normal", arabicFont = "amiri" }: B
   const [expandedTafsir, setExpandedTafsir] = useState<Set<string>>(new Set());
   const [activeTab, setActiveTab] = useState("quran");
 
+  // Scroll to top when page loads
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const toggleTafsir = (id: string, e: React.MouseEvent) => {
     e.stopPropagation();
     setExpandedTafsir(prev => {

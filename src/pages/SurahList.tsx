@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { Book, ChevronRight, Search, Layers } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { surahs } from "@/data/surahs";
 import { paras } from "@/data/paras";
 import { cn, formatNumber } from "@/lib/utils";
@@ -16,6 +16,11 @@ const SurahList = ({ language }: SurahListProps) => {
   const [activeTab, setActiveTab] = useState<"surah" | "para">("surah");
   const [surahSearch, setSurahSearch] = useState("");
   const [paraSearch, setParaSearch] = useState("");
+
+  // Scroll to top when page loads
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const filteredSurahs = surahs.filter((surah) => {
     const query = surahSearch.toLowerCase();
@@ -57,7 +62,7 @@ const SurahList = ({ language }: SurahListProps) => {
                     <Book className="h-5 w-5" />
                   </div>
                   <h1 className={cn(
-                    "text-2xl lg:text-3xl font-bold text-foreground",
+                    "text-lg sm:text-xl font-semibold text-foreground",
                     language === "bn" && "font-bengali"
                   )}>
                     {language === "bn" ? "পবিত্র কুরআন" : "Holy Quran"}

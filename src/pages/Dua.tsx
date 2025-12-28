@@ -40,6 +40,11 @@ const Dua = ({ language, arabicFont = "amiri" }: DuaProps) => {
   const [activeTab, setActiveTab] = useState<"all" | "favorites">("all");
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
+  // Scroll to top when page loads
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   // Handle URL params to open specific category and dua
   useEffect(() => {
     if (urlCategoryId) {
@@ -274,7 +279,7 @@ const Dua = ({ language, arabicFont = "amiri" }: DuaProps) => {
                       <LucideIcons.HandHeart className="h-5 w-5" />
                     </div>
                     <h1 className={cn(
-                      "text-2xl lg:text-3xl font-bold text-foreground",
+                      "text-lg sm:text-xl font-semibold text-foreground",
                       language === "bn" && "font-bengali"
                     )}>
                       {language === "bn" ? "দোয়া সমূহ" : "All Duas"}

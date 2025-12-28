@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { BookOpen, ChevronRight, Search } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { paras } from "@/data/paras";
 import { cn, formatNumber } from "@/lib/utils";
 import { Language } from "@/types/language";
@@ -12,6 +12,11 @@ interface ParaListProps {
 const ParaList = ({ language }: ParaListProps) => {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
+
+  // Scroll to top when page loads
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const filteredParas = paras.filter((para) => {
     const query = searchQuery.toLowerCase();
@@ -34,7 +39,7 @@ const ParaList = ({ language }: ParaListProps) => {
                 <BookOpen className="h-5 w-5" />
               </div>
               <h1 className={cn(
-                "text-2xl lg:text-3xl font-bold text-foreground",
+                "text-lg sm:text-xl font-semibold text-foreground",
                 language === "bn" && "font-bengali"
               )}>
                 {language === "bn" ? "পারা সমূহ" : "All Paras"}

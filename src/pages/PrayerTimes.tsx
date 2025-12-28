@@ -41,6 +41,11 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [timeRemaining, setTimeRemaining] = useState<{ hours: number; minutes: number } | null>(null);
 
+  // Scroll to top when page loads
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   // Bangladesh hierarchical location selection (replaces calculation method)
   const [selectedDivision, setSelectedDivision] = useState<string>(() => {
     const saved = localStorage.getItem('prayerTimesBDLocation');
@@ -451,7 +456,7 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
             </div>
             <div className="flex-1 min-w-0">
               <h1 className={cn(
-                "text-lg sm:text-xl font-bold text-foreground truncate",
+                "text-lg sm:text-xl font-semibold text-foreground truncate",
                 language === "bn" && "font-bengali"
               )}>
                 {pageTitle[language]}
@@ -467,7 +472,7 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
           <Clock className="w-8 h-8" />
         </div>
         <h1 className={cn(
-          "text-2xl sm:text-3xl font-bold text-foreground mb-2",
+          "text-lg sm:text-xl font-semibold text-foreground mb-2",
           language === "bn" && "font-bengali"
         )}>
           {pageTitle[language]}
