@@ -138,6 +138,11 @@ const AppContent = () => {
           <Dua language={language} arabicFont={arabicFont} />
         </Layout>
       } />
+      <Route path="/dua/:categoryId" element={
+        <Layout language={language} onLanguageChange={setLanguage}>
+          <Dua language={language} arabicFont={arabicFont} />
+        </Layout>
+      } />
       <Route path="/daily-dua" element={
         <Layout language={language} onLanguageChange={setLanguage}>
           <DailyDuaPage language={language} arabicFont={arabicFont} />

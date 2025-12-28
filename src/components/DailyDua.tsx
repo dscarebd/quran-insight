@@ -39,6 +39,12 @@ export const DailyDua = ({ language }: DailyDuaProps) => {
     setDuaData(allDuas[duaIndex]);
   }, []);
 
+  const handleViewDua = () => {
+    if (duaData) {
+      navigate(`/dua/${duaData.category.id}?dua=${duaData.dua.id}`);
+    }
+  };
+
   const handleViewAll = () => {
     navigate("/daily-dua");
   };
@@ -117,13 +123,13 @@ export const DailyDua = ({ language }: DailyDuaProps) => {
             </span>
           )}
           <button 
-            onClick={handleViewAll}
+            onClick={handleViewDua}
             className={cn(
               "flex items-center gap-1 rounded-full bg-accent px-4 py-2 text-sm font-medium text-accent-foreground transition-colors hover:bg-primary hover:text-primary-foreground",
               language === "bn" && "font-bengali"
             )}
           >
-            {language === "bn" ? "সব দৈনিক দোয়া" : "All Daily Duas"}
+            {language === "bn" ? "সব দোয়া দেখুন" : "View All Duas"}
             <ChevronRight className="h-4 w-4" />
           </button>
         </div>

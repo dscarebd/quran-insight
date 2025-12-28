@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ArrowLeft, ChevronRight, Search, Heart, Copy, Check, Share2 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { cn, formatNumber } from "@/lib/utils";
 import { MobileNavFooter } from "@/components/MobileNavFooter";
 import { duaCategories, DuaCategory, Dua as DuaType } from "@/data/duas";
@@ -29,12 +29,33 @@ const DynamicIcon = ({ name, className }: { name: string; className?: string }) 
 
 const Dua = ({ language, arabicFont = "amiri" }: DuaProps) => {
   const navigate = useNavigate();
+  const { categoryId: urlCategoryId } = useParams<{ categoryId: string }>();
+  const [searchParams] = useSearchParams();
+  const targetDuaId = searchParams.get("dua");
+  
   const { bookmarks, isBookmarked, toggleBookmark, loading: bookmarksLoading } = useLocalDuaBookmarks();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<DuaCategory | null>(null);
   const [selectedDua, setSelectedDua] = useState<DuaType | null>(null);
   const [activeTab, setActiveTab] = useState<"all" | "favorites">("all");
   const [copiedId, setCopiedId] = useState<string | null>(null);
+
+  // Handle URL params to open specific category and dua
+  useEffect(() => {
+    if (urlCategoryId) {
+      const category = duaCategories.find(c => c.id === urlCategoryId);
+      if (category) {
+        setSelectedCategory(category);
+        
+        if (targetDuaId) {
+          const dua = category.duas.find(d => d.id === targetDuaId);
+          if (dua) {
+            setSelectedDua(dua);
+          }
+        }
+      }
+    }
+  }, [urlCategoryId, targetDuaId]);
 
   // Helper functions for language-specific content
   const getDuaTitle = (dua: DuaType) => {
