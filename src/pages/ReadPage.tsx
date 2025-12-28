@@ -181,11 +181,10 @@ const ReadPage = ({
     return num.toString().split("").map(d => arabicNumerals[parseInt(d)]).join("");
   };
 
-  // Get primary surah for current page
-  const getPrimarySurah = () => {
-    if (!currentPageData) return null;
-    return surahs.find(s => s.number === currentPageData.startSurah);
-  };
+  // Get primary surah for current page - memoize to ensure updates
+  const primarySurah = currentPageData 
+    ? surahs.find(s => s.number === currentPageData.startSurah) 
+    : surahs[0];
 
   // Zoom functions
   const zoomIn = useCallback(() => {
@@ -493,7 +492,7 @@ const ReadPage = ({
     }, {} as Record<number, Verse[]>);
   };
 
-  const primarySurah = getPrimarySurah();
+  
 
   // Scroll to current page/surah when sheet opens
   useEffect(() => {
