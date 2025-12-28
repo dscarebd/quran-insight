@@ -693,7 +693,7 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
             {(Object.keys(prayerNames) as Array<keyof typeof prayerNames>).map((prayerKey) => {
               const names = prayerNames[prayerKey];
               const timeData = prayerTimes[prayerKey];
-              const isNextPrayer = nextPrayer?.name.toLowerCase() === prayerKey;
+              const isCurrentPrayer = currentPrayer?.name.toLowerCase() === prayerKey;
               
               const isRange = typeof timeData === 'object' && 'start' in timeData;
               const startTime = isRange ? (timeData as PrayerTimeRange).start : (timeData as string);
@@ -704,7 +704,7 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
                   key={prayerKey}
                   className={cn(
                     "transition-all duration-300",
-                    isNextPrayer && "ring-2 ring-primary ring-offset-2 ring-offset-background"
+                    isCurrentPrayer && "ring-2 ring-emerald-500 ring-offset-2 ring-offset-background"
                   )}
                 >
                   <CardContent className="p-4 text-center">
