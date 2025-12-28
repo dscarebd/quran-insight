@@ -488,8 +488,13 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
                     language === "bn" && "font-bengali"
                   )}
                 >
-                  <MapPin className="w-4 h-4 mr-2" />
-                  {bdLocationLabel[language]}
+                  <MapPin className="w-4 h-4 mr-2 shrink-0" />
+                  <span className="truncate">
+                    {getCurrentUpazila() 
+                      ? (language === 'bn' ? getCurrentUpazila()?.name_bn : getCurrentUpazila()?.name_en)
+                      : bdLocationLabel[language]
+                    }
+                  </span>
                 </Button>
               </div>
             </div>
