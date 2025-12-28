@@ -35,6 +35,7 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
   const [location, setLocation] = useState<Location>(defaultLocations.dhaka);
   const [prayerTimes, setPrayerTimes] = useState<PrayerTimesType | null>(null);
   const [nextPrayer, setNextPrayer] = useState<{ name: string; time: string; nameAr: string; nameBn: string } | null>(null);
+  const [currentPrayer, setCurrentPrayer] = useState<{ name: string; time: string; endTime: string; nameAr: string; nameBn: string } | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedCity, setSelectedCity] = useState('dhaka');
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -223,7 +224,56 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
     if (next) {
       setTimeRemaining(getTimeRemaining(next.time));
     }
+    
+    // Get current running prayer
+    const current = getCurrentRunningPrayer(times);
+    setCurrentPrayer(current);
   }, [location]);
+
+  // Get current running prayer based on current time
+  const getCurrentRunningPrayer = (times: PrayerTimesType): { name: string; time: string; endTime: string; nameAr: string; nameBn: string } | null => {
+    const now = new Date();
+    const currentMinutes = now.getHours() * 60 + now.getMinutes();
+    
+    const parseTime = (timeStr: string): number => {
+      if (timeStr === '--:--') return -1;
+      const match = timeStr.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
+      if (!match) return -1;
+      let hours = parseInt(match[1], 10);
+      const minutes = parseInt(match[2], 10);
+      const period = match[3].toUpperCase();
+      if (period === 'PM' && hours !== 12) hours += 12;
+      if (period === 'AM' && hours === 12) hours = 0;
+      return hours * 60 + minutes;
+    };
+
+    const prayers = [
+      { key: 'fajr', name: 'Fajr', nameAr: 'الفجر', nameBn: 'ফজর', start: times.fajr.start, end: times.fajr.end },
+      { key: 'dhuhr', name: 'Dhuhr', nameAr: 'الظهر', nameBn: 'যোহর', start: times.dhuhr.start, end: times.dhuhr.end },
+      { key: 'asr', name: 'Asr', nameAr: 'العصر', nameBn: 'আসর', start: times.asr.start, end: times.asr.end },
+      { key: 'maghrib', name: 'Maghrib', nameAr: 'المغرب', nameBn: 'মাগরিব', start: times.maghrib.start, end: times.maghrib.end },
+      { key: 'isha', name: 'Isha', nameAr: 'العشاء', nameBn: 'ইশা', start: times.isha.start, end: times.isha.end },
+    ];
+
+    for (const prayer of prayers) {
+      const startMins = parseTime(prayer.start);
+      let endMins = parseTime(prayer.end);
+      
+      // Handle overnight (Isha to Fajr)
+      if (endMins < startMins) {
+        // If current time is after start OR before end (next day)
+        if (currentMinutes >= startMins || currentMinutes < endMins) {
+          return { name: prayer.name, time: prayer.start, endTime: prayer.end, nameAr: prayer.nameAr, nameBn: prayer.nameBn };
+        }
+      } else {
+        if (currentMinutes >= startMins && currentMinutes < endMins) {
+          return { name: prayer.name, time: prayer.start, endTime: prayer.end, nameAr: prayer.nameAr, nameBn: prayer.nameBn };
+        }
+      }
+    }
+    
+    return null;
+  };
 
   // Get user's location via GPS
   const getUserLocation = () => {
@@ -572,42 +622,71 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
           </CardContent>
         </Card>
 
-        {/* Next Prayer Card */}
-        {nextPrayer && (
+        {/* Current & Next Prayer Card */}
+        {(currentPrayer || nextPrayer) && (
           <Card className="mb-6 bg-gradient-to-br from-primary/10 to-primary/5 border-primary/20">
             <CardContent className="p-4">
-              {/* Row 1: Label + Prayer Name */}
-              <div className="flex items-center justify-between">
-                <p className={cn(
-                  "text-sm text-muted-foreground",
-                  language === "bn" && "font-bengali"
-                )}>
-                  {nextPrayerLabel[language]}
-                </p>
-                <div className="flex items-center gap-2">
-                  <h2 className={cn(
-                    "text-xl font-bold text-primary",
-                    language === "bn" && "font-bengali"
-                  )}>
-                    {language === 'bn' ? nextPrayer.nameBn : nextPrayer.name}
-                  </h2>
-                  <span className="text-lg text-primary" dir="rtl">
-                    {nextPrayer.nameAr}
-                  </span>
-                </div>
-              </div>
-              {/* Row 2: Time + Remaining */}
-              <div className="flex items-center justify-between mt-1">
-                <p className="text-xl font-semibold text-foreground">
-                  {formatTimeDisplay(nextPrayer.time, language)}
-                </p>
-                {timeRemaining && (
-                  <p className={cn(
-                    "text-sm text-muted-foreground animate-pulse",
-                    language === "bn" && "font-bengali"
-                  )}>
-                    {formatTimeRemaining(timeRemaining, language)}
-                  </p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {/* Current Running Prayer */}
+                {currentPrayer && (
+                  <div className="sm:border-r sm:pr-4 border-primary/20">
+                    <p className={cn(
+                      "text-xs text-muted-foreground mb-1",
+                      language === "bn" && "font-bengali"
+                    )}>
+                      {language === 'bn' ? 'চলমান নামাজ' : 'Current Prayer'}
+                    </p>
+                    <div className="flex items-center gap-2">
+                      <h2 className={cn(
+                        "text-lg font-bold text-emerald-600 dark:text-emerald-400",
+                        language === "bn" && "font-bengali"
+                      )}>
+                        {language === 'bn' ? currentPrayer.nameBn : currentPrayer.name}
+                      </h2>
+                      <span className="text-base text-emerald-600 dark:text-emerald-400" dir="rtl">
+                        {currentPrayer.nameAr}
+                      </span>
+                    </div>
+                    <p className="text-sm text-muted-foreground">
+                      {formatTimeDisplay(currentPrayer.time, language)} - {formatTimeDisplay(currentPrayer.endTime, language)}
+                    </p>
+                  </div>
+                )}
+                
+                {/* Next Prayer */}
+                {nextPrayer && (
+                  <div>
+                    <p className={cn(
+                      "text-xs text-muted-foreground mb-1",
+                      language === "bn" && "font-bengali"
+                    )}>
+                      {nextPrayerLabel[language]}
+                    </p>
+                    <div className="flex items-center gap-2">
+                      <h2 className={cn(
+                        "text-lg font-bold text-primary",
+                        language === "bn" && "font-bengali"
+                      )}>
+                        {language === 'bn' ? nextPrayer.nameBn : nextPrayer.name}
+                      </h2>
+                      <span className="text-base text-primary" dir="rtl">
+                        {nextPrayer.nameAr}
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <p className="text-sm font-medium text-foreground">
+                        {formatTimeDisplay(nextPrayer.time, language)}
+                      </p>
+                      {timeRemaining && (
+                        <p className={cn(
+                          "text-xs text-muted-foreground animate-pulse",
+                          language === "bn" && "font-bengali"
+                        )}>
+                          {formatTimeRemaining(timeRemaining, language)}
+                        </p>
+                      )}
+                    </div>
+                  </div>
                 )}
               </div>
             </CardContent>
