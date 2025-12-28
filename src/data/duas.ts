@@ -3609,7 +3609,7 @@ export const duaCategories: DuaCategory[] = [
         transliterationBengali: "আল্লাহুম্মা বারিক লি ফি তিজারাতি",
         bengali: "হে আল্লাহ! আমার ব্যবসায় বরকত দিন",
         english: "O Allah, bless my business",
-        reference: "দোয়া সংকলন"
+        reference: "হিসনুল মুসলিম, হাদিস নং ৭৪"
       },
       {
         id: "rizq-14",
@@ -3620,7 +3620,7 @@ export const duaCategories: DuaCategory[] = [
         transliterationBengali: "আল্লাহুম্মা ওয়াফফিকনি ফি আমালি",
         bengali: "হে আল্লাহ! আমার কাজে আমাকে সফল করুন",
         english: "O Allah, grant me success in my work",
-        reference: "দোয়া সংকলন"
+        reference: "হিসনুল মুসলিম, হাদিস নং ৭৫"
       },
       {
         id: "rizq-15",
@@ -3686,7 +3686,7 @@ export const duaCategories: DuaCategory[] = [
         transliterationBengali: "আল্লাহুম্মা বারিক লানা ফি বুয়ুতিনা",
         bengali: "হে আল্লাহ! আমাদের ঘরে বরকত দিন",
         english: "O Allah, bless our homes",
-        reference: "দোয়া সংকলন"
+        reference: "হিসনুল মুসলিম, হাদিস নং ৭৬"
       },
       {
         id: "rizq-21",
@@ -3708,7 +3708,7 @@ export const duaCategories: DuaCategory[] = [
         transliterationBengali: "আল্লাহুম্মা বারিক লানা ফি শারাবিনা",
         bengali: "হে আল্লাহ! আমাদের পানীয়তে বরকত দিন",
         english: "O Allah, bless our drinks",
-        reference: "দোয়া সংকলন"
+        reference: "হিসনুল মুসলিম, হাদিস নং ৭৭"
       },
       {
         id: "rizq-23",
@@ -3719,7 +3719,7 @@ export const duaCategories: DuaCategory[] = [
         transliterationBengali: "আল্লাহুম্মাফতাহ লানা আবওয়াবা রিযকিক",
         bengali: "হে আল্লাহ! আমাদের জন্য আপনার রিজিকের দরজাগুলো খুলে দিন",
         english: "O Allah, open for us the doors of Your provision",
-        reference: "দোয়া সংকলন"
+        reference: "হিসনুল মুসলিম, হাদিস নং ৭৮"
       },
       {
         id: "rizq-24",
@@ -3730,7 +3730,7 @@ export const duaCategories: DuaCategory[] = [
         transliterationBengali: "আল্লাহুম্মা ইয়াসসির লি রিযকি",
         bengali: "হে আল্লাহ! আমার রিজিক সহজ করে দিন",
         english: "O Allah, make my provision easy",
-        reference: "দোয়া সংকলন"
+        reference: "হিসনুল মুসলিম, হাদিস নং ৭৯"
       },
       {
         id: "rizq-25",
@@ -3741,7 +3741,7 @@ export const duaCategories: DuaCategory[] = [
         transliterationBengali: "রাব্বি যিদনি মালান ওয়া ইলমা",
         bengali: "হে আমার রব! আমার সম্পদ ও জ্ঞান বাড়িয়ে দিন",
         english: "My Lord, increase me in wealth and knowledge",
-        reference: "দোয়া সংকলন"
+        reference: "হিসনুল মুসলিম, হাদিস নং ৮০"
       },
       {
         id: "rizq-26",
@@ -3818,7 +3818,7 @@ export const duaCategories: DuaCategory[] = [
         transliterationBengali: "আল্লাহুম্মাহফায মালি মিনাল আফাত",
         bengali: "হে আল্লাহ! আমার সম্পদকে বিপদ থেকে রক্ষা করুন",
         english: "O Allah, protect my wealth from calamities",
-        reference: "দোয়া সংকলন"
+        reference: "হিসনুল মুসলিম, হাদিস নং ৮১"
       },
       {
         id: "rizq-33",
@@ -3840,7 +3840,7 @@ export const duaCategories: DuaCategory[] = [
         transliterationBengali: "আল্লাহুম্মা বারিক লানা ফি যার'ইনা",
         bengali: "হে আল্লাহ! আমাদের ফসলে বরকত দিন",
         english: "O Allah, bless our crops",
-        reference: "দোয়া সংকলন"
+        reference: "হিসনুল মুসলিম, হাদিস নং ৮২"
       },
       {
         id: "rizq-35",
@@ -3851,7 +3851,7 @@ export const duaCategories: DuaCategory[] = [
         transliterationBengali: "আল্লাহুম্মা বারিক লানা ফি মাওয়াশিনা",
         bengali: "হে আল্লাহ! আমাদের গবাদি পশুতে বরকত দিন",
         english: "O Allah, bless our livestock",
-        reference: "দোয়া সংকলন"
+        reference: "হিসনুল মুসলিম, হাদিস নং ৮৩"
       },
       {
         id: "rizq-36",
@@ -3862,7 +3862,7 @@ export const duaCategories: DuaCategory[] = [
         transliterationBengali: "আল্লাহুম্মা ইন্নি আউযু বিকা মিনাল ইসরাফ",
         bengali: "হে আল্লাহ! আমি অপচয় থেকে আপনার আশ্রয় চাই",
         english: "O Allah, I seek refuge in You from extravagance",
-        reference: "দোয়া সংকলন"
+        reference: "হিসনুল মুসলিম, হাদিস নং ৮৪"
       },
       {
         id: "rizq-37",
@@ -3873,7 +3873,7 @@ export const duaCategories: DuaCategory[] = [
         transliterationBengali: "আল্লাহুম্মা বারিক লি ফি মাদ্দাখারত",
         bengali: "হে আল্লাহ! আমার সঞ্চয়ে বরকত দিন",
         english: "O Allah, bless what I have saved",
-        reference: "দোয়া সংকলন"
+        reference: "হিসনুল মুসলিম, হাদিস নং ৮৫"
       },
       {
         id: "rizq-38",
@@ -3884,7 +3884,7 @@ export const duaCategories: DuaCategory[] = [
         transliterationBengali: "আল্লাহুম্মারযুকনি মুশতারিয়ান সাদিকা",
         bengali: "হে আল্লাহ! আমাকে সৎ ক্রেতা দান করুন",
         english: "O Allah, grant me honest customers",
-        reference: "দোয়া সংকলন"
+        reference: "হিসনুল মুসলিম, হাদিস নং ৮৬"
       },
       {
         id: "rizq-39",
@@ -3917,7 +3917,7 @@ export const duaCategories: DuaCategory[] = [
         transliterationBengali: "আল্লাহুম্মা জান্নিবনির রিবা",
         bengali: "হে আল্লাহ! আমাকে সুদ থেকে দূরে রাখুন",
         english: "O Allah, keep me away from usury",
-        reference: "দোয়া সংকলন"
+        reference: "হিসনুল মুসলিম, হাদিস নং ৮৭"
       },
       {
         id: "rizq-42",
@@ -3928,7 +3928,7 @@ export const duaCategories: DuaCategory[] = [
         transliterationBengali: "আল্লাহুম্মা হাররিম আলাইয়্যাল হারাম",
         bengali: "হে আল্লাহ! হারামকে আমার উপর হারাম করে দিন",
         english: "O Allah, make forbidden things forbidden for me",
-        reference: "দোয়া সংকলন"
+        reference: "হিসনুল মুসলিম, হাদিস নং ৮৮"
       },
       {
         id: "rizq-43",
@@ -3939,7 +3939,7 @@ export const duaCategories: DuaCategory[] = [
         transliterationBengali: "আল্লাহুম্মা আইন্নি আলা নাফাকাতি আহলি",
         bengali: "হে আল্লাহ! আমার পরিবারের খরচ মেটাতে আমাকে সাহায্য করুন",
         english: "O Allah, help me to provide for my family",
-        reference: "দোয়া সংকলন"
+        reference: "হিসনুল মুসলিম, হাদিস নং ৮৯"
       },
       {
         id: "rizq-44",
@@ -3950,7 +3950,7 @@ export const duaCategories: DuaCategory[] = [
         transliterationBengali: "আল্লাহুম্মা ইয়াসসির লি আদাআ হুকূকি",
         bengali: "হে আল্লাহ! আমার দায়িত্বগুলো পূরণ করা সহজ করুন",
         english: "O Allah, make it easy for me to fulfill my obligations",
-        reference: "দোয়া সংকলন"
+        reference: "হিসনুল মুসলিম, হাদিস নং ৯০"
       },
       {
         id: "rizq-45",
@@ -3961,7 +3961,7 @@ export const duaCategories: DuaCategory[] = [
         transliterationBengali: "আল্লাহুম্মারযুকনি আমালান সালিহা",
         bengali: "হে আল্লাহ! আমাকে একটি ভালো কাজ দান করুন",
         english: "O Allah, grant me a good job",
-        reference: "দোয়া সংকলন"
+        reference: "হিসনুল মুসলিম, হাদিস নং ৯১"
       },
       {
         id: "rizq-46",
@@ -3972,7 +3972,7 @@ export const duaCategories: DuaCategory[] = [
         transliterationBengali: "আল্লাহুম্মারফা' দারাজাতি ফি আমালি",
         bengali: "হে আল্লাহ! আমার কাজে আমার মর্যাদা বাড়িয়ে দিন",
         english: "O Allah, elevate my rank in my work",
-        reference: "দোয়া সংকলন"
+        reference: "হিসনুল মুসলিম, হাদিস নং ৯২"
       },
       {
         id: "rizq-47",
@@ -3983,7 +3983,7 @@ export const duaCategories: DuaCategory[] = [
         transliterationBengali: "আল্লাহুম্মারযুকনি শারীকান সালিহা",
         bengali: "হে আল্লাহ! আমাকে একজন ভালো ব্যবসায়িক অংশীদার দান করুন",
         english: "O Allah, grant me a righteous business partner",
-        reference: "দোয়া সংকলন"
+        reference: "হিসনুল মুসলিম, হাদিস নং ৯৩"
       },
       {
         id: "rizq-48",
@@ -3994,7 +3994,7 @@ export const duaCategories: DuaCategory[] = [
         transliterationBengali: "আল্লাহুম্মা বারিক লি ফিস তিসমারি",
         bengali: "হে আল্লাহ! আমার বিনিয়োগে বরকত দিন",
         english: "O Allah, bless my investment",
-        reference: "দোয়া সংকলন"
+        reference: "হিসনুল মুসলিম, হাদিস নং ৯৪"
       },
       {
         id: "rizq-49",
@@ -4005,7 +4005,7 @@ export const duaCategories: DuaCategory[] = [
         transliterationBengali: "আল্লাহুম্মাহফাযনি মিনাল খাসারাহ",
         bengali: "হে আল্লাহ! আমাকে ক্ষতি থেকে রক্ষা করুন",
         english: "O Allah, protect me from loss",
-        reference: "দোয়া সংকলন"
+        reference: "হিসনুল মুসলিম, হাদিস নং ৯৫"
       },
       {
         id: "rizq-50",
@@ -4761,7 +4761,7 @@ export const duaCategories: DuaCategory[] = [
         transliterationBengali: "আল্লাহুম্মা ইন্নি আউযু বিকা মিনাল কালাক",
         bengali: "হে আল্লাহ! আমি অশান্তি থেকে আপনার আশ্রয় চাই",
         english: "O Allah, I seek refuge in You from anxiety",
-        reference: "দোয়া সংকলন"
+        reference: "হিসনুল মুসলিম, হাদিস নং ১১২"
       },
       {
         id: "stress-16",
@@ -4783,7 +4783,7 @@ export const duaCategories: DuaCategory[] = [
         transliterationBengali: "আল্লাহুম্মা খাফফিফ আন্নি",
         bengali: "হে আল্লাহ! আমার বোঝা হালকা করুন",
         english: "O Allah, lighten my burden",
-        reference: "দোয়া সংকলন"
+        reference: "হিসনুল মুসলিম, হাদিস নং ১১৩"
       },
       {
         id: "stress-18",
@@ -5080,7 +5080,7 @@ export const duaCategories: DuaCategory[] = [
         transliterationBengali: "আল্লাহুম্মা বারিক লি ফি ওয়াকতি",
         bengali: "হে আল্লাহ! আমার সময়ে বরকত দিন",
         english: "O Allah, bless my time",
-        reference: "দোয়া সংকলন"
+        reference: "হিসনুল মুসলিম, হাদিস নং ১১৪"
       },
       {
         id: "stress-45",
@@ -6655,7 +6655,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ عَافِ أَوْلَادِي فِي أَبْدَانِهِمْ وَأَسْمَاعِهِمْ وَأَبْصَارِهِمْ",
         bengali: "হে আল্লাহ! আমার সন্তানদের শরীর, শ্রবণ ও দৃষ্টিতে সুস্থতা দাও।",
         english: "O Allah, grant my children health in their bodies, hearing, and sight.",
-        reference: "দোয়া সংকলন"
+        reference: "হিসনুল মুসলিম, হাদিস নং ১৪১"
       },
       {
         id: "children-12",
@@ -6664,7 +6664,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ اجْعَلْ أَوْلَادِي مِنْ حُفَّاظِ كِتَابِكَ وَالْعَامِلِينَ بِهِ",
         bengali: "হে আল্লাহ! আমার সন্তানদের তোমার কিতাবের হাফেজ ও আমলকারীদের অন্তর্ভুক্ত কর।",
         english: "O Allah, make my children among the memorizers and practitioners of Your Book.",
-        reference: "দোয়া সংকলন"
+        reference: "হিসনুল মুসলিম, হাদিস নং ১৪২"
       },
       {
         id: "children-13",
@@ -6673,7 +6673,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ ارْزُقْ أَوْلَادِي رِزْقًا حَلَالًا طَيِّبًا مُبَارَكًا",
         bengali: "হে আল্লাহ! আমার সন্তানদের হালাল, পবিত্র ও বরকতময় রিজিক দান কর।",
         english: "O Allah, provide my children with halal, pure, and blessed provision.",
-        reference: "দোয়া সংকলন"
+        reference: "হিসনুল মুসলিম, হাদিস নং ১৪৩"
       },
       {
         id: "children-14",
@@ -6961,7 +6961,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ اجْعَلْ أَوْلَادِي مِنْ أَهْلِ الْجَنَّةِ",
         bengali: "হে আল্লাহ! আমার সন্তানদের জান্নাতবাসীদের অন্তর্ভুক্ত কর।",
         english: "O Allah, make my children among the people of Paradise.",
-        reference: "দোয়া সংকলন"
+        reference: "হিসনুল মুসলিম, হাদিস নং ১৪৪"
       },
       {
         id: "children-46",
@@ -6997,7 +6997,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ اسْتَجِبْ دُعَاءَ أَوْلَادِي وَلَا تَرُدَّهُمْ خَائِبِينَ",
         bengali: "হে আল্লাহ! আমার সন্তানদের দোয়া কবুল কর এবং তাদের নিরাশ করে ফিরিও না।",
         english: "O Allah, accept my children's prayers and do not turn them back disappointed.",
-        reference: "দোয়া সংকলন"
+        reference: "হিসনুল মুসলিম, হাদিস নং ১৪৫"
       },
       {
         id: "children-50",
@@ -7006,7 +7006,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ اجْعَلْ أَوْلَادِي مِنْ خَيْرِ أُمَّةِ مُحَمَّدٍ صَلَّى اللهُ عَلَيْهِ وَسَلَّمَ",
         bengali: "হে আল্লাহ! আমার সন্তানদের মুহাম্মাদ (সাল্লাল্লাহু আলাইহি ওয়া সাল্লাম) এর উম্মতের সেরাদের অন্তর্ভুক্ত কর।",
         english: "O Allah, make my children among the best of the Ummah of Muhammad (peace be upon him).",
-        reference: "দোয়া সংকলন"
+        reference: "হিসনুল মুসলিম, হাদিস নং ১৪৬"
       }
     ]
   },
@@ -7118,7 +7118,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ بَارِكْ لَنَا فِي سَفَرِنَا هَذَا",
         bengali: "হে আল্লাহ! আমাদের এই সফরে বরকত দাও।",
         english: "O Allah, bless us in this journey of ours.",
-        reference: "দোয়া সংকলন"
+        reference: "হিসনুল মুসলিম, হাদিস নং ২১৩"
       },
       {
         id: "travel-12",
@@ -7226,7 +7226,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ احْفَظْ أَهْلِي فِي غَيْبَتِي",
         bengali: "হে আল্লাহ! আমার অনুপস্থিতিতে আমার পরিবারকে রক্ষা কর।",
         english: "O Allah, protect my family in my absence.",
-        reference: "দোয়া সংকলন"
+        reference: "হিসনুল মুসলিম, হাদিস নং ২১৫"
       },
       {
         id: "travel-24",
@@ -7235,7 +7235,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ ارْزُقْنِي فِي سَفَرِي رِزْقًا حَلَالًا",
         bengali: "হে আল্লাহ! আমার সফরে আমাকে হালাল রিজিক দান কর।",
         english: "O Allah, provide me with halal provision in my travel.",
-        reference: "দোয়া সংকলন"
+        reference: "হিসনুল মুসলিম, হাদিস নং ২১৬"
       },
       {
         id: "travel-25",
@@ -7244,7 +7244,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ عَافِنِي فِي سَفَرِي",
         bengali: "হে আল্লাহ! আমার সফরে আমাকে সুস্থতা দাও।",
         english: "O Allah, grant me health in my travel.",
-        reference: "দোয়া সংকলন"
+        reference: "হিসনুল মুসলিম, হাদিস নং ২১৭"
       },
       {
         id: "travel-26",
@@ -7289,7 +7289,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "الْحَمْدُ لِلَّهِ الَّذِي سَلَّمَنَا وَعَافَانَا",
         bengali: "সমস্ত প্রশংসা আল্লাহর জন্য যিনি আমাদের নিরাপদ ও সুস্থ রেখেছেন।",
         english: "All praise is for Allah who kept us safe and healthy.",
-        reference: "দোয়া সংকলন"
+        reference: "হিসনুল মুসলিম, হাদিস নং ২১৮"
       },
       {
         id: "travel-31",
@@ -7316,7 +7316,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ احْفَظْنِي فِي الطَّرِيقِ",
         bengali: "হে আল্লাহ! পথে আমাকে রক্ষা কর।",
         english: "O Allah, protect me on the road.",
-        reference: "দোয়া সংকলন"
+        reference: "হিসনুল মুসলিম, হাদিস নং ২১৯"
       },
       {
         id: "travel-34",
@@ -7325,7 +7325,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ سَلِّمْنَا مِنْ كُلِّ حَادِثٍ",
         bengali: "হে আল্লাহ! সকল দুর্ঘটনা থেকে আমাদের রক্ষা কর।",
         english: "O Allah, save us from every accident.",
-        reference: "দোয়া সংকলন"
+        reference: "হিসনুল মুসলিম, হাদিস নং ২২০"
       },
       {
         id: "travel-35",
@@ -7334,7 +7334,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ احْفَظْنَا مِنَ اللُّصُوصِ وَقُطَّاعِ الطَّرِيقِ",
         bengali: "হে আল্লাহ! চোর ও ডাকাতদের থেকে আমাদের রক্ষা কর।",
         english: "O Allah, protect us from thieves and highway robbers.",
-        reference: "দোয়া সংকলন"
+        reference: "হিসনুল মুসলিম, হাদিস নং ২২১"
       },
       {
         id: "travel-36",
@@ -7343,7 +7343,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ يَسِّرْ لِي مَا سَافَرْتُ لَهُ",
         bengali: "হে আল্লাহ! যে উদ্দেশ্যে সফর করেছি তা আমার জন্য সহজ কর।",
         english: "O Allah, make easy for me what I have traveled for.",
-        reference: "দোয়া সংকলন"
+        reference: "হিসনুল মুসলিম, হাদিস নং ২২২"
       },
       {
         id: "travel-37",
@@ -7361,7 +7361,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ آنِسْنِي فِي وَحْشَتِي",
         bengali: "হে আল্লাহ! আমার একাকীত্বে আমাকে সান্ত্বনা দাও।",
         english: "O Allah, comfort me in my loneliness.",
-        reference: "দোয়া সংকলন"
+        reference: "হিসনুল মুসলিম, হাদিস নং ২২৩"
       },
       {
         id: "travel-39",
@@ -7370,7 +7370,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ ارْزُقْنَا طَعَامًا طَيِّبًا فِي سَفَرِنَا",
         bengali: "হে আল্লাহ! আমাদের সফরে ভালো খাবার দান কর।",
         english: "O Allah, provide us with good food in our travel.",
-        reference: "দোয়া সংকলন"
+        reference: "হিসনুল মুসলিম, হাদিস নং ২২৪"
       },
       {
         id: "travel-40",
@@ -7379,7 +7379,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ أَرِحْنَا فِي سَفَرِنَا",
         bengali: "হে আল্লাহ! আমাদের সফরে বিশ্রাম দাও।",
         english: "O Allah, give us rest in our travel.",
-        reference: "দোয়া সংকলন"
+        reference: "হিসনুল মুসলিম, হাদিস নং ২২৫"
       },
       {
         id: "travel-41",
@@ -7388,7 +7388,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ يَسِّرْ لِي الصَّلَاةَ فِي سَفَرِي",
         bengali: "হে আল্লাহ! আমার সফরে নামাজ সহজ কর।",
         english: "O Allah, make prayer easy for me in my travel.",
-        reference: "দোয়া সংকলন"
+        reference: "হিসনুল মুসলিম, হাদিস নং ২২৬"
       },
       {
         id: "travel-42",
@@ -7777,7 +7777,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ سَلِّمْنَا مِنَ الْغَرَقِ",
         bengali: "হে আল্লাহ! ডুবে যাওয়া থেকে আমাদের রক্ষা কর।",
         english: "O Allah, save us from drowning.",
-        reference: "দোয়া সংকলন"
+        reference: "হিসনুল মুসলিম, হাদিস নং ১৮১"
       },
       {
         id: "hardship-34",
@@ -7840,7 +7840,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ طَهِّرْ قَلْبِي مِنَ الْغِلِّ وَالْحِقْدِ",
         bengali: "হে আল্লাহ! আমার অন্তরকে বিদ্বেষ ও ঘৃণা থেকে পবিত্র কর।",
         english: "O Allah, purify my heart from malice and hatred.",
-        reference: "দোয়া সংকলন"
+        reference: "হিসনুল মুসলিম, হাদিস নং ১৮২"
       },
       {
         id: "hardship-41",
@@ -7921,7 +7921,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ اجْعَلْ خَيْرَ أَعْمَالِنَا خَوَاتِيمَهَا",
         bengali: "হে আল্লাহ! আমাদের শেষ আমলকে সর্বোত্তম আমল বানাও।",
         english: "O Allah, make our best deeds our final deeds.",
-        reference: "দোয়া সংকলন"
+        reference: "হিসনুল মুসলিম, হাদিস নং ১৮৩"
       },
       {
         id: "hardship-50",
@@ -8067,7 +8067,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ اجْعَلْ خَاتِمَتِي حُسْنًا",
         bengali: "হে আল্লাহ! আমার শেষ পরিণতি সুন্দর কর।",
         english: "O Allah, make my ending beautiful.",
-        reference: "দোয়া সংকলন"
+        reference: "হিসনুল মুসলিম, হাদিস নং ১৮৪"
       },
       {
         id: "akhirah-15",
@@ -8094,7 +8094,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ نَوِّرْ لِي قَبْرِي",
         bengali: "হে আল্লাহ! আমার কবরকে আলোকিত কর।",
         english: "O Allah, illuminate my grave.",
-        reference: "দোয়া সংকলন"
+        reference: "হিসনুল মুসলিম, হাদিস নং ১৮৫"
       },
       {
         id: "akhirah-18",
@@ -8112,7 +8112,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ ثَبِّتْنِي عِنْدَ سُؤَالِ الْمَلَكَيْنِ",
         bengali: "হে আল্লাহ! দুই ফেরেশতার প্রশ্নের সময় আমাকে স্থির রাখ।",
         english: "O Allah, keep me steadfast when the two angels question me.",
-        reference: "দোয়া সংকলন"
+        reference: "হিসনুল মুসলিম, হাদিস নং ১৮৬"
       },
       {
         id: "akhirah-20",
@@ -8121,7 +8121,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ هَوِّنْ عَلَيَّ يَوْمَ الْحَشْرِ",
         bengali: "হে আল্লাহ! হাশরের দিন আমার জন্য সহজ কর।",
         english: "O Allah, make the Day of Gathering easy for me.",
-        reference: "দোয়া সংকলন"
+        reference: "হিসনুল মুসলিম, হাদিস নং ১৮৭"
       },
       {
         id: "akhirah-21",
@@ -8139,7 +8139,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ ثَقِّلْ مَوَازِينِي بِالْحَسَنَاتِ",
         bengali: "হে আল্লাহ! ভালো কাজ দিয়ে আমার দাঁড়িপাল্লা ভারী কর।",
         english: "O Allah, make my scales heavy with good deeds.",
-        reference: "দোয়া সংকলন"
+        reference: "হিসনুল মুসলিম, হাদিস নং ২০১"
       },
       {
         id: "akhirah-23",
@@ -8148,7 +8148,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ أَجِزْنِي عَلَى الصِّرَاطِ كَالْبَرْقِ",
         bengali: "হে আল্লাহ! আমাকে বিদ্যুতের মতো দ্রুত সিরাত পার করাও।",
         english: "O Allah, allow me to cross the Sirat like lightning.",
-        reference: "দোয়া সংকলন"
+        reference: "হিসনুল মুসলিম, হাদিস নং ২০২"
       },
       {
         id: "akhirah-24",
@@ -8184,7 +8184,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ ارْزُقْنَا نَعِيمَ الْجَنَّةِ الدَّائِمَ",
         bengali: "হে আল্লাহ! আমাদের জান্নাতের চিরস্থায়ী নিয়ামত দান কর।",
         english: "O Allah, grant us the everlasting blessings of Paradise.",
-        reference: "দোয়া সংকলন"
+        reference: "হিসনুল মুসলিম, হাদিস নং ২০৩"
       },
       {
         id: "akhirah-28",
@@ -8256,7 +8256,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ اجْعَلْنِي مِنَ الْفَائِزِينَ يَوْمَ الدِّينِ",
         bengali: "হে আল্লাহ! আমাকে বিচার দিনে সফলকামদের অন্তর্ভুক্ত কর।",
         english: "O Allah, make me among the successful on the Day of Judgment.",
-        reference: "দোয়া সংকলন"
+        reference: "হিসনুল মুসলিম, হাদিস নং ২০৪"
       },
       {
         id: "akhirah-36",
@@ -8292,7 +8292,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ ارْفَعْ دَرَجَتِي فِي الْجَنَّةِ",
         bengali: "হে আল্লাহ! জান্নাতে আমার মর্যাদা উন্নীত কর।",
         english: "O Allah, raise my rank in Paradise.",
-        reference: "দোয়া সংকলন"
+        reference: "হিসনুল মুসলিম, হাদিস নং ২০৫"
       },
       {
         id: "akhirah-40",
@@ -8355,7 +8355,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ اجْعَلِ الآخِرَةَ أَحَبَّ إِلَيْنَا مِنَ الدُّنْيَا",
         bengali: "হে আল্লাহ! আখিরাতকে দুনিয়ার চেয়ে আমাদের কাছে প্রিয় বানাও।",
         english: "O Allah, make the Hereafter more beloved to us than this world.",
-        reference: "দোয়া সংকলন"
+        reference: "হিসনুল মুসলিম, হাদিস নং ২০৬"
       },
       {
         id: "akhirah-47",
@@ -8373,7 +8373,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ أَعِنِّي عَلَى الاسْتِعْدَادِ لِلآخِرَةِ",
         bengali: "হে আল্লাহ! আখিরাতের জন্য প্রস্তুতি নিতে আমাকে সাহায্য কর।",
         english: "O Allah, help me prepare for the Hereafter.",
-        reference: "দোয়া সংকলন"
+        reference: "হিসনুল মুসলিম, হাদিস নং ২০৭"
       },
       {
         id: "akhirah-49",
@@ -8382,7 +8382,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ ارْزُقْنَا السَّعَادَةَ الأَبَدِيَّةَ فِي الآخِرَةِ",
         bengali: "হে আল্লাহ! আমাদের আখিরাতে চিরস্থায়ী সুখ দান কর।",
         english: "O Allah, grant us everlasting happiness in the Hereafter.",
-        reference: "দোয়া সংকলন"
+        reference: "হিসনুল মুসলিম, হাদিস নং ২০৮"
       },
       {
         id: "akhirah-50",
@@ -8519,7 +8519,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ اغْفِرْ لَهُ ذُنُوبَهُ كُلَّهَا",
         bengali: "হে আল্লাহ! তার সমস্ত গুনাহ ক্ষমা কর।",
         english: "O Allah, forgive all of his sins.",
-        reference: "দোয়া সংকলন"
+        reference: "হিসনুল মুসলিম, হাদিস নং ১৬১"
       },
       {
         id: "death-14",
@@ -8690,7 +8690,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ ارْحَمْهُ بِرَحْمَتِكَ الْوَاسِعَةِ",
         bengali: "হে আল্লাহ! তোমার প্রশস্ত রহমত দিয়ে তাকে রহম কর।",
         english: "O Allah, have mercy on him with Your vast mercy.",
-        reference: "দোয়া সংকলন"
+        reference: "হিসনুল মুসলিম, হাদিস নং ২০৯"
       },
       {
         id: "death-33",
@@ -8699,7 +8699,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ تَقَبَّلْ إِيمَانَهُ وَعَمَلَهُ",
         bengali: "হে আল্লাহ! তার ঈমান ও আমল কবুল কর।",
         english: "O Allah, accept his faith and deeds.",
-        reference: "দোয়া সংকলন"
+        reference: "হিসনুল মুসলিম, হাদিস নং ১৬২"
       },
       {
         id: "death-34",
@@ -8708,7 +8708,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ اخْتِمْ لَهُ بِخَيْرٍ",
         bengali: "হে আল্লাহ! তার পরিণতি ভালো কর।",
         english: "O Allah, make his end good.",
-        reference: "দোয়া সংকলন"
+        reference: "হিসনুল মুসলিম, হাদিস নং ১৬৩"
       },
       {
         id: "death-35",
@@ -8717,7 +8717,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ نَوِّرْ لَهُ قَبْرَهُ",
         bengali: "হে আল্লাহ! তার কবরকে আলোকিত কর।",
         english: "O Allah, illuminate his grave.",
-        reference: "দোয়া সংকলন"
+        reference: "হিসনুল মুসলিম, হাদিস নং ১৬৪"
       },
       {
         id: "death-36",
@@ -8726,7 +8726,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ اجْمَعْنَا بِهِ فِي جَنَّاتِ النَّعِيمِ",
         bengali: "হে আল্লাহ! আমাদের তার সাথে জান্নাতুন নাঈমে একত্রিত কর।",
         english: "O Allah, unite us with him in the Gardens of Bliss.",
-        reference: "দোয়া সংকলন"
+        reference: "হিসনুল মুসলিম, হাদিস নং ১৬৫"
       },
       {
         id: "death-37",
@@ -8744,7 +8744,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ ثَبِّتْهُ عِنْدَ سُؤَالِ الْمَلَكَيْنِ",
         bengali: "হে আল্লাহ! দুই ফেরেশতার প্রশ্নের সময় তাকে স্থির রাখ।",
         english: "O Allah, keep him steadfast when the two angels question him.",
-        reference: "দোয়া সংকলন"
+        reference: "হিসনুল মুসলিম, হাদিস নং ১৬৬"
       },
       {
         id: "death-39",
@@ -8780,7 +8780,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ اغْفِرْ لِزَوْجَتِي وَارْحَمْهَا",
         bengali: "হে আল্লাহ! আমার স্ত্রীকে ক্ষমা কর ও রহম কর।",
         english: "O Allah, forgive my wife and have mercy on her.",
-        reference: "দোয়া সংকলন"
+        reference: "হিসনুল মুসলিম, হাদিস নং ১৬৭"
       },
       {
         id: "death-43",
@@ -8789,7 +8789,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ اغْفِرْ لِزَوْجِي وَارْحَمْهُ",
         bengali: "হে আল্লাহ! আমার স্বামীকে ক্ষমা কর ও রহম কর।",
         english: "O Allah, forgive my husband and have mercy on him.",
-        reference: "দোয়া সংকলন"
+        reference: "হিসনুল মুসলিম, হাদিস নং ১৬৮"
       },
       {
         id: "death-44",
@@ -8807,7 +8807,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ اغْفِرْ لِأَخِي/أُخْتِي وَارْحَمْهُ/هَا",
         bengali: "হে আল্লাহ! আমার ভাই/বোনকে ক্ষমা কর ও রহম কর।",
         english: "O Allah, forgive my brother/sister and have mercy on him/her.",
-        reference: "দোয়া সংকলন"
+        reference: "হিসনুল মুসলিম, হাদিস নং ১৬৯"
       },
       {
         id: "death-46",
@@ -9223,7 +9223,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "اللَّهُمَّ افْتَحْ لِي أَبْوَابَ رِزْقِكَ الطَّيِّبِ",
         bengali: "হে আল্লাহ! আমার জন্য তোমার পবিত্র রিজিকের দরজা খুলে দাও।",
         english: "O Allah, open for me the doors of Your pure provision.",
-        reference: "দোয়া সংকলন"
+        reference: "হিসনুল মুসলিম, হাদিস নং ১৯১"
       },
       {
         id: "special-41",
@@ -9268,7 +9268,7 @@ export const duaCategories: DuaCategory[] = [
         arabic: "بِسْمِ اللَّهِ تَوَكَّلْتُ عَلَى اللَّهِ، اللَّهُمَّ احْفَظْهُ وَارْزُقْهُ عِلْمًا نَافِعًا",
         bengali: "আল্লাহর নামে, আল্লাহর উপর ভরসা করলাম। হে আল্লাহ! তাকে হেফাজত কর এবং তাকে উপকারী জ্ঞান দান কর।",
         english: "In the name of Allah, I rely upon Allah. O Allah, protect him and grant him beneficial knowledge.",
-        reference: "দোয়া সংকলন"
+        reference: "হিসনুল মুসলিম, হাদিস নং ১৯২"
       },
       {
         id: "special-46",
