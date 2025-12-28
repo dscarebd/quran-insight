@@ -441,7 +441,7 @@ const HadithDetail = ({ language, arabicFont }: HadithDetailProps) => {
       </div>
 
       {/* Hadiths List */}
-      <div className="px-4 py-6">
+      <div className="px-4 py-6 pb-32">
         <div className="mx-auto max-w-3xl space-y-4">
           {hadiths.map((hadith) => {
             const key = `${bookSlug}-${hadith.hadith_number}`;
