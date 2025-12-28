@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import { ArrowLeft, Bookmark, BookmarkCheck, Share2, ChevronDown, ChevronUp, Loader2 } from "lucide-react";
 import { cn, formatNumber } from "@/lib/utils";
 import { Language } from "@/types/language";
@@ -60,6 +60,8 @@ const gradeColors: Record<string, string> = {
 
 const HadithDetail = ({ language, arabicFont }: HadithDetailProps) => {
   const { bookSlug } = useParams<{ bookSlug: string }>();
+  const [searchParams] = useSearchParams();
+  const targetHadithNumber = searchParams.get("hadith");
   const navigate = useNavigate();
   const { toast } = useToast();
   const { user } = useAuth();
@@ -74,7 +76,9 @@ const HadithDetail = ({ language, arabicFont }: HadithDetailProps) => {
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(1);
   const [expandedHadiths, setExpandedHadiths] = useState<Set<string>>(new Set());
+  const [highlightedHadith, setHighlightedHadith] = useState<number | null>(null);
   const loadMoreRef = useRef<HTMLDivElement>(null);
+  const hadithRefs = useRef<Map<number, HTMLDivElement>>(new Map());
 
   // Fetch book info
   useEffect(() => {
@@ -180,16 +184,64 @@ const HadithDetail = ({ language, arabicFont }: HadithDetailProps) => {
     }
   }, [bookSlug, language]);
 
+  // Fetch specific hadith if target is provided
+  const fetchTargetHadith = useCallback(async () => {
+    if (!bookSlug || !targetHadithNumber) return null;
+
+    const hadithNum = parseInt(targetHadithNumber, 10);
+    if (isNaN(hadithNum)) return null;
+
+    const translationColumn = language === "bn" ? "bengali" : "english";
+
+    const { data, error } = await supabase
+      .from("hadiths")
+      .select("*")
+      .eq("book_slug", bookSlug)
+      .eq("hadith_number", hadithNum)
+      .not(translationColumn, "is", null)
+      .maybeSingle();
+
+    if (error) {
+      console.error("Error fetching target hadith:", error);
+      return null;
+    }
+
+    return data;
+  }, [bookSlug, targetHadithNumber, language]);
+
   // Initial fetch and refetch when language or chapter changes
   useEffect(() => {
     const init = async () => {
       setIsLoading(true);
       setPage(1);
+
+      // If target hadith is specified, fetch it first
+      if (targetHadithNumber) {
+        const targetHadith = await fetchTargetHadith();
+        if (targetHadith) {
+          // Set the hadith and highlight it
+          setHadiths([targetHadith]);
+          setHighlightedHadith(targetHadith.hadith_number);
+          setExpandedHadiths(new Set([targetHadith.id]));
+          setHasMore(true);
+          setIsLoading(false);
+          
+          // Scroll to the hadith after render
+          setTimeout(() => {
+            const element = hadithRefs.current.get(targetHadith.hadith_number);
+            if (element) {
+              element.scrollIntoView({ behavior: "smooth", block: "start" });
+            }
+          }, 100);
+          return;
+        }
+      }
+
       await fetchHadiths(1, true, selectedChapter);
       setIsLoading(false);
     };
     init();
-  }, [fetchHadiths, language, selectedChapter]);
+  }, [fetchHadiths, fetchTargetHadith, language, selectedChapter, targetHadithNumber]);
 
   // Handle chapter selection
   const handleChapterSelect = (chapterNumber: number | null) => {
@@ -397,11 +449,20 @@ const HadithDetail = ({ language, arabicFont }: HadithDetailProps) => {
             const isExpanded = expandedHadiths.has(hadith.id);
             const translation = language === "bn" ? hadith.bengali : hadith.english;
             const isLong = (translation?.length || 0) > 300;
+            const isHighlighted = highlightedHadith === hadith.hadith_number;
 
             return (
               <div
                 key={hadith.id}
-                className="rounded-xl border border-border bg-card p-4 sm:p-5"
+                ref={(el) => {
+                  if (el) hadithRefs.current.set(hadith.hadith_number, el);
+                }}
+                className={cn(
+                  "rounded-xl border bg-card p-4 sm:p-5 transition-all",
+                  isHighlighted 
+                    ? "border-primary ring-2 ring-primary/20 shadow-lg" 
+                    : "border-border"
+                )}
               >
                 {/* Header */}
                 <div className="flex items-start justify-between gap-3 mb-4">
