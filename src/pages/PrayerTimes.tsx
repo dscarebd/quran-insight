@@ -420,136 +420,141 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
         {/* Location & Settings */}
         <Card className="mb-6">
           <CardContent className="p-4 space-y-4">
-            {/* Row 1: City Selection */}
-            <div>
-              <label className={cn(
-                "text-sm font-medium text-muted-foreground mb-2 block",
-                language === "bn" && "font-bengali"
-              )}>
-                {locationLabel[language]}
-              </label>
-              <Select value={selectedCity} onValueChange={handleCityChange}>
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {Object.keys(cityNames).filter(c => c !== 'custom' || selectedCity === 'custom').map(city => {
-                    const cityData = cityNames[city];
-                    const name = language === 'bn' ? cityData.bn : cityData.en;
-                    const tzDisplay = cityData.tz ? ` (${cityData.tz})` : '';
-                    return (
-                      <SelectItem key={city} value={city}>
-                        {name}{tzDisplay}
-                      </SelectItem>
-                    );
-                  })}
-                </SelectContent>
-              </Select>
-            </div>
-
-            {/* Row 2: Use Location Button */}
-            <Button
-              variant="outline"
-              onClick={getUserLocation}
-              disabled={isLoading}
-              className={cn(
-                "w-full",
-                language === "bn" && "font-bengali"
-              )}
-            >
-              {isLoading ? (
-                <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
-              ) : (
-                <MapPin className="w-4 h-4 mr-2" />
-              )}
-              {useLocationLabel[language]}
-            </Button>
-
-            {/* Row 3: Bangladesh Detailed Location Toggle */}
-            <div className="border-t pt-4">
-              <Button
-                variant={useBangladeshLocation ? "default" : "outline"}
-                onClick={enableBangladeshLocation}
-                className={cn(
-                  "w-full mb-4",
+            {/* Desktop: 3 columns | Mobile: stacked */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
+              {/* City Selection */}
+              <div>
+                <label className={cn(
+                  "text-sm font-medium text-muted-foreground mb-2 block",
                   language === "bn" && "font-bengali"
-                )}
-              >
-                <MapPin className="w-4 h-4 mr-2" />
-                {bdLocationLabel[language]}
-              </Button>
+                )}>
+                  {locationLabel[language]}
+                </label>
+                <Select value={selectedCity} onValueChange={handleCityChange}>
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {Object.keys(cityNames).filter(c => c !== 'custom' || selectedCity === 'custom').map(city => {
+                      const cityData = cityNames[city];
+                      const name = language === 'bn' ? cityData.bn : cityData.en;
+                      const tzDisplay = cityData.tz ? ` (${cityData.tz})` : '';
+                      return (
+                        <SelectItem key={city} value={city}>
+                          {name}{tzDisplay}
+                        </SelectItem>
+                      );
+                    })}
+                  </SelectContent>
+                </Select>
+              </div>
 
-              {/* Bangladesh Cascading Dropdowns */}
-              {useBangladeshLocation && (
-                <div className="space-y-3">
-                  {/* Division */}
-                  <div>
-                    <label className={cn(
-                      "text-sm font-medium text-muted-foreground mb-2 block",
-                      language === "bn" && "font-bengali"
-                    )}>
-                      {divisionLabel[language]}
-                    </label>
-                    <Select value={selectedDivision} onValueChange={handleDivisionChange}>
-                      <SelectTrigger>
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {bangladeshDivisions.map(division => (
-                          <SelectItem key={division.id} value={division.id}>
-                            {language === 'bn' ? division.name_bn : division.name_en}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
+              {/* Use Location Button */}
+              <div className="flex flex-col justify-end">
+                <Button
+                  variant="outline"
+                  onClick={getUserLocation}
+                  disabled={isLoading}
+                  className={cn(
+                    "w-full h-10",
+                    language === "bn" && "font-bengali"
+                  )}
+                >
+                  {isLoading ? (
+                    <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
+                  ) : (
+                    <MapPin className="w-4 h-4 mr-2" />
+                  )}
+                  {useLocationLabel[language]}
+                </Button>
+              </div>
 
-                  {/* District */}
-                  <div>
-                    <label className={cn(
-                      "text-sm font-medium text-muted-foreground mb-2 block",
-                      language === "bn" && "font-bengali"
-                    )}>
-                      {districtLabel[language]}
-                    </label>
-                    <Select value={selectedDistrict} onValueChange={handleDistrictChange}>
-                      <SelectTrigger>
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {getDistricts().map(district => (
-                          <SelectItem key={district.id} value={district.id}>
-                            {language === 'bn' ? district.name_bn : district.name_en}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  {/* Upazila */}
-                  <div>
-                    <label className={cn(
-                      "text-sm font-medium text-muted-foreground mb-2 block",
-                      language === "bn" && "font-bengali"
-                    )}>
-                      {upazilaLabel[language]}
-                    </label>
-                    <Select value={selectedUpazila} onValueChange={setSelectedUpazila}>
-                      <SelectTrigger>
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {getUpazilas().map(upazila => (
-                          <SelectItem key={upazila.id} value={upazila.id}>
-                            {language === 'bn' ? upazila.name_bn : upazila.name_en}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </div>
-              )}
+              {/* Bangladesh Detailed Location Toggle */}
+              <div className="flex flex-col justify-end">
+                <Button
+                  variant={useBangladeshLocation ? "default" : "outline"}
+                  onClick={enableBangladeshLocation}
+                  className={cn(
+                    "w-full h-10",
+                    language === "bn" && "font-bengali"
+                  )}
+                >
+                  <MapPin className="w-4 h-4 mr-2" />
+                  {bdLocationLabel[language]}
+                </Button>
+              </div>
             </div>
+
+            {/* Bangladesh Cascading Dropdowns - Full Width Below */}
+            {useBangladeshLocation && (
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 pt-4 border-t">
+                {/* Division */}
+                <div>
+                  <label className={cn(
+                    "text-sm font-medium text-muted-foreground mb-2 block",
+                    language === "bn" && "font-bengali"
+                  )}>
+                    {divisionLabel[language]}
+                  </label>
+                  <Select value={selectedDivision} onValueChange={handleDivisionChange}>
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {bangladeshDivisions.map(division => (
+                        <SelectItem key={division.id} value={division.id}>
+                          {language === 'bn' ? division.name_bn : division.name_en}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                {/* District */}
+                <div>
+                  <label className={cn(
+                    "text-sm font-medium text-muted-foreground mb-2 block",
+                    language === "bn" && "font-bengali"
+                  )}>
+                    {districtLabel[language]}
+                  </label>
+                  <Select value={selectedDistrict} onValueChange={handleDistrictChange}>
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {getDistricts().map(district => (
+                        <SelectItem key={district.id} value={district.id}>
+                          {language === 'bn' ? district.name_bn : district.name_en}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                {/* Upazila */}
+                <div>
+                  <label className={cn(
+                    "text-sm font-medium text-muted-foreground mb-2 block",
+                    language === "bn" && "font-bengali"
+                  )}>
+                    {upazilaLabel[language]}
+                  </label>
+                  <Select value={selectedUpazila} onValueChange={setSelectedUpazila}>
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {getUpazilas().map(upazila => (
+                        <SelectItem key={upazila.id} value={upazila.id}>
+                          {language === 'bn' ? upazila.name_bn : upazila.name_en}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+            )}
           </CardContent>
         </Card>
 
