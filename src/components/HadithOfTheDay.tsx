@@ -152,7 +152,7 @@ export const HadithOfTheDay = ({ language, arabicFont = "uthmani", compact = fal
   const gradientClass = bookGradients[book.slug] || "from-gray-500/20 to-gray-600/20";
 
   return (
-    <div className="group relative overflow-hidden rounded-xl sm:rounded-2xl border border-border bg-card p-4 sm:p-6 transition-all hover:shadow-elevated">
+    <div className="group relative overflow-hidden rounded-xl sm:rounded-2xl border border-border bg-card p-4 sm:p-6 transition-all duration-300 hover:shadow-elevated hover:-translate-y-1 hover:scale-[1.02]">
       {/* Decorative corner */}
       <div className={cn("absolute -right-8 -top-8 h-24 w-24 rounded-full bg-gradient-to-br blur-2xl", gradientClass)} />
       

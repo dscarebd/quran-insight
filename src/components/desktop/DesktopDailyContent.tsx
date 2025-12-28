@@ -62,7 +62,7 @@ export const DesktopDailyContent = ({ language }: DesktopDailyContentProps) => {
   return (
     <div className="grid gap-4 sm:gap-6 lg:grid-cols-3">
       {/* Daily Verse Card */}
-      <div className="group relative overflow-hidden rounded-xl sm:rounded-2xl border border-border bg-card p-4 sm:p-6 transition-all hover:shadow-elevated">
+      <div className="group relative overflow-hidden rounded-xl sm:rounded-2xl border border-border bg-card p-4 sm:p-6 transition-all duration-300 hover:shadow-elevated hover:-translate-y-1 hover:scale-[1.02]">
         {/* Decorative corner */}
         <div className="absolute -right-8 -top-8 h-24 w-24 rounded-full bg-gradient-to-br from-primary/20 to-transparent blur-2xl" />
         
@@ -107,7 +107,7 @@ export const DesktopDailyContent = ({ language }: DesktopDailyContentProps) => {
 
       {/* Daily Dua Card */}
       {duaData && (
-        <div className="group relative overflow-hidden rounded-xl sm:rounded-2xl border border-border bg-card p-4 sm:p-6 transition-all hover:shadow-elevated">
+        <div className="group relative overflow-hidden rounded-xl sm:rounded-2xl border border-border bg-card p-4 sm:p-6 transition-all duration-300 hover:shadow-elevated hover:-translate-y-1 hover:scale-[1.02]">
           {/* Decorative corner */}
           <div className="absolute -right-8 -top-8 h-24 w-24 rounded-full bg-gradient-to-br from-gold/20 to-transparent blur-2xl" />
           
