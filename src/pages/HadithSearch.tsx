@@ -437,7 +437,7 @@ const HadithSearch = ({ language, arabicFont }: HadithSearchProps) => {
                 return (
                   <button
                     key={result.id}
-                    onClick={() => navigate(`/hadith/${result.book_slug}`)}
+                    onClick={() => navigate(`/hadith/${result.book_slug}?hadith=${result.hadith_number}`)}
                     className="w-full text-left rounded-xl border border-border bg-card p-4 sm:p-5 transition-all hover:shadow-md hover:-translate-y-0.5"
                   >
                     {/* Header */}
