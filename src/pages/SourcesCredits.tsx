@@ -220,13 +220,6 @@ const SourcesCredits = ({ language }: SourcesCreditsProps) => {
       descriptionBn: "অ্যাপ ডেভেলপমেন্ট ও ডিজাইন",
       url: "https://annurdigital.com",
     },
-    {
-      nameEn: "Lovable",
-      nameBn: "লাভেবল",
-      descriptionEn: "AI-powered app development platform",
-      descriptionBn: "এআই-চালিত অ্যাপ ডেভেলপমেন্ট প্ল্যাটফর্ম",
-      url: "https://lovable.dev",
-    },
   ];
 
   const SourceSection = ({ 
