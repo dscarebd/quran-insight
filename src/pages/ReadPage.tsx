@@ -40,6 +40,9 @@ interface ReadPageProps {
 export const FONT_SIZES = [24, 28, 32, 36, 40, 44, 48, 52];
 export const DEFAULT_FONT_INDEX = 2; // 32px default
 
+// In-memory cache for loaded verses (persists across navigation)
+const versesCache = new Map<number, Verse[]>();
+
 const ReadPage = ({
   language,
   readingMode = "normal",
@@ -299,12 +302,19 @@ const ReadPage = ({
     }
   }, [navigate]);
 
-  // Fetch verses for a specific page
+  // Fetch verses for a specific page (with caching)
   const fetchVersesForPage = useCallback(async (pageNum: number): Promise<Verse[]> => {
+    // Check cache first
+    if (versesCache.has(pageNum)) {
+      return versesCache.get(pageNum)!;
+    }
+
     const pageData = getPageByNumber(pageNum);
     if (!pageData) return [];
 
     try {
+      let verses: Verse[] = [];
+      
       if (pageData.startSurah === pageData.endSurah) {
         const { data, error } = await supabase
           .from("verses")
@@ -315,7 +325,7 @@ const ReadPage = ({
           .order("verse_number", { ascending: true });
 
         if (error) throw error;
-        return data || [];
+        verses = data || [];
       } else {
         const { data: allVerses, error } = await supabase
           .from("verses")
@@ -328,7 +338,7 @@ const ReadPage = ({
         if (error) throw error;
 
         if (allVerses) {
-          return allVerses.filter(v => {
+          verses = allVerses.filter(v => {
             if (v.surah_number === pageData.startSurah) {
               return v.verse_number >= pageData.startVerse;
             }
@@ -339,6 +349,10 @@ const ReadPage = ({
           });
         }
       }
+
+      // Store in cache
+      versesCache.set(pageNum, verses);
+      return verses;
     } catch (error) {
       console.error("Error fetching verses for page", pageNum, error);
     }
