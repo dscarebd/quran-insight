@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import { ArrowLeft, Globe, Mail, Code, Heart, ExternalLink } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
@@ -20,6 +20,11 @@ interface DeveloperProps {
 
 const Developer = ({ language }: DeveloperProps) => {
   const navigate = useNavigate();
+
+  // Scroll to top when page loads
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   // Easter egg: 7 clicks on developer logo navigates to admin (no time restriction)
   const clickCountRef = useRef(0);

@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { ArrowLeft, Book, BookOpen, Heart, ExternalLink, Palette, Clock, Calendar, Sparkles, Moon, Code } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
@@ -9,6 +10,11 @@ interface SourcesCreditsProps {
 
 const SourcesCredits = ({ language }: SourcesCreditsProps) => {
   const navigate = useNavigate();
+
+  // Scroll to top when page loads
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const quranSources = [
     {
