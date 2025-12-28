@@ -7,6 +7,13 @@ import { supabase } from "@/integrations/supabase/client";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 
+// Scroll to top when page loads
+const useScrollToTop = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+};
+
 interface HadithListProps {
   language: Language;
 }
@@ -39,6 +46,8 @@ const HadithList = ({ language }: HadithListProps) => {
   const navigate = useNavigate();
   const [books, setBooks] = useState<HadithBook[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  
+  useScrollToTop();
 
   useEffect(() => {
     const fetchBooks = async () => {
@@ -81,13 +90,13 @@ const HadithList = ({ language }: HadithListProps) => {
           <div className="flex items-start justify-between gap-4">
             <div>
               <h1 className={cn(
-                "text-2xl sm:text-3xl font-bold text-foreground mb-2",
+                "text-lg sm:text-xl font-semibold text-foreground mb-1",
                 language === "bn" && "font-bengali"
               )}>
                 {language === "bn" ? "হাদিস সংকলন" : "Hadith Collections"}
               </h1>
               <p className={cn(
-                "text-muted-foreground",
+                "text-sm text-muted-foreground",
                 language === "bn" && "font-bengali"
               )}>
                 {language === "bn" 
