@@ -1,4 +1,4 @@
-import { ArrowLeft, Book, BookOpen, Heart, ExternalLink, Palette } from "lucide-react";
+import { ArrowLeft, Book, BookOpen, Heart, ExternalLink, Palette, Clock, Calendar, Sparkles, Moon, Code } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { Language } from "@/types/language";
@@ -89,6 +89,43 @@ const SourcesCredits = ({ language }: SourcesCreditsProps) => {
     },
   ];
 
+  const prayerTimeSources = [
+    {
+      nameEn: "Islamic Foundation Bangladesh (IFB)",
+      nameBn: "ইসলামিক ফাউন্ডেশন বাংলাদেশ",
+      descriptionEn: "Prayer time calculation method for Bangladesh",
+      descriptionBn: "বাংলাদেশের জন্য নামাজের সময় গণনা পদ্ধতি",
+      url: "https://islamicfoundation.gov.bd",
+    },
+    {
+      nameEn: "PrayTimes.org",
+      nameBn: "প্রেয়টাইমস.অর্গ",
+      descriptionEn: "Prayer time calculation algorithms",
+      descriptionBn: "নামাজের সময় গণনার অ্যালগরিদম",
+      url: "http://praytimes.org",
+    },
+  ];
+
+  const islamicCalendarSources = [
+    {
+      nameEn: "Hijri Calendar API",
+      nameBn: "হিজরি ক্যালেন্ডার এপিআই",
+      descriptionEn: "Islamic date conversion and calendar data",
+      descriptionBn: "ইসলামিক তারিখ রূপান্তর ও ক্যালেন্ডার ডেটা",
+      url: "https://aladhan.com",
+    },
+  ];
+
+  const namesOfAllahSources = [
+    {
+      nameEn: "99 Names of Allah",
+      nameBn: "আল্লাহর ৯৯ নাম",
+      descriptionEn: "Authentic names with meanings and benefits",
+      descriptionBn: "অর্থ ও ফজিলত সহ প্রামাণিক নাম",
+      url: "https://99namesofallah.name",
+    },
+  ];
+
   const fontSources = [
     {
       nameEn: "Amiri Font",
@@ -98,11 +135,18 @@ const SourcesCredits = ({ language }: SourcesCreditsProps) => {
       url: "https://www.amirifont.org",
     },
     {
-      nameEn: "KFGQPC Uthmani Font",
-      nameBn: "কেএফজিকিউপিসি উসমানী ফন্ট",
-      descriptionEn: "Official Uthmani script font",
-      descriptionBn: "অফিসিয়াল উসমানী স্ক্রিপ্ট ফন্ট",
-      url: "https://fonts.qurancomplex.gov.sa",
+      nameEn: "Scheherazade New",
+      nameBn: "শেহেরাজাদ নিউ",
+      descriptionEn: "Arabic font for Quranic text",
+      descriptionBn: "কুরআনিক টেক্সটের জন্য আরবি ফন্ট",
+      url: "https://fonts.google.com/specimen/Scheherazade+New",
+    },
+    {
+      nameEn: "Anek Bangla",
+      nameBn: "অনেক বাংলা",
+      descriptionEn: "Bengali UI and content font",
+      descriptionBn: "বাংলা UI ও কন্টেন্ট ফন্ট",
+      url: "https://fonts.google.com/specimen/Anek+Bangla",
     },
     {
       nameEn: "Lemon Milk Font",
@@ -110,6 +154,44 @@ const SourcesCredits = ({ language }: SourcesCreditsProps) => {
       descriptionEn: "App branding and UI typography",
       descriptionBn: "অ্যাপ ব্র্যান্ডিং ও UI টাইপোগ্রাফি",
       url: "https://www.dafont.com/lemon-milk.font",
+    },
+  ];
+
+  const technologySources = [
+    {
+      nameEn: "React + Vite",
+      nameBn: "রিয়াক্ট + ভাইট",
+      descriptionEn: "Frontend framework and build tool",
+      descriptionBn: "ফ্রন্টএন্ড ফ্রেমওয়ার্ক ও বিল্ড টুল",
+      url: "https://react.dev",
+    },
+    {
+      nameEn: "Tailwind CSS",
+      nameBn: "টেইলউইন্ড সিএসএস",
+      descriptionEn: "Utility-first CSS framework",
+      descriptionBn: "ইউটিলিটি-ফার্স্ট সিএসএস ফ্রেমওয়ার্ক",
+      url: "https://tailwindcss.com",
+    },
+    {
+      nameEn: "Shadcn/UI",
+      nameBn: "শ্যাডসিএন/ইউআই",
+      descriptionEn: "Beautiful UI components",
+      descriptionBn: "সুন্দর UI কম্পোনেন্ট",
+      url: "https://ui.shadcn.com",
+    },
+    {
+      nameEn: "Supabase (Lovable Cloud)",
+      nameBn: "সুপাবেস (লাভেবল ক্লাউড)",
+      descriptionEn: "Backend database and authentication",
+      descriptionBn: "ব্যাকএন্ড ডাটাবেস ও অথেনটিকেশন",
+      url: "https://supabase.com",
+    },
+    {
+      nameEn: "Capacitor",
+      nameBn: "ক্যাপাসিটর",
+      descriptionEn: "Native mobile app framework",
+      descriptionBn: "নেটিভ মোবাইল অ্যাপ ফ্রেমওয়ার্ক",
+      url: "https://capacitorjs.com",
     },
   ];
 
@@ -127,6 +209,23 @@ const SourcesCredits = ({ language }: SourcesCreditsProps) => {
       descriptionEn: "Logo design and creative direction",
       descriptionBn: "লোগো ডিজাইন ও ক্রিয়েটিভ ডিরেকশন",
       url: "https://www.behance.net/addhu",
+    },
+  ];
+
+  const developerCredits = [
+    {
+      nameEn: "An-Nur Digital",
+      nameBn: "আন-নূর ডিজিটাল",
+      descriptionEn: "App development and design",
+      descriptionBn: "অ্যাপ ডেভেলপমেন্ট ও ডিজাইন",
+      url: "https://annurdigital.com",
+    },
+    {
+      nameEn: "Lovable",
+      nameBn: "লাভেবল",
+      descriptionEn: "AI-powered app development platform",
+      descriptionBn: "এআই-চালিত অ্যাপ ডেভেলপমেন্ট প্ল্যাটফর্ম",
+      url: "https://lovable.dev",
     },
   ];
 
@@ -219,12 +318,36 @@ const SourcesCredits = ({ language }: SourcesCreditsProps) => {
             sources={quranSources} 
           />
 
-          {/* Dua Sources */}
+          {/* Dua & Hadith Sources */}
           <SourceSection 
             title="Dua & Hadith Sources" 
             titleBn="দোয়া ও হাদিসের উৎস" 
             icon={BookOpen} 
             sources={[...duaSources, ...hadithSources]} 
+          />
+
+          {/* Prayer Time Sources */}
+          <SourceSection 
+            title="Prayer Time Sources" 
+            titleBn="নামাজের সময়ের উৎস" 
+            icon={Clock} 
+            sources={prayerTimeSources} 
+          />
+
+          {/* Islamic Calendar Sources */}
+          <SourceSection 
+            title="Islamic Calendar" 
+            titleBn="ইসলামিক ক্যালেন্ডার" 
+            icon={Calendar} 
+            sources={islamicCalendarSources} 
+          />
+
+          {/* Names of Allah Sources */}
+          <SourceSection 
+            title="99 Names of Allah" 
+            titleBn="আল্লাহর ৯৯ নাম" 
+            icon={Sparkles} 
+            sources={namesOfAllahSources} 
           />
 
           {/* Font Sources */}
@@ -235,39 +358,29 @@ const SourcesCredits = ({ language }: SourcesCreditsProps) => {
             sources={fontSources} 
           />
 
+          {/* Technology Stack */}
+          <SourceSection 
+            title="Technology Stack" 
+            titleBn="প্রযুক্তি স্ট্যাক" 
+            icon={Code} 
+            sources={technologySources} 
+          />
+
           {/* Logo Credits */}
-          <section className="mb-6">
-            <div className="flex items-center gap-2 mb-3">
-              <Palette className="h-5 w-5 text-primary" />
-              <h2 className={cn(
-                "text-sm font-medium text-muted-foreground uppercase tracking-wider",
-                language === "bn" && "font-bengali"
-              )}>
-                {language === "bn" ? "লোগো ক্রেডিট" : "Logo Credits"}
-              </h2>
-            </div>
-            <div className="space-y-2">
-              {logoCredits.map((credit, index) => (
-                <a
-                  key={index}
-                  href={credit.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-3 rounded-xl border border-border bg-card p-4 transition-colors hover:bg-muted/50"
-                >
-                  <div className="flex-1">
-                    <h3 className={cn("text-sm font-semibold", language === "bn" && "font-bengali")}>
-                      {language === "bn" ? credit.nameBn : credit.nameEn}
-                    </h3>
-                    <p className={cn("text-xs text-muted-foreground mt-1", language === "bn" && "font-bengali")}>
-                      {language === "bn" ? credit.descriptionBn : credit.descriptionEn}
-                    </p>
-                  </div>
-                  <ExternalLink className="h-4 w-4 text-muted-foreground" />
-                </a>
-              ))}
-            </div>
-          </section>
+          <SourceSection 
+            title="Logo Credits" 
+            titleBn="লোগো ক্রেডিট" 
+            icon={Palette} 
+            sources={logoCredits} 
+          />
+
+          {/* Developer Credits */}
+          <SourceSection 
+            title="Developed By" 
+            titleBn="ডেভেলপার" 
+            icon={Moon} 
+            sources={developerCredits} 
+          />
 
           {/* Disclaimer */}
           <div className="rounded-xl border border-border bg-muted/30 p-4">
