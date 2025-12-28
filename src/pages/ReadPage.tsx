@@ -234,6 +234,7 @@ const ReadPage = ({
     };
   }, [loading, loadedPages]);
 
+
   // Handle verse click - mark as last read (with toast feedback)
   const handleVerseClick = useCallback((pageNum: number, surahNumber: number, verseNumber: number) => {
     const verseKey = `${pageNum}-${surahNumber}-${verseNumber}`;
@@ -389,7 +390,23 @@ const ReadPage = ({
     loadInitialPages();
   }, [initialPage, fetchVersesForPage]);
 
-  // Load more pages when scrolling down
+  // Preload next 3 pages in background for smoother scrolling
+  useEffect(() => {
+    if (loading || loadedPages.length === 0) return;
+
+    const lastLoadedPage = loadedPages[loadedPages.length - 1]?.pageNumber || 0;
+    const pagesToPreload: number[] = [];
+    
+    for (let i = lastLoadedPage + 1; i <= Math.min(lastLoadedPage + 3, 604); i++) {
+      if (!versesCache.has(i)) pagesToPreload.push(i);
+    }
+
+    // Preload in background (don't await, just cache)
+    pagesToPreload.forEach((pageNum) => {
+      fetchVersesForPage(pageNum); // This will cache the result
+    });
+  }, [loading, loadedPages, fetchVersesForPage]);
+
   const loadMorePagesDown = useCallback(async () => {
     if (loadingMore || loadedPages.length === 0) return;
     
