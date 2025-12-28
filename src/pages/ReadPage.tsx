@@ -210,6 +210,9 @@ const ReadPage = ({
           lastAutoSavedVerse.current = bestKey;
           setLastReadVerse(bestKey);
           localStorage.setItem("quran-last-read-verse", bestKey);
+          const versePage = bestKey.split("-")[0];
+          if (versePage) localStorage.setItem("quran-last-read-page", versePage);
+          window.dispatchEvent(new CustomEvent("quran:lastReadChanged", { detail: { verseKey: bestKey } }));
         }
       },
       {
@@ -233,7 +236,9 @@ const ReadPage = ({
     const verseKey = `${pageNum}-${surahNumber}-${verseNumber}`;
     setLastReadVerse(verseKey);
     localStorage.setItem("quran-last-read-verse", verseKey);
+    localStorage.setItem("quran-last-read-page", String(pageNum));
     lastAutoSavedVerse.current = verseKey; // Sync with auto-save
+    window.dispatchEvent(new CustomEvent("quran:lastReadChanged", { detail: { verseKey } }));
     toast.success(
       language === "bn" 
         ? `সূরা ${surahNumber}:${verseNumber} সংরক্ষিত` 

@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { BookOpen, ChevronRight } from "lucide-react";
 import { cn, formatNumber } from "@/lib/utils";
 import { surahs } from "@/data/surahs";
-import { quranPages, getPageByNumber } from "@/data/pages";
+import { getPageByNumber } from "@/data/pages";
 
 import { Language } from "@/types/language";
 
@@ -19,41 +19,62 @@ export const ContinueReading = ({ language }: ContinueReadingProps) => {
     verseNumber: number;
   } | null>(null);
 
-  useEffect(() => {
-    const lastReadPage = localStorage.getItem("quran-last-read-page");
+  const readLastReadFromStorage = useCallback(() => {
+    const lastReadPageStr = localStorage.getItem("quran-last-read-page");
     const lastReadVerse = localStorage.getItem("quran-last-read-verse");
-    
-    if (lastReadPage) {
-      const page = parseInt(lastReadPage);
-      const pageData = getPageByNumber(page);
-      
-      let surahNumber = pageData?.startSurah || 1;
-      let verseNumber = pageData?.startVerse || 1;
-      
-      // Only use the specific verse if it's from the same page
-      if (lastReadVerse) {
-        const parts = lastReadVerse.split("-");
-        if (parts.length >= 3) {
-          const versePage = parseInt(parts[0]);
-          // Only use this verse info if it matches the current last read page
-          if (versePage === page) {
-            surahNumber = parseInt(parts[1]);
-            verseNumber = parseInt(parts[2]);
-          }
+
+    let page = lastReadPageStr ? parseInt(lastReadPageStr) : NaN;
+    let versePage: number | null = null;
+    let verseSurah: number | null = null;
+    let verseNumber: number | null = null;
+
+    if (lastReadVerse) {
+      const parts = lastReadVerse.split("-");
+      if (parts.length >= 3) {
+        const p = parseInt(parts[0]);
+        const s = parseInt(parts[1]);
+        const v = parseInt(parts[2]);
+        if (Number.isFinite(p) && Number.isFinite(s) && Number.isFinite(v)) {
+          versePage = p;
+          verseSurah = s;
+          verseNumber = v;
         }
       }
-      
-      setLastRead({
-        page,
-        surahNumber,
-        verseNumber,
-      });
     }
+
+    // Prefer verse page when available (it is the most precise)
+    if (versePage !== null) page = versePage;
+    if (!Number.isFinite(page)) {
+      setLastRead(null);
+      return;
+    }
+
+    const pageData = getPageByNumber(page);
+    const surahNumber = verseSurah ?? pageData?.startSurah ?? 1;
+    const vNum = verseNumber ?? pageData?.startVerse ?? 1;
+
+    setLastRead({ page, surahNumber, verseNumber: vNum });
   }, []);
+
+  useEffect(() => {
+    readLastReadFromStorage();
+
+    const handler = () => readLastReadFromStorage();
+    window.addEventListener("quran:lastReadChanged", handler as EventListener);
+    window.addEventListener("storage", handler);
+    window.addEventListener("focus", handler);
+
+    return () => {
+      window.removeEventListener("quran:lastReadChanged", handler as EventListener);
+      window.removeEventListener("storage", handler);
+      window.removeEventListener("focus", handler);
+    };
+  }, [readLastReadFromStorage]);
+
 
   if (!lastRead) return null;
 
-  const surah = surahs.find(s => s.number === lastRead.surahNumber);
+  const surah = surahs.find((s) => s.number === lastRead.surahNumber);
   if (!surah) return null;
 
   const handleContinue = () => {
