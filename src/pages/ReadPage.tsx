@@ -396,24 +396,51 @@ const ReadPage = ({
     };
   }, [loadMorePagesDown, loadMorePagesUp]);
 
-  // Track which page is currently visible (with debouncing)
+  // Keep track of intersection ratios per page so we can reliably pick the most visible page
+  const visibilityByPageRef = useRef<Record<number, number>>({});
+
+  // Track which page is currently visible (within the scroll container)
   useEffect(() => {
-    let timeoutId: NodeJS.Timeout;
-    
+    let timeoutId: ReturnType<typeof setTimeout> | undefined;
+
+    // Reset visibility state whenever the rendered pages window changes
+    visibilityByPageRef.current = {};
+
+    const rootEl = contentRef.current;
+
     observerRef.current = new IntersectionObserver(
       (entries) => {
-        // Find the most visible entry
-        const visibleEntry = entries.find(entry => entry.isIntersecting && entry.intersectionRatio > 0.3);
-        if (visibleEntry) {
-          const pageNum = parseInt(visibleEntry.target.getAttribute('data-page') || '1');
-          // Debounce the update to prevent rapid changes
-          clearTimeout(timeoutId);
-          timeoutId = setTimeout(() => {
-            setCurrentVisiblePage(prev => prev !== pageNum ? pageNum : prev);
-          }, 200);
+        for (const entry of entries) {
+          const el = entry.target as HTMLElement;
+          const pageNum = Number(el.dataset.page || 1);
+          visibilityByPageRef.current[pageNum] = entry.isIntersecting
+            ? entry.intersectionRatio
+            : 0;
         }
+
+        // Pick the page with the highest visible ratio
+        let bestPage = initialPage;
+        let bestRatio = 0;
+        for (const [pageStr, ratio] of Object.entries(visibilityByPageRef.current)) {
+          const p = Number(pageStr);
+          if (ratio > bestRatio) {
+            bestRatio = ratio;
+            bestPage = p;
+          }
+        }
+
+        // Ignore tiny intersections (prevents sticky headers / borders from biasing the result)
+        if (bestRatio < 0.15) return;
+
+        if (timeoutId) clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => {
+          setCurrentVisiblePage((prev) => (prev !== bestPage ? bestPage : prev));
+        }, 150);
       },
-      { threshold: [0.3, 0.5, 0.7] }
+      {
+        root: rootEl,
+        threshold: [0, 0.15, 0.3, 0.5, 0.7, 0.9],
+      }
     );
 
     // Observe all loaded page elements
@@ -422,10 +449,10 @@ const ReadPage = ({
     });
 
     return () => {
-      clearTimeout(timeoutId);
+      if (timeoutId) clearTimeout(timeoutId);
       observerRef.current?.disconnect();
     };
-  }, [loadedPages]);
+  }, [loadedPages, initialPage]);
 
   // Touch event handlers for pinch zoom
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
