@@ -212,7 +212,7 @@ const Index = ({ language }: IndexProps) => {
   // Unified responsive layout (mobile, tablet, desktop)
   return (
     <div className="flex-1 overflow-y-auto overflow-x-hidden">
-      <div className="mx-auto max-w-6xl px-4 py-6 pb-8 sm:px-6 sm:py-8 lg:pb-8">
+      <div className="mx-auto max-w-6xl px-4 py-6 pb-40 sm:px-6 sm:py-8 sm:pb-40 lg:pb-8">
         {/* Hero Search Section */}
         <DesktopHeroSearch
           language={language}
