@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Clock, MapPin, RefreshCw, Sunrise, Sun, Sunset, Moon } from "lucide-react";
+import { Clock, MapPin, RefreshCw, Sunrise, Sun, Sunset, Moon, Crosshair } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Language } from "@/types/language";
 import { Card, CardContent } from "@/components/ui/card";
@@ -540,7 +540,7 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
                   {isLoading ? (
                     <RefreshCw className="w-4 h-4 animate-spin" />
                   ) : (
-                    <MapPin className="w-4 h-4" />
+                    <Crosshair className="w-4 h-4" />
                   )}
                 </Button>
               </div>
