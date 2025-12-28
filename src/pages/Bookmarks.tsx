@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Bookmark, BookOpen, Trash2, Loader2, Copy, Share2, Facebook, MessageCircle, ChevronDown, ChevronUp } from "lucide-react";
+import { Bookmark, BookOpen, Trash2, Loader2, Copy, Share2, Facebook, MessageCircle, ChevronDown, ChevronUp, HandHeart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn, formatNumber } from "@/lib/utils";
 import { supabase } from "@/integrations/supabase/client";
@@ -50,6 +50,22 @@ interface BookmarkedHadith {
   book_name_bengali?: string;
 }
 
+interface BookmarkedDua {
+  id: string;
+  category_id: string;
+  dua_id: string;
+  created_at: string;
+  title_english?: string;
+  title_bengali?: string;
+  arabic?: string;
+  english?: string;
+  bengali?: string;
+  transliteration?: string;
+  reference?: string;
+  category_name_english?: string;
+  category_name_bengali?: string;
+}
+
 const Bookmarks = ({ language, readingMode = "normal", arabicFont = "amiri" }: BookmarksProps) => {
   const navigate = useNavigate();
   const { bookmarks: localBookmarks, removeBookmark } = useLocalBookmarks();
@@ -57,8 +73,10 @@ const Bookmarks = ({ language, readingMode = "normal", arabicFont = "amiri" }: B
   const { user } = useAuth();
   const [bookmarks, setBookmarks] = useState<BookmarkedVerse[]>([]);
   const [hadithBookmarks, setHadithBookmarks] = useState<BookmarkedHadith[]>([]);
+  const [duaBookmarks, setDuaBookmarks] = useState<BookmarkedDua[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isHadithLoading, setIsHadithLoading] = useState(true);
+  const [isDuaLoading, setIsDuaLoading] = useState(true);
   const [expandedTafsir, setExpandedTafsir] = useState<Set<string>>(new Set());
   const [activeTab, setActiveTab] = useState("quran");
 
@@ -81,6 +99,10 @@ const Bookmarks = ({ language, readingMode = "normal", arabicFont = "amiri" }: B
 
   const handleHadithCardClick = (bookmark: BookmarkedHadith) => {
     navigate(`/hadith/${bookmark.book_slug}?hadith=${bookmark.hadith_number}`);
+  };
+
+  const handleDuaCardClick = (bookmark: BookmarkedDua) => {
+    navigate(`/dua/${bookmark.category_id}?dua=${bookmark.dua_id}`);
   };
 
   // Fetch Quran bookmarks
@@ -135,7 +157,6 @@ const Bookmarks = ({ language, readingMode = "normal", arabicFont = "amiri" }: B
       setIsHadithLoading(true);
 
       try {
-        // Fetch hadith bookmarks for the user
         const { data: bookmarkData, error: bookmarkError } = await supabase
           .from('hadith_bookmarks')
           .select('*')
@@ -150,7 +171,6 @@ const Bookmarks = ({ language, readingMode = "normal", arabicFont = "amiri" }: B
           return;
         }
 
-        // Fetch hadith details for each bookmark
         const hadithPromises = bookmarkData.map(async (bookmark) => {
           const { data: hadithData } = await supabase
             .from('hadiths')
@@ -193,6 +213,74 @@ const Bookmarks = ({ language, readingMode = "normal", arabicFont = "amiri" }: B
     fetchHadithBookmarks();
   }, [user]);
 
+  // Fetch Dua bookmarks
+  useEffect(() => {
+    const fetchDuaBookmarks = async () => {
+      if (!user) {
+        setDuaBookmarks([]);
+        setIsDuaLoading(false);
+        return;
+      }
+
+      setIsDuaLoading(true);
+
+      try {
+        const { data: bookmarkData, error: bookmarkError } = await supabase
+          .from('dua_bookmarks')
+          .select('*')
+          .eq('user_id', user.id)
+          .order('created_at', { ascending: false });
+
+        if (bookmarkError) throw bookmarkError;
+
+        if (!bookmarkData || bookmarkData.length === 0) {
+          setDuaBookmarks([]);
+          setIsDuaLoading(false);
+          return;
+        }
+
+        const duaPromises = bookmarkData.map(async (bookmark) => {
+          const { data: duaData } = await supabase
+            .from('duas')
+            .select('title_english, title_bengali, arabic, english, bengali, transliteration, reference')
+            .eq('dua_id', bookmark.dua_id)
+            .maybeSingle();
+
+          const { data: categoryData } = await supabase
+            .from('dua_categories')
+            .select('name_english, name_bengali')
+            .eq('category_id', bookmark.category_id)
+            .maybeSingle();
+
+          return {
+            id: bookmark.id,
+            category_id: bookmark.category_id,
+            dua_id: bookmark.dua_id,
+            created_at: bookmark.created_at,
+            title_english: duaData?.title_english,
+            title_bengali: duaData?.title_bengali,
+            arabic: duaData?.arabic,
+            english: duaData?.english,
+            bengali: duaData?.bengali,
+            transliteration: duaData?.transliteration,
+            reference: duaData?.reference,
+            category_name_english: categoryData?.name_english,
+            category_name_bengali: categoryData?.name_bengali,
+          };
+        });
+
+        const duasWithDetails = await Promise.all(duaPromises);
+        setDuaBookmarks(duasWithDetails);
+      } catch (error) {
+        console.error('Error fetching dua bookmarks:', error);
+      } finally {
+        setIsDuaLoading(false);
+      }
+    };
+
+    fetchDuaBookmarks();
+  }, [user]);
+
   const handleRemoveBookmark = (id: string) => {
     removeBookmark(id, language);
     setBookmarks(prev => prev.filter(b => b.id !== id));
@@ -214,6 +302,30 @@ const Bookmarks = ({ language, readingMode = "normal", arabicFont = "amiri" }: B
       });
     } catch (error) {
       console.error('Error removing hadith bookmark:', error);
+      toast({
+        title: language === "bn" ? "ত্রুটি" : "Error",
+        description: language === "bn" ? "বুকমার্ক মুছতে সমস্যা হয়েছে" : "Failed to remove bookmark",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleRemoveDuaBookmark = async (id: string) => {
+    try {
+      const { error } = await supabase
+        .from('dua_bookmarks')
+        .delete()
+        .eq('id', id);
+
+      if (error) throw error;
+
+      setDuaBookmarks(prev => prev.filter(b => b.id !== id));
+      toast({
+        title: language === "bn" ? "মুছে ফেলা হয়েছে" : "Removed",
+        description: language === "bn" ? "দোয়া বুকমার্ক মুছে ফেলা হয়েছে" : "Dua bookmark removed",
+      });
+    } catch (error) {
+      console.error('Error removing dua bookmark:', error);
       toast({
         title: language === "bn" ? "ত্রুটি" : "Error",
         description: language === "bn" ? "বুকমার্ক মুছতে সমস্যা হয়েছে" : "Failed to remove bookmark",
@@ -248,6 +360,13 @@ const Bookmarks = ({ language, readingMode = "normal", arabicFont = "amiri" }: B
     return `${bookmark.arabic || ""}\n\n${translation || ""}\n\n— ${hadithRef}`;
   };
 
+  const getDuaText = (bookmark: BookmarkedDua) => {
+    const title = language === "bn" ? bookmark.title_bengali : bookmark.title_english;
+    const translation = language === "bn" ? bookmark.bengali : bookmark.english;
+    
+    return `${bookmark.arabic || ""}\n\n${translation || ""}\n\n— ${title}${bookmark.reference ? ` (${bookmark.reference})` : ''}`;
+  };
+
   const handleCopyToClipboard = async (bookmark: BookmarkedVerse) => {
     const text = getVerseText(bookmark);
     
@@ -274,6 +393,24 @@ const Bookmarks = ({ language, readingMode = "normal", arabicFont = "amiri" }: B
       toast({
         title: language === "bn" ? "কপি হয়েছে" : "Copied!",
         description: language === "bn" ? "হাদিস ক্লিপবোর্ডে কপি হয়েছে" : "Hadith copied to clipboard",
+      });
+    } catch (err) {
+      toast({
+        title: language === "bn" ? "ত্রুটি" : "Error",
+        description: language === "bn" ? "কপি করতে সমস্যা হয়েছে" : "Failed to copy",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleCopyDuaToClipboard = async (bookmark: BookmarkedDua) => {
+    const text = getDuaText(bookmark);
+    
+    try {
+      await navigator.clipboard.writeText(text);
+      toast({
+        title: language === "bn" ? "কপি হয়েছে" : "Copied!",
+        description: language === "bn" ? "দোয়া ক্লিপবোর্ডে কপি হয়েছে" : "Dua copied to clipboard",
       });
     } catch (err) {
       toast({
@@ -330,6 +467,18 @@ const Bookmarks = ({ language, readingMode = "normal", arabicFont = "amiri" }: B
     window.open(url, '_blank');
   };
 
+  const handleShareDuaFacebook = (bookmark: BookmarkedDua) => {
+    const text = encodeURIComponent(getDuaText(bookmark));
+    const url = `https://www.facebook.com/sharer/sharer.php?quote=${text}`;
+    window.open(url, '_blank', 'width=600,height=400');
+  };
+
+  const handleShareDuaWhatsApp = (bookmark: BookmarkedDua) => {
+    const text = encodeURIComponent(getDuaText(bookmark));
+    const url = `https://wa.me/?text=${text}`;
+    window.open(url, '_blank');
+  };
+
   return (
     <div className={cn(
       "min-h-screen islamic-pattern",
@@ -350,14 +499,24 @@ const Bookmarks = ({ language, readingMode = "normal", arabicFont = "amiri" }: B
       {/* Tabs */}
       <div className="mx-auto max-w-4xl px-3 py-6 sm:px-4 md:px-6">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-2 mb-6">
-            <TabsTrigger value="quran" className={cn("gap-2", language === "bn" && "font-bengali")}>
-              <BookOpen className="h-4 w-4" />
-              {language === "bn" ? `কুরআন (${formatNumber(bookmarks.length, language)})` : `Quran (${bookmarks.length})`}
+          <TabsList className="grid w-full grid-cols-3 mb-6">
+            <TabsTrigger value="quran" className={cn("gap-1 text-xs sm:text-sm", language === "bn" && "font-bengali")}>
+              <BookOpen className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+              <span className="hidden sm:inline">{language === "bn" ? "কুরআন" : "Quran"}</span>
+              <span className="sm:hidden">{language === "bn" ? "কুরআন" : "Quran"}</span>
+              <span className="text-xs">({formatNumber(bookmarks.length, language)})</span>
             </TabsTrigger>
-            <TabsTrigger value="hadith" className={cn("gap-2", language === "bn" && "font-bengali")}>
-              <BookOpen className="h-4 w-4" />
-              {language === "bn" ? `হাদিস (${formatNumber(hadithBookmarks.length, language)})` : `Hadith (${hadithBookmarks.length})`}
+            <TabsTrigger value="hadith" className={cn("gap-1 text-xs sm:text-sm", language === "bn" && "font-bengali")}>
+              <BookOpen className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+              <span className="hidden sm:inline">{language === "bn" ? "হাদিস" : "Hadith"}</span>
+              <span className="sm:hidden">{language === "bn" ? "হাদিস" : "Hadith"}</span>
+              <span className="text-xs">({formatNumber(hadithBookmarks.length, language)})</span>
+            </TabsTrigger>
+            <TabsTrigger value="dua" className={cn("gap-1 text-xs sm:text-sm", language === "bn" && "font-bengali")}>
+              <HandHeart className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+              <span className="hidden sm:inline">{language === "bn" ? "দোয়া" : "Dua"}</span>
+              <span className="sm:hidden">{language === "bn" ? "দোয়া" : "Dua"}</span>
+              <span className="text-xs">({formatNumber(duaBookmarks.length, language)})</span>
             </TabsTrigger>
           </TabsList>
 
@@ -653,6 +812,151 @@ const Bookmarks = ({ language, readingMode = "normal", arabicFont = "amiri" }: B
                 </p>
                 <Button onClick={() => navigate("/hadith")} className={language === "bn" ? "font-bengali" : ""}>
                   {language === "bn" ? "হাদিস দেখুন" : "Browse Hadiths"}
+                </Button>
+              </div>
+            )}
+          </TabsContent>
+
+          {/* Dua Bookmarks Tab */}
+          <TabsContent value="dua">
+            {!user ? (
+              <div className="rounded-2xl border border-dashed border-border bg-card p-8 text-center">
+                <HandHeart className="mx-auto mb-4 h-12 w-12 text-muted-foreground/50" />
+                <h3 className={cn("mb-2 text-lg font-semibold text-foreground", language === "bn" && "font-bengali")}>
+                  {language === "bn" ? "লগইন করুন" : "Login Required"}
+                </h3>
+                <p className={cn("mb-4 text-sm text-muted-foreground", language === "bn" && "font-bengali")}>
+                  {language === "bn" 
+                    ? "দোয়া বুকমার্ক দেখতে লগইন করুন" 
+                    : "Login to view your saved duas"}
+                </p>
+                <Button onClick={() => navigate("/auth")} className={language === "bn" ? "font-bengali" : ""}>
+                  {language === "bn" ? "লগইন" : "Login"}
+                </Button>
+              </div>
+            ) : isDuaLoading ? (
+              <div className="flex items-center justify-center py-12">
+                <Loader2 className="h-8 w-8 animate-spin text-primary" />
+              </div>
+            ) : duaBookmarks.length > 0 ? (
+              <div className="space-y-4">
+                {duaBookmarks.map((bookmark, index) => (
+                  <div 
+                    key={bookmark.id}
+                    className="verse-card animate-fade-in cursor-pointer hover:border-primary/40 transition-colors"
+                    style={{ animationDelay: `${index * 0.05}s` }}
+                    onClick={() => handleDuaCardClick(bookmark)}
+                  >
+                    {/* Header */}
+                    <div className="mb-4 flex items-center justify-between">
+                      <div className="flex flex-col gap-1">
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleDuaCardClick(bookmark);
+                          }}
+                          className={cn(
+                            "flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-sm text-primary hover:bg-primary/20 transition-colors",
+                            language === "bn" && "font-bengali"
+                          )}
+                        >
+                          <span>{language === "bn" ? bookmark.category_name_bengali : bookmark.category_name_english}</span>
+                        </button>
+                        <h3 className={cn("text-base font-medium text-foreground pl-1", language === "bn" && "font-bengali")}>
+                          {language === "bn" ? bookmark.title_bengali : bookmark.title_english}
+                        </h3>
+                      </div>
+                      
+                      {/* Action buttons */}
+                      <div className="flex items-center gap-1" onClick={(e) => e.stopPropagation()}>
+                        <Button 
+                          variant="ghost" 
+                          size="icon" 
+                          className="h-9 w-9 text-muted-foreground hover:text-primary"
+                          onClick={() => handleCopyDuaToClipboard(bookmark)}
+                          title={language === "bn" ? "কপি করুন" : "Copy to clipboard"}
+                        >
+                          <Copy className="h-4 w-4" />
+                        </Button>
+                        
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button 
+                              variant="ghost" 
+                              size="icon" 
+                              className="h-9 w-9 text-muted-foreground hover:text-primary"
+                              title={language === "bn" ? "শেয়ার করুন" : "Share"}
+                            >
+                              <Share2 className="h-4 w-4" />
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end">
+                            <DropdownMenuItem onClick={() => handleShareDuaFacebook(bookmark)}>
+                              <Facebook className="mr-2 h-4 w-4 text-[#1877F2]" />
+                              Facebook
+                            </DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => handleShareDuaWhatsApp(bookmark)}>
+                              <MessageCircle className="mr-2 h-4 w-4 text-[#25D366]" />
+                              WhatsApp
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                        
+                        <Button 
+                          variant="ghost" 
+                          size="icon" 
+                          className="h-9 w-9 text-muted-foreground hover:text-destructive"
+                          onClick={() => handleRemoveDuaBookmark(bookmark.id)}
+                          title={language === "bn" ? "মুছুন" : "Remove"}
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    </div>
+
+                    {/* Arabic Text */}
+                    {bookmark.arabic && (
+                      <p className={cn("mb-4 text-right text-2xl leading-loose text-foreground", arabicFont === "uthmani" ? "font-uthmani" : "font-arabic")}>
+                        {bookmark.arabic}
+                      </p>
+                    )}
+
+                    {/* Transliteration */}
+                    {bookmark.transliteration && (
+                      <p className="mb-3 text-sm italic text-muted-foreground">
+                        {bookmark.transliteration}
+                      </p>
+                    )}
+
+                    {/* Translation */}
+                    {(bookmark.bengali || bookmark.english) && (
+                      <p className={cn("text-base leading-relaxed text-foreground", language === "bn" && "font-bengali")}>
+                        {language === "bn" ? bookmark.bengali : bookmark.english}
+                      </p>
+                    )}
+
+                    {/* Reference */}
+                    {bookmark.reference && (
+                      <p className="mt-3 text-xs text-muted-foreground">
+                        {bookmark.reference}
+                      </p>
+                    )}
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="rounded-2xl border border-dashed border-border bg-card p-8 text-center">
+                <HandHeart className="mx-auto mb-4 h-12 w-12 text-muted-foreground/50" />
+                <h3 className={cn("mb-2 text-lg font-semibold text-foreground", language === "bn" && "font-bengali")}>
+                  {language === "bn" ? "কোনো দোয়া বুকমার্ক নেই" : "No Dua Bookmarks Yet"}
+                </h3>
+                <p className={cn("mb-4 text-sm text-muted-foreground", language === "bn" && "font-bengali")}>
+                  {language === "bn" 
+                    ? "দোয়া পড়ার সময় সংরক্ষণ করুন" 
+                    : "Save duas while reading to see them here"}
+                </p>
+                <Button onClick={() => navigate("/dua")} className={language === "bn" ? "font-bengali" : ""}>
+                  {language === "bn" ? "দোয়া দেখুন" : "Browse Duas"}
                 </Button>
               </div>
             )}
