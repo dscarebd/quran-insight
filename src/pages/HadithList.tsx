@@ -130,12 +130,12 @@ const HadithList = ({ language }: HadithListProps) => {
               )} />
 
               <div className="flex items-start gap-4">
-                {/* Icon */}
+              {/* Icon */}
                 <div className={cn(
-                  "flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br text-white shadow-md transition-transform group-hover:scale-110",
+                  "flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br text-white shadow-md transition-transform group-hover:scale-110",
                   bookGradients[book.slug] || "from-gray-500 to-gray-600"
                 )}>
-                  <Book className="h-7 w-7" />
+                  <Book className="h-6 w-6" />
                 </div>
 
                 {/* Content */}
