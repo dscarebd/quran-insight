@@ -59,10 +59,12 @@ const HadithChapterNav = ({
           <BookOpen className="h-4 w-4 shrink-0" />
           <span className={cn("truncate", language === "bn" && "font-bengali")}>
             {selectedChapter !== null
-              ? (language === "bn" && selectedChapterData?.chapter_name_bengali
-                  ? selectedChapterData.chapter_name_bengali
-                  : selectedChapterData?.chapter_name_english) ||
-                `${language === "bn" ? "অধ্যায়" : "Chapter"} ${formatNumber(selectedChapter, language)}`
+              ? language === "bn"
+                ? selectedChapterData?.chapter_name_bengali ||
+                  `${"অধ্যায়"} ${formatNumber(selectedChapter, language)}`
+                : selectedChapterData?.chapter_name_english ||
+                  selectedChapterData?.chapter_name_bengali ||
+                  `${"Chapter"} ${formatNumber(selectedChapter, language)}`
               : language === "bn"
               ? "সব অধ্যায়"
               : "All Chapters"}
@@ -134,10 +136,12 @@ const HadithChapterNav = ({
                           language === "bn" && "font-bengali"
                         )}
                       >
-                        {language === "bn" && chapter.chapter_name_bengali
-                          ? chapter.chapter_name_bengali
+                        {language === "bn"
+                          ? chapter.chapter_name_bengali ||
+                            `${"অধ্যায়"} ${formatNumber(chapter.chapter_number, language)}`
                           : chapter.chapter_name_english ||
-                            `${language === "bn" ? "অধ্যায়" : "Chapter"} ${formatNumber(chapter.chapter_number, language)}`}
+                            chapter.chapter_name_bengali ||
+                            `${"Chapter"} ${formatNumber(chapter.chapter_number, language)}`}
                       </span>
                     </div>
                   </div>
