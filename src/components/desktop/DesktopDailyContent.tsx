@@ -151,6 +151,18 @@ export const DesktopDailyContent = ({ language }: DesktopDailyContentProps) => {
           )}>
             {language === "bn" ? duaData.dua.bengali : duaData.dua.english}
           </p>
+
+          {/* Reference note for general supplications */}
+          {duaData.dua.reference && (duaData.dua.reference === "দোয়া সংকলন" || duaData.dua.reference === "সাধারণ প্রার্থনা - জায়েয দোয়া") && (
+            <p className={cn(
+              "mb-2 text-[9px] sm:text-[10px] text-muted-foreground/60 text-center",
+              language === "bn" && "font-bengali"
+            )}>
+              {language === "bn" 
+                ? "সাধারণ প্রার্থনা - জায়েয" 
+                : "General permissible prayer"}
+            </p>
+          )}
           
           {/* View All */}
           <button 

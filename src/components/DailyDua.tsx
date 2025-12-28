@@ -113,14 +113,26 @@ export const DailyDua = ({ language }: DailyDuaProps) => {
         </p>
 
         {/* Reference & Category */}
-        <div className="flex flex-wrap items-center justify-center gap-2">
-          {dua.reference && (
-            <span className={cn(
-              "rounded-full bg-muted px-3 py-1 text-xs text-muted-foreground",
+        <div className="flex flex-col items-center gap-2">
+          <div className="flex flex-wrap items-center justify-center gap-2">
+            {dua.reference && (
+              <span className={cn(
+                "rounded-full bg-muted px-3 py-1 text-xs text-muted-foreground",
+                language === "bn" && "font-bengali"
+              )}>
+                {dua.reference}
+              </span>
+            )}
+          </div>
+          {dua.reference && (dua.reference === "দোয়া সংকলন" || dua.reference === "সাধারণ প্রার্থনা - জায়েয দোয়া") && (
+            <p className={cn(
+              "text-[10px] text-muted-foreground/70 text-center max-w-xs",
               language === "bn" && "font-bengali"
             )}>
-              {dua.reference}
-            </span>
+              {language === "bn" 
+                ? "এটি একটি সাধারণ প্রার্থনা যা জায়েয।" 
+                : "This is a general permissible prayer."}
+            </p>
           )}
           <button 
             onClick={handleViewDua}
