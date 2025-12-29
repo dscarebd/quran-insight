@@ -196,7 +196,7 @@ export const DailyDua = ({ language }: DailyDuaProps) => {
         </p>
 
         {/* Translation */}
-        <p className={cn("mb-4 text-center text-[10px] text-muted-foreground", language === "bn" && "font-bengali")}>
+        <p className={cn("mb-4 text-center text-[9px] text-muted-foreground", language === "bn" && "font-bengali")}>
           {language === "bn" ? dua.bengali : dua.english}
         </p>
 
