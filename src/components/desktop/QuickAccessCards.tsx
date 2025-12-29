@@ -91,7 +91,7 @@ export const QuickAccessCards = ({ language }: QuickAccessCardsProps) => {
             
             {/* Content */}
             <h3 className={cn(
-              "font-semibold text-xs sm:text-sm text-foreground mb-0.5 sm:mb-1",
+              "font-semibold text-sm text-foreground mb-0.5 sm:mb-1",
               language === "bn" && "font-bengali"
             )}>
               {language === "bn" ? link.labelBn : link.labelEn}
