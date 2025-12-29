@@ -53,9 +53,9 @@ const gradeColors: Record<string, string> = {
 };
 
 const HadithDetail = ({ language, arabicFont }: HadithDetailProps) => {
-  const { bookSlug } = useParams<{ bookSlug: string }>();
+  const { bookSlug, hadithNumber: routeHadithNumber } = useParams<{ bookSlug: string; hadithNumber?: string }>();
   const [searchParams] = useSearchParams();
-  const targetHadithNumber = searchParams.get("hadith");
+  const targetHadithNumber = routeHadithNumber || searchParams.get("hadith");
   const navigate = useNavigate();
   const { toast } = useToast();
   const { user } = useAuth();
