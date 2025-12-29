@@ -86,7 +86,7 @@ const Index = ({ language }: IndexProps) => {
             {/* Quick Access Cards */}
             <div className="mt-8 sm:mt-10">
               <h2 className={cn(
-                "mb-4 sm:mb-6 text-lg sm:text-xl font-semibold text-foreground",
+                "mb-4 sm:mb-6 text-scale-lg font-semibold text-foreground",
                 language === "bn" && "font-bengali"
               )}>
                 {language === "bn" ? "দ্রুত প্রবেশ" : "Quick Access"}
@@ -97,7 +97,7 @@ const Index = ({ language }: IndexProps) => {
             {/* Daily Content */}
             <div className="mt-8 sm:mt-10">
               <h2 className={cn(
-                "mb-4 sm:mb-6 text-lg sm:text-xl font-semibold text-foreground",
+                "mb-4 sm:mb-6 text-scale-lg font-semibold text-foreground",
                 language === "bn" && "font-bengali"
               )}>
                 {language === "bn" ? "আজকের আয়াত, দোয়া ও হাদিস" : "Today's Verse, Dua & Hadith"}
