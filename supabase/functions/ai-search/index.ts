@@ -295,24 +295,143 @@ Deno.serve(async (req) => {
       'guest': ['মেহমান', 'ضيف', 'daif'],
     };
 
-    // Expand search terms with translations
+    // Common transliteration variations mapping
+    // Maps common misspellings/variations to canonical forms
+    const transliterationVariations: Record<string, string[]> = {
+      'jannah': ['janat', 'jannat', 'janna', 'jana', 'janah', 'jennah', 'jennat', 'jenah'],
+      'jahannam': ['jahannum', 'jahanam', 'jahanum', 'jahanem', 'jahnam', 'jahnnam'],
+      'salat': ['salah', 'salaah', 'salaat', 'namaz', 'namaaz', 'solat', 'solah'],
+      'sawm': ['saum', 'soum', 'siam', 'siyam', 'roza', 'rozah'],
+      'hajj': ['haj', 'hadj', 'haaj', 'hadji'],
+      'zakat': ['zakaat', 'zakah', 'zakaah', 'zekaat', 'zekat'],
+      'quran': ['kuran', 'qoran', 'koran', 'quoran', 'qur\'an', 'quraan', 'coran'],
+      'hadith': ['hadis', 'hadeeth', 'hadees', 'hadit', 'hadees'],
+      'sunnah': ['sunna', 'sunnat', 'sunnet', 'sunat'],
+      'dua': ['duaa', 'doaa', 'dowa', 'duah', 'doah'],
+      'dhikr': ['zikr', 'zikir', 'thikr', 'dikir', 'dhikir', 'zeker'],
+      'tawhid': ['tauhid', 'tawheed', 'tauheed', 'tohid', 'taohid'],
+      'shirk': ['sherk', 'sirk', 'shrik'],
+      'iman': ['eman', 'eeman', 'imaan', 'emaan'],
+      'taqwa': ['takwa', 'taqwaa', 'takwaa', 'taqua'],
+      'tawbah': ['taubah', 'tauba', 'tawba', 'tobah', 'toba'],
+      'sabr': ['sabar', 'sabur', 'sobr', 'sobor'],
+      'shukr': ['shukur', 'sukr', 'shokr', 'shokor'],
+      'tawakkul': ['tawakul', 'tawakkal', 'tawakal', 'tawakkol'],
+      'barakah': ['baraka', 'barkat', 'berkah', 'berkat', 'borkot'],
+      'hidayah': ['hidaya', 'hidayat', 'hedaya', 'hedayat', 'hedayet'],
+      'rahmat': ['rahma', 'rahmah', 'rohmat', 'rohma'],
+      'maghfirah': ['magfirah', 'magfira', 'maghfira', 'mogferat'],
+      'akhirah': ['akhira', 'aakhira', 'aakhirah', 'akherah', 'akherat'],
+      'dunya': ['dunia', 'duniya', 'donya', 'donia'],
+      'qiyamah': ['qiyama', 'qiyamat', 'kiyamat', 'kiamat', 'qayamat'],
+      'malak': ['malak', 'malaikah', 'malaika', 'malaek'],
+      'shaytan': ['shaitan', 'shaitaan', 'syaitan', 'setan', 'shaytaan'],
+      'muhammad': ['mohammed', 'mohammad', 'muhammed', 'mohamad', 'muhamad'],
+      'ibrahim': ['abraham', 'ibraham', 'ebrahim', 'ibraheem'],
+      'musa': ['moses', 'mousa', 'mosa', 'moosa'],
+      'isa': ['jesus', 'eesa', 'eisa', 'issa'],
+      'fajr': ['fajar', 'fazar', 'fazr', 'fojr', 'fojor'],
+      'dhuhr': ['zuhr', 'zohr', 'johor', 'duhr', 'zuhur'],
+      'asr': ['asar', 'ashor', 'ashr'],
+      'maghrib': ['magrib', 'magreb', 'magrhib', 'moghrib'],
+      'isha': ['isha', 'ishaa', 'esha', 'eshaa', 'isya'],
+      'tahajjud': ['tahajud', 'tahajjod', 'tehajjud', 'tohajjud'],
+      'jumah': ['jummah', 'jumma', 'jumuah', 'juma'],
+      'wudu': ['wudhu', 'wazu', 'wudoo', 'udhu', 'oju', 'ozu'],
+      'ghusl': ['ghusul', 'gosl', 'gusl', 'gosol'],
+      'sadaqah': ['sadaqa', 'sodqah', 'sedekah', 'sedaqah'],
+      'itikaf': ['itikaaf', 'etikaf', 'itekaaf'],
+      'umrah': ['umra', 'omrah', 'omra', 'oemrah'],
+      'qurbani': ['kurbani', 'qorban', 'kurban', 'qourbani'],
+      'nikah': ['nikka', 'nikaha', 'nikkah'],
+      'talaq': ['talak', 'talaaq', 'talak'],
+      'ramadan': ['ramzan', 'ramazan', 'ramadhan', 'romadon', 'romadan'],
+      'eid': ['eed', 'id', 'iid'],
+      'masjid': ['masjeed', 'masjit', 'mosjid', 'mesjid'],
+      'imam': ['imaam', 'emam', 'imom'],
+      'khalifa': ['khalifah', 'caliph', 'khilafa', 'kholifa'],
+      'alim': ['aalim', 'alem', 'olim'],
+      'mufti': ['mofti', 'muftee'],
+      'sheikh': ['shaikh', 'shaykh', 'shekh', 'shayekh'],
+      'rizq': ['rizk', 'rizik', 'rejek', 'rizqi'],
+      'ruh': ['rooh', 'roh', 'rouh'],
+      'qalb': ['kalb', 'kolb', 'qolb'],
+      'nafs': ['nofs', 'nefs'],
+      'ilm': ['elm', 'elom', 'ilom'],
+      'hikmah': ['hikma', 'hekmat', 'hikmaat'],
+      'aql': ['akl', 'aqal', 'oqol'],
+      'jamaah': ['jamat', 'jamaat', 'jemaah', 'jemaat'],
+      'ummah': ['umma', 'ummat', 'ommat', 'ommah'],
+      'fiqh': ['fikah', 'fikh', 'fikih'],
+      'sharia': ['shariah', 'syariah', 'syaria', 'shariat'],
+      'halal': ['helal', 'halaal'],
+      'haram': ['haraam', 'horom'],
+      'fard': ['farz', 'fardh', 'farj', 'foroz'],
+      'wajib': ['wazib', 'vajib', 'wajeb'],
+      'sujud': ['sajda', 'sajdah', 'sijdah', 'sujood'],
+      'ruku': ['rokoo', 'ruko', 'rukoo'],
+      'ayah': ['ayat', 'aayah', 'aayat', 'ayaat'],
+      'surah': ['sura', 'soorah', 'sora', 'suraa'],
+      'tafsir': ['tafseer', 'tafseer', 'tafser'],
+      'tilawat': ['tilawah', 'tilaawat', 'telaawat'],
+      'miraj': ['meraj', 'meeraj', 'miiraaj'],
+      'isra': ['israk', 'esra'],
+      'laylatul': ['lailatul', 'lailatol', 'laylatol'],
+      'qadr': ['kadr', 'qodr', 'kodr'],
+      'ashura': ['aashura', 'ashoora', 'ashooraa'],
+      'muharram': ['moharram', 'mohorrom', 'muharrom'],
+      'allah': ['allaah', 'alloh'],
+      'rabb': ['rob', 'rab'],
+      'jibreel': ['jibril', 'jibrael', 'gabriel', 'jibraeel'],
+      'mikail': ['mikael', 'michael', 'mikaeel'],
+      'israfil': ['israfeel', 'esrafil'],
+      'azrael': ['azrail', 'izrail', 'izraeel'],
+    };
+
+    // Normalize transliteration - convert variations to canonical form
+    const normalizeTransliteration = (term: string): string[] => {
+      const normalized: string[] = [term];
+      const termLower = term.toLowerCase();
+      
+      // Check if term is a variation, return canonical form
+      for (const [canonical, variations] of Object.entries(transliterationVariations)) {
+        if (variations.some(v => v === termLower || termLower.includes(v) || v.includes(termLower))) {
+          normalized.push(canonical);
+          // Also add all variations for broader matching
+          variations.forEach(v => normalized.push(v));
+        }
+        if (canonical === termLower || termLower.includes(canonical) || canonical.includes(termLower)) {
+          normalized.push(canonical);
+          variations.forEach(v => normalized.push(v));
+        }
+      }
+      
+      return [...new Set(normalized)];
+    };
+
+    // Expand search terms with translations and fuzzy matching
     const expandSearchTerms = (query: string): string[] => {
       const terms = query.toLowerCase().split(/\s+/).filter(t => t.length > 1);
       const expandedTerms = new Set<string>();
       
       terms.forEach(term => {
-        expandedTerms.add(term);
-        // Check if term matches any translation key
-        Object.entries(termTranslations).forEach(([key, translations]) => {
-          if (key.toLowerCase().includes(term) || term.includes(key.toLowerCase())) {
-            translations.forEach(t => expandedTerms.add(t.toLowerCase()));
-            expandedTerms.add(key.toLowerCase());
-          }
-          translations.forEach(translation => {
-            if (translation.toLowerCase().includes(term) || term.includes(translation.toLowerCase())) {
-              expandedTerms.add(key.toLowerCase());
+        // First normalize transliteration variations
+        const normalizedTerms = normalizeTransliteration(term);
+        normalizedTerms.forEach(nt => expandedTerms.add(nt));
+        
+        // Then check dictionary translations for each normalized term
+        normalizedTerms.forEach(normalizedTerm => {
+          Object.entries(termTranslations).forEach(([key, translations]) => {
+            if (key.toLowerCase().includes(normalizedTerm) || normalizedTerm.includes(key.toLowerCase())) {
               translations.forEach(t => expandedTerms.add(t.toLowerCase()));
+              expandedTerms.add(key.toLowerCase());
             }
+            translations.forEach(translation => {
+              if (translation.toLowerCase().includes(normalizedTerm) || normalizedTerm.includes(translation.toLowerCase())) {
+                expandedTerms.add(key.toLowerCase());
+                translations.forEach(t => expandedTerms.add(t.toLowerCase()));
+              }
+            });
           });
         });
       });
