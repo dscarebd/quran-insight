@@ -10,19 +10,13 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
 import HadithChapterNav from "@/components/HadithChapterNav";
+import { getHadithBook, HadithBook } from "@/data/hadithBooks";
+import { getHadithsByBook, getHadithsByBookAndChapter, LocalHadith } from "@/services/offlineDataService";
+import { syncBookHadiths } from "@/services/syncService";
 
 interface HadithDetailProps {
   language: Language;
   arabicFont: "amiri" | "uthmani";
-}
-
-interface HadithBook {
-  id: string;
-  slug: string;
-  name_arabic: string;
-  name_english: string;
-  name_bengali: string;
-  total_hadiths: number;
 }
 
 interface Hadith {
@@ -66,7 +60,10 @@ const HadithDetail = ({ language, arabicFont }: HadithDetailProps) => {
   const { toast } = useToast();
   const { user } = useAuth();
   
-  const [book, setBook] = useState<HadithBook | null>(null);
+  // Use local bundled book data
+  const book = bookSlug ? getHadithBook(bookSlug) : null;
+  
+  const [allHadiths, setAllHadiths] = useState<LocalHadith[]>([]);
   const [hadiths, setHadiths] = useState<Hadith[]>([]);
   const [chapters, setChapters] = useState<Chapter[]>([]);
   const [selectedChapter, setSelectedChapter] = useState<number | null>(null);
@@ -80,174 +77,138 @@ const HadithDetail = ({ language, arabicFont }: HadithDetailProps) => {
   const loadMoreRef = useRef<HTMLDivElement>(null);
   const hadithRefs = useRef<Map<number, HTMLDivElement>>(new Map());
 
-  // Fetch book info
+  // Fetch all hadiths for this book - offline first
   useEffect(() => {
-    const fetchBook = async () => {
+    const fetchAllHadiths = async () => {
       if (!bookSlug) return;
-      
-      const { data, error } = await supabase
-        .from("hadith_books")
-        .select("*")
-        .eq("slug", bookSlug)
-        .maybeSingle();
-
-      if (error) {
-        console.error("Error fetching book:", error);
-      } else {
-        setBook(data);
-      }
-    };
-
-    fetchBook();
-  }, [bookSlug]);
-
-  // Fetch chapters
-  useEffect(() => {
-    const fetchChapters = async () => {
-      if (!bookSlug) return;
-
-      const translationColumn = language === "bn" ? "bengali" : "english";
-
-      const { data, error } = await supabase
-        .from("hadiths")
-        .select("chapter_number, chapter_name_english, chapter_name_bengali")
-        .eq("book_slug", bookSlug)
-        .not(translationColumn, "is", null)
-        .not("chapter_number", "is", null);
-
-      if (error) {
-        console.error("Error fetching chapters:", error);
-        return;
-      }
-
-      // Group by chapter and count
-      const chapterMap = new Map<number, Chapter>();
-      data?.forEach((h) => {
-        if (h.chapter_number !== null) {
-          const existing = chapterMap.get(h.chapter_number);
-          if (existing) {
-            existing.hadith_count++;
-          } else {
-            chapterMap.set(h.chapter_number, {
-              chapter_number: h.chapter_number,
-              chapter_name_english: h.chapter_name_english,
-              chapter_name_bengali: h.chapter_name_bengali,
-              hadith_count: 1,
-            });
-          }
-        }
-      });
-
-      const sortedChapters = Array.from(chapterMap.values()).sort(
-        (a, b) => a.chapter_number - b.chapter_number
-      );
-      setChapters(sortedChapters);
-    };
-
-    fetchChapters();
-  }, [bookSlug, language]);
-
-  // Fetch hadiths - only those with translation in selected language
-  const fetchHadiths = useCallback(async (pageNum: number, reset = false, chapterNum: number | null = null) => {
-    if (!bookSlug) return;
-
-    const from = (pageNum - 1) * HADITHS_PER_PAGE;
-    const to = from + HADITHS_PER_PAGE - 1;
-
-    // Filter by selected language translation availability
-    const translationColumn = language === "bn" ? "bengali" : "english";
-
-    let query = supabase
-      .from("hadiths")
-      .select("*")
-      .eq("book_slug", bookSlug)
-      .not(translationColumn, "is", null);
-
-    // Filter by chapter if selected
-    if (chapterNum !== null) {
-      query = query.eq("chapter_number", chapterNum);
-    }
-
-    const { data, error } = await query
-      .order("hadith_number", { ascending: true })
-      .range(from, to);
-
-    if (error) {
-      console.error("Error fetching hadiths:", error);
-    } else {
-      if (reset) {
-        setHadiths(data || []);
-      } else {
-        setHadiths(prev => [...prev, ...(data || [])]);
-      }
-      setHasMore((data?.length || 0) === HADITHS_PER_PAGE);
-    }
-  }, [bookSlug, language]);
-
-  // Fetch specific hadith if target is provided
-  const fetchTargetHadith = useCallback(async () => {
-    if (!bookSlug || !targetHadithNumber) return null;
-
-    const hadithNum = parseInt(targetHadithNumber, 10);
-    if (isNaN(hadithNum)) return null;
-
-    const translationColumn = language === "bn" ? "bengali" : "english";
-
-    const { data, error } = await supabase
-      .from("hadiths")
-      .select("*")
-      .eq("book_slug", bookSlug)
-      .eq("hadith_number", hadithNum)
-      .not(translationColumn, "is", null)
-      .maybeSingle();
-
-    if (error) {
-      console.error("Error fetching target hadith:", error);
-      return null;
-    }
-
-    return data;
-  }, [bookSlug, targetHadithNumber, language]);
-
-  // Initial fetch and refetch when language or chapter changes
-  useEffect(() => {
-    const init = async () => {
       setIsLoading(true);
-      setPage(1);
-
-      // If target hadith is specified, fetch it first
-      if (targetHadithNumber) {
-        const targetHadith = await fetchTargetHadith();
-        if (targetHadith) {
-          // Set the hadith and highlight it
-          setHadiths([targetHadith]);
-          setHighlightedHadith(targetHadith.hadith_number);
-          setExpandedHadiths(new Set([targetHadith.id]));
-          setHasMore(true);
-          setIsLoading(false);
-          
-          // Scroll to the hadith after render
-          setTimeout(() => {
-            const element = hadithRefs.current.get(targetHadith.hadith_number);
-            if (element) {
-              element.scrollIntoView({ behavior: "smooth", block: "start" });
-            }
-          }, 100);
-          return;
+      
+      try {
+        // Try IndexedDB first (offline)
+        let localHadiths = await getHadithsByBook(bookSlug);
+        
+        if (localHadiths.length === 0) {
+          // Fetch from Supabase and save to IndexedDB
+          localHadiths = await syncBookHadiths(bookSlug);
         }
+        
+        setAllHadiths(localHadiths);
+        
+        // Build chapters from hadiths
+        const chapterMap = new Map<number, Chapter>();
+        const translationKey = language === "bn" ? "bengali" : "english";
+        
+        localHadiths.forEach((h) => {
+          // Only count hadiths with translation
+          if (h.chapter_number !== null && h[translationKey]) {
+            const existing = chapterMap.get(h.chapter_number);
+            if (existing) {
+              existing.hadith_count++;
+            } else {
+              chapterMap.set(h.chapter_number, {
+                chapter_number: h.chapter_number,
+                chapter_name_english: h.chapter_name_english,
+                chapter_name_bengali: h.chapter_name_bengali,
+                hadith_count: 1,
+              });
+            }
+          }
+        });
+        
+        const sortedChapters = Array.from(chapterMap.values()).sort(
+          (a, b) => a.chapter_number - b.chapter_number
+        );
+        setChapters(sortedChapters);
+      } catch (error) {
+        console.error("Error fetching hadiths:", error);
       }
-
-      await fetchHadiths(1, true, selectedChapter);
+      
       setIsLoading(false);
     };
-    init();
-  }, [fetchHadiths, fetchTargetHadith, language, selectedChapter, targetHadithNumber]);
+
+    fetchAllHadiths();
+  }, [bookSlug, language]);
+
+  // Get filtered hadiths based on language and chapter selection
+  const getFilteredHadiths = useCallback((chapterNum: number | null = null): Hadith[] => {
+    const translationKey = language === "bn" ? "bengali" : "english";
+    
+    let filtered = allHadiths.filter(h => h[translationKey]);
+    
+    if (chapterNum !== null) {
+      filtered = filtered.filter(h => h.chapter_number === chapterNum);
+    }
+    
+    // Map to Hadith format with generated id
+    return filtered.map(h => ({
+      id: `${h.book_slug}-${h.hadith_number}`,
+      book_slug: h.book_slug,
+      hadith_number: h.hadith_number,
+      arabic: h.arabic,
+      english: h.english,
+      bengali: h.bengali,
+      narrator_english: h.narrator_english,
+      narrator_bengali: h.narrator_bengali,
+      grade: h.grade,
+      grade_bengali: h.grade_bengali,
+      chapter_number: h.chapter_number,
+      chapter_name_english: h.chapter_name_english,
+      chapter_name_bengali: h.chapter_name_bengali,
+    }));
+  }, [allHadiths, language]);
+
+  // Load hadiths for current page
+  const loadHadiths = useCallback((pageNum: number, reset = false, chapterNum: number | null = null) => {
+    const allFiltered = getFilteredHadiths(chapterNum);
+    const from = (pageNum - 1) * HADITHS_PER_PAGE;
+    const to = from + HADITHS_PER_PAGE;
+    const pageHadiths = allFiltered.slice(from, to);
+    
+    if (reset) {
+      setHadiths(pageHadiths);
+    } else {
+      setHadiths(prev => [...prev, ...pageHadiths]);
+    }
+    setHasMore(to < allFiltered.length);
+  }, [getFilteredHadiths]);
+
+  // Initial load when allHadiths changes
+  useEffect(() => {
+    if (allHadiths.length === 0) return;
+    
+    setPage(1);
+    
+    // Handle target hadith navigation
+    if (targetHadithNumber) {
+      const hadithNum = parseInt(targetHadithNumber, 10);
+      const allFiltered = getFilteredHadiths(null);
+      const targetHadith = allFiltered.find(h => h.hadith_number === hadithNum);
+      
+      if (targetHadith) {
+        setHadiths([targetHadith]);
+        setHighlightedHadith(targetHadith.hadith_number);
+        setExpandedHadiths(new Set([targetHadith.id]));
+        setHasMore(true);
+        
+        setTimeout(() => {
+          const element = hadithRefs.current.get(targetHadith.hadith_number);
+          if (element) {
+            element.scrollIntoView({ behavior: "smooth", block: "start" });
+          }
+        }, 100);
+        return;
+      }
+    }
+    
+    loadHadiths(1, true, selectedChapter);
+  }, [allHadiths, targetHadithNumber, selectedChapter, getFilteredHadiths, loadHadiths]);
 
   // Handle chapter selection
   const handleChapterSelect = (chapterNumber: number | null) => {
     setSelectedChapter(chapterNumber);
     setPage(1);
     setHadiths([]);
+    loadHadiths(1, true, chapterNumber);
   };
 
   // Fetch bookmarks
@@ -277,7 +238,8 @@ const HadithDetail = ({ language, arabicFont }: HadithDetailProps) => {
           setIsLoadingMore(true);
           const nextPage = page + 1;
           setPage(nextPage);
-          fetchHadiths(nextPage, false, selectedChapter).finally(() => setIsLoadingMore(false));
+          loadHadiths(nextPage, false, selectedChapter);
+          setIsLoadingMore(false);
         }
       },
       { threshold: 0.1 }
@@ -288,7 +250,7 @@ const HadithDetail = ({ language, arabicFont }: HadithDetailProps) => {
     }
 
     return () => observer.disconnect();
-  }, [hasMore, isLoadingMore, isLoading, page, fetchHadiths, selectedChapter]);
+  }, [hasMore, isLoadingMore, isLoading, page, loadHadiths, selectedChapter]);
 
   const toggleBookmark = async (hadith: Hadith) => {
     if (!user) {
