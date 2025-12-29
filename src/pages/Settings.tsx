@@ -357,7 +357,7 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
               "mb-3 text-sm font-medium text-muted-foreground uppercase tracking-wider",
               language === "bn" && "font-bengali"
             )}>
-              {language === "bn" ? "ডেভেলপার" : "Developer"}
+              {language === "bn" ? "ডেভেলপার তথ্য" : "Developer Information"}
             </h2>
             <button
               onClick={() => navigate("/developer")}
