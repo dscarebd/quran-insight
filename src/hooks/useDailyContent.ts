@@ -136,98 +136,102 @@ export const useDailyContent = () => {
         console.error("Error getting local hadith:", error);
       }
 
+      // Fetch dua from Supabase (always needed as there's no local dua data)
+      let finalDua: DailyDua | null = null;
+      
       // If no local data, fall back to Supabase
-      if (!finalVerse || !finalHadith) {
-        try {
-          // Fetch counts
-          const [verseCountResult, duaCountResult, hadithCountResult] = await Promise.all([
-            !finalVerse ? supabase.from('verses').select('*', { count: 'exact', head: true }) : Promise.resolve({ count: 0 }),
-            supabase.from('duas').select('*', { count: 'exact', head: true }),
-            !finalHadith ? supabase.from('hadiths').select('*', { count: 'exact', head: true }) : Promise.resolve({ count: 0 }),
-          ]);
+      try {
+        // Fetch counts
+        const [verseCountResult, duaCountResult, hadithCountResult] = await Promise.all([
+          !finalVerse ? supabase.from('verses').select('*', { count: 'exact', head: true }) : Promise.resolve({ count: 0 }),
+          supabase.from('duas').select('*', { count: 'exact', head: true }),
+          !finalHadith ? supabase.from('hadiths').select('*', { count: 'exact', head: true }) : Promise.resolve({ count: 0 }),
+        ]);
 
-          const verseCount = (verseCountResult as any).count || 0;
-          const duaCount = duaCountResult.count || 0;
-          const hadithCount = (hadithCountResult as any).count || 0;
+        const verseCount = (verseCountResult as any).count || 0;
+        const duaCount = duaCountResult.count || 0;
+        const hadithCount = (hadithCountResult as any).count || 0;
 
-          // Calculate indices
-          const verseIndex = verseCount > 0 ? dayOfYear % verseCount : 0;
-          const duaIndex = duaCount > 0 ? dayOfYear % duaCount : 0;
-          const hadithIndex = hadithCount > 0 ? dayOfYear % hadithCount : 0;
+        // Calculate indices
+        const verseIndex = verseCount > 0 ? dayOfYear % verseCount : 0;
+        const duaIndex = duaCount > 0 ? dayOfYear % duaCount : 0;
+        const hadithIndex = hadithCount > 0 ? dayOfYear % hadithCount : 0;
 
-          // Fetch content
-          const [verseResult, duaResult, hadithResult] = await Promise.all([
-            !finalVerse && verseCount > 0
-              ? supabase.from('verses').select('surah_number, verse_number, arabic, english, bengali').range(verseIndex, verseIndex).maybeSingle()
-              : Promise.resolve({ data: null }),
-            duaCount > 0
-              ? supabase.from('duas').select('id, dua_id, category_id, title_english, title_bengali, arabic, english, bengali, reference').order('category_id').order('dua_id').range(duaIndex, duaIndex).maybeSingle()
-              : Promise.resolve({ data: null }),
-            !finalHadith && hadithCount > 0
-              ? supabase.from('hadiths').select('id, hadith_number, book_slug, arabic, english, bengali, narrator_english, narrator_bengali, grade, grade_bengali').range(hadithIndex, hadithIndex).maybeSingle()
-              : Promise.resolve({ data: null }),
-          ]);
+        // Fetch content
+        const [verseResult, duaResult, hadithResult] = await Promise.all([
+          !finalVerse && verseCount > 0
+            ? supabase.from('verses').select('surah_number, verse_number, arabic, english, bengali').range(verseIndex, verseIndex).maybeSingle()
+            : Promise.resolve({ data: null }),
+          duaCount > 0
+            ? supabase.from('duas').select('id, dua_id, category_id, title_english, title_bengali, arabic, english, bengali, reference').order('category_id').order('dua_id').range(duaIndex, duaIndex).maybeSingle()
+            : Promise.resolve({ data: null }),
+          !finalHadith && hadithCount > 0
+            ? supabase.from('hadiths').select('id, hadith_number, book_slug, arabic, english, bengali, narrator_english, narrator_bengali, grade, grade_bengali').range(hadithIndex, hadithIndex).maybeSingle()
+            : Promise.resolve({ data: null }),
+        ]);
 
-          // Process verse
-          if (!finalVerse && verseResult.data) {
-            const surah = surahs.find(s => s.number === verseResult.data.surah_number);
-            finalVerse = {
-              surahNumber: verseResult.data.surah_number,
-              verseNumber: verseResult.data.verse_number,
-              arabic: verseResult.data.arabic,
-              english: verseResult.data.english,
-              bengali: verseResult.data.bengali,
-              surahNameEnglish: surah?.nameEnglish || `Surah ${verseResult.data.surah_number}`,
-              surahNameBengali: surah?.nameBengali || `সূরা ${verseResult.data.surah_number}`,
-            };
-          }
-
-          // Process dua
-          if (duaResult.data) {
-            const { data: categoryData } = await supabase
-              .from('dua_categories')
-              .select('name_english, name_bengali')
-              .eq('category_id', duaResult.data.category_id)
-              .maybeSingle();
-
-            if (categoryData) {
-              setDua({
-                ...duaResult.data,
-                category_name_english: categoryData.name_english,
-                category_name_bengali: categoryData.name_bengali,
-              });
-            }
-          }
-
-          // Process hadith
-          if (!finalHadith && hadithResult.data) {
-            const book = hadithBooks.find(b => b.slug === hadithResult.data.book_slug);
-            finalHadith = {
-              ...hadithResult.data,
-              book_name_english: book?.name_english || hadithResult.data.book_slug,
-              book_name_bengali: book?.name_bengali || hadithResult.data.book_slug,
-              book_name_arabic: book?.name_arabic || "",
-            };
-          }
-        } catch (error) {
-          console.error("Supabase fallback error:", error);
+        // Process verse
+        if (!finalVerse && verseResult.data) {
+          const surah = surahs.find(s => s.number === verseResult.data.surah_number);
+          finalVerse = {
+            surahNumber: verseResult.data.surah_number,
+            verseNumber: verseResult.data.verse_number,
+            arabic: verseResult.data.arabic,
+            english: verseResult.data.english,
+            bengali: verseResult.data.bengali,
+            surahNameEnglish: surah?.nameEnglish || `Surah ${verseResult.data.surah_number}`,
+            surahNameBengali: surah?.nameBengali || `সূরা ${verseResult.data.surah_number}`,
+          };
         }
+
+        // Process dua
+        if (duaResult.data) {
+          const { data: categoryData } = await supabase
+            .from('dua_categories')
+            .select('name_english, name_bengali')
+            .eq('category_id', duaResult.data.category_id)
+            .maybeSingle();
+
+          if (categoryData) {
+            finalDua = {
+              ...duaResult.data,
+              category_name_english: categoryData.name_english,
+              category_name_bengali: categoryData.name_bengali,
+            };
+          }
+        }
+
+        // Process hadith
+        if (!finalHadith && hadithResult.data) {
+          const book = hadithBooks.find(b => b.slug === hadithResult.data.book_slug);
+          finalHadith = {
+            ...hadithResult.data,
+            book_name_english: book?.name_english || hadithResult.data.book_slug,
+            book_name_bengali: book?.name_bengali || hadithResult.data.book_slug,
+            book_name_arabic: book?.name_arabic || "",
+          };
+        }
+      } catch (error) {
+        console.error("Supabase fallback error:", error);
       }
 
-      // Cache all content
+      // Update state
+      setVerse(finalVerse);
+      setDua(finalDua);
+      setHadith(finalHadith);
+
+      // Cache all content with actual values
       try {
         localStorage.setItem(CACHE_KEY, JSON.stringify({
           date: today,
           verse: finalVerse,
-          dua: dua,
+          dua: finalDua,
           hadith: finalHadith,
         }));
       } catch {
         // Cache write failed, continue anyway
       }
 
-      setVerse(finalVerse);
-      setHadith(finalHadith);
       setIsLoading(false);
     };
 
