@@ -39,14 +39,14 @@ const ParaList = ({ language }: ParaListProps) => {
                 <BookOpen className="h-5 w-5" />
               </div>
               <h1 className={cn(
-                "text-lg sm:text-xl font-semibold text-foreground",
+                "text-scale-lg font-semibold text-foreground",
                 language === "bn" && "font-bengali"
               )}>
                 {language === "bn" ? "পারা সমূহ" : "All Paras"}
               </h1>
             </div>
             <p className={cn(
-              "text-muted-foreground lg:ml-13",
+              "text-scale-sm text-muted-foreground lg:ml-13",
               language === "bn" && "font-bengali"
             )}>
               {language === "bn" 
@@ -85,13 +85,13 @@ const ParaList = ({ language }: ParaListProps) => {
               </div>
 
               {/* Arabic name */}
-              <p className="font-arabic text-xl text-foreground mb-2 pr-10">
+              <p className="font-arabic text-scale-xl text-foreground mb-2 pr-10">
                 {para.nameArabic}
               </p>
 
               {/* Name */}
               <h3 className={cn(
-                "font-semibold text-foreground mb-1",
+                "font-semibold text-scale-sm text-foreground mb-1",
                 language === "bn" && "font-bengali"
               )}>
                 {language === "bn" ? para.nameBengali : para.nameEnglish}
@@ -99,7 +99,7 @@ const ParaList = ({ language }: ParaListProps) => {
 
               {/* Range info */}
               <p className={cn(
-                "text-sm text-muted-foreground mb-3",
+                "text-scale-sm text-muted-foreground mb-3",
                 language === "bn" && "font-bengali"
               )}>
                 {language === "bn" 
