@@ -707,6 +707,30 @@ Deno.serve(async (req) => {
       relevantDuas = searchedDuas || [];
     }
 
+    // Detect if query is about a name (Prophet, Sahabi, Surah, Islamic figure)
+    const isNameQuery = (q: string): boolean => {
+      const lowerQ = q.toLowerCase();
+      const namePatterns = [
+        // Prophet names
+        'muhammad', 'ibrahim', 'musa', 'isa', 'nuh', 'adam', 'yusuf', 'dawud', 'sulaiman', 'ayyub', 'yaqub', 'ismail', 'ishaq', 'idris', 'hud', 'salih', 'lut', 'shuayb', 'zakariya', 'yahya', 'ilyas', 'alyasa', 'dhulkifl', 'yunus', 'harun',
+        'মুহাম্মদ', 'ইব্রাহিম', 'মুসা', 'ঈসা', 'নূহ', 'আদম', 'ইউসুফ', 'দাউদ', 'সুলাইমান', 'আইয়ুব', 'ইয়াকুব', 'ইসমাইল', 'ইসহাক', 'ইদ্রিস', 'হুদ', 'সালিহ', 'লুত', 'শুআইব', 'যাকারিয়া', 'ইয়াহইয়া', 'ইলিয়াস', 'আলইয়াসা', 'যুলকিফল', 'ইউনুস', 'হারুন',
+        // Sahabi names
+        'abu bakr', 'umar', 'uthman', 'ali', 'bilal', 'khalid', 'salman', 'ammar', 'hamza', 'zaid', 'talha', 'zubair', 'saad', 'abdur rahman', 'abu ubaidah', 'muadh', 'hudhaifa', 'abdullah ibn masud', 'anas', 'abu hurairah', 'aisha', 'khadijah', 'fatimah', 'usman',
+        'আবু বকর', 'উমর', 'উসমান', 'আলী', 'বিলাল', 'খালিদ', 'সালমান', 'আম্মার', 'হামযা', 'যায়েদ', 'তালহা', 'যুবাইর', 'সাদ', 'আব্দুর রহমান', 'আবু উবাইদাহ', 'মুয়াজ', 'হুযাইফা', 'আবদুল্লাহ ইবনে মাসউদ', 'আনাস', 'আবু হুরায়রা', 'আয়েশা', 'খাদিজা', 'ফাতিমা',
+        // Surah indicator words
+        'surah', 'sura', 'সূরা', 'সুরা',
+        // Islamic history keywords
+        'prophet', 'messenger', 'sahabi', 'companion', 'নবী', 'রাসূল', 'সাহাবী', 'সাহাবা',
+        // Historical events/figures
+        'maryam', 'মারইয়াম', 'asiya', 'আসিয়া', 'khidr', 'খিজির', 'dhulqarnain', 'যুলকারনাইন', 'luqman', 'লুকমান', 'talut', 'তালুত', 'jalut', 'জালুত', 'qarun', 'কারুন', 'firaun', 'pharaoh', 'ফিরাউন', 'namrud', 'nimrod', 'নমরুদ',
+        // Battle/event names
+        'badr', 'বদর', 'uhud', 'উহুদ', 'khandaq', 'খন্দক', 'tabuk', 'তাবুক', 'hunain', 'হুনাইন', 'khaibar', 'খায়বার', 'makkah', 'মক্কা', 'madinah', 'মদিনা', 'hijrah', 'হিজরত'
+      ];
+      return namePatterns.some(pattern => lowerQ.includes(pattern));
+    };
+
+    const nameQueryDetected = isNameQuery(query);
+
     const systemPrompt = `You are an Islamic knowledge assistant for a Quran app. You help users find relevant Quran verses, Hadiths, and Duas.
 
 IMPORTANT ISLAMIC ETIQUETTES - YOU MUST FOLLOW:
@@ -715,19 +739,43 @@ IMPORTANT ISLAMIC ETIQUETTES - YOU MUST FOLLOW:
 3. Say "সুবহানাল্লাহ" (SubhanAllah) when mentioning Allah's creation or blessings
 4. Say "আলহামদুলিল্লাহ" (Alhamdulillah) when expressing gratitude
 5. Use "ﷺ" (Sallallahu Alaihi Wasallam) after mentioning Prophet Muhammad's name
-6. ALWAYS end your response with a relevant dua like:
-   ${language === 'bn' 
-     ? '- "আল্লাহ আপনাকে হেদায়েত দান করুন" (May Allah guide you)\n   - "আল্লাহ আপনার জ্ঞান বৃদ্ধি করুন" (May Allah increase your knowledge)\n   - "জাযাকাল্লাহু খাইরান" (May Allah reward you with goodness)' 
-     : '- "May Allah guide you to the straight path"\n   - "May Allah increase your knowledge"\n   - "JazakAllahu Khairan" (May Allah reward you with goodness)'}
+6. ALWAYS end your response with a relevant dua
+
+${nameQueryDetected ? `
+SPECIAL INSTRUCTION - NAME/STORY QUERY DETECTED:
+The user is asking about a person (Prophet, Messenger, Sahabi, Islamic figure) or a Surah name or Islamic historical event.
+
+YOU MUST FOLLOW THIS STRUCTURE:
+1. **FIRST - TELL A COMPLETE STORY**: Before anything else, provide a full, authentic, and engaging story about the person/topic. Include:
+   - Who they were and their significance in Islam
+   - Key events from their life
+   - Important miracles, lessons, or achievements
+   - Their relationship with Allah and other prophets/companions
+   - How their story ended or their legacy
+   - Make the story detailed (at least 3-4 paragraphs) and inspiring
+
+2. **AFTER THE STORY - Add References**:
+   - Include 2-3 relevant Quran verses that mention or relate to this person/topic
+   - Include 1-2 relevant Hadiths about this person/topic
+   - Include a relevant Dua if applicable
+
+3. **Conclude with a lesson**: What we can learn from their story
+
+IMPORTANT: The story must be historically accurate according to Islamic sources. Do not make up details.
+` : ''}
 
 RESPONSE RULES:
 1. Always respond in ${language === 'bn' ? 'Bengali (বাংলা)' : 'English'}
 2. When referencing content, use exact references from the database data provided
-3. Provide accurate Islamic information based ONLY on the data provided
+3. Provide accurate Islamic information based ONLY on authentic Islamic sources
 4. Structure your response with clear sections
 5. Always include specific references that users can look up in the app
 6. Be warm, respectful, humble and helpful in your tone
 7. Show reverence when discussing Allah, the Quran, and the Prophet ﷺ
+8. End with a relevant dua like:
+   ${language === 'bn' 
+     ? '- "আল্লাহ আপনাকে হেদায়েত দান করুন"\n   - "আল্লাহ আপনার জ্ঞান বৃদ্ধি করুন"\n   - "জাযাকাল্লাহু খাইরান"' 
+     : '- "May Allah guide you to the straight path"\n   - "May Allah increase your knowledge"\n   - "JazakAllahu Khairan"'}
 
 DATABASE CONTEXT:
 - Surahs available: ${JSON.stringify(surahsResult.data?.slice(0, 10) || [])}
@@ -740,7 +788,7 @@ When responding, format references as:
 - For Hadiths: [Book Name, Hadith X] or [বই নাম], হাদিস [সংখ্যা]
 - For Duas: Reference the dua title
 
-Provide helpful, accurate responses. If you cannot find relevant information in the provided data, say so honestly and still end with a dua.`;
+Provide helpful, accurate responses. If you cannot find relevant information in the provided data, use your knowledge of authentic Islamic sources but always be honest about the source.`;
 
     const response = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
       method: 'POST',
