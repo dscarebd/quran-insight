@@ -1,5 +1,6 @@
 import { useState, useMemo, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useFontSize } from "@/hooks/useFontSize";
 import { Home, BookOpen, ChevronRight, Search, BookText, HandHelping, ScrollText } from "lucide-react";
 import { cn, formatNumber } from "@/lib/utils";
 import { surahs } from "@/data/surahs";
@@ -17,6 +18,7 @@ interface MobileNavFooterProps {
 export const MobileNavFooter = ({ language }: MobileNavFooterProps) => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { fontSize } = useFontSize();
   const [quranSheetOpen, setQuranSheetOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<"surah" | "para">("surah");
   const [surahSearch, setSurahSearch] = useState("");
@@ -171,9 +173,10 @@ export const MobileNavFooter = ({ language }: MobileNavFooterProps) => {
               />
               <span
                 className={cn(
-                  "text-[10px] sm:text-xs font-medium truncate max-w-full px-0.5",
+                  "font-medium truncate max-w-full px-0.5",
                   language === "bn" && "font-bengali"
                 )}
+                style={{ fontSize: `${Math.max(fontSize - 6, 10)}px` }}
               >
                 {language === "bn" ? item.labelBn : item.labelEn}
               </span>
