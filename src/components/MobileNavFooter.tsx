@@ -243,14 +243,14 @@ export const MobileNavFooter = ({ language }: MobileNavFooterProps) => {
                       </div>
                       <div className="flex-1 min-w-0 text-left">
                         <div className="flex items-center justify-between gap-2">
-                          <span className={cn("font-medium truncate", language === "bn" && "font-bengali")}>
+                          <span className={cn("font-medium text-sm truncate", language === "bn" && "font-bengali")}>
                             {language === "bn" ? surah.nameBengali : surah.nameEnglish}
                           </span>
-                          <span className="font-arabic text-sm text-muted-foreground shrink-0">
+                          <span className="font-arabic text-xs text-muted-foreground shrink-0">
                             {surah.nameArabic}
                           </span>
                         </div>
-                        <span className={cn("text-sm text-muted-foreground font-bengali")}>
+                        <span className={cn("text-xs text-muted-foreground font-bengali")}>
                           {surah.nameArabic} • {formatNumber(surah.totalVerses, language)} {language === "bn" ? "আয়াত" : "verses"}
                         </span>
                       </div>
@@ -301,14 +301,14 @@ export const MobileNavFooter = ({ language }: MobileNavFooterProps) => {
                       </div>
                       <div className="flex-1 min-w-0 text-left">
                         <div className="flex items-center justify-between gap-2">
-                          <span className={cn("font-medium truncate", language === "bn" && "font-bengali")}>
+                          <span className={cn("font-medium text-sm truncate", language === "bn" && "font-bengali")}>
                             {language === "bn" ? para.nameBengali : para.nameEnglish}
                           </span>
-                          <span className="font-arabic text-sm text-muted-foreground shrink-0">
+                          <span className="font-arabic text-xs text-muted-foreground shrink-0">
                             {para.nameArabic}
                           </span>
                         </div>
-                        <span className={cn("text-sm text-muted-foreground font-bengali")}>
+                        <span className={cn("text-xs text-muted-foreground font-bengali")}>
                           {para.nameArabic} • {language === "bn"
                             ? `সূরা ${formatNumber(para.startSurah, language)}:${formatNumber(para.startVerse, language)} - ${formatNumber(para.endSurah, language)}:${formatNumber(para.endVerse, language)}`
                             : `Surah ${para.startSurah}:${para.startVerse} - ${para.endSurah}:${para.endVerse}`}
