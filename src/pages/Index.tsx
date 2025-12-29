@@ -49,8 +49,8 @@ const Index = ({ language }: IndexProps) => {
   };
 
   return (
-    <div className="flex-1 overflow-y-auto overflow-x-hidden">
-      <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6 sm:py-8">
+    <div className="flex-1 overflow-y-auto overflow-x-hidden max-w-full">
+      <div className="mx-auto max-w-6xl px-3 sm:px-4 md:px-6 py-6 sm:py-8 overflow-hidden">
         {/* Hero Search Section */}
         <DesktopHeroSearch
           language={language}

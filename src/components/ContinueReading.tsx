@@ -84,30 +84,30 @@ export const ContinueReading = ({ language }: ContinueReadingProps) => {
   };
 
   return (
-    <div className="mt-6 lg:hidden">
+    <div className="mt-6 lg:hidden overflow-hidden">
       <button
         onClick={handleContinue}
-        className="w-full flex items-center gap-3 p-3 bg-card hover:bg-card/90 border border-border shadow-lg rounded-xl transition-all duration-200 group"
+        className="w-full flex items-center gap-2 sm:gap-3 p-2.5 sm:p-3 bg-card hover:bg-card/90 border border-border shadow-lg rounded-xl transition-all duration-200 group overflow-hidden"
       >
-        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
-          <BookOpen className="h-5 w-5" />
+        <div className="flex h-9 w-9 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+          <BookOpen className="h-4 w-4 sm:h-5 sm:w-5" />
         </div>
         
-        <div className="flex-1 text-left min-w-0">
+        <div className="flex-1 text-left min-w-0 overflow-hidden">
           <p className={cn(
-            "text-xs text-muted-foreground",
+            "text-[10px] sm:text-xs text-muted-foreground truncate",
             language === "bn" && "font-bengali"
           )}>
             {language === "bn" ? "পড়া চালিয়ে যান" : "Continue Reading"}
           </p>
           <p className={cn(
-            "font-semibold text-foreground truncate text-sm",
+            "font-semibold text-foreground truncate text-xs sm:text-sm",
             language === "bn" && "font-bengali"
           )}>
             {language === "bn" ? surah.nameBengali : surah.nameEnglish}
           </p>
           <p className={cn(
-            "text-xs text-muted-foreground",
+            "text-[10px] sm:text-xs text-muted-foreground truncate",
             language === "bn" && "font-bengali"
           )}>
             {language === "bn" 
@@ -117,8 +117,8 @@ export const ContinueReading = ({ language }: ContinueReadingProps) => {
           </p>
         </div>
         
-        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground group-hover:scale-105 transition-transform">
-          <ChevronRight className="h-5 w-5" />
+        <div className="flex h-8 w-8 sm:h-9 sm:w-9 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground group-hover:scale-105 transition-transform">
+          <ChevronRight className="h-4 w-4 sm:h-5 sm:w-5" />
         </div>
       </button>
     </div>
