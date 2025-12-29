@@ -295,7 +295,7 @@ Deno.serve(async (req) => {
       'guest': ['মেহমান', 'ضيف', 'daif'],
     };
 
-    // Common transliteration variations mapping
+    // Common transliteration variations mapping (English)
     // Maps common misspellings/variations to canonical forms
     const transliterationVariations: Record<string, string[]> = {
       'jannah': ['janat', 'jannat', 'janna', 'jana', 'janah', 'jennah', 'jennat', 'jenah'],
@@ -388,19 +388,231 @@ Deno.serve(async (req) => {
       'azrael': ['azrail', 'izrail', 'izraeel'],
     };
 
-    // Normalize transliteration - convert variations to canonical form
-    const normalizeTransliteration = (term: string): string[] => {
+    // Bengali word variations (common misspellings/alternate spellings)
+    const bengaliVariations: Record<string, string[]> = {
+      // জান্নাত variations
+      'জান্নাত': ['জান্নাত', 'জন্নাত', 'জান্নাতে', 'জান্নতে', 'জাননাত', 'জানাত', 'বেহেশত', 'বেহেস্ত'],
+      'জাহান্নাম': ['জাহান্নাম', 'জাহন্নাম', 'জাহানাম', 'জাহানাম', 'দোযখ', 'দোজখ', 'জাহান্নামে'],
+      // নামাজ variations
+      'নামাজ': ['নামাজ', 'নামায', 'নামাজে', 'নামাযে', 'সালাত', 'সালাহ', 'নামাযের'],
+      'সালাত': ['সালাত', 'সালাহ', 'সালাতে', 'নামাজ', 'নামায'],
+      // রোজা variations
+      'রোজা': ['রোজা', 'রোযা', 'সিয়াম', 'সাওম', 'রোজায়', 'রোযায়'],
+      // হজ variations
+      'হজ': ['হজ', 'হজ্জ', 'হাজ্জ', 'হজে', 'হজ্জে'],
+      // কুরআন variations
+      'কুরআন': ['কুরআন', 'কোরআন', 'কুরান', 'কোরান', 'আল-কুরআন', 'আলকুরআন', 'কুরআনে', 'কোরআনে'],
+      // হাদিস variations
+      'হাদিস': ['হাদিস', 'হাদীস', 'হাদীস', 'হাদিসে', 'হাদীসে'],
+      // দোয়া variations
+      'দোয়া': ['দোয়া', 'দোআ', 'দুআ', 'দুয়া', 'দোয়ায়', 'দোআয়', 'প্রার্থনা'],
+      // তাওবা variations
+      'তওবা': ['তওবা', 'তাওবা', 'তোবা', 'তাওবাহ', 'তওবাহ'],
+      // সবর variations
+      'সবর': ['সবর', 'সবুর', 'ধৈর্য', 'ধৈর্য্য', 'সবুরে'],
+      // ইমান variations
+      'ইমান': ['ইমান', 'ঈমান', 'ইমানে', 'ঈমানে', 'বিশ্বাস'],
+      // তাকওয়া variations
+      'তাকওয়া': ['তাকওয়া', 'তাক্বওয়া', 'তাকওয়ায়', 'পরহেজগারী'],
+      // রহমত variations
+      'রহমত': ['রহমত', 'রহমাত', 'রাহমাত', 'দয়া', 'করুণা', 'রহমতে'],
+      // বরকত variations
+      'বরকত': ['বরকত', 'বারাকাত', 'বরকতে', 'বারাকাহ'],
+      // হেদায়েত variations
+      'হেদায়েত': ['হেদায়েত', 'হিদায়াত', 'হিদায়াহ', 'হেদায়াত', 'পথপ্রদর্শন'],
+      // মাগফিরাত variations
+      'মাগফিরাত': ['মাগফিরাত', 'মাগফেরাত', 'মাগফিরাতে', 'ক্ষমা'],
+      // আখিরাত variations
+      'আখিরাত': ['আখিরাত', 'আখেরাত', 'আখিরাতে', 'পরকাল', 'পরলোক'],
+      // কিয়ামত variations
+      'কিয়ামত': ['কিয়ামত', 'কেয়ামত', 'কিয়ামাত', 'কেয়ামাত', 'কিয়ামতে'],
+      // ফেরেশতা variations
+      'ফেরেশতা': ['ফেরেশতা', 'ফিরিশতা', 'ফেরেশতায়', 'মালাইকা', 'মালাক'],
+      // শয়তান variations
+      'শয়তান': ['শয়তান', 'শয়তানে', 'ইবলিস', 'শয়তানের'],
+      // মসজিদ variations
+      'মসজিদ': ['মসজিদ', 'মাসজিদ', 'মসজিদে', 'মাসজিদে'],
+      // রমজান variations
+      'রমজান': ['রমজান', 'রমযান', 'রামাদান', 'রমজানে', 'রমযানে'],
+      // ঈদ variations
+      'ঈদ': ['ঈদ', 'ইদ', 'ঈদে', 'ঈদের'],
+      // ফজর variations
+      'ফজর': ['ফজর', 'ফযর', 'ফজরে', 'ফযরে', 'সুবহে সাদিক'],
+      // যোহর variations
+      'যোহর': ['যোহর', 'জোহর', 'যুহর', 'দুপুর', 'যোহরে'],
+      // আসর variations
+      'আসর': ['আসর', 'আছর', 'আসরে', 'বিকাল'],
+      // মাগরিব variations
+      'মাগরিব': ['মাগরিব', 'মাগরেব', 'মাগরিবে', 'সন্ধ্যা'],
+      // ইশা variations
+      'ইশা': ['ইশা', 'এশা', 'ইশায়', 'রাত'],
+      // তাহাজ্জুদ variations
+      'তাহাজ্জুদ': ['তাহাজ্জুদ', 'তাহাজ্জদ', 'তাহাজ্জুদে'],
+      // জুমুআ variations
+      'জুমুআ': ['জুমুআ', 'জুম্মা', 'জুমা', 'শুক্রবার'],
+      // অযু variations
+      'অযু': ['অযু', 'ওযু', 'উযু', 'অজু', 'ওজু'],
+      // গোসল variations
+      'গোসল': ['গোসল', 'গুসল', 'গোসলে'],
+      // কুরবানি variations
+      'কুরবানি': ['কুরবানি', 'কোরবানি', 'কুরবানী', 'কোরবানী'],
+      // নিকাহ variations
+      'নিকাহ': ['নিকাহ', 'নিকা', 'বিবাহ', 'বিয়ে', 'শাদি'],
+      // জিকির variations
+      'জিকির': ['জিকির', 'যিকির', 'যিক্‌র', 'জিকিরে'],
+      // সাদাকা variations
+      'সাদাকা': ['সাদাকা', 'সদকা', 'সাদাকাহ', 'দান'],
+      // ইতিকাফ variations
+      'ইতিকাফ': ['ইতিকাফ', 'ইতেকাফ', 'ই\'তিকাফ'],
+      // উমরা variations
+      'উমরা': ['উমরা', 'ওমরা', 'উমরাহ'],
+      // হালাল variations
+      'হালাল': ['হালাল', 'হেলাল', 'হালালে'],
+      // হারাম variations
+      'হারাম': ['হারাম', 'হারামে', 'হোরম'],
+      // ফরজ variations
+      'ফরজ': ['ফরজ', 'ফরয', 'ফরদ', 'ফরযে'],
+      // সুন্নত variations
+      'সুন্নত': ['সুন্নত', 'সুন্নাত', 'সুন্নাহ', 'সুন্নাতে'],
+      // আয়াত variations
+      'আয়াত': ['আয়াত', 'আয়াতে', 'আয়াতসমূহ'],
+      // সূরা variations
+      'সূরা': ['সূরা', 'সুরা', 'সূরাহ', 'সূরায়'],
+      // তাফসীর variations
+      'তাফসীর': ['তাফসীর', 'তাফসির', 'তাফসীরে'],
+      // রিযিক variations
+      'রিযিক': ['রিযিক', 'রিজিক', 'রিয্‌ক', 'জীবিকা'],
+      // শাফায়াত variations
+      'শাফায়াত': ['শাফায়াত', 'শাফাআত', 'সুপারিশ'],
+      // তাওয়াক্কুল variations
+      'তাওয়াক্কুল': ['তাওয়াক্কুল', 'তাওয়াকুল', 'ভরসা', 'নির্ভরতা'],
+      // শুকর variations
+      'শুকর': ['শুকর', 'শোকর', 'কৃতজ্ঞতা'],
+      // ইখলাস variations
+      'ইখলাস': ['ইখলাস', 'একলাস', 'আন্তরিকতা'],
+      // Common search terms
+      'আল্লাহ': ['আল্লাহ', 'আল্লাহ্', 'আল্লাহর', 'আল্লাহ্‌', 'আল্লাহতালা', 'আল্লাহ্তায়ালা'],
+      'নবী': ['নবী', 'নবি', 'নবীজি', 'নবীর', 'রাসূল', 'রসূল'],
+      'রাসূল': ['রাসূল', 'রসূল', 'রাসুল', 'রসুল', 'নবী'],
+      'মুহাম্মদ': ['মুহাম্মদ', 'মুহাম্মাদ', 'মোহাম্মদ', 'মোহাম্মাদ', 'মুহাম্মদ'],
+      'সাহাবা': ['সাহাবা', 'সাহাবী', 'সাহাবায়', 'সাহাবিগণ'],
+      'উম্মাহ': ['উম্মাহ', 'উম্মত', 'উম্মতে', 'জাতি'],
+    };
+
+    // Arabic word variations (with/without diacritics, common forms)
+    const arabicVariations: Record<string, string[]> = {
+      'الجنة': ['الجنة', 'جنة', 'الجنه', 'جنه', 'جنّة'],
+      'جهنم': ['جهنم', 'جهنّم', 'النار', 'نار'],
+      'صلاة': ['صلاة', 'صلوة', 'الصلاة', 'صلاه'],
+      'صوم': ['صوم', 'الصوم', 'صيام', 'الصيام'],
+      'حج': ['حج', 'الحج', 'حجّ'],
+      'زكاة': ['زكاة', 'الزكاة', 'زكاه'],
+      'قرآن': ['قرآن', 'القرآن', 'قران', 'القران'],
+      'حديث': ['حديث', 'الحديث', 'أحاديث'],
+      'سنة': ['سنة', 'السنة', 'سنه'],
+      'دعاء': ['دعاء', 'الدعاء', 'دعا'],
+      'ذكر': ['ذكر', 'الذكر', 'اذكار', 'الأذكار'],
+      'توحيد': ['توحيد', 'التوحيد'],
+      'إيمان': ['إيمان', 'الإيمان', 'ايمان'],
+      'تقوى': ['تقوى', 'التقوى'],
+      'توبة': ['توبة', 'التوبة', 'توبه'],
+      'صبر': ['صبر', 'الصبر'],
+      'شكر': ['شكر', 'الشكر'],
+      'توكل': ['توكل', 'التوكل'],
+      'رحمة': ['رحمة', 'الرحمة', 'رحمه'],
+      'بركة': ['بركة', 'البركة', 'بركه'],
+      'هداية': ['هداية', 'الهداية', 'هدايه', 'هدى'],
+      'مغفرة': ['مغفرة', 'المغفرة', 'مغفره'],
+      'آخرة': ['آخرة', 'الآخرة', 'اخرة'],
+      'دنيا': ['دنيا', 'الدنيا'],
+      'قيامة': ['قيامة', 'القيامة', 'قيامه'],
+      'ملائكة': ['ملائكة', 'الملائكة', 'ملاك', 'ملك'],
+      'شيطان': ['شيطان', 'الشيطان', 'شياطين'],
+      'نبي': ['نبي', 'النبي', 'انبياء', 'الأنبياء'],
+      'رسول': ['رسول', 'الرسول', 'رسل'],
+      'صحابة': ['صحابة', 'الصحابة', 'صحابي'],
+      'أمة': ['أمة', 'الأمة', 'امة'],
+      'حلال': ['حلال', 'الحلال'],
+      'حرام': ['حرام', 'الحرام'],
+      'فرض': ['فرض', 'الفرض', 'فروض'],
+      'واجب': ['واجب', 'الواجب'],
+      'سجدة': ['سجدة', 'السجدة', 'سجود'],
+      'ركوع': ['ركوع', 'الركوع'],
+      'آية': ['آية', 'الآية', 'آيات', 'الآيات', 'ايه', 'ايات'],
+      'سورة': ['سورة', 'السورة', 'سور'],
+      'تفسير': ['تفسير', 'التفسير'],
+      'وضوء': ['وضوء', 'الوضوء'],
+      'غسل': ['غسل', 'الغسل'],
+      'صدقة': ['صدقة', 'الصدقة', 'صدقات'],
+      'رمضان': ['رمضان', 'شهر رمضان'],
+      'عيد': ['عيد', 'العيد', 'اعياد'],
+      'فجر': ['فجر', 'الفجر'],
+      'ظهر': ['ظهر', 'الظهر'],
+      'عصر': ['عصر', 'العصر'],
+      'مغرب': ['مغرب', 'المغرب'],
+      'عشاء': ['عشاء', 'العشاء'],
+      'جمعة': ['جمعة', 'الجمعة'],
+      'مسجد': ['مسجد', 'المسجد', 'مساجد'],
+      'إمام': ['إمام', 'الإمام', 'ائمة', 'امام'],
+      'علم': ['علم', 'العلم'],
+      'حكمة': ['حكمة', 'الحكمة', 'حكمه'],
+      'عقل': ['عقل', 'العقل'],
+      'قلب': ['قلب', 'القلب', 'قلوب'],
+      'روح': ['روح', 'الروح', 'ارواح'],
+      'نفس': ['نفس', 'النفس', 'انفس'],
+      'ذنب': ['ذنب', 'الذنب', 'ذنوب'],
+      'ثواب': ['ثواب', 'الثواب'],
+      'عذاب': ['عذاب', 'العذاب'],
+      'رزق': ['رزق', 'الرزق'],
+      'شفاعة': ['شفاعة', 'الشفاعة'],
+      'نور': ['نور', 'النور', 'انوار'],
+      'الله': ['الله', 'اللّه', 'اللَّه'],
+      'رب': ['رب', 'الرب', 'ربّ', 'ربنا'],
+      'محمد': ['محمد', 'محمّد', 'النبي محمد'],
+      'إبراهيم': ['إبراهيم', 'ابراهيم'],
+      'موسى': ['موسى', 'موسي'],
+      'عيسى': ['عيسى', 'عيسي'],
+      'نوح': ['نوح'],
+      'آدم': ['آدم', 'ادم'],
+      'جبريل': ['جبريل', 'جبرائيل'],
+    };
+
+    // Normalize transliteration - convert variations to canonical form (all languages)
+    const normalizeAllVariations = (term: string): string[] => {
       const normalized: string[] = [term];
       const termLower = term.toLowerCase();
       
-      // Check if term is a variation, return canonical form
+      // Check English transliteration variations
       for (const [canonical, variations] of Object.entries(transliterationVariations)) {
         if (variations.some(v => v === termLower || termLower.includes(v) || v.includes(termLower))) {
           normalized.push(canonical);
-          // Also add all variations for broader matching
           variations.forEach(v => normalized.push(v));
         }
         if (canonical === termLower || termLower.includes(canonical) || canonical.includes(termLower)) {
+          normalized.push(canonical);
+          variations.forEach(v => normalized.push(v));
+        }
+      }
+      
+      // Check Bengali variations
+      for (const [canonical, variations] of Object.entries(bengaliVariations)) {
+        if (variations.some(v => v === term || term.includes(v) || v.includes(term))) {
+          normalized.push(canonical);
+          variations.forEach(v => normalized.push(v));
+        }
+        if (canonical === term || term.includes(canonical) || canonical.includes(term)) {
+          normalized.push(canonical);
+          variations.forEach(v => normalized.push(v));
+        }
+      }
+      
+      // Check Arabic variations
+      for (const [canonical, variations] of Object.entries(arabicVariations)) {
+        if (variations.some(v => v === term || term.includes(v) || v.includes(term))) {
+          normalized.push(canonical);
+          variations.forEach(v => normalized.push(v));
+        }
+        if (canonical === term || term.includes(canonical) || canonical.includes(term)) {
           normalized.push(canonical);
           variations.forEach(v => normalized.push(v));
         }
@@ -411,16 +623,16 @@ Deno.serve(async (req) => {
 
     // Expand search terms with translations and fuzzy matching
     const expandSearchTerms = (query: string): string[] => {
-      const terms = query.toLowerCase().split(/\s+/).filter(t => t.length > 1);
+      const terms = query.split(/\s+/).filter(t => t.length > 1);
       const expandedTerms = new Set<string>();
       
       terms.forEach(term => {
-        // First normalize transliteration variations
-        const normalizedTerms = normalizeTransliteration(term);
-        normalizedTerms.forEach(nt => expandedTerms.add(nt));
+        // First normalize all language variations (English, Bengali, Arabic)
+        const normalizedTerms: string[] = normalizeAllVariations(term);
+        normalizedTerms.forEach((nt: string) => expandedTerms.add(nt));
         
         // Then check dictionary translations for each normalized term
-        normalizedTerms.forEach(normalizedTerm => {
+        normalizedTerms.forEach((normalizedTerm: string) => {
           Object.entries(termTranslations).forEach(([key, translations]) => {
             if (key.toLowerCase().includes(normalizedTerm) || normalizedTerm.includes(key.toLowerCase())) {
               translations.forEach(t => expandedTerms.add(t.toLowerCase()));
