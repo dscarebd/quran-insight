@@ -484,8 +484,8 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
         {/* Location & Settings */}
         <Card className="mb-6">
           <CardContent className="p-4 space-y-4">
-            {/* Desktop: All 3 in one row | Mobile: stacked */}
-            <div className="flex flex-col lg:flex-row lg:items-end gap-3">
+            {/* All elements in one row */}
+            <div className="flex flex-row items-end gap-3">
               {/* City Selection - Desktop only */}
               <div className="hidden lg:block lg:flex-1">
                 <label className={cn(
