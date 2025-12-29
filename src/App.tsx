@@ -183,6 +183,11 @@ const AppContent = () => {
           <HadithDetail language={language} arabicFont={arabicFont} />
         </Layout>
       } />
+      <Route path="/hadith/:bookSlug/:hadithNumber" element={
+        <Layout language={language} onLanguageChange={setLanguage}>
+          <HadithDetail language={language} arabicFont={arabicFont} />
+        </Layout>
+      } />
       <Route path="/hadith-search" element={
         <Layout language={language} onLanguageChange={setLanguage}>
           <HadithSearch language={language} arabicFont={arabicFont} />
