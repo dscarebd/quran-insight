@@ -132,7 +132,7 @@ export const AISearchResults = ({ response, language }: AISearchResultsProps) =>
                 {/* Surah and Verse Reference */}
                 <div className="flex items-center justify-between mb-3">
                   <span className={cn(
-                    "text-xs px-2 py-1 rounded-full bg-primary/10 text-primary font-medium",
+                    "text-xs px-2 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-medium",
                     language === "bn" && "font-bengali"
                   )}>
                     {language === "bn" 
