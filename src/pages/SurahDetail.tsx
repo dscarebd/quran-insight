@@ -11,8 +11,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sh
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Language } from "@/types/language";
-import { getVersesBySurah } from "@/services/offlineDataService";
-import { syncSurahVerses } from "@/services/syncService";
+import { getVerses } from "@/services/bundledDataService";
 
 interface SurahDetailProps {
   language: Language;
@@ -139,7 +138,7 @@ const SurahDetail = ({ language, readingMode = "normal", arabicFont = "amiri" }:
     }
   }, [surahSheetOpen, surahNum, surahSearchQuery]);
 
-  // Fetch verses - offline first with online fallback
+  // Fetch verses - uses bundled data service (offline-first)
   useEffect(() => {
     const fetchVerses = async () => {
       setIsTransitioning(true);
@@ -157,14 +156,8 @@ const SurahDetail = ({ language, readingMode = "normal", arabicFont = "amiri" }:
       if (verses.length === 0) setIsLoading(true);
       
       try {
-        // Try IndexedDB first (offline)
-        let localVerses = await getVersesBySurah(surahNum);
-        
-        if (localVerses.length === 0) {
-          // Fetch from Supabase and save to IndexedDB
-          localVerses = await syncSurahVerses(surahNum);
-        }
-        
+        // Use bundled data service (handles memory cache -> IndexedDB -> Supabase fallback)
+        const localVerses = await getVerses(surahNum);
         setVerses(localVerses);
         versesCache.set(surahNum, localVerses);
       } catch (error) {

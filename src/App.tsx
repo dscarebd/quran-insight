@@ -12,6 +12,7 @@ import { useContentProtection } from "@/hooks/useContentProtection";
 import { useFontSize } from "@/hooks/useFontSize";
 import { useBackButtonHandler } from "@/hooks/useBackButtonHandler";
 import { Language } from "@/types/language";
+import { syncAllDataInBackground } from "@/services/bundledDataService";
 import Index from "./pages/Index";
 import SurahList from "./pages/SurahList";
 import SurahDetail from "./pages/SurahDetail";
@@ -94,6 +95,11 @@ const AppContent = () => {
   
   // Handle mobile back button to prevent accidental exit
   useBackButtonHandler();
+
+  // Start background sync of all data on app startup
+  useEffect(() => {
+    syncAllDataInBackground().catch(console.error);
+  }, []);
 
   return (
     <Routes>
