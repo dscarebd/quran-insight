@@ -148,7 +148,10 @@ const SurahDetail = ({ language, readingMode = "normal", arabicFont = "amiri" }:
       if (versesCache.has(surahNum)) {
         setVerses(versesCache.get(surahNum)!);
         setIsLoading(false);
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        // Only scroll to top if no hash (verse target)
+        if (!location.hash) {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
         setTimeout(() => setIsTransitioning(false), 50);
         return;
       }
@@ -170,8 +173,11 @@ const SurahDetail = ({ language, readingMode = "normal", arabicFont = "amiri" }:
     };
 
     fetchVerses();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, [surahNum]);
+    // Only scroll to top if no hash (verse target)
+    if (!location.hash) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }, [surahNum, location.hash]);
 
   // Scroll to verse if hash is present
   useEffect(() => {
@@ -179,9 +185,11 @@ const SurahDetail = ({ language, readingMode = "normal", arabicFont = "amiri" }:
       const match = location.hash.match(/#verse-(\d+)/);
       if (match) {
         const verseNumber = parseInt(match[1], 10);
+        // Longer delay to ensure DOM is fully rendered and refs are set
         setTimeout(() => {
-          if (verseRefs.current[verseNumber]) {
-            verseRefs.current[verseNumber]?.scrollIntoView({
+          const element = verseRefs.current[verseNumber];
+          if (element) {
+            element.scrollIntoView({
               behavior: 'smooth',
               block: 'center'
             });
@@ -192,7 +200,7 @@ const SurahDetail = ({ language, readingMode = "normal", arabicFont = "amiri" }:
               setHighlightedVerse(null);
             }, 2000);
           }
-        }, 100);
+        }, 300);
       }
     }
   }, [isLoading, verses, location.hash]);
