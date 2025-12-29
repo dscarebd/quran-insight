@@ -121,7 +121,7 @@ export const DailyVerse = ({ language }: DailyVerseProps) => {
 
   const handleReferenceClick = () => {
     if (verse) {
-      navigate(`/surah/${verse.surahNumber}?verse=${verse.verseNumber}`);
+      navigate(`/surah/${verse.surahNumber}#verse-${verse.verseNumber}`);
     }
   };
 
