@@ -1,21 +1,13 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
 import { supabase } from "@/integrations/supabase/client";
-import { Download, FileJson, Loader2, CheckCircle, AlertCircle, Upload, BookOpen } from "lucide-react";
+import { Download, Loader2, CheckCircle, AlertCircle, Upload, BookOpen } from "lucide-react";
 import { toast } from "sonner";
 import { hadithBooks } from "@/data/hadithBooks";
 
-interface ExportStatus {
-  isExporting: boolean;
-  progress: number;
-  currentItem: string;
-  totalItems: number;
-}
-
 interface BookExportStatus {
-  [bookSlug: string]: {
+  [key: string]: {
     isExporting: boolean;
     exported: boolean;
     count: number;
@@ -23,11 +15,17 @@ interface BookExportStatus {
 }
 
 interface BundledBookStatus {
-  [bookSlug: string]: {
+  [key: string]: {
     exists: boolean;
     count: number;
   };
 }
+
+// Define which books need to be split into parts
+const splitBooks: Record<string, { chapterSplits: number[] }> = {
+  bukhari: { chapterSplits: [48] }, // Part 1: 1-48, Part 2: 49+
+  muslim: { chapterSplits: [28] },  // Part 1: 1-28, Part 2: 29+
+};
 
 const ExportData = () => {
   const [bookExportStatus, setBookExportStatus] = useState<BookExportStatus>({});
@@ -48,7 +46,7 @@ const ExportData = () => {
     let versesExist = false;
     let versesCount = 0;
 
-    // Check verses CSV (independent try-catch)
+    // Check verses CSV
     try {
       const versesResponse = await fetch('/data/verses-complete.csv');
       versesExist = versesResponse.ok;
@@ -66,24 +64,71 @@ const ExportData = () => {
       checking: false
     });
 
-    // Check each hadith book file independently
+    // Check each hadith book file (including parts for split books)
     const bookStatuses: BundledBookStatus = {};
     
     await Promise.all(
       hadithBooks.map(async (book) => {
-        try {
-          const response = await fetch(`/data/hadiths-${book.slug}.json`);
-          if (response.ok) {
-            const data = await response.json();
-            bookStatuses[book.slug] = {
-              exists: true,
-              count: Array.isArray(data) ? data.length : 0
-            };
-          } else {
+        const isSplitBook = splitBooks[book.slug];
+        
+        if (isSplitBook) {
+          // Check for part files
+          let totalCount = 0;
+          let allPartsExist = true;
+          const numParts = isSplitBook.chapterSplits.length + 1;
+          
+          for (let part = 1; part <= numParts; part++) {
+            try {
+              const response = await fetch(`/data/hadiths-${book.slug}-${part}.json`);
+              if (response.ok) {
+                const data = await response.json();
+                totalCount += Array.isArray(data) ? data.length : 0;
+              } else {
+                allPartsExist = false;
+              }
+            } catch {
+              allPartsExist = false;
+            }
+          }
+          
+          bookStatuses[book.slug] = {
+            exists: allPartsExist,
+            count: totalCount
+          };
+          
+          // Also track individual parts
+          for (let part = 1; part <= numParts; part++) {
+            try {
+              const response = await fetch(`/data/hadiths-${book.slug}-${part}.json`);
+              if (response.ok) {
+                const data = await response.json();
+                bookStatuses[`${book.slug}-${part}`] = {
+                  exists: true,
+                  count: Array.isArray(data) ? data.length : 0
+                };
+              } else {
+                bookStatuses[`${book.slug}-${part}`] = { exists: false, count: 0 };
+              }
+            } catch {
+              bookStatuses[`${book.slug}-${part}`] = { exists: false, count: 0 };
+            }
+          }
+        } else {
+          // Regular single-file book
+          try {
+            const response = await fetch(`/data/hadiths-${book.slug}.json`);
+            if (response.ok) {
+              const data = await response.json();
+              bookStatuses[book.slug] = {
+                exists: true,
+                count: Array.isArray(data) ? data.length : 0
+              };
+            } else {
+              bookStatuses[book.slug] = { exists: false, count: 0 };
+            }
+          } catch {
             bookStatuses[book.slug] = { exists: false, count: 0 };
           }
-        } catch {
-          bookStatuses[book.slug] = { exists: false, count: 0 };
         }
       })
     );
@@ -91,10 +136,17 @@ const ExportData = () => {
     setBundledBooks(bookStatuses);
   };
 
-  const exportBookToJson = async (bookSlug: string, bookName: string) => {
+  const exportBookToJson = async (
+    bookSlug: string, 
+    bookName: string, 
+    part?: number, 
+    chapterRange?: { min: number; max: number | null }
+  ) => {
+    const exportKey = part ? `${bookSlug}-${part}` : bookSlug;
+    
     setBookExportStatus(prev => ({
       ...prev,
-      [bookSlug]: { isExporting: true, exported: false, count: 0 }
+      [exportKey]: { isExporting: true, exported: false, count: 0 }
     }));
 
     try {
@@ -103,12 +155,21 @@ const ExportData = () => {
       let offset = 0;
 
       while (true) {
-        const { data, error } = await supabase
+        let query = supabase
           .from("hadiths")
           .select("book_slug, hadith_number, chapter_number, chapter_name_english, chapter_name_bengali, arabic, english, bengali, narrator_english, narrator_bengali, grade, grade_bengali")
           .eq("book_slug", bookSlug)
-          .order("hadith_number", { ascending: true })
-          .range(offset, offset + batchSize - 1);
+          .order("hadith_number", { ascending: true });
+        
+        // Apply chapter filter if exporting a part
+        if (chapterRange) {
+          query = query.gte("chapter_number", chapterRange.min);
+          if (chapterRange.max !== null) {
+            query = query.lte("chapter_number", chapterRange.max);
+          }
+        }
+        
+        const { data, error } = await query.range(offset, offset + batchSize - 1);
 
         if (error) throw error;
         if (!data || data.length === 0) break;
@@ -125,31 +186,36 @@ const ExportData = () => {
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `hadiths-${bookSlug}.json`;
+      a.download = part ? `hadiths-${bookSlug}-${part}.json` : `hadiths-${bookSlug}.json`;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
 
       const fileSizeMB = (blob.size / (1024 * 1024)).toFixed(2);
-      toast.success(`Exported ${allHadiths.length.toLocaleString()} hadiths from ${bookName} (${fileSizeMB} MB)`);
+      const partLabel = part ? ` Part ${part}` : '';
+      toast.success(`Exported ${allHadiths.length.toLocaleString()} hadiths from ${bookName}${partLabel} (${fileSizeMB} MB)`);
       
       setBookExportStatus(prev => ({
         ...prev,
-        [bookSlug]: { isExporting: false, exported: true, count: allHadiths.length }
+        [exportKey]: { isExporting: false, exported: true, count: allHadiths.length }
       }));
     } catch (error) {
       console.error('Export error:', error);
       toast.error(`Failed to export ${bookName}`);
       setBookExportStatus(prev => ({
         ...prev,
-        [bookSlug]: { isExporting: false, exported: false, count: 0 }
+        [exportKey]: { isExporting: false, exported: false, count: 0 }
       }));
     }
   };
 
-  const totalBundledHadiths = Object.values(bundledBooks).reduce((sum, b) => sum + b.count, 0);
-  const bundledBooksCount = Object.values(bundledBooks).filter(b => b.exists).length;
+  const totalBundledHadiths = Object.entries(bundledBooks)
+    .filter(([key]) => !key.includes('-')) // Only count main book keys, not parts
+    .reduce((sum, [, b]) => sum + b.count, 0);
+  const bundledBooksCount = Object.entries(bundledBooks)
+    .filter(([key]) => !key.includes('-'))
+    .filter(([, b]) => b.exists).length;
 
   return (
     <div className="p-6 space-y-6">
@@ -215,15 +281,85 @@ const ExportData = () => {
             Export Hadiths by Book
           </CardTitle>
           <CardDescription>
-            Export each hadith book separately (smaller files for easier upload)
+            Export each hadith book separately. Large books (Bukhari, Muslim) are split into parts to stay under 20MB.
           </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {hadithBooks.map((book) => {
-              const status = bookExportStatus[book.slug];
+              const isSplitBook = splitBooks[book.slug];
               const bundled = bundledBooks[book.slug];
               const isBundled = bundled?.exists;
+              
+              if (isSplitBook) {
+                // Render split book with multiple download buttons
+                const numParts = isSplitBook.chapterSplits.length + 1;
+                
+                return (
+                  <div 
+                    key={book.slug}
+                    className={`p-3 rounded-lg border ${isBundled ? 'border-green-500/30 bg-green-500/5' : 'border-border'}`}
+                  >
+                    <div className="flex items-center justify-between mb-2">
+                      <div>
+                        <p className="font-medium text-sm">{book.name_english}</p>
+                        <p className="text-xs text-muted-foreground">{book.name_bengali}</p>
+                      </div>
+                      {isBundled && (
+                        <CheckCircle className="h-4 w-4 text-green-500 shrink-0" />
+                      )}
+                    </div>
+                    
+                    <p className="text-xs text-muted-foreground mb-2">
+                      {isBundled ? `${bundled.count.toLocaleString()} bundled` : `Split into ${numParts} parts`}
+                    </p>
+                    
+                    <div className="flex flex-wrap gap-2">
+                      {Array.from({ length: numParts }, (_, i) => i + 1).map((part) => {
+                        const partKey = `${book.slug}-${part}`;
+                        const status = bookExportStatus[partKey];
+                        const partBundled = bundledBooks[partKey];
+                        
+                        // Calculate chapter range for this part
+                        const splits = isSplitBook.chapterSplits;
+                        const minChapter = part === 1 ? 1 : splits[part - 2] + 1;
+                        const maxChapter = part <= splits.length ? splits[part - 1] : null;
+                        const chapterLabel = maxChapter 
+                          ? `Ch ${minChapter}-${maxChapter}`
+                          : `Ch ${minChapter}+`;
+                        
+                        return (
+                          <Button
+                            key={part}
+                            size="sm"
+                            variant={partBundled?.exists ? "outline" : "default"}
+                            onClick={() => exportBookToJson(
+                              book.slug, 
+                              book.name_english, 
+                              part,
+                              { min: minChapter, max: maxChapter }
+                            )}
+                            disabled={status?.isExporting}
+                            className="text-xs"
+                          >
+                            {status?.isExporting ? (
+                              <Loader2 className="h-3 w-3 animate-spin mr-1" />
+                            ) : partBundled?.exists ? (
+                              <CheckCircle className="h-3 w-3 mr-1" />
+                            ) : (
+                              <Download className="h-3 w-3 mr-1" />
+                            )}
+                            Part {part} ({chapterLabel})
+                          </Button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                );
+              }
+              
+              // Regular single-file book
+              const status = bookExportStatus[book.slug];
               
               return (
                 <div 
@@ -279,7 +415,8 @@ const ExportData = () => {
             <p className="font-medium">Steps to complete:</p>
             <ol className="list-decimal list-inside space-y-1 text-muted-foreground">
               <li>Click each book's download button above</li>
-              <li>Upload files to: <code className="bg-background px-1 rounded">public/data/hadiths-[book-slug].json</code></li>
+              <li>For Bukhari/Muslim: Download both parts</li>
+              <li>Upload files to: <code className="bg-background px-1 rounded">public/data/</code></li>
               <li>Rebuild the app</li>
               <li>App will work 100% offline!</li>
             </ol>
@@ -298,7 +435,7 @@ const ExportData = () => {
                 <tr className="border-b">
                   <th className="text-left py-2 px-3">Content</th>
                   <th className="text-left py-2 px-3">Count</th>
-                  <th className="text-left py-2 px-3">File</th>
+                  <th className="text-left py-2 px-3">File(s)</th>
                   <th className="text-left py-2 px-3">Status</th>
                 </tr>
               </thead>
@@ -316,7 +453,31 @@ const ExportData = () => {
                   </td>
                 </tr>
                 {hadithBooks.map((book) => {
+                  const isSplitBook = splitBooks[book.slug];
                   const bundled = bundledBooks[book.slug];
+                  
+                  if (isSplitBook) {
+                    const numParts = isSplitBook.chapterSplits.length + 1;
+                    const partFiles = Array.from({ length: numParts }, (_, i) => 
+                      `hadiths-${book.slug}-${i + 1}.json`
+                    ).join(', ');
+                    
+                    return (
+                      <tr key={book.slug} className="border-b">
+                        <td className="py-2 px-3">{book.name_english}</td>
+                        <td className="py-2 px-3">{bundled?.count || book.total_hadiths}</td>
+                        <td className="py-2 px-3"><code className="text-xs">{partFiles}</code></td>
+                        <td className="py-2 px-3">
+                          {bundled?.exists ? (
+                            <span className="text-green-600 flex items-center gap-1"><CheckCircle className="h-4 w-4" /> Bundled</span>
+                          ) : (
+                            <span className="text-red-600 flex items-center gap-1"><AlertCircle className="h-4 w-4" /> Export Required</span>
+                          )}
+                        </td>
+                      </tr>
+                    );
+                  }
+                  
                   return (
                     <tr key={book.slug} className="border-b">
                       <td className="py-2 px-3">{book.name_english}</td>
