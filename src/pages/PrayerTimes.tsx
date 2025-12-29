@@ -628,10 +628,13 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
         {(currentPrayer || nextPrayer) && (
           <Card className="mb-6 bg-gradient-to-br from-primary/10 to-primary/5 border-primary/20">
             <CardContent className="p-4">
-              <div className="flex items-center justify-between gap-4">
+              <div className={cn(
+                "flex items-center gap-4",
+                currentPrayer && nextPrayer ? "justify-between" : "justify-center"
+              )}>
                 {/* Current Running Prayer */}
                 {currentPrayer && (
-                  <div className="flex items-center gap-3">
+                  <div className={cn("flex items-center gap-3", !nextPrayer && "text-center flex-col")}>
                     <div>
                       <p className={cn(
                         "text-xs text-muted-foreground",
@@ -639,7 +642,7 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
                       )}>
                         {language === 'bn' ? 'চলমান নামাজ' : 'Current Prayer'}
                       </p>
-                      <div className="flex items-center gap-1.5">
+                      <div className={cn("flex items-center gap-1.5", !nextPrayer && "justify-center")}>
                         <span className={cn(
                           "text-base font-bold text-emerald-600 dark:text-emerald-400",
                           language === "bn" && "font-bengali"
@@ -659,14 +662,14 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
                 
                 {/* Next Prayer */}
                 {nextPrayer && (
-                  <div className="text-right">
+                  <div className={cn(!currentPrayer ? "text-center" : "text-right")}>
                     <p className={cn(
                       "text-xs text-muted-foreground",
                       language === "bn" && "font-bengali"
                     )}>
                       {nextPrayerLabel[language]}
                     </p>
-                    <div className="flex items-center justify-end gap-1.5">
+                    <div className={cn("flex items-center gap-1.5", !currentPrayer ? "justify-center" : "justify-end")}>
                       <span className={cn(
                         "text-base font-bold text-primary",
                         language === "bn" && "font-bengali"
