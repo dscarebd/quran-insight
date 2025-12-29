@@ -42,13 +42,13 @@ const NamesOfAllah = ({ language, arabicFont = "amiri" }: NamesOfAllahProps) => 
             </div>
             <div className="flex-1 min-w-0">
               <h1 className={cn(
-                "text-lg sm:text-xl font-semibold text-foreground truncate",
+                "text-scale-lg sm:text-scale-xl font-semibold text-foreground truncate",
                 language === "bn" && "font-bengali"
               )}>
                 {language === "bn" ? "আল্লাহর ৯৯ নাম" : "99 Names of Allah"}
               </h1>
               <p className={cn(
-                "text-xs sm:text-sm text-muted-foreground",
+                "text-scale-xs sm:text-scale-sm text-muted-foreground",
                 language === "bn" && "font-bengali"
               )}>
                 {language === "bn" ? "আসমাউল হুসনা" : "Asma ul Husna"}
@@ -56,7 +56,7 @@ const NamesOfAllah = ({ language, arabicFont = "amiri" }: NamesOfAllahProps) => 
             </div>
             <div className="flex items-center gap-2 text-muted-foreground">
               <Star className="h-4 w-4 text-amber-500" />
-              <span className="text-sm font-medium">{filteredNames.length}</span>
+              <span className="text-scale-sm font-medium">{filteredNames.length}</span>
             </div>
           </div>
 
@@ -96,7 +96,7 @@ const NamesOfAllah = ({ language, arabicFont = "amiri" }: NamesOfAllahProps) => 
             >
               {/* Number badge */}
               <div className="absolute top-2 left-2 w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center">
-                <span className="text-xs font-medium text-primary">{name.id}</span>
+                <span className="text-scale-xs font-medium text-primary">{name.id}</span>
               </div>
 
 
@@ -110,7 +110,7 @@ const NamesOfAllah = ({ language, arabicFont = "amiri" }: NamesOfAllahProps) => 
 
               {/* Transliteration */}
               <div className={cn(
-                "text-sm font-medium text-muted-foreground mb-1",
+                "text-scale-sm font-medium text-muted-foreground mb-1",
                 language === "bn" && "font-bengali"
               )}>
                 {language === "bn" ? name.transliterationBn : name.transliteration}
@@ -118,7 +118,7 @@ const NamesOfAllah = ({ language, arabicFont = "amiri" }: NamesOfAllahProps) => 
 
               {/* Meaning */}
               <div className={cn(
-                "text-xs text-muted-foreground line-clamp-1",
+                "text-scale-xs text-muted-foreground line-clamp-1",
                 language === "bn" && "font-bengali"
               )}>
                 {language === "bn" ? name.meaningBn : name.meaningEn}
@@ -146,7 +146,7 @@ const NamesOfAllah = ({ language, arabicFont = "amiri" }: NamesOfAllahProps) => 
             <>
               <SheetHeader className="text-center pb-4 border-b border-border">
                 <div className="flex items-center justify-center gap-2 mb-2">
-                  <span className="px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium">
+                  <span className="px-3 py-1 rounded-full bg-primary/10 text-primary text-scale-sm font-medium">
                     #{selectedName.id}
                   </span>
                 </div>
@@ -162,14 +162,14 @@ const NamesOfAllah = ({ language, arabicFont = "amiri" }: NamesOfAllahProps) => 
                 {/* Transliteration */}
                 <div className="space-y-3">
                   <h3 className={cn(
-                    "text-sm font-semibold text-muted-foreground uppercase tracking-wide",
+                    "text-scale-sm font-semibold text-muted-foreground uppercase tracking-wide",
                     language === "bn" && "font-bengali"
                   )}>
                     {language === "bn" ? "উচ্চারণ" : "Transliteration"}
                   </h3>
                   <div className="p-4 rounded-lg bg-muted/50">
                     <p className={cn(
-                      "text-lg font-medium",
+                      "text-scale-lg font-medium",
                       language === "bn" && "font-bengali"
                     )}>
                       {language === "bn" ? selectedName.transliterationBn : selectedName.transliteration}
@@ -180,14 +180,14 @@ const NamesOfAllah = ({ language, arabicFont = "amiri" }: NamesOfAllahProps) => 
                 {/* Meaning */}
                 <div className="space-y-3">
                   <h3 className={cn(
-                    "text-sm font-semibold text-muted-foreground uppercase tracking-wide",
+                    "text-scale-sm font-semibold text-muted-foreground uppercase tracking-wide",
                     language === "bn" && "font-bengali"
                   )}>
                     {language === "bn" ? "অর্থ" : "Meaning"}
                   </h3>
                   <div className="p-4 rounded-lg bg-primary/5 border border-primary/10">
                     <p className={cn(
-                      "text-xl font-medium text-primary",
+                      "text-scale-xl font-medium text-primary",
                       language === "bn" && "font-bengali"
                     )}>
                       {language === "bn" ? selectedName.meaningBn : selectedName.meaningEn}

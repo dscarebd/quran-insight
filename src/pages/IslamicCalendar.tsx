@@ -161,7 +161,7 @@ const IslamicCalendar = ({ language }: IslamicCalendarProps) => {
             </div>
             <div className="flex-1 min-w-0">
               <h1 className={cn(
-                "text-lg sm:text-xl font-semibold text-foreground truncate",
+                "text-scale-lg sm:text-scale-xl font-semibold text-foreground truncate",
                 language === "bn" && "font-bengali",
                 language === "hi" && "font-hindi"
               )}>
@@ -178,7 +178,7 @@ const IslamicCalendar = ({ language }: IslamicCalendarProps) => {
           <CalendarDays className="w-8 h-8" />
         </div>
         <h1 className={cn(
-          "text-lg sm:text-xl font-semibold text-foreground mb-2",
+          "text-scale-lg sm:text-scale-xl font-semibold text-foreground mb-2",
           language === "bn" && "font-bengali",
           language === "hi" && "font-hindi"
         )}>
@@ -192,7 +192,7 @@ const IslamicCalendar = ({ language }: IslamicCalendarProps) => {
         <Card className="mb-4 sm:mb-6 bg-gradient-to-br from-primary/10 to-primary/5 border-primary/20">
           <CardContent className="p-3 sm:p-4">
             <p className={cn(
-              "text-xs sm:text-sm text-muted-foreground mb-2 text-center",
+              "text-scale-xs sm:text-scale-sm text-muted-foreground mb-2 text-center",
               language === "bn" && "font-bengali",
               language === "hi" && "font-hindi"
             )}>
@@ -201,16 +201,16 @@ const IslamicCalendar = ({ language }: IslamicCalendarProps) => {
             <div className="grid grid-cols-2 gap-2 sm:gap-4 text-center">
               {/* English/Gregorian */}
               <div className="p-2 sm:p-3 rounded-lg bg-background/50">
-                <p className="text-[10px] sm:text-xs text-muted-foreground mb-0.5 sm:mb-1">English</p>
-                <p className="text-xs sm:text-sm font-semibold text-foreground">
+                <p className="text-scale-xs text-muted-foreground mb-0.5 sm:mb-1">English</p>
+                <p className="text-scale-xs sm:text-scale-sm font-semibold text-foreground">
                   {today.toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })}
                 </p>
               </div>
               
               {/* Bengali/Hijri */}
               <div className="p-2 sm:p-3 rounded-lg bg-background/50">
-                <p className="text-[10px] sm:text-xs text-muted-foreground mb-0.5 sm:mb-1 font-bengali">বাংলা (হিজরি)</p>
-                <p className="text-xs sm:text-sm font-semibold text-primary font-bengali">
+                <p className="text-scale-xs text-muted-foreground mb-0.5 sm:mb-1 font-bengali">বাংলা (হিজরি)</p>
+                <p className="text-scale-xs sm:text-scale-sm font-semibold text-primary font-bengali">
                   {toBengaliNumber(currentHijri.day)} {hijriMonths.bn[currentHijri.month - 1]}
                 </p>
               </div>
@@ -233,18 +233,18 @@ const IslamicCalendar = ({ language }: IslamicCalendarProps) => {
                   </Button>
                   
                   <div className="text-center">
-                    <CardTitle className={cn(
-                      "text-lg",
-                      language === "bn" && "font-bengali"
-                    )}>
-                      {language === 'bn' 
-                        ? `${hijriMonths.bn[selectedHijriMonth - 1]} ${toBengaliNumber(selectedHijriYear)}`
-                        : `${hijriMonths.en[selectedHijriMonth - 1]} ${selectedHijriYear} AH`
-                      }
-                    </CardTitle>
-                    <p className="text-sm text-primary/80" dir="rtl">
-                      {hijriMonths.ar[selectedHijriMonth - 1]} {toArabicNumber(selectedHijriYear)} هـ
-                    </p>
+                  <CardTitle className={cn(
+                    "text-scale-lg",
+                    language === "bn" && "font-bengali"
+                  )}>
+                    {language === 'bn' 
+                      ? `${hijriMonths.bn[selectedHijriMonth - 1]} ${toBengaliNumber(selectedHijriYear)}`
+                      : `${hijriMonths.en[selectedHijriMonth - 1]} ${selectedHijriYear} AH`
+                    }
+                  </CardTitle>
+                  <p className="text-scale-sm text-primary/80" dir="rtl">
+                    {hijriMonths.ar[selectedHijriMonth - 1]} {toArabicNumber(selectedHijriYear)} هـ
+                  </p>
                   </div>
                   
                   <Button
@@ -262,7 +262,7 @@ const IslamicCalendar = ({ language }: IslamicCalendarProps) => {
                     size="sm"
                     onClick={goToCurrentMonth}
                     className={cn(
-                      "mt-2 mx-auto block text-xs",
+                      "mt-2 mx-auto block text-scale-xs",
                       language === "bn" && "font-bengali"
                     )}
                   >
@@ -276,7 +276,7 @@ const IslamicCalendar = ({ language }: IslamicCalendarProps) => {
                 <div className="grid grid-cols-7 gap-1 mb-2">
                   {(language === 'bn' ? bengaliDays : englishDays).map((day, i) => (
                     <div key={i} className={cn(
-                      "text-center text-xs font-medium text-muted-foreground py-2",
+                      "text-center text-scale-xs font-medium text-muted-foreground py-2",
                       language === "bn" && "font-bengali"
                     )}>
                       {day}
@@ -307,7 +307,7 @@ const IslamicCalendar = ({ language }: IslamicCalendarProps) => {
                       >
                         {/* Hijri Day */}
                         <div className={cn(
-                          "text-sm sm:text-base font-bold",
+                          "text-scale-sm sm:text-scale-base font-bold",
                           !isToday && "text-foreground",
                           language === "bn" && "font-bengali"
                         )}>
@@ -361,7 +361,7 @@ const IslamicCalendar = ({ language }: IslamicCalendarProps) => {
                 {/* Legend */}
                 <div className="mt-4 pt-4 border-t border-border">
                   <div className={cn(
-                    "flex flex-wrap gap-3 justify-center text-xs",
+                    "flex flex-wrap gap-3 justify-center text-scale-xs",
                     language === "bn" && "font-bengali"
                   )}>
                     <div className="flex items-center gap-1.5">
@@ -395,7 +395,7 @@ const IslamicCalendar = ({ language }: IslamicCalendarProps) => {
             <Card>
               <CardHeader className="pb-3">
                 <CardTitle className={cn(
-                  "text-lg flex items-center gap-2",
+                  "text-scale-lg flex items-center gap-2",
                   language === "bn" && "font-bengali"
                 )}>
                   <Star className="w-5 h-5 text-amber-400" />
