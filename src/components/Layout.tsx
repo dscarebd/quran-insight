@@ -1,8 +1,11 @@
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
+import { AnimatePresence } from "framer-motion";
 import { AppSidebar } from "@/components/AppSidebar";
 import { MobileNavFooter } from "@/components/MobileNavFooter";
 import { Header } from "@/components/Header";
 import { DesktopHeader } from "@/components/DesktopHeader";
+import { PageTransition } from "@/components/PageTransition";
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 import { useVisitorTracking } from "@/hooks/useVisitorTracking";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -34,6 +37,7 @@ export const Layout = ({
 }: LayoutProps) => {
   const [activeTab, setActiveTab] = useState<"search" | "bookmarks">("search");
   const isMobile = useIsMobile();
+  const location = useLocation();
   
   // Track anonymous page views
   useVisitorTracking();
@@ -44,7 +48,11 @@ export const Layout = ({
       <div className="min-h-screen flex flex-col bg-background">
         <DesktopHeader language={language} onLanguageChange={onLanguageChange} />
         <main className="flex-1 overflow-y-auto pt-[68px]">
-          {children}
+          <AnimatePresence mode="wait">
+            <PageTransition key={location.pathname}>
+              {children}
+            </PageTransition>
+          </AnimatePresence>
         </main>
       </div>
     );
@@ -70,7 +78,11 @@ export const Layout = ({
           canZoomOut={canZoomOut}
         />
         <div className="flex-1 overflow-y-auto">
-          {children}
+          <AnimatePresence mode="wait">
+            <PageTransition key={location.pathname}>
+              {children}
+            </PageTransition>
+          </AnimatePresence>
         </div>
       </SidebarInset>
       <MobileNavFooter language={language} />
