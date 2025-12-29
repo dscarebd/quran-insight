@@ -44,38 +44,149 @@ Deno.serve(async (req) => {
       supabase.from('surahs').select('number, name_arabic, name_english, name_bengali, meaning_english, meaning_bengali, total_verses')
     ]);
 
-    // Search in database for relevant content
-    const searchTerms = query.toLowerCase().split(/\s+/).filter(t => t.length > 2);
+    // Common Islamic term translations for better cross-language search
+    const termTranslations: Record<string, string[]> = {
+      // Bengali to English/Arabic concepts
+      'জান্নাত': ['paradise', 'heaven', 'jannah', 'الجنة'],
+      'জাহান্নাম': ['hell', 'jahannam', 'جهنم'],
+      'নামাজ': ['prayer', 'salat', 'salah', 'صلاة'],
+      'রোজা': ['fasting', 'sawm', 'صوم'],
+      'হজ': ['hajj', 'pilgrimage', 'حج'],
+      'যাকাত': ['zakat', 'charity', 'زكاة'],
+      'তওবা': ['repentance', 'tawbah', 'توبة'],
+      'সবর': ['patience', 'sabr', 'صبر'],
+      'শুকর': ['gratitude', 'shukr', 'شكر'],
+      'তাওয়াক্কুল': ['trust', 'tawakkul', 'توكل'],
+      'ইমান': ['faith', 'iman', 'إيمان'],
+      'তাকওয়া': ['piety', 'taqwa', 'تقوى'],
+      'রহমত': ['mercy', 'rahmat', 'رحمة'],
+      'বরকত': ['blessing', 'barakah', 'بركة'],
+      'হেদায়েত': ['guidance', 'hidayah', 'هداية'],
+      'মাগফিরাত': ['forgiveness', 'maghfirah', 'مغفرة'],
+      'আখিরাত': ['hereafter', 'akhirah', 'آخرة'],
+      'দুনিয়া': ['world', 'dunya', 'دنيا'],
+      'কিয়ামত': ['judgment', 'qiyamah', 'قيامة'],
+      'ফেরেশতা': ['angel', 'malak', 'ملائكة'],
+      'শয়তান': ['satan', 'shaytan', 'شيطان'],
+      'নবী': ['prophet', 'nabi', 'نبي'],
+      'রাসূল': ['messenger', 'rasul', 'رسول'],
+      'সাহাবা': ['companion', 'sahaba', 'صحابة'],
+      'উম্মাহ': ['ummah', 'community', 'أمة'],
+      'হালাল': ['halal', 'permissible', 'حلال'],
+      'হারাম': ['haram', 'forbidden', 'حرام'],
+      'সুন্নাহ': ['sunnah', 'tradition', 'سنة'],
+      'হাদিস': ['hadith', 'tradition', 'حديث'],
+      'কুরআন': ['quran', 'قرآن'],
+      'আয়াত': ['verse', 'ayah', 'آية'],
+      'সূরা': ['surah', 'chapter', 'سورة'],
+      'দোয়া': ['dua', 'supplication', 'دعاء'],
+      'যিকির': ['dhikr', 'remembrance', 'ذكر'],
+      'তাফসীর': ['tafsir', 'exegesis', 'تفسير'],
+      'শাফায়াত': ['intercession', 'shafaat', 'شفاعة'],
+      // English to Bengali/Arabic
+      'paradise': ['জান্নাত', 'jannah', 'الجنة'],
+      'heaven': ['জান্নাত', 'jannah', 'الجنة'],
+      'hell': ['জাহান্নাম', 'jahannam', 'جهنم'],
+      'prayer': ['নামাজ', 'সালাত', 'صلاة'],
+      'fasting': ['রোজা', 'সাওম', 'صوم'],
+      'charity': ['যাকাত', 'সাদাকা', 'زكاة'],
+      'patience': ['সবর', 'ধৈর্য', 'صبر'],
+      'faith': ['ইমান', 'বিশ্বাস', 'إيمان'],
+      'mercy': ['রহমত', 'দয়া', 'رحمة'],
+      'forgiveness': ['মাগফিরাত', 'ক্ষমা', 'مغفرة'],
+      'guidance': ['হেদায়েত', 'পথপ্রদর্শন', 'هداية'],
+      'blessing': ['বরকত', 'নেয়ামত', 'بركة'],
+      'repentance': ['তওবা', 'توبة'],
+      'angel': ['ফেরেশতা', 'ملائكة'],
+      'prophet': ['নবী', 'نبي'],
+      'messenger': ['রাসূল', 'رسول'],
+      'morning': ['সকাল', 'ফজর', 'صباح'],
+      'evening': ['সন্ধ্যা', 'মাগরিব', 'مساء'],
+      'sleep': ['ঘুম', 'নিদ্রা', 'نوم'],
+      'food': ['খাবার', 'আহার', 'طعام'],
+      'travel': ['সফর', 'ভ্রমণ', 'سفر'],
+      'health': ['স্বাস্থ্য', 'সুস্থতা', 'صحة'],
+      'protection': ['হেফাজত', 'সুরক্ষা', 'حماية'],
+      'success': ['সফলতা', 'কামিয়াবি', 'نجاح'],
+    };
+
+    // Expand search terms with translations
+    const expandSearchTerms = (query: string): string[] => {
+      const terms = query.toLowerCase().split(/\s+/).filter(t => t.length > 1);
+      const expandedTerms = new Set<string>();
+      
+      terms.forEach(term => {
+        expandedTerms.add(term);
+        // Check if term matches any translation key
+        Object.entries(termTranslations).forEach(([key, translations]) => {
+          if (key.toLowerCase().includes(term) || term.includes(key.toLowerCase())) {
+            translations.forEach(t => expandedTerms.add(t.toLowerCase()));
+            expandedTerms.add(key.toLowerCase());
+          }
+          translations.forEach(translation => {
+            if (translation.toLowerCase().includes(term) || term.includes(translation.toLowerCase())) {
+              expandedTerms.add(key.toLowerCase());
+              translations.forEach(t => expandedTerms.add(t.toLowerCase()));
+            }
+          });
+        });
+      });
+      
+      return Array.from(expandedTerms).filter(t => t.length > 1);
+    };
+
+    const searchTerms = expandSearchTerms(query);
+    console.log('Expanded search terms:', searchTerms);
     
-    // Search verses
+    // Search verses - include Arabic
     let relevantVerses: any[] = [];
     if (searchTerms.length > 0) {
+      const orConditions = searchTerms.flatMap(term => [
+        `bengali.ilike.%${term}%`,
+        `english.ilike.%${term}%`,
+        `arabic.ilike.%${term}%`
+      ]).join(',');
+      
       const { data: searchedVerses } = await supabase
         .from('verses')
         .select('surah_number, verse_number, arabic, bengali, english')
-        .or(searchTerms.map(term => `bengali.ilike.%${term}%,english.ilike.%${term}%`).join(','))
+        .or(orConditions)
         .limit(10);
       relevantVerses = searchedVerses || [];
     }
 
-    // Search hadiths
+    // Search hadiths - include Arabic
     let relevantHadiths: any[] = [];
     if (searchTerms.length > 0) {
+      const orConditions = searchTerms.flatMap(term => [
+        `bengali.ilike.%${term}%`,
+        `english.ilike.%${term}%`,
+        `arabic.ilike.%${term}%`
+      ]).join(',');
+      
       const { data: searchedHadiths } = await supabase
         .from('hadiths')
-        .select('book_slug, hadith_number, arabic, bengali, english, grade')
-        .or(searchTerms.map(term => `bengali.ilike.%${term}%,english.ilike.%${term}%`).join(','))
+        .select('book_slug, hadith_number, arabic, bengali, english, grade, grade_bengali, narrator_bengali, narrator_english')
+        .or(orConditions)
         .limit(10);
       relevantHadiths = searchedHadiths || [];
     }
 
-    // Search duas
+    // Search duas - include Arabic
     let relevantDuas: any[] = [];
     if (searchTerms.length > 0) {
+      const orConditions = searchTerms.flatMap(term => [
+        `bengali.ilike.%${term}%`,
+        `english.ilike.%${term}%`,
+        `arabic.ilike.%${term}%`,
+        `title_bengali.ilike.%${term}%`,
+        `title_english.ilike.%${term}%`
+      ]).join(',');
+      
       const { data: searchedDuas } = await supabase
         .from('duas')
-        .select('category_id, dua_id, title_bengali, title_english, arabic, bengali, english')
-        .or(searchTerms.map(term => `bengali.ilike.%${term}%,english.ilike.%${term}%,title_bengali.ilike.%${term}%,title_english.ilike.%${term}%`).join(','))
+        .select('category_id, dua_id, title_bengali, title_english, arabic, bengali, english, reference')
+        .or(orConditions)
         .limit(10);
       relevantDuas = searchedDuas || [];
     }
