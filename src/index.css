@@ -99,6 +99,14 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'KFGQPC Uthmanic Script HAFS';
+  src: url('/fonts/UthmanicHafs-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 @layer base {
   :root {
     --background: 165 25% 97%;
