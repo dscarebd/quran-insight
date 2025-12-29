@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Sparkles, ChevronRight, Bookmark } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn, formatNumber } from "@/lib/utils";
 import { Language } from "@/types/language";
 import { supabase } from "@/integrations/supabase/client";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -186,8 +186,8 @@ export const DailyVerse = ({ language }: DailyVerseProps) => {
           )}
         >
           {language === "bn" 
-            ? `${verse.surahNameBengali} : ${verse.verseNumber}` 
-            : `${verse.surahNameEnglish} : ${verse.verseNumber}`}
+            ? `${verse.surahNameBengali}: ${formatNumber(verse.verseNumber, language)}` 
+            : `${verse.surahNameEnglish}: ${verse.verseNumber}`}
           <ChevronRight className="h-4 w-4" />
         </button>
       </div>
