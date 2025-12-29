@@ -54,9 +54,10 @@ const getTypeColor = (type: SearchResult["type"]) => {
 export const AISearchResults = ({ response, language }: AISearchResultsProps) => {
   const navigate = useNavigate();
 
-  // Get top verses and hadiths from references for dedicated sections
+  // Get top verses, hadiths, and duas from references for dedicated sections
   const relevantVerses = response.references?.verses?.slice(0, 3) || [];
   const relevantHadiths = response.references?.hadiths?.slice(0, 3) || [];
+  const relevantDuas = response.references?.duas?.slice(0, 3) || [];
 
   return (
     <div className="space-y-6 animate-fade-in">
@@ -226,6 +227,75 @@ export const AISearchResults = ({ response, language }: AISearchResultsProps) =>
                     language === "bn" && "font-bengali"
                   )}>
                     {language === "bn" ? hadith.narrator_bengali : hadith.narrator_english}
+                  </p>
+                )}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Relevant Duas Section */}
+      {relevantDuas.length > 0 && !response.isOffline && (
+        <div>
+          <h3 className={cn(
+            "text-sm font-medium text-muted-foreground mb-3 flex items-center gap-2",
+            language === "bn" && "font-bengali"
+          )}>
+            <HandHeart className="h-4 w-4 text-gold-dark" />
+            {language === "bn" ? "সম্পর্কিত দোয়া" : "Related Duas"}
+          </h3>
+          
+          <div className="space-y-3">
+            {relevantDuas.map((dua: any, index: number) => (
+              <button
+                key={`dua-${dua.category_id}-${dua.dua_id}-${index}`}
+                onClick={() => navigate(`/dua?category=${dua.category_id}`)}
+                className="group w-full text-left rounded-xl border border-gold/20 bg-gradient-to-br from-gold/5 to-transparent p-4 transition-all duration-200 hover:shadow-elevated hover:-translate-y-0.5 hover:border-gold/40"
+              >
+                {/* Dua Title and Category */}
+                <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
+                  <div className="flex items-center gap-2">
+                    <span className={cn(
+                      "text-xs px-2 py-1 rounded-full bg-gold/10 text-gold-dark font-medium",
+                      language === "bn" && "font-bengali"
+                    )}>
+                      {language === "bn" ? "দোয়া" : "Dua"}
+                    </span>
+                    <span className={cn(
+                      "text-sm font-medium text-foreground",
+                      language === "bn" && "font-bengali"
+                    )}>
+                      {language === "bn" ? dua.title_bengali : dua.title_english}
+                    </span>
+                  </div>
+                  <ChevronRight className="h-4 w-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
+                </div>
+
+                {/* Arabic Text */}
+                {dua.arabic && (
+                  <p className="font-arabic text-lg sm:text-xl text-foreground leading-loose mb-4 text-right" dir="rtl">
+                    {dua.arabic.length > 200 ? dua.arabic.substring(0, 200) + "..." : dua.arabic}
+                  </p>
+                )}
+
+                {/* Translation */}
+                <p className={cn(
+                  "text-sm text-muted-foreground leading-relaxed",
+                  language === "bn" && "font-bengali"
+                )}>
+                  {language === "bn" 
+                    ? (dua.bengali?.length > 200 ? dua.bengali.substring(0, 200) + "..." : dua.bengali)
+                    : (dua.english?.length > 200 ? dua.english.substring(0, 200) + "..." : dua.english)}
+                </p>
+
+                {/* Reference */}
+                {dua.reference && (
+                  <p className={cn(
+                    "text-xs text-muted-foreground/70 mt-2 italic",
+                    language === "bn" && "font-bengali"
+                  )}>
+                    {dua.reference}
                   </p>
                 )}
               </button>
