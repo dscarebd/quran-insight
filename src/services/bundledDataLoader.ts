@@ -3,6 +3,7 @@
 
 import { Verse } from "@/data/verses";
 import { LocalHadith } from "./offlineDataService";
+import { hadithBooks } from "@/data/hadithBooks";
 
 // Memory cache for loaded data
 let versesData: Verse[] | null = null;
@@ -89,20 +90,35 @@ const loadVersesFromCsv = async (): Promise<Verse[]> => {
   }
 };
 
-// Load hadiths from JSON file
+// Load hadiths from multiple book-specific JSON files
 const loadHadithsFromJson = async (): Promise<LocalHadith[]> => {
-  try {
-    const response = await fetch('/data/hadiths-complete.json');
-    if (!response.ok) {
-      console.error('Failed to load hadiths JSON:', response.status);
+  const allHadiths: LocalHadith[] = [];
+  
+  // Load each book's JSON file in parallel
+  const loadPromises = hadithBooks.map(async (book) => {
+    try {
+      const response = await fetch(`/data/hadiths-${book.slug}.json`);
+      if (!response.ok) {
+        console.log(`Hadith file for ${book.slug} not found`);
+        return [];
+      }
+      
+      const data = await response.json();
+      return Array.isArray(data) ? data : [];
+    } catch (error) {
+      console.log(`Error loading hadiths for ${book.slug}:`, error);
       return [];
     }
-    
-    return await response.json();
-  } catch (error) {
-    console.error('Error loading hadiths from JSON:', error);
-    return [];
-  }
+  });
+
+  const results = await Promise.all(loadPromises);
+  
+  // Merge all hadiths
+  results.forEach(bookHadiths => {
+    allHadiths.push(...bookHadiths);
+  });
+
+  return allHadiths;
 };
 
 // Initialize data loading
