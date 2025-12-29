@@ -474,7 +474,7 @@ const HadithDetail = ({ language, arabicFont }: HadithDetailProps) => {
                 {/* Arabic Text */}
                 {hadith.arabic && (
                   <p className={cn(
-                    "text-right text-xl leading-loose mb-4 text-foreground",
+                    "text-right text-scale-arabic-xl mb-4 text-foreground",
                     arabicFont === "uthmani" ? "font-uthmani" : "font-amiri"
                   )}>
                     {hadith.arabic}
@@ -485,7 +485,7 @@ const HadithDetail = ({ language, arabicFont }: HadithDetailProps) => {
                 {translation && (
                   <div>
                     <p className={cn(
-                      "text-foreground leading-relaxed",
+                      "text-foreground text-scale-body",
                       language === "bn" && "font-bengali",
                       isLong && !isExpanded && "line-clamp-4"
                     )}>

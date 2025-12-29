@@ -740,7 +740,7 @@ const Dua = ({ language, arabicFont = "amiri" }: DuaProps) => {
             <div className="p-4 space-y-6">
               {/* Arabic */}
               <div className="bg-primary/5 rounded-xl p-5 border border-primary/20">
-                <p className={cn("text-2xl leading-loose text-foreground text-center", arabicFont === "uthmani" ? "font-uthmani" : "font-arabic")} dir="rtl">
+                <p className={cn("text-scale-arabic-xl text-foreground text-center", arabicFont === "uthmani" ? "font-uthmani" : "font-arabic")} dir="rtl">
                   {selectedDua?.arabic}
                 </p>
               </div>
@@ -755,7 +755,7 @@ const Dua = ({ language, arabicFont = "amiri" }: DuaProps) => {
                     {language === "bn" ? "উচ্চারণ" : language === "hi" ? "उच्चारण" : "Transliteration"}
                   </h3>
                   <p className={cn(
-                    "text-base leading-relaxed text-foreground",
+                    "text-scale-body text-foreground",
                     (language === "bn" || language === "hi") ? "font-bengali" : "italic"
                   )}>
                     {selectedDua ? getDuaTransliteration(selectedDua) : ""}
@@ -772,7 +772,7 @@ const Dua = ({ language, arabicFont = "amiri" }: DuaProps) => {
                   {language === "bn" ? "বাংলা অনুবাদ" : language === "hi" ? "हिंदी अनुवाद" : "English Translation"}
                 </h3>
                 <p className={cn(
-                  "text-base leading-relaxed text-foreground",
+                  "text-scale-body text-foreground",
                   (language === "bn" || language === "hi") && "font-bengali"
                 )}>
                   {selectedDua ? getDuaTranslation(selectedDua) : ""}

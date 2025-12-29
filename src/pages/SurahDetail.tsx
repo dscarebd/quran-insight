@@ -63,12 +63,12 @@ const VerseCard = ({ verse, language, index, isBookmarked, onToggleBookmark, ara
       </div>
 
       {/* Arabic Text */}
-      <p className={cn("mb-4 text-right text-2xl leading-loose text-foreground sm:text-3xl", arabicFont === "uthmani" ? "font-uthmani" : "font-arabic")}>
+      <p className={cn("mb-4 text-right text-scale-arabic-xl text-foreground", arabicFont === "uthmani" ? "font-uthmani" : "font-arabic")}>
         {verse.arabic}
       </p>
 
       {/* Translation */}
-      <p className={cn("mb-2 text-base leading-relaxed text-foreground sm:text-lg", language === "bn" && "font-bengali")}>
+      <p className={cn("mb-2 text-scale-body text-foreground", language === "bn" && "font-bengali")}>
         {language === "bn" ? verse.bengali : verse.english}
       </p>
 
@@ -87,7 +87,7 @@ const VerseCard = ({ verse, language, index, isBookmarked, onToggleBookmark, ara
           </button>
           
           {showTafsir && (
-            <div className={cn("mt-3 rounded-lg bg-accent/50 p-4 text-sm leading-relaxed text-muted-foreground", language === "bn" && "font-bengali")}>
+            <div className={cn("mt-3 rounded-lg bg-accent/50 p-4 text-scale-sm text-muted-foreground", language === "bn" && "font-bengali")}>
               {language === "bn" ? verse.tafsirBengali : verse.tafsirEnglish}
             </div>
           )}
