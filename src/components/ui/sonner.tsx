@@ -10,6 +10,8 @@ const Toaster = ({ ...props }: ToasterProps) => {
     <Sonner
       theme={theme as ToasterProps["theme"]}
       className="toaster group"
+      closeButton
+      swipeDirections={["left", "right"]}
       toastOptions={{
         classNames: {
           toast:
@@ -17,6 +19,7 @@ const Toaster = ({ ...props }: ToasterProps) => {
           description: "group-[.toast]:text-muted-foreground font-bengali",
           actionButton: "group-[.toast]:bg-primary group-[.toast]:text-primary-foreground font-bengali",
           cancelButton: "group-[.toast]:bg-muted group-[.toast]:text-muted-foreground font-bengali",
+          closeButton: "group-[.toaster]:bg-background group-[.toaster]:text-foreground group-[.toaster]:border-border",
           title: "font-bengali",
           success: "font-bengali",
           error: "font-bengali",
