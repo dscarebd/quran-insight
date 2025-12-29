@@ -51,7 +51,7 @@ interface DailyContentCache {
   hadith: DailyHadith | null;
 }
 
-const CACHE_KEY = 'daily-content-cache';
+const CACHE_KEY = 'daily-content-cache-v2'; // v2 to bust old broken cache
 
 const getTodayKey = () => new Date().toISOString().split('T')[0];
 
@@ -186,19 +186,29 @@ export const useDailyContent = () => {
 
         // Process dua
         if (duaResult.data) {
-          const { data: categoryData } = await supabase
-            .from('dua_categories')
-            .select('name_english, name_bengali')
-            .eq('category_id', duaResult.data.category_id)
-            .maybeSingle();
+          let categoryNameEnglish = duaResult.data.category_id;
+          let categoryNameBengali = duaResult.data.category_id;
+          
+          try {
+            const { data: categoryData } = await supabase
+              .from('dua_categories')
+              .select('name_english, name_bengali')
+              .eq('category_id', duaResult.data.category_id)
+              .maybeSingle();
 
-          if (categoryData) {
-            finalDua = {
-              ...duaResult.data,
-              category_name_english: categoryData.name_english,
-              category_name_bengali: categoryData.name_bengali,
-            };
+            if (categoryData) {
+              categoryNameEnglish = categoryData.name_english;
+              categoryNameBengali = categoryData.name_bengali;
+            }
+          } catch (catError) {
+            console.error("Error fetching category:", catError);
           }
+
+          finalDua = {
+            ...duaResult.data,
+            category_name_english: categoryNameEnglish,
+            category_name_bengali: categoryNameBengali,
+          };
         }
 
         // Process hadith
