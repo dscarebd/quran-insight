@@ -135,7 +135,7 @@ const SurahList = ({ language }: SurahListProps) => {
 
                   {/* Name */}
                   <h3 className={cn(
-                    "font-semibold text-foreground mb-1",
+                    "font-semibold text-sm text-foreground mb-1",
                     language === "bn" && "font-bengali"
                   )}>
                     {language === "bn" ? surah.nameBengali : surah.nameEnglish}
@@ -200,7 +200,7 @@ const SurahList = ({ language }: SurahListProps) => {
 
                   {/* Name */}
                   <h3 className={cn(
-                    "font-semibold text-foreground mb-1",
+                    "font-semibold text-sm text-foreground mb-1",
                     language === "bn" && "font-bengali"
                   )}>
                     {language === "bn" ? para.nameBengali : para.nameEnglish}
