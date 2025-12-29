@@ -1,5 +1,8 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { getVerseCount, getVerseByIndex, getHadithCount, getHadithByIndex } from "@/services/offlineDataService";
+import { surahs } from "@/data/surahs";
+import { hadithBooks } from "@/data/hadithBooks";
 
 interface DailyVerse {
   surahNumber: number;

@@ -5,13 +5,14 @@ import { surahs } from "@/data/surahs";
 import { Verse } from "@/data/verses";
 import { Button } from "@/components/ui/button";
 import { cn, formatNumber } from "@/lib/utils";
-import { supabase } from "@/integrations/supabase/client";
 import { useLocalBookmarks } from "@/hooks/useLocalBookmarks";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Language } from "@/types/language";
+import { getVersesBySurah } from "@/services/offlineDataService";
+import { syncSurahVerses } from "@/services/syncService";
 
 interface SurahDetailProps {
   language: Language;
@@ -138,60 +139,44 @@ const SurahDetail = ({ language, readingMode = "normal", arabicFont = "amiri" }:
     }
   }, [surahSheetOpen, surahNum, surahSearchQuery]);
 
-  // Fetch verses with caching and smooth transition
+  // Fetch verses - offline first with online fallback
   useEffect(() => {
     const fetchVerses = async () => {
-      // Start transition animation
       setIsTransitioning(true);
-      
-      // Small delay for fade out effect
       await new Promise(resolve => setTimeout(resolve, 150));
       
-      // Check if we have cached verses for this surah
+      // Check memory cache first
       if (versesCache.has(surahNum)) {
         setVerses(versesCache.get(surahNum)!);
         setIsLoading(false);
         window.scrollTo({ top: 0, behavior: 'smooth' });
-        // End transition after content is set
         setTimeout(() => setIsTransitioning(false), 50);
         return;
       }
 
-      // Only show loading on initial load when no cache
-      if (verses.length === 0) {
-        setIsLoading(true);
-      }
+      if (verses.length === 0) setIsLoading(true);
       
-      const { data, error } = await supabase
-        .from('verses')
-        .select('*')
-        .eq('surah_number', surahNum)
-        .order('verse_number', { ascending: true });
-
-      if (error) {
+      try {
+        // Try IndexedDB first (offline)
+        let localVerses = await getVersesBySurah(surahNum);
+        
+        if (localVerses.length === 0) {
+          // Fetch from Supabase and save to IndexedDB
+          localVerses = await syncSurahVerses(surahNum);
+        }
+        
+        setVerses(localVerses);
+        versesCache.set(surahNum, localVerses);
+      } catch (error) {
         console.error('Error fetching verses:', error);
         setVerses([]);
-      } else {
-        const mappedVerses: Verse[] = (data || []).map(v => ({
-          surahNumber: v.surah_number,
-          verseNumber: v.verse_number,
-          arabic: v.arabic,
-          bengali: v.bengali,
-          english: v.english,
-          tafsirBengali: v.tafsir_bengali || undefined,
-          tafsirEnglish: v.tafsir_english || undefined,
-        }));
-        setVerses(mappedVerses);
-        // Store in cache
-        versesCache.set(surahNum, mappedVerses);
       }
+      
       setIsLoading(false);
-      // End transition after content is set
       setTimeout(() => setIsTransitioning(false), 50);
     };
 
     fetchVerses();
-    // Scroll to top when switching surahs
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [surahNum]);
 
