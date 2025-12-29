@@ -208,33 +208,6 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
     }
   }, [selectedUpazila, selectedDistrict, selectedDivision, useBangladeshLocation, language]);
 
-  // Update current time every second for countdown
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentTime(new Date());
-      if (nextPrayer) {
-        const remaining = getTimeRemaining(nextPrayer.time);
-        setTimeRemaining(remaining);
-      }
-    }, 1000);
-    return () => clearInterval(timer);
-  }, [nextPrayer]);
-
-  // Calculate prayer times when location changes (always use IFB for Bangladesh)
-  useEffect(() => {
-    const times = calculatePrayerTimes(location, new Date(), 'IFB');
-    setPrayerTimes(times);
-    const next = getNextPrayer(times);
-    setNextPrayer(next);
-    if (next) {
-      setTimeRemaining(getTimeRemaining(next.time));
-    }
-    
-    // Get current running prayer
-    const current = getCurrentRunningPrayer(times);
-    setCurrentPrayer(current);
-  }, [location]);
-
   // Get current running prayer based on current time
   const getCurrentRunningPrayer = (times: PrayerTimesType): { name: string; time: string; endTime: string; nameAr: string; nameBn: string } | null => {
     const now = new Date();
@@ -279,6 +252,40 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
     
     return null;
   };
+
+  // Calculate prayer times when location changes (always use IFB for Bangladesh)
+  useEffect(() => {
+    const times = calculatePrayerTimes(location, new Date(), 'IFB');
+    setPrayerTimes(times);
+    const next = getNextPrayer(times);
+    setNextPrayer(next);
+    if (next) {
+      setTimeRemaining(getTimeRemaining(next.time));
+    }
+    
+    // Get current running prayer
+    const current = getCurrentRunningPrayer(times);
+    setCurrentPrayer(current);
+  }, [location]);
+
+  // Update current time every second for countdown and current prayer
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTime(new Date());
+      if (prayerTimes) {
+        // Update time remaining
+        const next = getNextPrayer(prayerTimes);
+        if (next) {
+          setNextPrayer(next);
+          setTimeRemaining(getTimeRemaining(next.time));
+        }
+        // Update current prayer
+        const current = getCurrentRunningPrayer(prayerTimes);
+        setCurrentPrayer(current);
+      }
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [prayerTimes]);
 
   // Get user's location via GPS
   const getUserLocation = () => {
