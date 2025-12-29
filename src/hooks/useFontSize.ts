@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 const FONT_SIZE_KEY = "quran-insight-font-size";
-const DEFAULT_FONT_SIZE = 16;
+const DEFAULT_FONT_SIZE = 17;
 
 export const useFontSize = () => {
   const [fontSize, setFontSize] = useState<number>(() => {
