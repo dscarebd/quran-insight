@@ -1,7 +1,7 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'app.lovable.70af42a0b8fd42d597f92163c60c4b6a',
+  appId: 'com.annur.quraninsight',
   appName: 'Quran Insight',
   webDir: 'dist',
   server: {
