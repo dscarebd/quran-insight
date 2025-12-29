@@ -22,7 +22,7 @@ interface SettingsProps {
   onFontSizeChange?: (size: number) => void;
 }
 
-const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadingModeChange, arabicFont = "amiri", onArabicFontChange, fontSize = 16, onFontSizeChange }: SettingsProps) => {
+const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadingModeChange, arabicFont = "amiri", onArabicFontChange, fontSize = 17, onFontSizeChange }: SettingsProps) => {
   const navigate = useNavigate();
   const { theme, setTheme } = useTheme();
 
@@ -343,7 +343,7 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
                       value={[fontSize]}
                       onValueChange={(value) => onFontSizeChange?.(value[0])}
                       min={15}
-                      max={20}
+                      max={22}
                       step={1}
                       className="w-full"
                     />
