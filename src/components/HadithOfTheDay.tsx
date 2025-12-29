@@ -228,7 +228,7 @@ export const HadithOfTheDay = ({ language, arabicFont = "uthmani", compact = fal
       {/* Translation */}
       {translation && (
         <p className={cn(
-          "mb-3 sm:mb-4 text-center text-xs text-muted-foreground",
+          "mb-3 sm:mb-4 text-center text-[10px] text-muted-foreground",
           language === "bn" && "font-bengali",
           compact ? "line-clamp-3" : "line-clamp-4"
         )}>
