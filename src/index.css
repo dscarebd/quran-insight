@@ -411,6 +411,27 @@
 }
 
 @layer utilities {
+  /* Scalable text classes that respect user font size settings */
+  .text-scale-arabic {
+    font-size: calc(var(--base-font-size) * 1.5);
+    line-height: 2;
+  }
+  
+  .text-scale-arabic-lg {
+    font-size: calc(var(--base-font-size) * 1.75);
+    line-height: 2;
+  }
+  
+  .text-scale-body {
+    font-size: var(--base-font-size);
+    line-height: 1.7;
+  }
+  
+  .text-scale-sm {
+    font-size: calc(var(--base-font-size) * 0.875);
+    line-height: 1.5;
+  }
+
   .animate-float {
     animation: float 6s ease-in-out infinite;
   }
