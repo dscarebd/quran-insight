@@ -342,7 +342,7 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
                     <Slider
                       value={[fontSize]}
                       onValueChange={(value) => onFontSizeChange?.(value[0])}
-                      min={15}
+                      min={12}
                       max={22}
                       step={1}
                       className="w-full"
