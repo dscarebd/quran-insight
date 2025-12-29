@@ -223,7 +223,7 @@ export const AISearchResults = ({ response, language }: AISearchResultsProps) =>
                 {/* Narrator */}
                 {(hadith.narrator_bengali || hadith.narrator_english) && (
                   <p className={cn(
-                    "text-xs text-muted-foreground/70 mt-2 italic",
+                    "text-xs text-emerald-600 dark:text-emerald-400 mt-2 font-medium",
                     language === "bn" && "font-bengali"
                   )}>
                     {language === "bn" ? hadith.narrator_bengali : hadith.narrator_english}
@@ -292,7 +292,7 @@ export const AISearchResults = ({ response, language }: AISearchResultsProps) =>
                 {/* Reference */}
                 {dua.reference && (
                   <p className={cn(
-                    "text-xs text-muted-foreground/70 mt-2 italic",
+                    "text-xs text-emerald-600 dark:text-emerald-400 mt-2 font-medium",
                     language === "bn" && "font-bengali"
                   )}>
                     {dua.reference}
@@ -372,7 +372,7 @@ export const AISearchResults = ({ response, language }: AISearchResultsProps) =>
                       {/* Reference */}
                       {result.reference && (
                         <p className={cn(
-                          "text-xs text-muted-foreground/70 mt-2",
+                          "text-xs text-emerald-600 dark:text-emerald-400 mt-2 font-medium",
                           language === "bn" && "font-bengali"
                         )}>
                           {result.reference}
