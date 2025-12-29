@@ -160,7 +160,7 @@ export const DesktopDailyContent = ({ language }: DesktopDailyContentProps) => {
           {/* Title */}
           {(dua.title_bengali || dua.title_english) && (
             <p className={cn(
-              "mb-2 sm:mb-3 text-center text-xs sm:text-sm font-medium text-gold-dark",
+              "mb-2 sm:mb-3 text-center text-sm font-medium text-gold-dark",
               language === "bn" && "font-bengali"
             )}>
               {language === "bn" ? dua.title_bengali : dua.title_english}
@@ -232,7 +232,7 @@ export const DesktopDailyContent = ({ language }: DesktopDailyContentProps) => {
           
           {/* Book name with hadith number */}
           <p className={cn(
-            "mb-2 sm:mb-3 text-center text-xs sm:text-sm font-medium text-muted-foreground",
+            "mb-2 sm:mb-3 text-center text-sm font-medium text-muted-foreground",
             language === "bn" && "font-bengali"
           )}>
             {language === "bn" 
