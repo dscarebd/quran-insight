@@ -97,7 +97,7 @@ export const DesktopDailyContent = ({ language }: DesktopDailyContentProps) => {
               <div className="flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-lg bg-primary/10">
                 <Sparkles className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
               </div>
-              <span className={cn("text-sm font-medium", language === "bn" && "font-bengali")}>
+              <span className={cn("text-sm font-semibold", language === "bn" && "font-bengali")}>
                 {language === "bn" ? "আজকের আয়াত" : "Verse of the Day"}
               </span>
             </div>
@@ -145,7 +145,7 @@ export const DesktopDailyContent = ({ language }: DesktopDailyContentProps) => {
               <div className="flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-lg bg-gold/10">
                 <HandHeart className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
               </div>
-              <span className={cn("text-sm font-medium text-foreground", language === "bn" && "font-bengali")}>
+              <span className={cn("text-sm font-semibold text-foreground", language === "bn" && "font-bengali")}>
                 {language === "bn" ? "আজকের দোয়া" : "Dua of the Day"}
               </span>
             </div>
@@ -160,7 +160,7 @@ export const DesktopDailyContent = ({ language }: DesktopDailyContentProps) => {
           {/* Title */}
           {(dua.title_bengali || dua.title_english) && (
             <p className={cn(
-              "mb-2 sm:mb-3 text-center text-sm font-medium text-gold-dark",
+              "mb-2 sm:mb-3 text-center text-sm font-semibold text-gold-dark",
               language === "bn" && "font-bengali"
             )}>
               {language === "bn" ? dua.title_bengali : dua.title_english}
@@ -218,7 +218,7 @@ export const DesktopDailyContent = ({ language }: DesktopDailyContentProps) => {
               <div className={cn("flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-lg", hadithIconColor)}>
                 <BookOpen className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
               </div>
-              <span className={cn("text-sm font-medium text-foreground", language === "bn" && "font-bengali")}>
+              <span className={cn("text-sm font-semibold text-foreground", language === "bn" && "font-bengali")}>
                 {language === "bn" ? "আজকের হাদিস" : "Hadith of the Day"}
               </span>
             </div>
@@ -232,7 +232,7 @@ export const DesktopDailyContent = ({ language }: DesktopDailyContentProps) => {
           
           {/* Book name with hadith number */}
           <p className={cn(
-            "mb-2 sm:mb-3 text-center text-sm font-medium text-muted-foreground",
+            "mb-2 sm:mb-3 text-center text-sm font-semibold text-muted-foreground",
             language === "bn" && "font-bengali"
           )}>
             {language === "bn" 
