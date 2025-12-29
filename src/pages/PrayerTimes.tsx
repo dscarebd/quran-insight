@@ -653,7 +653,10 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
                           {currentPrayer.nameAr}
                         </span>
                       </div>
-                      <p className="text-xs text-muted-foreground">
+                      <p className={cn(
+                        "text-sm font-medium text-emerald-600 dark:text-emerald-400",
+                        language === "bn" && "font-bengali"
+                      )}>
                         {formatTimeDisplay(currentPrayer.time, language)} - {formatTimeDisplay(currentPrayer.endTime, language)}
                       </p>
                     </div>
@@ -680,6 +683,12 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
                         {nextPrayer.nameAr}
                       </span>
                     </div>
+                    <p className={cn(
+                      "text-sm font-medium text-primary",
+                      language === "bn" && "font-bengali"
+                    )}>
+                      {formatTimeDisplay(nextPrayer.time, language)}
+                    </p>
                     {timeRemaining && (
                       <p className={cn(
                         "text-xs text-muted-foreground animate-pulse",
