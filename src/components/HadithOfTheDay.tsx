@@ -64,10 +64,30 @@ export const HadithOfTheDay = ({ language, arabicFont = "uthmani", compact = fal
 
   useEffect(() => {
     const fetchHadithOfTheDay = async () => {
+      // Get today's date as a cache key
+      const today = new Date();
+      const todayKey = `${today.getFullYear()}-${today.getMonth()}-${today.getDate()}`;
+      const cacheKey = "hadith-of-day-cache";
+      
+      // Try to get cached data
+      try {
+        const cached = localStorage.getItem(cacheKey);
+        if (cached) {
+          const { dateKey, hadithData, bookData } = JSON.parse(cached);
+          if (dateKey === todayKey && hadithData && bookData) {
+            setHadith(hadithData);
+            setBook(bookData);
+            setIsLoading(false);
+            return;
+          }
+        }
+      } catch {
+        // Cache read failed, continue with fetch
+      }
+      
       setIsLoading(true);
       
       // Get a deterministic "random" hadith based on the day
-      const today = new Date();
       const dayOfYear = Math.floor(
         (today.getTime() - new Date(today.getFullYear(), 0, 0).getTime()) / 86400000
       );
@@ -106,6 +126,17 @@ export const HadithOfTheDay = ({ language, arabicFont = "uthmani", compact = fal
 
         if (bookData) {
           setBook(bookData);
+          
+          // Cache the data for today
+          try {
+            localStorage.setItem(cacheKey, JSON.stringify({
+              dateKey: todayKey,
+              hadithData,
+              bookData
+            }));
+          } catch {
+            // Cache write failed, continue anyway
+          }
         }
       }
 
