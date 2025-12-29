@@ -95,19 +95,19 @@ export const ContinueReading = ({ language }: ContinueReadingProps) => {
         
         <div className="flex-1 text-left min-w-0 overflow-hidden">
           <p className={cn(
-            "text-xs sm:text-sm text-muted-foreground truncate",
+            "text-sm sm:text-base text-muted-foreground truncate",
             language === "bn" && "font-bengali"
           )}>
             {language === "bn" ? "পড়া চালিয়ে যান" : "Continue Reading"}
           </p>
           <p className={cn(
-            "font-semibold text-foreground truncate text-sm sm:text-base",
+            "font-semibold text-foreground truncate text-base sm:text-lg",
             language === "bn" && "font-bengali"
           )}>
             {language === "bn" ? surah.nameBengali : surah.nameEnglish}
           </p>
           <p className={cn(
-            "text-xs sm:text-sm text-muted-foreground truncate",
+            "text-sm sm:text-base text-muted-foreground truncate",
             language === "bn" && "font-bengali"
           )}>
             {language === "bn" 
