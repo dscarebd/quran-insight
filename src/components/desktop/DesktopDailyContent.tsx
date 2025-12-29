@@ -230,12 +230,14 @@ export const DesktopDailyContent = ({ language }: DesktopDailyContentProps) => {
             </button>
           </div>
           
-          {/* Book name */}
+          {/* Book name with hadith number */}
           <p className={cn(
             "mb-2 sm:mb-3 text-center text-xs sm:text-sm font-medium text-muted-foreground",
             language === "bn" && "font-bengali"
           )}>
-            {language === "bn" ? hadith.book_name_bengali : hadith.book_name_english}
+            {language === "bn" 
+              ? `${hadith.book_name_bengali} - হাদিস ${formatNumber(hadith.hadith_number, language)}` 
+              : `${hadith.book_name_english} - Hadith ${hadith.hadith_number}`}
           </p>
           
           {/* Arabic */}
@@ -273,7 +275,9 @@ export const DesktopDailyContent = ({ language }: DesktopDailyContentProps) => {
               language === "bn" && "font-bengali"
             )}
           >
-            {language === "bn" ? "আরো হাদিস দেখুন" : "More Hadiths"}
+          {language === "bn" 
+              ? `${hadith.book_name_bengali} ${formatNumber(hadith.hadith_number, language)}` 
+              : `${hadith.book_name_english} ${hadith.hadith_number}`}
             <ChevronRight className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
           </button>
         </div>
