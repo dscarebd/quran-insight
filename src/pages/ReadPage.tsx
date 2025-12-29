@@ -13,6 +13,7 @@ import { cn } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
 import { toast } from "sonner";
 import { Language } from "@/types/language";
+import { initializeBundledData, getBundledVerses, isBundledDataLoaded } from "@/services/bundledDataLoader";
 
 interface Verse {
   surah_number: number;
@@ -303,7 +304,7 @@ const ReadPage = ({
     }
   }, [navigate]);
 
-  // Fetch verses for a specific page (with caching)
+  // Fetch verses for a specific page (with caching) - uses bundled data first for offline support
   const fetchVersesForPage = useCallback(async (pageNum: number): Promise<Verse[]> => {
     // Check cache first
     if (versesCache.has(pageNum)) {
@@ -313,6 +314,47 @@ const ReadPage = ({
     const pageData = getPageByNumber(pageNum);
     if (!pageData) return [];
 
+    // Try bundled data first (works offline)
+    try {
+      await initializeBundledData();
+      
+      if (isBundledDataLoaded()) {
+        let verses: Verse[] = [];
+        
+        // Collect verses from all surahs in this page
+        for (let surahNum = pageData.startSurah; surahNum <= pageData.endSurah; surahNum++) {
+          const surahVerses = getBundledVerses(surahNum);
+          
+          const filtered = surahVerses.filter(v => {
+            if (surahNum === pageData.startSurah && surahNum === pageData.endSurah) {
+              return v.verseNumber >= pageData.startVerse && v.verseNumber <= pageData.endVerse;
+            }
+            if (surahNum === pageData.startSurah) {
+              return v.verseNumber >= pageData.startVerse;
+            }
+            if (surahNum === pageData.endSurah) {
+              return v.verseNumber <= pageData.endVerse;
+            }
+            return true;
+          }).map(v => ({
+            surah_number: v.surahNumber,
+            verse_number: v.verseNumber,
+            arabic: v.arabic
+          }));
+          
+          verses.push(...filtered);
+        }
+        
+        if (verses.length > 0) {
+          versesCache.set(pageNum, verses);
+          return verses;
+        }
+      }
+    } catch (error) {
+      console.log("Bundled data not available, trying Supabase:", error);
+    }
+
+    // Fallback to Supabase if bundled data is not available
     try {
       let verses: Verse[] = [];
       
