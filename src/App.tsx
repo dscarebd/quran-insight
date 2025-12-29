@@ -12,7 +12,7 @@ import { useContentProtection } from "@/hooks/useContentProtection";
 import { useFontSize } from "@/hooks/useFontSize";
 import { useBackButtonHandler } from "@/hooks/useBackButtonHandler";
 import { Language } from "@/types/language";
-import { syncAllDataInBackground } from "@/services/bundledDataService";
+import { initializeBundledData } from "@/services/bundledDataLoader";
 import Index from "./pages/Index";
 import SurahList from "./pages/SurahList";
 import SurahDetail from "./pages/SurahDetail";
@@ -51,7 +51,7 @@ const DuaCategoriesManagement = lazy(() => import("./pages/admin/DuaCategoriesMa
 const DuasManagement = lazy(() => import("./pages/admin/DuasManagement"));
 const ImportDuas = lazy(() => import("./pages/admin/ImportDuas"));
 const HadithManagement = lazy(() => import("./pages/admin/HadithManagement"));
-
+const ExportData = lazy(() => import("./pages/admin/ExportData"));
 const queryClient = new QueryClient();
 
 const LoadingFallback = () => (
@@ -96,9 +96,9 @@ const AppContent = () => {
   // Handle mobile back button to prevent accidental exit
   useBackButtonHandler();
 
-  // Start background sync of all data on app startup
+  // Load bundled data on app startup
   useEffect(() => {
-    syncAllDataInBackground().catch(console.error);
+    initializeBundledData().catch(console.error);
   }, []);
 
   return (
@@ -224,6 +224,7 @@ const AppContent = () => {
         <Route path="users" element={<UsersManagement />} />
         <Route path="admin-emails" element={<AdminEmailsManagement />} />
         <Route path="analytics" element={<Analytics />} />
+        <Route path="export-data" element={<ExportData />} />
       </Route>
       <Route path="*" element={<NotFound />} />
     </Routes>

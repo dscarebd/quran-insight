@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { getVerses, getHadiths, getRandomVerse, getRandomHadith, syncAllDataInBackground } from "@/services/bundledDataService";
+import { getRandomVerse, getRandomHadith } from "@/services/bundledDataService";
 import { surahs } from "@/data/surahs";
 import { hadithBooks } from "@/data/hadithBooks";
 
@@ -83,9 +83,6 @@ export const useDailyContent = () => {
             setDua(parsedCache.dua);
             setHadith(parsedCache.hadith);
             setIsLoading(false);
-            
-            // Start background sync for future use
-            syncAllDataInBackground().catch(console.error);
             return;
           }
         }
@@ -232,9 +229,6 @@ export const useDailyContent = () => {
       setVerse(finalVerse);
       setHadith(finalHadith);
       setIsLoading(false);
-
-      // Start background sync for future use
-      syncAllDataInBackground().catch(console.error);
     };
 
     fetchAllContent();
