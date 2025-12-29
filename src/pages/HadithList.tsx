@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { BookOpen, ChevronRight, Book, Search } from "lucide-react";
 import { cn, formatNumber } from "@/lib/utils";
 import { Language } from "@/types/language";
-import { supabase } from "@/integrations/supabase/client";
+import { hadithBooks, HadithBook, bookGradients } from "@/data/hadithBooks";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 
@@ -18,69 +18,12 @@ interface HadithListProps {
   language: Language;
 }
 
-interface HadithBook {
-  id: string;
-  slug: string;
-  name_arabic: string;
-  name_english: string;
-  name_bengali: string;
-  total_hadiths: number;
-  icon: string;
-  display_order: number;
-}
-
-const bookGradients: Record<string, string> = {
-  bukhari: "from-emerald-500 to-teal-600",
-  muslim: "from-blue-500 to-indigo-600",
-  abudawud: "from-violet-500 to-purple-600",
-  tirmidhi: "from-amber-500 to-orange-600",
-  nasai: "from-rose-500 to-pink-600",
-  ibnmajah: "from-cyan-500 to-sky-600",
-  malik: "from-lime-500 to-green-600",
-  nawawi: "from-fuchsia-500 to-pink-600",
-  qudsi: "from-indigo-500 to-violet-600",
-  dehlawi: "from-teal-500 to-cyan-600",
-};
-
 const HadithList = ({ language }: HadithListProps) => {
   const navigate = useNavigate();
-  const [books, setBooks] = useState<HadithBook[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  // Use local bundled data - no loading needed
+  const books = hadithBooks;
   
   useScrollToTop();
-
-  useEffect(() => {
-    const fetchBooks = async () => {
-      const { data, error } = await supabase
-        .from("hadith_books")
-        .select("*")
-        .order("display_order", { ascending: true });
-
-      if (error) {
-        console.error("Error fetching hadith books:", error);
-      } else {
-        setBooks(data || []);
-      }
-      setIsLoading(false);
-    };
-
-    fetchBooks();
-  }, []);
-
-  if (isLoading) {
-    return (
-      <div className="flex-1 overflow-y-auto p-4 sm:p-6">
-        <div className="mx-auto max-w-4xl">
-          <Skeleton className="h-8 w-48 mb-6" />
-          <div className="grid gap-4 sm:grid-cols-2">
-            {[1, 2, 3, 4, 5, 6].map((i) => (
-              <Skeleton key={i} className="h-32 rounded-xl" />
-            ))}
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="flex-1 overflow-y-auto p-4 sm:p-6">
