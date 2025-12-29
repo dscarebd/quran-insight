@@ -711,20 +711,75 @@ Deno.serve(async (req) => {
     const isNameQuery = (q: string): boolean => {
       const lowerQ = q.toLowerCase();
       const namePatterns = [
-        // Prophet names
+        // === PROPHETS (25 Prophets mentioned in Quran) ===
         'muhammad', 'ibrahim', 'musa', 'isa', 'nuh', 'adam', 'yusuf', 'dawud', 'sulaiman', 'ayyub', 'yaqub', 'ismail', 'ishaq', 'idris', 'hud', 'salih', 'lut', 'shuayb', 'zakariya', 'yahya', 'ilyas', 'alyasa', 'dhulkifl', 'yunus', 'harun',
         'মুহাম্মদ', 'ইব্রাহিম', 'মুসা', 'ঈসা', 'নূহ', 'আদম', 'ইউসুফ', 'দাউদ', 'সুলাইমান', 'আইয়ুব', 'ইয়াকুব', 'ইসমাইল', 'ইসহাক', 'ইদ্রিস', 'হুদ', 'সালিহ', 'লুত', 'শুআইব', 'যাকারিয়া', 'ইয়াহইয়া', 'ইলিয়াস', 'আলইয়াসা', 'যুলকিফল', 'ইউনুস', 'হারুন',
-        // Sahabi names
-        'abu bakr', 'umar', 'uthman', 'ali', 'bilal', 'khalid', 'salman', 'ammar', 'hamza', 'zaid', 'talha', 'zubair', 'saad', 'abdur rahman', 'abu ubaidah', 'muadh', 'hudhaifa', 'abdullah ibn masud', 'anas', 'abu hurairah', 'aisha', 'khadijah', 'fatimah', 'usman',
-        'আবু বকর', 'উমর', 'উসমান', 'আলী', 'বিলাল', 'খালিদ', 'সালমান', 'আম্মার', 'হামযা', 'যায়েদ', 'তালহা', 'যুবাইর', 'সাদ', 'আব্দুর রহমান', 'আবু উবাইদাহ', 'মুয়াজ', 'হুযাইফা', 'আবদুল্লাহ ইবনে মাসউদ', 'আনাস', 'আবু হুরায়রা', 'আয়েশা', 'খাদিজা', 'ফাতিমা',
-        // Surah indicator words
-        'surah', 'sura', 'সূরা', 'সুরা',
-        // Islamic history keywords
-        'prophet', 'messenger', 'sahabi', 'companion', 'নবী', 'রাসূল', 'সাহাবী', 'সাহাবা',
-        // Historical events/figures
-        'maryam', 'মারইয়াম', 'asiya', 'আসিয়া', 'khidr', 'খিজির', 'dhulqarnain', 'যুলকারনাইন', 'luqman', 'লুকমান', 'talut', 'তালুত', 'jalut', 'জালুত', 'qarun', 'কারুন', 'firaun', 'pharaoh', 'ফিরাউন', 'namrud', 'nimrod', 'নমরুদ',
-        // Battle/event names
-        'badr', 'বদর', 'uhud', 'উহুদ', 'khandaq', 'খন্দক', 'tabuk', 'তাবুক', 'hunain', 'হুনাইন', 'khaibar', 'খায়বার', 'makkah', 'মক্কা', 'madinah', 'মদিনা', 'hijrah', 'হিজরত'
+        // Prophet name variations
+        'mohammed', 'mohammad', 'muhammed', 'rasulullah', 'abraham', 'moses', 'jesus', 'noah', 'joseph', 'david', 'solomon', 'job', 'jacob', 'ishmael', 'isaac', 'jonah', 'aaron', 'elijah', 'elisha', 'ezekiel', 'john', 'zechariah',
+        
+        // === SAHABA (Major Companions) ===
+        // Khulafa Rashidun
+        'abu bakr', 'umar', 'uthman', 'ali', 'আবু বকর', 'উমর', 'উসমান', 'আলী', 'usman', 'omar', 'siddiq', 'সিদ্দিক', 'farooq', 'ফারুক',
+        // Ashara Mubashara (10 promised paradise)
+        'talha', 'zubair', 'saad ibn abi waqqas', 'said ibn zaid', 'abdur rahman ibn awf', 'abu ubaidah', 'তালহা', 'যুবাইর', 'সাদ', 'সাঈদ', 'আব্দুর রহমান', 'আবু উবাইদাহ',
+        // Other major Sahaba
+        'bilal', 'khalid', 'salman', 'ammar', 'hamza', 'zaid', 'muadh', 'hudhaifa', 'abdullah ibn masud', 'anas', 'abu hurairah', 'abu dharr', 'abu musa', 'muawiya', 'amr ibn al-as', 'abdullah ibn umar', 'abdullah ibn abbas', 'jabir', 'ubay ibn kaab', 'abdullah ibn amr',
+        'বিলাল', 'খালিদ', 'সালমান', 'আম্মার', 'হামযা', 'যায়েদ', 'মুয়াজ', 'হুযাইফা', 'আবদুল্লাহ ইবনে মাসউদ', 'আনাস', 'আবু হুরায়রা', 'আবু যর', 'আবু মুসা', 'মুয়াবিয়া', 'আমর ইবনুল আস', 'জাবির', 'উবাই ইবনে কাব',
+        // Female Sahaba
+        'aisha', 'khadijah', 'fatimah', 'hafsa', 'zainab', 'umm salama', 'safiyya', 'juwayriya', 'maymuna', 'sawda', 'umm habiba', 'asma', 'sumayya', 'nusayba', 'umm ayman', 'ruqayyah', 'umm kulthum',
+        'আয়েশা', 'খাদিজা', 'ফাতিমা', 'হাফসা', 'যয়নব', 'উম্মে সালামা', 'সাফিয়্যা', 'জুওয়াইরিয়া', 'মাইমুনা', 'সাওদা', 'উম্মে হাবিবা', 'আসমা', 'সুমাইয়া', 'নুসাইবা', 'উম্মে আইমান', 'রুকাইয়া', 'উম্মে কুলসুম',
+        
+        // === FAMILY OF PROPHET (Ahlul Bayt) ===
+        'hasan', 'husain', 'hussain', 'hassan', 'হাসান', 'হুসাইন', 'হোসেন', 'abbas', 'আব্বাস', 'jafar', 'জাফর', 'aqeel', 'আকীল',
+        
+        // === TABI'IN (Successors) ===
+        'hasan basri', 'হাসান বসরী', 'ibn sirin', 'ইবনে সিরিন', 'said ibn musayyib', 'সাঈদ ইবনুল মুসাইয়্যাব', 'urwah', 'উরওয়া', 'qatadah', 'কাতাদাহ', 'mujahid', 'মুজাহিদ', 'ikrimah', 'ইকরিমা', 'ata', 'আতা', 'tawus', 'তাউস', 'nafi', 'নাফি',
+        
+        // === GREAT SCHOLARS (Imams) ===
+        'imam', 'ইমাম', 'abu hanifa', 'আবু হানিফা', 'hanafi', 'হানাফী', 'malik', 'মালিক', 'maliki', 'মালিকী', 'shafi', 'শাফিঈ', 'shafii', 'ahmad ibn hanbal', 'আহমদ ইবনে হাম্বল', 'hanbali', 'হাম্বলী',
+        'bukhari', 'বুখারী', 'muslim', 'মুসলিম', 'tirmizi', 'তিরমিযী', 'abu dawud', 'আবু দাউদ', 'nasai', 'নাসাঈ', 'ibn majah', 'ইবনে মাজাহ',
+        'ibn taymiyyah', 'ইবনে তাইমিয়া', 'ibn qayyim', 'ইবনে কাইয়্যিম', 'ghazali', 'গাজ্জালী', 'nawawi', 'নববী', 'ibn kathir', 'ইবনে কাসীর', 'tabari', 'তাবারী', 'qurtubi', 'কুরতুবী', 'suyuti', 'সুয়ুতী', 'ibn hajar', 'ইবনে হাজার',
+        
+        // === QURAN MENTIONED FIGURES ===
+        'maryam', 'মারইয়াম', 'mary', 'মরিয়ম', 'asiya', 'আসিয়া', 'khidr', 'খিজির', 'dhulqarnain', 'যুলকারনাইন', 'luqman', 'লুকমান', 'talut', 'তালুত', 'saul', 'jalut', 'জালুত', 'goliath', 'qarun', 'কারুন', 'korah', 'haman', 'হামান',
+        'firaun', 'pharaoh', 'ফিরাউন', 'ফেরাউন', 'namrud', 'nimrod', 'নমরুদ', 'azar', 'আযর', 'imran', 'ইমরান', 'hannah', 'হান্না',
+        'sheba', 'সাবা', 'bilqis', 'বিলকিস', 'queen of sheba', 'uzair', 'উযায়ের', 'ezra',
+        
+        // === ANGELS ===
+        'jibreel', 'jibril', 'gabriel', 'জিবরাঈল', 'জিবরীল', 'mikail', 'michael', 'মিকাঈল', 'israfil', 'ইসরাফীল', 'azrael', 'izrail', 'আযরাঈল', 'munkar', 'মুনকার', 'nakir', 'নাকীর', 'malik', 'মালিক', 'ridwan', 'রিদওয়ান', 'kiraman katibin', 'কিরামান কাতিবীন',
+        
+        // === JINN & SHAYTAN ===
+        'iblis', 'ইবলিস', 'shaytan', 'শয়তান', 'satan', 'jinn', 'জিন',
+        
+        // === PEOPLE OF PREVIOUS NATIONS ===
+        'aad', 'আদ', 'thamud', 'সামুদ', 'madyan', 'মাদইয়ান', 'midian', 'ashab al-kahf', 'আসহাবে কাহাফ', 'sleepers', 'ashab al-ukhdud', 'আসহাবুল উখদুদ', 'ashab al-fil', 'আসহাবুল ফীল', 'elephant',
+        
+        // === BATTLES & EVENTS ===
+        'badr', 'বদর', 'uhud', 'উহুদ', 'khandaq', 'খন্দক', 'ahzab', 'আহযাব', 'trench', 'tabuk', 'তাবুক', 'hunain', 'হুনাইন', 'khaibar', 'খায়বার', 'muta', 'মুতা', 'yarmouk', 'ইয়ারমুক', 'qadisiyyah', 'কাদিসিয়্যা',
+        'hudaybiyyah', 'হুদায়বিয়া', 'treaty', 'banu qaynuqa', 'বনু কাইনুকা', 'banu nadir', 'বনু নাদির', 'banu qurayza', 'বনু কুরায়যা',
+        
+        // === SIGNIFICANT EVENTS ===
+        'hijrah', 'হিজরত', 'migration', 'isra', 'ইসরা', 'miraj', 'মিরাজ', 'night journey', 'ascension', 'fath makkah', 'ফাতহে মক্কা', 'conquest of mecca', 'মক্কা বিজয়',
+        'hajjatul wida', 'হাজ্জাতুল বিদা', 'farewell pilgrimage', 'বিদায় হজ্জ', 'ghadir khumm', 'গাদীরে খুম',
+        'aam ul huzn', 'আমুল হুযন', 'year of sorrow', 'শোকের বছর', 'boycott', 'বয়কট', 'shib abi talib', 'শিবে আবু তালিব',
+        
+        // === PLACES ===
+        'makkah', 'mecca', 'মক্কা', 'madinah', 'medina', 'মদিনা', 'jerusalem', 'জেরুজালেম', 'quds', 'কুদস', 'baitul maqdis', 'বায়তুল মাকদিস', 'kaaba', 'কাবা', 'kaba', 'masjid', 'মসজিদ',
+        'taif', 'তায়িফ', 'abyssinia', 'habasha', 'হাবশা', 'ethiopia', 'ইথিওপিয়া', 'najran', 'নাজরান', 'yathrib', 'ইয়াসরিব',
+        'safa', 'সাফা', 'marwa', 'মারওয়া', 'mina', 'মিনা', 'arafat', 'আরাফাত', 'muzdalifah', 'মুযদালিফা', 'jamarat', 'জামারাত',
+        
+        // === SURAH INDICATORS ===
+        'surah', 'sura', 'সূরা', 'সুরা', 'chapter',
+        
+        // === ISLAMIC KEYWORDS ===
+        'prophet', 'messenger', 'sahabi', 'companion', 'নবী', 'রাসূল', 'সাহাবী', 'সাহাবা', 'tabi', 'তাবেঈ', 'wali', 'ওলী', 'saint', 'awliya', 'আউলিয়া',
+        'caliph', 'khalifa', 'খলিফা', 'খেলাফত', 'caliphate', 'amir', 'আমীর', 'sultan', 'সুলতান',
+        
+        // === ISLAMIC DYNASTIES & ERAS ===
+        'umayyad', 'উমাইয়া', 'abbasid', 'আব্বাসীয়', 'ottoman', 'উসমানীয়', 'mughal', 'মুঘল', 'fatimid', 'ফাতিমীয়', 'ayyubid', 'আইয়ুবীয়', 'saladin', 'সালাহউদ্দীন',
+        
+        // === QURANIC STORIES ===
+        'ashab', 'আসহাব', 'people of', 'story of', 'কাহিনী', 'কিসসা', 'qissa', 'kisah'
       ];
       return namePatterns.some(pattern => lowerQ.includes(pattern));
     };
