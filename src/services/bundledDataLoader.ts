@@ -90,28 +90,51 @@ const loadVersesFromCsv = async (): Promise<Verse[]> => {
   }
 };
 
+// Define which books are split into multiple parts
+const splitBooks: Record<string, number> = {
+  bukhari: 2, // hadiths-bukhari-1.json, hadiths-bukhari-2.json
+  muslim: 2,  // hadiths-muslim-1.json, hadiths-muslim-2.json
+};
+
+// Load hadiths for a single book (or book part)
+const loadSingleHadithFile = async (filePath: string): Promise<LocalHadith[]> => {
+  try {
+    const response = await fetch(filePath);
+    if (!response.ok) {
+      console.log(`Hadith file not found: ${filePath}`);
+      return [];
+    }
+    const data = await response.json();
+    return Array.isArray(data) ? data : [];
+  } catch (error) {
+    console.log(`Error loading hadiths from ${filePath}:`, error);
+    return [];
+  }
+};
+
 // Load hadiths from multiple book-specific JSON files
 const loadHadithsFromJson = async (): Promise<LocalHadith[]> => {
   const allHadiths: LocalHadith[] = [];
   
-  // Load each book's JSON file in parallel
-  const loadPromises = hadithBooks.map(async (book) => {
-    try {
-      const response = await fetch(`/data/hadiths-${book.slug}.json`);
-      if (!response.ok) {
-        console.log(`Hadith file for ${book.slug} not found`);
-        return [];
+  // Build list of files to load
+  const filesToLoad: string[] = [];
+  
+  hadithBooks.forEach((book) => {
+    const numParts = splitBooks[book.slug];
+    
+    if (numParts) {
+      // Split book - load each part
+      for (let part = 1; part <= numParts; part++) {
+        filesToLoad.push(`/data/hadiths-${book.slug}-${part}.json`);
       }
-      
-      const data = await response.json();
-      return Array.isArray(data) ? data : [];
-    } catch (error) {
-      console.log(`Error loading hadiths for ${book.slug}:`, error);
-      return [];
+    } else {
+      // Single file book
+      filesToLoad.push(`/data/hadiths-${book.slug}.json`);
     }
   });
 
-  const results = await Promise.all(loadPromises);
+  // Load all files in parallel
+  const results = await Promise.all(filesToLoad.map(loadSingleHadithFile));
   
   // Merge all hadiths
   results.forEach(bookHadiths => {
