@@ -59,7 +59,7 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
           {/* User Card Section */}
           <section>
             <h2 className={cn(
-              "mb-3 text-sm font-medium text-muted-foreground uppercase tracking-wider",
+              "mb-3 text-scale-xs font-medium text-muted-foreground uppercase tracking-wider",
               language === "bn" && "font-bengali"
             )}>
               {language === "bn" ? "আমাদের সম্পর্কে" : "About Us"}
@@ -73,10 +73,10 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
                     className="h-16 w-16 rounded-full object-cover border-2 border-primary/20"
                   />
                   <div className="flex-1">
-                    <h3 className={cn("text-lg font-semibold", language === "bn" && "font-bengali")}>
+                    <h3 className={cn("text-scale-lg font-semibold", language === "bn" && "font-bengali")}>
                       {language === "bn" ? "কুরআন ইনসাইট" : "Quran Insight"}
                     </h3>
-                    <p className={cn("text-xs text-muted-foreground", language === "bn" && "font-bengali")}>
+                    <p className={cn("text-scale-xs text-muted-foreground", language === "bn" && "font-bengali")}>
                       {language === "bn" 
                         ? <>কুরআন বোঝার জন্য আপনার AI বন্ধু।<br />উম্মাহর জন্য ❤️ দিয়ে তৈরি</> 
                         : <>Your AI friend for Understand Qur'an.<br />Made with ❤️ for Ummah</>}
@@ -90,7 +90,7 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
           {/* Language Dropdown */}
           <section>
             <h2 className={cn(
-              "mb-3 text-sm font-medium text-muted-foreground uppercase tracking-wider",
+              "mb-3 text-scale-xs font-medium text-muted-foreground uppercase tracking-wider",
               language === "bn" && "font-bengali"
             )}>
               {language === "bn" ? "ভাষা" : "Language"}
@@ -104,10 +104,10 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
                         <Globe className="h-6 w-6 text-primary" />
                       </div>
                       <div className="flex-1 text-left">
-                        <h3 className={cn("text-sm font-semibold", language === "bn" && "font-bengali")}>
+                        <h3 className={cn("text-scale-sm font-semibold", language === "bn" && "font-bengali")}>
                           {t("appLanguage", language)}
                         </h3>
-                        <p className={cn("text-xs text-muted-foreground", language === "bn" && "font-bengali")}>
+                        <p className={cn("text-scale-xs text-muted-foreground", language === "bn" && "font-bengali")}>
                           {languageNames[language].native}
                         </p>
                       </div>
@@ -126,8 +126,8 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
                         language === "bn" ? "border-primary bg-primary/5" : "hover:bg-muted/50"
                       )}
                     >
-                      <span className="font-bengali text-sm">ব</span>
-                      <p className="font-bengali text-sm font-medium">বাংলা</p>
+                      <span className="font-bengali text-scale-sm">ব</span>
+                      <p className="font-bengali text-scale-sm font-medium">বাংলা</p>
                       {language === "bn" && (
                         <div className="h-1.5 w-1.5 rounded-full bg-primary" />
                       )}
@@ -139,8 +139,8 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
                         language === "en" ? "border-primary bg-primary/5" : "hover:bg-muted/50"
                       )}
                     >
-                      <span className="text-sm font-medium">A</span>
-                      <p className="text-sm font-medium">English</p>
+                      <span className="text-scale-sm font-medium">A</span>
+                      <p className="text-scale-sm font-medium">English</p>
                       {language === "en" && (
                         <div className="h-1.5 w-1.5 rounded-full bg-primary" />
                       )}
@@ -154,7 +154,7 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
           {/* Theme & Reading Mode Dropdown */}
           <section>
             <h2 className={cn(
-              "mb-3 text-sm font-medium text-muted-foreground uppercase tracking-wider",
+              "mb-3 text-scale-xs font-medium text-muted-foreground uppercase tracking-wider",
               language === "bn" && "font-bengali"
             )}>
               {language === "bn" ? "থিম" : "Theme"}
@@ -168,10 +168,10 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
                         <Palette className="h-6 w-6 text-primary" />
                       </div>
                       <div className="flex-1 text-left">
-                        <h3 className={cn("text-sm font-semibold", language === "bn" && "font-bengali")}>
+                        <h3 className={cn("text-scale-sm font-semibold", language === "bn" && "font-bengali")}>
                           {language === "bn" ? "থিম ও রিডিং মোড" : "Theme & Reading Mode"}
                         </h3>
-                        <p className={cn("text-xs text-muted-foreground", language === "bn" && "font-bengali")}>
+                        <p className={cn("text-scale-xs text-muted-foreground", language === "bn" && "font-bengali")}>
                           {theme === "light" 
                             ? (language === "bn" ? "লাইট" : "Light")
                             : (language === "bn" ? "ডার্ক" : "Dark")}
@@ -190,7 +190,7 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
                 <div className="mt-3 space-y-4 rounded-xl border border-border bg-card p-4">
                   {/* App Theme */}
                   <div>
-                    <p className={cn("text-xs font-medium text-muted-foreground mb-2", language === "bn" && "font-bengali")}>
+                    <p className={cn("text-scale-xs font-medium text-muted-foreground mb-2", language === "bn" && "font-bengali")}>
                       {language === "bn" ? "অ্যাপ থিম" : "App Theme"}
                     </p>
                     <div className="grid grid-cols-2 gap-2">
@@ -204,7 +204,7 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
                           )}
                         >
                           <option.icon className="h-4 w-4" />
-                          <p className={cn("text-sm font-medium", language === "bn" && "font-bengali")}>
+                          <p className={cn("text-scale-sm font-medium", language === "bn" && "font-bengali")}>
                             {language === "bn" ? option.labelBn : option.labelEn}
                           </p>
                           {theme === option.value && (
@@ -217,7 +217,7 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
 
                   {/* Reading Mode */}
                   <div>
-                    <p className={cn("text-xs font-medium text-muted-foreground mb-2", language === "bn" && "font-bengali")}>
+                    <p className={cn("text-scale-xs font-medium text-muted-foreground mb-2", language === "bn" && "font-bengali")}>
                       {language === "bn" ? "রিডিং মোড" : "Reading Mode"}
                     </p>
                     <div className="grid grid-cols-2 gap-2">
@@ -231,7 +231,7 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
                           )}
                         >
                           <option.icon className="h-4 w-4" />
-                          <p className={cn("text-sm font-medium", language === "bn" && "font-bengali")}>
+                          <p className={cn("text-scale-sm font-medium", language === "bn" && "font-bengali")}>
                             {language === "bn" ? option.labelBn : option.labelEn}
                           </p>
                           {readingMode === option.value && (
@@ -240,7 +240,7 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
                         </button>
                       ))}
                     </div>
-                    <p className={cn("mt-2 text-xs text-muted-foreground", language === "bn" && "font-bengali")}>
+                    <p className={cn("mt-2 text-scale-xs text-muted-foreground", language === "bn" && "font-bengali")}>
                       {language === "bn" ? "শুধুমাত্র পড়ার পৃষ্ঠায় প্রযোজ্য" : "Applies only to reading pages"}
                     </p>
                   </div>
@@ -252,7 +252,7 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
           {/* Font Settings Dropdown */}
           <section>
             <h2 className={cn(
-              "mb-3 text-sm font-medium text-muted-foreground uppercase tracking-wider",
+              "mb-3 text-scale-xs font-medium text-muted-foreground uppercase tracking-wider",
               language === "bn" && "font-bengali"
             )}>
               {language === "bn" ? "ফন্ট সেটিংস" : "Font Settings"}
@@ -266,10 +266,10 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
                         <Type className="h-6 w-6 text-primary" />
                       </div>
                       <div className="flex-1 text-left">
-                        <h3 className={cn("text-sm font-semibold", language === "bn" && "font-bengali")}>
+                        <h3 className={cn("text-scale-sm font-semibold", language === "bn" && "font-bengali")}>
                           {language === "bn" ? "ফন্ট ও সাইজ" : "Font & Size"}
                         </h3>
-                        <p className={cn("text-xs text-muted-foreground", language === "bn" && "font-bengali")}>
+                        <p className={cn("text-scale-xs text-muted-foreground", language === "bn" && "font-bengali")}>
                           {language === "bn" 
                             ? `${arabicFont === "amiri" ? "আমিরী" : "উসমানী"} • ${fontSize}px` 
                             : `${arabicFont === "amiri" ? "Amiri" : "Uthmani"} • ${fontSize}px`}
@@ -284,7 +284,7 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
                 <div className="mt-3 space-y-4 rounded-xl border border-border bg-card p-4">
                   {/* Arabic Font Selection */}
                   <div>
-                    <p className={cn("text-xs font-medium text-muted-foreground mb-2", language === "bn" && "font-bengali")}>
+                    <p className={cn("text-scale-xs font-medium text-muted-foreground mb-2", language === "bn" && "font-bengali")}>
                       {language === "bn" ? "আরবি ফন্ট" : "Arabic Font"}
                     </p>
                     <div className="grid grid-cols-2 gap-2">
@@ -295,9 +295,9 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
                           arabicFont === "amiri" ? "border-primary bg-primary/5" : "hover:bg-muted/50"
                         )}
                       >
-                        <span className="font-arabic text-lg text-foreground">بِسْمِ</span>
+                        <span className="font-arabic text-scale-lg text-foreground">بِسْمِ</span>
                         <div className="flex items-center gap-1.5">
-                          <p className={cn("text-xs font-medium", language === "bn" && "font-bengali")}>
+                          <p className={cn("text-scale-xs font-medium", language === "bn" && "font-bengali")}>
                             {language === "bn" ? "আমিরী" : "Amiri"}
                           </p>
                           {arabicFont === "amiri" && (
@@ -312,9 +312,9 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
                           arabicFont === "uthmani" ? "border-primary bg-primary/5" : "hover:bg-muted/50"
                         )}
                       >
-                        <span className="font-uthmani text-lg text-foreground">بِسْمِ</span>
+                        <span className="font-uthmani text-scale-lg text-foreground">بِسْمِ</span>
                         <div className="flex items-center gap-1.5">
-                          <p className={cn("text-xs font-medium", language === "bn" && "font-bengali")}>
+                          <p className={cn("text-scale-xs font-medium", language === "bn" && "font-bengali")}>
                             {language === "bn" ? "উসমানী" : "Uthmani"}
                           </p>
                           {arabicFont === "uthmani" && (
@@ -327,15 +327,15 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
 
                   {/* Font Size Slider */}
                   <div>
-                    <p className={cn("text-xs font-medium text-muted-foreground mb-2", language === "bn" && "font-bengali")}>
+                    <p className={cn("text-scale-xs font-medium text-muted-foreground mb-2", language === "bn" && "font-bengali")}>
                       {language === "bn" ? "ফন্ট সাইজ" : "Font Size"}
                     </p>
                     <div className="flex items-center justify-between mb-2">
-                      <span className={cn("text-xs text-muted-foreground", language === "bn" && "font-bengali")}>
+                      <span className={cn("text-scale-xs text-muted-foreground", language === "bn" && "font-bengali")}>
                         {language === "bn" ? "ছোট" : "Small"}
                       </span>
-                      <span className="text-sm font-semibold text-primary">{fontSize}px</span>
-                      <span className={cn("text-xs text-muted-foreground", language === "bn" && "font-bengali")}>
+                      <span className="text-scale-sm font-semibold text-primary">{fontSize}px</span>
+                      <span className={cn("text-scale-xs text-muted-foreground", language === "bn" && "font-bengali")}>
                         {language === "bn" ? "বড়" : "Large"}
                       </span>
                     </div>
@@ -354,7 +354,7 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
           </section>
           <section>
             <h2 className={cn(
-              "mb-3 text-sm font-medium text-muted-foreground uppercase tracking-wider",
+              "mb-3 text-scale-xs font-medium text-muted-foreground uppercase tracking-wider",
               language === "bn" && "font-bengali"
             )}>
               {language === "bn" ? "ডেভেলপার" : "Developer"}
@@ -382,10 +382,10 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
                     />
                   </button>
                   <div className="flex-1">
-                    <h3 className={cn("text-sm font-semibold", language === "bn" && "font-bengali")}>
+                    <h3 className={cn("text-scale-sm font-semibold", language === "bn" && "font-bengali")}>
                       An-Nur Digital
                     </h3>
-                    <p className={cn("text-xs text-muted-foreground", language === "bn" && "font-bengali")}>
+                    <p className={cn("text-scale-xs text-muted-foreground", language === "bn" && "font-bengali")}>
                       {language === "bn" 
                         ? "ওয়ার্ডপ্রেস ও সফটওয়্যার ডিজাইনার" 
                         : "WordPress & Software Designer"}
@@ -400,7 +400,7 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
           {/* About Section */}
           <section>
             <h2 className={cn(
-              "mb-3 text-sm font-medium text-muted-foreground uppercase tracking-wider",
+              "mb-3 text-scale-xs font-medium text-muted-foreground uppercase tracking-wider",
               language === "bn" && "font-bengali"
             )}>
               {language === "bn" ? "অ্যাপ তথ্য" : "App Info"}
@@ -411,10 +411,10 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
                   <Info className="h-5 w-5 text-primary" />
                 </div>
                 <div>
-                  <p className={cn("text-sm font-medium", language === "bn" && "font-bengali")}>
+                  <p className={cn("text-scale-sm font-medium", language === "bn" && "font-bengali")}>
                     {language === "bn" ? "কুরআন ইনসাইট" : "Quran Insight"}
                   </p>
-                  <p className="text-xs text-muted-foreground">
+                  <p className="text-scale-xs text-muted-foreground">
                     {language === "bn" ? "সংস্করণ ৩.২.০" : "Version 3.2.0"}
                   </p>
                 </div>
@@ -427,10 +427,10 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
                   <FileText className="h-5 w-5 text-primary" />
                 </div>
                 <div className="flex-1">
-                  <p className={cn("text-sm font-medium", language === "bn" && "font-bengali")}>
+                  <p className={cn("text-scale-sm font-medium", language === "bn" && "font-bengali")}>
                     {language === "bn" ? "সূত্র ও কৃতজ্ঞতা" : "Sources & Credits"}
                   </p>
-                  <p className={cn("text-xs text-muted-foreground", language === "bn" && "font-bengali")}>
+                  <p className={cn("text-scale-xs text-muted-foreground", language === "bn" && "font-bengali")}>
                     {language === "bn" ? "কুরআন, দোয়া ও হাদিসের উৎস" : "Quran, Dua & Hadith sources"}
                   </p>
                 </div>

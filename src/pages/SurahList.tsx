@@ -62,14 +62,14 @@ const SurahList = ({ language }: SurahListProps) => {
                     <Book className="h-5 w-5" />
                   </div>
                   <h1 className={cn(
-                    "text-lg sm:text-xl font-semibold text-foreground",
+                    "text-scale-lg font-semibold text-foreground",
                     language === "bn" && "font-bengali"
                   )}>
                     {language === "bn" ? "পবিত্র কুরআন" : "Holy Quran"}
                   </h1>
                 </div>
                 <p className={cn(
-                  "text-muted-foreground lg:ml-13",
+                  "text-scale-sm text-muted-foreground lg:ml-13",
                   language === "bn" && "font-bengali"
                 )}>
                   {language === "bn" 
@@ -129,13 +129,13 @@ const SurahList = ({ language }: SurahListProps) => {
                   </div>
 
                   {/* Arabic name */}
-                  <p className="font-arabic text-xl text-foreground mb-2 pr-10">
+                  <p className="font-arabic text-scale-xl text-foreground mb-2 pr-10">
                     {surah.nameArabic}
                   </p>
 
                   {/* Name */}
                   <h3 className={cn(
-                    "font-semibold text-sm text-foreground mb-1",
+                    "font-semibold text-scale-sm text-foreground mb-1",
                     language === "bn" && "font-bengali"
                   )}>
                     {language === "bn" ? surah.nameBengali : surah.nameEnglish}
@@ -143,7 +143,7 @@ const SurahList = ({ language }: SurahListProps) => {
 
                   {/* Meaning */}
                   <p className={cn(
-                    "text-sm text-muted-foreground mb-3",
+                    "text-scale-sm text-muted-foreground mb-3",
                     language === "bn" && "font-bengali"
                   )}>
                     {language === "bn" ? surah.meaningBengali : surah.meaningEnglish}
@@ -152,7 +152,7 @@ const SurahList = ({ language }: SurahListProps) => {
                   {/* Meta info */}
                   <div className="flex items-center justify-between">
                     <span className={cn(
-                      "text-xs text-muted-foreground",
+                      "text-scale-xs text-muted-foreground",
                       language === "bn" && "font-bengali"
                     )}>
                       {language === "bn" 
@@ -194,13 +194,13 @@ const SurahList = ({ language }: SurahListProps) => {
                   </div>
 
                   {/* Arabic name */}
-                  <p className="font-arabic text-xl text-foreground mb-2 pr-10">
+                  <p className="font-arabic text-scale-xl text-foreground mb-2 pr-10">
                     {para.nameArabic}
                   </p>
 
                   {/* Name */}
                   <h3 className={cn(
-                    "font-semibold text-sm text-foreground mb-1",
+                    "font-semibold text-scale-sm text-foreground mb-1",
                     language === "bn" && "font-bengali"
                   )}>
                     {language === "bn" ? para.nameBengali : para.nameEnglish}
@@ -208,7 +208,7 @@ const SurahList = ({ language }: SurahListProps) => {
 
                   {/* Range info */}
                   <p className={cn(
-                    "text-sm text-muted-foreground mb-3",
+                    "text-scale-sm text-muted-foreground mb-3",
                     language === "bn" && "font-bengali"
                   )}>
                     {language === "bn"
@@ -219,7 +219,7 @@ const SurahList = ({ language }: SurahListProps) => {
                   {/* Meta info */}
                   <div className="flex items-center justify-between">
                     <span className={cn(
-                      "text-xs text-muted-foreground",
+                      "text-scale-xs text-muted-foreground",
                       language === "bn" && "font-bengali"
                     )}>
                       {language === "bn"
