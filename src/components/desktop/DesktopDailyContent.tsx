@@ -125,9 +125,9 @@ export const DesktopDailyContent = ({ language }: DesktopDailyContentProps) => {
               language === "bn" && "font-bengali"
             )}
           >
-            {language === "bn" 
-              ? `${verse.surahNameBengali}: ${formatNumber(verse.verseNumber, language)}` 
-              : `${verse.surahNameEnglish}: ${verse.verseNumber}`}
+          {language === "bn" 
+              ? `${verse.surahNameBengali} ${formatNumber(verse.surahNumber, language)}:${formatNumber(verse.verseNumber, language)}` 
+              : `${verse.surahNameEnglish} ${verse.surahNumber}:${verse.verseNumber}`}
             <ChevronRight className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
           </button>
         </div>
