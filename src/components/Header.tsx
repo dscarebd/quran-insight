@@ -51,7 +51,7 @@ export const Header = ({
       <div className="lg:hidden flex items-center gap-2 min-w-0 shrink">
         <img src={appLogo} alt="Quran Insight" className="h-8 w-8 rounded-lg shrink-0" />
         <h1 className={cn(
-          "text-lg sm:text-xl font-semibold text-primary truncate",
+          "text-xl sm:text-2xl font-semibold text-primary truncate",
           language === "bn" && "font-bengali"
         )}>
           {language === "bn" ? "কুরআন ইনসাইট" : "Quran Insight"}
