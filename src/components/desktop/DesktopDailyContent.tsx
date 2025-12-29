@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { Sparkles, HandHeart, ChevronRight, Copy, Check, BookOpen } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn, formatNumber } from "@/lib/utils";
 import { toast } from "sonner";
 import { Language } from "@/types/language";
 import { useDailyContent } from "@/hooks/useDailyContent";
@@ -119,15 +119,15 @@ export const DesktopDailyContent = ({ language }: DesktopDailyContentProps) => {
           
           {/* Reference */}
           <button 
-            onClick={() => navigate(`/surah/${verse.surahNumber}?verse=${verse.verseNumber}`)}
+            onClick={() => navigate(`/surah/${verse.surahNumber}#verse-${verse.verseNumber}`)}
             className={cn(
               "mx-auto flex items-center gap-1.5 rounded-full bg-primary/10 px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-medium text-primary transition-colors hover:bg-primary hover:text-primary-foreground",
               language === "bn" && "font-bengali"
             )}
           >
             {language === "bn" 
-              ? `${verse.surahNameBengali} : ${verse.verseNumber}` 
-              : `${verse.surahNameEnglish} : ${verse.verseNumber}`}
+              ? `${verse.surahNameBengali}: ${formatNumber(verse.verseNumber, language)}` 
+              : `${verse.surahNameEnglish}: ${verse.verseNumber}`}
             <ChevronRight className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
           </button>
         </div>
