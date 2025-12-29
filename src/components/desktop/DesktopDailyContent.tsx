@@ -192,15 +192,15 @@ export const DesktopDailyContent = ({ language }: DesktopDailyContentProps) => {
             </p>
           )}
           
-          {/* View All */}
+          {/* View Dua - Navigate to exact dua */}
           <button 
-            onClick={() => navigate("/daily-dua")}
+            onClick={() => navigate(`/dua/${dua.category_id}?dua=${dua.dua_id}`)}
             className={cn(
               "mx-auto flex items-center gap-1.5 rounded-full bg-gold/10 px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-medium text-gold-dark transition-colors hover:bg-gold hover:text-white",
               language === "bn" && "font-bengali"
             )}
           >
-            {language === "bn" ? "সব দোয়া দেখুন" : "View All Duas"}
+            {language === "bn" ? dua.category_name_bengali : dua.category_name_english}
             <ChevronRight className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
           </button>
         </div>
