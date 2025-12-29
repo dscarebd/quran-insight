@@ -60,8 +60,8 @@ const Index = ({ language }: IndexProps) => {
           onClear={clearSearch}
         />
         
-        {/* Continue Reading - after hero, before quick access (mobile/tablet only) */}
-        <ContinueReading language={language} />
+        {/* Continue Reading - after hero, before quick access (mobile/tablet only) - hide when searching */}
+        {!searchQuery && <ContinueReading language={language} />}
         
         {/* Search Results */}
         {searchQuery && (
