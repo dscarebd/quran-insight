@@ -193,7 +193,7 @@ export const HadithOfTheDay = ({ language, arabicFont = "uthmani", compact = fal
           <div className={cn("flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-lg", iconColorClass)}>
             <Book className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
           </div>
-          <span className={cn("text-sm sm:text-base font-medium text-foreground", language === "bn" && "font-bengali")}>
+          <span className={cn("text-sm font-medium text-foreground", language === "bn" && "font-bengali")}>
             {language === "bn" ? "আজকের হাদিস" : "Hadith of the Day"}
           </span>
         </div>
@@ -207,7 +207,7 @@ export const HadithOfTheDay = ({ language, arabicFont = "uthmani", compact = fal
       
       {/* Source */}
       <p className={cn(
-        "mb-2 sm:mb-3 text-center text-xs sm:text-sm font-medium",
+        "mb-2 sm:mb-3 text-center text-sm font-medium",
         iconColorClass.split(" ")[0],
         language === "bn" && "font-bengali"
       )}>
