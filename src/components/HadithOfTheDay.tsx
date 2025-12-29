@@ -217,7 +217,7 @@ export const HadithOfTheDay = ({ language, arabicFont = "uthmani", compact = fal
       {/* Arabic */}
       {hadith.arabic && (
         <p className={cn(
-          "mb-3 sm:mb-4 text-center text-xl sm:text-2xl leading-loose text-foreground",
+          "mb-3 sm:mb-4 text-center text-scale-arabic-xl text-foreground",
           arabicFont === "uthmani" ? "font-uthmani" : "font-amiri",
           compact && "line-clamp-2"
         )}>
@@ -228,7 +228,7 @@ export const HadithOfTheDay = ({ language, arabicFont = "uthmani", compact = fal
       {/* Translation */}
       {translation && (
         <p className={cn(
-          "mb-3 sm:mb-4 text-center text-sm sm:text-base text-muted-foreground leading-relaxed",
+          "mb-3 sm:mb-4 text-center text-scale-body text-muted-foreground",
           language === "bn" && "font-bengali",
           compact ? "line-clamp-3" : "line-clamp-4"
         )}>

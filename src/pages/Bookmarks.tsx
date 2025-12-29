@@ -624,14 +624,14 @@ const Bookmarks = ({ language, readingMode = "normal", arabicFont = "amiri" }: B
 
                     {/* Arabic Text */}
                     {bookmark.arabic && (
-                      <p className={cn("mb-4 text-right text-2xl leading-loose text-foreground", arabicFont === "uthmani" ? "font-uthmani" : "font-arabic")}>
+                      <p className={cn("mb-4 text-right text-scale-arabic-xl text-foreground", arabicFont === "uthmani" ? "font-uthmani" : "font-arabic")}>
                         {bookmark.arabic}
                       </p>
                     )}
 
                     {/* Translation */}
                     {(bookmark.bengali || bookmark.english) && (
-                      <p className={cn("text-base leading-relaxed text-foreground", language === "bn" && "font-bengali")}>
+                      <p className={cn("text-scale-body text-foreground", language === "bn" && "font-bengali")}>
                         {language === "bn" ? bookmark.bengali : bookmark.english}
                       </p>
                     )}
@@ -651,7 +651,7 @@ const Bookmarks = ({ language, readingMode = "normal", arabicFont = "amiri" }: B
                         </button>
                         
                         {expandedTafsir.has(bookmark.id) && (
-                          <div className={cn("mt-3 rounded-lg bg-accent/50 p-4 text-sm leading-relaxed text-muted-foreground", language === "bn" && "font-bengali")}>
+                          <div className={cn("mt-3 rounded-lg bg-accent/50 p-4 text-scale-sm text-muted-foreground", language === "bn" && "font-bengali")}>
                             {language === "bn" ? bookmark.tafsir_bengali : bookmark.tafsir_english}
                           </div>
                         )}
