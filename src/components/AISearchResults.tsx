@@ -54,6 +54,9 @@ const getTypeColor = (type: SearchResult["type"]) => {
 export const AISearchResults = ({ response, language }: AISearchResultsProps) => {
   const navigate = useNavigate();
 
+  // Get top verses from references for dedicated verse section
+  const relevantVerses = response.references?.verses?.slice(0, 3) || [];
+
   return (
     <div className="space-y-6 animate-fade-in">
       {/* Offline indicator */}
@@ -104,6 +107,57 @@ export const AISearchResults = ({ response, language }: AISearchResultsProps) =>
             {response.answer}
           </p>
         </Card>
+      )}
+
+      {/* Relevant Quran Verses Section */}
+      {relevantVerses.length > 0 && !response.isOffline && (
+        <div>
+          <h3 className={cn(
+            "text-sm font-medium text-muted-foreground mb-3 flex items-center gap-2",
+            language === "bn" && "font-bengali"
+          )}>
+            <BookOpen className="h-4 w-4 text-primary" />
+            {language === "bn" ? "সম্পর্কিত কুরআনের আয়াত" : "Related Quran Verses"}
+          </h3>
+          
+          <div className="space-y-3">
+            {relevantVerses.map((verse: any, index: number) => (
+              <button
+                key={`verse-${verse.surah_number}-${verse.verse_number}-${index}`}
+                onClick={() => navigate(`/surah/${verse.surah_number}?verse=${verse.verse_number}`)}
+                className="group w-full text-left rounded-xl border border-primary/20 bg-gradient-to-br from-primary/5 to-transparent p-4 transition-all duration-200 hover:shadow-elevated hover:-translate-y-0.5 hover:border-primary/40"
+              >
+                {/* Surah and Verse Reference */}
+                <div className="flex items-center justify-between mb-3">
+                  <span className={cn(
+                    "text-xs px-2 py-1 rounded-full bg-primary/10 text-primary font-medium",
+                    language === "bn" && "font-bengali"
+                  )}>
+                    {language === "bn" 
+                      ? `সূরা ${verse.surah_number}, আয়াত ${verse.verse_number}`
+                      : `Surah ${verse.surah_number}, Verse ${verse.verse_number}`}
+                  </span>
+                  <ChevronRight className="h-4 w-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
+                </div>
+
+                {/* Arabic Text */}
+                {verse.arabic && (
+                  <p className="font-arabic text-xl sm:text-2xl text-foreground leading-loose mb-4 text-right" dir="rtl">
+                    {verse.arabic}
+                  </p>
+                )}
+
+                {/* Translation */}
+                <p className={cn(
+                  "text-sm text-muted-foreground leading-relaxed",
+                  language === "bn" && "font-bengali"
+                )}>
+                  {language === "bn" ? verse.bengali : verse.english}
+                </p>
+              </button>
+            ))}
+          </div>
+        </div>
       )}
 
       {/* Search Results */}
