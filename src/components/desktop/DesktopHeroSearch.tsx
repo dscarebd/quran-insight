@@ -191,13 +191,13 @@ export const DesktopHeroSearch = ({ language, onSearch, isLoading, hasResults, o
 
         {/* Title */}
         <h1 className={cn(
-          "mb-2 sm:mb-3 text-center text-scale-2xl font-bold text-white",
+          "mb-2 sm:mb-3 text-center text-xl sm:text-3xl lg:text-4xl font-bold text-white",
           language === "bn" && "font-bengali"
         )}>
           {language === "bn" ? "কুরআন ইনসাইট" : "Quran Insight"}
         </h1>
         <p className={cn(
-          "mb-5 sm:mb-8 text-center text-scale-sm text-white/80 max-w-xl mx-auto px-2",
+          "mb-5 sm:mb-8 text-center text-sm sm:text-base text-white/80 max-w-xl mx-auto px-2",
           language === "bn" && "font-bengali"
         )}>
           {language === "bn"

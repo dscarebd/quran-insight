@@ -495,7 +495,7 @@ const Bookmarks = ({ language, readingMode = "normal", arabicFont = "amiri" }: B
           <div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10">
             <Bookmark className="h-8 w-8 text-primary" />
           </div>
-          <h1 className={cn("text-scale-2xl font-bold text-foreground", language === "bn" && "font-bengali")}>
+          <h1 className={cn("text-2xl font-bold text-foreground sm:text-3xl", language === "bn" && "font-bengali")}>
             {language === "bn" ? "সংরক্ষিত" : "Bookmarks"}
           </h1>
         </div>
@@ -505,23 +505,23 @@ const Bookmarks = ({ language, readingMode = "normal", arabicFont = "amiri" }: B
       <div className="mx-auto max-w-4xl px-3 py-6 sm:px-4 md:px-6">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <TabsList className="grid w-full grid-cols-3 mb-6">
-            <TabsTrigger value="quran" className={cn("gap-1 text-scale-xs", language === "bn" && "font-bengali")}>
+            <TabsTrigger value="quran" className={cn("gap-1 text-xs sm:text-sm", language === "bn" && "font-bengali")}>
               <BookOpen className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
               <span className="hidden sm:inline">{language === "bn" ? "কুরআন" : "Quran"}</span>
               <span className="sm:hidden">{language === "bn" ? "কুরআন" : "Quran"}</span>
-              <span className="text-scale-xs">({formatNumber(bookmarks.length, language)})</span>
+              <span className="text-xs">({formatNumber(bookmarks.length, language)})</span>
             </TabsTrigger>
-            <TabsTrigger value="hadith" className={cn("gap-1 text-scale-xs", language === "bn" && "font-bengali")}>
+            <TabsTrigger value="hadith" className={cn("gap-1 text-xs sm:text-sm", language === "bn" && "font-bengali")}>
               <BookOpen className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
               <span className="hidden sm:inline">{language === "bn" ? "হাদিস" : "Hadith"}</span>
               <span className="sm:hidden">{language === "bn" ? "হাদিস" : "Hadith"}</span>
-              <span className="text-scale-xs">({formatNumber(hadithBookmarks.length, language)})</span>
+              <span className="text-xs">({formatNumber(hadithBookmarks.length, language)})</span>
             </TabsTrigger>
-            <TabsTrigger value="dua" className={cn("gap-1 text-scale-xs", language === "bn" && "font-bengali")}>
+            <TabsTrigger value="dua" className={cn("gap-1 text-xs sm:text-sm", language === "bn" && "font-bengali")}>
               <HandHeart className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
               <span className="hidden sm:inline">{language === "bn" ? "দোয়া" : "Dua"}</span>
               <span className="sm:hidden">{language === "bn" ? "দোয়া" : "Dua"}</span>
-              <span className="text-scale-xs">({formatNumber(duaBookmarks.length, language)})</span>
+              <span className="text-xs">({formatNumber(duaBookmarks.length, language)})</span>
             </TabsTrigger>
           </TabsList>
 

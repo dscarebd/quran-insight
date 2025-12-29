@@ -306,14 +306,14 @@ const Dua = ({ language, arabicFont = "amiri" }: DuaProps) => {
                       <LucideIcons.HandHeart className="h-5 w-5" />
                     </div>
                     <h1 className={cn(
-                      "text-scale-lg font-semibold text-foreground",
+                      "text-lg sm:text-xl font-semibold text-foreground",
                       language === "bn" && "font-bengali"
                     )}>
                       {language === "bn" ? "দোয়া সমূহ" : "All Duas"}
                     </h1>
                   </div>
                   <p className={cn(
-                    "text-scale-sm text-muted-foreground",
+                    "text-muted-foreground",
                     language === "bn" && "font-bengali"
                   )}>
                     {language === "bn" 

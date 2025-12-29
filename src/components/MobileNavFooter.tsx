@@ -171,7 +171,7 @@ export const MobileNavFooter = ({ language }: MobileNavFooterProps) => {
               />
               <span
                 className={cn(
-                  "text-scale-xs font-medium truncate max-w-full px-0.5",
+                  "text-[10px] sm:text-xs font-medium truncate max-w-full px-0.5",
                   language === "bn" && "font-bengali"
                 )}
               >
