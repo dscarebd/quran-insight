@@ -10,6 +10,7 @@ import { AuthProvider } from "@/hooks/useAuth";
 import { Loader2 } from "lucide-react";
 import { useContentProtection } from "@/hooks/useContentProtection";
 import { useFontSize } from "@/hooks/useFontSize";
+import { useBackButtonHandler } from "@/hooks/useBackButtonHandler";
 import { Language } from "@/types/language";
 import Index from "./pages/Index";
 import SurahList from "./pages/SurahList";
@@ -90,6 +91,9 @@ const AppContent = () => {
   
   // Enable content protection
   useContentProtection();
+  
+  // Handle mobile back button to prevent accidental exit
+  useBackButtonHandler();
 
   return (
     <Routes>
