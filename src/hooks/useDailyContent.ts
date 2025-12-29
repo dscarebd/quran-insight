@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import { supabase } from "@/integrations/supabase/client";
 import { getRandomVerse, getRandomHadith } from "@/services/bundledDataService";
 import { surahs } from "@/data/surahs";
 import { hadithBooks } from "@/data/hadithBooks";
+import { duaCategories } from "@/data/duas";
 
 interface DailyVerse {
   surahNumber: number;
@@ -51,7 +51,7 @@ interface DailyContentCache {
   hadith: DailyHadith | null;
 }
 
-const CACHE_KEY = 'daily-content-cache-v2'; // v2 to bust old broken cache
+const CACHE_KEY = 'daily-content-cache-v3'; // v3 for fully offline version
 
 const getTodayKey = () => new Date().toISOString().split('T')[0];
 
@@ -60,6 +60,30 @@ const getDayOfYear = () => {
   return Math.floor(
     (today.getTime() - new Date(today.getFullYear(), 0, 0).getTime()) / 86400000
   );
+};
+
+// Get random dua from local data based on day of year
+const getRandomLocalDua = (dayOfYear: number): DailyDua | null => {
+  // Flatten all duas from all categories
+  const allDuas = duaCategories.flatMap(category => 
+    category.duas.map(dua => ({
+      id: dua.id,
+      dua_id: dua.id,
+      category_id: category.id,
+      title_english: dua.titleEnglish || '',
+      title_bengali: dua.titleBengali || '',
+      arabic: dua.arabic,
+      english: dua.english,
+      bengali: dua.bengali,
+      reference: dua.reference || null,
+      category_name_english: category.nameEnglish,
+      category_name_bengali: category.nameBengali,
+    }))
+  );
+  
+  if (allDuas.length === 0) return null;
+  const index = dayOfYear % allDuas.length;
+  return allDuas[index];
 };
 
 export const useDailyContent = () => {
@@ -90,7 +114,7 @@ export const useDailyContent = () => {
         localStorage.removeItem(CACHE_KEY);
       }
 
-      // Try to get verse from local data first
+      // Get verse from local data
       let finalVerse: DailyVerse | null = null;
       try {
         const localVerse = await getRandomVerse(dayOfYear);
@@ -110,7 +134,15 @@ export const useDailyContent = () => {
         console.error("Error getting local verse:", error);
       }
 
-      // Try to get hadith from local data first
+      // Get dua from local data
+      let finalDua: DailyDua | null = null;
+      try {
+        finalDua = getRandomLocalDua(dayOfYear);
+      } catch (error) {
+        console.error("Error getting local dua:", error);
+      }
+
+      // Get hadith from local data
       let finalHadith: DailyHadith | null = null;
       try {
         const localHadith = await getRandomHadith(dayOfYear);
@@ -136,101 +168,12 @@ export const useDailyContent = () => {
         console.error("Error getting local hadith:", error);
       }
 
-      // Fetch dua from Supabase (always needed as there's no local dua data)
-      let finalDua: DailyDua | null = null;
-      
-      // If no local data, fall back to Supabase
-      try {
-        // Fetch counts
-        const [verseCountResult, duaCountResult, hadithCountResult] = await Promise.all([
-          !finalVerse ? supabase.from('verses').select('*', { count: 'exact', head: true }) : Promise.resolve({ count: 0 }),
-          supabase.from('duas').select('*', { count: 'exact', head: true }),
-          !finalHadith ? supabase.from('hadiths').select('*', { count: 'exact', head: true }) : Promise.resolve({ count: 0 }),
-        ]);
-
-        const verseCount = (verseCountResult as any).count || 0;
-        const duaCount = duaCountResult.count || 0;
-        const hadithCount = (hadithCountResult as any).count || 0;
-
-        // Calculate indices
-        const verseIndex = verseCount > 0 ? dayOfYear % verseCount : 0;
-        const duaIndex = duaCount > 0 ? dayOfYear % duaCount : 0;
-        const hadithIndex = hadithCount > 0 ? dayOfYear % hadithCount : 0;
-
-        // Fetch content
-        const [verseResult, duaResult, hadithResult] = await Promise.all([
-          !finalVerse && verseCount > 0
-            ? supabase.from('verses').select('surah_number, verse_number, arabic, english, bengali').range(verseIndex, verseIndex).maybeSingle()
-            : Promise.resolve({ data: null }),
-          duaCount > 0
-            ? supabase.from('duas').select('id, dua_id, category_id, title_english, title_bengali, arabic, english, bengali, reference').order('category_id').order('dua_id').range(duaIndex, duaIndex).maybeSingle()
-            : Promise.resolve({ data: null }),
-          !finalHadith && hadithCount > 0
-            ? supabase.from('hadiths').select('id, hadith_number, book_slug, arabic, english, bengali, narrator_english, narrator_bengali, grade, grade_bengali').range(hadithIndex, hadithIndex).maybeSingle()
-            : Promise.resolve({ data: null }),
-        ]);
-
-        // Process verse
-        if (!finalVerse && verseResult.data) {
-          const surah = surahs.find(s => s.number === verseResult.data.surah_number);
-          finalVerse = {
-            surahNumber: verseResult.data.surah_number,
-            verseNumber: verseResult.data.verse_number,
-            arabic: verseResult.data.arabic,
-            english: verseResult.data.english,
-            bengali: verseResult.data.bengali,
-            surahNameEnglish: surah?.nameEnglish || `Surah ${verseResult.data.surah_number}`,
-            surahNameBengali: surah?.nameBengali || `সূরা ${verseResult.data.surah_number}`,
-          };
-        }
-
-        // Process dua
-        if (duaResult.data) {
-          let categoryNameEnglish = duaResult.data.category_id;
-          let categoryNameBengali = duaResult.data.category_id;
-          
-          try {
-            const { data: categoryData } = await supabase
-              .from('dua_categories')
-              .select('name_english, name_bengali')
-              .eq('category_id', duaResult.data.category_id)
-              .maybeSingle();
-
-            if (categoryData) {
-              categoryNameEnglish = categoryData.name_english;
-              categoryNameBengali = categoryData.name_bengali;
-            }
-          } catch (catError) {
-            console.error("Error fetching category:", catError);
-          }
-
-          finalDua = {
-            ...duaResult.data,
-            category_name_english: categoryNameEnglish,
-            category_name_bengali: categoryNameBengali,
-          };
-        }
-
-        // Process hadith
-        if (!finalHadith && hadithResult.data) {
-          const book = hadithBooks.find(b => b.slug === hadithResult.data.book_slug);
-          finalHadith = {
-            ...hadithResult.data,
-            book_name_english: book?.name_english || hadithResult.data.book_slug,
-            book_name_bengali: book?.name_bengali || hadithResult.data.book_slug,
-            book_name_arabic: book?.name_arabic || "",
-          };
-        }
-      } catch (error) {
-        console.error("Supabase fallback error:", error);
-      }
-
       // Update state
       setVerse(finalVerse);
       setDua(finalDua);
       setHadith(finalHadith);
 
-      // Cache all content with actual values
+      // Cache all content
       try {
         localStorage.setItem(CACHE_KEY, JSON.stringify({
           date: today,
