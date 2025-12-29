@@ -275,9 +275,7 @@ export const DesktopDailyContent = ({ language }: DesktopDailyContentProps) => {
               language === "bn" && "font-bengali"
             )}
           >
-          {language === "bn" 
-              ? `${hadith.book_name_bengali} ${formatNumber(hadith.hadith_number, language)}` 
-              : `${hadith.book_name_english} ${hadith.hadith_number}`}
+            {language === "bn" ? "সম্পূর্ণ হাদিস দেখুন" : "View Full Hadith"}
             <ChevronRight className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
           </button>
         </div>
