@@ -1,58 +1,133 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { HandHeart, ChevronRight, Heart, Copy, Check } from "lucide-react";
-import { duaCategories, Dua, DuaCategory } from "@/data/duas";
+import { HandHeart, ChevronRight, Copy, Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { Language } from "@/types/language";
+import { supabase } from "@/integrations/supabase/client";
 
 interface DailyDuaProps {
   language: Language;
 }
 
-// Get all duas from all categories
-const getAllDuas = (): { dua: Dua; category: DuaCategory }[] => {
-  const allDuas: { dua: Dua; category: DuaCategory }[] = [];
-  duaCategories.forEach(category => {
-    category.duas.forEach(dua => {
-      allDuas.push({ dua, category });
-    });
-  });
-  return allDuas;
-};
+interface DuaData {
+  id: string;
+  dua_id: string;
+  category_id: string;
+  title_english: string;
+  title_bengali: string;
+  arabic: string;
+  english: string;
+  bengali: string;
+  reference: string | null;
+}
+
+interface CategoryData {
+  category_id: string;
+  name_english: string;
+  name_bengali: string;
+}
 
 export const DailyDua = ({ language }: DailyDuaProps) => {
-  const [duaData, setDuaData] = useState<{ dua: Dua; category: DuaCategory } | null>(null);
+  const [dua, setDua] = useState<DuaData | null>(null);
+  const [category, setCategory] = useState<CategoryData | null>(null);
   const [isCopied, setIsCopied] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const allDuas = getAllDuas();
-    if (allDuas.length === 0) return;
-    
-    // Get a "random" dua based on the day
-    const today = new Date();
-    const dayOfYear = Math.floor(
-      (today.getTime() - new Date(today.getFullYear(), 0, 0).getTime()) / 86400000
-    );
-    const duaIndex = dayOfYear % allDuas.length;
-    setDuaData(allDuas[duaIndex]);
+    const fetchDailyDua = async () => {
+      // Get today's date as a cache key
+      const today = new Date();
+      const todayKey = `${today.getFullYear()}-${today.getMonth()}-${today.getDate()}`;
+      const cacheKey = "dua-of-day-cache";
+      
+      // Try to get cached data
+      try {
+        const cached = localStorage.getItem(cacheKey);
+        if (cached) {
+          const { dateKey, duaData, categoryData } = JSON.parse(cached);
+          if (dateKey === todayKey && duaData && categoryData) {
+            setDua(duaData);
+            setCategory(categoryData);
+            setIsLoading(false);
+            return;
+          }
+        }
+      } catch {
+        // Cache read failed, continue with fetch
+      }
+      
+      setIsLoading(true);
+      
+      // Get a deterministic "random" dua based on the day
+      const dayOfYear = Math.floor(
+        (today.getTime() - new Date(today.getFullYear(), 0, 0).getTime()) / 86400000
+      );
+
+      // Fetch total count of duas
+      const { count } = await supabase
+        .from("duas")
+        .select("id", { count: "exact", head: true });
+
+      if (!count || count === 0) {
+        setIsLoading(false);
+        return;
+      }
+
+      // Get a dua based on day of year
+      const offset = dayOfYear % count;
+
+      const { data: duaData } = await supabase
+        .from("duas")
+        .select("id, dua_id, category_id, title_english, title_bengali, arabic, english, bengali, reference")
+        .order("category_id", { ascending: true })
+        .order("dua_id", { ascending: true })
+        .range(offset, offset)
+        .maybeSingle();
+
+      if (duaData) {
+        setDua(duaData);
+
+        // Fetch category info
+        const { data: categoryData } = await supabase
+          .from("dua_categories")
+          .select("category_id, name_english, name_bengali")
+          .eq("category_id", duaData.category_id)
+          .maybeSingle();
+
+        if (categoryData) {
+          setCategory(categoryData);
+          
+          // Cache the data for today
+          try {
+            localStorage.setItem(cacheKey, JSON.stringify({
+              dateKey: todayKey,
+              duaData,
+              categoryData
+            }));
+          } catch {
+            // Cache write failed, continue anyway
+          }
+        }
+      }
+
+      setIsLoading(false);
+    };
+
+    fetchDailyDua();
   }, []);
 
   const handleViewDua = () => {
-    if (duaData) {
-      navigate(`/dua/${duaData.category.id}?dua=${duaData.dua.id}`);
+    if (dua && category) {
+      navigate(`/dua/${category.category_id}?dua=${dua.dua_id}`);
     }
   };
 
-  const handleViewAll = () => {
-    navigate("/daily-dua");
-  };
-
   const handleCopy = async () => {
-    if (!duaData) return;
+    if (!dua) return;
     
-    const textToCopy = `${duaData.dua.arabic}\n\n${duaData.dua.bengali}\n\n${duaData.dua.english}${duaData.dua.reference ? `\n\n(${duaData.dua.reference})` : ""}`;
+    const textToCopy = `${dua.arabic}\n\n${dua.bengali}\n\n${dua.english}${dua.reference ? `\n\n(${dua.reference})` : ""}`;
     
     try {
       await navigator.clipboard.writeText(textToCopy);
@@ -64,9 +139,22 @@ export const DailyDua = ({ language }: DailyDuaProps) => {
     }
   };
 
-  if (!duaData) return null;
+  if (isLoading) {
+    return (
+      <div className="mx-auto mt-8 max-w-2xl animate-pulse">
+        <div className="mb-4 flex items-center justify-center gap-2">
+          <div className="h-4 w-32 bg-muted rounded" />
+        </div>
+        <div className="verse-card">
+          <div className="h-6 w-48 bg-muted rounded mx-auto mb-4" />
+          <div className="h-16 bg-muted rounded mb-4" />
+          <div className="h-12 bg-muted rounded" />
+        </div>
+      </div>
+    );
+  }
 
-  const { dua, category } = duaData;
+  if (!dua || !category) return null;
 
   return (
     <div className="mx-auto mt-8 max-w-2xl animate-fade-in" style={{ animationDelay: "0.4s" }}>
@@ -93,12 +181,12 @@ export const DailyDua = ({ language }: DailyDuaProps) => {
         </button>
 
         {/* Title */}
-        {(dua.titleBengali || dua.titleEnglish) && (
+        {(dua.title_bengali || dua.title_english) && (
           <p className={cn(
             "mb-3 text-center text-sm font-medium text-primary",
             language === "bn" && "font-bengali"
           )}>
-            {language === "bn" ? dua.titleBengali : dua.titleEnglish}
+            {language === "bn" ? dua.title_bengali : dua.title_english}
           </p>
         )}
 
