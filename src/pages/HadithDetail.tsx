@@ -10,9 +10,9 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
 import HadithChapterNav from "@/components/HadithChapterNav";
-import { getHadithBook, HadithBook } from "@/data/hadithBooks";
-import { getHadithsByBook, getHadithsByBookAndChapter, LocalHadith } from "@/services/offlineDataService";
-import { syncBookHadiths } from "@/services/syncService";
+import { getHadithBook } from "@/data/hadithBooks";
+import { LocalHadith } from "@/services/offlineDataService";
+import { getHadiths } from "@/services/bundledDataService";
 
 interface HadithDetailProps {
   language: Language;
@@ -77,21 +77,15 @@ const HadithDetail = ({ language, arabicFont }: HadithDetailProps) => {
   const loadMoreRef = useRef<HTMLDivElement>(null);
   const hadithRefs = useRef<Map<number, HTMLDivElement>>(new Map());
 
-  // Fetch all hadiths for this book - offline first
+  // Fetch all hadiths for this book - uses bundled data service (offline-first)
   useEffect(() => {
     const fetchAllHadiths = async () => {
       if (!bookSlug) return;
       setIsLoading(true);
       
       try {
-        // Try IndexedDB first (offline)
-        let localHadiths = await getHadithsByBook(bookSlug);
-        
-        if (localHadiths.length === 0) {
-          // Fetch from Supabase and save to IndexedDB
-          localHadiths = await syncBookHadiths(bookSlug);
-        }
-        
+        // Use bundled data service (handles memory cache -> IndexedDB -> Supabase fallback)
+        const localHadiths = await getHadiths(bookSlug);
         setAllHadiths(localHadiths);
         
         // Build chapters from hadiths
