@@ -105,13 +105,13 @@ export const DesktopDailyContent = ({ language }: DesktopDailyContentProps) => {
           </div>
           
           {/* Arabic */}
-          <p className="mb-3 sm:mb-4 text-center font-uthmani text-scale-arabic-lg text-foreground">
+          <p className="mb-3 sm:mb-4 text-center font-uthmani text-scale-arabic text-foreground">
             {verse.arabic}
           </p>
           
           {/* Translation */}
           <p className={cn(
-            "mb-3 sm:mb-4 text-center text-scale-body text-muted-foreground",
+            "mb-3 sm:mb-4 text-center text-scale-sm text-muted-foreground",
             language === "bn" && "font-bengali"
           )}>
             {language === "bn" ? verse.bengali : verse.english}
@@ -168,13 +168,13 @@ export const DesktopDailyContent = ({ language }: DesktopDailyContentProps) => {
           )}
           
           {/* Arabic */}
-          <p className="mb-3 sm:mb-4 text-center font-uthmani text-scale-arabic-lg text-foreground">
+          <p className="mb-3 sm:mb-4 text-center font-uthmani text-scale-arabic text-foreground">
             {dua.arabic}
           </p>
           
           {/* Translation */}
           <p className={cn(
-            "mb-3 sm:mb-4 text-center text-scale-body text-muted-foreground line-clamp-3",
+            "mb-3 sm:mb-4 text-center text-scale-sm text-muted-foreground line-clamp-3",
             language === "bn" && "font-bengali"
           )}>
             {language === "bn" ? dua.bengali : dua.english}
@@ -242,14 +242,14 @@ export const DesktopDailyContent = ({ language }: DesktopDailyContentProps) => {
           
           {/* Arabic */}
           {hadith.arabic && (
-            <p className="mb-3 sm:mb-4 text-center font-uthmani text-scale-arabic-lg text-foreground line-clamp-2">
+            <p className="mb-3 sm:mb-4 text-center font-uthmani text-scale-arabic text-foreground line-clamp-2">
               {hadith.arabic}
             </p>
           )}
           
           {/* Translation */}
           <p className={cn(
-            "mb-3 sm:mb-4 text-center text-scale-body text-muted-foreground line-clamp-3",
+            "mb-3 sm:mb-4 text-center text-scale-sm text-muted-foreground line-clamp-3",
             language === "bn" && "font-bengali"
           )}>
             {language === "bn" ? hadith.bengali : hadith.english}
