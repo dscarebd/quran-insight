@@ -3,8 +3,9 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { supabase } from "@/integrations/supabase/client";
-import { Download, FileJson, Loader2, CheckCircle, AlertCircle, Upload } from "lucide-react";
+import { Download, FileJson, Loader2, CheckCircle, AlertCircle, Upload, BookOpen } from "lucide-react";
 import { toast } from "sonner";
+import { hadithBooks } from "@/data/hadithBooks";
 
 interface ExportStatus {
   isExporting: boolean;
@@ -13,66 +14,88 @@ interface ExportStatus {
   totalItems: number;
 }
 
+interface BookExportStatus {
+  [bookSlug: string]: {
+    isExporting: boolean;
+    exported: boolean;
+    count: number;
+  };
+}
+
+interface BundledBookStatus {
+  [bookSlug: string]: {
+    exists: boolean;
+    count: number;
+  };
+}
+
 const ExportData = () => {
-  const [hadithStatus, setHadithStatus] = useState<ExportStatus>({
-    isExporting: false,
-    progress: 0,
-    currentItem: '',
-    totalItems: 0
-  });
+  const [bookExportStatus, setBookExportStatus] = useState<BookExportStatus>({});
   
   const [bundledStatus, setBundledStatus] = useState({
     versesExist: false,
-    hadithsExist: false,
     versesCount: 0,
-    hadithsCount: 0,
     checking: true
   });
+
+  const [bundledBooks, setBundledBooks] = useState<BundledBookStatus>({});
 
   useEffect(() => {
     checkBundledFiles();
   }, []);
 
   const checkBundledFiles = async () => {
+    let versesExist = false;
+    let versesCount = 0;
+
+    // Check verses CSV (independent try-catch)
     try {
-      // Check verses CSV
       const versesResponse = await fetch('/data/verses-complete.csv');
-      const versesExist = versesResponse.ok;
-      let versesCount = 0;
+      versesExist = versesResponse.ok;
       if (versesExist) {
         const versesText = await versesResponse.text();
-        versesCount = versesText.split('\n').filter(line => line.trim()).length - 1; // -1 for header
+        versesCount = versesText.split('\n').filter(line => line.trim()).length - 1;
       }
-
-      // Check hadiths JSON
-      const hadithsResponse = await fetch('/data/hadiths-complete.json');
-      const hadithsExist = hadithsResponse.ok;
-      let hadithsCount = 0;
-      if (hadithsExist) {
-        const hadithsData = await hadithsResponse.json();
-        hadithsCount = Array.isArray(hadithsData) ? hadithsData.length : 0;
-      }
-
-      setBundledStatus({
-        versesExist,
-        hadithsExist,
-        versesCount,
-        hadithsCount,
-        checking: false
-      });
     } catch (error) {
-      console.error('Error checking bundled files:', error);
-      setBundledStatus(prev => ({ ...prev, checking: false }));
+      console.error('Error checking verses:', error);
     }
+
+    setBundledStatus({
+      versesExist,
+      versesCount,
+      checking: false
+    });
+
+    // Check each hadith book file independently
+    const bookStatuses: BundledBookStatus = {};
+    
+    await Promise.all(
+      hadithBooks.map(async (book) => {
+        try {
+          const response = await fetch(`/data/hadiths-${book.slug}.json`);
+          if (response.ok) {
+            const data = await response.json();
+            bookStatuses[book.slug] = {
+              exists: true,
+              count: Array.isArray(data) ? data.length : 0
+            };
+          } else {
+            bookStatuses[book.slug] = { exists: false, count: 0 };
+          }
+        } catch {
+          bookStatuses[book.slug] = { exists: false, count: 0 };
+        }
+      })
+    );
+
+    setBundledBooks(bookStatuses);
   };
 
-  const exportHadithsToJson = async () => {
-    setHadithStatus({
-      isExporting: true,
-      progress: 0,
-      currentItem: 'Starting export...',
-      totalItems: 36435
-    });
+  const exportBookToJson = async (bookSlug: string, bookName: string) => {
+    setBookExportStatus(prev => ({
+      ...prev,
+      [bookSlug]: { isExporting: true, exported: false, count: 0 }
+    }));
 
     try {
       const allHadiths: any[] = [];
@@ -83,7 +106,7 @@ const ExportData = () => {
         const { data, error } = await supabase
           .from("hadiths")
           .select("book_slug, hadith_number, chapter_number, chapter_name_english, chapter_name_bengali, arabic, english, bengali, narrator_english, narrator_bengali, grade, grade_bengali")
-          .order("book_slug", { ascending: true })
+          .eq("book_slug", bookSlug)
           .order("hadith_number", { ascending: true })
           .range(offset, offset + batchSize - 1);
 
@@ -92,14 +115,6 @@ const ExportData = () => {
 
         allHadiths.push(...data);
         offset += data.length;
-
-        const progress = Math.min((offset / 36435) * 100, 100);
-        setHadithStatus({
-          isExporting: true,
-          progress,
-          currentItem: `Fetched ${offset.toLocaleString()} hadiths...`,
-          totalItems: 36435
-        });
 
         if (data.length < batchSize) break;
       }
@@ -110,30 +125,31 @@ const ExportData = () => {
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = 'hadiths-complete.json';
+      a.download = `hadiths-${bookSlug}.json`;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
 
-      toast.success(`Exported ${allHadiths.length.toLocaleString()} hadiths to JSON`);
-      setHadithStatus({
-        isExporting: false,
-        progress: 100,
-        currentItem: `Completed! Exported ${allHadiths.length.toLocaleString()} hadiths`,
-        totalItems: allHadiths.length
-      });
+      const fileSizeMB = (blob.size / (1024 * 1024)).toFixed(2);
+      toast.success(`Exported ${allHadiths.length.toLocaleString()} hadiths from ${bookName} (${fileSizeMB} MB)`);
+      
+      setBookExportStatus(prev => ({
+        ...prev,
+        [bookSlug]: { isExporting: false, exported: true, count: allHadiths.length }
+      }));
     } catch (error) {
       console.error('Export error:', error);
-      toast.error('Failed to export hadiths');
-      setHadithStatus({
-        isExporting: false,
-        progress: 0,
-        currentItem: 'Export failed',
-        totalItems: 0
-      });
+      toast.error(`Failed to export ${bookName}`);
+      setBookExportStatus(prev => ({
+        ...prev,
+        [bookSlug]: { isExporting: false, exported: false, count: 0 }
+      }));
     }
   };
+
+  const totalBundledHadiths = Object.values(bundledBooks).reduce((sum, b) => sum + b.count, 0);
+  const bundledBooksCount = Object.values(bundledBooks).filter(b => b.exists).length;
 
   return (
     <div className="p-6 space-y-6">
@@ -166,22 +182,24 @@ const ExportData = () => {
           </CardContent>
         </Card>
 
-        <Card className={bundledStatus.hadithsExist ? "border-green-500/50 bg-green-500/5" : "border-red-500/50 bg-red-500/5"}>
+        <Card className={bundledBooksCount === hadithBooks.length ? "border-green-500/50 bg-green-500/5" : "border-red-500/50 bg-red-500/5"}>
           <CardContent className="pt-6">
             <div className="flex items-center gap-3">
               {bundledStatus.checking ? (
                 <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
-              ) : bundledStatus.hadithsExist ? (
+              ) : bundledBooksCount === hadithBooks.length ? (
                 <CheckCircle className="h-8 w-8 text-green-500" />
               ) : (
                 <AlertCircle className="h-8 w-8 text-red-500" />
               )}
               <div>
                 <h3 className="font-semibold">Hadiths Collection</h3>
-                {bundledStatus.hadithsExist ? (
-                  <p className="text-sm text-green-600">{bundledStatus.hadithsCount.toLocaleString()} hadiths bundled ✓</p>
+                {bundledBooksCount === hadithBooks.length ? (
+                  <p className="text-sm text-green-600">{totalBundledHadiths.toLocaleString()} hadiths bundled ✓</p>
                 ) : (
-                  <p className="text-sm text-red-600">Not bundled - Export required!</p>
+                  <p className="text-sm text-red-600">
+                    {bundledBooksCount}/{hadithBooks.length} books bundled ({totalBundledHadiths.toLocaleString()} hadiths)
+                  </p>
                 )}
               </div>
             </div>
@@ -189,75 +207,85 @@ const ExportData = () => {
         </Card>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2">
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <FileJson className="h-5 w-5" />
-              Export Hadiths
-            </CardTitle>
-            <CardDescription>
-              Export all 36,435 hadiths to JSON file (~10MB)
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            {hadithStatus.isExporting && (
-              <div className="space-y-2">
-                <Progress value={hadithStatus.progress} />
-                <p className="text-sm text-muted-foreground">{hadithStatus.currentItem}</p>
-              </div>
-            )}
-            
-            <Button 
-              onClick={exportHadithsToJson} 
-              disabled={hadithStatus.isExporting}
-              className="w-full"
-              size="lg"
-            >
-              {hadithStatus.isExporting ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Exporting...
-                </>
-              ) : (
-                <>
-                  <Download className="mr-2 h-4 w-4" />
-                  Export Hadiths JSON
-                </>
-              )}
-            </Button>
+      {/* Export by Book */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <BookOpen className="h-5 w-5" />
+            Export Hadiths by Book
+          </CardTitle>
+          <CardDescription>
+            Export each hadith book separately (smaller files for easier upload)
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {hadithBooks.map((book) => {
+              const status = bookExportStatus[book.slug];
+              const bundled = bundledBooks[book.slug];
+              const isBundled = bundled?.exists;
+              
+              return (
+                <div 
+                  key={book.slug}
+                  className={`p-3 rounded-lg border ${isBundled ? 'border-green-500/30 bg-green-500/5' : 'border-border'}`}
+                >
+                  <div className="flex items-center justify-between mb-2">
+                    <div>
+                      <p className="font-medium text-sm">{book.name_english}</p>
+                      <p className="text-xs text-muted-foreground">{book.name_bengali}</p>
+                    </div>
+                    {isBundled && (
+                      <CheckCircle className="h-4 w-4 text-green-500 shrink-0" />
+                    )}
+                  </div>
+                  
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs text-muted-foreground">
+                      {isBundled ? `${bundled.count.toLocaleString()} bundled` : `~${book.total_hadiths.toLocaleString()} hadiths`}
+                    </span>
+                    <Button
+                      size="sm"
+                      variant={isBundled ? "outline" : "default"}
+                      onClick={() => exportBookToJson(book.slug, book.name_english)}
+                      disabled={status?.isExporting}
+                    >
+                      {status?.isExporting ? (
+                        <Loader2 className="h-3 w-3 animate-spin" />
+                      ) : (
+                        <Download className="h-3 w-3" />
+                      )}
+                    </Button>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </CardContent>
+      </Card>
 
-            {hadithStatus.progress === 100 && !hadithStatus.isExporting && (
-              <p className="text-sm text-green-600 font-medium">
-                ✓ {hadithStatus.currentItem}
-              </p>
-            )}
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Upload className="h-5 w-5" />
-              Upload to Project
-            </CardTitle>
-            <CardDescription>
-              After downloading, upload the JSON file to the project
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            <div className="bg-muted/50 rounded-lg p-4 text-sm space-y-2">
-              <p className="font-medium">Steps to complete:</p>
-              <ol className="list-decimal list-inside space-y-1 text-muted-foreground">
-                <li>Click "Export Hadiths JSON" to download</li>
-                <li>Upload to: <code className="bg-background px-1 rounded">public/data/hadiths-complete.json</code></li>
-                <li>Rebuild the app</li>
-                <li>App will work 100% offline!</li>
-              </ol>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Upload className="h-5 w-5" />
+            Upload to Project
+          </CardTitle>
+          <CardDescription>
+            After downloading, upload each JSON file to the project
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-3">
+          <div className="bg-muted/50 rounded-lg p-4 text-sm space-y-2">
+            <p className="font-medium">Steps to complete:</p>
+            <ol className="list-decimal list-inside space-y-1 text-muted-foreground">
+              <li>Click each book's download button above</li>
+              <li>Upload files to: <code className="bg-background px-1 rounded">public/data/hadiths-[book-slug].json</code></li>
+              <li>Rebuild the app</li>
+              <li>App will work 100% offline!</li>
+            </ol>
+          </div>
+        </CardContent>
+      </Card>
 
       <Card>
         <CardHeader>
@@ -287,18 +315,23 @@ const ExportData = () => {
                     )}
                   </td>
                 </tr>
-                <tr className="border-b">
-                  <td className="py-2 px-3">Hadiths</td>
-                  <td className="py-2 px-3">36,435</td>
-                  <td className="py-2 px-3"><code>hadiths-complete.json</code></td>
-                  <td className="py-2 px-3">
-                    {bundledStatus.hadithsExist ? (
-                      <span className="text-green-600 flex items-center gap-1"><CheckCircle className="h-4 w-4" /> Bundled</span>
-                    ) : (
-                      <span className="text-red-600 flex items-center gap-1"><AlertCircle className="h-4 w-4" /> Export Required</span>
-                    )}
-                  </td>
-                </tr>
+                {hadithBooks.map((book) => {
+                  const bundled = bundledBooks[book.slug];
+                  return (
+                    <tr key={book.slug} className="border-b">
+                      <td className="py-2 px-3">{book.name_english}</td>
+                      <td className="py-2 px-3">{bundled?.count || book.total_hadiths}</td>
+                      <td className="py-2 px-3"><code>hadiths-{book.slug}.json</code></td>
+                      <td className="py-2 px-3">
+                        {bundled?.exists ? (
+                          <span className="text-green-600 flex items-center gap-1"><CheckCircle className="h-4 w-4" /> Bundled</span>
+                        ) : (
+                          <span className="text-red-600 flex items-center gap-1"><AlertCircle className="h-4 w-4" /> Export Required</span>
+                        )}
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
