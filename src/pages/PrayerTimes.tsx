@@ -456,7 +456,7 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
             </div>
             <div className="flex-1 min-w-0">
               <h1 className={cn(
-                "text-lg sm:text-xl font-semibold text-foreground truncate",
+                "text-scale-lg sm:text-scale-xl font-semibold text-foreground truncate",
                 language === "bn" && "font-bengali"
               )}>
                 {pageTitle[language]}
@@ -472,7 +472,7 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
           <Clock className="w-8 h-8" />
         </div>
         <h1 className={cn(
-          "text-lg sm:text-xl font-semibold text-foreground mb-2",
+          "text-scale-lg sm:text-scale-xl font-semibold text-foreground mb-2",
           language === "bn" && "font-bengali"
         )}>
           {pageTitle[language]}
@@ -489,7 +489,7 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
               {/* City Selection - Desktop only */}
               <div className="hidden lg:block lg:flex-1">
                 <label className={cn(
-                  "text-sm font-medium text-muted-foreground mb-2 block",
+                  "text-scale-sm font-medium text-muted-foreground mb-2 block",
                   language === "bn" && "font-bengali"
                 )}>
                   {locationLabel[language]}
@@ -554,7 +554,7 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
                 {/* Division */}
                 <div>
                   <label className={cn(
-                    "text-sm font-medium text-muted-foreground mb-2 block",
+                    "text-scale-sm font-medium text-muted-foreground mb-2 block",
                     language === "bn" && "font-bengali"
                   )}>
                     {divisionLabel[language]}
@@ -576,7 +576,7 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
                 {/* District */}
                 <div>
                   <label className={cn(
-                    "text-sm font-medium text-muted-foreground mb-2 block",
+                    "text-scale-sm font-medium text-muted-foreground mb-2 block",
                     language === "bn" && "font-bengali"
                   )}>
                     {districtLabel[language]}
@@ -598,7 +598,7 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
                 {/* Upazila */}
                 <div>
                   <label className={cn(
-                    "text-sm font-medium text-muted-foreground mb-2 block",
+                    "text-scale-sm font-medium text-muted-foreground mb-2 block",
                     language === "bn" && "font-bengali"
                   )}>
                     {upazilaLabel[language]}
@@ -634,23 +634,23 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
                   <div className={cn("flex items-center gap-3", !nextPrayer && "text-center flex-col")}>
                     <div>
                       <p className={cn(
-                        "text-xs text-muted-foreground",
+                        "text-scale-xs text-muted-foreground",
                         language === "bn" && "font-bengali"
                       )}>
                         {language === 'bn' ? 'চলমান নামাজ' : 'Current Prayer'}
                       </p>
                       <div className={cn("flex items-center gap-1.5", !nextPrayer && "justify-center")}>
                         <span className={cn(
-                          "text-base font-bold text-emerald-600 dark:text-emerald-400",
+                          "text-scale-base font-bold text-emerald-600 dark:text-emerald-400",
                           language === "bn" && "font-bengali"
                         )}>
                           {language === 'bn' ? currentPrayer.nameBn : currentPrayer.name}
                         </span>
-                        <span className="text-sm text-emerald-600 dark:text-emerald-400" dir="rtl">
+                        <span className="text-scale-sm text-emerald-600 dark:text-emerald-400" dir="rtl">
                           {currentPrayer.nameAr}
                         </span>
                       </div>
-                      <p className="text-xs text-muted-foreground">
+                      <p className="text-scale-xs text-muted-foreground">
                         {formatTimeDisplay(currentPrayer.time, language)} - {formatTimeDisplay(currentPrayer.endTime, language)}
                       </p>
                     </div>
@@ -661,25 +661,25 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
                 {nextPrayer && (
                   <div className={cn(!currentPrayer ? "text-center" : "text-right")}>
                     <p className={cn(
-                      "text-xs text-muted-foreground",
+                      "text-scale-xs text-muted-foreground",
                       language === "bn" && "font-bengali"
                     )}>
                       {nextPrayerLabel[language]}
                     </p>
                     <div className={cn("flex items-center gap-1.5", !currentPrayer ? "justify-center" : "justify-end")}>
                       <span className={cn(
-                        "text-base font-bold text-primary",
+                        "text-scale-base font-bold text-primary",
                         language === "bn" && "font-bengali"
                       )}>
                         {language === 'bn' ? nextPrayer.nameBn : nextPrayer.name}
                       </span>
-                      <span className="text-sm text-primary" dir="rtl">
+                      <span className="text-scale-sm text-primary" dir="rtl">
                         {nextPrayer.nameAr}
                       </span>
                     </div>
                     {timeRemaining && (
                       <p className={cn(
-                        "text-xs text-muted-foreground animate-pulse",
+                        "text-scale-xs text-muted-foreground animate-pulse",
                         language === "bn" && "font-bengali"
                       )}>
                         {formatTimeRemaining(timeRemaining, language)}
@@ -728,17 +728,17 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
                     )}>
                       {language === 'bn' ? names.bn : names.en}
                     </h3>
-                    <p className="text-xs text-primary/70 mb-2" dir="rtl">
+                    <p className="text-scale-xs text-primary/70 mb-2" dir="rtl">
                       {names.ar}
                     </p>
                     
                     {/* Time */}
                     {isRange && endTime ? (
-                      <p className="text-sm sm:text-base font-bold text-foreground whitespace-nowrap">
+                      <p className="text-scale-sm sm:text-scale-base font-bold text-foreground whitespace-nowrap">
                         {formatTimeDisplay(startTime, language)} - {formatTimeDisplay(endTime, language)}
                       </p>
                     ) : (
-                      <p className="text-base sm:text-lg font-bold text-foreground">
+                      <p className="text-scale-base sm:text-scale-lg font-bold text-foreground">
                         {formatTimeDisplay(startTime, language)}
                       </p>
                     )}
@@ -755,16 +755,16 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
             <div className="flex items-center justify-center gap-2 text-muted-foreground">
               <MapPin className="w-4 h-4" />
               <span className={cn(
-                "text-sm",
+                "text-scale-sm",
                 language === "bn" && "font-bengali"
               )}>
                 {location.city || (language === 'bn' ? 'অজানা অবস্থান' : 'Unknown Location')}
               </span>
-              <span className="text-xs">
+              <span className="text-scale-xs">
                 ({location.latitude.toFixed(2)}°, {location.longitude.toFixed(2)}°)
               </span>
             </div>
-            <p className="text-xs text-muted-foreground mt-2">
+            <p className="text-scale-xs text-muted-foreground mt-2">
               {language === 'bn' 
                 ? 'হিসাব পদ্ধতি: ইসলামিক ফাউন্ডেশন বাংলাদেশ (হানাফি)' 
                 : 'Calculation Method: Islamic Foundation Bangladesh (Hanafi)'
