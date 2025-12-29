@@ -2,6 +2,11 @@ import { useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
+const getExitMessage = () => {
+  const language = localStorage.getItem("quran-language") || "bn";
+  return language === "bn" ? "বের হতে আবার ব্যাক চাপুন" : "Press back again to exit";
+};
+
 export const useBackButtonHandler = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -26,7 +31,7 @@ export const useBackButtonHandler = () => {
         // Push state back to prevent exit
         window.history.pushState(null, "", window.location.href);
         
-        toast.info("Press back again to exit", {
+        toast.info(getExitMessage(), {
           duration: 2000,
         });
         
@@ -74,7 +79,7 @@ export const useBackButtonHandler = () => {
             
             // First tap - show warning
             lastBackPressTime.current = currentTime;
-            toast.info("Press back again to exit", {
+            toast.info(getExitMessage(), {
               duration: 2000,
             });
             return;
