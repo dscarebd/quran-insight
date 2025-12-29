@@ -491,10 +491,10 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
         {/* Location & Settings */}
         <Card className="mb-6">
           <CardContent className="p-4 space-y-4">
-            {/* Desktop: 3 columns | Mobile: stacked */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
+            {/* All 3 controls in 1 row on desktop */}
+            <div className="flex flex-col lg:flex-row lg:items-end gap-3">
               {/* City Selection - Desktop only */}
-              <div className="hidden lg:block">
+              <div className="hidden lg:block lg:flex-1">
                 <label className={cn(
                   "text-sm font-medium text-muted-foreground mb-2 block",
                   language === "bn" && "font-bengali"
@@ -520,9 +520,46 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
                 </Select>
               </div>
 
-              {/* Bangladesh Location + GPS Button - Combined in one line for mobile/tablet */}
-              <div className="flex gap-2 lg:col-span-2">
-                {/* Bangladesh Detailed Location Toggle - 90% */}
+              {/* Bangladesh Location Button - Desktop */}
+              <div className="hidden lg:block lg:flex-1">
+                <Button
+                  variant={useBangladeshLocation ? "default" : "outline"}
+                  onClick={enableBangladeshLocation}
+                  className={cn(
+                    "w-full h-10",
+                    language === "bn" && "font-bengali"
+                  )}
+                >
+                  <MapPin className="w-4 h-4 mr-2 shrink-0" />
+                  <span className="truncate">
+                    {getCurrentUpazila() 
+                      ? (language === 'bn' ? getCurrentUpazila()?.name_bn : getCurrentUpazila()?.name_en)
+                      : bdLocationLabel[language]
+                    }
+                  </span>
+                </Button>
+              </div>
+
+              {/* GPS Location Button - Desktop */}
+              <div className="hidden lg:block">
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={getUserLocation}
+                  disabled={isLoading}
+                  className="h-10 w-10"
+                  title={useLocationLabel[language]}
+                >
+                  {isLoading ? (
+                    <RefreshCw className="w-4 h-4 animate-spin" />
+                  ) : (
+                    <Crosshair className="w-4 h-4" />
+                  )}
+                </Button>
+              </div>
+
+              {/* Mobile: Bangladesh button + GPS button inline */}
+              <div className="flex lg:hidden gap-2">
                 <Button
                   variant={useBangladeshLocation ? "default" : "outline"}
                   onClick={enableBangladeshLocation}
@@ -539,8 +576,6 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
                     }
                   </span>
                 </Button>
-
-                {/* GPS Location Button - Icon only */}
                 <Button
                   variant="outline"
                   size="icon"
