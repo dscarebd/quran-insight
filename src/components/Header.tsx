@@ -36,27 +36,30 @@ export const Header = ({
   const isReadPage = location.pathname.startsWith("/read");
 
   return (
-    <header className="sticky top-0 z-30 flex items-center justify-between border-b border-border bg-card/95 px-4 py-3 backdrop-blur-md">
+    <header className="sticky top-0 z-30 flex items-center justify-between border-b border-border bg-card/95 px-3 sm:px-4 py-3 backdrop-blur-md overflow-hidden max-w-full">
       {/* Desktop: Show sidebar trigger */}
-      <div className="hidden lg:flex items-center gap-2">
+      <div className="hidden lg:flex items-center gap-2 shrink-0">
         <SidebarTrigger className="h-9 w-9 text-muted-foreground hover:bg-accent hover:text-accent-foreground" />
       </div>
       
       {/* Show language toggle only on desktop */}
-      <div className="hidden lg:block">
+      <div className="hidden lg:block shrink-0">
         <LanguageToggle language={language} onToggle={onLanguageChange} />
       </div>
       
       {/* Mobile/Tablet: Show logo and app title (logo on left) */}
-      <div className="lg:hidden flex items-center gap-2">
-        <img src={appLogo} alt="Quran Insight" className="h-8 w-8 rounded-lg" />
-        <h1 className={`text-xl font-semibold text-primary ${language === "bn" ? "font-bengali" : ""}`}>
+      <div className="lg:hidden flex items-center gap-2 min-w-0 shrink">
+        <img src={appLogo} alt="Quran Insight" className="h-8 w-8 rounded-lg shrink-0" />
+        <h1 className={cn(
+          "text-lg sm:text-xl font-semibold text-primary truncate",
+          language === "bn" && "font-bengali"
+        )}>
           {language === "bn" ? "কুরআন ইনসাইট" : "Quran Insight"}
         </h1>
       </div>
       
       {/* Right side controls */}
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-1 sm:gap-2 shrink-0">
         {/* Tablet-only ReadPage controls (visible on sm-lg, hidden on mobile xs and desktop lg+) */}
         {isReadPage && onZoomIn && onZoomOut && onArabicFontChange && (
           <div className="hidden sm:flex lg:hidden items-center gap-1">

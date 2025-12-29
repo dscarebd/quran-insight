@@ -66,14 +66,14 @@ export const QuickAccessCards = ({ language }: QuickAccessCardsProps) => {
   ];
 
   return (
-    <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
+    <div className="grid grid-cols-2 gap-2 sm:gap-3 md:gap-4 lg:grid-cols-4">
       {quickLinks.map((link) => {
         const Icon = link.icon;
         return (
           <button
             key={link.id}
             onClick={() => navigate(link.path)}
-            className="group relative overflow-hidden rounded-xl sm:rounded-2xl bg-card border border-border p-4 sm:p-5 text-left transition-all duration-300 hover:shadow-elevated hover:-translate-y-1"
+            className="group relative overflow-hidden rounded-xl sm:rounded-2xl bg-card border border-border p-3 sm:p-4 md:p-5 text-left transition-all duration-300 hover:shadow-elevated hover:-translate-y-1 min-w-0"
           >
             {/* Gradient overlay on hover */}
             <div className={cn(
@@ -83,21 +83,21 @@ export const QuickAccessCards = ({ language }: QuickAccessCardsProps) => {
             
             {/* Icon */}
             <div className={cn(
-              "mb-2 sm:mb-3 flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-lg sm:rounded-xl bg-gradient-to-br text-white shadow-md transition-transform group-hover:scale-110",
+              "mb-2 sm:mb-3 flex h-9 w-9 sm:h-10 sm:w-10 md:h-12 md:w-12 items-center justify-center rounded-lg sm:rounded-xl bg-gradient-to-br text-white shadow-md transition-transform group-hover:scale-110 shrink-0",
               link.gradient
             )}>
-              <Icon className="h-5 w-5 sm:h-6 sm:w-6" />
+              <Icon className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6" />
             </div>
             
             {/* Content */}
             <h3 className={cn(
-              "font-semibold text-sm text-foreground mb-0.5 sm:mb-1",
+              "font-semibold text-xs sm:text-sm text-foreground mb-0.5 sm:mb-1 truncate",
               language === "bn" && "font-bengali"
             )}>
               {language === "bn" ? link.labelBn : link.labelEn}
             </h3>
             <p className={cn(
-              "text-xs sm:text-sm text-muted-foreground line-clamp-2 hidden sm:block",
+              "text-xs text-muted-foreground line-clamp-2 hidden sm:block",
               language === "bn" && "font-bengali"
             )}>
               {language === "bn" ? link.descBn : link.descEn}

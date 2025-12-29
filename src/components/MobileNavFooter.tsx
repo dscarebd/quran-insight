@@ -150,14 +150,14 @@ export const MobileNavFooter = ({ language }: MobileNavFooterProps) => {
 
   return (
     <>
-      <nav className="fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-background/95 backdrop-blur-sm lg:hidden">
-        <div className="grid grid-cols-5 py-2">
+      <nav className="fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-background/95 backdrop-blur-sm lg:hidden overflow-hidden">
+        <div className="grid grid-cols-5 py-1.5 sm:py-2 px-1">
           {navItems.map((item) => (
             <button
               key={item.path}
               onClick={item.action}
               className={cn(
-                "flex flex-col items-center justify-center gap-1 py-2 rounded-lg transition-colors",
+                "flex flex-col items-center justify-center gap-0.5 py-1.5 sm:py-2 rounded-lg transition-colors min-w-0",
                 item.isActive
                   ? "text-primary bg-primary/10"
                   : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
@@ -165,13 +165,13 @@ export const MobileNavFooter = ({ language }: MobileNavFooterProps) => {
             >
               <item.icon
                 className={cn(
-                  "h-5 w-5 transition-transform",
+                  "h-5 w-5 shrink-0 transition-transform",
                   item.isActive && "scale-110"
                 )}
               />
               <span
                 className={cn(
-                  "text-xs font-medium",
+                  "text-[10px] sm:text-xs font-medium truncate max-w-full px-0.5",
                   language === "bn" && "font-bengali"
                 )}
               >

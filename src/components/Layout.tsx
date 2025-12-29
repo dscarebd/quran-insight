@@ -45,9 +45,9 @@ export const Layout = ({
   // Desktop layout with top navigation
   if (!isMobile) {
     return (
-      <div className="min-h-screen flex flex-col bg-background">
+      <div className="min-h-screen flex flex-col bg-background overflow-x-hidden max-w-full">
         <DesktopHeader language={language} onLanguageChange={onLanguageChange} />
-        <main className="flex-1 overflow-y-auto pt-[68px]">
+        <main className="flex-1 overflow-y-auto overflow-x-hidden pt-[68px] max-w-full">
           <AnimatePresence mode="wait">
             <PageTransition key={location.pathname}>
               {children}
@@ -66,7 +66,7 @@ export const Layout = ({
         activeTab={activeTab}
         onTabChange={setActiveTab}
       />
-      <SidebarInset className="flex flex-col pb-14 lg:pb-0">
+      <SidebarInset className="flex flex-col pb-14 lg:pb-0 overflow-x-hidden max-w-full">
         <Header
           language={language}
           onLanguageChange={onLanguageChange}
@@ -77,7 +77,7 @@ export const Layout = ({
           canZoomIn={canZoomIn}
           canZoomOut={canZoomOut}
         />
-        <div className="flex-1 overflow-y-auto">
+        <div className="flex-1 overflow-y-auto overflow-x-hidden max-w-full">
           <AnimatePresence mode="wait">
             <PageTransition key={location.pathname}>
               {children}
