@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { supabase } from "@/integrations/supabase/client";
-import { Download, FileJson, Loader2 } from "lucide-react";
+import { Download, FileJson, Loader2, CheckCircle, AlertCircle, Upload } from "lucide-react";
 import { toast } from "sonner";
 
 interface ExportStatus {
@@ -20,6 +20,51 @@ const ExportData = () => {
     currentItem: '',
     totalItems: 0
   });
+  
+  const [bundledStatus, setBundledStatus] = useState({
+    versesExist: false,
+    hadithsExist: false,
+    versesCount: 0,
+    hadithsCount: 0,
+    checking: true
+  });
+
+  useEffect(() => {
+    checkBundledFiles();
+  }, []);
+
+  const checkBundledFiles = async () => {
+    try {
+      // Check verses CSV
+      const versesResponse = await fetch('/data/verses-complete.csv');
+      const versesExist = versesResponse.ok;
+      let versesCount = 0;
+      if (versesExist) {
+        const versesText = await versesResponse.text();
+        versesCount = versesText.split('\n').filter(line => line.trim()).length - 1; // -1 for header
+      }
+
+      // Check hadiths JSON
+      const hadithsResponse = await fetch('/data/hadiths-complete.json');
+      const hadithsExist = hadithsResponse.ok;
+      let hadithsCount = 0;
+      if (hadithsExist) {
+        const hadithsData = await hadithsResponse.json();
+        hadithsCount = Array.isArray(hadithsData) ? hadithsData.length : 0;
+      }
+
+      setBundledStatus({
+        versesExist,
+        hadithsExist,
+        versesCount,
+        hadithsCount,
+        checking: false
+      });
+    } catch (error) {
+      console.error('Error checking bundled files:', error);
+      setBundledStatus(prev => ({ ...prev, checking: false }));
+    }
+  };
 
   const exportHadithsToJson = async () => {
     setHadithStatus({
@@ -52,7 +97,7 @@ const ExportData = () => {
         setHadithStatus({
           isExporting: true,
           progress,
-          currentItem: `Fetched ${offset} hadiths...`,
+          currentItem: `Fetched ${offset.toLocaleString()} hadiths...`,
           totalItems: 36435
         });
 
@@ -71,11 +116,11 @@ const ExportData = () => {
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
 
-      toast.success(`Exported ${allHadiths.length} hadiths to JSON`);
+      toast.success(`Exported ${allHadiths.length.toLocaleString()} hadiths to JSON`);
       setHadithStatus({
         isExporting: false,
         progress: 100,
-        currentItem: `Completed! Exported ${allHadiths.length} hadiths`,
+        currentItem: `Completed! Exported ${allHadiths.length.toLocaleString()} hadiths`,
         totalItems: allHadiths.length
       });
     } catch (error) {
@@ -93,8 +138,55 @@ const ExportData = () => {
   return (
     <div className="p-6 space-y-6">
       <div>
-        <h1 className="text-2xl font-bold">Export Data</h1>
-        <p className="text-muted-foreground">Export database content to JSON files for offline bundling</p>
+        <h1 className="text-2xl font-bold">Export Data for APK Bundle</h1>
+        <p className="text-muted-foreground">Export database content to JSON files for 100% offline functionality</p>
+      </div>
+
+      {/* Status Cards */}
+      <div className="grid gap-4 md:grid-cols-2">
+        <Card className={bundledStatus.versesExist ? "border-green-500/50 bg-green-500/5" : "border-yellow-500/50 bg-yellow-500/5"}>
+          <CardContent className="pt-6">
+            <div className="flex items-center gap-3">
+              {bundledStatus.checking ? (
+                <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+              ) : bundledStatus.versesExist ? (
+                <CheckCircle className="h-8 w-8 text-green-500" />
+              ) : (
+                <AlertCircle className="h-8 w-8 text-yellow-500" />
+              )}
+              <div>
+                <h3 className="font-semibold">Quran Verses</h3>
+                {bundledStatus.versesExist ? (
+                  <p className="text-sm text-green-600">{bundledStatus.versesCount.toLocaleString()} verses bundled ✓</p>
+                ) : (
+                  <p className="text-sm text-yellow-600">Not bundled</p>
+                )}
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className={bundledStatus.hadithsExist ? "border-green-500/50 bg-green-500/5" : "border-red-500/50 bg-red-500/5"}>
+          <CardContent className="pt-6">
+            <div className="flex items-center gap-3">
+              {bundledStatus.checking ? (
+                <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+              ) : bundledStatus.hadithsExist ? (
+                <CheckCircle className="h-8 w-8 text-green-500" />
+              ) : (
+                <AlertCircle className="h-8 w-8 text-red-500" />
+              )}
+              <div>
+                <h3 className="font-semibold">Hadiths Collection</h3>
+                {bundledStatus.hadithsExist ? (
+                  <p className="text-sm text-green-600">{bundledStatus.hadithsCount.toLocaleString()} hadiths bundled ✓</p>
+                ) : (
+                  <p className="text-sm text-red-600">Not bundled - Export required!</p>
+                )}
+              </div>
+            </div>
+          </CardContent>
+        </Card>
       </div>
 
       <div className="grid gap-6 md:grid-cols-2">
@@ -105,7 +197,7 @@ const ExportData = () => {
               Export Hadiths
             </CardTitle>
             <CardDescription>
-              Export all 36,435 hadiths to a JSON file for APK bundling
+              Export all 36,435 hadiths to JSON file (~10MB)
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -120,6 +212,7 @@ const ExportData = () => {
               onClick={exportHadithsToJson} 
               disabled={hadithStatus.isExporting}
               className="w-full"
+              size="lg"
             >
               {hadithStatus.isExporting ? (
                 <>
@@ -135,7 +228,7 @@ const ExportData = () => {
             </Button>
 
             {hadithStatus.progress === 100 && !hadithStatus.isExporting && (
-              <p className="text-sm text-green-600">
+              <p className="text-sm text-green-600 font-medium">
                 ✓ {hadithStatus.currentItem}
               </p>
             )}
@@ -145,32 +238,70 @@ const ExportData = () => {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <FileJson className="h-5 w-5" />
-              Verses CSV
+              <Upload className="h-5 w-5" />
+              Upload to Project
             </CardTitle>
             <CardDescription>
-              Verses are already exported to public/data/verses-complete.csv (6,236 verses)
+              After downloading, upload the JSON file to the project
             </CardDescription>
           </CardHeader>
-          <CardContent>
-            <p className="text-sm text-green-600">
-              ✓ Already bundled in the app
-            </p>
+          <CardContent className="space-y-3">
+            <div className="bg-muted/50 rounded-lg p-4 text-sm space-y-2">
+              <p className="font-medium">Steps to complete:</p>
+              <ol className="list-decimal list-inside space-y-1 text-muted-foreground">
+                <li>Click "Export Hadiths JSON" to download</li>
+                <li>Upload to: <code className="bg-background px-1 rounded">public/data/hadiths-complete.json</code></li>
+                <li>Rebuild the app</li>
+                <li>App will work 100% offline!</li>
+              </ol>
+            </div>
           </CardContent>
         </Card>
       </div>
 
       <Card>
         <CardHeader>
-          <CardTitle>Instructions</CardTitle>
+          <CardTitle>Offline Data Summary</CardTitle>
         </CardHeader>
-        <CardContent className="prose prose-sm dark:prose-invert">
-          <ol className="list-decimal list-inside space-y-2">
-            <li>Click "Export Hadiths JSON" to download the complete hadiths file</li>
-            <li>Place the downloaded <code>hadiths-complete.json</code> in <code>public/data/</code></li>
-            <li>Rebuild the app - all data will now be bundled with the APK</li>
-            <li>The app will work 100% offline from first launch</li>
-          </ol>
+        <CardContent>
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="border-b">
+                  <th className="text-left py-2 px-3">Content</th>
+                  <th className="text-left py-2 px-3">Count</th>
+                  <th className="text-left py-2 px-3">File</th>
+                  <th className="text-left py-2 px-3">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr className="border-b">
+                  <td className="py-2 px-3">Quran Verses</td>
+                  <td className="py-2 px-3">6,236</td>
+                  <td className="py-2 px-3"><code>verses-complete.csv</code></td>
+                  <td className="py-2 px-3">
+                    {bundledStatus.versesExist ? (
+                      <span className="text-green-600 flex items-center gap-1"><CheckCircle className="h-4 w-4" /> Bundled</span>
+                    ) : (
+                      <span className="text-yellow-600">Missing</span>
+                    )}
+                  </td>
+                </tr>
+                <tr className="border-b">
+                  <td className="py-2 px-3">Hadiths</td>
+                  <td className="py-2 px-3">36,435</td>
+                  <td className="py-2 px-3"><code>hadiths-complete.json</code></td>
+                  <td className="py-2 px-3">
+                    {bundledStatus.hadithsExist ? (
+                      <span className="text-green-600 flex items-center gap-1"><CheckCircle className="h-4 w-4" /> Bundled</span>
+                    ) : (
+                      <span className="text-red-600 flex items-center gap-1"><AlertCircle className="h-4 w-4" /> Export Required</span>
+                    )}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </CardContent>
       </Card>
     </div>
