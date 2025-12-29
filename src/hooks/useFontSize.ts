@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 
 const FONT_SIZE_KEY = "quran-insight-font-size";
 const DEFAULT_FONT_SIZE = 17;
@@ -9,22 +9,24 @@ export const useFontSize = () => {
     return stored ? parseInt(stored, 10) : DEFAULT_FONT_SIZE;
   });
 
-  const setFontSize = useCallback((newSize: number) => {
+  const setFontSize = (newSize: number) => {
     setFontSizeState(newSize);
     localStorage.setItem(FONT_SIZE_KEY, newSize.toString());
     document.documentElement.style.setProperty("--base-font-size", `${newSize}px`);
     // Dispatch custom event for cross-component sync
     window.dispatchEvent(new CustomEvent("font-size-changed", { detail: newSize }));
-  }, []);
+  };
 
+  // Initialize CSS variable on mount
   useEffect(() => {
     document.documentElement.style.setProperty("--base-font-size", `${fontSize}px`);
   }, [fontSize]);
 
   // Listen for font size changes from other components
   useEffect(() => {
-    const handleFontSizeChange = (e: CustomEvent<number>) => {
-      setFontSizeState(e.detail);
+    const handleFontSizeChange = (e: Event) => {
+      const customEvent = e as CustomEvent<number>;
+      setFontSizeState(customEvent.detail);
     };
 
     const handleStorageChange = (e: StorageEvent) => {
@@ -33,11 +35,11 @@ export const useFontSize = () => {
       }
     };
 
-    window.addEventListener("font-size-changed", handleFontSizeChange as EventListener);
+    window.addEventListener("font-size-changed", handleFontSizeChange);
     window.addEventListener("storage", handleStorageChange);
 
     return () => {
-      window.removeEventListener("font-size-changed", handleFontSizeChange as EventListener);
+      window.removeEventListener("font-size-changed", handleFontSizeChange);
       window.removeEventListener("storage", handleStorageChange);
     };
   }, []);
