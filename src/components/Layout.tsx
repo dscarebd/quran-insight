@@ -66,18 +66,20 @@ export const Layout = ({
         activeTab={activeTab}
         onTabChange={setActiveTab}
       />
-      <SidebarInset className="flex flex-col pb-14 lg:pb-0 overflow-x-hidden max-w-full">
-        <Header
-          language={language}
-          onLanguageChange={onLanguageChange}
-          arabicFont={arabicFont}
-          onArabicFontChange={onArabicFontChange}
-          onZoomIn={onZoomIn}
-          onZoomOut={onZoomOut}
-          canZoomIn={canZoomIn}
-          canZoomOut={canZoomOut}
-        />
-        <div className="flex-1 overflow-y-auto overflow-x-hidden max-w-full">
+      <SidebarInset className="flex flex-col pb-14 lg:pb-0 overflow-x-hidden max-w-full min-h-screen">
+        <div className="fixed top-0 left-0 right-0 z-30 lg:left-[var(--sidebar-width)]">
+          <Header
+            language={language}
+            onLanguageChange={onLanguageChange}
+            arabicFont={arabicFont}
+            onArabicFontChange={onArabicFontChange}
+            onZoomIn={onZoomIn}
+            onZoomOut={onZoomOut}
+            canZoomIn={canZoomIn}
+            canZoomOut={canZoomOut}
+          />
+        </div>
+        <div className="flex-1 overflow-y-auto overflow-x-hidden max-w-full pt-[57px]">
           <AnimatePresence mode="wait">
             <PageTransition key={location.pathname}>
               {children}
