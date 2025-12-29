@@ -173,7 +173,7 @@ export const DailyVerse = ({ language }: DailyVerseProps) => {
         </p>
 
         {/* Translation */}
-        <p className={cn("mb-4 text-center text-sm text-muted-foreground", language === "bn" && "font-bengali")}>
+        <p className={cn("mb-4 text-center text-xs text-muted-foreground", language === "bn" && "font-bengali")}>
           {language === "bn" ? verse.bengali : verse.english}
         </p>
 
