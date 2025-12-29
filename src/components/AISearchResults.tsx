@@ -54,8 +54,9 @@ const getTypeColor = (type: SearchResult["type"]) => {
 export const AISearchResults = ({ response, language }: AISearchResultsProps) => {
   const navigate = useNavigate();
 
-  // Get top verses from references for dedicated verse section
+  // Get top verses and hadiths from references for dedicated sections
   const relevantVerses = response.references?.verses?.slice(0, 3) || [];
+  const relevantHadiths = response.references?.hadiths?.slice(0, 3) || [];
 
   return (
     <div className="space-y-6 animate-fade-in">
@@ -154,6 +155,79 @@ export const AISearchResults = ({ response, language }: AISearchResultsProps) =>
                 )}>
                   {language === "bn" ? verse.bengali : verse.english}
                 </p>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Relevant Hadiths Section */}
+      {relevantHadiths.length > 0 && !response.isOffline && (
+        <div>
+          <h3 className={cn(
+            "text-sm font-medium text-muted-foreground mb-3 flex items-center gap-2",
+            language === "bn" && "font-bengali"
+          )}>
+            <Book className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+            {language === "bn" ? "সম্পর্কিত হাদিস" : "Related Hadiths"}
+          </h3>
+          
+          <div className="space-y-3">
+            {relevantHadiths.map((hadith: any, index: number) => (
+              <button
+                key={`hadith-${hadith.book_slug}-${hadith.hadith_number}-${index}`}
+                onClick={() => navigate(`/hadith/${hadith.book_slug}?hadith=${hadith.hadith_number}`)}
+                className="group w-full text-left rounded-xl border border-emerald-500/20 bg-gradient-to-br from-emerald-500/5 to-transparent p-4 transition-all duration-200 hover:shadow-elevated hover:-translate-y-0.5 hover:border-emerald-500/40"
+              >
+                {/* Book and Hadith Reference */}
+                <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
+                  <div className="flex items-center gap-2">
+                    <span className={cn(
+                      "text-xs px-2 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-medium",
+                      language === "bn" && "font-bengali"
+                    )}>
+                      {language === "bn" 
+                        ? `${hadith.book_slug}, হাদিস ${hadith.hadith_number}`
+                        : `${hadith.book_slug}, Hadith ${hadith.hadith_number}`}
+                    </span>
+                    {hadith.grade && (
+                      <span className={cn(
+                        "text-xs px-2 py-1 rounded-full bg-muted text-muted-foreground",
+                        language === "bn" && "font-bengali"
+                      )}>
+                        {language === "bn" ? hadith.grade_bengali || hadith.grade : hadith.grade}
+                      </span>
+                    )}
+                  </div>
+                  <ChevronRight className="h-4 w-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
+                </div>
+
+                {/* Arabic Text */}
+                {hadith.arabic && (
+                  <p className="font-arabic text-lg sm:text-xl text-foreground leading-loose mb-4 text-right" dir="rtl">
+                    {hadith.arabic.length > 300 ? hadith.arabic.substring(0, 300) + "..." : hadith.arabic}
+                  </p>
+                )}
+
+                {/* Translation */}
+                <p className={cn(
+                  "text-sm text-muted-foreground leading-relaxed",
+                  language === "bn" && "font-bengali"
+                )}>
+                  {language === "bn" 
+                    ? (hadith.bengali?.length > 250 ? hadith.bengali.substring(0, 250) + "..." : hadith.bengali)
+                    : (hadith.english?.length > 250 ? hadith.english.substring(0, 250) + "..." : hadith.english)}
+                </p>
+
+                {/* Narrator */}
+                {(hadith.narrator_bengali || hadith.narrator_english) && (
+                  <p className={cn(
+                    "text-xs text-muted-foreground/70 mt-2 italic",
+                    language === "bn" && "font-bengali"
+                  )}>
+                    {language === "bn" ? hadith.narrator_bengali : hadith.narrator_english}
+                  </p>
+                )}
               </button>
             ))}
           </div>
