@@ -208,6 +208,33 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
     }
   }, [selectedUpazila, selectedDistrict, selectedDivision, useBangladeshLocation, language]);
 
+  // Update current time every second for countdown
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTime(new Date());
+      if (nextPrayer) {
+        const remaining = getTimeRemaining(nextPrayer.time);
+        setTimeRemaining(remaining);
+      }
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [nextPrayer]);
+
+  // Calculate prayer times when location changes (always use IFB for Bangladesh)
+  useEffect(() => {
+    const times = calculatePrayerTimes(location, new Date(), 'IFB');
+    setPrayerTimes(times);
+    const next = getNextPrayer(times);
+    setNextPrayer(next);
+    if (next) {
+      setTimeRemaining(getTimeRemaining(next.time));
+    }
+    
+    // Get current running prayer
+    const current = getCurrentRunningPrayer(times);
+    setCurrentPrayer(current);
+  }, [location]);
+
   // Get current running prayer based on current time
   const getCurrentRunningPrayer = (times: PrayerTimesType): { name: string; time: string; endTime: string; nameAr: string; nameBn: string } | null => {
     const now = new Date();
@@ -252,40 +279,6 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
     
     return null;
   };
-
-  // Calculate prayer times when location changes (always use IFB for Bangladesh)
-  useEffect(() => {
-    const times = calculatePrayerTimes(location, new Date(), 'IFB');
-    setPrayerTimes(times);
-    const next = getNextPrayer(times);
-    setNextPrayer(next);
-    if (next) {
-      setTimeRemaining(getTimeRemaining(next.time));
-    }
-    
-    // Get current running prayer
-    const current = getCurrentRunningPrayer(times);
-    setCurrentPrayer(current);
-  }, [location]);
-
-  // Update current time every second for countdown and current prayer
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentTime(new Date());
-      if (prayerTimes) {
-        // Update time remaining
-        const next = getNextPrayer(prayerTimes);
-        if (next) {
-          setNextPrayer(next);
-          setTimeRemaining(getTimeRemaining(next.time));
-        }
-        // Update current prayer
-        const current = getCurrentRunningPrayer(prayerTimes);
-        setCurrentPrayer(current);
-      }
-    }, 1000);
-    return () => clearInterval(timer);
-  }, [prayerTimes]);
 
   // Get user's location via GPS
   const getUserLocation = () => {
@@ -491,10 +484,10 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
         {/* Location & Settings */}
         <Card className="mb-6">
           <CardContent className="p-4 space-y-4">
-            {/* All 3 controls in 1 row on desktop */}
-            <div className="flex flex-col lg:flex-row lg:items-end gap-3">
+            {/* Desktop: 3 columns | Mobile: stacked */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
               {/* City Selection - Desktop only */}
-              <div className="hidden lg:block lg:flex-1">
+              <div className="hidden lg:block">
                 <label className={cn(
                   "text-sm font-medium text-muted-foreground mb-2 block",
                   language === "bn" && "font-bengali"
@@ -520,46 +513,9 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
                 </Select>
               </div>
 
-              {/* Bangladesh Location Button - Desktop */}
-              <div className="hidden lg:block lg:flex-1">
-                <Button
-                  variant={useBangladeshLocation ? "default" : "outline"}
-                  onClick={enableBangladeshLocation}
-                  className={cn(
-                    "w-full h-10",
-                    language === "bn" && "font-bengali"
-                  )}
-                >
-                  <MapPin className="w-4 h-4 mr-2 shrink-0" />
-                  <span className="truncate">
-                    {getCurrentUpazila() 
-                      ? (language === 'bn' ? getCurrentUpazila()?.name_bn : getCurrentUpazila()?.name_en)
-                      : bdLocationLabel[language]
-                    }
-                  </span>
-                </Button>
-              </div>
-
-              {/* GPS Location Button - Desktop */}
-              <div className="hidden lg:block">
-                <Button
-                  variant="outline"
-                  size="icon"
-                  onClick={getUserLocation}
-                  disabled={isLoading}
-                  className="h-10 w-10"
-                  title={useLocationLabel[language]}
-                >
-                  {isLoading ? (
-                    <RefreshCw className="w-4 h-4 animate-spin" />
-                  ) : (
-                    <Crosshair className="w-4 h-4" />
-                  )}
-                </Button>
-              </div>
-
-              {/* Mobile: Bangladesh button + GPS button inline */}
-              <div className="flex lg:hidden gap-2">
+              {/* Bangladesh Location + GPS Button - Combined in one line for mobile/tablet */}
+              <div className="flex gap-2 lg:col-span-2">
+                {/* Bangladesh Detailed Location Toggle - 90% */}
                 <Button
                   variant={useBangladeshLocation ? "default" : "outline"}
                   onClick={enableBangladeshLocation}
@@ -576,6 +532,8 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
                     }
                   </span>
                 </Button>
+
+                {/* GPS Location Button - Icon only */}
                 <Button
                   variant="outline"
                   size="icon"
@@ -695,10 +653,7 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
                           {currentPrayer.nameAr}
                         </span>
                       </div>
-                      <p className={cn(
-                        "text-sm font-medium text-emerald-600 dark:text-emerald-400",
-                        language === "bn" && "font-bengali"
-                      )}>
+                      <p className="text-xs text-muted-foreground">
                         {formatTimeDisplay(currentPrayer.time, language)} - {formatTimeDisplay(currentPrayer.endTime, language)}
                       </p>
                     </div>
@@ -725,12 +680,6 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
                         {nextPrayer.nameAr}
                       </span>
                     </div>
-                    <p className={cn(
-                      "text-sm font-medium text-primary",
-                      language === "bn" && "font-bengali"
-                    )}>
-                      {formatTimeDisplay(nextPrayer.time, language)}
-                    </p>
                     {timeRemaining && (
                       <p className={cn(
                         "text-xs text-muted-foreground animate-pulse",
