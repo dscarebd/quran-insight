@@ -250,7 +250,7 @@ export const MobileNavFooter = ({ language }: MobileNavFooterProps) => {
                             {surah.nameArabic}
                           </span>
                         </div>
-                        <span className={cn("text-xs text-muted-foreground font-bengali")}>
+                        <span className={cn("text-sm text-muted-foreground font-bengali")}>
                           {surah.nameArabic} • {formatNumber(surah.totalVerses, language)} {language === "bn" ? "আয়াত" : "verses"}
                         </span>
                       </div>
@@ -308,7 +308,7 @@ export const MobileNavFooter = ({ language }: MobileNavFooterProps) => {
                             {para.nameArabic}
                           </span>
                         </div>
-                        <span className={cn("text-xs text-muted-foreground font-bengali")}>
+                        <span className={cn("text-sm text-muted-foreground font-bengali")}>
                           {para.nameArabic} • {language === "bn"
                             ? `সূরা ${formatNumber(para.startSurah, language)}:${formatNumber(para.startVerse, language)} - ${formatNumber(para.endSurah, language)}:${formatNumber(para.endVerse, language)}`
                             : `Surah ${para.startSurah}:${para.startVerse} - ${para.endSurah}:${para.endVerse}`}
