@@ -152,7 +152,10 @@ export const MobileNavFooter = ({ language }: MobileNavFooterProps) => {
 
   return (
     <>
-      <nav className="fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-background/95 backdrop-blur-sm lg:hidden overflow-hidden">
+      <nav 
+        className="fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-background/95 backdrop-blur-sm lg:hidden overflow-hidden"
+        style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}
+      >
         <div className="grid grid-cols-5 py-1.5 sm:py-2 px-1">
           {navItems.map((item) => (
             <button
@@ -183,9 +186,12 @@ export const MobileNavFooter = ({ language }: MobileNavFooterProps) => {
             </button>
           ))}
         </div>
-        {/* Safe area padding for iOS devices */}
-        <div className="h-safe-area-inset-bottom bg-background" />
       </nav>
+      {/* Safe area fill for bottom navigation bar (Samsung S25 Plus, iPhone, etc.) */}
+      <div 
+        className="fixed bottom-0 left-0 right-0 z-40 bg-background lg:hidden"
+        style={{ height: 'env(safe-area-inset-bottom, 0px)' }}
+      />
 
       {/* Quran Sheet with Tabs for Surah and Para */}
       <Sheet open={quranSheetOpen} onOpenChange={setQuranSheetOpen}>
