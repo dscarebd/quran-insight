@@ -33,6 +33,7 @@ import NamesOfAllah from "./pages/NamesOfAllah";
 import HadithList from "./pages/HadithList";
 import HadithDetail from "./pages/HadithDetail";
 import HadithSearch from "./pages/HadithSearch";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
 // Component to redirect to last read page
 const ReadPageRedirect = () => {
   const lastReadPage = localStorage.getItem("quran-last-read-page") || "1";
@@ -214,6 +215,11 @@ const AppContent = () => {
       <Route path="/developer" element={
         <Layout language={language} onLanguageChange={setLanguage}>
           <Developer language={language} />
+        </Layout>
+      } />
+      <Route path="/privacy-policy" element={
+        <Layout language={language} onLanguageChange={setLanguage}>
+          <PrivacyPolicy language={language} />
         </Layout>
       } />
       <Route path="/auth" element={
