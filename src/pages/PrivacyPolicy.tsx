@@ -8,7 +8,7 @@ interface PrivacyPolicyProps {
 const privacyContent = {
   en: {
     title: "Privacy Policy",
-    lastUpdated: "Last Updated: December 30, 2024",
+    lastUpdated: "Last Updated: December 30, 2025",
     sections: [
       {
         heading: "Introduction",
@@ -50,7 +50,7 @@ const privacyContent = {
   },
   bn: {
     title: "গোপনীয়তা নীতি",
-    lastUpdated: "সর্বশেষ আপডেট: ৩০ ডিসেম্বর, ২০২৪",
+    lastUpdated: "সর্বশেষ আপডেট: ৩০ ডিসেম্বর, ২০২৫",
     sections: [
       {
         heading: "ভূমিকা",
@@ -92,7 +92,7 @@ const privacyContent = {
   },
   hi: {
     title: "गोपनीयता नीति",
-    lastUpdated: "अंतिम अपडेट: 30 दिसंबर, 2024",
+    lastUpdated: "अंतिम अपडेट: 30 दिसंबर, 2025",
     sections: [
       {
         heading: "परिचय",
