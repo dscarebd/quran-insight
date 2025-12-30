@@ -135,7 +135,7 @@ const DailyDuaPage = ({ language, arabicFont = "amiri" }: DailyDuaPageProps) => 
       {/* Category Sheet */}
       <Sheet open={!!selectedCategory} onOpenChange={(open) => !open && setSelectedCategory(null)}>
         <SheetContent side="bottom" className="h-[85vh] rounded-t-2xl px-0">
-          <SheetHeader className="px-4 pb-3 border-b border-border">
+          <SheetHeader className="px-4 pb-3 border-b border-border pr-12">
             <SheetTitle className={cn("text-center", language === "bn" && "font-bengali")}>
               {selectedCategory ? getCategoryName(selectedCategory) : ""}
             </SheetTitle>
@@ -173,11 +173,13 @@ const DailyDuaPage = ({ language, arabicFont = "amiri" }: DailyDuaPageProps) => 
       {/* Dua Detail Sheet */}
       <Sheet open={!!selectedDua} onOpenChange={(open) => !open && setSelectedDua(null)}>
         <SheetContent side="bottom" className="h-[90vh] rounded-t-2xl px-0">
-          <SheetHeader className="px-4 pb-3 border-b border-border">
-            <div className="flex items-center justify-between">
-              <SheetTitle className={cn("text-center flex-1", language === "bn" && "font-bengali")}>
-                {selectedDua ? getDuaTitle(selectedDua) : ""}
-              </SheetTitle>
+          <SheetHeader className="px-4 pb-3 border-b border-border pr-12">
+            <div className="flex items-center gap-3">
+              <div className="flex-1">
+                <SheetTitle className={cn("text-center", language === "bn" && "font-bengali")}>
+                  {selectedDua ? getDuaTitle(selectedDua) : ""}
+                </SheetTitle>
+              </div>
               {selectedDua && (
                 <button
                   onClick={() => handleCopy(selectedDua)}
