@@ -44,7 +44,7 @@ const privacyContent = {
       },
       {
         heading: "Contact Us",
-        content: "If you have any questions about this Privacy Policy, please contact us at:\n\nEmail: annurdigital@gmail.com"
+        content: "If you have any questions about this Privacy Policy, please contact us at:\n\nEmail: support@annurdigital.com"
       }
     ]
   },
@@ -86,7 +86,7 @@ const privacyContent = {
       },
       {
         heading: "যোগাযোগ করুন",
-        content: "এই গোপনীয়তা নীতি সম্পর্কে আপনার কোনো প্রশ্ন থাকলে, অনুগ্রহ করে আমাদের সাথে যোগাযোগ করুন:\n\nইমেইল: annurdigital@gmail.com"
+        content: "এই গোপনীয়তা নীতি সম্পর্কে আপনার কোনো প্রশ্ন থাকলে, অনুগ্রহ করে আমাদের সাথে যোগাযোগ করুন:\n\nইমেইল: support@annurdigital.com"
       }
     ]
   },
@@ -128,7 +128,7 @@ const privacyContent = {
       },
       {
         heading: "हमसे संपर्क करें",
-        content: "यदि इस गोपनीयता नीति के बारे में आपके कोई प्रश्न हैं, तो कृपया हमसे संपर्क करें:\n\nईमेल: annurdigital@gmail.com"
+        content: "यदि इस गोपनीयता नीति के बारे में आपके कोई प्रश्न हैं, तो कृपया हमसे संपर्क करें:\n\nईमेल: support@annurdigital.com"
       }
     ]
   }
