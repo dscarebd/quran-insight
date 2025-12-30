@@ -242,7 +242,6 @@ const DailyDuaPage = ({ language, arabicFont = "amiri" }: DailyDuaPageProps) => 
                     {formatNumber(category.duas.length, language)} {language === "bn" ? "দোয়া" : "duas"}
                   </p>
                 </div>
-                <ChevronRight className="h-4 w-4 text-muted-foreground" />
               </button>
             ))}
           </div>
