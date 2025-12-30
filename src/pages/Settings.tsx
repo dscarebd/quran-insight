@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { Info, Moon, Sun, BookOpen, Type, ChevronRight, FileText, ChevronDown, Globe, Palette } from "lucide-react";
+import { Info, Moon, Sun, BookOpen, Type, ChevronRight, FileText, ChevronDown, Globe, Palette, Shield } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { useTheme } from "next-themes";
@@ -432,6 +432,23 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
                   </p>
                   <p className={cn("text-sm text-muted-foreground", language === "bn" && "font-bengali")}>
                     {language === "bn" ? "কুরআন, দোয়া ও হাদিসের উৎস" : "Quran, Dua & Hadith sources"}
+                  </p>
+                </div>
+                <ChevronRight className="h-5 w-5 text-muted-foreground" />
+              </button>
+              <button
+                onClick={() => navigate("/privacy-policy")}
+                className="flex items-center gap-3 px-4 py-3.5 w-full text-left hover:bg-muted/50 transition-colors"
+              >
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10">
+                  <Shield className="h-5 w-5 text-primary" />
+                </div>
+                <div className="flex-1">
+                  <p className={cn("text-base font-medium", language === "bn" && "font-bengali")}>
+                    {language === "bn" ? "গোপনীয়তা নীতি" : "Privacy Policy"}
+                  </p>
+                  <p className={cn("text-sm text-muted-foreground", language === "bn" && "font-bengali")}>
+                    {language === "bn" ? "আপনার তথ্য কীভাবে সুরক্ষিত" : "How your data is protected"}
                   </p>
                 </div>
                 <ChevronRight className="h-5 w-5 text-muted-foreground" />
