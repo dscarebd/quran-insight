@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
-import { Copy, Check, HandHeart, ChevronRight, ArrowLeft, Search, X } from "lucide-react";
+import { Copy, Check, HandHeart, ChevronRight, ArrowLeft, Search, X, Bookmark, BookmarkCheck, Heart } from "lucide-react";
 import { cn, formatNumber } from "@/lib/utils";
 import { toast } from "sonner";
 import { Language } from "@/types/language";
@@ -7,6 +7,7 @@ import { dailyDuaCategories, DailyDuaCategory, DailyDua } from "@/data/dailyDuas
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Input } from "@/components/ui/input";
+import { useLocalDuaBookmarks } from "@/hooks/useLocalDuaBookmarks";
 import * as LucideIcons from "lucide-react";
 
 interface DailyDuaPageProps {
@@ -27,8 +28,12 @@ const DailyDuaPage = ({ language, arabicFont = "amiri" }: DailyDuaPageProps) => 
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<DailyDuaCategory | null>(null);
   const [selectedDua, setSelectedDua] = useState<DailyDua | null>(null);
+  const [selectedDuaCategory, setSelectedDuaCategory] = useState<DailyDuaCategory | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [isSearching, setIsSearching] = useState(false);
+  const [showFavorites, setShowFavorites] = useState(false);
+  
+  const { bookmarks, isBookmarked, toggleBookmark } = useLocalDuaBookmarks();
 
   // Scroll to top when page loads
   useEffect(() => {
@@ -73,6 +78,22 @@ const DailyDuaPage = ({ language, arabicFont = "amiri" }: DailyDuaPageProps) => 
   // Count total duas
   const totalDuas = dailyDuaCategories.reduce((sum, cat) => sum + cat.duas.length, 0);
 
+  // Get bookmarked duas with their categories
+  const bookmarkedDuas = useMemo(() => {
+    const results: { dua: DailyDua; category: DailyDuaCategory }[] = [];
+    
+    bookmarks.forEach(bookmark => {
+      dailyDuaCategories.forEach(category => {
+        const dua = category.duas.find(d => d.id === bookmark.dua_id);
+        if (dua) {
+          results.push({ dua, category });
+        }
+      });
+    });
+    
+    return results;
+  }, [bookmarks]);
+
   // Search results - flatten all duas and filter
   const searchResults = useMemo(() => {
     if (!searchQuery.trim()) return [];
@@ -98,6 +119,11 @@ const DailyDuaPage = ({ language, arabicFont = "amiri" }: DailyDuaPageProps) => 
     
     return results;
   }, [searchQuery]);
+
+  const handleDuaSelect = (dua: DailyDua, category: DailyDuaCategory) => {
+    setSelectedDua(dua);
+    setSelectedDuaCategory(category);
+  };
 
   return (
     <div className="min-h-screen bg-background pb-4">
@@ -125,8 +151,31 @@ const DailyDuaPage = ({ language, arabicFont = "amiri" }: DailyDuaPageProps) => 
               </p>
             </div>
             <button
-              onClick={() => setIsSearching(!isSearching)}
-              className="flex h-10 w-10 items-center justify-center rounded-full bg-muted text-muted-foreground transition-colors hover:bg-primary hover:text-primary-foreground"
+              onClick={() => {
+                setShowFavorites(!showFavorites);
+                setIsSearching(false);
+                setSearchQuery("");
+              }}
+              className={cn(
+                "flex h-10 w-10 items-center justify-center rounded-full transition-colors",
+                showFavorites 
+                  ? "bg-primary text-primary-foreground" 
+                  : "bg-muted text-muted-foreground hover:bg-primary hover:text-primary-foreground"
+              )}
+            >
+              <Heart className={cn("h-5 w-5", showFavorites && "fill-current")} />
+            </button>
+            <button
+              onClick={() => {
+                setIsSearching(!isSearching);
+                setShowFavorites(false);
+              }}
+              className={cn(
+                "flex h-10 w-10 items-center justify-center rounded-full transition-colors",
+                isSearching 
+                  ? "bg-primary text-primary-foreground" 
+                  : "bg-muted text-muted-foreground hover:bg-primary hover:text-primary-foreground"
+              )}
             >
               {isSearching ? <X className="h-5 w-5" /> : <Search className="h-5 w-5" />}
             </button>
@@ -159,6 +208,67 @@ const DailyDuaPage = ({ language, arabicFont = "amiri" }: DailyDuaPageProps) => 
         </div>
       </div>
 
+      {/* Favorites Section */}
+      {showFavorites && !searchQuery.trim() && (
+        <div className="max-w-4xl mx-auto px-4 py-4">
+          <p className={cn(
+            "text-sm text-muted-foreground mb-3",
+            language === "bn" && "font-bengali"
+          )}>
+            {language === "bn" 
+              ? `${formatNumber(bookmarkedDuas.length, language)}টি প্রিয় দোয়া` 
+              : `${bookmarkedDuas.length} favorite dua${bookmarkedDuas.length !== 1 ? 's' : ''}`}
+          </p>
+          
+          {bookmarkedDuas.length > 0 ? (
+            <div className="space-y-2">
+              {bookmarkedDuas.map(({ dua, category }) => (
+                <button
+                  key={dua.id}
+                  onClick={() => handleDuaSelect(dua, category)}
+                  className="flex items-center gap-3 w-full p-3 rounded-xl border border-border bg-card transition-colors hover:bg-accent text-left"
+                >
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10">
+                    <DynamicIcon name={category.icon} className="h-5 w-5 text-primary" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className={cn(
+                      "text-sm font-medium text-foreground",
+                      language === "bn" && "font-bengali"
+                    )}>
+                      {getDuaTitle(dua)}
+                    </p>
+                    <p className={cn(
+                      "text-xs text-muted-foreground",
+                      language === "bn" && "font-bengali"
+                    )}>
+                      {getCategoryName(category)}
+                    </p>
+                  </div>
+                  <Heart className="h-5 w-5 text-primary fill-primary shrink-0" />
+                </button>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-8">
+              <Heart className="h-12 w-12 text-muted-foreground/50 mx-auto mb-3" />
+              <p className={cn(
+                "text-muted-foreground",
+                language === "bn" && "font-bengali"
+              )}>
+                {language === "bn" ? "এখনো কোনো প্রিয় দোয়া নেই" : "No favorite duas yet"}
+              </p>
+              <p className={cn(
+                "text-sm text-muted-foreground mt-1",
+                language === "bn" && "font-bengali"
+              )}>
+                {language === "bn" ? "দোয়া দেখে হার্ট আইকনে ক্লিক করুন" : "Tap the heart icon on any dua to save it"}
+              </p>
+            </div>
+          )}
+        </div>
+      )}
+
       {/* Search Results */}
       {searchQuery.trim() && (
         <div className="max-w-4xl mx-auto px-4 py-4">
@@ -176,7 +286,7 @@ const DailyDuaPage = ({ language, arabicFont = "amiri" }: DailyDuaPageProps) => 
               {searchResults.map(({ dua, category }) => (
                 <button
                   key={dua.id}
-                  onClick={() => setSelectedDua(dua)}
+                  onClick={() => handleDuaSelect(dua, category)}
                   className="flex items-center gap-3 w-full p-3 rounded-xl border border-border bg-card transition-colors hover:bg-accent text-left"
                 >
                   <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10">
@@ -214,8 +324,8 @@ const DailyDuaPage = ({ language, arabicFont = "amiri" }: DailyDuaPageProps) => 
         </div>
       )}
 
-      {/* Categories Grid - Hidden when searching */}
-      {!searchQuery.trim() && (
+      {/* Categories Grid - Hidden when searching or showing favorites */}
+      {!searchQuery.trim() && !showFavorites && (
         <div className="max-w-4xl mx-auto px-4 py-6">
           <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
             {dailyDuaCategories.map((category, index) => (
@@ -261,7 +371,7 @@ const DailyDuaPage = ({ language, arabicFont = "amiri" }: DailyDuaPageProps) => 
               {selectedCategory?.duas.map((dua, index) => (
                 <button
                   key={dua.id}
-                  onClick={() => setSelectedDua(dua)}
+                  onClick={() => handleDuaSelect(dua, selectedCategory)}
                   className="flex items-center gap-3 w-full px-4 py-4 transition-colors hover:bg-muted border-b border-border/50 last:border-b-0"
                 >
                   <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-sm font-semibold text-primary font-bengali">
@@ -278,6 +388,9 @@ const DailyDuaPage = ({ language, arabicFont = "amiri" }: DailyDuaPageProps) => 
                       {dua.arabic.length > 50 ? `${dua.arabic.substring(0, 50)}...` : dua.arabic}
                     </p>
                   </div>
+                  {isBookmarked(selectedCategory.id, dua.id) && (
+                    <Heart className="h-4 w-4 text-primary fill-primary shrink-0" />
+                  )}
                   <ChevronRight className="h-5 w-5 text-muted-foreground shrink-0" />
                 </button>
               ))}
@@ -296,6 +409,19 @@ const DailyDuaPage = ({ language, arabicFont = "amiri" }: DailyDuaPageProps) => 
                   {selectedDua ? getDuaTitle(selectedDua) : ""}
                 </SheetTitle>
               </div>
+              {selectedDua && selectedDuaCategory && (
+                <button
+                  onClick={() => toggleBookmark(selectedDuaCategory.id, selectedDua.id)}
+                  className={cn(
+                    "flex h-8 w-8 items-center justify-center rounded-full transition-all",
+                    isBookmarked(selectedDuaCategory.id, selectedDua.id)
+                      ? "bg-primary text-primary-foreground"
+                      : "bg-muted text-muted-foreground hover:bg-primary hover:text-primary-foreground"
+                  )}
+                >
+                  <Heart className={cn("h-4 w-4", isBookmarked(selectedDuaCategory.id, selectedDua.id) && "fill-current")} />
+                </button>
+              )}
               {selectedDua && (
                 <button
                   onClick={() => handleCopy(selectedDua)}
