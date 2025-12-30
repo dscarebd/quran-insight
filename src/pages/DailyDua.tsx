@@ -1,11 +1,12 @@
-import { useState, useEffect } from "react";
-import { Copy, Check, HandHeart, ChevronRight, ArrowLeft } from "lucide-react";
+import { useState, useEffect, useMemo } from "react";
+import { Copy, Check, HandHeart, ChevronRight, ArrowLeft, Search, X } from "lucide-react";
 import { cn, formatNumber } from "@/lib/utils";
 import { toast } from "sonner";
 import { Language } from "@/types/language";
 import { dailyDuaCategories, DailyDuaCategory, DailyDua } from "@/data/dailyDuas";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { Input } from "@/components/ui/input";
 import * as LucideIcons from "lucide-react";
 
 interface DailyDuaPageProps {
@@ -26,6 +27,8 @@ const DailyDuaPage = ({ language, arabicFont = "amiri" }: DailyDuaPageProps) => 
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<DailyDuaCategory | null>(null);
   const [selectedDua, setSelectedDua] = useState<DailyDua | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [isSearching, setIsSearching] = useState(false);
 
   // Scroll to top when page loads
   useEffect(() => {
@@ -70,6 +73,32 @@ const DailyDuaPage = ({ language, arabicFont = "amiri" }: DailyDuaPageProps) => 
   // Count total duas
   const totalDuas = dailyDuaCategories.reduce((sum, cat) => sum + cat.duas.length, 0);
 
+  // Search results - flatten all duas and filter
+  const searchResults = useMemo(() => {
+    if (!searchQuery.trim()) return [];
+    
+    const query = searchQuery.toLowerCase().trim();
+    const results: { dua: DailyDua; category: DailyDuaCategory }[] = [];
+    
+    dailyDuaCategories.forEach(category => {
+      category.duas.forEach(dua => {
+        const matchesTitle = dua.titleBn.toLowerCase().includes(query) || 
+                            dua.titleEn.toLowerCase().includes(query);
+        const matchesArabic = dua.arabic.includes(query);
+        const matchesTranslation = dua.bengali.toLowerCase().includes(query) || 
+                                   dua.english.toLowerCase().includes(query);
+        const matchesCategory = category.nameBengali.toLowerCase().includes(query) || 
+                               category.nameEnglish.toLowerCase().includes(query);
+        
+        if (matchesTitle || matchesArabic || matchesTranslation || matchesCategory) {
+          results.push({ dua, category });
+        }
+      });
+    });
+    
+    return results;
+  }, [searchQuery]);
+
   return (
     <div className="min-h-screen bg-background pb-4">
       {/* Header */}
@@ -79,7 +108,7 @@ const DailyDuaPage = ({ language, arabicFont = "amiri" }: DailyDuaPageProps) => 
             <div className="flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 text-white shadow-md shrink-0">
               <HandHeart className="h-5 w-5 sm:h-6 sm:w-6" />
             </div>
-            <div>
+            <div className="flex-1">
               <h1 className={cn(
                 "text-xl font-bold text-foreground",
                 language === "bn" && "font-bengali"
@@ -95,42 +124,130 @@ const DailyDuaPage = ({ language, arabicFont = "amiri" }: DailyDuaPageProps) => 
                   : `${dailyDuaCategories.length} categories • ${totalDuas} duas`}
               </p>
             </div>
+            <button
+              onClick={() => setIsSearching(!isSearching)}
+              className="flex h-10 w-10 items-center justify-center rounded-full bg-muted text-muted-foreground transition-colors hover:bg-primary hover:text-primary-foreground"
+            >
+              {isSearching ? <X className="h-5 w-5" /> : <Search className="h-5 w-5" />}
+            </button>
           </div>
+          
+          {/* Search Input */}
+          {isSearching && (
+            <div className="mt-3 animate-fade-in">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input
+                  type="text"
+                  placeholder={language === "bn" ? "দোয়া খুঁজুন..." : "Search duas..."}
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className={cn("pl-10 pr-10", language === "bn" && "font-bengali")}
+                  autoFocus
+                />
+                {searchQuery && (
+                  <button
+                    onClick={() => setSearchQuery("")}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                  >
+                    <X className="h-4 w-4" />
+                  </button>
+                )}
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
-      {/* Categories Grid */}
-      <div className="max-w-4xl mx-auto px-4 py-6">
-        <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
-          {dailyDuaCategories.map((category, index) => (
-            <button
-              key={category.id}
-              onClick={() => setSelectedCategory(category)}
-              className="flex flex-col items-center gap-2 rounded-xl border border-border bg-card p-4 transition-all hover:bg-accent hover:border-primary/30 animate-fade-in"
-              style={{ animationDelay: `${index * 0.03}s` }}
-            >
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
-                <DynamicIcon name={category.icon} className="h-6 w-6 text-primary" />
-              </div>
-              <div className="text-center">
-                <p className={cn(
-                  "text-sm font-medium line-clamp-2",
-                  language === "bn" && "font-bengali"
-                )}>
-                  {getCategoryName(category)}
-                </p>
-                <p className={cn(
-                  "text-xs text-muted-foreground mt-0.5",
-                  language === "bn" && "font-bengali"
-                )}>
-                  {formatNumber(category.duas.length, language)} {language === "bn" ? "দোয়া" : "duas"}
-                </p>
-              </div>
-              <ChevronRight className="h-4 w-4 text-muted-foreground" />
-            </button>
-          ))}
+      {/* Search Results */}
+      {searchQuery.trim() && (
+        <div className="max-w-4xl mx-auto px-4 py-4">
+          <p className={cn(
+            "text-sm text-muted-foreground mb-3",
+            language === "bn" && "font-bengali"
+          )}>
+            {language === "bn" 
+              ? `${formatNumber(searchResults.length, language)}টি ফলাফল পাওয়া গেছে` 
+              : `${searchResults.length} result${searchResults.length !== 1 ? 's' : ''} found`}
+          </p>
+          
+          {searchResults.length > 0 ? (
+            <div className="space-y-2">
+              {searchResults.map(({ dua, category }) => (
+                <button
+                  key={dua.id}
+                  onClick={() => setSelectedDua(dua)}
+                  className="flex items-center gap-3 w-full p-3 rounded-xl border border-border bg-card transition-colors hover:bg-accent text-left"
+                >
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10">
+                    <DynamicIcon name={category.icon} className="h-5 w-5 text-primary" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className={cn(
+                      "text-sm font-medium text-foreground",
+                      language === "bn" && "font-bengali"
+                    )}>
+                      {getDuaTitle(dua)}
+                    </p>
+                    <p className={cn(
+                      "text-xs text-muted-foreground",
+                      language === "bn" && "font-bengali"
+                    )}>
+                      {getCategoryName(category)}
+                    </p>
+                  </div>
+                  <ChevronRight className="h-5 w-5 text-muted-foreground shrink-0" />
+                </button>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-8">
+              <Search className="h-12 w-12 text-muted-foreground/50 mx-auto mb-3" />
+              <p className={cn(
+                "text-muted-foreground",
+                language === "bn" && "font-bengali"
+              )}>
+                {language === "bn" ? "কোনো দোয়া পাওয়া যায়নি" : "No duas found"}
+              </p>
+            </div>
+          )}
         </div>
-      </div>
+      )}
+
+      {/* Categories Grid - Hidden when searching */}
+      {!searchQuery.trim() && (
+        <div className="max-w-4xl mx-auto px-4 py-6">
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
+            {dailyDuaCategories.map((category, index) => (
+              <button
+                key={category.id}
+                onClick={() => setSelectedCategory(category)}
+                className="flex flex-col items-center gap-2 rounded-xl border border-border bg-card p-4 transition-all hover:bg-accent hover:border-primary/30 animate-fade-in"
+                style={{ animationDelay: `${index * 0.03}s` }}
+              >
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
+                  <DynamicIcon name={category.icon} className="h-6 w-6 text-primary" />
+                </div>
+                <div className="text-center">
+                  <p className={cn(
+                    "text-sm font-medium line-clamp-2",
+                    language === "bn" && "font-bengali"
+                  )}>
+                    {getCategoryName(category)}
+                  </p>
+                  <p className={cn(
+                    "text-xs text-muted-foreground mt-0.5",
+                    language === "bn" && "font-bengali"
+                  )}>
+                    {formatNumber(category.duas.length, language)} {language === "bn" ? "দোয়া" : "duas"}
+                  </p>
+                </div>
+                <ChevronRight className="h-4 w-4 text-muted-foreground" />
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Category Sheet */}
       <Sheet open={!!selectedCategory} onOpenChange={(open) => !open && setSelectedCategory(null)}>
