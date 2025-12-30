@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import { AppSidebar } from "@/components/AppSidebar";
@@ -9,8 +9,8 @@ import { PageTransition } from "@/components/PageTransition";
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 import { useVisitorTracking } from "@/hooks/useVisitorTracking";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useDeviceDetection, getStatusBarOffset } from "@/hooks/useDeviceDetection";
 import { Language } from "@/types/language";
-
 interface LayoutProps {
   children: React.ReactNode;
   language: Language;
@@ -38,6 +38,10 @@ export const Layout = ({
   const [activeTab, setActiveTab] = useState<"search" | "bookmarks">("search");
   const isMobile = useIsMobile();
   const location = useLocation();
+  const { statusBarHeight } = useDeviceDetection();
+  
+  // Calculate status bar offset with device-specific fallback
+  const statusBarOffset = useMemo(() => getStatusBarOffset(statusBarHeight), [statusBarHeight]);
   
   // Track anonymous page views
   useVisitorTracking();
@@ -68,14 +72,14 @@ export const Layout = ({
       />
       <SidebarInset className="flex flex-col pb-14 lg:pb-0 overflow-x-hidden max-w-full min-h-screen">
         {/* Safe area fill for top notch/cutout (Samsung S25 Plus, S23 Ultra, iPhone, etc.) */}
-        {/* Uses max() to ensure minimum 24px fallback when env() returns 0 on some Samsung devices */}
+        {/* Uses device-specific detection for Samsung devices where env() returns 0 */}
         <div 
           className="fixed top-0 left-0 right-0 z-40 bg-card lg:hidden"
-          style={{ height: 'max(env(safe-area-inset-top, 0px), 24px)' }}
+          style={{ height: statusBarOffset }}
         />
         <div 
           className="fixed left-0 right-0 z-30 lg:left-[var(--sidebar-width)]"
-          style={{ top: 'max(env(safe-area-inset-top, 0px), 24px)' }}
+          style={{ top: statusBarOffset }}
         >
           <Header
             language={language}
@@ -90,7 +94,7 @@ export const Layout = ({
         </div>
         <div 
           className="flex-1 overflow-y-auto overflow-x-hidden max-w-full"
-          style={{ paddingTop: 'calc(max(env(safe-area-inset-top, 0px), 24px) + 57px)' }}
+          style={{ paddingTop: `calc(${statusBarOffset} + 57px)` }}
         >
           <AnimatePresence mode="wait">
             <PageTransition key={location.pathname}>
