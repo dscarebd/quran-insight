@@ -176,7 +176,7 @@ export const MobileNavFooter = ({ language }: MobileNavFooterProps) => {
                   "font-medium truncate max-w-full px-0.5",
                   language === "bn" && "font-bengali"
                 )}
-                style={{ fontSize: `${Math.max(fontSize - 6, 10)}px` }}
+                style={{ fontSize: `${Math.max(fontSize - 4, 11)}px` }}
               >
                 {language === "bn" ? item.labelBn : item.labelEn}
               </span>
