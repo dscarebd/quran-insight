@@ -9,7 +9,10 @@ const config: CapacitorConfig = {
     cleartext: true
   },
   ios: {
-    contentInset: 'automatic'
+    contentInset: 'automatic',
+    backgroundColor: '#ffffff',
+    // Allows the WebView to extend under the status bar
+    allowsLinkPreview: true
   },
   android: {
     backgroundColor: '#00000000' // Transparent for edge-to-edge
@@ -18,7 +21,7 @@ const config: CapacitorConfig = {
     StatusBar: {
       overlaysWebView: true,
       style: 'DARK',
-      backgroundColor: '#00000000' // Transparent
+      backgroundColor: '#00000000' // Transparent (Android only)
     }
   }
 };

@@ -19,14 +19,22 @@ export const useStatusBar = () => {
         return;
       }
 
+      const platform = Capacitor.getPlatform();
+
       try {
         // Set status bar to overlay the WebView (edge-to-edge display)
+        // Works on both Android and iOS
         await StatusBar.setOverlaysWebView({ overlay: true });
         
-        // Make status bar background transparent on Android
-        if (Capacitor.getPlatform() === 'android') {
+        // Platform-specific configurations
+        if (platform === 'android') {
+          // Make status bar background transparent on Android
           await StatusBar.setBackgroundColor({ color: '#00000000' });
         }
+        
+        // iOS automatically handles transparency when overlaysWebView is true
+        // No additional configuration needed for iOS background
+        
       } catch (error) {
         console.warn('StatusBar configuration failed:', error);
       }
@@ -46,6 +54,9 @@ export const useStatusBar = () => {
         // Dark mode = light status bar icons (white icons on dark background)
         // Light mode = dark status bar icons (black icons on light background)
         const isDarkMode = resolvedTheme === 'dark';
+        
+        // Style.Dark = dark content (black icons) - use for light backgrounds
+        // Style.Light = light content (white icons) - use for dark backgrounds
         await StatusBar.setStyle({ 
           style: isDarkMode ? Style.Dark : Style.Light 
         });
@@ -75,5 +86,24 @@ export const updateStatusBarStyle = async (isDarkMode: boolean) => {
     });
   } catch (error) {
     console.warn('StatusBar style update failed:', error);
+  }
+};
+
+/**
+ * Utility function to show/hide status bar
+ */
+export const setStatusBarVisible = async (visible: boolean) => {
+  if (!Capacitor.isNativePlatform()) {
+    return;
+  }
+
+  try {
+    if (visible) {
+      await StatusBar.show();
+    } else {
+      await StatusBar.hide();
+    }
+  } catch (error) {
+    console.warn('StatusBar visibility change failed:', error);
   }
 };
