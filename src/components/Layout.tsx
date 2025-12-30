@@ -67,7 +67,15 @@ export const Layout = ({
         onTabChange={setActiveTab}
       />
       <SidebarInset className="flex flex-col pb-14 lg:pb-0 overflow-x-hidden max-w-full min-h-screen">
-        <div className="fixed top-0 left-0 right-0 z-30 lg:left-[var(--sidebar-width)]">
+        {/* Safe area fill for top notch/cutout (Samsung S25 Plus, iPhone, etc.) */}
+        <div 
+          className="fixed top-0 left-0 right-0 z-40 bg-card lg:hidden"
+          style={{ height: 'env(safe-area-inset-top)' }}
+        />
+        <div 
+          className="fixed left-0 right-0 z-30 lg:left-[var(--sidebar-width)]"
+          style={{ top: 'env(safe-area-inset-top)' }}
+        >
           <Header
             language={language}
             onLanguageChange={onLanguageChange}
@@ -79,7 +87,10 @@ export const Layout = ({
             canZoomOut={canZoomOut}
           />
         </div>
-        <div className="flex-1 overflow-y-auto overflow-x-hidden max-w-full pt-[57px]">
+        <div 
+          className="flex-1 overflow-y-auto overflow-x-hidden max-w-full"
+          style={{ paddingTop: 'calc(env(safe-area-inset-top, 0px) + 57px)' }}
+        >
           <AnimatePresence mode="wait">
             <PageTransition key={location.pathname}>
               {children}

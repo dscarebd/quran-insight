@@ -433,6 +433,31 @@
 }
 
 @layer utilities {
+  /* Safe area utilities for native apps (Samsung S25 Plus, iPhone notch, etc.) */
+  .pt-safe {
+    padding-top: env(safe-area-inset-top);
+  }
+
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .h-safe-area-inset-top {
+    height: env(safe-area-inset-top);
+  }
+
+  .h-safe-area-inset-bottom {
+    height: env(safe-area-inset-bottom);
+  }
+
+  .safe-top {
+    padding-top: env(safe-area-inset-top);
+  }
+
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
   /* Scalable text classes that respect user font size settings */
   .text-scale-xs {
     font-size: calc(var(--base-font-size) * 0.75);
