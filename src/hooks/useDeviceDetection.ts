@@ -33,7 +33,8 @@ export const useDeviceDetection = (): DeviceInfo => {
                         userAgent.includes('gt-');   // Older Samsung models
       
       // Determine appropriate status bar height based on device
-      let statusBarHeight = 24; // Default for most devices
+      // On web (non-native), use 0 to rely only on env(safe-area-inset-top)
+      let statusBarHeight = 0; // Default for web - no fallback needed
       
       if (isNative && platform === 'android') {
         if (isSamsung) {
@@ -52,8 +53,8 @@ export const useDeviceDetection = (): DeviceInfo => {
           statusBarHeight = 28;
         }
       } else if (isNative && platform === 'ios') {
-        // iOS devices with notch/Dynamic Island
-        statusBarHeight = 0; // iOS handles safe-area-inset properly
+        // iOS devices with notch/Dynamic Island - iOS handles safe-area properly
+        statusBarHeight = 0;
       }
       
       // Log device detection info for debugging
@@ -88,8 +89,12 @@ export const useDeviceDetection = (): DeviceInfo => {
 
 /**
  * Get the CSS value for status bar top offset.
- * Uses env(safe-area-inset-top) with a device-specific fallback.
+ * Uses env(safe-area-inset-top) with a device-specific fallback for native apps.
+ * On web, just uses env(safe-area-inset-top) with no fallback.
  */
 export const getStatusBarOffset = (fallbackHeight: number): string => {
+  if (fallbackHeight === 0) {
+    return 'env(safe-area-inset-top, 0px)';
+  }
   return `max(env(safe-area-inset-top, 0px), ${fallbackHeight}px)`;
 };
