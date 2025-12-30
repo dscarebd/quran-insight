@@ -56,6 +56,22 @@ export const useDeviceDetection = (): DeviceInfo => {
         statusBarHeight = 0; // iOS handles safe-area-inset properly
       }
       
+      // Log device detection info for debugging
+      console.log('[DeviceDetection] User Agent:', userAgent);
+      console.log('[DeviceDetection] Device Info:', {
+        isSamsung,
+        isNative,
+        platform,
+        statusBarHeight,
+        isUltraOrPlus: isSamsung && (
+          userAgent.includes('ultra') || 
+          userAgent.includes('plus') ||
+          /sm-s9[0-9]{2}[up]/i.test(userAgent) ||
+          /sm-s91[0-9][up]/i.test(userAgent) ||
+          /sm-s92[0-9][up]/i.test(userAgent)
+        ),
+      });
+      
       setDeviceInfo({
         isSamsung,
         isNative,
