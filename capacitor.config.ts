@@ -10,8 +10,7 @@ const config: CapacitorConfig = {
   },
   ios: {
     contentInset: 'automatic',
-    backgroundColor: '#ffffff',
-    // Allows the WebView to extend under the status bar
+    backgroundColor: '#10b981', // Primary green color
     allowsLinkPreview: true
   },
   android: {
@@ -21,7 +20,25 @@ const config: CapacitorConfig = {
     StatusBar: {
       overlaysWebView: true,
       style: 'DARK',
-      backgroundColor: '#00000000' // Transparent (Android only)
+      backgroundColor: '#00000000'
+    },
+    SplashScreen: {
+      // Splash screen duration before auto-hide (if launchAutoHide is true)
+      launchShowDuration: 2000,
+      // Manually control when to hide (set to false for manual control)
+      launchAutoHide: false,
+      // Background color of splash screen
+      backgroundColor: '#10b981', // Primary green color matching theme
+      // Android specific settings
+      androidSplashResourceName: 'splash',
+      androidScaleType: 'CENTER_CROP',
+      // iOS specific settings
+      splashFullScreen: true,
+      splashImmersive: true,
+      // Animation settings
+      showSpinner: false,
+      // Fade animation duration
+      launchFadeOutDuration: 300
     }
   }
 };

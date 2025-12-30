@@ -12,6 +12,7 @@ import { useContentProtection } from "@/hooks/useContentProtection";
 import { useFontSize } from "@/hooks/useFontSize";
 import { useBackButtonHandler } from "@/hooks/useBackButtonHandler";
 import { useStatusBar } from "@/hooks/useStatusBar";
+import { useSplashScreen } from "@/hooks/useSplashScreen";
 import { Language } from "@/types/language";
 import { initializeBundledData } from "@/services/bundledDataLoader";
 import Index from "./pages/Index";
@@ -99,6 +100,9 @@ const AppContent = () => {
 
   // Configure native status bar for edge-to-edge display
   useStatusBar();
+
+  // Hide splash screen once app is ready
+  useSplashScreen();
 
   // Load bundled data on app startup
   useEffect(() => {
