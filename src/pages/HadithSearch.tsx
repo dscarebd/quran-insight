@@ -282,7 +282,7 @@ const HadithSearch = ({ language, arabicFont }: HadithSearchProps) => {
   return (
     <div className="flex-1 overflow-y-auto">
       {/* Header */}
-      <div className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm border-b border-border px-4 py-3">
+      <div className="sticky top-[57px] lg:top-0 z-10 bg-background/95 backdrop-blur-sm border-b border-border px-4 py-3">
         <div className="mx-auto max-w-3xl">
           <div className="flex items-center gap-3 mb-3">
             <Button
