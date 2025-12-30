@@ -12,7 +12,14 @@ const config: CapacitorConfig = {
     contentInset: 'automatic'
   },
   android: {
-    backgroundColor: '#ffffff'
+    backgroundColor: '#00000000' // Transparent for edge-to-edge
+  },
+  plugins: {
+    StatusBar: {
+      overlaysWebView: true,
+      style: 'DARK',
+      backgroundColor: '#00000000' // Transparent
+    }
   }
 };
 
