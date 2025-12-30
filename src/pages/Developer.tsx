@@ -128,7 +128,7 @@ const Developer = ({ language }: DeveloperProps) => {
                   <h3 className={cn("text-lg font-semibold", language === "bn" && "font-bengali")}>
                     An-Nur Digital
                   </h3>
-                  <p className={cn("text-sm text-muted-foreground", language === "bn" && "font-bengali")}>
+                  <p className={cn("text-base text-muted-foreground", language === "bn" && "font-bengali")}>
                     {language === "bn" 
                       ? "ওয়ার্ডপ্রেস ও সফটওয়্যার ডিজাইনার" 
                       : "WordPress & Software Designer"}
@@ -150,7 +150,7 @@ const Developer = ({ language }: DeveloperProps) => {
               </h2>
             </div>
             <div className="rounded-xl border border-border bg-card p-4">
-              <p className={cn("text-sm text-muted-foreground leading-relaxed", language === "bn" && "font-bengali")}>
+              <p className={cn("text-base text-muted-foreground leading-relaxed", language === "bn" && "font-bengali")}>
                 {language === "bn" 
                   ? "আন-নূর ডিজিটাল একটি ক্রিয়েটিভ ডিজিটাল এজেন্সি যা ওয়েব ডেভেলপমেন্ট, সফটওয়্যার ডিজাইন এবং ডিজিটাল সমাধান প্রদান করে।"
                   : "An-Nur Digital is a creative digital agency providing web development, software design, and digital solutions."}
@@ -179,10 +179,10 @@ const Developer = ({ language }: DeveloperProps) => {
                   className="flex items-center gap-3 rounded-xl border border-border bg-card p-4 transition-colors hover:bg-muted/50"
                 >
                   <link.icon className={cn("h-5 w-5", link.iconColor)} />
-                  <span className={cn("text-sm font-medium flex-1", language === "bn" && "font-bengali")}>
+                  <span className={cn("text-base font-medium flex-1", language === "bn" && "font-bengali")}>
                     {language === "bn" ? link.labelBn : link.labelEn}
                   </span>
-                  <span className="text-xs text-muted-foreground">{link.value}</span>
+                  <span className="text-sm text-muted-foreground">{link.value}</span>
                   <ExternalLink className="h-4 w-4 text-muted-foreground" />
                 </a>
               ))}
@@ -206,10 +206,10 @@ const Developer = ({ language }: DeveloperProps) => {
                   key={index}
                   className="rounded-xl border border-border bg-card p-4"
                 >
-                  <h3 className={cn("text-sm font-semibold", language === "bn" && "font-bengali")}>
+                  <h3 className={cn("text-base font-semibold", language === "bn" && "font-bengali")}>
                     {language === "bn" ? service.nameBn : service.nameEn}
                   </h3>
-                  <p className={cn("text-xs text-muted-foreground mt-1", language === "bn" && "font-bengali")}>
+                  <p className={cn("text-sm text-muted-foreground mt-1", language === "bn" && "font-bengali")}>
                     {language === "bn" ? service.descriptionBn : service.descriptionEn}
                   </p>
                 </div>
@@ -217,9 +217,8 @@ const Developer = ({ language }: DeveloperProps) => {
             </div>
           </section>
 
-          {/* CTA */}
           <div className="rounded-xl border border-border bg-gradient-to-br from-primary/10 to-primary/5 p-4 text-center">
-            <p className={cn("text-sm font-medium mb-3", language === "bn" && "font-bengali")}>
+            <p className={cn("text-base font-medium mb-3", language === "bn" && "font-bengali")}>
               {language === "bn" 
                 ? "আপনার প্রজেক্টে সাহায্য দরকার?" 
                 : "Need help with your project?"}
