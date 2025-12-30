@@ -38,19 +38,18 @@ export const useDeviceDetection = (): DeviceInfo => {
       
       if (isNative && platform === 'android') {
         if (isSamsung) {
-          // Samsung devices with Dynamic AMOLED displays often have taller status bars
-          // S23 Ultra, S24 Ultra, S25+ typically have ~32-36px status bars
+          // Samsung devices - use conservative fallback values
+          // These only apply when env(safe-area-inset-top) returns 0
           const isUltraOrPlus = userAgent.includes('ultra') || 
                                 userAgent.includes('plus') ||
-                                // Common Samsung flagship model patterns
-                                /sm-s9[0-9]{2}[up]/i.test(userAgent) || // S24 Ultra/Plus
-                                /sm-s91[0-9][up]/i.test(userAgent) ||   // S23 Ultra/Plus
-                                /sm-s92[0-9][up]/i.test(userAgent);     // S25 Ultra/Plus
+                                /sm-s9[0-9]{2}[up]/i.test(userAgent) ||
+                                /sm-s91[0-9][up]/i.test(userAgent) ||
+                                /sm-s92[0-9][up]/i.test(userAgent);
           
-          statusBarHeight = isUltraOrPlus ? 36 : 32;
+          statusBarHeight = isUltraOrPlus ? 28 : 24;
         } else {
           // Other Android devices
-          statusBarHeight = 28;
+          statusBarHeight = 24;
         }
       } else if (isNative && platform === 'ios') {
         // iOS devices with notch/Dynamic Island - iOS handles safe-area properly
