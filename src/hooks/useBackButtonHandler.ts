@@ -16,31 +16,33 @@ export const useBackButtonHandler = () => {
 
   useEffect(() => {
     const handlePopState = (event: PopStateEvent) => {
+      // Always prevent default first
+      event.preventDefault?.();
+      
       const currentTime = Date.now();
       
       // On home page, require double-tap to exit
       if (location.pathname === "/") {
+        // Always push state to prevent accidental exit
+        window.history.pushState(null, "", window.location.href);
+        
         if (currentTime - lastBackPressTime.current < EXIT_DELAY) {
-          // Double tap detected - allow exit (let browser handle it)
+          // Double tap detected - but we already prevented, so just reset
+          lastBackPressTime.current = 0;
+          // For browser, we can't actually exit, so just show a message or do nothing
           return;
         }
         
-        // First tap - prevent exit and show toast
+        // First tap - show toast
         lastBackPressTime.current = currentTime;
-        
-        // Push state back to prevent exit
-        window.history.pushState(null, "", window.location.href);
         
         toast.info(getExitMessage(), {
           duration: 2000,
         });
-        
-        event.preventDefault?.();
         return;
       }
       
       // On any other page, go directly to home
-      event.preventDefault?.();
       window.history.pushState(null, "", window.location.href);
       navigate("/");
     };
