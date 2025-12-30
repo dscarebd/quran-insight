@@ -34,7 +34,7 @@ const NamesOfAllah = ({ language, arabicFont = "amiri" }: NamesOfAllahProps) => 
   return (
     <div className="min-h-screen bg-background pb-4">
       {/* Header */}
-      <div className="sticky top-0 z-30 bg-background/95 backdrop-blur-md border-b border-border">
+      <div className="sticky top-[57px] lg:top-0 z-20 bg-background/95 backdrop-blur-md border-b border-border">
         <div className="max-w-7xl mx-auto px-4 py-3 sm:py-4">
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-xl bg-gradient-to-br from-sky-500 to-blue-600 text-white shadow-md shrink-0">
