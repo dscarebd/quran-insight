@@ -38,6 +38,11 @@ export const useBackButtonHandler = () => {
         event.preventDefault?.();
         return;
       }
+      
+      // On any other page, go directly to home
+      event.preventDefault?.();
+      window.history.pushState(null, "", window.location.href);
+      navigate("/");
     };
 
     // Push initial state on first load to enable back button handling
@@ -66,11 +71,11 @@ export const useBackButtonHandler = () => {
       try {
         const { App } = await import("@capacitor/app");
         
-        backButtonListener = await App.addListener("backButton", ({ canGoBack }) => {
+        backButtonListener = await App.addListener("backButton", () => {
           const currentTime = Date.now();
           
-          // On home page or can't go back - require double tap to exit
-          if (!canGoBack || location.pathname === "/") {
+          // On home page - require double tap to exit
+          if (location.pathname === "/") {
             if (currentTime - lastBackPressTime.current < EXIT_DELAY) {
               // Double tap - exit app
               App.exitApp();
@@ -85,8 +90,8 @@ export const useBackButtonHandler = () => {
             return;
           }
           
-          // Normal back navigation
-          navigate(-1);
+          // On any other page, go directly to home
+          navigate("/");
         });
       } catch {
         // Capacitor not available, ignore silently
