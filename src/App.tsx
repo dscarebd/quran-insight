@@ -11,6 +11,7 @@ import { Loader2 } from "lucide-react";
 import { useContentProtection } from "@/hooks/useContentProtection";
 import { useFontSize } from "@/hooks/useFontSize";
 import { useBackButtonHandler } from "@/hooks/useBackButtonHandler";
+import { useStatusBar } from "@/hooks/useStatusBar";
 import { Language } from "@/types/language";
 import { initializeBundledData } from "@/services/bundledDataLoader";
 import Index from "./pages/Index";
@@ -95,6 +96,9 @@ const AppContent = () => {
   
   // Handle mobile back button to prevent accidental exit
   useBackButtonHandler();
+
+  // Configure native status bar for edge-to-edge display
+  useStatusBar();
 
   // Load bundled data on app startup
   useEffect(() => {
