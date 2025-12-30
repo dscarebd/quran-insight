@@ -100,7 +100,7 @@ const Developer = ({ language }: DeveloperProps) => {
               <ArrowLeft className="h-5 w-5" />
             </button>
             <h1 className={cn("text-lg font-semibold", language === "bn" && "font-bengali")}>
-              {language === "bn" ? "ডেভেলপার" : "Developer"}
+              {language === "bn" ? "ডেভেলপার তথ্য" : "Developer Information"}
             </h1>
           </div>
         </div>
