@@ -259,10 +259,10 @@ const SourcesCredits = ({ language }: SourcesCreditsProps) => {
             className="flex items-center gap-3 rounded-xl border border-border bg-card p-4 transition-colors hover:bg-muted/50"
           >
             <div className="flex-1">
-              <h3 className={cn("text-sm font-semibold", language === "bn" && "font-bengali")}>
+              <h3 className={cn("text-base font-semibold", language === "bn" && "font-bengali")}>
                 {language === "bn" ? source.nameBn : source.nameEn}
               </h3>
-              <p className={cn("text-xs text-muted-foreground mt-1", language === "bn" && "font-bengali")}>
+              <p className={cn("text-sm text-muted-foreground mt-1", language === "bn" && "font-bengali")}>
                 {language === "bn" ? source.descriptionBn : source.descriptionEn}
               </p>
             </div>
@@ -297,10 +297,10 @@ const SourcesCredits = ({ language }: SourcesCreditsProps) => {
             <div className="flex items-start gap-3">
               <Heart className="h-5 w-5 text-primary mt-0.5" />
               <div>
-                <h3 className={cn("text-sm font-semibold mb-1", language === "bn" && "font-bengali")}>
+                <h3 className={cn("text-base font-semibold mb-1", language === "bn" && "font-bengali")}>
                   {language === "bn" ? "কৃতজ্ঞতা স্বীকার" : "Acknowledgments"}
                 </h3>
-                <p className={cn("text-xs text-muted-foreground leading-relaxed", language === "bn" && "font-bengali")}>
+                <p className={cn("text-sm text-muted-foreground leading-relaxed", language === "bn" && "font-bengali")}>
                   {language === "bn" 
                     ? "এই অ্যাপে ব্যবহৃত সমস্ত কন্টেন্ট নিম্নলিখিত বিশ্বস্ত উৎস থেকে সংগ্রহ করা হয়েছে। আমরা তাদের অমূল্য অবদানের জন্য কৃতজ্ঞ।"
                     : "All content used in this app has been collected from the following trusted sources. We are grateful for their invaluable contributions."}
@@ -383,7 +383,7 @@ const SourcesCredits = ({ language }: SourcesCreditsProps) => {
 
           {/* Disclaimer */}
           <div className="rounded-xl border border-border bg-muted/30 p-4">
-            <p className={cn("text-xs text-muted-foreground leading-relaxed text-center", language === "bn" && "font-bengali")}>
+            <p className={cn("text-sm text-muted-foreground leading-relaxed text-center", language === "bn" && "font-bengali")}>
               {language === "bn" 
                 ? "এই অ্যাপটি শুধুমাত্র শিক্ষামূলক উদ্দেশ্যে তৈরি। সমস্ত কন্টেন্ট প্রামাণিক উৎস থেকে সংগ্রহ করা হয়েছে এবং সঠিকতা নিশ্চিত করার জন্য যাচাই করা হয়েছে।"
                 : "This app is created for educational purposes only. All content has been collected from authentic sources and verified for accuracy."}
