@@ -476,52 +476,6 @@ export const dailyDuaCategories: DailyDuaCategory[] = [
     ]
   },
 
-  // ============ সকাল-সন্ধ্যার দোয়া - Morning Evening Duas ============
-  {
-    id: "morning-evening",
-    nameEnglish: "Morning & Evening Duas",
-    nameBengali: "সকাল-সন্ধ্যার দোয়া",
-    icon: "Sun",
-    duas: [
-      {
-        id: "morning-dua",
-        titleBn: "সকালের দোয়া",
-        titleEn: "Morning Dua",
-        arabic: "أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ وَالْحَمْدُ لِلَّهِ لَا إِلَٰهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ",
-        bengali: "আমরা সকালে উপনীত হলাম এবং সকল রাজত্ব ও প্রশংসা আল্লাহর জন্য। আল্লাহ ছাড়া কোন ইলাহ নেই, তিনি একক, তাঁর কোন শরীক নেই।",
-        english: "We have reached the morning and the kingdom belongs to Allah, and all praise is for Allah. None has the right to be worshipped except Allah, alone, without partner.",
-        transliteration: "Aṣbaḥnā wa aṣbaḥal-mulku lillāh, wal-ḥamdu lillāh, lā ilāha illallāhu waḥdahu lā sharīka lah",
-        transliterationBn: "আসবাহনা ওয়া আসবাহাল মুলকু লিল্লাহ, ওয়াল হামদু লিল্লাহ, লা ইলাহা ইল্লাল্লাহু ওয়াহদাহু লা শারীকা লাহ",
-        referenceBn: "সহীহ মুসলিম ২৭২৩",
-        referenceEn: "Sahih Muslim 2723"
-      },
-      {
-        id: "evening-dua",
-        titleBn: "সন্ধ্যার দোয়া",
-        titleEn: "Evening Dua",
-        arabic: "أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ وَالْحَمْدُ لِلَّهِ لَا إِلَٰهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ",
-        bengali: "আমরা সন্ধ্যায় উপনীত হলাম এবং সকল রাজত্ব ও প্রশংসা আল্লাহর জন্য। আল্লাহ ছাড়া কোন ইলাহ নেই, তিনি একক, তাঁর কোন শরীক নেই।",
-        english: "We have reached the evening and the kingdom belongs to Allah, and all praise is for Allah. None has the right to be worshipped except Allah, alone, without partner.",
-        transliteration: "Amsaynā wa amsal-mulku lillāh, wal-ḥamdu lillāh, lā ilāha illallāhu waḥdahu lā sharīka lah",
-        transliterationBn: "আমসাইনা ওয়া আমসাল মুলকু লিল্লাহ, ওয়াল হামদু লিল্লাহ, লা ইলাহা ইল্লাল্লাহু ওয়াহদাহু লা শারীকা লাহ",
-        referenceBn: "সহীহ মুসলিম ২৭২৩",
-        referenceEn: "Sahih Muslim 2723"
-      },
-      {
-        id: "sayyidul-istighfar",
-        titleBn: "সাইয়্যিদুল ইস্তিগফার",
-        titleEn: "Sayyidul Istighfar",
-        arabic: "اللَّهُمَّ أَنْتَ رَبِّي لَا إِلَٰهَ إِلَّا أَنْتَ خَلَقْتَنِي وَأَنَا عَبْدُكَ وَأَنَا عَلَىٰ عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ أَبُوءُ لَكَ بِنِعْمَتِكَ عَلَيَّ وَأَبُوءُ بِذَنْبِي فَاغْفِرْ لِي فَإِنَّهُ لَا يَغْفِرُ الذُّنُوبَ إِلَّا أَنْتَ",
-        bengali: "হে আল্লাহ! তুমি আমার রব, তুমি ছাড়া কোন উপাস্য নেই। তুমি আমাকে সৃষ্টি করেছ এবং আমি তোমার বান্দা। আমি যতটুকু সম্ভব তোমার অঙ্গীকার ও প্রতিশ্রুতির উপর আছি। আমি আমার কৃতকর্মের অনিষ্ট থেকে তোমার আশ্রয় চাই। আমি তোমার নিয়ামতের স্বীকারোক্তি করছি এবং আমার গুনাহের স্বীকারোক্তি করছি। তুমি আমাকে ক্ষমা করো, কেননা তুমি ছাড়া কেউ গুনাহ ক্ষমা করতে পারে না।",
-        english: "O Allah, You are my Lord. There is no god but You. You created me and I am Your servant. I am upon Your covenant and promise as best I can. I seek refuge in You from the evil of what I have done. I acknowledge Your favor upon me and I acknowledge my sin. So forgive me, for none forgives sins but You.",
-        transliteration: "Allāhumma anta Rabbī lā ilāha illā anta, khalaqtanī wa ana 'abduk, wa ana 'alā 'ahdika wa wa'dika mastaṭa't, a'ūdhu bika min sharri mā ṣana't, abū'u laka bini'matika 'alayya wa abū'u bidhanbī, faghfir lī fa innahu lā yaghfirudh-dhunūba illā ant",
-        transliterationBn: "আল্লাহুম্মা আনতা রাব্বী লা ইলাহা ইল্লা আনতা, খালাক্বতানী ওয়া আনা আবদুক, ওয়া আনা আলা আহদিকা ওয়া ওয়া'দিকা মাস্তাতা'ত, আউযু বিকা মিন শাররি মা সানা'ত, আবূউ লাকা বিনি'মাতিকা আলাইয়া ওয়া আবূউ বিযানবী, ফাগফির লী ফা ইন্নাহু লা ইয়াগফিরুয যুনূবা ইল্লা আনত",
-        referenceBn: "সহীহ বুখারী ৬৩০৬",
-        referenceEn: "Sahih Bukhari 6306"
-      }
-    ]
-  },
-
   // ============ সফরের দোয়া - Travel Duas ============
   {
     id: "travel-duas",
