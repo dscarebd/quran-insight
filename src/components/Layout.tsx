@@ -67,14 +67,15 @@ export const Layout = ({
         onTabChange={setActiveTab}
       />
       <SidebarInset className="flex flex-col pb-14 lg:pb-0 overflow-x-hidden max-w-full min-h-screen">
-        {/* Safe area fill for top notch/cutout (Samsung S25 Plus, iPhone, etc.) */}
+        {/* Safe area fill for top notch/cutout (Samsung S25 Plus, S23 Ultra, iPhone, etc.) */}
+        {/* Uses max() to ensure minimum 24px fallback when env() returns 0 on some Samsung devices */}
         <div 
           className="fixed top-0 left-0 right-0 z-40 bg-card lg:hidden"
-          style={{ height: 'env(safe-area-inset-top)' }}
+          style={{ height: 'max(env(safe-area-inset-top, 0px), 24px)' }}
         />
         <div 
           className="fixed left-0 right-0 z-30 lg:left-[var(--sidebar-width)]"
-          style={{ top: 'env(safe-area-inset-top)' }}
+          style={{ top: 'max(env(safe-area-inset-top, 0px), 24px)' }}
         >
           <Header
             language={language}
@@ -89,7 +90,7 @@ export const Layout = ({
         </div>
         <div 
           className="flex-1 overflow-y-auto overflow-x-hidden max-w-full"
-          style={{ paddingTop: 'calc(env(safe-area-inset-top, 0px) + 57px)' }}
+          style={{ paddingTop: 'calc(max(env(safe-area-inset-top, 0px), 24px) + 57px)' }}
         >
           <AnimatePresence mode="wait">
             <PageTransition key={location.pathname}>
