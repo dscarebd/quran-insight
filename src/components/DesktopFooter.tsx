@@ -29,7 +29,7 @@ export const DesktopFooter = ({ language }: DesktopFooterProps) => {
               {language === "bn" ? "ডাউনলোড করুন:" : "Available on:"}
             </span>
             <a
-              href="https://play.google.com/store"
+              href="https://play.google.com/store/apps/details?id=com.annur.quraninsight"
               target="_blank"
               rel="noopener noreferrer"
               className="transition-opacity hover:opacity-80"
