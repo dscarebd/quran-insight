@@ -208,7 +208,9 @@ const Analytics = () => {
           // Refetch all data when new page view arrives
           const { data: pageViews } = await supabase
             .from("page_views")
-            .select("*");
+            .select("*")
+            .order("created_at", { ascending: false })
+            .limit(10000);
           
           if (pageViews) {
             calculateStats(pageViews);
