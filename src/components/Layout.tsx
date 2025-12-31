@@ -5,6 +5,7 @@ import { AppSidebar } from "@/components/AppSidebar";
 import { MobileNavFooter } from "@/components/MobileNavFooter";
 import { Header } from "@/components/Header";
 import { DesktopHeader } from "@/components/DesktopHeader";
+import { DesktopFooter } from "@/components/DesktopFooter";
 import { PageTransition } from "@/components/PageTransition";
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 import { useVisitorTracking } from "@/hooks/useVisitorTracking";
@@ -58,6 +59,7 @@ export const Layout = ({
             </PageTransition>
           </AnimatePresence>
         </main>
+        <DesktopFooter language={language} />
       </div>
     );
   }
