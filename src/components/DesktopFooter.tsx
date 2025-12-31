@@ -22,6 +22,12 @@ export const DesktopFooter = ({ language }: DesktopFooterProps) => {
 
           {/* App Store Links */}
           <div className="flex items-center gap-3">
+            <span className={cn(
+              "text-sm text-muted-foreground",
+              language === "bn" && "font-bengali"
+            )}>
+              {language === "bn" ? "ডাউনলোড করুন:" : "Available on:"}
+            </span>
             <a
               href="https://play.google.com/store"
               target="_blank"
