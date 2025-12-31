@@ -72,7 +72,7 @@ export const Layout = ({
         activeTab={activeTab}
         onTabChange={setActiveTab}
       />
-      <SidebarInset className="flex flex-col pb-14 lg:pb-0 overflow-x-hidden max-w-full min-h-screen">
+      <SidebarInset className="flex flex-col lg:pb-0 overflow-x-hidden max-w-full min-h-screen">
         {/* Safe area fill for top notch/cutout (Samsung S25 Plus, S23 Ultra, iPhone, etc.) */}
         {/* Uses device-specific detection for Samsung devices where env() returns 0 */}
         <div 
@@ -95,7 +95,7 @@ export const Layout = ({
           />
         </div>
         <div 
-          className="flex-1 overflow-y-auto overflow-x-hidden max-w-full"
+          className="flex-1 overflow-y-auto overflow-x-hidden max-w-full pb-28 lg:pb-0"
           style={{ paddingTop: `calc(${statusBarOffset} + 57px)` }}
         >
           <AnimatePresence mode="wait">
@@ -103,8 +103,8 @@ export const Layout = ({
               {children}
             </PageTransition>
           </AnimatePresence>
-          <DesktopFooter language={language} />
         </div>
+        <DesktopFooter language={language} />
       </SidebarInset>
       <MobileNavFooter language={language} />
     </SidebarProvider>
