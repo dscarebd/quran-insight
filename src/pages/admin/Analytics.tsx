@@ -9,7 +9,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Loader2, Users, Eye, Calendar, TrendingUp, Radio } from "lucide-react";
+import { Loader2, Users, Eye, Calendar, TrendingUp, Radio, Smartphone, Globe } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { startOfDay, startOfWeek, startOfMonth, format, subDays } from "date-fns";
 
@@ -27,6 +27,11 @@ interface DailyStats {
   visitors: number;
 }
 
+interface DeviceStats {
+  web: { views: number; visitors: number };
+  app: { views: number; visitors: number };
+}
+
 const Analytics = () => {
   const [period, setPeriod] = useState<TimePeriod>("today");
   const [stats, setStats] = useState<PageViewStats>({
@@ -37,6 +42,10 @@ const Analytics = () => {
   const [dailyStats, setDailyStats] = useState<DailyStats[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isLive, setIsLive] = useState(true);
+  const [deviceStats, setDeviceStats] = useState<DeviceStats>({
+    web: { views: 0, visitors: 0 },
+    app: { views: 0, visitors: 0 },
+  });
   const [summaryStats, setSummaryStats] = useState({
     today: { views: 0, visitors: 0 },
     week: { views: 0, visitors: 0 },
@@ -59,6 +68,13 @@ const Analytics = () => {
       case "all":
         return null;
     }
+  };
+
+  // Detect if user agent is from APK (Capacitor WebView)
+  const isAppUserAgent = (userAgent: string | null): boolean => {
+    if (!userAgent) return false;
+    // Capacitor apps use WebView with "wv" in user agent
+    return userAgent.includes('wv') && userAgent.includes('Android');
   };
 
   const calculateStats = (pageViews: any[]) => {
@@ -84,6 +100,21 @@ const Analytics = () => {
       .slice(0, 10);
 
     setStats({ totalViews, uniqueVisitors, topPages });
+
+    // Calculate device stats (Web vs App)
+    const appViews = pageViews.filter(v => isAppUserAgent(v.user_agent));
+    const webViews = pageViews.filter(v => !isAppUserAgent(v.user_agent));
+    
+    setDeviceStats({
+      app: {
+        views: appViews.length,
+        visitors: new Set(appViews.map(v => v.visitor_id)).size,
+      },
+      web: {
+        views: webViews.length,
+        visitors: new Set(webViews.map(v => v.visitor_id)).size,
+      },
+    });
 
     // Calculate summary stats using UTC dates
     const now = new Date();
@@ -284,6 +315,76 @@ const Analytics = () => {
           </CardContent>
         </Card>
       </div>
+
+      {/* Device Breakdown */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-lg">Device Breakdown</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-2 gap-4">
+            <div className="flex items-center gap-3 p-4 rounded-lg bg-blue-500/10 border border-blue-500/20">
+              <div className="p-2 rounded-full bg-blue-500/20">
+                <Globe className="h-5 w-5 text-blue-500" />
+              </div>
+              <div>
+                <div className="text-lg font-bold">{deviceStats.web.visitors}</div>
+                <div className="text-xs text-muted-foreground">Web Visitors</div>
+                <div className="text-xs text-muted-foreground">{deviceStats.web.views} views</div>
+              </div>
+            </div>
+            <div className="flex items-center gap-3 p-4 rounded-lg bg-green-500/10 border border-green-500/20">
+              <div className="p-2 rounded-full bg-green-500/20">
+                <Smartphone className="h-5 w-5 text-green-500" />
+              </div>
+              <div>
+                <div className="text-lg font-bold">{deviceStats.app.visitors}</div>
+                <div className="text-xs text-muted-foreground">App (APK) Users</div>
+                <div className="text-xs text-muted-foreground">{deviceStats.app.views} views</div>
+              </div>
+            </div>
+          </div>
+          {/* Progress bar showing distribution */}
+          <div className="mt-4 space-y-2">
+            <div className="flex justify-between text-sm text-muted-foreground">
+              <span>Traffic Distribution</span>
+              <span>
+                {deviceStats.web.views + deviceStats.app.views > 0 
+                  ? `${Math.round((deviceStats.app.views / (deviceStats.web.views + deviceStats.app.views)) * 100)}% App`
+                  : '0%'}
+              </span>
+            </div>
+            <div className="h-3 bg-muted rounded-full overflow-hidden flex">
+              <div 
+                className="h-full bg-blue-500 transition-all"
+                style={{ 
+                  width: `${deviceStats.web.views + deviceStats.app.views > 0 
+                    ? (deviceStats.web.views / (deviceStats.web.views + deviceStats.app.views)) * 100 
+                    : 50}%` 
+                }}
+              />
+              <div 
+                className="h-full bg-green-500 transition-all"
+                style={{ 
+                  width: `${deviceStats.web.views + deviceStats.app.views > 0 
+                    ? (deviceStats.app.views / (deviceStats.web.views + deviceStats.app.views)) * 100 
+                    : 50}%` 
+                }}
+              />
+            </div>
+            <div className="flex justify-between text-xs">
+              <span className="flex items-center gap-1">
+                <div className="w-2 h-2 rounded-full bg-blue-500" />
+                Web
+              </span>
+              <span className="flex items-center gap-1">
+                <div className="w-2 h-2 rounded-full bg-green-500" />
+                App (APK)
+              </span>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Last 7 Days Chart */}
       <Card>
