@@ -9,12 +9,12 @@ export const DesktopFooter = ({ language }: DesktopFooterProps) => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-border bg-background/95">
+    <footer className="border-t border-border bg-background/95 mb-16 lg:mb-0">
       <div className="mx-auto max-w-6xl px-3 sm:px-4 md:px-6">
-        <div className="flex flex-col sm:flex-row h-auto sm:h-14 py-3 sm:py-0 items-center justify-between gap-3 sm:gap-0">
+        <div className="flex flex-col md:flex-row h-auto md:h-14 py-3 md:py-0 items-center justify-between gap-3 md:gap-0">
           {/* Copyright Text */}
           <p className={cn(
-            "text-xs sm:text-sm text-muted-foreground text-center sm:text-left",
+            "text-xs md:text-sm text-muted-foreground text-center md:text-left",
             language === "bn" && "font-bengali"
           )}>
             © {currentYear} {language === "bn" ? "কুরআন ইনসাইট। সর্বস্বত্ব সংরক্ষিত।" : "Quran Insight. All rights reserved."}
