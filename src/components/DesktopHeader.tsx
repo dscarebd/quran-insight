@@ -77,7 +77,7 @@ export const DesktopHeader = ({ language, onLanguageChange }: DesktopHeaderProps
       {/* Ornamental border */}
       <div className="h-1 bg-gradient-to-r from-transparent via-primary to-transparent opacity-40" />
       
-      <div className="mx-auto max-w-7xl px-6">
+      <div className="mx-auto max-w-6xl px-3 sm:px-4 md:px-6">
         <div className="flex h-16 items-center justify-between">
           {/* Logo Section */}
           <button 
