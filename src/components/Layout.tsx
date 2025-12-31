@@ -103,6 +103,7 @@ export const Layout = ({
               {children}
             </PageTransition>
           </AnimatePresence>
+          <DesktopFooter language={language} />
         </div>
       </SidebarInset>
       <MobileNavFooter language={language} />

@@ -9,21 +9,21 @@ export const DesktopFooter = ({ language }: DesktopFooterProps) => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="hidden lg:block border-t border-border bg-background/95">
+    <footer className="border-t border-border bg-background/95">
       <div className="mx-auto max-w-6xl px-3 sm:px-4 md:px-6">
-        <div className="flex h-14 items-center justify-between">
+        <div className="flex flex-col sm:flex-row h-auto sm:h-14 py-3 sm:py-0 items-center justify-between gap-3 sm:gap-0">
           {/* Copyright Text */}
           <p className={cn(
-            "text-sm text-muted-foreground",
+            "text-xs sm:text-sm text-muted-foreground text-center sm:text-left",
             language === "bn" && "font-bengali"
           )}>
             © {currentYear} {language === "bn" ? "কুরআন ইনসাইট। সর্বস্বত্ব সংরক্ষিত।" : "Quran Insight. All rights reserved."}
           </p>
 
           {/* App Store Links */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
             <span className={cn(
-              "text-sm text-muted-foreground",
+              "text-xs sm:text-sm text-muted-foreground",
               language === "bn" && "font-bengali"
             )}>
               {language === "bn" ? "ডাউনলোড করুন:" : "Available on:"}
@@ -38,7 +38,7 @@ export const DesktopFooter = ({ language }: DesktopFooterProps) => {
               <img
                 src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg"
                 alt="Get it on Google Play"
-                className="h-9"
+                className="h-7 sm:h-9"
               />
             </a>
             <a
@@ -51,7 +51,7 @@ export const DesktopFooter = ({ language }: DesktopFooterProps) => {
               <img
                 src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Download_on_the_App_Store_Badge.svg"
                 alt="Download on the App Store"
-                className="h-9"
+                className="h-7 sm:h-9"
               />
             </a>
           </div>
