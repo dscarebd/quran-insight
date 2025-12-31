@@ -1,5 +1,5 @@
 import { Language } from "@/types/language";
-import { cn } from "@/lib/utils";
+import { cn, formatNumber } from "@/lib/utils";
 
 interface DesktopFooterProps {
   language: Language;
@@ -17,7 +17,7 @@ export const DesktopFooter = ({ language }: DesktopFooterProps) => {
             "text-xs lg:text-sm text-muted-foreground text-center lg:text-left",
             language === "bn" && "font-bengali"
           )}>
-            © {currentYear} {language === "bn" ? "কুরআন ইনসাইট। সর্বস্বত্ব সংরক্ষিত।" : "Quran Insight. All rights reserved."}
+            © {formatNumber(currentYear, language)} {language === "bn" ? "কুরআন ইনসাইট। সর্বস্বত্ব সংরক্ষিত।" : "Quran Insight. All rights reserved."}
           </p>
 
           {/* App Store Links */}
