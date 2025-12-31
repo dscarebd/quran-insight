@@ -95,7 +95,7 @@ export const Layout = ({
           />
         </div>
         <div 
-          className="flex-1 overflow-y-auto overflow-x-hidden max-w-full pb-28 lg:pb-0"
+          className="flex-1 overflow-y-auto overflow-x-hidden max-w-full pb-[calc(3.5rem+env(safe-area-inset-bottom,0px))] lg:pb-0"
           style={{ paddingTop: `calc(${statusBarOffset} + 57px)` }}
         >
           <AnimatePresence mode="wait">
@@ -103,8 +103,8 @@ export const Layout = ({
               {children}
             </PageTransition>
           </AnimatePresence>
+          <DesktopFooter language={language} />
         </div>
-        <DesktopFooter language={language} />
       </SidebarInset>
       <MobileNavFooter language={language} />
     </SidebarProvider>
