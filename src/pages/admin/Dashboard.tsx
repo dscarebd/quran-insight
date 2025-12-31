@@ -55,7 +55,9 @@ const Dashboard = () => {
       try {
         const { data: pageViews } = await supabase
           .from("page_views")
-          .select("*");
+          .select("*")
+          .order("created_at", { ascending: false })
+          .limit(10000);
 
         if (pageViews) {
           calculateVisitorStats(pageViews);
@@ -84,7 +86,9 @@ const Dashboard = () => {
         async () => {
           const { data: pageViews } = await supabase
             .from("page_views")
-            .select("*");
+            .select("*")
+            .order("created_at", { ascending: false })
+            .limit(10000);
           
           if (pageViews) {
             calculateVisitorStats(pageViews);
