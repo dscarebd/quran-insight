@@ -1,0 +1,56 @@
+import { Language } from "@/types/language";
+import { cn } from "@/lib/utils";
+
+interface DesktopFooterProps {
+  language: Language;
+}
+
+export const DesktopFooter = ({ language }: DesktopFooterProps) => {
+  const currentYear = new Date().getFullYear();
+
+  return (
+    <footer className="hidden lg:block border-t border-border bg-background/95">
+      <div className="mx-auto max-w-6xl px-3 sm:px-4 md:px-6">
+        <div className="flex h-14 items-center justify-between">
+          {/* Copyright Text */}
+          <p className={cn(
+            "text-sm text-muted-foreground",
+            language === "bn" && "font-bengali"
+          )}>
+            © {currentYear} {language === "bn" ? "কুরআন ইনসাইট। সর্বস্বত্ব সংরক্ষিত।" : "Quran Insight. All rights reserved."}
+          </p>
+
+          {/* App Store Links */}
+          <div className="flex items-center gap-3">
+            <a
+              href="https://play.google.com/store"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="transition-opacity hover:opacity-80"
+              aria-label="Download on Google Play"
+            >
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg"
+                alt="Get it on Google Play"
+                className="h-9"
+              />
+            </a>
+            <a
+              href="https://apps.apple.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="transition-opacity hover:opacity-80"
+              aria-label="Download on App Store"
+            >
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Download_on_the_App_Store_Badge.svg"
+                alt="Download on the App Store"
+                className="h-9"
+              />
+            </a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+};
