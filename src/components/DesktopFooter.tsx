@@ -9,7 +9,7 @@ export const DesktopFooter = ({ language }: DesktopFooterProps) => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="fixed left-0 right-0 z-40 bottom-[calc(3.5rem+env(safe-area-inset-bottom,0px))] border-t border-border bg-background/95 lg:static lg:bottom-auto">
+    <footer className="border-t border-border bg-background/95">
       <div className="mx-auto max-w-6xl px-3 sm:px-4 md:px-6">
         <div className="flex flex-col lg:flex-row h-auto lg:h-14 py-3 lg:py-0 items-center justify-between gap-3 lg:gap-0">
           {/* Copyright Text */}
