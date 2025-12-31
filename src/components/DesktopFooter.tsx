@@ -9,19 +9,19 @@ export const DesktopFooter = ({ language }: DesktopFooterProps) => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-border bg-background/95 pb-14 lg:pb-0">
+    <footer className="border-t border-border bg-background/95 pb-[calc(3.5rem+env(safe-area-inset-bottom,0px))] -mb-[calc(3.5rem+env(safe-area-inset-bottom,0px))] lg:pb-0 lg:mb-0">
       <div className="mx-auto max-w-6xl px-3 sm:px-4 md:px-6">
-        <div className="flex flex-col md:flex-row h-auto md:h-14 py-3 md:py-0 items-center justify-between gap-3 md:gap-0">
+        <div className="flex flex-col lg:flex-row h-auto lg:h-14 py-3 lg:py-0 items-center justify-between gap-3 lg:gap-0">
           {/* Copyright Text */}
           <p className={cn(
-            "text-xs md:text-sm text-muted-foreground text-center md:text-left",
+            "text-xs lg:text-sm text-muted-foreground text-center lg:text-left",
             language === "bn" && "font-bengali"
           )}>
             © {currentYear} {language === "bn" ? "কুরআন ইনসাইট। সর্বস্বত্ব সংরক্ষিত।" : "Quran Insight. All rights reserved."}
           </p>
 
           {/* App Store Links */}
-          <div className="flex items-center gap-2 sm:gap-3">
+          <div className="flex items-center gap-2 sm:gap-3 flex-wrap justify-center lg:justify-end">
             <span className={cn(
               "text-xs sm:text-sm text-muted-foreground",
               language === "bn" && "font-bengali"
