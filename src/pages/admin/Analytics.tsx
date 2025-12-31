@@ -46,13 +46,16 @@ const Analytics = () => {
 
   const getStartDate = (p: TimePeriod): Date | null => {
     const now = new Date();
+    // Use UTC to avoid timezone issues with database timestamps
     switch (p) {
       case "today":
-        return startOfDay(now);
+        return new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
       case "week":
-        return startOfWeek(now, { weekStartsOn: 0 });
+        const weekStart = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
+        weekStart.setUTCDate(weekStart.getUTCDate() - now.getUTCDay());
+        return weekStart;
       case "month":
-        return startOfMonth(now);
+        return new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1));
       case "all":
         return null;
     }
@@ -82,10 +85,12 @@ const Analytics = () => {
 
     setStats({ totalViews, uniqueVisitors, topPages });
 
-    // Calculate summary stats
-    const todayStart = startOfDay(new Date());
-    const weekStart = startOfWeek(new Date(), { weekStartsOn: 0 });
-    const monthStart = startOfMonth(new Date());
+    // Calculate summary stats using UTC dates
+    const now = new Date();
+    const todayStart = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
+    const weekStart = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
+    weekStart.setUTCDate(weekStart.getUTCDate() - now.getUTCDay());
+    const monthStart = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1));
 
     const todayViews = pageViews.filter(v => new Date(v.created_at) >= todayStart);
     const weekViews = pageViews.filter(v => new Date(v.created_at) >= weekStart);
@@ -135,9 +140,12 @@ const Analytics = () => {
   const fetchStats = async () => {
     setIsLoading(true);
     try {
+      // Fetch all page views with higher limit and ordered by recency
       const { data: pageViews, error } = await supabase
         .from("page_views")
-        .select("*");
+        .select("*")
+        .order("created_at", { ascending: false })
+        .limit(10000);
       
       if (error) throw error;
       if (pageViews) {
