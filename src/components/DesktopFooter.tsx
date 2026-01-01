@@ -17,7 +17,7 @@ export const DesktopFooter = ({ language }: DesktopFooterProps) => {
             "text-xs lg:text-sm text-muted-foreground text-center lg:text-left",
             language === "bn" && "font-bengali"
           )}>
-            © {formatNumber(currentYear, language)} {language === "bn" ? "কুরআন ইনসাইট। সর্বস্বত্ব সংরক্ষিত।" : "Quran Insight. All rights reserved."}
+            © {language === "bn" ? "২০২৫ - ২০২৬" : "2025 - 2026"} {language === "bn" ? "কুরআন ইনসাইট। সর্বস্বত্ব সংরক্ষিত।" : "Quran Insight. All rights reserved."}
           </p>
 
           {/* App Store Links */}
