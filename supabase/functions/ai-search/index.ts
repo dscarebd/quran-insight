@@ -36,13 +36,10 @@ Deno.serve(async (req) => {
     const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
-    // Fetch sample data to provide context to AI
-    const [versesResult, hadithsResult, duasResult, surahsResult] = await Promise.all([
-      supabase.from('verses').select('surah_number, verse_number, arabic, bengali, english').limit(50),
-      supabase.from('hadiths').select('book_slug, hadith_number, arabic, bengali, english, grade').limit(50),
-      supabase.from('duas').select('category_id, dua_id, title_bengali, title_english, arabic, bengali, english').limit(30),
-      supabase.from('surahs').select('number, name_arabic, name_english, name_bengali, meaning_english, meaning_bengali, total_verses')
-    ]);
+    // Fetch only surah names for context (lightweight)
+    const surahsResult = await supabase
+      .from('surahs')
+      .select('number, name_english, name_bengali');
 
     // Common Islamic term translations for better cross-language search
     const termTranslations: Record<string, string[]> = {
@@ -654,44 +651,25 @@ Deno.serve(async (req) => {
     const searchTerms = expandSearchTerms(query);
     console.log('Expanded search terms:', searchTerms);
     
-    // Search verses - include Arabic
+    // Run all searches in parallel for speed
     let relevantVerses: any[] = [];
-    if (searchTerms.length > 0) {
-      const orConditions = searchTerms.flatMap(term => [
-        `bengali.ilike.%${term}%`,
-        `english.ilike.%${term}%`,
-        `arabic.ilike.%${term}%`
-      ]).join(',');
-      
-      const { data: searchedVerses } = await supabase
-        .from('verses')
-        .select('surah_number, verse_number, arabic, bengali, english')
-        .or(orConditions)
-        .limit(10);
-      relevantVerses = searchedVerses || [];
-    }
-
-    // Search hadiths - include Arabic
     let relevantHadiths: any[] = [];
+    let relevantDuas: any[] = [];
+    
     if (searchTerms.length > 0) {
-      const orConditions = searchTerms.flatMap(term => [
+      const verseOrConditions = searchTerms.slice(0, 5).flatMap(term => [
         `bengali.ilike.%${term}%`,
         `english.ilike.%${term}%`,
         `arabic.ilike.%${term}%`
       ]).join(',');
       
-      const { data: searchedHadiths } = await supabase
-        .from('hadiths')
-        .select('book_slug, hadith_number, arabic, bengali, english, grade, grade_bengali, narrator_bengali, narrator_english')
-        .or(orConditions)
-        .limit(10);
-      relevantHadiths = searchedHadiths || [];
-    }
-
-    // Search duas - include Arabic
-    let relevantDuas: any[] = [];
-    if (searchTerms.length > 0) {
-      const orConditions = searchTerms.flatMap(term => [
+      const hadithOrConditions = searchTerms.slice(0, 5).flatMap(term => [
+        `bengali.ilike.%${term}%`,
+        `english.ilike.%${term}%`,
+        `arabic.ilike.%${term}%`
+      ]).join(',');
+      
+      const duaOrConditions = searchTerms.slice(0, 5).flatMap(term => [
         `bengali.ilike.%${term}%`,
         `english.ilike.%${term}%`,
         `arabic.ilike.%${term}%`,
@@ -699,12 +677,28 @@ Deno.serve(async (req) => {
         `title_english.ilike.%${term}%`
       ]).join(',');
       
-      const { data: searchedDuas } = await supabase
-        .from('duas')
-        .select('category_id, dua_id, title_bengali, title_english, arabic, bengali, english, reference')
-        .or(orConditions)
-        .limit(10);
-      relevantDuas = searchedDuas || [];
+      // Execute all searches in parallel
+      const [versesData, hadithsData, duasData] = await Promise.all([
+        supabase
+          .from('verses')
+          .select('surah_number, verse_number, arabic, bengali, english')
+          .or(verseOrConditions)
+          .limit(5),
+        supabase
+          .from('hadiths')
+          .select('book_slug, hadith_number, arabic, bengali, english, grade, grade_bengali, narrator_bengali, narrator_english')
+          .or(hadithOrConditions)
+          .limit(5),
+        supabase
+          .from('duas')
+          .select('category_id, dua_id, title_bengali, title_english, arabic, bengali, english, reference')
+          .or(duaOrConditions)
+          .limit(5)
+      ]);
+      
+      relevantVerses = versesData.data || [];
+      relevantHadiths = hadithsData.data || [];
+      relevantDuas = duasData.data || [];
     }
 
     // Detect if query is about a name (Prophet, Sahabi, Surah, Islamic figure)
@@ -852,7 +846,7 @@ Provide helpful, accurate responses. If you cannot find relevant information in 
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'google/gemini-2.5-flash',
+        model: 'google/gemini-2.5-flash-lite',
         messages: [
           { role: 'system', content: systemPrompt },
           { role: 'user', content: query }
