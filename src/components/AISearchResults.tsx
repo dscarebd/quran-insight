@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { Book, BookOpen, HandHeart, FileText, Sparkles, WifiOff, ChevronRight } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn, sanitizeArabicText } from "@/lib/utils";
 import { Language } from "@/types/language";
 import { AISearchResponse, SearchResult } from "@/hooks/useAISearch";
 import { Card } from "@/components/ui/card";
@@ -145,7 +145,7 @@ export const AISearchResults = ({ response, language }: AISearchResultsProps) =>
                 {/* Arabic Text */}
                 {verse.arabic && (
                   <p className="font-arabic text-xl sm:text-2xl text-foreground leading-loose mb-4 text-right" dir="rtl">
-                    {verse.arabic}
+                    {sanitizeArabicText(verse.arabic)}
                   </p>
                 )}
 
@@ -206,7 +206,7 @@ export const AISearchResults = ({ response, language }: AISearchResultsProps) =>
                 {/* Arabic Text */}
                 {hadith.arabic && (
                   <p className="font-arabic text-lg sm:text-xl text-foreground leading-loose mb-4 text-right" dir="rtl">
-                    {hadith.arabic.length > 300 ? hadith.arabic.substring(0, 300) + "..." : hadith.arabic}
+                    {sanitizeArabicText(hadith.arabic)}
                   </p>
                 )}
 
@@ -357,7 +357,7 @@ export const AISearchResults = ({ response, language }: AISearchResultsProps) =>
                       {/* Arabic text */}
                       {result.arabic && (
                         <p className="font-arabic text-base text-foreground/80 mb-2 line-clamp-1 text-right" dir="rtl">
-                          {result.arabic}
+                          {sanitizeArabicText(result.arabic)}
                         </p>
                       )}
 
