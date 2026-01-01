@@ -5,6 +5,7 @@ import { cn, formatNumber, sanitizeArabicText } from "@/lib/utils";
 import { Language } from "@/types/language";
 import { supabase } from "@/integrations/supabase/client";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useArabicFontSize } from "@/hooks/useArabicFontSize";
 
 interface DailyVerseProps {
   language: Language;
@@ -30,6 +31,7 @@ export const DailyVerse = ({ language }: DailyVerseProps) => {
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
+  const { arabicFontSize } = useArabicFontSize();
 
   useEffect(() => {
     const fetchDailyVerse = async () => {
@@ -168,7 +170,10 @@ export const DailyVerse = ({ language }: DailyVerseProps) => {
         </button>
 
         {/* Arabic Text */}
-        <p className="mb-4 text-center font-uthmani text-scale-arabic-xl text-foreground leading-[2.5]">
+        <p 
+          className="mb-4 text-center font-uthmani text-foreground leading-[2.5]"
+          style={{ fontSize: `${arabicFontSize}px` }}
+        >
           {sanitizeArabicText(verse.arabic)}
         </p>
 

@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
+import { useArabicFontSize } from "@/hooks/useArabicFontSize";
 import HadithChapterNav from "@/components/HadithChapterNav";
 import { getHadithBook } from "@/data/hadithBooks";
 import { LocalHadith } from "@/services/offlineDataService";
@@ -59,6 +60,7 @@ const HadithDetail = ({ language, arabicFont }: HadithDetailProps) => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const { user } = useAuth();
+  const { arabicFontSize } = useArabicFontSize();
   
   // Use local bundled book data
   const book = bookSlug ? getHadithBook(bookSlug) : null;
@@ -473,10 +475,13 @@ const HadithDetail = ({ language, arabicFont }: HadithDetailProps) => {
 
                 {/* Arabic Text */}
                 {hadith.arabic && (
-                  <p className={cn(
-                    "text-right text-scale-arabic-xl mb-4 text-foreground",
-                    arabicFont === "uthmani" ? "font-uthmani" : "font-amiri"
-                  )}>
+                  <p 
+                    className={cn(
+                      "text-right mb-4 text-foreground leading-[2]",
+                      arabicFont === "uthmani" ? "font-uthmani" : "font-amiri"
+                    )}
+                    style={{ fontSize: `${arabicFontSize}px` }}
+                  >
                     {sanitizeArabicText(hadith.arabic)}
                   </p>
                 )}

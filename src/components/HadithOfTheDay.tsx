@@ -5,6 +5,7 @@ import { cn, sanitizeArabicText } from "@/lib/utils";
 import { toast } from "sonner";
 import { Language } from "@/types/language";
 import { supabase } from "@/integrations/supabase/client";
+import { useArabicFontSize } from "@/hooks/useArabicFontSize";
 
 interface HadithOfTheDayProps {
   language: Language;
@@ -62,6 +63,7 @@ export const HadithOfTheDay = ({ language, arabicFont = "uthmani", compact = fal
   const [book, setBook] = useState<HadithBook | null>(null);
   const [isCopied, setIsCopied] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const { arabicFontSize } = useArabicFontSize();
 
   useEffect(() => {
     const fetchHadithOfTheDay = async () => {
@@ -217,11 +219,14 @@ export const HadithOfTheDay = ({ language, arabicFont = "uthmani", compact = fal
       
       {/* Arabic */}
       {hadith.arabic && (
-        <p className={cn(
-          "mb-3 sm:mb-4 text-center text-scale-arabic-xl text-foreground",
-          arabicFont === "uthmani" ? "font-uthmani" : "font-arabic",
-          compact && "line-clamp-2"
-        )}>
+        <p 
+          className={cn(
+            "mb-3 sm:mb-4 text-center text-foreground",
+            arabicFont === "uthmani" ? "font-uthmani" : "font-arabic",
+            compact && "line-clamp-2"
+          )}
+          style={{ fontSize: `${arabicFontSize}px` }}
+        >
           {sanitizeArabicText(hadith.arabic)}
         </p>
       )}

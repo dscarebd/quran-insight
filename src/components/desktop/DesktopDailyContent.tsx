@@ -6,6 +6,7 @@ import { Language } from "@/types/language";
 import { useDailyContent } from "@/hooks/useDailyContent";
 import { useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useArabicFontSize } from "@/hooks/useArabicFontSize";
 
 interface DesktopDailyContentProps {
   language: Language;
@@ -35,6 +36,7 @@ export const DesktopDailyContent = ({ language }: DesktopDailyContentProps) => {
   const { verse, dua, hadith, isLoading } = useDailyContent();
   const [isDuaCopied, setIsDuaCopied] = useState(false);
   const [isHadithCopied, setIsHadithCopied] = useState(false);
+  const { arabicFontSize } = useArabicFontSize();
 
   const handleCopyDua = async () => {
     if (!dua) return;
@@ -105,7 +107,10 @@ export const DesktopDailyContent = ({ language }: DesktopDailyContentProps) => {
           </div>
           
           {/* Arabic */}
-          <p className="mb-3 sm:mb-4 text-center font-uthmani text-scale-arabic text-foreground">
+          <p 
+            className="mb-3 sm:mb-4 text-center font-uthmani text-foreground"
+            style={{ fontSize: `${Math.max(arabicFontSize - 4, 20)}px` }}
+          >
             {sanitizeArabicText(verse.arabic)}
           </p>
           
@@ -168,7 +173,10 @@ export const DesktopDailyContent = ({ language }: DesktopDailyContentProps) => {
           )}
           
           {/* Arabic */}
-          <p className="mb-3 sm:mb-4 text-center font-uthmani text-scale-arabic text-foreground">
+          <p 
+            className="mb-3 sm:mb-4 text-center font-uthmani text-foreground"
+            style={{ fontSize: `${Math.max(arabicFontSize - 4, 20)}px` }}
+          >
             {dua.arabic}
           </p>
           
@@ -242,7 +250,10 @@ export const DesktopDailyContent = ({ language }: DesktopDailyContentProps) => {
           
           {/* Arabic */}
           {hadith.arabic && (
-            <p className="mb-3 sm:mb-4 text-center font-uthmani text-scale-arabic text-foreground line-clamp-2">
+            <p 
+              className="mb-3 sm:mb-4 text-center font-uthmani text-foreground line-clamp-2"
+              style={{ fontSize: `${Math.max(arabicFontSize - 4, 20)}px` }}
+            >
               {sanitizeArabicText(hadith.arabic)}
             </p>
           )}
