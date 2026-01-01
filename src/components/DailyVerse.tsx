@@ -168,7 +168,7 @@ export const DailyVerse = ({ language }: DailyVerseProps) => {
         </button>
 
         {/* Arabic Text */}
-        <p className="mb-4 text-center font-arabic text-scale-arabic-xl text-foreground">
+        <p className="mb-4 text-center font-uthmani text-scale-arabic-xl text-foreground leading-[2.5]">
           {verse.arabic}
         </p>
 
