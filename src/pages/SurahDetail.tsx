@@ -4,7 +4,7 @@ import { ArrowLeft, BookOpen, ChevronDown, ChevronUp, Bookmark, ChevronLeft, Che
 import { surahs } from "@/data/surahs";
 import { Verse } from "@/data/verses";
 import { Button } from "@/components/ui/button";
-import { cn, formatNumber } from "@/lib/utils";
+import { cn, formatNumber, sanitizeArabicText } from "@/lib/utils";
 import { useLocalBookmarks } from "@/hooks/useLocalBookmarks";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
@@ -64,7 +64,7 @@ const VerseCard = ({ verse, language, index, isBookmarked, onToggleBookmark, ara
 
       {/* Arabic Text */}
       <p className={cn("mb-4 text-right text-scale-arabic-xl text-foreground", arabicFont === "uthmani" ? "font-uthmani" : "font-arabic")}>
-        {verse.arabic}
+        {sanitizeArabicText(verse.arabic)}
       </p>
 
       {/* Translation */}

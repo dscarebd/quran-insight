@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import { ArrowLeft, Bookmark, BookmarkCheck, Share2, ChevronDown, ChevronUp, Loader2 } from "lucide-react";
-import { cn, formatNumber } from "@/lib/utils";
+import { cn, formatNumber, sanitizeArabicText } from "@/lib/utils";
 import { Language } from "@/types/language";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -477,7 +477,7 @@ const HadithDetail = ({ language, arabicFont }: HadithDetailProps) => {
                     "text-right text-scale-arabic-xl mb-4 text-foreground",
                     arabicFont === "uthmani" ? "font-uthmani" : "font-amiri"
                   )}>
-                    {hadith.arabic}
+                    {sanitizeArabicText(hadith.arabic)}
                   </p>
                 )}
 
