@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 
 const ARABIC_FONT_SIZE_KEY = "quran-arabic-font-size";
-const DEFAULT_ARABIC_FONT_SIZE = 28;
-const MIN_ARABIC_FONT_SIZE = 20;
-const MAX_ARABIC_FONT_SIZE = 44;
+const DEFAULT_ARABIC_FONT_SIZE = 32;
+const MIN_ARABIC_FONT_SIZE = 24;
+const MAX_ARABIC_FONT_SIZE = 48;
 
 export const useArabicFontSize = () => {
   const [arabicFontSize, setArabicFontSizeState] = useState<number>(() => {
