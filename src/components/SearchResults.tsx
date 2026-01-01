@@ -1,7 +1,9 @@
 import { Bot, Sparkles } from "lucide-react";
 import ReactMarkdown from "react-markdown";
+import { useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { Language } from "@/types/language";
+import { surahs } from "@/data/surahs";
 
 interface SearchResultsProps {
   query: string;
@@ -10,8 +12,76 @@ interface SearchResultsProps {
   language: Language;
 }
 
+// Helper to find surah number from name (Bengali or English)
+const findSurahNumber = (name: string): number | null => {
+  const normalizedName = name.trim().toLowerCase();
+  const surah = surahs.find(s => 
+    s.nameBengali.toLowerCase() === normalizedName ||
+    s.nameEnglish.toLowerCase() === normalizedName ||
+    s.nameBengali.toLowerCase().includes(normalizedName) ||
+    s.nameEnglish.toLowerCase().includes(normalizedName) ||
+    normalizedName.includes(s.nameBengali.toLowerCase()) ||
+    normalizedName.includes(s.nameEnglish.toLowerCase())
+  );
+  return surah?.number || null;
+};
+
+// Parse verse number from Bengali/English numerals
+const parseVerseNumber = (text: string): number | null => {
+  // Bengali numerals mapping
+  const bengaliNumerals: { [key: string]: string } = {
+    '০': '0', '১': '1', '২': '2', '৩': '3', '৪': '4',
+    '৫': '5', '৬': '6', '৭': '7', '৮': '8', '৯': '9'
+  };
+  
+  let normalized = text;
+  Object.entries(bengaliNumerals).forEach(([bn, en]) => {
+    normalized = normalized.replace(new RegExp(bn, 'g'), en);
+  });
+  
+  const match = normalized.match(/\d+/);
+  return match ? parseInt(match[0], 10) : null;
+};
+
 export const SearchResults = ({ query, response, isLoading, language }: SearchResultsProps) => {
+  const navigate = useNavigate();
+  
   if (!query && !response) return null;
+
+  // Parse reference and navigate
+  const handleReferenceClick = (reference: string) => {
+    // Try to extract surah name and verse number
+    // Patterns: [সূরা X, আয়াত Y] or [X, আয়াত Y] or [Surah X, Verse Y]
+    const surahVersePattern = /(?:সূরা\s*)?([^,\]]+?)(?:,\s*(?:আয়াত|Verse)\s*([০-৯\d]+))?/i;
+    const hadithPattern = /(?:হাদিস|Hadith)\s*(?:নং|No\.?)?\s*([০-৯\d]+)/i;
+    
+    const hadithMatch = reference.match(hadithPattern);
+    if (hadithMatch) {
+      const hadithNum = parseVerseNumber(hadithMatch[1]);
+      if (hadithNum) {
+        // Navigate to hadith - default to bukhari if book not specified
+        navigate(`/hadith/bukhari/${hadithNum}`);
+        return;
+      }
+    }
+    
+    const match = reference.match(surahVersePattern);
+    if (match) {
+      const surahName = match[1]?.trim();
+      const verseText = match[2];
+      
+      if (surahName) {
+        const surahNumber = findSurahNumber(surahName);
+        if (surahNumber) {
+          const verseNumber = verseText ? parseVerseNumber(verseText) : null;
+          const url = verseNumber 
+            ? `/surah/${surahNumber}#verse-${verseNumber}`
+            : `/surah/${surahNumber}`;
+          navigate(url);
+        }
+      }
+    }
+  };
 
   return (
     <div className="mt-8 animate-fade-in">
@@ -59,7 +129,11 @@ export const SearchResults = ({ query, response, isLoading, language }: SearchRe
                         const isReference = /\[[^\]]*(?:সূরা|Surah|আয়াত|Verse|হাদিস|Hadith)[^\]]*\]/i.test(part);
                         if (isReference) {
                           return (
-                            <span key={index} className="text-emerald-600 dark:text-emerald-400 font-medium">
+                            <span 
+                              key={index} 
+                              className="text-emerald-600 dark:text-emerald-400 font-medium cursor-pointer hover:underline"
+                              onClick={() => handleReferenceClick(part)}
+                            >
                               {part}
                             </span>
                           );
