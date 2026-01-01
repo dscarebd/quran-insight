@@ -1005,7 +1005,7 @@ const ReadPage = ({
                                 </span>
                                 {/* Decorative Verse Number */}
                                 <span 
-                                  className="verse-number-circle inline-flex items-center justify-center mx-2"
+                                  className="verse-number-circle inline-flex items-center justify-center mx-2 font-arabic leading-none"
                                   style={{ 
                                     width: `${currentFontSize * 1.2}px`, 
                                     height: `${currentFontSize * 1.2}px`,
