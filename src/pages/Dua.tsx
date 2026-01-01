@@ -525,7 +525,7 @@ const Dua = ({ language, arabicFont = "amiri" }: DuaProps) => {
                             {getDuaTitle(dua)}
                           </p>
                         )}
-                        <p className={cn("text-base text-foreground line-clamp-1 text-right", arabicFont === "uthmani" ? "font-uthmani" : "font-arabic")} dir="rtl">
+                        <p className="text-base text-foreground line-clamp-1 text-right font-arabic" dir="rtl">
                           {dua.arabic.length > 50 ? `${dua.arabic.substring(0, 50)}...` : dua.arabic}
                         </p>
                         <p className={cn(
@@ -621,7 +621,7 @@ const Dua = ({ language, arabicFont = "amiri" }: DuaProps) => {
                         <DynamicIcon name={category.icon} className="h-5 w-5 text-primary" />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className={cn("text-base text-foreground line-clamp-2 text-right", arabicFont === "uthmani" ? "font-uthmani" : "font-arabic")} dir="rtl">
+                      <p className="text-base text-foreground line-clamp-2 text-right font-arabic" dir="rtl">
                           {dua.arabic.substring(0, 60)}...
                         </p>
                         <p className={cn(
@@ -675,7 +675,7 @@ const Dua = ({ language, arabicFont = "amiri" }: DuaProps) => {
                         {getDuaTitle(dua)}
                       </p>
                     )}
-                    <p className={cn("text-base text-foreground line-clamp-1 text-right", arabicFont === "uthmani" ? "font-uthmani" : "font-arabic")} dir="rtl">
+                    <p className="text-base text-foreground line-clamp-1 text-right font-arabic" dir="rtl">
                       {dua.arabic.length > 50 ? `${dua.arabic.substring(0, 50)}...` : dua.arabic}
                     </p>
                     <p className={cn(
@@ -740,7 +740,7 @@ const Dua = ({ language, arabicFont = "amiri" }: DuaProps) => {
             <div className="p-4 space-y-6">
               {/* Arabic */}
               <div className="bg-primary/5 rounded-xl p-5 border border-primary/20">
-                <p className={cn("text-scale-arabic-xl text-foreground text-center", arabicFont === "uthmani" ? "font-uthmani" : "font-arabic")} dir="rtl">
+                <p className="text-scale-arabic-xl text-foreground text-center font-arabic" dir="rtl">
                   {selectedDua?.arabic}
                 </p>
               </div>

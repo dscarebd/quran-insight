@@ -384,7 +384,7 @@ const DailyDuaPage = ({ language, arabicFont = "amiri" }: DailyDuaPageProps) => 
                     )}>
                       {getDuaTitle(dua)}
                     </p>
-                    <p className={cn("text-base text-foreground line-clamp-1 text-right", arabicFont === "uthmani" ? "font-uthmani" : "font-arabic")} dir="rtl">
+                    <p className="text-base text-foreground line-clamp-1 text-right font-arabic" dir="rtl">
                       {dua.arabic.length > 50 ? `${dua.arabic.substring(0, 50)}...` : dua.arabic}
                     </p>
                   </div>
@@ -440,7 +440,7 @@ const DailyDuaPage = ({ language, arabicFont = "amiri" }: DailyDuaPageProps) => 
             <div className="p-4 space-y-6">
               {/* Arabic */}
               <div className="bg-primary/5 rounded-xl p-5 border border-primary/20">
-                <p className={cn("text-2xl leading-loose text-foreground text-center", arabicFont === "uthmani" ? "font-uthmani" : "font-arabic")} dir="rtl">
+                <p className="text-2xl leading-loose text-foreground text-center font-arabic" dir="rtl">
                   {selectedDua?.arabic}
                 </p>
               </div>

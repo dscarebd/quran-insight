@@ -171,7 +171,7 @@ export const DailyVerse = ({ language }: DailyVerseProps) => {
 
         {/* Arabic Text */}
         <p 
-          className="mb-4 text-center font-uthmani text-foreground leading-[2.5]"
+          className="mb-4 text-center font-arabic text-foreground leading-[2.5]"
           style={{ fontSize: `${arabicFontSize}px` }}
         >
           {sanitizeArabicText(verse.arabic)}

@@ -108,7 +108,7 @@ export const DesktopDailyContent = ({ language }: DesktopDailyContentProps) => {
           
           {/* Arabic */}
           <p 
-            className="mb-3 sm:mb-4 text-center font-uthmani text-foreground"
+            className="mb-3 sm:mb-4 text-center font-arabic text-foreground"
             style={{ fontSize: `${Math.max(arabicFontSize - 4, 20)}px` }}
           >
             {sanitizeArabicText(verse.arabic)}
@@ -174,7 +174,7 @@ export const DesktopDailyContent = ({ language }: DesktopDailyContentProps) => {
           
           {/* Arabic */}
           <p 
-            className="mb-3 sm:mb-4 text-center font-uthmani text-foreground"
+            className="mb-3 sm:mb-4 text-center font-arabic text-foreground"
             style={{ fontSize: `${Math.max(arabicFontSize - 4, 20)}px` }}
           >
             {dua.arabic}
@@ -251,7 +251,7 @@ export const DesktopDailyContent = ({ language }: DesktopDailyContentProps) => {
           {/* Arabic */}
           {hadith.arabic && (
             <p 
-              className="mb-3 sm:mb-4 text-center font-uthmani text-foreground line-clamp-2"
+              className="mb-3 sm:mb-4 text-center font-arabic text-foreground line-clamp-2"
               style={{ fontSize: `${Math.max(arabicFontSize - 4, 20)}px` }}
             >
               {sanitizeArabicText(hadith.arabic)}

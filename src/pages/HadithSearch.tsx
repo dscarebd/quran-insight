@@ -475,10 +475,7 @@ const HadithSearch = ({ language, arabicFont }: HadithSearchProps) => {
 
                     {/* Arabic Text */}
                     {result.arabic && (
-                      <p className={cn(
-                        "text-right text-lg leading-loose mb-3 text-foreground line-clamp-2",
-                        arabicFont === "uthmani" ? "font-uthmani" : "font-amiri"
-                      )}>
+                      <p className="text-right text-lg leading-loose mb-3 text-foreground line-clamp-2 font-arabic">
                         {highlightMatch(result.arabic, query)}
                       </p>
                     )}

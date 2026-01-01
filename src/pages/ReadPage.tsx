@@ -729,10 +729,7 @@ const ReadPage = ({
                   {formatNum(primarySurah?.number || 1, language)}
                 </div>
                 <div className="flex flex-col items-start">
-                  <span className={cn(
-                    "text-sm font-semibold text-foreground leading-tight",
-                    arabicFont === "uthmani" ? "font-uthmani" : "font-arabic"
-                  )}>
+                  <span className="text-sm font-semibold text-foreground leading-tight font-arabic">
                     {primarySurah?.nameArabic}
                   </span>
                   <span className={cn(
@@ -804,7 +801,7 @@ const ReadPage = ({
                               {formatNum(surah.number, language)}
                             </div>
                             <div className="flex-1 min-w-0 text-left">
-                              <p className={cn("text-lg text-foreground", arabicFont === "uthmani" ? "font-uthmani" : "font-arabic")}>
+                              <p className="text-lg text-foreground font-arabic">
                                 {surah.nameArabic}
                               </p>
                               <p className={cn(
@@ -945,10 +942,7 @@ const ReadPage = ({
                             <div className="relative inline-block">
                               <div className="surah-title-frame px-8 py-4">
                                 <h1 
-                                  className={cn(
-                                    "text-foreground surah-title-text",
-                                    arabicFont === "uthmani" ? "font-uthmani" : "font-arabic"
-                                  )}
+                                  className="text-foreground surah-title-text font-arabic"
                                   style={{ fontSize: `${currentFontSize + 8}px` }}
                                 >
                                   {surah?.nameArabic}
@@ -960,10 +954,7 @@ const ReadPage = ({
                             {/* Bismillah */}
                             {parseInt(surahNum) !== 9 && parseInt(surahNum) !== 1 && (
                               <p 
-                                className={cn(
-                                  "text-foreground/80 mt-8 bismillah-text",
-                                  arabicFont === "uthmani" ? "font-uthmani" : "font-arabic"
-                                )}
+                                className="text-foreground/80 mt-8 bismillah-text font-arabic"
                                 dir="rtl"
                                 style={{ fontSize: `${currentFontSize}px` }}
                               >
@@ -996,13 +987,10 @@ const ReadPage = ({
                                 )}
                                 onClick={() => handleVerseClick(pageData.pageNumber, verse.surah_number, verse.verse_number)}
                               >
-                                <span 
-                                  className={cn(
-                                    "text-foreground",
-                                    arabicFont === "uthmani" ? "font-uthmani" : "font-arabic"
-                                  )}
-                                  style={{ fontSize: `${currentFontSize}px` }}
-                                >
+                              <span 
+                                className="text-foreground font-arabic"
+                                style={{ fontSize: `${currentFontSize}px` }}
+                              >
                                   {sanitizeArabicText(verse.arabic)}
                                 </span>
                                 {/* Decorative Verse Number */}
