@@ -50,12 +50,14 @@ export const SearchResults = ({ query, response, isLoading, language }: SearchRe
                   p: ({ children }) => {
                     // Process children to highlight surah/verse references in green
                     const processText = (text: string) => {
-                      // Match references like [সূরা ..., আয়াত ...] or [Surah ..., Verse ...]
+                      // Match references like [আল-আহযাব, আয়াত ৬৬] or [Surah ..., Verse ...]
                       const referencePattern = /(\[[^\]]*(?:সূরা|Surah|আয়াত|Verse|হাদিস|Hadith)[^\]]*\])/gi;
                       const parts = text.split(referencePattern);
                       
                       return parts.map((part, index) => {
-                        if (referencePattern.test(part)) {
+                        // Check if this part is a reference (matches the pattern)
+                        const isReference = /\[[^\]]*(?:সূরা|Surah|আয়াত|Verse|হাদিস|Hadith)[^\]]*\]/i.test(part);
+                        if (isReference) {
                           return (
                             <span key={index} className="text-emerald-600 dark:text-emerald-400 font-medium">
                               {part}
