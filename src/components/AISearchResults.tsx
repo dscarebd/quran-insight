@@ -87,8 +87,8 @@ export const AISearchResults = ({ response, language }: AISearchResultsProps) =>
   const handleReferenceClick = (reference: string) => {
     const cleanRef = reference.replace(/[\[\]]/g, '').trim();
     
-    // Try hadith pattern first
-    const hadithPattern = /(?:হাদিস|Hadith)\s*(?:নং|No\.?)?\s*([০-৯\d]+)/i;
+    // Try hadith pattern first (supports হাদিস and হাদীস spellings)
+    const hadithPattern = /(?:হাদিস|হাদীস|Hadith)\s*(?:নং|No\.?)?\s*([০-৯\d]+)/i;
     const hadithMatch = cleanRef.match(hadithPattern);
     if (hadithMatch) {
       const hadithNum = parseVerseNumber(hadithMatch[1]);
@@ -98,8 +98,8 @@ export const AISearchResults = ({ response, language }: AISearchResultsProps) =>
       }
     }
     
-    // Pattern for সূরা X ২৪:৩৫ format
-    const surahColonPattern = /(?:সূরা\s+)?([^\d০-৯,]+?)\s*([০-৯\d]+):([০-৯\d]+)/i;
+    // Pattern for সূরা/সুরা X ২৪:৩৫ format
+    const surahColonPattern = /(?:(?:সূরা|সুরা|Surah)\s+)?([^\d০-৯,]+?)\s*([০-৯\d]+):([০-৯\d]+)/i;
     const colonMatch = cleanRef.match(surahColonPattern);
     if (colonMatch) {
       const surahName = colonMatch[1]?.trim();
@@ -113,8 +113,8 @@ export const AISearchResults = ({ response, language }: AISearchResultsProps) =>
       }
     }
     
-    // Pattern for সূরা X, আয়াত Y
-    const surahVersePattern = /(?:সূরা\s+)?([^,]+?)(?:,\s*(?:আয়াত|Verse)\s*([০-৯\d]+))?/i;
+    // Pattern for সূরা/সুরা X, আয়াত Y (supports both spellings)
+    const surahVersePattern = /(?:(?:সূরা|সুরা|Surah)\s+)?([^,]+?)(?:,\s*(?:আয়াত|Verse|Ayah)\s*([০-৯\d]+))?/i;
     const match = cleanRef.match(surahVersePattern);
     if (match) {
       const surahName = match[1]?.trim();
@@ -176,12 +176,14 @@ export const AISearchResults = ({ response, language }: AISearchResultsProps) =>
             <ReactMarkdown
               components={{
                 p: ({ children }) => {
+                  const referencePattern = /(\[[^\]]*(?:সূরা|সুরা|Surah|আয়াত|Verse|Ayah|হাদিস|হাদীস|Hadith|[০-৯]+:[০-৯]+|\d+:\d+)[^\]]*\])/gi;
+                  
                   const processText = (text: string) => {
-                    const referencePattern = /(\[[^\]]*(?:সূরা|Surah|আয়াত|Verse|হাদিস|Hadith|[০-৯]+:[০-৯]+|\d+:\d+)[^\]]*\])/gi;
                     const parts = text.split(referencePattern);
                     
                     return parts.map((part, index) => {
-                      const isReference = /\[[^\]]*(?:সূরা|Surah|আয়াত|Verse|হাদিস|Hadith|[০-৯]+:[০-৯]+|\d+:\d+)[^\]]*\]/i.test(part);
+                      const isReference = referencePattern.test(part);
+                      referencePattern.lastIndex = 0; // Reset regex state
                       if (isReference) {
                         return (
                           <span 
@@ -210,6 +212,45 @@ export const AISearchResults = ({ response, language }: AISearchResultsProps) =>
                         ? children.map((child, i) => <span key={i}>{processChildren(child)}</span>)
                         : processChildren(children)}
                     </p>
+                  );
+                },
+                li: ({ children }) => {
+                  const referencePattern = /(\[[^\]]*(?:সূরা|সুরা|Surah|আয়াত|Verse|Ayah|হাদিস|হাদীস|Hadith|[০-৯]+:[০-৯]+|\d+:\d+)[^\]]*\])/gi;
+                  
+                  const processText = (text: string) => {
+                    const parts = text.split(referencePattern);
+                    
+                    return parts.map((part, index) => {
+                      const isReference = referencePattern.test(part);
+                      referencePattern.lastIndex = 0;
+                      if (isReference) {
+                        return (
+                          <span 
+                            key={index} 
+                            className="text-emerald-600 dark:text-emerald-400 font-medium cursor-pointer hover:underline"
+                            onClick={() => handleReferenceClick(part)}
+                          >
+                            {part}
+                          </span>
+                        );
+                      }
+                      return part;
+                    });
+                  };
+
+                  const processChildren = (child: React.ReactNode): React.ReactNode => {
+                    if (typeof child === 'string') {
+                      return processText(child);
+                    }
+                    return child;
+                  };
+
+                  return (
+                    <li>
+                      {Array.isArray(children) 
+                        ? children.map((child, i) => <span key={i}>{processChildren(child)}</span>)
+                        : processChildren(children)}
+                    </li>
                   );
                 },
                 strong: ({ children }) => <strong className="font-semibold text-primary">{children}</strong>,
