@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Book, ChevronRight, Copy, Check } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn, sanitizeArabicText } from "@/lib/utils";
 import { toast } from "sonner";
 import { Language } from "@/types/language";
 import { supabase } from "@/integrations/supabase/client";
@@ -55,14 +55,6 @@ const bookIconColors: Record<string, string> = {
   dehlawi: "text-teal-600 bg-teal-100 dark:bg-teal-900/30",
 };
 
-
-const stripAyahMarkers = (text: string) => {
-  return text
-    .replace(/\u06DD[\u0660-\u0669\u06F0-\u06F9]+/g, "")
-    .replace(/[\u06D6-\u06ED]/g, "")
-    .replace(/\s+/g, " ")
-    .trim();
-};
 
 export const HadithOfTheDay = ({ language, arabicFont = "uthmani", compact = false }: HadithOfTheDayProps) => {
   const navigate = useNavigate();
@@ -230,7 +222,7 @@ export const HadithOfTheDay = ({ language, arabicFont = "uthmani", compact = fal
           arabicFont === "uthmani" ? "font-uthmani" : "font-arabic",
           compact && "line-clamp-2"
         )}>
-          {stripAyahMarkers(hadith.arabic)}
+          {sanitizeArabicText(hadith.arabic)}
         </p>
       )}
       

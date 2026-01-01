@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { Sparkles, HandHeart, ChevronRight, Copy, Check, BookOpen } from "lucide-react";
-import { cn, formatNumber } from "@/lib/utils";
+import { cn, formatNumber, sanitizeArabicText } from "@/lib/utils";
 import { toast } from "sonner";
 import { Language } from "@/types/language";
 import { useDailyContent } from "@/hooks/useDailyContent";
@@ -31,13 +31,6 @@ const bookIconColors: Record<string, string> = {
 };
 
 export const DesktopDailyContent = ({ language }: DesktopDailyContentProps) => {
-  const stripAyahMarkers = (text: string) => {
-    return text
-      .replace(/\u06DD[\u0660-\u0669\u06F0-\u06F9]+/g, "")
-      .replace(/[\u06D6-\u06ED]/g, "")
-      .replace(/\s+/g, " ")
-      .trim();
-  };
   const navigate = useNavigate();
   const { verse, dua, hadith, isLoading } = useDailyContent();
   const [isDuaCopied, setIsDuaCopied] = useState(false);
@@ -113,7 +106,7 @@ export const DesktopDailyContent = ({ language }: DesktopDailyContentProps) => {
           
           {/* Arabic */}
           <p className="mb-3 sm:mb-4 text-center font-uthmani text-scale-arabic text-foreground">
-            {stripAyahMarkers(verse.arabic)}
+            {sanitizeArabicText(verse.arabic)}
           </p>
           
           {/* Translation */}
@@ -250,7 +243,7 @@ export const DesktopDailyContent = ({ language }: DesktopDailyContentProps) => {
           {/* Arabic */}
           {hadith.arabic && (
             <p className="mb-3 sm:mb-4 text-center font-uthmani text-scale-arabic text-foreground line-clamp-2">
-              {stripAyahMarkers(hadith.arabic)}
+              {sanitizeArabicText(hadith.arabic)}
             </p>
           )}
           

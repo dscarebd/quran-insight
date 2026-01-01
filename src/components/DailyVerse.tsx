@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Sparkles, ChevronRight, Bookmark } from "lucide-react";
-import { cn, formatNumber } from "@/lib/utils";
+import { cn, formatNumber, sanitizeArabicText } from "@/lib/utils";
 import { Language } from "@/types/language";
 import { supabase } from "@/integrations/supabase/client";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -24,17 +24,6 @@ interface CachedVerse {
 }
 
 const CACHE_KEY = 'daily-verse-cache';
-
-const stripAyahMarkers = (text: string) => {
-  // Remove Quran/ornamental markers that may render as dots on some devices
-  return text
-    // End-of-ayah marker + its number
-    .replace(/\u06DD[\u0660-\u0669\u06F0-\u06F9]+/g, "")
-    // Rub el Hizb / other Quranic annotation marks
-    .replace(/[\u06D6-\u06ED]/g, "")
-    .replace(/\s+/g, " ")
-    .trim();
-};
 
 export const DailyVerse = ({ language }: DailyVerseProps) => {
   const [verse, setVerse] = useState<CachedVerse['verse'] | null>(null);
@@ -180,7 +169,7 @@ export const DailyVerse = ({ language }: DailyVerseProps) => {
 
         {/* Arabic Text */}
         <p className="mb-4 text-center font-uthmani text-scale-arabic-xl text-foreground leading-[2.5]">
-          {stripAyahMarkers(verse.arabic)}
+          {sanitizeArabicText(verse.arabic)}
         </p>
 
         {/* Translation */}

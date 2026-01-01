@@ -9,7 +9,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/co
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { cn } from "@/lib/utils";
+import { cn, sanitizeArabicText } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
 import { toast } from "sonner";
 import { Language } from "@/types/language";
@@ -271,13 +271,7 @@ const ReadPage = ({
     return num.toString().split("").map(d => arabicNumerals[parseInt(d)]).join("");
   };
 
-  const stripAyahMarkers = (text: string) => {
-    return text
-      .replace(/\u06DD[\u0660-\u0669\u06F0-\u06F9]+/g, "")
-      .replace(/[\u06D6-\u06ED]/g, "")
-      .replace(/\s+/g, " ")
-      .trim();
-  };
+  // Use the unified sanitizer from utils
 
   // Get primary surah for current page - memoize to ensure updates
   const primarySurah = currentPageData 
@@ -1009,7 +1003,7 @@ const ReadPage = ({
                                   )}
                                   style={{ fontSize: `${currentFontSize}px` }}
                                 >
-                                  {stripAyahMarkers(verse.arabic)}
+                                  {sanitizeArabicText(verse.arabic)}
                                 </span>
                                 {/* Decorative Verse Number */}
                                 <span 
