@@ -441,19 +441,6 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
               {language === "bn" ? "অ্যাপ তথ্য" : "App Info"}
             </h2>
             <div className="rounded-xl border border-border bg-card overflow-hidden divide-y divide-border">
-              <div className="flex items-center gap-3 px-4 py-3.5">
-                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10">
-                  <Info className="h-5 w-5 text-primary" />
-                </div>
-                <div>
-                  <p className={cn("text-base font-medium", language === "bn" && "font-bengali")}>
-                    {language === "bn" ? "কুরআন ইনসাইট" : "Quran Insight"}
-                  </p>
-                  <p className="text-sm text-muted-foreground">
-                    {language === "bn" ? "সংস্করণ ৩.২.০" : "Version 3.2.0"}
-                  </p>
-                </div>
-              </div>
               <button
                 onClick={() => navigate("/sources-credits")}
                 className="flex items-center gap-3 px-4 py-3.5 w-full text-left hover:bg-muted/50 transition-colors"
