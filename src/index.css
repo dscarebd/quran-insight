@@ -285,7 +285,7 @@
 
   body {
     @apply bg-background text-foreground antialiased;
-    font-family: 'Inter', 'Anek Bangla', sans-serif;
+    font-family: 'Amiri', 'Anek Bangla', serif;
     overflow-x: hidden;
     max-width: 100vw;
     width: 100%;
