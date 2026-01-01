@@ -271,6 +271,14 @@ const ReadPage = ({
     return num.toString().split("").map(d => arabicNumerals[parseInt(d)]).join("");
   };
 
+  const stripAyahMarkers = (text: string) => {
+    return text
+      .replace(/\u06DD[\u0660-\u0669\u06F0-\u06F9]+/g, "")
+      .replace(/\u06DD/g, "")
+      .replace(/\s+/g, " ")
+      .trim();
+  };
+
   // Get primary surah for current page - memoize to ensure updates
   const primarySurah = currentPageData 
     ? surahs.find(s => s.number === currentPageData.startSurah) 
@@ -1001,7 +1009,7 @@ const ReadPage = ({
                                   )}
                                   style={{ fontSize: `${currentFontSize}px` }}
                                 >
-                                  {verse.arabic}
+                                  {stripAyahMarkers(verse.arabic)}
                                 </span>
                                 {/* Decorative Verse Number */}
                                 <span 

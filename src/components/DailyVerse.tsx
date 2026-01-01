@@ -25,6 +25,15 @@ interface CachedVerse {
 
 const CACHE_KEY = 'daily-verse-cache';
 
+const stripAyahMarkers = (text: string) => {
+  // Remove Quran "end of ayah" marker + its number (sometimes renders as dots in some fonts)
+  return text
+    .replace(/\u06DD[\u0660-\u0669\u06F0-\u06F9]+/g, "")
+    .replace(/\u06DD/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+};
+
 export const DailyVerse = ({ language }: DailyVerseProps) => {
   const [verse, setVerse] = useState<CachedVerse['verse'] | null>(null);
   const [isBookmarked, setIsBookmarked] = useState(false);
@@ -169,7 +178,7 @@ export const DailyVerse = ({ language }: DailyVerseProps) => {
 
         {/* Arabic Text */}
         <p className="mb-4 text-center font-uthmani text-scale-arabic-xl text-foreground leading-[2.5]">
-          {verse.arabic}
+          {stripAyahMarkers(verse.arabic)}
         </p>
 
         {/* Translation */}

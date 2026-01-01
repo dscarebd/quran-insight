@@ -55,6 +55,15 @@ const bookIconColors: Record<string, string> = {
   dehlawi: "text-teal-600 bg-teal-100 dark:bg-teal-900/30",
 };
 
+
+const stripAyahMarkers = (text: string) => {
+  return text
+    .replace(/\u06DD[\u0660-\u0669\u06F0-\u06F9]+/g, "")
+    .replace(/\u06DD/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+};
+
 export const HadithOfTheDay = ({ language, arabicFont = "uthmani", compact = false }: HadithOfTheDayProps) => {
   const navigate = useNavigate();
   const [hadith, setHadith] = useState<Hadith | null>(null);
@@ -218,10 +227,10 @@ export const HadithOfTheDay = ({ language, arabicFont = "uthmani", compact = fal
       {hadith.arabic && (
         <p className={cn(
           "mb-3 sm:mb-4 text-center text-scale-arabic-xl text-foreground",
-          arabicFont === "uthmani" ? "font-uthmani" : "font-amiri",
+          arabicFont === "uthmani" ? "font-uthmani" : "font-arabic",
           compact && "line-clamp-2"
         )}>
-          {hadith.arabic}
+          {stripAyahMarkers(hadith.arabic)}
         </p>
       )}
       
