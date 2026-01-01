@@ -47,7 +47,40 @@ export const SearchResults = ({ query, response, isLoading, language }: SearchRe
             <div className={cn("prose prose-sm max-w-none dark:prose-invert prose-p:leading-relaxed prose-pre:bg-muted", language === "bn" && "font-bengali")}>
               <ReactMarkdown
                 components={{
-                  p: ({ children }) => <p className="mb-3 last:mb-0">{children}</p>,
+                  p: ({ children }) => {
+                    // Process children to highlight surah/verse references in green
+                    const processText = (text: string) => {
+                      // Match references like [সূরা ..., আয়াত ...] or [Surah ..., Verse ...]
+                      const referencePattern = /(\[[^\]]*(?:সূরা|Surah|আয়াত|Verse|হাদিস|Hadith)[^\]]*\])/gi;
+                      const parts = text.split(referencePattern);
+                      
+                      return parts.map((part, index) => {
+                        if (referencePattern.test(part)) {
+                          return (
+                            <span key={index} className="text-emerald-600 dark:text-emerald-400 font-medium">
+                              {part}
+                            </span>
+                          );
+                        }
+                        return part;
+                      });
+                    };
+
+                    const processChildren = (child: React.ReactNode): React.ReactNode => {
+                      if (typeof child === 'string') {
+                        return processText(child);
+                      }
+                      return child;
+                    };
+
+                    return (
+                      <p className="mb-3 last:mb-0">
+                        {Array.isArray(children) 
+                          ? children.map((child, i) => <span key={i}>{processChildren(child)}</span>)
+                          : processChildren(children)}
+                      </p>
+                    );
+                  },
                   strong: ({ children }) => <strong className="font-semibold text-primary">{children}</strong>,
                   blockquote: ({ children }) => (
                     <blockquote className="border-l-4 border-primary/50 bg-accent/30 pl-4 py-2 my-3 italic font-arabic text-lg">
