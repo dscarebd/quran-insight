@@ -31,6 +31,13 @@ const bookIconColors: Record<string, string> = {
 };
 
 export const DesktopDailyContent = ({ language }: DesktopDailyContentProps) => {
+  const stripAyahMarkers = (text: string) => {
+    return text
+      .replace(/\u06DD[\u0660-\u0669\u06F0-\u06F9]+/g, "")
+      .replace(/[\u06D6-\u06ED]/g, "")
+      .replace(/\s+/g, " ")
+      .trim();
+  };
   const navigate = useNavigate();
   const { verse, dua, hadith, isLoading } = useDailyContent();
   const [isDuaCopied, setIsDuaCopied] = useState(false);
@@ -106,7 +113,7 @@ export const DesktopDailyContent = ({ language }: DesktopDailyContentProps) => {
           
           {/* Arabic */}
           <p className="mb-3 sm:mb-4 text-center font-uthmani text-scale-arabic text-foreground">
-            {verse.arabic}
+            {stripAyahMarkers(verse.arabic)}
           </p>
           
           {/* Translation */}
@@ -243,7 +250,7 @@ export const DesktopDailyContent = ({ language }: DesktopDailyContentProps) => {
           {/* Arabic */}
           {hadith.arabic && (
             <p className="mb-3 sm:mb-4 text-center font-uthmani text-scale-arabic text-foreground line-clamp-2">
-              {hadith.arabic}
+              {stripAyahMarkers(hadith.arabic)}
             </p>
           )}
           

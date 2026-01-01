@@ -59,7 +59,7 @@ const bookIconColors: Record<string, string> = {
 const stripAyahMarkers = (text: string) => {
   return text
     .replace(/\u06DD[\u0660-\u0669\u06F0-\u06F9]+/g, "")
-    .replace(/\u06DD/g, "")
+    .replace(/[\u06D6-\u06ED]/g, "")
     .replace(/\s+/g, " ")
     .trim();
 };
