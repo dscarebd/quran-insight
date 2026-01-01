@@ -63,7 +63,7 @@ const VerseCard = ({ verse, language, index, isBookmarked, onToggleBookmark, ara
       </div>
 
       {/* Arabic Text */}
-      <p className={cn("mb-4 text-right text-scale-arabic-xl text-foreground", arabicFont === "uthmani" ? "font-uthmani" : "font-arabic")}>
+      <p className={cn("mb-4 text-right text-[28px] sm:text-[32px] leading-[2.2] text-foreground", arabicFont === "uthmani" ? "font-uthmani" : "font-arabic")}>
         {sanitizeArabicText(verse.arabic)}
       </p>
 
