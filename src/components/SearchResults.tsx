@@ -50,22 +50,38 @@ export const SearchResults = ({ query, response, isLoading, language }: SearchRe
 
   // Parse reference and navigate
   const handleReferenceClick = (reference: string) => {
-    // Try to extract surah name and verse number
-    // Patterns: [সূরা X, আয়াত Y] or [X, আয়াত Y] or [Surah X, Verse Y]
-    const surahVersePattern = /(?:সূরা\s*)?([^,\]]+?)(?:,\s*(?:আয়াত|Verse)\s*([০-৯\d]+))?/i;
-    const hadithPattern = /(?:হাদিস|Hadith)\s*(?:নং|No\.?)?\s*([০-৯\d]+)/i;
+    // Remove brackets
+    const cleanRef = reference.replace(/[\[\]]/g, '').trim();
     
-    const hadithMatch = reference.match(hadithPattern);
+    // Try hadith pattern first
+    const hadithPattern = /(?:হাদিস|Hadith)\s*(?:নং|No\.?)?\s*([০-৯\d]+)/i;
+    const hadithMatch = cleanRef.match(hadithPattern);
     if (hadithMatch) {
       const hadithNum = parseVerseNumber(hadithMatch[1]);
       if (hadithNum) {
-        // Navigate to hadith - default to bukhari if book not specified
         navigate(`/hadith/bukhari/${hadithNum}`);
         return;
       }
     }
     
-    const match = reference.match(surahVersePattern);
+    // Pattern for সূরা X ২৪:৩৫ or সূরা X, আয়াত ৩৫
+    const surahColonPattern = /(?:সূরা\s+)?([^\d০-৯,]+?)\s*([০-৯\d]+):([০-৯\d]+)/i;
+    const colonMatch = cleanRef.match(surahColonPattern);
+    if (colonMatch) {
+      const surahName = colonMatch[1]?.trim();
+      const verseNum = parseVerseNumber(colonMatch[3]);
+      if (surahName) {
+        const surahNumber = findSurahNumber(surahName);
+        if (surahNumber && verseNum) {
+          navigate(`/surah/${surahNumber}#verse-${verseNum}`);
+          return;
+        }
+      }
+    }
+    
+    // Pattern for সূরা X, আয়াত Y
+    const surahVersePattern = /(?:সূরা\s+)?([^,]+?)(?:,\s*(?:আয়াত|Verse)\s*([০-৯\d]+))?/i;
+    const match = cleanRef.match(surahVersePattern);
     if (match) {
       const surahName = match[1]?.trim();
       const verseText = match[2];
@@ -120,13 +136,14 @@ export const SearchResults = ({ query, response, isLoading, language }: SearchRe
                   p: ({ children }) => {
                     // Process children to highlight surah/verse references in green
                     const processText = (text: string) => {
-                      // Match references like [আল-আহযাব, আয়াত ৬৬] or [Surah ..., Verse ...]
-                      const referencePattern = /(\[[^\]]*(?:সূরা|Surah|আয়াত|Verse|হাদিস|Hadith)[^\]]*\])/gi;
+                      // Match all bracketed references containing surah names, verse numbers, or hadith
+                      // Patterns: [সূরা X ২৪:৩৫], [আল-আহযাব, আয়াত ৬৬], [Surah X, Verse Y], etc.
+                      const referencePattern = /(\[[^\]]*(?:সূরা|Surah|আয়াত|Verse|হাদিস|Hadith|[০-৯]+:[০-৯]+|\d+:\d+)[^\]]*\])/gi;
                       const parts = text.split(referencePattern);
                       
                       return parts.map((part, index) => {
                         // Check if this part is a reference (matches the pattern)
-                        const isReference = /\[[^\]]*(?:সূরা|Surah|আয়াত|Verse|হাদিস|Hadith)[^\]]*\]/i.test(part);
+                        const isReference = /\[[^\]]*(?:সূরা|Surah|আয়াত|Verse|হাদিস|Hadith|[০-৯]+:[০-৯]+|\d+:\d+)[^\]]*\]/i.test(part);
                         if (isReference) {
                           return (
                             <span 
