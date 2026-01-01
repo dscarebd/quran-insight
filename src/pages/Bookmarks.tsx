@@ -624,7 +624,7 @@ const Bookmarks = ({ language, readingMode = "normal", arabicFont = "amiri" }: B
 
                     {/* Arabic Text */}
                     {bookmark.arabic && (
-                      <p className={cn("mb-4 text-right text-scale-arabic-xl text-foreground", arabicFont === "uthmani" ? "font-uthmani" : "font-arabic")}>
+                      <p className="mb-4 text-right text-scale-arabic-xl text-foreground font-arabic">
                         {bookmark.arabic}
                       </p>
                     )}
@@ -790,7 +790,7 @@ const Bookmarks = ({ language, readingMode = "normal", arabicFont = "amiri" }: B
 
                     {/* Arabic Text */}
                     {bookmark.arabic && (
-                      <p className={cn("mb-4 text-right text-2xl leading-loose text-foreground", arabicFont === "uthmani" ? "font-uthmani" : "font-arabic")}>
+                      <p className="mb-4 text-right text-2xl leading-loose text-foreground font-arabic">
                         {bookmark.arabic}
                       </p>
                     )}
@@ -921,7 +921,7 @@ const Bookmarks = ({ language, readingMode = "normal", arabicFont = "amiri" }: B
 
                     {/* Arabic Text */}
                     {bookmark.arabic && (
-                      <p className={cn("mb-4 text-right text-2xl leading-loose text-foreground", arabicFont === "uthmani" ? "font-uthmani" : "font-arabic")}>
+                      <p className="mb-4 text-right text-2xl leading-loose text-foreground font-arabic">
                         {bookmark.arabic}
                       </p>
                     )}

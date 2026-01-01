@@ -221,8 +221,7 @@ export const HadithOfTheDay = ({ language, arabicFont = "uthmani", compact = fal
       {hadith.arabic && (
         <p 
           className={cn(
-            "mb-3 sm:mb-4 text-center text-foreground",
-            arabicFont === "uthmani" ? "font-uthmani" : "font-arabic",
+            "mb-3 sm:mb-4 text-center text-foreground font-arabic",
             compact && "line-clamp-2"
           )}
           style={{ fontSize: `${arabicFontSize}px` }}

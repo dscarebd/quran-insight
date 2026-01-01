@@ -476,10 +476,7 @@ const HadithDetail = ({ language, arabicFont }: HadithDetailProps) => {
                 {/* Arabic Text */}
                 {hadith.arabic && (
                   <p 
-                    className={cn(
-                      "text-right mb-4 text-foreground leading-[2]",
-                      arabicFont === "uthmani" ? "font-uthmani" : "font-amiri"
-                    )}
+                    className="text-right mb-4 text-foreground leading-[2] font-arabic"
                     style={{ fontSize: `${arabicFontSize}px` }}
                   >
                     {sanitizeArabicText(hadith.arabic)}

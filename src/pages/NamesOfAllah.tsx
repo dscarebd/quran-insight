@@ -101,10 +101,7 @@ const NamesOfAllah = ({ language, arabicFont = "amiri" }: NamesOfAllahProps) => 
 
 
               {/* Arabic Name */}
-              <div className={cn(
-                "text-scale-arabic-lg mb-2 mt-4 text-foreground",
-                arabicFont === "uthmani" ? "font-uthmani" : "font-amiri"
-              )}>
+              <div className="text-scale-arabic-lg mb-2 mt-4 text-foreground font-arabic">
                 {name.arabic}
               </div>
 
@@ -150,10 +147,7 @@ const NamesOfAllah = ({ language, arabicFont = "amiri" }: NamesOfAllahProps) => 
                     #{selectedName.id}
                   </span>
                 </div>
-                <SheetTitle className={cn(
-                  "text-scale-arabic-xl",
-                  arabicFont === "uthmani" ? "font-uthmani" : "font-amiri"
-                )}>
+                <SheetTitle className="text-scale-arabic-xl font-arabic">
                   {selectedName.arabic}
                 </SheetTitle>
               </SheetHeader>

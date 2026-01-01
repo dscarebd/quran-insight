@@ -273,8 +273,8 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
                         </h3>
                         <p className={cn("text-sm text-muted-foreground", language === "bn" && "font-bengali")}>
                           {language === "bn" 
-                            ? `${arabicFont === "amiri" ? "আমিরী" : "উসমানী"} • আরবি ${arabicFontSize}px • অ্যাপ ${fontSize}px` 
-                            : `${arabicFont === "amiri" ? "Amiri" : "Uthmani"} • Arabic ${arabicFontSize}px • App ${fontSize}px`}
+                            ? `আমিরী • আরবি ${arabicFontSize}px • অ্যাপ ${fontSize}px` 
+                            : `Amiri • Arabic ${arabicFontSize}px • App ${fontSize}px`}
                         </p>
                       </div>
                       <ChevronDown className="h-5 w-5 text-muted-foreground transition-transform duration-200 group-data-[state=open]:rotate-180" />
@@ -284,49 +284,6 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
               </CollapsibleTrigger>
               <CollapsibleContent>
                 <div className="mt-3 space-y-4 rounded-xl border border-border bg-card p-4">
-                  {/* Arabic Font Selection */}
-                  <div>
-                    <p className={cn("text-xs font-medium text-muted-foreground mb-2", language === "bn" && "font-bengali")}>
-                      {language === "bn" ? "আরবি ফন্ট" : "Arabic Font"}
-                    </p>
-                    <div className="grid grid-cols-2 gap-2">
-                      <button
-                        onClick={() => onArabicFontChange?.("amiri")}
-                        className={cn(
-                          "flex flex-col items-center justify-center gap-2 rounded-lg border border-border bg-card px-3 py-3 transition-colors",
-                          arabicFont === "amiri" ? "border-primary bg-primary/5" : "hover:bg-muted/50"
-                        )}
-                      >
-                        <span className="font-arabic text-lg text-foreground">بِسْمِ</span>
-                        <div className="flex items-center gap-1.5">
-                          <p className={cn("text-xs font-medium", language === "bn" && "font-bengali")}>
-                            {language === "bn" ? "আমিরী" : "Amiri"}
-                          </p>
-                          {arabicFont === "amiri" && (
-                            <div className="h-1.5 w-1.5 rounded-full bg-primary" />
-                          )}
-                        </div>
-                      </button>
-                      <button
-                        onClick={() => onArabicFontChange?.("uthmani")}
-                        className={cn(
-                          "flex flex-col items-center justify-center gap-2 rounded-lg border border-border bg-card px-3 py-3 transition-colors",
-                          arabicFont === "uthmani" ? "border-primary bg-primary/5" : "hover:bg-muted/50"
-                        )}
-                      >
-                        <span className="font-uthmani text-lg text-foreground">بِسْمِ</span>
-                        <div className="flex items-center gap-1.5">
-                          <p className={cn("text-xs font-medium", language === "bn" && "font-bengali")}>
-                            {language === "bn" ? "উসমানী" : "Uthmani"}
-                          </p>
-                          {arabicFont === "uthmani" && (
-                            <div className="h-1.5 w-1.5 rounded-full bg-primary" />
-                          )}
-                        </div>
-                      </button>
-                    </div>
-                  </div>
-
                   {/* Arabic Font Size Slider */}
                   <div>
                     <p className={cn("text-xs font-medium text-muted-foreground mb-2", language === "bn" && "font-bengali")}>

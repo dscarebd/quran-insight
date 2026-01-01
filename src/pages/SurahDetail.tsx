@@ -66,7 +66,7 @@ const VerseCard = ({ verse, language, index, isBookmarked, onToggleBookmark, ara
 
       {/* Arabic Text */}
       <p 
-        className={cn("mb-4 text-right leading-[2.2] text-foreground", arabicFont === "uthmani" ? "font-uthmani" : "font-arabic")}
+        className="mb-4 text-right leading-[2.2] text-foreground font-arabic"
         style={{ fontSize: `${arabicFontSize}px` }}
       >
         {sanitizeArabicText(verse.arabic)}
@@ -290,7 +290,7 @@ const SurahDetail = ({ language, readingMode = "normal", arabicFont = "amiri" }:
 
             {/* Current Surah Name */}
             <div className="text-center">
-              <h1 className={cn("mb-1 text-4xl text-foreground sm:text-5xl", arabicFont === "uthmani" ? "font-uthmani" : "font-arabic")}>
+              <h1 className="mb-1 text-4xl text-foreground sm:text-5xl font-arabic">
                 {surah.nameArabic}
               </h1>
               <h2 className={cn("text-xl font-semibold text-foreground", language === "bn" && "font-bengali")}>
