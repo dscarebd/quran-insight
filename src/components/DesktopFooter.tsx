@@ -41,12 +41,6 @@ export const DesktopFooter = ({ language }: DesktopFooterProps) => {
                 className="h-7 sm:h-9"
               />
             </a>
-            <span className={cn(
-              "text-xs px-2 py-1 rounded-full bg-muted text-muted-foreground border border-border",
-              language === "bn" && "font-bengali"
-            )}>
-              {language === "bn" ? "iOS শীঘ্রই আসছে" : "iOS Coming Soon"}
-            </span>
           </div>
         </div>
       </div>
