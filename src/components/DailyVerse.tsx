@@ -26,10 +26,12 @@ interface CachedVerse {
 const CACHE_KEY = 'daily-verse-cache';
 
 const stripAyahMarkers = (text: string) => {
-  // Remove Quran "end of ayah" marker + its number (sometimes renders as dots in some fonts)
+  // Remove Quran/ornamental markers that may render as dots on some devices
   return text
+    // End-of-ayah marker + its number
     .replace(/\u06DD[\u0660-\u0669\u06F0-\u06F9]+/g, "")
-    .replace(/\u06DD/g, "")
+    // Rub el Hizb / other Quranic annotation marks
+    .replace(/[\u06D6-\u06ED]/g, "")
     .replace(/\s+/g, " ")
     .trim();
 };
