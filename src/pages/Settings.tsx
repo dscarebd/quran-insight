@@ -10,6 +10,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/component
 import annurLogo from "@/assets/annur-digital-logo.jpeg";
 import appLogo from "@/assets/app-logo.png";
 import { Language, t, languageNames } from "@/types/language";
+import { useArabicFontSize } from "@/hooks/useArabicFontSize";
 
 interface SettingsProps {
   language: Language;
@@ -25,6 +26,7 @@ interface SettingsProps {
 const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadingModeChange, arabicFont = "amiri", onArabicFontChange, fontSize = 17, onFontSizeChange }: SettingsProps) => {
   const navigate = useNavigate();
   const { theme, setTheme } = useTheme();
+  const { arabicFontSize, setArabicFontSize, minArabicFontSize, maxArabicFontSize } = useArabicFontSize();
 
   // Easter egg: 7 clicks on developer logo navigates to admin (no time restriction)
   const clickCountRef = useRef(0);
@@ -271,8 +273,8 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
                         </h3>
                         <p className={cn("text-sm text-muted-foreground", language === "bn" && "font-bengali")}>
                           {language === "bn" 
-                            ? `${arabicFont === "amiri" ? "আমিরী" : "উসমানী"} • ${fontSize}px` 
-                            : `${arabicFont === "amiri" ? "Amiri" : "Uthmani"} • ${fontSize}px`}
+                            ? `${arabicFont === "amiri" ? "আমিরী" : "উসমানী"} • আরবি ${arabicFontSize}px • অ্যাপ ${fontSize}px` 
+                            : `${arabicFont === "amiri" ? "Amiri" : "Uthmani"} • Arabic ${arabicFontSize}px • App ${fontSize}px`}
                         </p>
                       </div>
                       <ChevronDown className="h-5 w-5 text-muted-foreground transition-transform duration-200 group-data-[state=open]:rotate-180" />
@@ -325,10 +327,43 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
                     </div>
                   </div>
 
-                  {/* Font Size Slider */}
+                  {/* Arabic Font Size Slider */}
                   <div>
                     <p className={cn("text-xs font-medium text-muted-foreground mb-2", language === "bn" && "font-bengali")}>
-                      {language === "bn" ? "ফন্ট সাইজ" : "Font Size"}
+                      {language === "bn" ? "আরবি ফন্ট সাইজ" : "Arabic Font Size"}
+                    </p>
+                    <div className="flex items-center justify-between mb-2">
+                      <span className={cn("text-xs text-muted-foreground", language === "bn" && "font-bengali")}>
+                        {language === "bn" ? "ছোট" : "Small"}
+                      </span>
+                      <span className="text-sm font-semibold text-primary">{arabicFontSize}px</span>
+                      <span className={cn("text-xs text-muted-foreground", language === "bn" && "font-bengali")}>
+                        {language === "bn" ? "বড়" : "Large"}
+                      </span>
+                    </div>
+                    <Slider
+                      value={[arabicFontSize]}
+                      onValueChange={(value) => setArabicFontSize(value[0])}
+                      min={minArabicFontSize}
+                      max={maxArabicFontSize}
+                      step={2}
+                      className="w-full"
+                    />
+                    {/* Preview */}
+                    <div className="mt-3 p-3 rounded-lg bg-muted/50 border border-border">
+                      <p 
+                        className={cn("text-center text-foreground leading-relaxed", arabicFont === "uthmani" ? "font-uthmani" : "font-arabic")}
+                        style={{ fontSize: `${arabicFontSize}px` }}
+                      >
+                        بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* App Font Size Slider */}
+                  <div>
+                    <p className={cn("text-xs font-medium text-muted-foreground mb-2", language === "bn" && "font-bengali")}>
+                      {language === "bn" ? "অ্যাপ ফন্ট সাইজ" : "App Font Size"}
                     </p>
                     <div className="flex items-center justify-between mb-2">
                       <span className={cn("text-xs text-muted-foreground", language === "bn" && "font-bengali")}>

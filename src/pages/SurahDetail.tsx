@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { cn, formatNumber, sanitizeArabicText } from "@/lib/utils";
 import { useLocalBookmarks } from "@/hooks/useLocalBookmarks";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useArabicFontSize } from "@/hooks/useArabicFontSize";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -26,9 +27,10 @@ interface VerseCardProps {
   isBookmarked: boolean;
   onToggleBookmark: (surahNumber: number, verseNumber: number) => void;
   arabicFont?: "amiri" | "uthmani";
+  arabicFontSize: number;
 }
 
-const VerseCard = ({ verse, language, index, isBookmarked, onToggleBookmark, arabicFont = "amiri" }: VerseCardProps) => {
+const VerseCard = ({ verse, language, index, isBookmarked, onToggleBookmark, arabicFont = "amiri", arabicFontSize }: VerseCardProps) => {
   const [showTafsir, setShowTafsir] = useState(false);
 
   const handleBookmarkClick = () => {
@@ -63,7 +65,10 @@ const VerseCard = ({ verse, language, index, isBookmarked, onToggleBookmark, ara
       </div>
 
       {/* Arabic Text */}
-      <p className={cn("mb-4 text-right text-[28px] sm:text-[32px] leading-[2.2] text-foreground", arabicFont === "uthmani" ? "font-uthmani" : "font-arabic")}>
+      <p 
+        className={cn("mb-4 text-right leading-[2.2] text-foreground", arabicFont === "uthmani" ? "font-uthmani" : "font-arabic")}
+        style={{ fontSize: `${arabicFontSize}px` }}
+      >
         {sanitizeArabicText(verse.arabic)}
       </p>
 
@@ -106,6 +111,7 @@ const SurahDetail = ({ language, readingMode = "normal", arabicFont = "amiri" }:
   const location = useLocation();
   const isMobile = useIsMobile();
   const { isBookmarked, toggleBookmark, getBookmarkedVerseKeys } = useLocalBookmarks();
+  const { arabicFontSize } = useArabicFontSize();
   const [surahSheetOpen, setSurahSheetOpen] = useState(false);
   const [surahSearchQuery, setSurahSearchQuery] = useState("");
   const [verses, setVerses] = useState<Verse[]>([]);
@@ -346,6 +352,7 @@ const SurahDetail = ({ language, readingMode = "normal", arabicFont = "amiri" }:
                 isBookmarked={isBookmarked(verse.surahNumber, verse.verseNumber)}
                 onToggleBookmark={handleToggleBookmark}
                 arabicFont={arabicFont}
+                arabicFontSize={arabicFontSize}
               />
             </div>
           ))
