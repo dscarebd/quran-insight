@@ -82,7 +82,7 @@ export default {
       fontFamily: {
         arabic: ['Amiri', 'serif'],
         uthmani: ['KFGQPC Uthmanic Script HAFS', 'Scheherazade New', 'serif'],
-        bengali: ['Anek Bangla', 'sans-serif'],
+        bengali: ['Amiri', 'Anek Bangla', 'serif'],
         sans: ['Amiri', 'Anek Bangla', 'serif'],
       },
       keyframes: {
