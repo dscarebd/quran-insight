@@ -5,6 +5,7 @@ import { Language } from "@/types/language";
 import { AISearchResponse, SearchResult } from "@/hooks/useAISearch";
 import { Card } from "@/components/ui/card";
 import ReactMarkdown from "react-markdown";
+import { surahs } from "@/data/surahs";
 
 interface AISearchResultsProps {
   response: AISearchResponse;
@@ -54,6 +55,84 @@ const getTypeColor = (type: SearchResult["type"]) => {
 export const AISearchResults = ({ response, language }: AISearchResultsProps) => {
   const navigate = useNavigate();
 
+  // Helper to find surah number from name
+  const findSurahNumber = (name: string): number | null => {
+    const normalizedName = name.toLowerCase().trim();
+    const surah = surahs.find(s => 
+      s.nameBengali.toLowerCase().includes(normalizedName) ||
+      s.nameEnglish.toLowerCase().includes(normalizedName) ||
+      normalizedName.includes(s.nameBengali.toLowerCase()) ||
+      normalizedName.includes(s.nameEnglish.toLowerCase())
+    );
+    return surah?.number || null;
+  };
+
+  // Helper to parse Bengali/English verse numbers
+  const parseVerseNumber = (text: string): number | null => {
+    if (!text) return null;
+    const bengaliNumerals = '০১২৩৪৫৬৭৮৯';
+    let result = '';
+    for (const char of text) {
+      const bengaliIndex = bengaliNumerals.indexOf(char);
+      if (bengaliIndex !== -1) {
+        result += bengaliIndex.toString();
+      } else if (/\d/.test(char)) {
+        result += char;
+      }
+    }
+    return result ? parseInt(result, 10) : null;
+  };
+
+  // Handle reference click to navigate
+  const handleReferenceClick = (reference: string) => {
+    const cleanRef = reference.replace(/[\[\]]/g, '').trim();
+    
+    // Try hadith pattern first
+    const hadithPattern = /(?:হাদিস|Hadith)\s*(?:নং|No\.?)?\s*([০-৯\d]+)/i;
+    const hadithMatch = cleanRef.match(hadithPattern);
+    if (hadithMatch) {
+      const hadithNum = parseVerseNumber(hadithMatch[1]);
+      if (hadithNum) {
+        navigate(`/hadith/bukhari/${hadithNum}`);
+        return;
+      }
+    }
+    
+    // Pattern for সূরা X ২৪:৩৫ format
+    const surahColonPattern = /(?:সূরা\s+)?([^\d০-৯,]+?)\s*([০-৯\d]+):([০-৯\d]+)/i;
+    const colonMatch = cleanRef.match(surahColonPattern);
+    if (colonMatch) {
+      const surahName = colonMatch[1]?.trim();
+      const verseNum = parseVerseNumber(colonMatch[3]);
+      if (surahName) {
+        const surahNumber = findSurahNumber(surahName);
+        if (surahNumber && verseNum) {
+          navigate(`/surah/${surahNumber}#verse-${verseNum}`);
+          return;
+        }
+      }
+    }
+    
+    // Pattern for সূরা X, আয়াত Y
+    const surahVersePattern = /(?:সূরা\s+)?([^,]+?)(?:,\s*(?:আয়াত|Verse)\s*([০-৯\d]+))?/i;
+    const match = cleanRef.match(surahVersePattern);
+    if (match) {
+      const surahName = match[1]?.trim();
+      const verseText = match[2];
+      if (surahName) {
+        const surahNumber = findSurahNumber(surahName);
+        if (surahNumber) {
+          const verseNum = verseText ? parseVerseNumber(verseText) : null;
+          if (verseNum) {
+            navigate(`/surah/${surahNumber}#verse-${verseNum}`);
+          } else {
+            navigate(`/surah/${surahNumber}`);
+          }
+        }
+      }
+    }
+  };
+
   // Get top verses, hadiths, and duas from references for dedicated sections
   const relevantVerses = response.references?.verses?.slice(0, 3) || [];
   const relevantHadiths = response.references?.hadiths?.slice(0, 3) || [];
@@ -84,7 +163,7 @@ export const AISearchResults = ({ response, language }: AISearchResultsProps) =>
               "text-base font-semibold text-foreground pt-1",
               language === "bn" && "font-bengali"
             )}>
-              {language === "bn" ? "AI উত্তর" : "AI Answer"}
+              {language === "bn" ? "কুরআন ইনসাইট AI" : "Quran Insight AI"}
             </h3>
           </div>
           <div className={cn(
@@ -94,7 +173,57 @@ export const AISearchResults = ({ response, language }: AISearchResultsProps) =>
             "prose-ul:text-muted-foreground prose-ol:text-muted-foreground",
             language === "bn" && "font-bengali"
           )}>
-            <ReactMarkdown>{response.answer}</ReactMarkdown>
+            <ReactMarkdown
+              components={{
+                p: ({ children }) => {
+                  const processText = (text: string) => {
+                    const referencePattern = /(\[[^\]]*(?:সূরা|Surah|আয়াত|Verse|হাদিস|Hadith|[০-৯]+:[০-৯]+|\d+:\d+)[^\]]*\])/gi;
+                    const parts = text.split(referencePattern);
+                    
+                    return parts.map((part, index) => {
+                      const isReference = /\[[^\]]*(?:সূরা|Surah|আয়াত|Verse|হাদিস|Hadith|[০-৯]+:[০-৯]+|\d+:\d+)[^\]]*\]/i.test(part);
+                      if (isReference) {
+                        return (
+                          <span 
+                            key={index} 
+                            className="text-emerald-600 dark:text-emerald-400 font-medium cursor-pointer hover:underline"
+                            onClick={() => handleReferenceClick(part)}
+                          >
+                            {part}
+                          </span>
+                        );
+                      }
+                      return part;
+                    });
+                  };
+
+                  const processChildren = (child: React.ReactNode): React.ReactNode => {
+                    if (typeof child === 'string') {
+                      return processText(child);
+                    }
+                    return child;
+                  };
+
+                  return (
+                    <p className="mb-3 last:mb-0">
+                      {Array.isArray(children) 
+                        ? children.map((child, i) => <span key={i}>{processChildren(child)}</span>)
+                        : processChildren(children)}
+                    </p>
+                  );
+                },
+                strong: ({ children }) => <strong className="font-semibold text-primary">{children}</strong>,
+                blockquote: ({ children }) => (
+                  <blockquote className="border-l-4 border-primary/50 bg-accent/30 pl-4 py-2 my-3 italic font-arabic text-lg">
+                    {children}
+                  </blockquote>
+                ),
+                ul: ({ children }) => <ul className="list-disc pl-4 space-y-1">{children}</ul>,
+                ol: ({ children }) => <ol className="list-decimal pl-4 space-y-1">{children}</ol>,
+              }}
+            >
+              {response.answer}
+            </ReactMarkdown>
           </div>
         </Card>
       )}
