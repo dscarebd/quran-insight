@@ -48,7 +48,7 @@ export const QuickAccessCards = ({ language }: QuickAccessCardsProps) => {
       labelEn: "Daily Duas",
       labelBn: "দৈনিক দোয়া",
       descEn: "Daily Dua's and Supplications",
-      descBn: "প্রামাণিক দোয়া ও মোনাজাত",
+      descBn: "দৈনিক দোয়া ও মোনাজাত",
       path: "/daily-dua",
       gradient: "from-amber-500 to-orange-600",
       count: duaCount,
