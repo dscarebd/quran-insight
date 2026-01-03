@@ -29,6 +29,19 @@ export const DesktopFooter = ({ language }: DesktopFooterProps) => {
               {language === "bn" ? "ডাউনলোড করুন:" : "Available on:"}
             </span>
             <a
+              href="https://apps.apple.com/app/quran-insight"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="transition-opacity hover:opacity-80"
+              aria-label="Download on App Store"
+            >
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Download_on_the_App_Store_Badge.svg"
+                alt="Download on the App Store"
+                className="h-7 sm:h-9"
+              />
+            </a>
+            <a
               href="https://play.google.com/store/apps/details?id=com.annur.quraninsight"
               target="_blank"
               rel="noopener noreferrer"
