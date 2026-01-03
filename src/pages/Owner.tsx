@@ -19,7 +19,7 @@ const Owner = ({ language }: OwnerProps) => {
 
   const ownerDetails = {
     name: "DIGITAL EXPERTISE HUB LIMITED",
-    email: "support@developerresourcecommunity.com.bd",
+    email: "support@digitalexpertisehublimited.com.bd",
     bio: language === "bn" 
       ? "কুরআন ইনসাইট অ্যাপটি মুসলিম উম্মাহর জন্য তৈরি করা হয়েছে, যাতে সবাই সহজে কুরআন, হাদিস ও দোয়া পড়তে ও বুঝতে পারে।"
       : "Quran Insight app is created for the Muslim Ummah, to help everyone easily read and understand the Quran, Hadith, and Duas.",
