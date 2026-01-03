@@ -72,7 +72,7 @@ const Owner = ({ language }: OwnerProps) => {
             <ArrowLeft className="h-5 w-5" />
           </button>
           <h1 className={cn("text-lg font-semibold", language === "bn" && "font-bengali")}>
-            {language === "bn" ? "মালিকের তথ্য" : "Owner Details"}
+            {language === "bn" ? "অ্যাপ মালিকানা" : "App Ownership"}
           </h1>
         </div>
       </div>
