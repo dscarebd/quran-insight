@@ -239,34 +239,33 @@ const SourcesCredits = ({ language }: SourcesCreditsProps) => {
     icon: React.ComponentType<{ className?: string }>; 
     sources: typeof quranSources;
   }) => (
-    <section className="mb-6">
-      <div className="flex items-center gap-2 mb-3">
-        <Icon className="h-5 w-5 text-primary" />
-        <h2 className={cn(
-          "text-sm font-medium text-muted-foreground uppercase tracking-wider",
-          language === "bn" && "font-bengali"
-        )}>
-          {language === "bn" ? titleBn : title}
-        </h2>
-      </div>
-      <div className="space-y-2">
+    <section>
+      <h2 className={cn(
+        "mb-2 text-base font-medium text-muted-foreground tracking-wider",
+        language === "bn" ? "font-bengali" : "font-sans"
+      )}>
+        {language === "bn" ? titleBn : title}
+      </h2>
+      <div className="rounded-lg border border-border bg-card overflow-hidden divide-y divide-border">
         {sources.map((source, index) => (
           <a
             key={index}
             href={source.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-3 rounded-xl border border-border bg-card p-4 transition-colors hover:bg-muted/50"
+            className="flex items-center gap-3 p-3 transition-colors hover:bg-muted/50"
           >
-            <div className="flex-1">
-              <h3 className={cn("text-base font-semibold", language === "bn" && "font-bengali")}>
+            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary/10 shrink-0">
+              <Icon className="h-4 w-4 text-primary" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <h3 className={cn("text-base font-semibold", language === "bn" ? "font-bengali" : "font-sans")}>
                 {language === "bn" ? source.nameBn : source.nameEn}
               </h3>
-              <p className={cn("text-sm text-muted-foreground mt-1", language === "bn" && "font-bengali")}>
+              <p className={cn("text-sm text-muted-foreground mt-0.5", language === "bn" ? "font-bengali" : "font-sans")}>
                 {language === "bn" ? source.descriptionBn : source.descriptionEn}
               </p>
             </div>
-            <ExternalLink className="h-4 w-4 text-muted-foreground" />
           </a>
         ))}
       </div>
@@ -274,33 +273,36 @@ const SourcesCredits = ({ language }: SourcesCreditsProps) => {
   );
 
   return (
-    <div className="min-h-screen bg-background pb-4">
+    <div className="bg-background">
       {/* Header */}
-      <div className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm border-b border-border">
+      <div className="sticky top-0 z-10 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border">
         <div className="flex items-center gap-3 px-4 py-3">
           <button
             onClick={() => navigate(-1)}
-            className="flex h-9 w-9 items-center justify-center rounded-full bg-muted/50 hover:bg-muted transition-colors"
+            className="flex h-10 w-10 items-center justify-center rounded-full hover:bg-muted transition-colors"
           >
-              <ArrowLeft className="h-5 w-5" />
-            </button>
-            <h1 className={cn("text-lg font-semibold", language === "bn" && "font-bengali")}>
-              {language === "bn" ? "সূত্র ও কৃতজ্ঞতা" : "Sources & Credits"}
-            </h1>
-          </div>
+            <ArrowLeft className="h-5 w-5" />
+          </button>
+          <h1 className={cn("text-lg font-semibold", language === "bn" ? "font-bengali" : "font-sans")}>
+            {language === "bn" ? "সূত্র ও কৃতজ্ঞতা" : "Sources & Credits"}
+          </h1>
         </div>
+      </div>
 
-        {/* Content */}
-        <div className="mx-auto max-w-2xl p-4 pb-4 space-y-6">
-          {/* Introduction */}
-          <div className="rounded-xl border border-border bg-gradient-to-br from-primary/5 to-primary/10 p-4">
+      {/* Content */}
+      <div className="mx-auto max-w-2xl px-4 pt-3 pb-4 lg:pb-3 space-y-4">
+        {/* Introduction */}
+        <section>
+          <div className="rounded-lg border border-border bg-gradient-to-br from-primary/5 to-primary/10 p-3">
             <div className="flex items-start gap-3">
-              <Heart className="h-5 w-5 text-primary mt-0.5" />
+              <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary/10 shrink-0">
+                <Heart className="h-4 w-4 text-primary" />
+              </div>
               <div>
-                <h3 className={cn("text-base font-semibold mb-1", language === "bn" && "font-bengali")}>
+                <h3 className={cn("text-base font-semibold", language === "bn" ? "font-bengali" : "font-sans")}>
                   {language === "bn" ? "কৃতজ্ঞতা স্বীকার" : "Acknowledgments"}
                 </h3>
-                <p className={cn("text-sm text-muted-foreground leading-relaxed", language === "bn" && "font-bengali")}>
+                <p className={cn("text-sm text-muted-foreground mt-0.5 leading-relaxed", language === "bn" ? "font-bengali" : "font-sans")}>
                   {language === "bn" 
                     ? "এই অ্যাপে ব্যবহৃত সমস্ত কন্টেন্ট নিম্নলিখিত বিশ্বস্ত উৎস থেকে সংগ্রহ করা হয়েছে। আমরা তাদের অমূল্য অবদানের জন্য কৃতজ্ঞ।"
                     : "All content used in this app has been collected from the following trusted sources. We are grateful for their invaluable contributions."}
@@ -308,6 +310,7 @@ const SourcesCredits = ({ language }: SourcesCreditsProps) => {
               </div>
             </div>
           </div>
+        </section>
 
           {/* Quran Sources */}
           <SourceSection 
@@ -381,14 +384,16 @@ const SourcesCredits = ({ language }: SourcesCreditsProps) => {
             sources={developerCredits} 
           />
 
-          {/* Disclaimer */}
-          <div className="rounded-xl border border-border bg-muted/30 p-4">
-            <p className={cn("text-sm text-muted-foreground leading-relaxed text-center", language === "bn" && "font-bengali")}>
+        {/* Disclaimer */}
+        <section>
+          <div className="rounded-lg border border-border bg-muted/30 p-3">
+            <p className={cn("text-sm text-muted-foreground leading-relaxed text-center", language === "bn" ? "font-bengali" : "font-sans")}>
               {language === "bn" 
                 ? "এই অ্যাপটি শুধুমাত্র শিক্ষামূলক উদ্দেশ্যে তৈরি। সমস্ত কন্টেন্ট প্রামাণিক উৎস থেকে সংগ্রহ করা হয়েছে এবং সঠিকতা নিশ্চিত করার জন্য যাচাই করা হয়েছে।"
                 : "This app is created for educational purposes only. All content has been collected from authentic sources and verified for accuracy."}
             </p>
-        </div>
+          </div>
+        </section>
       </div>
     </div>
   );
