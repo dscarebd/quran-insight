@@ -342,7 +342,7 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
             </Collapsible>
           </section>
 
-          {/* Owner & Developer Information */}
+          {/* Ownership & Developer Information */}
           <section>
             <h2 className={cn(
               "mb-2 text-base font-medium text-muted-foreground tracking-wider",
