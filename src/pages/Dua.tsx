@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { ArrowLeft, ChevronRight, Search, Heart, Copy, Check, Share2, Sparkles, WifiOff } from "lucide-react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { cn, formatNumber } from "@/lib/utils";
-import { MobileNavFooter } from "@/components/MobileNavFooter";
 import { duaCategories, DuaCategory, Dua as DuaType } from "@/data/duas";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -274,9 +273,9 @@ const Dua = ({ language, arabicFont = "amiri" }: DuaProps) => {
   };
 
   return (
-    <>
-      <div className="min-h-screen bg-background">
-        <div className="mx-auto max-w-6xl px-4 py-6 lg:px-6 lg:py-8">
+    <div className="bg-background">
+      <div className="mx-auto max-w-6xl px-4 py-6 lg:px-6 lg:py-8">
+        {/* Tabs */}
           {/* Tabs */}
           <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as "all" | "favorites")} className="w-full">
             {/* Mobile Tabs */}
@@ -879,10 +878,7 @@ const Dua = ({ language, arabicFont = "amiri" }: DuaProps) => {
           </ScrollArea>
         </SheetContent>
       </Sheet>
-      
-      <MobileNavFooter language={language} />
     </div>
-    </>
   );
 };
 

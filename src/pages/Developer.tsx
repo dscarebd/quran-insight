@@ -3,7 +3,6 @@ import { ArrowLeft, Globe, Mail, Code, Heart, ExternalLink } from "lucide-react"
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
-import { MobileNavFooter } from "@/components/MobileNavFooter";
 import annurLogo from "@/assets/annur-digital-logo.jpeg";
 import { Language } from "@/types/language";
 
@@ -88,26 +87,25 @@ const Developer = ({ language }: DeveloperProps) => {
   ];
 
   return (
-    <>
-      <div className="min-h-screen bg-background">
-        {/* Header */}
-        <div className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm border-b border-border">
-          <div className="flex items-center gap-3 px-4 py-3">
-            <button
-              onClick={() => navigate(-1)}
-              className="flex h-9 w-9 items-center justify-center rounded-full bg-muted/50 hover:bg-muted transition-colors"
-            >
-              <ArrowLeft className="h-5 w-5" />
-            </button>
-            <h1 className={cn("text-lg font-semibold", language === "bn" && "font-bengali")}>
-              {language === "bn" ? "ডেভেলপার তথ্য" : "Developer Information"}
-            </h1>
-          </div>
+    <div className="bg-background">
+      {/* Header */}
+      <div className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm border-b border-border">
+        <div className="flex items-center gap-3 px-4 py-3">
+          <button
+            onClick={() => navigate(-1)}
+            className="flex h-9 w-9 items-center justify-center rounded-full bg-muted/50 hover:bg-muted transition-colors"
+          >
+            <ArrowLeft className="h-5 w-5" />
+          </button>
+          <h1 className={cn("text-lg font-semibold", language === "bn" && "font-bengali")}>
+            {language === "bn" ? "ডেভেলপার তথ্য" : "Developer Information"}
+          </h1>
         </div>
+      </div>
 
-        {/* Content */}
-        <div className="mx-auto max-w-2xl p-4 pb-4 space-y-6">
-          {/* Developer Card */}
+      {/* Content */}
+      <div className="mx-auto max-w-2xl p-4 pb-4 space-y-6">
+        {/* Developer Card */}
           <div className="rounded-xl border border-border bg-gradient-to-br from-primary/5 to-primary/10 overflow-hidden">
             <div className="p-5">
               <div className="flex items-center gap-4">
@@ -235,8 +233,6 @@ const Developer = ({ language }: DeveloperProps) => {
           </div>
         </div>
       </div>
-      <MobileNavFooter language={language} />
-    </>
   );
 };
 

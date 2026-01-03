@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { ArrowLeft, Heart, Star, BookOpen, Mail, MapPin, Building2, Globe } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
-import { MobileNavFooter } from "@/components/MobileNavFooter";
 import { Language } from "@/types/language";
 import appLogo from "@/assets/app-logo.png";
 
@@ -62,26 +61,25 @@ const Owner = ({ language }: OwnerProps) => {
   ];
 
   return (
-    <>
-      <div className="min-h-screen bg-background">
-        {/* Header */}
-        <div className="sticky top-0 z-10 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border">
-          <div className="flex items-center gap-3 px-4 py-3">
-            <button
-              onClick={() => navigate(-1)}
-              className="flex h-10 w-10 items-center justify-center rounded-full hover:bg-muted transition-colors"
-            >
-              <ArrowLeft className="h-5 w-5" />
-            </button>
-            <h1 className={cn("text-lg font-semibold", language === "bn" && "font-bengali")}>
-              {language === "bn" ? "মালিকের তথ্য" : "Owner Details"}
-            </h1>
-          </div>
+    <div className="bg-background">
+      {/* Header */}
+      <div className="sticky top-0 z-10 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border">
+        <div className="flex items-center gap-3 px-4 py-3">
+          <button
+            onClick={() => navigate(-1)}
+            className="flex h-10 w-10 items-center justify-center rounded-full hover:bg-muted transition-colors"
+          >
+            <ArrowLeft className="h-5 w-5" />
+          </button>
+          <h1 className={cn("text-lg font-semibold", language === "bn" && "font-bengali")}>
+            {language === "bn" ? "মালিকের তথ্য" : "Owner Details"}
+          </h1>
         </div>
+      </div>
 
-        {/* Content */}
-        <div className="mx-auto max-w-2xl p-4 space-y-6">
-          {/* Owner Card */}
+      {/* Content */}
+      <div className="mx-auto max-w-2xl p-4 space-y-6">
+        {/* Owner Card */}
           <section>
             <div className="rounded-xl border border-border bg-gradient-to-br from-primary/5 to-primary/10 overflow-hidden">
               <div className="p-6 text-center">
@@ -227,8 +225,6 @@ const Owner = ({ language }: OwnerProps) => {
           </section>
         </div>
       </div>
-      <MobileNavFooter language={language} />
-    </>
   );
 };
 
