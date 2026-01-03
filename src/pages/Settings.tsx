@@ -366,7 +366,7 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
                     </div>
                     <div className="flex-1 min-w-0">
                       <h3 className="text-base font-semibold truncate">
-                        Developer Resource Community
+                        DIGITAL EXPERTISE HUB LIMITED
                       </h3>
                       <p className={cn("text-sm text-muted-foreground", language === "bn" && "font-bengali")}>
                         {language === "bn" 

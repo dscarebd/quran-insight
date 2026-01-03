@@ -18,7 +18,7 @@ const Owner = ({ language }: OwnerProps) => {
   }, []);
 
   const ownerDetails = {
-    name: "Developer Resource Community Limited",
+    name: "DIGITAL EXPERTISE HUB LIMITED",
     email: "support@developerresourcecommunity.com.bd",
     bio: language === "bn" 
       ? "কুরআন ইনসাইট অ্যাপটি মুসলিম উম্মাহর জন্য তৈরি করা হয়েছে, যাতে সবাই সহজে কুরআন, হাদিস ও দোয়া পড়তে ও বুঝতে পারে।"
