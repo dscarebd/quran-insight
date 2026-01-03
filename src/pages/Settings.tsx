@@ -59,7 +59,7 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
           <section>
             <h2 className={cn(
               "mb-2 font-medium text-muted-foreground tracking-wider",
-              language === "bn" ? "font-bengali text-sm" : "font-sans text-sm"
+              language === "bn" ? "font-bengali text-sm" : "font-sans text-base"
             )}>
               {language === "bn" ? "আমাদের সম্পর্কে" : "About Us"}
             </h2>
@@ -90,7 +90,7 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
           <section>
             <h2 className={cn(
               "mb-2 font-medium text-muted-foreground tracking-wider",
-              language === "bn" ? "font-bengali text-sm" : "font-sans text-sm"
+              language === "bn" ? "font-bengali text-sm" : "font-sans text-base"
             )}>
               {language === "bn" ? "ভাষা" : "Language"}
             </h2>
@@ -154,7 +154,7 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
           <section>
             <h2 className={cn(
               "mb-2 font-medium text-muted-foreground tracking-wider",
-              language === "bn" ? "font-bengali text-sm" : "font-sans text-sm"
+              language === "bn" ? "font-bengali text-sm" : "font-sans text-base"
             )}>
               {language === "bn" ? "থিম" : "Theme"}
             </h2>
@@ -252,7 +252,7 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
           <section>
             <h2 className={cn(
               "mb-2 font-medium text-muted-foreground tracking-wider",
-              language === "bn" ? "font-bengali text-sm" : "font-sans text-sm"
+              language === "bn" ? "font-bengali text-sm" : "font-sans text-base"
             )}>
               {language === "bn" ? "ফন্ট সেটিংস" : "Font Settings"}
             </h2>
@@ -346,7 +346,7 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
           <section>
             <h2 className={cn(
               "mb-2 font-medium text-muted-foreground tracking-wider",
-              language === "bn" ? "font-bengali text-sm" : "font-sans text-sm"
+              language === "bn" ? "font-bengali text-sm" : "font-sans text-base"
             )}>
               {language === "bn" ? "মালিক ও ডেভেলপার তথ্য" : "Owner & Developer Info"}
             </h2>
@@ -420,7 +420,7 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
           <section>
             <h2 className={cn(
               "mb-2 font-medium text-muted-foreground tracking-wider",
-              language === "bn" ? "font-bengali text-sm" : "font-sans text-sm"
+              language === "bn" ? "font-bengali text-sm" : "font-sans text-base"
             )}>
               {language === "bn" ? "অ্যাপ তথ্য" : "App Info"}
             </h2>
