@@ -47,7 +47,7 @@ export const QuickAccessCards = ({ language }: QuickAccessCardsProps) => {
       icon: HandHeart,
       labelEn: "Daily Duas",
       labelBn: "দৈনিক দোয়া",
-      descEn: "Authentic prayers and supplications",
+      descEn: "Daily Dua's and Supplications",
       descBn: "প্রামাণিক দোয়া ও মোনাজাত",
       path: "/daily-dua",
       gradient: "from-amber-500 to-orange-600",
