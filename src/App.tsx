@@ -13,6 +13,7 @@ import { useFontSize } from "@/hooks/useFontSize";
 import { useBackButtonHandler } from "@/hooks/useBackButtonHandler";
 import { useStatusBar } from "@/hooks/useStatusBar";
 import { useSplashScreen } from "@/hooks/useSplashScreen";
+import { useGeoLanguage } from "@/hooks/useGeoLanguage";
 import { Language } from "@/types/language";
 import { initializeBundledData } from "@/services/bundledDataLoader";
 import Index from "./pages/Index";
@@ -65,10 +66,21 @@ const LoadingFallback = () => (
 );
 
 const AppContent = () => {
-  const [language, setLanguage] = useState<Language>(() => {
-    const saved = localStorage.getItem("quran-language");
-    return (saved as Language) || "bn";
-  });
+  const { language: geoLanguage, setLanguage: setGeoLanguage, isDetecting } = useGeoLanguage();
+  const [language, setLanguage] = useState<Language>(geoLanguage);
+  
+  // Sync with geo language detection
+  useEffect(() => {
+    if (!localStorage.getItem("quran-language")) {
+      setLanguage(geoLanguage);
+    }
+  }, [geoLanguage]);
+
+  const handleLanguageChange = (newLang: Language) => {
+    setLanguage(newLang);
+    localStorage.setItem("quran-language", newLang);
+  };
+
   const [readingMode, setReadingMode] = useState<"normal" | "sepia">(() => {
     const saved = localStorage.getItem("quran-reading-mode");
     return (saved as "normal" | "sepia") || "normal";
@@ -78,11 +90,6 @@ const AppContent = () => {
     return (saved as "amiri" | "uthmani") || "amiri";
   });
   const { fontSize, setFontSize } = useFontSize();
-  
-  // Save language to localStorage
-  useEffect(() => {
-    localStorage.setItem("quran-language", language);
-  }, [language]);
   
   // Save reading mode to localStorage
   useEffect(() => {
@@ -114,27 +121,27 @@ const AppContent = () => {
   return (
     <Routes>
       <Route path="/" element={
-        <Layout language={language} onLanguageChange={setLanguage}>
+        <Layout language={language} onLanguageChange={handleLanguageChange}>
           <Index language={language} />
         </Layout>
       } />
       <Route path="/surah" element={
-        <Layout language={language} onLanguageChange={setLanguage}>
+        <Layout language={language} onLanguageChange={handleLanguageChange}>
           <SurahList language={language} />
         </Layout>
       } />
       <Route path="/surah/:surahNumber" element={
-        <Layout language={language} onLanguageChange={setLanguage}>
+        <Layout language={language} onLanguageChange={handleLanguageChange}>
           <SurahDetail language={language} readingMode={readingMode} arabicFont={arabicFont} />
         </Layout>
       } />
       <Route path="/para" element={
-        <Layout language={language} onLanguageChange={setLanguage}>
+        <Layout language={language} onLanguageChange={handleLanguageChange}>
           <ParaList language={language} />
         </Layout>
       } />
       <Route path="/para/:paraNumber" element={
-        <Layout language={language} onLanguageChange={setLanguage}>
+        <Layout language={language} onLanguageChange={handleLanguageChange}>
           <ParaDetail language={language} readingMode={readingMode} arabicFont={arabicFont} />
         </Layout>
       } />
@@ -142,89 +149,89 @@ const AppContent = () => {
       <Route path="/read/:pageNumber" element={
         <ReadPageWrapper
           language={language}
-          onLanguageChange={setLanguage}
+          onLanguageChange={handleLanguageChange}
           readingMode={readingMode}
           arabicFont={arabicFont}
           onArabicFontChange={setArabicFont}
         />
       } />
       <Route path="/bookmarks" element={
-        <Layout language={language} onLanguageChange={setLanguage}>
+        <Layout language={language} onLanguageChange={handleLanguageChange}>
           <Bookmarks language={language} readingMode={readingMode} arabicFont={arabicFont} />
         </Layout>
       } />
       <Route path="/dua" element={
-        <Layout language={language} onLanguageChange={setLanguage}>
+        <Layout language={language} onLanguageChange={handleLanguageChange}>
           <Dua language={language} arabicFont={arabicFont} />
         </Layout>
       } />
       <Route path="/dua/:categoryId" element={
-        <Layout language={language} onLanguageChange={setLanguage}>
+        <Layout language={language} onLanguageChange={handleLanguageChange}>
           <Dua language={language} arabicFont={arabicFont} />
         </Layout>
       } />
       <Route path="/daily-dua" element={
-        <Layout language={language} onLanguageChange={setLanguage}>
+        <Layout language={language} onLanguageChange={handleLanguageChange}>
           <DailyDuaPage language={language} arabicFont={arabicFont} />
         </Layout>
       } />
       <Route path="/islamic-calendar" element={
-        <Layout language={language} onLanguageChange={setLanguage}>
+        <Layout language={language} onLanguageChange={handleLanguageChange}>
           <IslamicCalendar language={language} />
         </Layout>
       } />
       <Route path="/prayer-times" element={
-        <Layout language={language} onLanguageChange={setLanguage}>
+        <Layout language={language} onLanguageChange={handleLanguageChange}>
           <PrayerTimes language={language} />
         </Layout>
       } />
       <Route path="/names-of-allah" element={
-        <Layout language={language} onLanguageChange={setLanguage}>
+        <Layout language={language} onLanguageChange={handleLanguageChange}>
           <NamesOfAllah language={language} arabicFont={arabicFont} />
         </Layout>
       } />
       <Route path="/hadith" element={
-        <Layout language={language} onLanguageChange={setLanguage}>
+        <Layout language={language} onLanguageChange={handleLanguageChange}>
           <HadithList language={language} />
         </Layout>
       } />
       <Route path="/hadith/:bookSlug" element={
-        <Layout language={language} onLanguageChange={setLanguage}>
+        <Layout language={language} onLanguageChange={handleLanguageChange}>
           <HadithDetail language={language} arabicFont={arabicFont} />
         </Layout>
       } />
       <Route path="/hadith/:bookSlug/:hadithNumber" element={
-        <Layout language={language} onLanguageChange={setLanguage}>
+        <Layout language={language} onLanguageChange={handleLanguageChange}>
           <HadithDetail language={language} arabicFont={arabicFont} />
         </Layout>
       } />
       <Route path="/hadith-search" element={
-        <Layout language={language} onLanguageChange={setLanguage}>
+        <Layout language={language} onLanguageChange={handleLanguageChange}>
           <HadithSearch language={language} arabicFont={arabicFont} />
         </Layout>
       } />
       <Route path="/settings" element={
-        <Layout language={language} onLanguageChange={setLanguage}>
-          <Settings language={language} onLanguageChange={setLanguage} readingMode={readingMode} onReadingModeChange={setReadingMode} arabicFont={arabicFont} onArabicFontChange={setArabicFont} fontSize={fontSize} onFontSizeChange={setFontSize} />
+        <Layout language={language} onLanguageChange={handleLanguageChange}>
+          <Settings language={language} onLanguageChange={handleLanguageChange} readingMode={readingMode} onReadingModeChange={setReadingMode} arabicFont={arabicFont} onArabicFontChange={setArabicFont} fontSize={fontSize} onFontSizeChange={setFontSize} />
         </Layout>
       } />
       <Route path="/sources-credits" element={
-        <Layout language={language} onLanguageChange={setLanguage}>
+        <Layout language={language} onLanguageChange={handleLanguageChange}>
           <SourcesCredits language={language} />
         </Layout>
       } />
       <Route path="/developer" element={
-        <Layout language={language} onLanguageChange={setLanguage}>
+        <Layout language={language} onLanguageChange={handleLanguageChange}>
           <Developer language={language} />
         </Layout>
       } />
       <Route path="/privacy-policy" element={
-        <Layout language={language} onLanguageChange={setLanguage}>
+        <Layout language={language} onLanguageChange={handleLanguageChange}>
           <PrivacyPolicy language={language} />
         </Layout>
       } />
       <Route path="/owner" element={
-        <Layout language={language} onLanguageChange={setLanguage}>
+        <Layout language={language} onLanguageChange={handleLanguageChange}>
           <Owner language={language} />
         </Layout>
       } />
