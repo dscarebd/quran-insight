@@ -187,12 +187,6 @@ export const MobileNavFooter = ({ language }: MobileNavFooterProps) => {
           ))}
         </div>
       </nav>
-      {/* Safe area fill for bottom navigation bar (Samsung S25 Plus, iPhone, etc.) */}
-      <div 
-        className="fixed bottom-0 left-0 right-0 z-40 bg-background lg:hidden"
-        style={{ height: 'env(safe-area-inset-bottom, 0px)' }}
-      />
-
       {/* Quran Sheet with Tabs for Surah and Para */}
       <Sheet open={quranSheetOpen} onOpenChange={setQuranSheetOpen}>
         <SheetContent side="bottom" className="h-[75vh] rounded-t-2xl px-0">
