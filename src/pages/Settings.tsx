@@ -348,7 +348,7 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
               "mb-2 text-base font-medium text-muted-foreground tracking-wider",
               language === "bn" ? "font-bengali" : "font-sans"
             )}>
-              {language === "bn" ? "মালিক ও ডেভেলপার তথ্য" : "Owner & Developer Info"}
+              {language === "bn" ? "মালিকানা ও ডেভেলপার তথ্য" : "Ownership & Developer Info"}
             </h2>
             <div className="rounded-lg border border-border bg-card overflow-hidden divide-y divide-border">
               {/* Owner */}
