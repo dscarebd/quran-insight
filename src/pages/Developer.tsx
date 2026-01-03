@@ -107,14 +107,14 @@ const Developer = ({ language }: DeveloperProps) => {
       <div className="mx-auto max-w-2xl px-4 pt-3 pb-4 lg:pb-3 space-y-4">
         {/* Developer Card */}
         <section>
-          <div className="rounded-lg border border-border bg-gradient-to-br from-primary/5 to-primary/10 overflow-hidden">
-            <div className="p-3">
-              <div className="flex items-center gap-3">
+          <div className="rounded-xl border border-border bg-gradient-to-br from-primary/5 to-primary/10 overflow-hidden">
+            <div className="p-5">
+              <div className="flex items-center gap-4">
                 <button
                   type="button"
                   aria-label={language === "bn" ? "অ্যাডমিন লগইন খুলুন" : "Open admin login"}
                   onClick={handleDeveloperLogoClick}
-                  className="h-12 w-12 rounded-full border-2 border-primary/20 overflow-hidden cursor-pointer select-none"
+                  className="h-16 w-16 rounded-full border-2 border-primary/20 overflow-hidden cursor-pointer select-none"
                 >
                   <img
                     src={annurLogo}
@@ -124,10 +124,10 @@ const Developer = ({ language }: DeveloperProps) => {
                   />
                 </button>
                 <div className="flex-1">
-                  <h3 className={cn("text-base font-semibold", language === "bn" ? "font-bengali" : "font-sans")}>
+                  <h3 className={cn("text-lg font-semibold", language === "bn" ? "font-bengali" : "font-sans")}>
                     An-Nur Digital
                   </h3>
-                  <p className={cn("text-sm text-muted-foreground leading-tight", language === "bn" ? "font-bengali" : "font-sans")}>
+                  <p className={cn("text-base text-muted-foreground", language === "bn" ? "font-bengali" : "font-sans")}>
                     {language === "bn" 
                       ? "ওয়ার্ডপ্রেস ও সফটওয়্যার ডিজাইনার" 
                       : "WordPress & Software Designer"}
@@ -146,8 +146,8 @@ const Developer = ({ language }: DeveloperProps) => {
           )}>
             {language === "bn" ? "আমাদের সম্পর্কে" : "About Us"}
           </h2>
-          <div className="rounded-lg border border-border bg-card p-3">
-            <p className={cn("text-sm text-muted-foreground leading-relaxed", language === "bn" ? "font-bengali" : "font-sans")}>
+          <div className="rounded-xl border border-border bg-card p-4">
+            <p className={cn("text-base text-muted-foreground leading-relaxed", language === "bn" ? "font-bengali" : "font-sans")}>
               {language === "bn" 
                 ? "আন-নূর ডিজিটাল একটি ক্রিয়েটিভ ডিজিটাল এজেন্সি যা ওয়েব ডেভেলপমেন্ট, সফটওয়্যার ডিজাইন এবং ডিজিটাল সমাধান প্রদান করে।"
                 : "An-Nur Digital is a creative digital agency providing web development, software design, and digital solutions."}
