@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
-import { MobileNavFooter } from "@/components/MobileNavFooter";
 import { Slider } from "@/components/ui/slider";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import annurLogo from "@/assets/annur-digital-logo.jpeg";
@@ -52,11 +51,9 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
   ];
 
   return (
-    <>
-      <div className="min-h-screen bg-background">
-
-        {/* Content */}
-        <div className="mx-auto max-w-2xl px-4 pt-3 pb-6 lg:pb-3 space-y-4">
+    <div className="bg-background">
+      {/* Content */}
+      <div className="mx-auto max-w-2xl px-4 pt-3 pb-0 lg:pb-3 space-y-4">
           
           {/* User Card Section */}
           <section>
@@ -466,8 +463,6 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
           </section>
         </div>
       </div>
-      <MobileNavFooter language={language} />
-    </>
   );
 };
 
