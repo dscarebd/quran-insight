@@ -1,5 +1,5 @@
 import { useNavigate, useLocation } from "react-router-dom";
-import { Book, BookOpen, HandHeart, Settings, BookText } from "lucide-react";
+import { Home, BookOpen, HandHelping, Settings, BookText, ScrollText } from "lucide-react";
 import { LanguageToggle } from "./LanguageToggle";
 import appLogo from "@/assets/app-logo.png";
 import { cn } from "@/lib/utils";
@@ -19,7 +19,7 @@ export const DesktopHeader = ({ language, onLanguageChange }: DesktopHeaderProps
       path: "/", 
       labelEn: "Home", 
       labelBn: "হোম",
-      icon: BookOpen,
+      icon: Home,
       action: () => {
         window.dispatchEvent(new CustomEvent("clear-home-search"));
         navigate("/");
@@ -29,7 +29,7 @@ export const DesktopHeader = ({ language, onLanguageChange }: DesktopHeaderProps
       path: "/surah", 
       labelEn: "Quran", 
       labelBn: "কুরআন",
-      icon: Book,
+      icon: BookOpen,
       matchPattern: /^\/surah|^\/para/,
       action: () => navigate("/surah"),
     },
@@ -45,7 +45,7 @@ export const DesktopHeader = ({ language, onLanguageChange }: DesktopHeaderProps
       path: "/hadith", 
       labelEn: "Hadith", 
       labelBn: "হাদিস",
-      icon: BookOpen,
+      icon: ScrollText,
       matchPattern: /^\/hadith/,
       action: () => navigate("/hadith"),
     },
@@ -53,7 +53,7 @@ export const DesktopHeader = ({ language, onLanguageChange }: DesktopHeaderProps
       path: "/dua", 
       labelEn: "Dua", 
       labelBn: "দোয়া",
-      icon: HandHeart,
+      icon: HandHelping,
       action: () => navigate("/dua"),
     },
     { 
