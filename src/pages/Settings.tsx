@@ -345,83 +345,78 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
             </Collapsible>
           </section>
 
-          {/* Owner Information */}
+          {/* Owner & Developer Information */}
           <section>
             <h2 className={cn(
               "mb-3 text-base font-medium text-muted-foreground uppercase tracking-wider",
               language === "bn" && "font-bengali"
             )}>
-              {language === "bn" ? "মালিকের তথ্য" : "Owner Details"}
+              {language === "bn" ? "মালিক ও ডেভেলপার তথ্য" : "Owner & Developer Info"}
             </h2>
-            <button
-              onClick={() => navigate("/owner")}
-              className="w-full rounded-xl border border-border bg-card overflow-hidden text-left hover:bg-muted/50 transition-colors"
-            >
-              <div className="p-4">
-                <div className="flex items-center gap-4">
-                  <div className="flex h-14 w-14 items-center justify-center rounded-full bg-primary/10 border-2 border-primary/20">
-                    <User className="h-7 w-7 text-primary" />
+            <div className="rounded-xl border border-border bg-card overflow-hidden divide-y divide-border">
+              {/* Owner */}
+              <button
+                onClick={() => navigate("/owner")}
+                className="w-full text-left hover:bg-muted/50 transition-colors"
+              >
+                <div className="p-4">
+                  <div className="flex items-center gap-4">
+                    <div className="flex h-14 w-14 items-center justify-center rounded-full bg-primary/10 border-2 border-primary/20">
+                      <User className="h-7 w-7 text-primary" />
+                    </div>
+                    <div className="flex-1">
+                      <h3 className={cn("text-base font-semibold", language === "bn" && "font-bengali")}>
+                        {language === "bn" ? "আব্দুল্লাহ" : "Abdullah"}
+                      </h3>
+                      <p className={cn("text-sm text-muted-foreground", language === "bn" && "font-bengali")}>
+                        {language === "bn" 
+                          ? "প্রতিষ্ঠাতা ও ডেভেলপার" 
+                          : "Founder & Developer"}
+                      </p>
+                    </div>
+                    <ChevronRight className="h-5 w-5 text-muted-foreground" />
                   </div>
-                  <div className="flex-1">
-                    <h3 className={cn("text-base font-semibold", language === "bn" && "font-bengali")}>
-                      {language === "bn" ? "আব্দুল্লাহ" : "Abdullah"}
-                    </h3>
-                    <p className={cn("text-sm text-muted-foreground", language === "bn" && "font-bengali")}>
-                      {language === "bn" 
-                        ? "প্রতিষ্ঠাতা ও ডেভেলপার" 
-                        : "Founder & Developer"}
-                    </p>
-                  </div>
-                  <ChevronRight className="h-5 w-5 text-muted-foreground" />
                 </div>
-              </div>
-            </button>
-          </section>
+              </button>
 
-          {/* Developer Information */}
-          <section>
-            <h2 className={cn(
-              "mb-3 text-base font-medium text-muted-foreground uppercase tracking-wider",
-              language === "bn" && "font-bengali"
-            )}>
-              {language === "bn" ? "ডেভেলপার তথ্য" : "Developer Information"}
-            </h2>
-            <button
-              onClick={() => navigate("/developer")}
-              className="w-full rounded-xl border border-border bg-card overflow-hidden text-left hover:bg-muted/50 transition-colors"
-            >
-              <div className="p-4">
-                <div className="flex items-center gap-4">
-                  <button
-                    type="button"
-                    aria-label={language === "bn" ? "অ্যাডমিন লগইন খুলুন" : "Open admin login"}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleDeveloperLogoClick();
-                    }}
-                    className="h-14 w-14 rounded-full border-2 border-primary/20 overflow-hidden cursor-pointer select-none"
-                  >
-                    <img
-                      src={annurLogo}
-                      alt="An-Nur Digital"
-                      className="h-full w-full object-cover"
-                      draggable={false}
-                    />
-                  </button>
-                  <div className="flex-1">
-                    <h3 className={cn("text-base font-semibold", language === "bn" && "font-bengali")}>
-                      An-Nur Digital
-                    </h3>
-                    <p className={cn("text-sm text-muted-foreground", language === "bn" && "font-bengali")}>
-                      {language === "bn" 
-                        ? "ওয়ার্ডপ্রেস ও সফটওয়্যার ডিজাইনার" 
-                        : "WordPress & Software Designer"}
-                    </p>
+              {/* Developer */}
+              <button
+                onClick={() => navigate("/developer")}
+                className="w-full text-left hover:bg-muted/50 transition-colors"
+              >
+                <div className="p-4">
+                  <div className="flex items-center gap-4">
+                    <button
+                      type="button"
+                      aria-label={language === "bn" ? "অ্যাডমিন লগইন খুলুন" : "Open admin login"}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDeveloperLogoClick();
+                      }}
+                      className="h-14 w-14 rounded-full border-2 border-primary/20 overflow-hidden cursor-pointer select-none"
+                    >
+                      <img
+                        src={annurLogo}
+                        alt="An-Nur Digital"
+                        className="h-full w-full object-cover"
+                        draggable={false}
+                      />
+                    </button>
+                    <div className="flex-1">
+                      <h3 className={cn("text-base font-semibold", language === "bn" && "font-bengali")}>
+                        An-Nur Digital
+                      </h3>
+                      <p className={cn("text-sm text-muted-foreground", language === "bn" && "font-bengali")}>
+                        {language === "bn" 
+                          ? "ওয়ার্ডপ্রেস ও সফটওয়্যার ডিজাইনার" 
+                          : "WordPress & Software Designer"}
+                      </p>
+                    </div>
+                    <ChevronRight className="h-5 w-5 text-muted-foreground" />
                   </div>
-                  <ChevronRight className="h-5 w-5 text-muted-foreground" />
                 </div>
-              </div>
-            </button>
+              </button>
+            </div>
           </section>
 
           {/* About Section */}
