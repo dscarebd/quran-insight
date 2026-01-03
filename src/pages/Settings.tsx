@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { Info, Moon, Sun, BookOpen, Type, ChevronRight, FileText, ChevronDown, Globe, Palette, Shield, Building2 } from "lucide-react";
+import { Info, Moon, Sun, BookOpen, Type, ChevronRight, FileText, ChevronDown, Globe, Palette, Shield, Building2, Heart } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { useTheme } from "next-themes";
@@ -464,6 +464,22 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
                 </div>
                 <ChevronRight className="h-4 w-4 text-muted-foreground" />
               </button>
+            </div>
+          </section>
+
+          {/* Thank You */}
+          <section>
+            <div className="rounded-lg border border-border bg-gradient-to-br from-primary/5 to-primary/10 p-3 text-center">
+              <Heart className="h-6 w-6 text-primary mx-auto mb-2" />
+              <h3 className={cn("text-base font-semibold", language === "bn" ? "font-bengali" : "font-sans")}>
+                {language === "bn" ? "জাযাকাল্লাহু খাইরান" : "JazakAllahu Khairan"}
+              </h3>
+              <p className={cn("text-sm text-muted-foreground mt-1", language === "bn" ? "font-bengali" : "font-sans")}>
+                {language === "bn" 
+                  ? "অ্যাপটি ব্যবহার করার জন্য ধন্যবাদ। আপনার দোয়া কামনা করছি।"
+                  : "Thank you for using the app. Please remember us in your prayers."
+                }
+              </p>
             </div>
           </section>
         </div>
