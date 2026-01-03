@@ -4,17 +4,14 @@ const config: CapacitorConfig = {
   appId: 'com.annur.quraninsight',
   appName: 'Quran Insight',
   webDir: 'dist',
-  server: {
-    url: 'https://70af42a0-b8fd-42d5-97f9-2163c60c4b6a.lovableproject.com?forceHideBadge=true',
-    cleartext: true
-  },
+  // Server config removed for offline APK bundle - uses local dist folder
   ios: {
     contentInset: 'automatic',
-    backgroundColor: '#10b981', // Primary green color
+    backgroundColor: '#10b981',
     allowsLinkPreview: true
   },
   android: {
-    backgroundColor: '#00000000' // Transparent for edge-to-edge
+    backgroundColor: '#00000000'
   },
   plugins: {
     StatusBar: {
@@ -23,21 +20,14 @@ const config: CapacitorConfig = {
       backgroundColor: '#00000000'
     },
     SplashScreen: {
-      // Splash screen duration before auto-hide (if launchAutoHide is true)
       launchShowDuration: 2000,
-      // Manually control when to hide (set to false for manual control)
       launchAutoHide: false,
-      // Background color of splash screen
-      backgroundColor: '#10b981', // Primary green color matching theme
-      // Android specific settings
+      backgroundColor: '#10b981',
       androidSplashResourceName: 'splash',
       androidScaleType: 'CENTER_CROP',
-      // iOS specific settings
       splashFullScreen: true,
       splashImmersive: true,
-      // Animation settings
       showSpinner: false,
-      // Fade animation duration
       launchFadeOutDuration: 300
     }
   }
