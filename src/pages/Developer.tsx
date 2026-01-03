@@ -228,12 +228,12 @@ const Developer = ({ language }: DeveloperProps) => {
                 : "Need help with your project?"}
             </p>
             <a
-              href="https://annurdigital.com"
+              href="https://t.me/nuralamin_official"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 mt-2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
             >
-              <Globe className="h-4 w-4" />
+              <TelegramIcon className="h-4 w-4" />
               {language === "bn" ? "আমাদের সাথে যোগাযোগ করুন" : "Contact Us"}
             </a>
           </div>
