@@ -8,6 +8,7 @@ import { Slider } from "@/components/ui/slider";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import annurLogo from "@/assets/annur-digital-logo.jpeg";
 import appLogo from "@/assets/app-logo.png";
+import ownershipLogo from "@/assets/ownership-logo.png";
 import { Language, t, languageNames } from "@/types/language";
 import { useArabicFontSize } from "@/hooks/useArabicFontSize";
 
@@ -358,8 +359,12 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
               >
                 <div className="p-3">
                   <div className="flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 border border-primary/20">
-                      <Building2 className="h-5 w-5 text-primary" />
+                    <div className="h-10 w-10 rounded-full border border-primary/20 overflow-hidden bg-white flex items-center justify-center">
+                      <img
+                        src={ownershipLogo}
+                        alt="Digital Expertise Hub Limited"
+                        className="h-8 w-8 object-contain"
+                      />
                     </div>
                     <div className="flex-1 min-w-0">
                       <h3 className={cn("text-base font-semibold truncate", language === "bn" ? "font-bengali" : "font-sans")}>
