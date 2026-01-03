@@ -82,23 +82,26 @@ const Owner = ({ language }: OwnerProps) => {
       <div className="mx-auto max-w-2xl px-4 pt-3 pb-4 lg:pb-3 space-y-4">
         {/* Owner Card */}
           <section>
-            <div className="rounded-lg border border-border bg-gradient-to-br from-primary/5 to-primary/10 overflow-hidden">
-              <div className="p-3 text-center">
-                <div className="flex justify-center mb-3">
-                  <div className="rounded-lg border border-border bg-white p-3">
+            <div className="rounded-xl border border-border bg-gradient-to-br from-primary/5 to-primary/10 overflow-hidden">
+              {/* Mobile: centered layout, Desktop: horizontal layout */}
+              <div className="p-5">
+                <div className="flex flex-col items-center text-center lg:flex-row lg:items-center lg:text-left lg:gap-4">
+                  <div className="rounded-lg border border-border bg-white p-3 mb-3 lg:mb-0 lg:shrink-0">
                     <img 
                       src={ownershipLogo} 
                       alt="Digital Expertise Hub Limited" 
                       className="h-16 w-auto object-contain transition-transform duration-300 hover:scale-110"
                     />
                   </div>
+                  <div className="flex-1">
+                    <h2 className="text-base font-bold leading-tight">
+                      {ownerDetails.name}
+                    </h2>
+                    <p className={cn("text-sm text-muted-foreground mt-2 leading-relaxed", language === "bn" ? "font-bengali" : "font-sans")}>
+                      {ownerDetails.bio}
+                    </p>
+                  </div>
                 </div>
-                <h2 className="text-base font-bold leading-tight">
-                  {ownerDetails.name}
-                </h2>
-                <p className={cn("text-sm text-muted-foreground mt-2 leading-relaxed", language === "bn" ? "font-bengali" : "font-sans")}>
-                  {ownerDetails.bio}
-                </p>
               </div>
             </div>
           </section>
