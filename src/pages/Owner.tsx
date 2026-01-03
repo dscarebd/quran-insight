@@ -85,11 +85,13 @@ const Owner = ({ language }: OwnerProps) => {
             <div className="rounded-lg border border-border bg-gradient-to-br from-primary/5 to-primary/10 overflow-hidden">
               <div className="p-3 text-center">
                 <div className="flex justify-center mb-3">
-                  <img 
-                    src={ownershipLogo} 
-                    alt="Digital Expertise Hub Limited" 
-                    className="h-20 w-auto object-contain transition-transform duration-300 hover:scale-110"
-                  />
+                  <div className="rounded-lg border border-border bg-white p-3">
+                    <img 
+                      src={ownershipLogo} 
+                      alt="Digital Expertise Hub Limited" 
+                      className="h-16 w-auto object-contain transition-transform duration-300 hover:scale-110"
+                    />
+                  </div>
                 </div>
                 <h2 className="text-base font-bold leading-tight">
                   {ownerDetails.name}
