@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { Info, Moon, Sun, BookOpen, Type, ChevronRight, FileText, ChevronDown, Globe, Palette, Shield, User } from "lucide-react";
+import { Info, Moon, Sun, BookOpen, Type, ChevronRight, FileText, ChevronDown, Globe, Palette, Shield, Building2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { useTheme } from "next-themes";
@@ -362,16 +362,16 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
                 <div className="p-4">
                   <div className="flex items-center gap-4">
                     <div className="flex h-14 w-14 items-center justify-center rounded-full bg-primary/10 border-2 border-primary/20">
-                      <User className="h-7 w-7 text-primary" />
+                      <Building2 className="h-7 w-7 text-primary" />
                     </div>
-                    <div className="flex-1">
-                      <h3 className={cn("text-base font-semibold", language === "bn" && "font-bengali")}>
-                        {language === "bn" ? "আব্দুল্লাহ" : "Abdullah"}
+                    <div className="flex-1 min-w-0">
+                      <h3 className="text-base font-semibold truncate">
+                        Developer Resource Community
                       </h3>
                       <p className={cn("text-sm text-muted-foreground", language === "bn" && "font-bengali")}>
                         {language === "bn" 
-                          ? "প্রতিষ্ঠাতা ও ডেভেলপার" 
-                          : "Founder & Developer"}
+                          ? "অ্যাপ মালিক" 
+                          : "App Owner"}
                       </p>
                     </div>
                     <ChevronRight className="h-5 w-5 text-muted-foreground" />

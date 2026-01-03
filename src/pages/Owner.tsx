@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { ArrowLeft, User, Heart, Star, BookOpen } from "lucide-react";
+import { ArrowLeft, Heart, Star, BookOpen, Mail, MapPin, Building2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { MobileNavFooter } from "@/components/MobileNavFooter";
@@ -18,12 +18,23 @@ const Owner = ({ language }: OwnerProps) => {
   }, []);
 
   const ownerDetails = {
-    name: language === "bn" ? "আব্দুল্লাহ" : "Abdullah",
-    role: language === "bn" ? "প্রতিষ্ঠাতা ও ডেভেলপার" : "Founder & Developer",
+    name: "Developer Resource Community Limited",
+    email: "support@developerresourcecommunity.com.bd",
     bio: language === "bn" 
       ? "কুরআন ইনসাইট অ্যাপটি মুসলিম উম্মাহর জন্য তৈরি করা হয়েছে, যাতে সবাই সহজে কুরআন, হাদিস ও দোয়া পড়তে ও বুঝতে পারে।"
       : "Quran Insight app is created for the Muslim Ummah, to help everyone easily read and understand the Quran, Hadith, and Duas.",
   };
+
+  const addresses = [
+    {
+      location: language === "bn" ? "যুক্তরাজ্য" : "United Kingdom",
+      address: "Unit Four, 1 Dora Way, London, SW9 7EN, United Kingdom",
+    },
+    {
+      location: language === "bn" ? "হংকং" : "Hong Kong",
+      address: "Unit B, 11/F, 23 Thomson Road, Wan Chai, Hong Kong SAR China",
+    },
+  ];
 
   const features = [
     {
@@ -74,18 +85,13 @@ const Owner = ({ language }: OwnerProps) => {
             <div className="rounded-xl border border-border bg-gradient-to-br from-primary/5 to-primary/10 overflow-hidden">
               <div className="p-6 text-center">
                 <div className="flex justify-center mb-4">
-                  <img 
-                    src={appLogo} 
-                    alt="Owner" 
-                    className="h-24 w-24 rounded-full object-cover border-4 border-primary/20 shadow-lg"
-                  />
+                  <div className="h-20 w-20 rounded-full bg-primary/10 border-4 border-primary/20 shadow-lg flex items-center justify-center">
+                    <Building2 className="h-10 w-10 text-primary" />
+                  </div>
                 </div>
-                <h2 className={cn("text-xl font-bold", language === "bn" && "font-bengali")}>
+                <h2 className="text-lg font-bold leading-tight">
                   {ownerDetails.name}
                 </h2>
-                <p className={cn("text-sm text-primary font-medium mt-1", language === "bn" && "font-bengali")}>
-                  {ownerDetails.role}
-                </p>
                 <p className={cn("text-sm text-muted-foreground mt-3 leading-relaxed", language === "bn" && "font-bengali")}>
                   {ownerDetails.bio}
                 </p>
@@ -93,21 +99,61 @@ const Owner = ({ language }: OwnerProps) => {
             </div>
           </section>
 
-          {/* Mission */}
+          {/* Contact */}
           <section>
             <h2 className={cn(
               "mb-3 text-base font-medium text-muted-foreground uppercase tracking-wider",
               language === "bn" && "font-bengali"
             )}>
-              {language === "bn" ? "আমাদের লক্ষ্য" : "Our Mission"}
+              {language === "bn" ? "যোগাযোগ" : "Contact"}
             </h2>
-            <div className="rounded-xl border border-border bg-card p-4">
-              <p className={cn("text-sm text-muted-foreground leading-relaxed", language === "bn" && "font-bengali")}>
-                {language === "bn" 
-                  ? "কুরআন ইনসাইট একটি বিনামূল্যের অ্যাপ যা মুসলিমদের কুরআন, হাদিস ও দোয়া সহজে অধ্যয়ন করতে সাহায্য করে। আমাদের লক্ষ্য হল ইসলামী জ্ঞানকে সবার কাছে সহজলভ্য করা।"
-                  : "Quran Insight is a free app that helps Muslims easily study the Quran, Hadith, and Duas. Our mission is to make Islamic knowledge accessible to everyone."
-                }
-              </p>
+            <a
+              href={`mailto:${ownerDetails.email}`}
+              className="rounded-xl border border-border bg-card p-4 flex items-center gap-4 hover:bg-muted/50 transition-colors"
+            >
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 shrink-0">
+                <Mail className="h-5 w-5 text-primary" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className={cn("text-sm font-medium", language === "bn" && "font-bengali")}>
+                  {language === "bn" ? "ইমেইল" : "Email"}
+                </p>
+                <p className="text-sm text-muted-foreground truncate">
+                  {ownerDetails.email}
+                </p>
+              </div>
+            </a>
+          </section>
+
+          {/* Addresses */}
+          <section>
+            <h2 className={cn(
+              "mb-3 text-base font-medium text-muted-foreground uppercase tracking-wider",
+              language === "bn" && "font-bengali"
+            )}>
+              {language === "bn" ? "ঠিকানা" : "Addresses"}
+            </h2>
+            <div className="space-y-3">
+              {addresses.map((addr, index) => (
+                <div 
+                  key={index}
+                  className="rounded-xl border border-border bg-card p-4"
+                >
+                  <div className="flex items-start gap-4">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 shrink-0">
+                      <MapPin className="h-5 w-5 text-primary" />
+                    </div>
+                    <div>
+                      <h3 className={cn("text-base font-semibold", language === "bn" && "font-bengali")}>
+                        {addr.location}
+                      </h3>
+                      <p className="text-sm text-muted-foreground mt-0.5 leading-relaxed">
+                        {addr.address}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           </section>
 
