@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { Info, Moon, Sun, BookOpen, Type, ChevronRight, FileText, ChevronDown, Globe, Palette, Shield } from "lucide-react";
+import { Info, Moon, Sun, BookOpen, Type, ChevronRight, FileText, ChevronDown, Globe, Palette, Shield, User } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { useTheme } from "next-themes";
@@ -344,6 +344,41 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
               </CollapsibleContent>
             </Collapsible>
           </section>
+
+          {/* Owner Information */}
+          <section>
+            <h2 className={cn(
+              "mb-3 text-base font-medium text-muted-foreground uppercase tracking-wider",
+              language === "bn" && "font-bengali"
+            )}>
+              {language === "bn" ? "মালিকের তথ্য" : "Owner Details"}
+            </h2>
+            <button
+              onClick={() => navigate("/owner")}
+              className="w-full rounded-xl border border-border bg-card overflow-hidden text-left hover:bg-muted/50 transition-colors"
+            >
+              <div className="p-4">
+                <div className="flex items-center gap-4">
+                  <div className="flex h-14 w-14 items-center justify-center rounded-full bg-primary/10 border-2 border-primary/20">
+                    <User className="h-7 w-7 text-primary" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className={cn("text-base font-semibold", language === "bn" && "font-bengali")}>
+                      {language === "bn" ? "আব্দুল্লাহ" : "Abdullah"}
+                    </h3>
+                    <p className={cn("text-sm text-muted-foreground", language === "bn" && "font-bengali")}>
+                      {language === "bn" 
+                        ? "প্রতিষ্ঠাতা ও ডেভেলপার" 
+                        : "Founder & Developer"}
+                    </p>
+                  </div>
+                  <ChevronRight className="h-5 w-5 text-muted-foreground" />
+                </div>
+              </div>
+            </button>
+          </section>
+
+          {/* Developer Information */}
           <section>
             <h2 className={cn(
               "mb-3 text-base font-medium text-muted-foreground uppercase tracking-wider",
