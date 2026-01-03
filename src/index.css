@@ -285,7 +285,7 @@
 
   body {
     @apply bg-background text-foreground antialiased;
-    font-family: 'Amiri', 'Anek Bangla', serif;
+    font-family: 'Josefin Sans', 'Anek Bangla', serif;
     overflow-x: hidden;
     max-width: 100vw;
     width: 100%;
@@ -325,7 +325,7 @@
   }
 
   .font-bengali {
-    font-family: 'Amiri', 'Anek Bangla', serif;
+    font-family: 'Anek Bangla', 'Josefin Sans', serif;
     font-size: 1.1em;
     line-height: 1.75;
   }
