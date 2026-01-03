@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { Language } from "@/types/language";
 import appLogo from "@/assets/app-logo.png";
+import ownershipLogo from "@/assets/ownership-logo.png";
 
 interface OwnerProps {
   language: Language;
@@ -84,9 +85,11 @@ const Owner = ({ language }: OwnerProps) => {
             <div className="rounded-xl border border-border bg-gradient-to-br from-primary/5 to-primary/10 overflow-hidden">
               <div className="p-6 text-center">
                 <div className="flex justify-center mb-4">
-                  <div className="h-20 w-20 rounded-full bg-primary/10 border-4 border-primary/20 shadow-lg flex items-center justify-center">
-                    <Building2 className="h-10 w-10 text-primary" />
-                  </div>
+                  <img 
+                    src={ownershipLogo} 
+                    alt="Digital Expertise Hub Limited" 
+                    className="h-24 w-auto object-contain"
+                  />
                 </div>
                 <h2 className="text-lg font-bold leading-tight">
                   {ownerDetails.name}
