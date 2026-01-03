@@ -89,31 +89,32 @@ const Developer = ({ language }: DeveloperProps) => {
   return (
     <div className="bg-background">
       {/* Header */}
-      <div className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm border-b border-border">
+      <div className="sticky top-0 z-10 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border">
         <div className="flex items-center gap-3 px-4 py-3">
           <button
             onClick={() => navigate(-1)}
-            className="flex h-9 w-9 items-center justify-center rounded-full bg-muted/50 hover:bg-muted transition-colors"
+            className="flex h-10 w-10 items-center justify-center rounded-full hover:bg-muted transition-colors"
           >
             <ArrowLeft className="h-5 w-5" />
           </button>
-          <h1 className={cn("text-lg font-semibold", language === "bn" && "font-bengali")}>
+          <h1 className={cn("text-lg font-semibold", language === "bn" ? "font-bengali" : "font-sans")}>
             {language === "bn" ? "ডেভেলপার তথ্য" : "Developer Information"}
           </h1>
         </div>
       </div>
 
       {/* Content */}
-      <div className="mx-auto max-w-2xl p-4 pb-4 space-y-6">
+      <div className="mx-auto max-w-2xl px-4 pt-3 pb-4 lg:pb-3 space-y-4">
         {/* Developer Card */}
-          <div className="rounded-xl border border-border bg-gradient-to-br from-primary/5 to-primary/10 overflow-hidden">
-            <div className="p-5">
-              <div className="flex items-center gap-4">
+        <section>
+          <div className="rounded-lg border border-border bg-gradient-to-br from-primary/5 to-primary/10 overflow-hidden">
+            <div className="p-3">
+              <div className="flex items-center gap-3">
                 <button
                   type="button"
                   aria-label={language === "bn" ? "অ্যাডমিন লগইন খুলুন" : "Open admin login"}
                   onClick={handleDeveloperLogoClick}
-                  className="h-16 w-16 rounded-full border-2 border-primary/20 overflow-hidden cursor-pointer select-none"
+                  className="h-12 w-12 rounded-full border-2 border-primary/20 overflow-hidden cursor-pointer select-none"
                 >
                   <img
                     src={annurLogo}
@@ -123,10 +124,10 @@ const Developer = ({ language }: DeveloperProps) => {
                   />
                 </button>
                 <div className="flex-1">
-                  <h3 className={cn("text-lg font-semibold", language === "bn" && "font-bengali")}>
+                  <h3 className={cn("text-base font-semibold", language === "bn" ? "font-bengali" : "font-sans")}>
                     An-Nur Digital
                   </h3>
-                  <p className={cn("text-base text-muted-foreground", language === "bn" && "font-bengali")}>
+                  <p className={cn("text-sm text-muted-foreground leading-tight", language === "bn" ? "font-bengali" : "font-sans")}>
                     {language === "bn" 
                       ? "ওয়ার্ডপ্রেস ও সফটওয়্যার ডিজাইনার" 
                       : "WordPress & Software Designer"}
@@ -135,88 +136,93 @@ const Developer = ({ language }: DeveloperProps) => {
               </div>
             </div>
           </div>
+        </section>
 
-          {/* About */}
-          <section>
-            <div className="flex items-center gap-2 mb-3">
-              <Heart className="h-5 w-5 text-primary" />
-              <h2 className={cn(
-                "text-sm font-medium text-muted-foreground uppercase tracking-wider",
-                language === "bn" && "font-bengali"
-              )}>
-                {language === "bn" ? "আমাদের সম্পর্কে" : "About Us"}
-              </h2>
-            </div>
-            <div className="rounded-xl border border-border bg-card p-4">
-              <p className={cn("text-base text-muted-foreground leading-relaxed", language === "bn" && "font-bengali")}>
-                {language === "bn" 
-                  ? "আন-নূর ডিজিটাল একটি ক্রিয়েটিভ ডিজিটাল এজেন্সি যা ওয়েব ডেভেলপমেন্ট, সফটওয়্যার ডিজাইন এবং ডিজিটাল সমাধান প্রদান করে।"
-                  : "An-Nur Digital is a creative digital agency providing web development, software design, and digital solutions."}
-              </p>
-            </div>
-          </section>
+        {/* About */}
+        <section>
+          <h2 className={cn(
+            "mb-2 text-base font-medium text-muted-foreground tracking-wider",
+            language === "bn" ? "font-bengali" : "font-sans"
+          )}>
+            {language === "bn" ? "আমাদের সম্পর্কে" : "About Us"}
+          </h2>
+          <div className="rounded-lg border border-border bg-card p-3">
+            <p className={cn("text-sm text-muted-foreground leading-relaxed", language === "bn" ? "font-bengali" : "font-sans")}>
+              {language === "bn" 
+                ? "আন-নূর ডিজিটাল একটি ক্রিয়েটিভ ডিজিটাল এজেন্সি যা ওয়েব ডেভেলপমেন্ট, সফটওয়্যার ডিজাইন এবং ডিজিটাল সমাধান প্রদান করে।"
+                : "An-Nur Digital is a creative digital agency providing web development, software design, and digital solutions."}
+            </p>
+          </div>
+        </section>
 
-          {/* Contact */}
-          <section>
-            <div className="flex items-center gap-2 mb-3">
-              <Mail className="h-5 w-5 text-primary" />
-              <h2 className={cn(
-                "text-sm font-medium text-muted-foreground uppercase tracking-wider",
-                language === "bn" && "font-bengali"
-              )}>
-                {language === "bn" ? "যোগাযোগ" : "Contact"}
-              </h2>
-            </div>
-            <div className="space-y-2">
-              {contactLinks.map((link, index) => (
-                <a
-                  key={index}
-                  href={link.href}
-                  target={link.href.startsWith("mailto:") ? undefined : "_blank"}
-                  rel={link.href.startsWith("mailto:") ? undefined : "noopener noreferrer"}
-                  className="flex items-center gap-3 rounded-xl border border-border bg-card p-4 transition-colors hover:bg-muted/50"
-                >
-                  <link.icon className={cn("h-5 w-5", link.iconColor)} />
-                  <span className={cn("text-base font-medium flex-1", language === "bn" && "font-bengali")}>
-                    {language === "bn" ? link.labelBn : link.labelEn}
-                  </span>
-                  <span className="text-sm text-muted-foreground">{link.value}</span>
-                  <ExternalLink className="h-4 w-4 text-muted-foreground" />
-                </a>
-              ))}
-            </div>
-          </section>
-
-          {/* Services */}
-          <section>
-            <div className="flex items-center gap-2 mb-3">
-              <Code className="h-5 w-5 text-primary" />
-              <h2 className={cn(
-                "text-sm font-medium text-muted-foreground uppercase tracking-wider",
-                language === "bn" && "font-bengali"
-              )}>
-                {language === "bn" ? "সেবাসমূহ" : "Services"}
-              </h2>
-            </div>
-            <div className="space-y-2">
-              {services.map((service, index) => (
-                <div
-                  key={index}
-                  className="rounded-xl border border-border bg-card p-4"
-                >
-                  <h3 className={cn("text-base font-semibold", language === "bn" && "font-bengali")}>
-                    {language === "bn" ? service.nameBn : service.nameEn}
-                  </h3>
-                  <p className={cn("text-sm text-muted-foreground mt-1", language === "bn" && "font-bengali")}>
-                    {language === "bn" ? service.descriptionBn : service.descriptionEn}
-                  </p>
+        {/* Contact */}
+        <section>
+          <h2 className={cn(
+            "mb-2 text-base font-medium text-muted-foreground tracking-wider",
+            language === "bn" ? "font-bengali" : "font-sans"
+          )}>
+            {language === "bn" ? "যোগাযোগ" : "Contact"}
+          </h2>
+          <div className="rounded-lg border border-border bg-card overflow-hidden divide-y divide-border">
+            {contactLinks.map((link, index) => (
+              <a
+                key={index}
+                href={link.href}
+                target={link.href.startsWith("mailto:") ? undefined : "_blank"}
+                rel={link.href.startsWith("mailto:") ? undefined : "noopener noreferrer"}
+                className="flex items-center gap-3 p-3 transition-colors hover:bg-muted/50"
+              >
+                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary/10 shrink-0">
+                  <link.icon className="h-4 w-4 text-primary" />
                 </div>
-              ))}
-            </div>
-          </section>
+                <div className="flex-1 min-w-0">
+                  <p className={cn("text-base font-semibold", language === "bn" ? "font-bengali" : "font-sans")}>
+                    {language === "bn" ? link.labelBn : link.labelEn}
+                  </p>
+                  <p className="text-sm text-muted-foreground truncate">{link.value}</p>
+                </div>
+              </a>
+            ))}
+          </div>
+        </section>
 
-          <div className="rounded-xl border border-border bg-gradient-to-br from-primary/10 to-primary/5 p-4 text-center">
-            <p className={cn("text-base font-medium mb-3", language === "bn" && "font-bengali")}>
+        {/* Services */}
+        <section>
+          <h2 className={cn(
+            "mb-2 text-base font-medium text-muted-foreground tracking-wider",
+            language === "bn" ? "font-bengali" : "font-sans"
+          )}>
+            {language === "bn" ? "সেবাসমূহ" : "Services"}
+          </h2>
+          <div className="rounded-lg border border-border bg-card overflow-hidden divide-y divide-border">
+            {services.map((service, index) => (
+              <div
+                key={index}
+                className="p-3"
+              >
+                <div className="flex items-start gap-3">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary/10 shrink-0">
+                    <Code className="h-4 w-4 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className={cn("text-base font-semibold", language === "bn" ? "font-bengali" : "font-sans")}>
+                      {language === "bn" ? service.nameBn : service.nameEn}
+                    </h3>
+                    <p className={cn("text-sm text-muted-foreground mt-0.5", language === "bn" ? "font-bengali" : "font-sans")}>
+                      {language === "bn" ? service.descriptionBn : service.descriptionEn}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* CTA */}
+        <section>
+          <div className="rounded-lg border border-border bg-gradient-to-br from-primary/5 to-primary/10 p-3 text-center">
+            <Heart className="h-6 w-6 text-primary mx-auto mb-2" />
+            <p className={cn("text-base font-semibold", language === "bn" ? "font-bengali" : "font-sans")}>
               {language === "bn" 
                 ? "আপনার প্রজেক্টে সাহায্য দরকার?" 
                 : "Need help with your project?"}
@@ -225,14 +231,15 @@ const Developer = ({ language }: DeveloperProps) => {
               href="https://annurdigital.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+              className="inline-flex items-center gap-2 mt-2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
             >
               <Globe className="h-4 w-4" />
               {language === "bn" ? "আমাদের সাথে যোগাযোগ করুন" : "Contact Us"}
             </a>
           </div>
-        </div>
+        </section>
       </div>
+    </div>
   );
 };
 
