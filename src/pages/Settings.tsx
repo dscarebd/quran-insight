@@ -367,8 +367,8 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
                       </h3>
                       <p className={cn("text-sm text-muted-foreground", language === "bn" ? "font-bengali" : "font-sans")}>
                         {language === "bn" 
-                          ? "অ্যাপ মালিক" 
-                          : "App Owner"}
+                          ? "অ্যাপ মালিকানা" 
+                          : "App Ownership"}
                       </p>
                     </div>
                     <ChevronRight className="h-4 w-4 text-muted-foreground" />
