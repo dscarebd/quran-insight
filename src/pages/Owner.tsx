@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { ArrowLeft, Heart, Star, BookOpen, Mail, MapPin, Building2 } from "lucide-react";
+import { ArrowLeft, Heart, Star, BookOpen, Mail, MapPin, Building2, Globe } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { MobileNavFooter } from "@/components/MobileNavFooter";
@@ -20,6 +20,7 @@ const Owner = ({ language }: OwnerProps) => {
   const ownerDetails = {
     name: "DIGITAL EXPERTISE HUB LIMITED",
     email: "support@digitalexpertisehublimited.com.bd",
+    website: "https://digitalexpertisehublimited.com.bd",
     bio: language === "bn" 
       ? "কুরআন ইনসাইট অ্যাপটি মুসলিম উম্মাহর জন্য তৈরি করা হয়েছে, যাতে সবাই সহজে কুরআন, হাদিস ও দোয়া পড়তে ও বুঝতে পারে।"
       : "Quran Insight app is created for the Muslim Ummah, to help everyone easily read and understand the Quran, Hadith, and Duas.",
@@ -107,22 +108,42 @@ const Owner = ({ language }: OwnerProps) => {
             )}>
               {language === "bn" ? "যোগাযোগ" : "Contact"}
             </h2>
-            <a
-              href={`mailto:${ownerDetails.email}`}
-              className="rounded-xl border border-border bg-card p-4 flex items-center gap-4 hover:bg-muted/50 transition-colors"
-            >
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 shrink-0">
-                <Mail className="h-5 w-5 text-primary" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className={cn("text-sm font-medium", language === "bn" && "font-bengali")}>
-                  {language === "bn" ? "ইমেইল" : "Email"}
-                </p>
-                <p className="text-sm text-muted-foreground truncate">
-                  {ownerDetails.email}
-                </p>
-              </div>
-            </a>
+            <div className="space-y-3">
+              <a
+                href={`mailto:${ownerDetails.email}`}
+                className="rounded-xl border border-border bg-card p-4 flex items-center gap-4 hover:bg-muted/50 transition-colors"
+              >
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 shrink-0">
+                  <Mail className="h-5 w-5 text-primary" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className={cn("text-sm font-medium", language === "bn" && "font-bengali")}>
+                    {language === "bn" ? "ইমেইল" : "Email"}
+                  </p>
+                  <p className="text-sm text-muted-foreground truncate">
+                    {ownerDetails.email}
+                  </p>
+                </div>
+              </a>
+              <a
+                href={ownerDetails.website}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-xl border border-border bg-card p-4 flex items-center gap-4 hover:bg-muted/50 transition-colors"
+              >
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 shrink-0">
+                  <Globe className="h-5 w-5 text-primary" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className={cn("text-sm font-medium", language === "bn" && "font-bengali")}>
+                    {language === "bn" ? "ওয়েবসাইট" : "Website"}
+                  </p>
+                  <p className="text-sm text-muted-foreground truncate">
+                    digitalexpertisehublimited.com.bd
+                  </p>
+                </div>
+              </a>
+            </div>
           </section>
 
           {/* Addresses */}
