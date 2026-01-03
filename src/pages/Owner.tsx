@@ -88,7 +88,7 @@ const Owner = ({ language }: OwnerProps) => {
                   <img 
                     src={ownershipLogo} 
                     alt="Digital Expertise Hub Limited" 
-                    className="h-24 w-auto object-contain"
+                    className="h-24 w-auto object-contain transition-transform duration-300 hover:scale-110"
                   />
                 </div>
                 <h2 className="text-lg font-bold leading-tight">
