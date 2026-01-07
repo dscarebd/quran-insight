@@ -55,7 +55,7 @@ export const reciters: Reciter[] = [
     nameEnglish: "Maher Al Muaiqly",
     nameBengali: "মাহের আল-মুয়াইকলি",
     nameArabic: "ماهر المعيقلي",
-    folder: "MasharRashed_OGG_128kbps",
+    folder: "MaherAlMuaiqly128kbps",
     style: "Modern",
     styleBengali: "আধুনিক",
     quality: "128kbps"
