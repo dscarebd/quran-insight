@@ -1136,20 +1136,22 @@ const ReadPage = ({
                                     ? verse.text_v1 
                                     : sanitizeArabicText(verse.arabic)}
                                 </span>
-                                {/* Decorative Verse Number */}
-                                <span 
-                                  className={cn(
-                                    "verse-number-circle inline-flex items-center justify-center mx-2 leading-none", 
-                                    arabicFont === "uthmani" || arabicFont === "v1" ? "font-uthmani" : "font-arabic"
-                                  )}
-                                  style={{ 
-                                    width: `${currentFontSize * 1.2}px`, 
-                                    height: `${currentFontSize * 1.2}px`,
-                                    fontSize: `${currentFontSize * 0.5}px`
-                                  }}
-                                >
-                                  {toArabicNumerals(verse.verse_number)}
-                                </span>
+                                {/* Decorative Verse Number - only show when NOT using V1 font (V1 includes end markers) */}
+                                {arabicFont !== "v1" && (
+                                  <span 
+                                    className={cn(
+                                      "verse-number-circle inline-flex items-center justify-center mx-2 leading-none", 
+                                      arabicFont === "uthmani" ? "font-uthmani" : "font-arabic"
+                                    )}
+                                    style={{ 
+                                      width: `${currentFontSize * 1.2}px`, 
+                                      height: `${currentFontSize * 1.2}px`,
+                                      fontSize: `${currentFontSize * 0.5}px`
+                                    }}
+                                  >
+                                    {toArabicNumerals(verse.verse_number)}
+                                  </span>
+                                )}
                               </span>
                             );
                           })}

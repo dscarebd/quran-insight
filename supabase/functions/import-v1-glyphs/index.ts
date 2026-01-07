@@ -93,11 +93,9 @@ serve(async (req) => {
         for (const verse of data.verses) {
           const [, verseNum] = verse.verse_key.split(':');
           
-          // Build V1 text from words (using the 'text' field which contains QPC glyphs)
-          // Filter out 'end' type words (verse markers) and join with space
-          const v1Words = verse.words
-            .filter(w => w.char_type_name === 'word')
-            .map(w => w.text);
+          // Build V1 text from ALL words including 'end' type (verse end markers with ornate numbers)
+          // The 'end' type words contain the decorative verse number markers that the QPC font renders
+          const v1Words = verse.words.map(w => w.text);
           
           const textV1 = v1Words.join(' ');
           
