@@ -18,7 +18,7 @@ import { AudioPlayerBar } from "@/components/AudioPlayerBar";
 import { ReciterSelector } from "@/components/ReciterSelector";
 import { SurahAudioControls } from "@/components/SurahAudioControls";
 import { VerseAudioButton } from "@/components/VerseAudioButton";
-import { WordByWordArabic } from "@/components/WordByWordArabic";
+
 
 interface SurahDetailProps {
   language: Language;
@@ -44,8 +44,6 @@ interface VerseCardProps {
   abRepeatEnd: number | null;
   onSetABStart: () => void;
   onSetABEnd: () => void;
-  audioProgress: number;
-  audioDuration: number;
 }
 
 const VerseCard = ({ 
@@ -65,9 +63,7 @@ const VerseCard = ({
   abRepeatStart,
   abRepeatEnd,
   onSetABStart,
-  onSetABEnd,
-  audioProgress,
-  audioDuration
+  onSetABEnd
 }: VerseCardProps) => {
   const [showTafsir, setShowTafsir] = useState(false);
 
@@ -156,15 +152,14 @@ const VerseCard = ({
         </div>
       </div>
 
-      {/* Arabic Text with Word-by-Word Highlighting */}
-      <WordByWordArabic
-        text={sanitizeArabicText(verse.arabic)}
-        fontSize={arabicFontSize}
-        isPlaying={isPlaying}
-        isCurrentVerse={isCurrentVerse}
-        progress={audioProgress}
-        duration={audioDuration}
-      />
+      {/* Arabic Text */}
+      <p 
+        className="mb-4 text-right leading-[2.2] text-foreground font-arabic"
+        style={{ fontSize: `${arabicFontSize}px` }}
+        dir="rtl"
+      >
+        {sanitizeArabicText(verse.arabic)}
+      </p>
 
       {/* Translation */}
       <p className={cn("mb-2 text-scale-body text-foreground", language === "bn" && "font-bengali")}>
@@ -210,7 +205,7 @@ const SurahDetail = ({ language, readingMode = "normal", arabicFont = "amiri" }:
   const [surahSearchQuery, setSurahSearchQuery] = useState("");
   const [verses, setVerses] = useState<Verse[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [isTransitioning, setIsTransitioning] = useState(false);
+  
   const [highlightedVerse, setHighlightedVerse] = useState<number | null>(null);
   const [reciterSheetOpen, setReciterSheetOpen] = useState(false);
   const verseRefs = useRef<{ [key: number]: HTMLDivElement | null }>({});
@@ -254,9 +249,6 @@ const SurahDetail = ({ language, readingMode = "normal", arabicFont = "amiri" }:
   // Fetch verses - uses bundled data service (offline-first)
   useEffect(() => {
     const fetchVerses = async () => {
-      setIsTransitioning(true);
-      await new Promise(resolve => setTimeout(resolve, 150));
-      
       // Check memory cache first
       if (versesCache.has(surahNum)) {
         setVerses(versesCache.get(surahNum)!);
@@ -265,7 +257,6 @@ const SurahDetail = ({ language, readingMode = "normal", arabicFont = "amiri" }:
         if (!location.hash) {
           window.scrollTo({ top: 0, behavior: 'smooth' });
         }
-        setTimeout(() => setIsTransitioning(false), 50);
         return;
       }
 
@@ -279,10 +270,9 @@ const SurahDetail = ({ language, readingMode = "normal", arabicFont = "amiri" }:
       } catch (error) {
         console.error('Error fetching verses:', error);
         setVerses([]);
+      } finally {
+        setIsLoading(false);
       }
-      
-      setIsLoading(false);
-      setTimeout(() => setIsTransitioning(false), 50);
     };
 
     fetchVerses();
@@ -446,10 +436,7 @@ const SurahDetail = ({ language, readingMode = "normal", arabicFont = "amiri" }:
       </div>
 
       {/* Verses List */}
-      <div className={cn(
-        "mx-auto max-w-4xl px-3 py-6 sm:px-4 md:px-6 transition-opacity duration-200",
-        isTransitioning ? "opacity-0" : "opacity-100"
-      )}>
+      <div className="mx-auto max-w-4xl px-3 py-6 sm:px-4 md:px-6">
         {isLoading ? (
           <div className="flex items-center justify-center py-12">
             <Loader2 className="h-8 w-8 animate-spin text-primary" />
@@ -483,8 +470,6 @@ const SurahDetail = ({ language, readingMode = "normal", arabicFont = "amiri" }:
                 abRepeatEnd={audio.abRepeatEnd}
                 onSetABStart={() => audio.setABRepeatStart(verse.verseNumber)}
                 onSetABEnd={() => audio.setABRepeatEnd(verse.verseNumber)}
-                audioProgress={audio.isCurrentVerse(verse.surahNumber, verse.verseNumber) ? audio.progress : 0}
-                audioDuration={audio.isCurrentVerse(verse.surahNumber, verse.verseNumber) ? audio.duration : 0}
               />
             </div>
           ))
