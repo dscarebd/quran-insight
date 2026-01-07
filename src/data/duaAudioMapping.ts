@@ -1,7 +1,7 @@
 // Maps dua IDs to Hisnul Muslim audio file numbers
 // Audio URL: https://archive.org/download/HisnulMuslimAudio_201510/n{number}.mp3
-// Hisnul Muslim has ~250+ audio files numbered from n1.mp3 to n255+.mp3
-// Total mapped: ~110+ duas across both main and daily categories
+// Hisnul Muslim has ~255+ audio files numbered from n1.mp3 to n255+.mp3
+// Total mapped: ~150+ duas across both main and daily categories
 
 // Mapping for src/data/duas.ts (main dua categories)
 export const duaAudioMapping: Record<string, number> = {
@@ -29,15 +29,25 @@ export const duaAudioMapping: Record<string, number> = {
   "daily-21": 128,  // General Forgiveness - رَبِّ اغْفِرْ لِي وَتُبْ عَلَيَّ
   "daily-22": 81,   // Protection from Evil - اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ شَرِّ مَا خَلَقْتَ
   "daily-23": 25,   // Good Character - اللَّهُمَّ اهْدِنِي لِأَحْسَنِ الْأَخْلَاقِ
+  "daily-24": 124,  // Patience - رَبَّنَا أَفْرِغْ عَلَيْنَا صَبْرًا (Quranic)
   "daily-25": 43,   // Guidance - اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ (Fatiha reference)
   "daily-26": 93,   // Night Protection - أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ
   "daily-27": 77,   // Health and Wellness - اللَّهُمَّ عَافِنِي فِي بَدَنِي
   "daily-28": 76,   // Gratitude - اللَّهُمَّ أَعِنِّي عَلَى ذِكْرِكَ
   "daily-29": 86,   // Protection from Envy - وَمِنْ شَرِّ حَاسِدٍ (Surah Falaq)
+  "daily-30": 18,   // Trust in Allah - تَوَكَّلْتُ عَلَى اللَّهِ
+  "daily-31": 128,  // Good Ending - اللَّهُمَّ اخْتِمْ لَنَا بِالصَّالِحَاتِ
+  "daily-32": 203,  // Family Prayer - رَبِّ اجْعَلْنِي مُقِيمَ الصَّلَاةِ
   "daily-33": 120,  // Protection from Debt - اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْمَغْرَمِ
+  "daily-34": 204,  // Contentment - اللَّهُمَّ قَنِّعْنِي بِمَا رَزَقْتَنِي
+  "daily-36": 205,  // Halal Provision - اللَّهُمَّ إِنِّي أَسْأَلُكَ رِزْقًا طَيِّبًا
+  "daily-37": 206,  // Protection from Misguidance - رَبَّنَا لَا تُزِغْ قُلُوبَنَا
+  "daily-39": 207,  // Purification of Heart - اللَّهُمَّ طَهِّرْ قَلْبِي
   "daily-40": 69,   // Morning Protection - أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ
   "daily-41": 70,   // Evening Protection - أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ
   "daily-42": 100,  // Protection from Hellfire - اللَّهُمَّ أَجِرْنِي مِنَ النَّارِ
+  "daily-43": 208,  // Good Death - اللَّهُمَّ تَوَفَّنِي مُسْلِمًا
+  "daily-44": 209,  // Protection from Sudden Death
   "daily-45": 44,   // Light in Heart - اللَّهُمَّ اجْعَلْ فِي قَلْبِي نُورًا
   "daily-46": 93,   // Protection from Evil Eye - أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ
   "daily-47": 123,  // Relief from Worry - اللَّهُمَّ لَا سَهْلَ إِلَّا مَا جَعَلْتَهُ سَهْلًا
@@ -70,6 +80,9 @@ export const duaAudioMapping: Record<string, number> = {
   "me-018": 91,     // Protection from Disbelief
   "me-019": 94,     // Glorification - سُبْحَانَ اللَّهِ وَبِحَمْدِهِ
   "me-020": 78,     // Seeking Good of the Day
+  "me-021": 95,     // Family Protection
+  "me-022": 96,     // Protection from Sudden Trials
+  "me-023": 97,     // Protection from Shaytan
   "me-024": 121,    // Good Provision - اللَّهُمَّ اكْفِنِي بِحَلَالِكَ
 
   // ============ Prayer Duas ============
@@ -80,36 +93,72 @@ export const duaAudioMapping: Record<string, number> = {
 
   // ============ Protection Duas ============
   "protection-1": 81, // General protection - اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ شَرِّ مَا خَلَقْتَ
+  "protection-2": 93, // Complete words protection
   "protection-3": 93, // Evil eye protection
+  "protection-4": 186, // From Satan
 
   // ============ Sickness Duas ============
   "sickness-1": 141,  // When sick - أَذْهِبِ الْبَأْسَ
   "sickness-2": 143,  // Visiting sick
+  "sickness-3": 142,  // Placing hand on pain
+  "sickness-4": 145,  // When one despairs of life
 
   // ============ Food Duas ============
   "food-1": 177,    // Before eating - بِسْمِ اللَّهِ
   "food-2": 178,    // After eating - الْحَمْدُ لِلَّهِ الَّذِي أَطْعَمَنِي
   "food-3": 181,    // When breaking fast
   "food-4": 182,    // Dua for host
+  "food-5": 179,    // Forgetting Bismillah
+  "food-6": 180,    // Guest dua for host
 
   // ============ Death/Funeral Duas ============
   "death-1": 161,   // Condolence dua
   "death-2": 162,   // Janaza dua
+  "death-3": 163,   // Janaza for child
+  "death-4": 164,   // Visiting graves
 
   // ============ Travel Duas ============
   "travel-1": 213,  // Starting journey
   "travel-2": 218,  // Return from travel
+  "travel-3": 214,  // Complete travel dua
+  "travel-4": 215,  // When entering a town
 
   // ============ Weather Duas ============
   "weather-1": 156, // During rain
   "weather-2": 157, // After rain
   "weather-3": 159, // Thunder - سُبْحَانَ الَّذِي يُسَبِّحُ الرَّعْدُ
   "weather-4": 158, // Strong wind
+  "weather-5": 160, // Seeing new moon
 
   // ============ Marriage & Family Duas ============
   "marriage-1": 189, // Wedding congratulation - بَارَكَ اللَّهُ لَكَ
   "marriage-2": 190, // Wedding night dua
+  "marriage-3": 191, // Before intimacy
   "newborn-1": 193,  // For newborn - أُعِيذُكَ بِكَلِمَاتِ اللَّهِ
+  "newborn-2": 194,  // Aqiqah dua
+
+  // ============ Clothing Duas ============
+  "clothing-1": 11,  // Wearing new clothes - الْحَمْدُ لِلَّهِ الَّذِي كَسَانِي
+  "clothing-2": 12,  // Wearing new clothes full dua
+  "clothing-3": 13,  // Dua for someone wearing new clothes
+  "clothing-4": 14,  // Undressing - بِسْمِ اللَّهِ
+
+  // ============ Gathering Duas ============
+  "gathering-1": 195, // Leaving a gathering - كَفَّارَةُ الْمَجْلِسِ
+  "gathering-2": 196, // When angry in gathering
+  "gathering-3": 197, // If someone praises you
+
+  // ============ Debt & Difficulty Duas ============
+  "debt-1": 121,    // Debt payment dua
+  "debt-2": 120,    // Protection from debt
+  "difficulty-1": 122, // When in distress - لَا إِلَهَ إِلَّا أَنْتَ
+  "difficulty-2": 123, // When something becomes difficult
+
+  // ============ Mirror & Appearance ============
+  "mirror-1": 198,  // Looking in mirror - اللَّهُمَّ أَنْتَ حَسَّنْتَ خَلْقِي
+
+  // ============ Market Duas ============
+  "market-1": 199,  // Entering market - لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ
 };
 
 // Mapping for src/data/dailyDuas.ts (daily dua page)
@@ -137,6 +186,7 @@ export const dailyDuaAudioMapping: Record<string, number> = {
   "eid-takbeer": 167,      // Eid Takbeer
   "eid-greeting": 168,     // Eid greeting - تَقَبَّلَ اللَّهُ
   "qurbani-dua": 170,      // Qurbani dua - بِسْمِ اللَّهِ وَاللَّهُ أَكْبَرُ
+  "eid-ul-fitr-dua": 169,  // Eid ul Fitr dua
 
   // ============ Janaza/Funeral Duas ============
   "janaza-adult-male": 161, // Adult janaza dua
@@ -172,6 +222,36 @@ export const dailyDuaAudioMapping: Record<string, number> = {
   "night-awakening": 102,       // When waking at night
   "bad-dream": 107,             // After bad dream
   "good-dream": 106,            // After good dream
+  
+  // ============ Additional Sleep Duas ============
+  "sleep-turn": 108,            // When turning during sleep
+  "sleep-afraid": 109,          // When afraid during sleep
+  "sleep-difficulty": 110,      // When having difficulty sleeping
+  
+  // ============ Morning/Evening Azkar ============
+  "morning-azkar-1": 69,        // Morning azkar beginning
+  "evening-azkar-1": 70,        // Evening azkar beginning
+  "protection-words": 93,       // Perfect words protection
+  
+  // ============ Adhan Duas ============
+  "after-adhan": 19,            // After hearing adhan
+  "between-adhan-iqama": 20,    // Between adhan and iqama
+  
+  // ============ Quran Duas ============
+  "starting-quran": 21,         // Before reciting Quran
+  "sajdah-tilawah": 32,         // Sajdah Tilawah dua
+  
+  // ============ Istikharah ============
+  "istikharah": 140,            // Istikharah dua
+  
+  // ============ Forgiveness Duas ============
+  "istighfar-master": 75,       // Sayyidul Istighfar
+  "tawbah": 128,                // Repentance dua
+  
+  // ============ Protection Duas ============
+  "protection-evil-eye": 146,   // Protection from evil eye
+  "protection-jinn": 147,       // Protection from jinn
+  "ruqyah": 148,                // Ruqyah dua
 };
 
 // Helper function to get audio URL
