@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
-import { Download, Loader2, CheckCircle, AlertCircle, Upload, BookOpen } from "lucide-react";
+import { Download, Loader2, CheckCircle, AlertCircle, Upload, BookOpen, FileText, RefreshCw } from "lucide-react";
 import { toast } from "sonner";
 import { hadithBooks } from "@/data/hadithBooks";
 
@@ -29,6 +29,7 @@ const splitBooks: Record<string, { chapterSplits: number[] }> = {
 
 const ExportData = () => {
   const [bookExportStatus, setBookExportStatus] = useState<BookExportStatus>({});
+  const [isExportingVerses, setIsExportingVerses] = useState(false);
   
   const [bundledStatus, setBundledStatus] = useState({
     versesExist: false,
@@ -41,6 +42,48 @@ const ExportData = () => {
   useEffect(() => {
     checkBundledFiles();
   }, []);
+
+  // Export verses using the edge function
+  const exportVersesCsv = async () => {
+    setIsExportingVerses(true);
+    
+    try {
+      toast.info("Exporting verses from database...", { duration: 3000 });
+      
+      const { data, error } = await supabase.functions.invoke('export-verses-csv');
+      
+      if (error) {
+        throw error;
+      }
+      
+      // The response is CSV text
+      const csvContent = data;
+      
+      // Create and download file
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'verses-complete.csv';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      
+      // Count verses in downloaded file
+      const lines = csvContent.split('\n').filter((line: string) => line.trim()).length - 1;
+      toast.success(`Exported ${lines.toLocaleString()} verses successfully!`);
+      
+      // Refresh bundled status
+      checkBundledFiles();
+      
+    } catch (error) {
+      console.error('Export error:', error);
+      toast.error('Failed to export verses. Check console for details.');
+    } finally {
+      setIsExportingVerses(false);
+    }
+  };
 
   const checkBundledFiles = async () => {
     let versesExist = false;
@@ -272,6 +315,61 @@ const ExportData = () => {
           </CardContent>
         </Card>
       </div>
+
+      {/* Export Verses Section */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <FileText className="h-5 w-5" />
+            Export Quran Verses
+          </CardTitle>
+          <CardDescription>
+            Export all 6,236 Quran verses from the database as a complete CSV file, sorted by surah and verse number.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="flex items-center justify-between p-4 rounded-lg border bg-muted/30">
+            <div>
+              <p className="font-medium">Complete Verses CSV</p>
+              <p className="text-sm text-muted-foreground">
+                {bundledStatus.versesExist 
+                  ? `Currently bundled: ${bundledStatus.versesCount.toLocaleString()} verses`
+                  : "Not bundled yet"
+                }
+                {bundledStatus.versesCount !== 6236 && bundledStatus.versesExist && (
+                  <span className="text-amber-600 ml-2">(Expected: 6,236)</span>
+                )}
+              </p>
+            </div>
+            <Button 
+              onClick={exportVersesCsv}
+              disabled={isExportingVerses}
+              variant={bundledStatus.versesCount === 6236 ? "outline" : "default"}
+            >
+              {isExportingVerses ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                  Exporting...
+                </>
+              ) : (
+                <>
+                  <Download className="h-4 w-4 mr-2" />
+                  Export Verses CSV
+                </>
+              )}
+            </Button>
+          </div>
+          
+          <div className="mt-4 p-4 bg-blue-50 dark:bg-blue-950/30 rounded-lg text-sm">
+            <p className="font-medium text-blue-800 dark:text-blue-200 mb-2">After downloading:</p>
+            <ol className="list-decimal list-inside text-blue-700 dark:text-blue-300 space-y-1">
+              <li>Replace <code className="bg-blue-100 dark:bg-blue-900 px-1 rounded">public/data/verses-complete.csv</code> with the downloaded file</li>
+              <li>Rebuild the app for changes to take effect</li>
+              <li>All 604 Quran pages will display complete verses</li>
+            </ol>
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Export by Book */}
       <Card>
