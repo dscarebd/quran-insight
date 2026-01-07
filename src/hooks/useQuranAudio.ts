@@ -24,11 +24,18 @@ interface AudioState {
   playbackSpeed: PlaybackSpeed;
 }
 
+interface PreloadedAudio {
+  audio: HTMLAudioElement;
+  blobUrl?: string;
+}
+
 interface UseQuranAudioOptions {
   autoPlayNext?: boolean;
   onVerseEnd?: (surahNumber: number, verseNumber: number) => void;
   onVerseStart?: (surahNumber: number, verseNumber: number) => void;
 }
+
+const PRELOAD_COUNT = 3; // Number of verses to preload ahead
 
 export const useQuranAudio = (options: UseQuranAudioOptions = {}) => {
   const { autoPlayNext = true, onVerseEnd, onVerseStart } = options;
@@ -58,6 +65,12 @@ export const useQuranAudio = (options: UseQuranAudioOptions = {}) => {
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const progressIntervalRef = useRef<number | null>(null);
+  const preloadedAudioRef = useRef<Map<string, PreloadedAudio>>(new Map());
+
+  // Helper to get preload cache key
+  const getPreloadKey = useCallback((surah: number, verse: number, reciter: string) => {
+    return `${surah}_${verse}_${reciter}`;
+  }, []);
 
   // Persist reciter selection
   useEffect(() => {
@@ -74,6 +87,13 @@ export const useQuranAudio = (options: UseQuranAudioOptions = {}) => {
       if (progressIntervalRef.current) {
         clearInterval(progressIntervalRef.current);
       }
+      // Cleanup preloaded audio
+      preloadedAudioRef.current.forEach((preloaded) => {
+        if (preloaded.blobUrl) {
+          URL.revokeObjectURL(preloaded.blobUrl);
+        }
+      });
+      preloadedAudioRef.current.clear();
     };
   }, []);
 
@@ -99,6 +119,72 @@ export const useQuranAudio = (options: UseQuranAudioOptions = {}) => {
     progressIntervalRef.current = window.setInterval(updateProgress, 100);
   }, [stopProgressTracking, updateProgress]);
 
+  // Preload a single verse in the background
+  const preloadVerse = useCallback(async (
+    surahNumber: number,
+    verseNumber: number,
+    currentReciterId: string
+  ) => {
+    const key = getPreloadKey(surahNumber, verseNumber, currentReciterId);
+    
+    // Skip if already preloaded
+    if (preloadedAudioRef.current.has(key)) return;
+    
+    try {
+      // Get audio source (cached or URL)
+      const cachedBlob = await getCachedAudio(surahNumber, verseNumber, currentReciterId);
+      let audioSource: string;
+      let blobUrl: string | undefined;
+      
+      if (cachedBlob) {
+        blobUrl = URL.createObjectURL(cachedBlob);
+        audioSource = blobUrl;
+      } else {
+        audioSource = getAudioUrl(surahNumber, verseNumber, currentReciterId);
+      }
+      
+      // Create and preload audio element
+      const audio = new Audio();
+      audio.preload = "auto";
+      audio.src = audioSource;
+      
+      // Store in preload cache
+      preloadedAudioRef.current.set(key, { audio, blobUrl });
+    } catch {
+      // Silently fail preloading
+    }
+  }, [getPreloadKey]);
+
+  // Preload upcoming verses
+  const preloadUpcomingVerses = useCallback((
+    surahNumber: number,
+    currentVerse: number,
+    versesCount: number,
+    currentReciterId: string
+  ) => {
+    // Preload next PRELOAD_COUNT verses
+    for (let i = 1; i <= PRELOAD_COUNT; i++) {
+      const nextVerse = currentVerse + i;
+      if (nextVerse <= versesCount) {
+        preloadVerse(surahNumber, nextVerse, currentReciterId);
+      }
+    }
+    
+    // Clean up old preloaded verses (more than PRELOAD_COUNT behind current)
+    const keysToDelete: string[] = [];
+    preloadedAudioRef.current.forEach((preloaded, key) => {
+      const [, verseStr] = key.split("_");
+      const verse = parseInt(verseStr, 10);
+      if (verse < currentVerse - 1) {
+        if (preloaded.blobUrl) {
+          URL.revokeObjectURL(preloaded.blobUrl);
+        }
+        keysToDelete.push(key);
+      }
+    });
+    keysToDelete.forEach(key => preloadedAudioRef.current.delete(key));
+  }, [preloadVerse]);
+
   const playVerse = useCallback(async (
     surahNumber: number,
     verseNumber: number,
@@ -123,18 +209,33 @@ export const useQuranAudio = (options: UseQuranAudioOptions = {}) => {
         stopProgressTracking();
       }
 
-      // Try to get cached audio first
-      let audioSource: string;
-      const cachedBlob = await getCachedAudio(surahNumber, verseNumber, reciterId);
+      // Check for preloaded audio first
+      const preloadKey = getPreloadKey(surahNumber, verseNumber, reciterId);
+      const preloadedEntry = preloadedAudioRef.current.get(preloadKey);
       
-      if (cachedBlob) {
-        audioSource = URL.createObjectURL(cachedBlob);
+      let audio: HTMLAudioElement;
+      let audioSource: string;
+      let cachedBlob: Blob | null = null;
+      
+      if (preloadedEntry) {
+        // Use preloaded audio - instant play!
+        audio = preloadedEntry.audio;
+        audioSource = audio.src;
+        preloadedAudioRef.current.delete(preloadKey);
       } else {
-        audioSource = getAudioUrl(surahNumber, verseNumber, reciterId);
+        // Try to get cached audio first
+        cachedBlob = await getCachedAudio(surahNumber, verseNumber, reciterId);
+        
+        if (cachedBlob) {
+          audioSource = URL.createObjectURL(cachedBlob);
+        } else {
+          audioSource = getAudioUrl(surahNumber, verseNumber, reciterId);
+        }
+        
+        // Create audio element
+        audio = new Audio(audioSource);
       }
-
-      // Create audio element
-      const audio = new Audio(audioSource);
+      
       audio.playbackRate = state.playbackSpeed;
       audioRef.current = audio;
 
@@ -147,10 +248,24 @@ export const useQuranAudio = (options: UseQuranAudioOptions = {}) => {
         }));
       };
 
+      // If audio is already loaded (preloaded), update state immediately
+      if (audio.readyState >= 2) {
+        setState(prev => ({ 
+          ...prev, 
+          isLoading: false,
+          duration: audio.duration 
+        }));
+      }
+
       audio.onplay = () => {
         setState(prev => ({ ...prev, isPlaying: true }));
         startProgressTracking();
         onVerseStart?.(surahNumber, verseNumber);
+        
+        // Preload upcoming verses when current verse starts playing
+        if (versesCount) {
+          preloadUpcomingVerses(surahNumber, verseNumber, versesCount, reciterId);
+        }
       };
 
       audio.onpause = () => {
@@ -163,8 +278,8 @@ export const useQuranAudio = (options: UseQuranAudioOptions = {}) => {
         stopProgressTracking();
         onVerseEnd?.(surahNumber, verseNumber);
 
-        // Cache the audio if it wasn't cached
-        if (!cachedBlob) {
+        // Cache the audio if it wasn't cached (only for non-preloaded audio)
+        if (!cachedBlob && !preloadedEntry) {
           try {
             const response = await fetch(audioSource);
             const blob = await response.blob();
@@ -222,7 +337,7 @@ export const useQuranAudio = (options: UseQuranAudioOptions = {}) => {
         error: error instanceof Error ? error.message : "Failed to play audio" 
       }));
     }
-  }, [reciterId, autoPlayNext, onVerseEnd, onVerseStart, startProgressTracking, stopProgressTracking]);
+  }, [reciterId, autoPlayNext, onVerseEnd, onVerseStart, startProgressTracking, stopProgressTracking, getPreloadKey, preloadUpcomingVerses, state.playbackSpeed]);
 
   const pause = useCallback(() => {
     if (audioRef.current) {
