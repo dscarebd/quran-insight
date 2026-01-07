@@ -309,24 +309,25 @@ const ReadPage = ({
   // Calculate expected verse count for a page based on page data
   const calculateExpectedVerseCount = useCallback((pageData: ReturnType<typeof getPageByNumber>): number => {
     if (!pageData) return 0;
-    
+
+    const getSurahTotalVerses = (surahNumber: number) => {
+      return surahs.find((s) => s.number === surahNumber)?.totalVerses ?? 0;
+    };
+
     if (pageData.startSurah === pageData.endSurah) {
       return pageData.endVerse - pageData.startVerse + 1;
     }
-    
-    // For pages spanning multiple surahs, estimate based on verse ranges
-    // This is an approximation - actual count depends on surah lengths
+
     let count = 0;
     for (let surah = pageData.startSurah; surah <= pageData.endSurah; surah++) {
-      if (surah === pageData.startSurah) {
-        // From startVerse to end of surah (we don't know surah length, so estimate)
-        count += 50; // Conservative estimate
-      } else if (surah === pageData.endSurah) {
-        count += pageData.endVerse;
-      } else {
-        count += 20; // Middle surahs on same page are usually short
-      }
+      const total = getSurahTotalVerses(surah);
+      if (!total) return 0;
+
+      const start = surah === pageData.startSurah ? pageData.startVerse : 1;
+      const end = surah === pageData.endSurah ? pageData.endVerse : total;
+      count += end - start + 1;
     }
+
     return count;
   }, []);
 
@@ -430,25 +431,38 @@ const ReadPage = ({
           return a.verse_number - b.verse_number;
         });
         
-        // Verify bundled data completeness for single-surah pages
-        if (pageData.startSurah === pageData.endSurah) {
-          const isComplete = bundledVerses.length === expectedCount;
-          const hasAllVerses = bundledVerses.every((v, idx) => {
-            const expectedVerseNum = pageData.startVerse + idx;
-            return v.verse_number === expectedVerseNum;
-          });
-          
-          if (isComplete && hasAllVerses) {
-            versesCache.set(pageNum, bundledVerses);
-            return bundledVerses;
-          } else {
-            console.log(`Page ${pageNum}: Bundled data incomplete (got ${bundledVerses.length}, expected ${expectedCount}), falling back to database`);
+        // Verify bundled data completeness
+        const validateBundledVerses = () => {
+          if (bundledVerses.length !== expectedCount) return false;
+
+          for (let surahNum = pageData.startSurah; surahNum <= pageData.endSurah; surahNum++) {
+            const start = surahNum === pageData.startSurah ? pageData.startVerse : 1;
+            const end = surahNum === pageData.endSurah ? pageData.endVerse : (surahs.find(s => s.number === surahNum)?.totalVerses ?? 0);
+            if (!end) return false;
+
+            const slice = bundledVerses
+              .filter(v => v.surah_number === surahNum)
+              .sort((a, b) => a.verse_number - b.verse_number);
+
+            const expectedSliceCount = end - start + 1;
+            if (slice.length !== expectedSliceCount) return false;
+
+            for (let i = 0; i < slice.length; i++) {
+              if (slice[i].verse_number !== start + i) return false;
+            }
           }
-        } else if (bundledVerses.length > 0) {
-          // For multi-surah pages, use bundled if we have some data
+
+          return true;
+        };
+
+        if (validateBundledVerses()) {
           versesCache.set(pageNum, bundledVerses);
           return bundledVerses;
         }
+
+        console.log(
+          `Page ${pageNum}: Bundled data incomplete (got ${bundledVerses.length}, expected ${expectedCount}), falling back to database`
+        );
       }
     } catch (error) {
       console.log("Bundled data not available, trying Supabase:", error);
