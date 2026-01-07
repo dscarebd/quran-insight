@@ -29,6 +29,7 @@ interface AudioPlayerBarProps {
   onCycleSpeed: () => void;
   canPlayPrevious: boolean;
   canPlayNext: boolean;
+  onReciterClick?: () => void;
 }
 
 const formatTime = (seconds: number): string => {
@@ -68,7 +69,8 @@ export const AudioPlayerBar = ({
   onCycleRepeat,
   onCycleSpeed,
   canPlayPrevious,
-  canPlayNext
+  canPlayNext,
+  onReciterClick
 }: AudioPlayerBarProps) => {
   if (currentSurah === null || currentVerse === null) return null;
 
@@ -105,12 +107,15 @@ export const AudioPlayerBar = ({
               {language === "bn" ? surah?.nameBengali : surah?.nameEnglish} • {language === "bn" ? "আয়াত" : "Verse"} {formatNumber(currentVerse, language)}
             </p>
             <div className="flex items-center gap-2">
-              <p className={cn(
-                "text-xs text-muted-foreground truncate",
-                language === "bn" && "font-bengali"
-              )}>
+              <button
+                onClick={onReciterClick}
+                className={cn(
+                  "text-xs text-primary hover:underline truncate cursor-pointer",
+                  language === "bn" && "font-bengali"
+                )}
+              >
                 {language === "bn" ? reciter?.nameBengali : reciter?.nameEnglish}
-              </p>
+              </button>
               {/* Repeat indicator */}
               {isRepeating && (
                 <span className={cn(

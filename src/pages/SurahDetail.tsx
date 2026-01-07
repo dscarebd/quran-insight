@@ -582,6 +582,7 @@ const SurahDetail = ({ language, readingMode = "normal", arabicFont = "amiri" }:
           onCycleSpeed={audio.cyclePlaybackSpeed}
           canPlayPrevious={audio.canPlayPrevious}
           canPlayNext={audio.canPlayNext}
+          onReciterClick={() => setReciterSheetOpen(true)}
         />
       )}
     </div>
