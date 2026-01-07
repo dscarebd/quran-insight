@@ -13,7 +13,7 @@ import { cn, sanitizeArabicText } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
 import { toast } from "sonner";
 import { Language } from "@/types/language";
-import { initializeBundledData, getBundledVerses, isBundledDataLoaded } from "@/services/bundledDataLoader";
+import { initializeVersesData, getBundledVerses, isBundledDataLoaded } from "@/services/bundledDataLoader";
 
 interface Verse {
   surah_number: number;
@@ -398,7 +398,7 @@ const ReadPage = ({
     // Try bundled data first (works offline)
     let bundledVerses: Verse[] = [];
     try {
-      await initializeBundledData();
+      await initializeVersesData();
       
       if (isBundledDataLoaded()) {
         // Collect verses from all surahs in this page
@@ -490,30 +490,46 @@ const ReadPage = ({
     const loadInitialPages = async () => {
       setLoading(true);
 
-      // Load a smaller window: just the target page + 1 page after for faster initial render
-      const startPage = Math.max(initialPage - 1, 1);
-      const endPage = Math.min(initialPage + 1, 604);
-      const pageNumbers = [];
-      for (let i = startPage; i <= endPage; i++) pageNumbers.push(i);
+      try {
+        // Load a smaller window: just the target page + 1 page after for faster initial render
+        const startPage = Math.max(initialPage - 1, 1);
+        const endPage = Math.min(initialPage + 1, 604);
+        const pageNumbers = [];
+        for (let i = startPage; i <= endPage; i++) pageNumbers.push(i);
 
-      // Fetch all pages in parallel for faster loading
-      const pagesData = await Promise.all(
-        pageNumbers.map(async (pageNum) => {
-          const verses = await fetchVersesForPage(pageNum);
-          return {
-            pageNumber: pageNum,
-            verses,
-            juzNumber: getJuzForPage(pageNum),
-          };
-        })
-      );
+        // Fetch all pages in parallel for faster loading
+        const pagesData = await Promise.all(
+          pageNumbers.map(async (pageNum) => {
+            try {
+              const verses = await fetchVersesForPage(pageNum);
+              return {
+                pageNumber: pageNum,
+                verses,
+                juzNumber: getJuzForPage(pageNum),
+              };
+            } catch (e) {
+              console.error(`Failed to load page ${pageNum}:`, e);
+              return {
+                pageNumber: pageNum,
+                verses: [],
+                juzNumber: getJuzForPage(pageNum),
+              };
+            }
+          })
+        );
 
-      setLoadedPages(pagesData);
-      setLoading(false);
+        setLoadedPages(pagesData);
+      } catch (error) {
+        console.error("Failed to load initial pages:", error);
+        toast.error(language === "bn" ? "পেজ লোড করতে সমস্যা হচ্ছে" : "Failed to load pages");
+        setLoadedPages([]);
+      } finally {
+        setLoading(false);
+      }
     };
 
     loadInitialPages();
-  }, [initialPage, fetchVersesForPage]);
+  }, [initialPage, fetchVersesForPage, language]);
 
   // Preload next 3 pages in background for smoother scrolling
   useEffect(() => {
