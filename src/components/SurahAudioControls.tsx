@@ -152,20 +152,26 @@ export const SurahAudioControls = ({
         <ChevronDown className="h-3 w-3" />
       </Button>
 
-      {/* Download Button - Icon only for compact layout */}
+      {/* Download Button - Icon only on mobile, full text on desktop/tablet */}
       {isCheckingDownload ? (
-        <Button variant="outline" size="icon" className="h-9 w-9" disabled>
+        <Button variant="outline" size="sm" className="h-9 px-2 sm:px-3" disabled>
           <Loader2 className="h-4 w-4 animate-spin" />
+          <span className={cn("hidden sm:inline ml-2", language === "bn" && "font-bengali")}>
+            {language === "bn" ? "যাচাই..." : "Checking..."}
+          </span>
         </Button>
       ) : isDownloading ? (
-        <Button variant="outline" size="sm" disabled className="gap-1 min-w-[60px]">
+        <Button variant="outline" size="sm" disabled className="gap-1 min-w-[60px] sm:min-w-[100px]">
           <Loader2 className="h-4 w-4 animate-spin" />
           <span className="text-xs">{Math.round(downloadProgress)}%</span>
         </Button>
       ) : isDownloaded ? (
         <div className="flex items-center gap-1">
-          <Button variant="outline" size="icon" className="h-9 w-9 text-primary" disabled>
+          <Button variant="outline" size="sm" className="h-9 px-2 sm:px-3 text-primary" disabled>
             <Check className="h-4 w-4" />
+            <span className={cn("hidden sm:inline ml-2", language === "bn" && "font-bengali")}>
+              {language === "bn" ? "সংরক্ষিত" : "Saved"}
+            </span>
           </Button>
           <Button
             variant="ghost"
@@ -179,12 +185,14 @@ export const SurahAudioControls = ({
       ) : (
         <Button
           variant="outline"
-          size="icon"
-          className="h-9 w-9"
+          size="sm"
+          className="h-9 px-2 sm:px-3"
           onClick={handleDownload}
-          title={language === "bn" ? "ডাউনলোড" : "Download"}
         >
           <Download className="h-4 w-4" />
+          <span className={cn("hidden sm:inline ml-2", language === "bn" && "font-bengali")}>
+            {language === "bn" ? "ডাউনলোড" : "Download"}
+          </span>
         </Button>
       )}
     </div>
