@@ -154,10 +154,11 @@ serve(async (req) => {
 
     const mismatches: MismatchReport[] = [];
     const missing: MismatchReport[] = [];
+    const versesToUpdate: { surah_number: number; verse_number: number; arabic: string }[] = [];
     let matchCount = 0;
     let updateCount = 0;
 
-    // Compare each verse
+    // Compare each verse and collect mismatches
     for (const dbVerse of dbVerses || []) {
       const key = `${dbVerse.surah_number}:${dbVerse.verse_number}`;
       const tanzilText = tanzilVerses.get(key);
@@ -188,26 +189,61 @@ serve(async (req) => {
             status: 'mismatch'
           });
           
-          // Update if not dry run
-          if (!dryRun) {
-            const { error: updateError } = await supabase
-              .from('verses')
-              .update({ arabic: tanzilText, updated_at: new Date().toISOString() })
-              .eq('surah_number', dbVerse.surah_number)
-              .eq('verse_number', dbVerse.verse_number);
-            
-            if (updateError) {
-              console.error(`Failed to update ${key}: ${updateError.message}`);
-            } else {
-              updateCount++;
-              mismatches[mismatches.length - 1].status = 'updated';
-            }
-          }
+          // Collect for batch update
+          versesToUpdate.push({
+            surah_number: dbVerse.surah_number,
+            verse_number: dbVerse.verse_number,
+            arabic: tanzilText
+          });
         } else {
           matchCount++;
         }
       } else {
         matchCount++;
+      }
+    }
+
+    // Batch update if not dry run
+    if (!dryRun && versesToUpdate.length > 0) {
+      console.log(`Starting batch update of ${versesToUpdate.length} verses...`);
+      
+      // Process in batches of 100 for efficiency
+      const batchSize = 100;
+      for (let i = 0; i < versesToUpdate.length; i += batchSize) {
+        const batch = versesToUpdate.slice(i, i + batchSize);
+        const batchNum = Math.floor(i / batchSize) + 1;
+        const totalBatches = Math.ceil(versesToUpdate.length / batchSize);
+        
+        console.log(`Processing batch ${batchNum}/${totalBatches} (${batch.length} verses)...`);
+        
+        // Update each verse in the batch concurrently
+        const updatePromises = batch.map(verse => 
+          supabase
+            .from('verses')
+            .update({ arabic: verse.arabic, updated_at: new Date().toISOString() })
+            .eq('surah_number', verse.surah_number)
+            .eq('verse_number', verse.verse_number)
+        );
+        
+        const results = await Promise.all(updatePromises);
+        
+        // Count successful updates
+        for (const result of results) {
+          if (!result.error) {
+            updateCount++;
+          } else {
+            console.error(`Update failed: ${result.error.message}`);
+          }
+        }
+        
+        console.log(`Batch ${batchNum} complete. Total updated: ${updateCount}`);
+      }
+      
+      // Mark all as updated in mismatch details
+      for (let i = 0; i < Math.min(mismatches.length, 50); i++) {
+        if (updateCount > i) {
+          mismatches[i].status = 'updated';
+        }
       }
     }
 
