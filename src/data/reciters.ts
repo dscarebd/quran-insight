@@ -89,6 +89,36 @@ export const reciters: Reciter[] = [
     style: "Clear",
     styleBengali: "স্পষ্ট",
     quality: "128kbps"
+  },
+  {
+    id: "qatami",
+    nameEnglish: "Nasser Al-Qatami",
+    nameBengali: "নাসের আল-কাতামি",
+    nameArabic: "ناصر القطامي",
+    folder: "Nasser_Alqatami_128kbps",
+    style: "Emotional",
+    styleBengali: "আবেগপূর্ণ",
+    quality: "128kbps"
+  },
+  {
+    id: "dussary",
+    nameEnglish: "Yasser Al-Dosari",
+    nameBengali: "ইয়াসির আল-দোসারি",
+    nameArabic: "ياسر الدوسري",
+    folder: "Yasser_Ad-Dussary_128kbps",
+    style: "Beautiful",
+    styleBengali: "সুন্দর",
+    quality: "128kbps"
+  },
+  {
+    id: "rifai",
+    nameEnglish: "Hani Ar-Rifai",
+    nameBengali: "হানি আর-রিফাই",
+    nameArabic: "هاني الرفاعي",
+    folder: "Hani_Rifai_192kbps",
+    style: "Melodious",
+    styleBengali: "সুমধুর",
+    quality: "192kbps"
   }
 ];
 
