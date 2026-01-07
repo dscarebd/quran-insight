@@ -1,10 +1,11 @@
-import { Play, Pause, SkipBack, SkipForward, X, Volume2, Loader2 } from "lucide-react";
+import { Play, Pause, SkipBack, SkipForward, X, Loader2, Repeat, Repeat1 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { cn, formatNumber } from "@/lib/utils";
 import { Language } from "@/types/language";
 import { surahs } from "@/data/surahs";
-import { reciters, getReciterById } from "@/data/reciters";
+import { getReciterById } from "@/data/reciters";
+import { RepeatMode } from "@/hooks/useQuranAudio";
 
 interface AudioPlayerBarProps {
   isPlaying: boolean;
@@ -15,11 +16,15 @@ interface AudioPlayerBarProps {
   duration: number;
   reciterId: string;
   language: Language;
+  repeatMode: RepeatMode;
+  abRepeatStart: number | null;
+  abRepeatEnd: number | null;
   onPlayPause: () => void;
   onPrevious: () => void;
   onNext: () => void;
   onSeek: (time: number) => void;
   onClose: () => void;
+  onCycleRepeat: () => void;
   canPlayPrevious: boolean;
   canPlayNext: boolean;
 }
@@ -31,6 +36,15 @@ const formatTime = (seconds: number): string => {
   return `${mins}:${secs.toString().padStart(2, "0")}`;
 };
 
+const getRepeatLabel = (mode: RepeatMode, language: Language): string => {
+  switch (mode) {
+    case "verse": return language === "bn" ? "আয়াত" : "Verse";
+    case "surah": return language === "bn" ? "সূরা" : "Surah";
+    case "ab": return "A-B";
+    default: return "";
+  }
+};
+
 export const AudioPlayerBar = ({
   isPlaying,
   isLoading,
@@ -40,11 +54,15 @@ export const AudioPlayerBar = ({
   duration,
   reciterId,
   language,
+  repeatMode,
+  abRepeatStart,
+  abRepeatEnd,
   onPlayPause,
   onPrevious,
   onNext,
   onSeek,
   onClose,
+  onCycleRepeat,
   canPlayPrevious,
   canPlayNext
 }: AudioPlayerBarProps) => {
@@ -52,6 +70,7 @@ export const AudioPlayerBar = ({
 
   const surah = surahs.find(s => s.number === currentSurah);
   const reciter = getReciterById(reciterId);
+  const isRepeating = repeatMode !== "none";
 
   return (
     <div className="fixed bottom-16 left-0 right-0 z-50 border-t border-border bg-card/95 backdrop-blur-lg shadow-lg md:bottom-0">
@@ -72,7 +91,7 @@ export const AudioPlayerBar = ({
         </div>
 
         {/* Controls */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
           {/* Verse Info */}
           <div className="flex-1 min-w-0">
             <p className={cn(
@@ -81,13 +100,44 @@ export const AudioPlayerBar = ({
             )}>
               {language === "bn" ? surah?.nameBengali : surah?.nameEnglish} • {language === "bn" ? "আয়াত" : "Verse"} {formatNumber(currentVerse, language)}
             </p>
-            <p className={cn(
-              "text-xs text-muted-foreground truncate",
-              language === "bn" && "font-bengali"
-            )}>
-              {language === "bn" ? reciter?.nameBengali : reciter?.nameEnglish}
-            </p>
+            <div className="flex items-center gap-2">
+              <p className={cn(
+                "text-xs text-muted-foreground truncate",
+                language === "bn" && "font-bengali"
+              )}>
+                {language === "bn" ? reciter?.nameBengali : reciter?.nameEnglish}
+              </p>
+              {/* Repeat indicator */}
+              {isRepeating && (
+                <span className={cn(
+                  "text-xs px-1.5 py-0.5 rounded bg-primary/10 text-primary font-medium",
+                  language === "bn" && "font-bengali"
+                )}>
+                  {repeatMode === "ab" && abRepeatStart !== null
+                    ? `${formatNumber(abRepeatStart, language)}-${abRepeatEnd ? formatNumber(abRepeatEnd, language) : "?"}`
+                    : getRepeatLabel(repeatMode, language)
+                  }
+                </span>
+              )}
+            </div>
           </div>
+
+          {/* Repeat Button */}
+          <Button
+            variant="ghost"
+            size="icon"
+            className={cn(
+              "h-8 w-8",
+              isRepeating ? "text-primary" : "text-muted-foreground"
+            )}
+            onClick={onCycleRepeat}
+          >
+            {repeatMode === "verse" ? (
+              <Repeat1 className="h-4 w-4" />
+            ) : (
+              <Repeat className={cn("h-4 w-4", repeatMode === "ab" && "text-primary")} />
+            )}
+          </Button>
 
           {/* Playback Controls */}
           <div className="flex items-center gap-1">

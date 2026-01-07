@@ -7,6 +7,8 @@ import {
 } from "@/services/quranAudioService";
 import { DEFAULT_RECITER_ID } from "@/data/reciters";
 
+export type RepeatMode = "none" | "verse" | "surah" | "ab";
+
 interface AudioState {
   isPlaying: boolean;
   isLoading: boolean;
@@ -15,6 +17,9 @@ interface AudioState {
   progress: number;
   duration: number;
   error: string | null;
+  repeatMode: RepeatMode;
+  abRepeatStart: number | null;
+  abRepeatEnd: number | null;
 }
 
 interface UseQuranAudioOptions {
@@ -33,7 +38,10 @@ export const useQuranAudio = (options: UseQuranAudioOptions = {}) => {
     currentVerse: null,
     progress: 0,
     duration: 0,
-    error: null
+    error: null,
+    repeatMode: "none",
+    abRepeatStart: null,
+    abRepeatEnd: null
   });
 
   const [reciterId, setReciterId] = useState<string>(() => {
@@ -162,8 +170,29 @@ export const useQuranAudio = (options: UseQuranAudioOptions = {}) => {
           }
         }
 
-        // Auto-play next verse if enabled
-        if (autoPlayNext && versesCount && verseNumber < versesCount) {
+        // Handle repeat modes
+        const { repeatMode, abRepeatStart, abRepeatEnd } = state;
+
+        if (repeatMode === "verse") {
+          // Repeat current verse
+          playVerse(surahNumber, verseNumber, versesCount);
+        } else if (repeatMode === "ab" && abRepeatStart !== null && abRepeatEnd !== null) {
+          // A-B repeat mode
+          if (verseNumber < abRepeatEnd) {
+            playVerse(surahNumber, verseNumber + 1, versesCount);
+          } else {
+            // Loop back to start
+            playVerse(surahNumber, abRepeatStart, versesCount);
+          }
+        } else if (repeatMode === "surah") {
+          // Repeat surah - go to next verse or loop to beginning
+          if (versesCount && verseNumber < versesCount) {
+            playVerse(surahNumber, verseNumber + 1, versesCount);
+          } else {
+            playVerse(surahNumber, 1, versesCount);
+          }
+        } else if (autoPlayNext && versesCount && verseNumber < versesCount) {
+          // Normal auto-play next
           playVerse(surahNumber, verseNumber + 1, versesCount);
         }
       };
@@ -217,7 +246,10 @@ export const useQuranAudio = (options: UseQuranAudioOptions = {}) => {
       currentVerse: null,
       progress: 0,
       duration: 0,
-      error: null
+      error: null,
+      repeatMode: "none",
+      abRepeatStart: null,
+      abRepeatEnd: null
     });
   }, [stopProgressTracking]);
 
@@ -260,6 +292,62 @@ export const useQuranAudio = (options: UseQuranAudioOptions = {}) => {
     return state.currentSurah === surahNumber && state.currentVerse === verseNumber;
   }, [state.currentSurah, state.currentVerse]);
 
+  // Repeat mode controls
+  const setRepeatMode = useCallback((mode: RepeatMode) => {
+    setState(prev => ({ 
+      ...prev, 
+      repeatMode: mode,
+      // Clear A-B range when switching away from A-B mode
+      abRepeatStart: mode === "ab" ? prev.abRepeatStart : null,
+      abRepeatEnd: mode === "ab" ? prev.abRepeatEnd : null
+    }));
+  }, []);
+
+  const cycleRepeatMode = useCallback(() => {
+    setState(prev => {
+      const modes: RepeatMode[] = ["none", "verse", "surah", "ab"];
+      const currentIndex = modes.indexOf(prev.repeatMode);
+      const nextMode = modes[(currentIndex + 1) % modes.length];
+      return { 
+        ...prev, 
+        repeatMode: nextMode,
+        abRepeatStart: nextMode === "ab" ? prev.currentVerse : null,
+        abRepeatEnd: null
+      };
+    });
+  }, []);
+
+  const setABRepeatStart = useCallback((verse: number) => {
+    setState(prev => ({ 
+      ...prev, 
+      abRepeatStart: verse,
+      abRepeatEnd: prev.abRepeatEnd && prev.abRepeatEnd <= verse ? null : prev.abRepeatEnd
+    }));
+  }, []);
+
+  const setABRepeatEnd = useCallback((verse: number) => {
+    setState(prev => ({ 
+      ...prev, 
+      abRepeatEnd: verse >= (prev.abRepeatStart || 1) ? verse : prev.abRepeatEnd
+    }));
+  }, []);
+
+  const clearABRepeat = useCallback(() => {
+    setState(prev => ({ 
+      ...prev, 
+      repeatMode: "none",
+      abRepeatStart: null, 
+      abRepeatEnd: null 
+    }));
+  }, []);
+
+  const isInABRange = useCallback((verseNumber: number) => {
+    const { abRepeatStart, abRepeatEnd } = state;
+    if (abRepeatStart === null) return false;
+    if (abRepeatEnd === null) return verseNumber === abRepeatStart;
+    return verseNumber >= abRepeatStart && verseNumber <= abRepeatEnd;
+  }, [state.abRepeatStart, state.abRepeatEnd]);
+
   return {
     ...state,
     reciterId,
@@ -274,6 +362,13 @@ export const useQuranAudio = (options: UseQuranAudioOptions = {}) => {
     playNext,
     isCurrentVerse,
     canPlayPrevious: state.currentVerse !== null && state.currentVerse > 1,
-    canPlayNext: state.currentVerse !== null && state.currentVerse < totalVerses
+    canPlayNext: state.currentVerse !== null && state.currentVerse < totalVerses,
+    // Repeat controls
+    setRepeatMode,
+    cycleRepeatMode,
+    setABRepeatStart,
+    setABRepeatEnd,
+    clearABRepeat,
+    isInABRange
   };
 };

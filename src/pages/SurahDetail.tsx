@@ -37,6 +37,12 @@ interface VerseCardProps {
   isLoading: boolean;
   isCurrentVerse: boolean;
   onAudioToggle: () => void;
+  isInABRange: boolean;
+  isABMode: boolean;
+  abRepeatStart: number | null;
+  abRepeatEnd: number | null;
+  onSetABStart: () => void;
+  onSetABEnd: () => void;
 }
 
 const VerseCard = ({ 
@@ -50,7 +56,13 @@ const VerseCard = ({
   isPlaying,
   isLoading,
   isCurrentVerse,
-  onAudioToggle
+  onAudioToggle,
+  isInABRange,
+  isABMode,
+  abRepeatStart,
+  abRepeatEnd,
+  onSetABStart,
+  onSetABEnd
 }: VerseCardProps) => {
   const [showTafsir, setShowTafsir] = useState(false);
 
@@ -58,20 +70,64 @@ const VerseCard = ({
     onToggleBookmark(verse.surahNumber, verse.verseNumber);
   };
 
+  const isABStart = abRepeatStart === verse.verseNumber;
+  const isABEnd = abRepeatEnd === verse.verseNumber;
+
   return (
     <div 
       className={cn(
         "verse-card mb-4 animate-fade-in",
-        isCurrentVerse && isPlaying && "ring-2 ring-primary/30 bg-primary/5"
+        isCurrentVerse && isPlaying && "ring-2 ring-primary/30 bg-primary/5",
+        isInABRange && !isCurrentVerse && "bg-accent/30 border-l-2 border-primary/50"
       )}
       style={{ animationDelay: `${index * 0.05}s` }}
     >
       {/* Verse Number Badge */}
       <div className="mb-4 flex items-center justify-between">
-        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-primary-foreground font-semibold font-bengali">
-          {formatNumber(verse.verseNumber, language)}
+        <div className="flex items-center gap-2">
+          <div className={cn(
+            "flex h-10 w-10 items-center justify-center rounded-full font-semibold font-bengali",
+            isABStart || isABEnd ? "bg-primary text-primary-foreground ring-2 ring-offset-2 ring-primary" : "bg-primary text-primary-foreground"
+          )}>
+            {formatNumber(verse.verseNumber, language)}
+          </div>
+          {/* A-B markers */}
+          {isABStart && (
+            <span className="text-xs font-bold text-primary bg-primary/10 px-1.5 py-0.5 rounded">A</span>
+          )}
+          {isABEnd && (
+            <span className="text-xs font-bold text-primary bg-primary/10 px-1.5 py-0.5 rounded">B</span>
+          )}
         </div>
         <div className="flex gap-1">
+          {/* A-B Range Selector Buttons - Only show in A-B mode */}
+          {isABMode && (
+            <>
+              <Button
+                variant="ghost"
+                size="sm"
+                className={cn(
+                  "h-8 px-2 text-xs",
+                  isABStart ? "bg-primary/10 text-primary" : "text-muted-foreground"
+                )}
+                onClick={onSetABStart}
+              >
+                A
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                className={cn(
+                  "h-8 px-2 text-xs",
+                  isABEnd ? "bg-primary/10 text-primary" : "text-muted-foreground"
+                )}
+                onClick={onSetABEnd}
+                disabled={abRepeatStart === null || verse.verseNumber < abRepeatStart}
+              >
+                B
+              </Button>
+            </>
+          )}
           <VerseAudioButton
             isPlaying={isPlaying}
             isLoading={isLoading}
@@ -413,6 +469,12 @@ const SurahDetail = ({ language, readingMode = "normal", arabicFont = "amiri" }:
                 isLoading={audio.isLoading && audio.isCurrentVerse(verse.surahNumber, verse.verseNumber)}
                 isCurrentVerse={audio.isCurrentVerse(verse.surahNumber, verse.verseNumber)}
                 onAudioToggle={() => audio.togglePlay(verse.surahNumber, verse.verseNumber, surah?.totalVerses)}
+                isInABRange={audio.isInABRange(verse.verseNumber)}
+                isABMode={audio.repeatMode === "ab"}
+                abRepeatStart={audio.abRepeatStart}
+                abRepeatEnd={audio.abRepeatEnd}
+                onSetABStart={() => audio.setABRepeatStart(verse.verseNumber)}
+                onSetABEnd={() => audio.setABRepeatEnd(verse.verseNumber)}
               />
             </div>
           ))
@@ -512,11 +574,15 @@ const SurahDetail = ({ language, readingMode = "normal", arabicFont = "amiri" }:
           duration={audio.duration}
           reciterId={audio.reciterId}
           language={language}
+          repeatMode={audio.repeatMode}
+          abRepeatStart={audio.abRepeatStart}
+          abRepeatEnd={audio.abRepeatEnd}
           onPlayPause={() => audio.isPlaying ? audio.pause() : audio.resume()}
           onPrevious={audio.playPrevious}
           onNext={audio.playNext}
           onSeek={audio.seek}
           onClose={audio.stop}
+          onCycleRepeat={audio.cycleRepeatMode}
           canPlayPrevious={audio.canPlayPrevious}
           canPlayNext={audio.canPlayNext}
         />
