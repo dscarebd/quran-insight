@@ -321,6 +321,59 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
               </CollapsibleTrigger>
               <CollapsibleContent>
                 <div className="mt-2 space-y-3 rounded-lg border border-border bg-card p-3">
+                  {/* Arabic Font Selection */}
+                  <div>
+                    <p className={cn("text-sm font-medium text-muted-foreground mb-1.5", language === "bn" ? "font-bengali" : "font-sans")}>
+                      {language === "bn" ? "আরবি ফন্ট" : "Arabic Font"}
+                    </p>
+                    <div className="grid grid-cols-3 gap-2">
+                      <button
+                        onClick={() => onArabicFontChange?.("amiri")}
+                        className={cn(
+                          "flex flex-col items-center justify-center gap-1 rounded-md border border-border bg-card px-2 py-2 transition-colors text-sm",
+                          arabicFont === "amiri" ? "border-primary bg-primary/5" : "hover:bg-muted/50"
+                        )}
+                      >
+                        <span className="font-arabic text-lg">ب</span>
+                        <span className={cn("text-xs", language === "bn" ? "font-bengali" : "font-sans")}>
+                          {language === "bn" ? "আমিরী" : "Amiri"}
+                        </span>
+                        {arabicFont === "amiri" && <div className="h-1.5 w-1.5 rounded-full bg-primary" />}
+                      </button>
+                      <button
+                        onClick={() => onArabicFontChange?.("uthmani")}
+                        className={cn(
+                          "flex flex-col items-center justify-center gap-1 rounded-md border border-border bg-card px-2 py-2 transition-colors text-sm",
+                          arabicFont === "uthmani" ? "border-primary bg-primary/5" : "hover:bg-muted/50"
+                        )}
+                      >
+                        <span className="font-uthmani text-lg">ب</span>
+                        <span className={cn("text-xs", language === "bn" ? "font-bengali" : "font-sans")}>
+                          {language === "bn" ? "উসমানি" : "Uthmani"}
+                        </span>
+                        {arabicFont === "uthmani" && <div className="h-1.5 w-1.5 rounded-full bg-primary" />}
+                      </button>
+                      <button
+                        onClick={() => onArabicFontChange?.("v1")}
+                        className={cn(
+                          "flex flex-col items-center justify-center gap-1 rounded-md border border-border bg-card px-2 py-2 transition-colors text-sm",
+                          arabicFont === "v1" ? "border-primary bg-primary/5" : "hover:bg-muted/50"
+                        )}
+                      >
+                        <span className="font-uthmani text-lg">ب</span>
+                        <span className={cn("text-xs text-center leading-tight", language === "bn" ? "font-bengali" : "font-sans")}>
+                          {language === "bn" ? "কিং ফাহাদ" : "King Fahad"}
+                        </span>
+                        {arabicFont === "v1" && <div className="h-1.5 w-1.5 rounded-full bg-primary" />}
+                      </button>
+                    </div>
+                    <p className={cn("mt-1.5 text-xs text-muted-foreground", language === "bn" ? "font-bengali" : "font-sans")}>
+                      {language === "bn" 
+                        ? "কিং ফাহাদ ফন্ট quran.com এর মতো দেখায়" 
+                        : "King Fahad font looks like quran.com"}
+                    </p>
+                  </div>
+
                   {/* Arabic Font Size Slider */}
                   <div>
                     <p className={cn("text-sm font-medium text-muted-foreground mb-1.5", language === "bn" ? "font-bengali" : "font-sans")}>
@@ -346,7 +399,7 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
                     {/* Preview */}
                     <div className="mt-2 p-2 rounded-md bg-muted/50 border border-border">
                       <p 
-                        className={cn("text-center text-foreground leading-relaxed", arabicFont === "uthmani" ? "font-uthmani" : "font-arabic")}
+                        className={cn("text-center text-foreground leading-relaxed", arabicFont === "uthmani" || arabicFont === "v1" ? "font-uthmani" : "font-arabic")}
                         style={{ fontSize: `${arabicFontSize}px` }}
                       >
                         بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ

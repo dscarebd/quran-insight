@@ -335,7 +335,7 @@ const ReadPage = ({
     return count;
   }, []);
 
-  // Fetch verses from Supabase database
+  // Fetch verses from Supabase database (including V1 data)
   const fetchVersesFromSupabase = useCallback(async (pageData: ReturnType<typeof getPageByNumber>): Promise<Verse[]> => {
     if (!pageData) return [];
     
@@ -345,7 +345,7 @@ const ReadPage = ({
       if (pageData.startSurah === pageData.endSurah) {
         const { data, error } = await supabase
           .from("verses")
-          .select("surah_number, verse_number, arabic")
+          .select("surah_number, verse_number, arabic, text_v1, page_number")
           .eq("surah_number", pageData.startSurah)
           .gte("verse_number", pageData.startVerse)
           .lte("verse_number", pageData.endVerse)
@@ -356,7 +356,7 @@ const ReadPage = ({
       } else {
         const { data: allVerses, error } = await supabase
           .from("verses")
-          .select("surah_number, verse_number, arabic")
+          .select("surah_number, verse_number, arabic, text_v1, page_number")
           .gte("surah_number", pageData.startSurah)
           .lte("surah_number", pageData.endSurah)
           .order("surah_number", { ascending: true })
@@ -534,6 +534,31 @@ const ReadPage = ({
 
     loadInitialPages();
   }, [initialPage, fetchVersesForPage, language]);
+
+  // Preload V1 fonts for visible pages when V1 font is selected
+  useEffect(() => {
+    if (arabicFont !== "v1" || loadedPages.length === 0) return;
+
+    // Load fonts for all currently loaded pages
+    const uniquePageNumbers = new Set<number>();
+    loadedPages.forEach(pageData => {
+      pageData.verses.forEach(verse => {
+        if (verse.page_number) {
+          uniquePageNumbers.add(verse.page_number);
+        }
+      });
+    });
+
+    // Also add adjacent pages based on current visible page
+    uniquePageNumbers.add(currentVisiblePage);
+    if (currentVisiblePage > 1) uniquePageNumbers.add(currentVisiblePage - 1);
+    if (currentVisiblePage < 604) uniquePageNumbers.add(currentVisiblePage + 1);
+
+    // Load all required fonts
+    uniquePageNumbers.forEach(pageNum => {
+      loadPageFont(pageNum);
+    });
+  }, [arabicFont, loadedPages, currentVisiblePage]);
 
   // Preload next 3 pages in background for smoother scrolling
   useEffect(() => {
@@ -1043,7 +1068,7 @@ const ReadPage = ({
                             <div className="relative inline-block">
                               <div className="surah-title-frame px-8 py-4">
                                 <h1 
-                                  className={cn("text-foreground surah-title-text", arabicFont === "uthmani" ? "font-uthmani" : "font-arabic")}
+                                  className={cn("text-foreground surah-title-text", arabicFont === "uthmani" || arabicFont === "v1" ? "font-uthmani" : "font-arabic")}
                                   style={{ fontSize: `${currentFontSize + 8}px` }}
                                 >
                                   {surah?.nameArabic}
@@ -1055,7 +1080,7 @@ const ReadPage = ({
                             {/* Bismillah */}
                             {parseInt(surahNum) !== 9 && parseInt(surahNum) !== 1 && (
                               <p 
-                                className={cn("text-foreground/80 mt-8 bismillah-text", arabicFont === "uthmani" ? "font-uthmani" : "font-arabic")}
+                                className={cn("text-foreground/80 mt-8 bismillah-text", arabicFont === "uthmani" || arabicFont === "v1" ? "font-uthmani" : "font-arabic")}
                                 dir="rtl"
                                 style={{ fontSize: `${currentFontSize}px` }}
                               >
@@ -1089,14 +1114,34 @@ const ReadPage = ({
                                 onClick={() => handleVerseClick(pageData.pageNumber, verse.surah_number, verse.verse_number)}
                               >
                               <span 
-                                className={cn("text-foreground", arabicFont === "uthmani" ? "font-uthmani" : "font-arabic")}
-                                style={{ fontSize: `${currentFontSize}px` }}
+                                className={cn(
+                                  "text-foreground",
+                                  arabicFont === "v1" 
+                                    ? "" // V1 uses inline font-family
+                                    : arabicFont === "uthmani" 
+                                      ? "font-uthmani" 
+                                      : "font-arabic"
+                                )}
+                                style={{ 
+                                  fontSize: `${currentFontSize}px`,
+                                  ...(arabicFont === "v1" && verse.page_number ? {
+                                    fontFamily: `'${getPageFontFamily(verse.page_number)}', 'KFGQPC Uthmanic Script HAFS', serif`,
+                                    letterSpacing: '0.02em',
+                                    lineHeight: 2.2,
+                                    wordSpacing: '0.12em',
+                                  } : {})
+                                }}
                               >
-                                  {sanitizeArabicText(verse.arabic)}
+                                  {arabicFont === "v1" && verse.text_v1 
+                                    ? verse.text_v1 
+                                    : sanitizeArabicText(verse.arabic)}
                                 </span>
                                 {/* Decorative Verse Number */}
                                 <span 
-                                  className={cn("verse-number-circle inline-flex items-center justify-center mx-2 leading-none", arabicFont === "uthmani" ? "font-uthmani" : "font-arabic")}
+                                  className={cn(
+                                    "verse-number-circle inline-flex items-center justify-center mx-2 leading-none", 
+                                    arabicFont === "uthmani" || arabicFont === "v1" ? "font-uthmani" : "font-arabic"
+                                  )}
                                   style={{ 
                                     width: `${currentFontSize * 1.2}px`, 
                                     height: `${currentFontSize * 1.2}px`,
