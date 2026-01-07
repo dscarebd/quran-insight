@@ -2,9 +2,32 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
-import { Download, Loader2, CheckCircle, AlertCircle, Upload, BookOpen, FileText, RefreshCw } from "lucide-react";
+import { Download, Loader2, CheckCircle, AlertCircle, Upload, BookOpen, FileText, RefreshCw, Shield } from "lucide-react";
 import { toast } from "sonner";
 import { hadithBooks } from "@/data/hadithBooks";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
+import { ScrollArea } from "@/components/ui/scroll-area";
+
+interface TanzilSyncResult {
+  success: boolean;
+  dry_run: boolean;
+  tanzil_verses_count: number;
+  db_verses_count: number;
+  matches: number;
+  mismatches: number;
+  missing_in_tanzil: number;
+  missing_in_db: number;
+  updated: number;
+  mismatch_details: Array<{
+    surah_number: number;
+    verse_number: number;
+    tanzil_text: string;
+    db_text: string;
+    status: string;
+  }>;
+  error?: string;
+}
 
 interface BookExportStatus {
   [key: string]: {
@@ -31,6 +54,11 @@ const ExportData = () => {
   const [bookExportStatus, setBookExportStatus] = useState<BookExportStatus>({});
   const [isExportingVerses, setIsExportingVerses] = useState(false);
   
+  // Tanzil sync state
+  const [isSyncingTanzil, setIsSyncingTanzil] = useState(false);
+  const [tanzilDryRun, setTanzilDryRun] = useState(true);
+  const [tanzilResult, setTanzilResult] = useState<TanzilSyncResult | null>(null);
+  
   const [bundledStatus, setBundledStatus] = useState({
     versesExist: false,
     versesCount: 0,
@@ -43,7 +71,6 @@ const ExportData = () => {
     checkBundledFiles();
   }, []);
 
-  // Export verses using the edge function
   const exportVersesCsv = async () => {
     setIsExportingVerses(true);
     
@@ -82,6 +109,55 @@ const ExportData = () => {
       toast.error('Failed to export verses. Check console for details.');
     } finally {
       setIsExportingVerses(false);
+    }
+  };
+
+  // Sync with Tanzil.net
+  const syncWithTanzil = async () => {
+    setIsSyncingTanzil(true);
+    setTanzilResult(null);
+    
+    try {
+      toast.info("Fetching Uthmani Quran from Tanzil.net...", { duration: 5000 });
+      
+      const { data, error } = await supabase.functions.invoke('sync-tanzil-quran', {
+        body: {},
+        headers: {}
+      });
+      
+      // Check if the response indicates an error via query param instead
+      const url = new URL(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/sync-tanzil-quran`);
+      url.searchParams.set('dry_run', tanzilDryRun.toString());
+      
+      const response = await fetch(url.toString(), {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      
+      const result: TanzilSyncResult = await response.json();
+      
+      if (!result.success) {
+        throw new Error(result.error || 'Sync failed');
+      }
+      
+      setTanzilResult(result);
+      
+      if (result.mismatches === 0) {
+        toast.success(`✓ All ${result.matches.toLocaleString()} verses verified - 100% match with Tanzil.net!`);
+      } else if (tanzilDryRun) {
+        toast.warning(`Found ${result.mismatches} mismatches. Enable "Apply Updates" to fix them.`);
+      } else {
+        toast.success(`Updated ${result.updated} verses to match Tanzil.net's verified text!`);
+      }
+      
+    } catch (error) {
+      console.error('Tanzil sync error:', error);
+      toast.error(`Sync failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    } finally {
+      setIsSyncingTanzil(false);
     }
   };
 
@@ -367,6 +443,134 @@ const ExportData = () => {
               <li>Rebuild the app for changes to take effect</li>
               <li>All 604 Quran pages will display complete verses</li>
             </ol>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Tanzil.net Verification Section */}
+      <Card className="border-emerald-500/30">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Shield className="h-5 w-5 text-emerald-600" />
+            Verify with Tanzil.net
+          </CardTitle>
+          <CardDescription>
+            Compare database verses against Tanzil.net's verified Uthmani Quran text - the gold standard used by major Quran apps worldwide.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="flex items-center justify-between p-4 rounded-lg border bg-emerald-50 dark:bg-emerald-950/20">
+            <div className="space-y-1">
+              <p className="font-medium">Sync with Tanzil.net</p>
+              <p className="text-sm text-muted-foreground">
+                Downloads verified Uthmani XML and compares every verse word-by-word
+              </p>
+            </div>
+            <div className="flex items-center gap-4">
+              <div className="flex items-center gap-2">
+                <Switch 
+                  id="dry-run"
+                  checked={!tanzilDryRun}
+                  onCheckedChange={(checked) => setTanzilDryRun(!checked)}
+                />
+                <Label htmlFor="dry-run" className="text-sm">Apply Updates</Label>
+              </div>
+              <Button 
+                onClick={syncWithTanzil}
+                disabled={isSyncingTanzil}
+                variant="default"
+                className="bg-emerald-600 hover:bg-emerald-700"
+              >
+                {isSyncingTanzil ? (
+                  <>
+                    <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                    Syncing...
+                  </>
+                ) : (
+                  <>
+                    <RefreshCw className="h-4 w-4 mr-2" />
+                    {tanzilDryRun ? 'Verify Only' : 'Sync & Update'}
+                  </>
+                )}
+              </Button>
+            </div>
+          </div>
+          
+          {tanzilResult && (
+            <div className="space-y-3">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                <div className="p-3 rounded-lg bg-muted/50 text-center">
+                  <p className="text-2xl font-bold text-emerald-600">{tanzilResult.tanzil_verses_count.toLocaleString()}</p>
+                  <p className="text-xs text-muted-foreground">Tanzil Verses</p>
+                </div>
+                <div className="p-3 rounded-lg bg-muted/50 text-center">
+                  <p className="text-2xl font-bold text-blue-600">{tanzilResult.matches.toLocaleString()}</p>
+                  <p className="text-xs text-muted-foreground">Matches</p>
+                </div>
+                <div className="p-3 rounded-lg bg-muted/50 text-center">
+                  <p className={`text-2xl font-bold ${tanzilResult.mismatches > 0 ? 'text-amber-600' : 'text-green-600'}`}>
+                    {tanzilResult.mismatches.toLocaleString()}
+                  </p>
+                  <p className="text-xs text-muted-foreground">Mismatches</p>
+                </div>
+                <div className="p-3 rounded-lg bg-muted/50 text-center">
+                  <p className="text-2xl font-bold text-purple-600">{tanzilResult.updated.toLocaleString()}</p>
+                  <p className="text-xs text-muted-foreground">Updated</p>
+                </div>
+              </div>
+              
+              {tanzilResult.mismatches === 0 ? (
+                <div className="p-4 bg-green-50 dark:bg-green-950/30 rounded-lg flex items-center gap-3">
+                  <CheckCircle className="h-6 w-6 text-green-600" />
+                  <div>
+                    <p className="font-medium text-green-800 dark:text-green-200">100% Verified</p>
+                    <p className="text-sm text-green-700 dark:text-green-300">
+                      All {tanzilResult.matches.toLocaleString()} verses match Tanzil.net's verified Uthmani text!
+                    </p>
+                  </div>
+                </div>
+              ) : (
+                <div className="space-y-2">
+                  <p className="text-sm font-medium">Mismatch Details (first 50):</p>
+                  <ScrollArea className="h-64 rounded-lg border">
+                    <div className="p-3 space-y-3">
+                      {tanzilResult.mismatch_details.map((m, i) => (
+                        <div key={i} className="p-3 bg-muted/30 rounded-lg text-sm space-y-2">
+                          <div className="flex items-center justify-between">
+                            <span className="font-medium">Surah {m.surah_number}, Verse {m.verse_number}</span>
+                            <span className={`px-2 py-0.5 rounded text-xs ${
+                              m.status === 'updated' ? 'bg-green-100 text-green-800' : 'bg-amber-100 text-amber-800'
+                            }`}>
+                              {m.status}
+                            </span>
+                          </div>
+                          <div className="grid gap-2">
+                            <div>
+                              <p className="text-xs text-muted-foreground mb-1">Tanzil (correct):</p>
+                              <p className="font-arabic text-right text-base" dir="rtl">{m.tanzil_text}</p>
+                            </div>
+                            <div>
+                              <p className="text-xs text-muted-foreground mb-1">Database:</p>
+                              <p className="font-arabic text-right text-base" dir="rtl">{m.db_text}</p>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </ScrollArea>
+                </div>
+              )}
+            </div>
+          )}
+          
+          <div className="p-4 bg-blue-50 dark:bg-blue-950/30 rounded-lg text-sm">
+            <p className="font-medium text-blue-800 dark:text-blue-200 mb-2">About Tanzil.net:</p>
+            <ul className="list-disc list-inside text-blue-700 dark:text-blue-300 space-y-1">
+              <li>The most widely used source for verified Quran text</li>
+              <li>Used by major apps like Quran.com, Muslim Pro, and iQuran</li>
+              <li>Uthmani script with verified diacritics and pause marks</li>
+              <li>Maintained by Islamic scholars and linguists</li>
+            </ul>
           </div>
         </CardContent>
       </Card>
