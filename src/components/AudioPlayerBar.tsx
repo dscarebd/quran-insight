@@ -1,11 +1,11 @@
-import { Play, Pause, SkipBack, SkipForward, X, Loader2, Repeat, Repeat1 } from "lucide-react";
+import { Play, Pause, SkipBack, SkipForward, X, Loader2, Repeat, Repeat1, Gauge } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { cn, formatNumber } from "@/lib/utils";
 import { Language } from "@/types/language";
 import { surahs } from "@/data/surahs";
 import { getReciterById } from "@/data/reciters";
-import { RepeatMode } from "@/hooks/useQuranAudio";
+import { RepeatMode, PlaybackSpeed } from "@/hooks/useQuranAudio";
 
 interface AudioPlayerBarProps {
   isPlaying: boolean;
@@ -19,12 +19,14 @@ interface AudioPlayerBarProps {
   repeatMode: RepeatMode;
   abRepeatStart: number | null;
   abRepeatEnd: number | null;
+  playbackSpeed: PlaybackSpeed;
   onPlayPause: () => void;
   onPrevious: () => void;
   onNext: () => void;
   onSeek: (time: number) => void;
   onClose: () => void;
   onCycleRepeat: () => void;
+  onCycleSpeed: () => void;
   canPlayPrevious: boolean;
   canPlayNext: boolean;
 }
@@ -57,12 +59,14 @@ export const AudioPlayerBar = ({
   repeatMode,
   abRepeatStart,
   abRepeatEnd,
+  playbackSpeed,
   onPlayPause,
   onPrevious,
   onNext,
   onSeek,
   onClose,
   onCycleRepeat,
+  onCycleSpeed,
   canPlayPrevious,
   canPlayNext
 }: AudioPlayerBarProps) => {
@@ -121,6 +125,19 @@ export const AudioPlayerBar = ({
               )}
             </div>
           </div>
+
+          {/* Speed Button */}
+          <Button
+            variant="ghost"
+            size="sm"
+            className={cn(
+              "h-8 px-2 text-xs font-medium",
+              playbackSpeed !== 1 ? "text-primary" : "text-muted-foreground"
+            )}
+            onClick={onCycleSpeed}
+          >
+            {playbackSpeed}x
+          </Button>
 
           {/* Repeat Button */}
           <Button

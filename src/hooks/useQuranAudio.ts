@@ -8,6 +8,7 @@ import {
 import { DEFAULT_RECITER_ID } from "@/data/reciters";
 
 export type RepeatMode = "none" | "verse" | "surah" | "ab";
+export type PlaybackSpeed = 0.5 | 0.75 | 1 | 1.25 | 1.5;
 
 interface AudioState {
   isPlaying: boolean;
@@ -20,6 +21,7 @@ interface AudioState {
   repeatMode: RepeatMode;
   abRepeatStart: number | null;
   abRepeatEnd: number | null;
+  playbackSpeed: PlaybackSpeed;
 }
 
 interface UseQuranAudioOptions {
@@ -41,7 +43,8 @@ export const useQuranAudio = (options: UseQuranAudioOptions = {}) => {
     error: null,
     repeatMode: "none",
     abRepeatStart: null,
-    abRepeatEnd: null
+    abRepeatEnd: null,
+    playbackSpeed: 1
   });
 
   const [reciterId, setReciterId] = useState<string>(() => {
@@ -132,6 +135,7 @@ export const useQuranAudio = (options: UseQuranAudioOptions = {}) => {
 
       // Create audio element
       const audio = new Audio(audioSource);
+      audio.playbackRate = state.playbackSpeed;
       audioRef.current = audio;
 
       // Set up event listeners
@@ -239,7 +243,7 @@ export const useQuranAudio = (options: UseQuranAudioOptions = {}) => {
       audioRef.current = null;
     }
     stopProgressTracking();
-    setState({
+    setState(prev => ({
       isPlaying: false,
       isLoading: false,
       currentSurah: null,
@@ -249,8 +253,9 @@ export const useQuranAudio = (options: UseQuranAudioOptions = {}) => {
       error: null,
       repeatMode: "none",
       abRepeatStart: null,
-      abRepeatEnd: null
-    });
+      abRepeatEnd: null,
+      playbackSpeed: prev.playbackSpeed
+    }));
   }, [stopProgressTracking]);
 
   const togglePlay = useCallback((
@@ -348,6 +353,26 @@ export const useQuranAudio = (options: UseQuranAudioOptions = {}) => {
     return verseNumber >= abRepeatStart && verseNumber <= abRepeatEnd;
   }, [state.abRepeatStart, state.abRepeatEnd]);
 
+  // Playback speed controls
+  const setPlaybackSpeed = useCallback((speed: PlaybackSpeed) => {
+    setState(prev => ({ ...prev, playbackSpeed: speed }));
+    if (audioRef.current) {
+      audioRef.current.playbackRate = speed;
+    }
+  }, []);
+
+  const cyclePlaybackSpeed = useCallback(() => {
+    const speeds: PlaybackSpeed[] = [0.5, 0.75, 1, 1.25, 1.5];
+    setState(prev => {
+      const currentIndex = speeds.indexOf(prev.playbackSpeed);
+      const nextSpeed = speeds[(currentIndex + 1) % speeds.length];
+      if (audioRef.current) {
+        audioRef.current.playbackRate = nextSpeed;
+      }
+      return { ...prev, playbackSpeed: nextSpeed };
+    });
+  }, []);
+
   return {
     ...state,
     reciterId,
@@ -369,6 +394,9 @@ export const useQuranAudio = (options: UseQuranAudioOptions = {}) => {
     setABRepeatStart,
     setABRepeatEnd,
     clearABRepeat,
-    isInABRange
+    isInABRange,
+    // Speed controls
+    setPlaybackSpeed,
+    cyclePlaybackSpeed
   };
 };

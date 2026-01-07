@@ -577,12 +577,14 @@ const SurahDetail = ({ language, readingMode = "normal", arabicFont = "amiri" }:
           repeatMode={audio.repeatMode}
           abRepeatStart={audio.abRepeatStart}
           abRepeatEnd={audio.abRepeatEnd}
+          playbackSpeed={audio.playbackSpeed}
           onPlayPause={() => audio.isPlaying ? audio.pause() : audio.resume()}
           onPrevious={audio.playPrevious}
           onNext={audio.playNext}
           onSeek={audio.seek}
           onClose={audio.stop}
           onCycleRepeat={audio.cycleRepeatMode}
+          onCycleSpeed={audio.cyclePlaybackSpeed}
           canPlayPrevious={audio.canPlayPrevious}
           canPlayNext={audio.canPlayNext}
         />
