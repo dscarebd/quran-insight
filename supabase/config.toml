@@ -56,3 +56,6 @@ verify_jwt = false
 
 [functions.sync-tanzil-quran]
 verify_jwt = false
+
+[functions.import-v1-glyphs]
+verify_jwt = false

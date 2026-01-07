@@ -11,6 +11,7 @@ import { useLocalDuaBookmarks } from "@/hooks/useLocalDuaBookmarks";
 import { toast } from "sonner";
 import * as LucideIcons from "lucide-react";
 import { Language } from "@/types/language";
+import { ArabicFontType } from "@/types/quranV1";
 import { useAISearch } from "@/hooks/useAISearch";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -19,7 +20,7 @@ import { useDuaAudio } from "@/hooks/useDuaAudio";
 
 interface DuaProps {
   language: Language;
-  arabicFont?: "amiri" | "uthmani";
+  arabicFont?: ArabicFontType;
 }
 
 // Dynamic icon component

@@ -2,6 +2,7 @@ import { useState, useCallback, useEffect } from "react";
 import { Layout } from "@/components/Layout";
 import ReadPage from "@/pages/ReadPage";
 import { Language } from "@/types/language";
+import { ArabicFontType } from "@/types/quranV1";
 
 // Font size presets (must match ReadPage)
 const FONT_SIZES = [24, 28, 32, 36, 40, 44, 48, 52];
@@ -11,8 +12,8 @@ interface ReadPageWrapperProps {
   language: Language;
   onLanguageChange: (lang: Language) => void;
   readingMode: "normal" | "sepia";
-  arabicFont: "amiri" | "uthmani";
-  onArabicFontChange: (font: "amiri" | "uthmani") => void;
+  arabicFont: ArabicFontType;
+  onArabicFontChange: (font: ArabicFontType) => void;
 }
 
 export const ReadPageWrapper = ({

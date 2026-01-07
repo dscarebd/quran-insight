@@ -437,9 +437,11 @@ export type Database = {
           created_at: string | null
           english: string
           id: number
+          page_number: number | null
           surah_number: number
           tafsir_bengali: string | null
           tafsir_english: string | null
+          text_v1: string | null
           updated_at: string | null
           verse_number: number
         }
@@ -449,9 +451,11 @@ export type Database = {
           created_at?: string | null
           english: string
           id?: number
+          page_number?: number | null
           surah_number: number
           tafsir_bengali?: string | null
           tafsir_english?: string | null
+          text_v1?: string | null
           updated_at?: string | null
           verse_number: number
         }
@@ -461,9 +465,11 @@ export type Database = {
           created_at?: string | null
           english?: string
           id?: number
+          page_number?: number | null
           surah_number?: number
           tafsir_bengali?: string | null
           tafsir_english?: string | null
+          text_v1?: string | null
           updated_at?: string | null
           verse_number?: number
         }

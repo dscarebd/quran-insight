@@ -4,12 +4,13 @@ import { Book, ChevronRight, Copy, Check } from "lucide-react";
 import { cn, sanitizeArabicText } from "@/lib/utils";
 import { toast } from "sonner";
 import { Language } from "@/types/language";
+import { ArabicFontType } from "@/types/quranV1";
 import { supabase } from "@/integrations/supabase/client";
 import { useArabicFontSize } from "@/hooks/useArabicFontSize";
 
 interface HadithOfTheDayProps {
   language: Language;
-  arabicFont?: "amiri" | "uthmani";
+  arabicFont?: ArabicFontType;
   compact?: boolean;
 }
 
