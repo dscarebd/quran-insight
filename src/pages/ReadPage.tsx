@@ -1039,7 +1039,7 @@ const ReadPage = ({
                             <div className="relative inline-block">
                               <div className="surah-title-frame px-8 py-4">
                                 <h1 
-                                  className="text-foreground surah-title-text font-arabic"
+                                  className={cn("text-foreground surah-title-text", arabicFont === "uthmani" ? "font-uthmani" : "font-arabic")}
                                   style={{ fontSize: `${currentFontSize + 8}px` }}
                                 >
                                   {surah?.nameArabic}
@@ -1051,7 +1051,7 @@ const ReadPage = ({
                             {/* Bismillah */}
                             {parseInt(surahNum) !== 9 && parseInt(surahNum) !== 1 && (
                               <p 
-                                className="text-foreground/80 mt-8 bismillah-text font-arabic"
+                                className={cn("text-foreground/80 mt-8 bismillah-text", arabicFont === "uthmani" ? "font-uthmani" : "font-arabic")}
                                 dir="rtl"
                                 style={{ fontSize: `${currentFontSize}px` }}
                               >
@@ -1085,14 +1085,14 @@ const ReadPage = ({
                                 onClick={() => handleVerseClick(pageData.pageNumber, verse.surah_number, verse.verse_number)}
                               >
                               <span 
-                                className="text-foreground font-arabic"
+                                className={cn("text-foreground", arabicFont === "uthmani" ? "font-uthmani" : "font-arabic")}
                                 style={{ fontSize: `${currentFontSize}px` }}
                               >
                                   {sanitizeArabicText(verse.arabic)}
                                 </span>
                                 {/* Decorative Verse Number */}
                                 <span 
-                                  className="verse-number-circle inline-flex items-center justify-center mx-2 font-arabic leading-none"
+                                  className={cn("verse-number-circle inline-flex items-center justify-center mx-2 leading-none", arabicFont === "uthmani" ? "font-uthmani" : "font-arabic")}
                                   style={{ 
                                     width: `${currentFontSize * 1.2}px`, 
                                     height: `${currentFontSize * 1.2}px`,
