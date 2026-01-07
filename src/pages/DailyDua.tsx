@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
-import { Copy, Check, HandHeart, ChevronRight, ArrowLeft, Search, X, Bookmark, BookmarkCheck, Heart } from "lucide-react";
+import { Copy, Check, HandHeart, ChevronRight, ArrowLeft, Search, X, Bookmark, BookmarkCheck, Heart, Volume2, Pause, Loader2 } from "lucide-react";
 import { cn, formatNumber } from "@/lib/utils";
 import { toast } from "sonner";
 import { Language } from "@/types/language";
@@ -9,6 +9,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sh
 import { Input } from "@/components/ui/input";
 import { useLocalDuaBookmarks } from "@/hooks/useLocalDuaBookmarks";
 import * as LucideIcons from "lucide-react";
+import { useDuaAudio } from "@/hooks/useDuaAudio";
 
 interface DailyDuaPageProps {
   language: Language;
@@ -34,6 +35,27 @@ const DailyDuaPage = ({ language, arabicFont = "amiri" }: DailyDuaPageProps) => 
   const [showFavorites, setShowFavorites] = useState(false);
   
   const { bookmarks, isBookmarked, toggleBookmark } = useLocalDuaBookmarks();
+
+  // Audio - use dailyDua mapping
+  const { 
+    isPlaying, 
+    isLoading: audioLoading, 
+    currentDuaId, 
+    progress, 
+    duration, 
+    playbackSpeed,
+    hasAudio, 
+    togglePlay, 
+    cyclePlaybackSpeed,
+    stop: stopAudio
+  } = useDuaAudio({ isDailyDua: true });
+
+  // Stop audio when sheet closes
+  useEffect(() => {
+    if (!selectedDua) {
+      stopAudio();
+    }
+  }, [selectedDua, stopAudio]);
 
   // Scroll to top when page loads
   useEffect(() => {
@@ -443,6 +465,47 @@ const DailyDuaPage = ({ language, arabicFont = "amiri" }: DailyDuaPageProps) => 
                 <p className="text-2xl leading-loose text-foreground text-center font-arabic" dir="rtl">
                   {selectedDua?.arabic}
                 </p>
+                
+                {/* Audio Controls */}
+                {selectedDua && hasAudio(selectedDua.id) && (
+                  <div className="mt-4 flex items-center justify-center gap-3">
+                    <button
+                      onClick={() => togglePlay(selectedDua.id)}
+                      disabled={audioLoading && currentDuaId === selectedDua.id}
+                      className={cn(
+                        "flex h-10 w-10 items-center justify-center rounded-full transition-all",
+                        isPlaying && currentDuaId === selectedDua.id
+                          ? "bg-primary text-primary-foreground"
+                          : "bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground"
+                      )}
+                    >
+                      {audioLoading && currentDuaId === selectedDua.id ? (
+                        <Loader2 className="h-5 w-5 animate-spin" />
+                      ) : isPlaying && currentDuaId === selectedDua.id ? (
+                        <Pause className="h-5 w-5" />
+                      ) : (
+                        <Volume2 className="h-5 w-5" />
+                      )}
+                    </button>
+                    
+                    {/* Speed control */}
+                    {currentDuaId === selectedDua.id && (isPlaying || progress > 0) && (
+                      <button
+                        onClick={cyclePlaybackSpeed}
+                        className="px-2 py-1 text-xs font-medium rounded-full bg-muted text-muted-foreground hover:bg-primary/10"
+                      >
+                        {playbackSpeed}x
+                      </button>
+                    )}
+                    
+                    {/* Progress indicator */}
+                    {currentDuaId === selectedDua.id && duration > 0 && (
+                      <span className="text-xs text-muted-foreground">
+                        {Math.floor(progress)}s / {Math.floor(duration)}s
+                      </span>
+                    )}
+                  </div>
+                )}
               </div>
 
               {/* Transliteration */}
