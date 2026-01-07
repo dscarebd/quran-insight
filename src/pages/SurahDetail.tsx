@@ -486,6 +486,53 @@ const SurahDetail = ({ language, readingMode = "normal", arabicFont = "amiri" }:
             </p>
           </div>
         )}
+
+        {/* Bottom Navigation */}
+        {!isLoading && verses.length > 0 && (
+          <div className="mt-8 mb-24 flex items-center justify-between gap-4 border-t border-border pt-6">
+            {/* Previous Surah Button */}
+            <Button
+              variant="outline"
+              onClick={() => prevSurah && navigate(`/surah/${prevSurah.number}`)}
+              disabled={!prevSurah}
+              className={cn(
+                "flex-1 h-auto py-3 px-4 flex flex-col items-start gap-1",
+                !prevSurah && "opacity-50 cursor-not-allowed"
+              )}
+            >
+              <span className="flex items-center gap-1 text-xs text-muted-foreground">
+                <ChevronLeft className="h-3 w-3" />
+                {language === "bn" ? "পূর্ববর্তী" : "Previous"}
+              </span>
+              {prevSurah && (
+                <span className={cn("text-sm font-medium", language === "bn" && "font-bengali")}>
+                  {formatNumber(prevSurah.number, language)}. {language === "bn" ? prevSurah.nameBengali : prevSurah.nameEnglish}
+                </span>
+              )}
+            </Button>
+
+            {/* Next Surah Button */}
+            <Button
+              variant="outline"
+              onClick={() => nextSurah && navigate(`/surah/${nextSurah.number}`)}
+              disabled={!nextSurah}
+              className={cn(
+                "flex-1 h-auto py-3 px-4 flex flex-col items-end gap-1",
+                !nextSurah && "opacity-50 cursor-not-allowed"
+              )}
+            >
+              <span className="flex items-center gap-1 text-xs text-muted-foreground">
+                {language === "bn" ? "পরবর্তী" : "Next"}
+                <ChevronRight className="h-3 w-3" />
+              </span>
+              {nextSurah && (
+                <span className={cn("text-sm font-medium", language === "bn" && "font-bengali")}>
+                  {formatNumber(nextSurah.number, language)}. {language === "bn" ? nextSurah.nameBengali : nextSurah.nameEnglish}
+                </span>
+              )}
+            </Button>
+          </div>
+        )}
       </div>
 
       {/* Surah List Sheet for Mobile */}
