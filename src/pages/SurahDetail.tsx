@@ -13,6 +13,11 @@ import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Language } from "@/types/language";
 import { getVerses } from "@/services/bundledDataService";
+import { useQuranAudio } from "@/hooks/useQuranAudio";
+import { AudioPlayerBar } from "@/components/AudioPlayerBar";
+import { ReciterSelector } from "@/components/ReciterSelector";
+import { SurahAudioControls } from "@/components/SurahAudioControls";
+import { VerseAudioButton } from "@/components/VerseAudioButton";
 
 interface SurahDetailProps {
   language: Language;
@@ -28,9 +33,25 @@ interface VerseCardProps {
   onToggleBookmark: (surahNumber: number, verseNumber: number) => void;
   arabicFont?: "amiri" | "uthmani";
   arabicFontSize: number;
+  isPlaying: boolean;
+  isLoading: boolean;
+  isCurrentVerse: boolean;
+  onAudioToggle: () => void;
 }
 
-const VerseCard = ({ verse, language, index, isBookmarked, onToggleBookmark, arabicFont = "amiri", arabicFontSize }: VerseCardProps) => {
+const VerseCard = ({ 
+  verse, 
+  language, 
+  index, 
+  isBookmarked, 
+  onToggleBookmark, 
+  arabicFont = "amiri", 
+  arabicFontSize,
+  isPlaying,
+  isLoading,
+  isCurrentVerse,
+  onAudioToggle
+}: VerseCardProps) => {
   const [showTafsir, setShowTafsir] = useState(false);
 
   const handleBookmarkClick = () => {
@@ -39,7 +60,10 @@ const VerseCard = ({ verse, language, index, isBookmarked, onToggleBookmark, ara
 
   return (
     <div 
-      className="verse-card mb-4 animate-fade-in"
+      className={cn(
+        "verse-card mb-4 animate-fade-in",
+        isCurrentVerse && isPlaying && "ring-2 ring-primary/30 bg-primary/5"
+      )}
       style={{ animationDelay: `${index * 0.05}s` }}
     >
       {/* Verse Number Badge */}
@@ -47,7 +71,13 @@ const VerseCard = ({ verse, language, index, isBookmarked, onToggleBookmark, ara
         <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-primary-foreground font-semibold font-bengali">
           {formatNumber(verse.verseNumber, language)}
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-1">
+          <VerseAudioButton
+            isPlaying={isPlaying}
+            isLoading={isLoading}
+            isCurrentVerse={isCurrentVerse}
+            onClick={onAudioToggle}
+          />
           <Button 
             variant="ghost" 
             size="icon" 
@@ -118,8 +148,21 @@ const SurahDetail = ({ language, readingMode = "normal", arabicFont = "amiri" }:
   const [isLoading, setIsLoading] = useState(true);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [highlightedVerse, setHighlightedVerse] = useState<number | null>(null);
+  const [reciterSheetOpen, setReciterSheetOpen] = useState(false);
   const verseRefs = useRef<{ [key: number]: HTMLDivElement | null }>({});
   const surahListRefs = useRef<{ [key: number]: HTMLButtonElement | null }>({});
+
+  // Audio hook
+  const audio = useQuranAudio({
+    autoPlayNext: true,
+    onVerseStart: (surah, verse) => {
+      // Scroll to the playing verse
+      const element = verseRefs.current[verse];
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+  });
 
   const surahNum = parseInt(surahNumber || "1", 10);
   const surah = surahs.find(s => s.number === surahNum);
@@ -322,6 +365,19 @@ const SurahDetail = ({ language, readingMode = "normal", arabicFont = "amiri" }:
           <p className={cn("text-center mt-2 text-muted-foreground", language === "bn" && "font-bengali")}>
             {language === "bn" ? surah.meaningBengali : surah.meaningEnglish}
           </p>
+
+          {/* Audio Controls */}
+          <SurahAudioControls
+            surahNumber={surahNum}
+            totalVerses={surah.totalVerses}
+            reciterId={audio.reciterId}
+            language={language}
+            isPlaying={audio.isPlaying}
+            isAudioActive={audio.currentSurah === surahNum}
+            onPlayAll={() => audio.playVerse(surahNum, 1, surah.totalVerses)}
+            onPause={audio.pause}
+            onOpenReciterSelector={() => setReciterSheetOpen(true)}
+          />
         </div>
       </div>
 
@@ -353,6 +409,10 @@ const SurahDetail = ({ language, readingMode = "normal", arabicFont = "amiri" }:
                 onToggleBookmark={handleToggleBookmark}
                 arabicFont={arabicFont}
                 arabicFontSize={arabicFontSize}
+                isPlaying={audio.isPlaying && audio.isCurrentVerse(verse.surahNumber, verse.verseNumber)}
+                isLoading={audio.isLoading && audio.isCurrentVerse(verse.surahNumber, verse.verseNumber)}
+                isCurrentVerse={audio.isCurrentVerse(verse.surahNumber, verse.verseNumber)}
+                onAudioToggle={() => audio.togglePlay(verse.surahNumber, verse.verseNumber, surah?.totalVerses)}
               />
             </div>
           ))
@@ -431,6 +491,36 @@ const SurahDetail = ({ language, readingMode = "normal", arabicFont = "amiri" }:
           </ScrollArea>
         </SheetContent>
       </Sheet>
+
+      {/* Reciter Selector Sheet */}
+      <ReciterSelector
+        open={reciterSheetOpen}
+        onOpenChange={setReciterSheetOpen}
+        selectedReciterId={audio.reciterId}
+        onSelect={audio.setReciterId}
+        language={language}
+      />
+
+      {/* Audio Player Bar */}
+      {audio.currentSurah !== null && (
+        <AudioPlayerBar
+          isPlaying={audio.isPlaying}
+          isLoading={audio.isLoading}
+          currentSurah={audio.currentSurah}
+          currentVerse={audio.currentVerse}
+          progress={audio.progress}
+          duration={audio.duration}
+          reciterId={audio.reciterId}
+          language={language}
+          onPlayPause={() => audio.isPlaying ? audio.pause() : audio.resume()}
+          onPrevious={audio.playPrevious}
+          onNext={audio.playNext}
+          onSeek={audio.seek}
+          onClose={audio.stop}
+          canPlayPrevious={audio.canPlayPrevious}
+          canPlayNext={audio.canPlayNext}
+        />
+      )}
     </div>
   );
 };
