@@ -113,7 +113,7 @@ export const SurahAudioControls = ({
   };
 
   return (
-    <div className="flex flex-wrap items-center justify-center gap-2 mt-4">
+    <div className="flex items-center justify-center gap-2 mt-4">
       {/* Play All Button */}
       <Button
         variant={isAudioActive ? "default" : "outline"}
@@ -152,27 +152,20 @@ export const SurahAudioControls = ({
         <ChevronDown className="h-3 w-3" />
       </Button>
 
-      {/* Download/Downloaded Button */}
+      {/* Download Button - Icon only for compact layout */}
       {isCheckingDownload ? (
-        <Button variant="outline" size="sm" disabled>
+        <Button variant="outline" size="icon" className="h-9 w-9" disabled>
           <Loader2 className="h-4 w-4 animate-spin" />
         </Button>
       ) : isDownloading ? (
-        <div className="flex items-center gap-2">
-          <Button variant="outline" size="sm" disabled className="gap-2">
-            <Loader2 className="h-4 w-4 animate-spin" />
-            <span className={language === "bn" ? "font-bengali" : ""}>
-              {Math.round(downloadProgress)}%
-            </span>
-          </Button>
-        </div>
+        <Button variant="outline" size="sm" disabled className="gap-1 min-w-[60px]">
+          <Loader2 className="h-4 w-4 animate-spin" />
+          <span className="text-xs">{Math.round(downloadProgress)}%</span>
+        </Button>
       ) : isDownloaded ? (
         <div className="flex items-center gap-1">
-          <Button variant="outline" size="sm" className="gap-2 text-primary" disabled>
+          <Button variant="outline" size="icon" className="h-9 w-9 text-primary" disabled>
             <Check className="h-4 w-4" />
-            <span className={language === "bn" ? "font-bengali" : ""}>
-              {language === "bn" ? "সংরক্ষিত" : "Saved"}
-            </span>
           </Button>
           <Button
             variant="ghost"
@@ -186,14 +179,12 @@ export const SurahAudioControls = ({
       ) : (
         <Button
           variant="outline"
-          size="sm"
-          className="gap-2"
+          size="icon"
+          className="h-9 w-9"
           onClick={handleDownload}
+          title={language === "bn" ? "ডাউনলোড" : "Download"}
         >
           <Download className="h-4 w-4" />
-          <span className={language === "bn" ? "font-bengali" : ""}>
-            {language === "bn" ? "ডাউনলোড" : "Download"}
-          </span>
         </Button>
       )}
     </div>
