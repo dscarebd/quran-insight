@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { ArrowLeft, ChevronRight, Search, Heart, Copy, Check, Share2, Sparkles, WifiOff } from "lucide-react";
+import { ArrowLeft, ChevronRight, Search, Heart, Copy, Check, Share2, Sparkles, WifiOff, Volume2, Pause, Loader2 } from "lucide-react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { cn, formatNumber } from "@/lib/utils";
 import { duaCategories, DuaCategory, Dua as DuaType } from "@/data/duas";
@@ -15,6 +15,7 @@ import { useAISearch } from "@/hooks/useAISearch";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import ReactMarkdown from "react-markdown";
+import { useDuaAudio } from "@/hooks/useDuaAudio";
 
 interface DuaProps {
   language: Language;
@@ -47,6 +48,20 @@ const Dua = ({ language, arabicFont = "amiri" }: DuaProps) => {
   const { search: aiSearch, isLoading: aiLoading, response: aiResponse, clear: clearAiSearch, isOnline } = useAISearch();
   const [showAiResults, setShowAiResults] = useState(false);
 
+  // Audio
+  const { 
+    isPlaying, 
+    isLoading: audioLoading, 
+    currentDuaId, 
+    progress, 
+    duration, 
+    playbackSpeed,
+    hasAudio, 
+    togglePlay, 
+    cyclePlaybackSpeed,
+    stop: stopAudio
+  } = useDuaAudio();
+
   const handleAiSearch = () => {
     if (searchQuery.trim().length >= 2) {
       aiSearch(searchQuery, language);
@@ -65,6 +80,13 @@ const Dua = ({ language, arabicFont = "amiri" }: DuaProps) => {
     clearAiSearch();
     setShowAiResults(false);
   };
+
+  // Stop audio when sheet closes
+  useEffect(() => {
+    if (!selectedDua) {
+      stopAudio();
+    }
+  }, [selectedDua, stopAudio]);
 
   // Scroll to top when page loads
   useEffect(() => {
@@ -742,6 +764,47 @@ const Dua = ({ language, arabicFont = "amiri" }: DuaProps) => {
                 <p className="text-scale-arabic-xl text-foreground text-center font-arabic" dir="rtl">
                   {selectedDua?.arabic}
                 </p>
+                
+                {/* Audio Controls */}
+                {selectedDua && hasAudio(selectedDua.id) && (
+                  <div className="mt-4 flex items-center justify-center gap-3">
+                    <button
+                      onClick={() => togglePlay(selectedDua.id)}
+                      disabled={audioLoading && currentDuaId === selectedDua.id}
+                      className={cn(
+                        "flex h-10 w-10 items-center justify-center rounded-full transition-all",
+                        isPlaying && currentDuaId === selectedDua.id
+                          ? "bg-primary text-primary-foreground"
+                          : "bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground"
+                      )}
+                    >
+                      {audioLoading && currentDuaId === selectedDua.id ? (
+                        <Loader2 className="h-5 w-5 animate-spin" />
+                      ) : isPlaying && currentDuaId === selectedDua.id ? (
+                        <Pause className="h-5 w-5" />
+                      ) : (
+                        <Volume2 className="h-5 w-5" />
+                      )}
+                    </button>
+                    
+                    {/* Speed control */}
+                    {currentDuaId === selectedDua.id && (isPlaying || progress > 0) && (
+                      <button
+                        onClick={cyclePlaybackSpeed}
+                        className="px-2 py-1 text-xs font-medium rounded-full bg-muted text-muted-foreground hover:bg-primary/10"
+                      >
+                        {playbackSpeed}x
+                      </button>
+                    )}
+                    
+                    {/* Progress indicator */}
+                    {currentDuaId === selectedDua.id && duration > 0 && (
+                      <span className="text-xs text-muted-foreground">
+                        {Math.floor(progress)}s / {Math.floor(duration)}s
+                      </span>
+                    )}
+                  </div>
+                )}
               </div>
 
               {/* Transliteration */}
