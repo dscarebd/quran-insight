@@ -1,4 +1,4 @@
-import { Play, Pause, SkipBack, SkipForward, X, Loader2, Repeat, Repeat1, Gauge } from "lucide-react";
+import { Play, Pause, SkipBack, SkipForward, X, Loader2, Repeat, Repeat1, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { cn, formatNumber } from "@/lib/utils";
@@ -110,11 +110,12 @@ export const AudioPlayerBar = ({
               <button
                 onClick={onReciterClick}
                 className={cn(
-                  "text-xs text-primary hover:underline truncate cursor-pointer",
+                  "flex items-center gap-1 text-xs text-primary hover:text-primary/80 truncate cursor-pointer transition-colors",
                   language === "bn" && "font-bengali"
                 )}
               >
-                {language === "bn" ? reciter?.nameBengali : reciter?.nameEnglish}
+                <span className="truncate">{language === "bn" ? reciter?.nameBengali : reciter?.nameEnglish}</span>
+                <ChevronDown className="h-3 w-3 flex-shrink-0" />
               </button>
               {/* Repeat indicator */}
               {isRepeating && (
