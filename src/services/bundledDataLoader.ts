@@ -8,8 +8,12 @@ import { hadithBooks } from "@/data/hadithBooks";
 // Memory cache for loaded data
 let versesData: Verse[] | null = null;
 let hadithsData: LocalHadith[] | null = null;
-let isLoading = false;
-let loadPromise: Promise<void> | null = null;
+
+// Separate loading state for verses and hadiths
+let isVersesLoading = false;
+let isHadithsLoading = false;
+let versesLoadPromise: Promise<void> | null = null;
+let hadithsLoadPromise: Promise<void> | null = null;
 
 // Indexed caches for fast lookups
 const versesBySurah = new Map<number, Verse[]>();
@@ -144,31 +148,26 @@ const loadHadithsFromJson = async (): Promise<LocalHadith[]> => {
   return allHadiths;
 };
 
-// Initialize data loading
-export const initializeBundledData = async (): Promise<void> => {
-  if (versesData && hadithsData) {
+// Initialize ONLY verses data (fast - ~500ms-1s)
+export const initializeVersesData = async (): Promise<void> => {
+  if (versesData) {
     return; // Already loaded
   }
   
-  if (isLoading && loadPromise) {
-    return loadPromise; // Return existing promise
+  if (isVersesLoading && versesLoadPromise) {
+    return versesLoadPromise; // Return existing promise
   }
   
-  isLoading = true;
+  isVersesLoading = true;
   
-  loadPromise = (async () => {
-    console.log('Loading bundled data...');
+  versesLoadPromise = (async () => {
+    console.log('Loading verses data...');
+    const startTime = performance.now();
     
-    // Load both datasets in parallel
-    const [verses, hadiths] = await Promise.all([
-      loadVersesFromCsv(),
-      loadHadithsFromJson()
-    ]);
-    
+    const verses = await loadVersesFromCsv();
     versesData = verses;
-    hadithsData = hadiths;
     
-    // Build indexed caches
+    // Build indexed cache
     verses.forEach(verse => {
       const existing = versesBySurah.get(verse.surahNumber) || [];
       existing.push(verse);
@@ -181,6 +180,34 @@ export const initializeBundledData = async (): Promise<void> => {
       versesBySurah.set(surahNum, verses);
     });
     
+    const loadTime = Math.round(performance.now() - startTime);
+    console.log(`Loaded ${verses.length} verses in ${loadTime}ms`);
+    isVersesLoading = false;
+  })();
+  
+  return versesLoadPromise;
+};
+
+// Initialize ONLY hadiths data (slower - ~2-5s)
+export const initializeHadithsData = async (): Promise<void> => {
+  if (hadithsData) {
+    return; // Already loaded
+  }
+  
+  if (isHadithsLoading && hadithsLoadPromise) {
+    return hadithsLoadPromise; // Return existing promise
+  }
+  
+  isHadithsLoading = true;
+  
+  hadithsLoadPromise = (async () => {
+    console.log('Loading hadiths data...');
+    const startTime = performance.now();
+    
+    const hadiths = await loadHadithsFromJson();
+    hadithsData = hadiths;
+    
+    // Build indexed cache
     hadiths.forEach(hadith => {
       const existing = hadithsByBook.get(hadith.book_slug) || [];
       existing.push(hadith);
@@ -193,11 +220,21 @@ export const initializeBundledData = async (): Promise<void> => {
       hadithsByBook.set(bookSlug, hadiths);
     });
     
-    console.log(`Loaded ${verses.length} verses and ${hadiths.length} hadiths from bundled data`);
-    isLoading = false;
+    const loadTime = Math.round(performance.now() - startTime);
+    console.log(`Loaded ${hadiths.length} hadiths in ${loadTime}ms`);
+    isHadithsLoading = false;
   })();
   
-  return loadPromise;
+  return hadithsLoadPromise;
+};
+
+// Initialize ALL data (for backward compatibility and preloading)
+export const initializeBundledData = async (): Promise<void> => {
+  // Start both loads in parallel
+  await Promise.all([
+    initializeVersesData(),
+    initializeHadithsData()
+  ]);
 };
 
 // Get verses for a specific surah
@@ -249,6 +286,6 @@ export const getBundledDataStatus = (): { versesCount: number; hadithsCount: num
   return {
     versesCount: versesData?.length || 0,
     hadithsCount: hadithsData?.length || 0,
-    isLoading
+    isLoading: isVersesLoading || isHadithsLoading
   };
 };
