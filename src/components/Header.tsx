@@ -5,14 +5,15 @@ import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
 import appLogo from "@/assets/app-logo.png";
 import { Language, t } from "@/types/language";
+import { ArabicFontType } from "@/types/quranV1";
 import { cn } from "@/lib/utils";
 
 interface HeaderProps {
   language: Language;
   onLanguageChange: (lang: Language) => void;
   // ReadPage controls (optional, only passed when on ReadPage)
-  arabicFont?: "amiri" | "uthmani";
-  onArabicFontChange?: (font: "amiri" | "uthmani") => void;
+  arabicFont?: ArabicFontType;
+  onArabicFontChange?: (font: ArabicFontType) => void;
   onZoomIn?: () => void;
   onZoomOut?: () => void;
   canZoomIn?: boolean;

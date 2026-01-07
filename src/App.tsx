@@ -15,6 +15,7 @@ import { useStatusBar } from "@/hooks/useStatusBar";
 import { useSplashScreen } from "@/hooks/useSplashScreen";
 import { useGeoLanguage } from "@/hooks/useGeoLanguage";
 import { Language } from "@/types/language";
+import { ArabicFontType } from "@/types/quranV1";
 import { initializeBundledData } from "@/services/bundledDataLoader";
 import Index from "./pages/Index";
 import SurahList from "./pages/SurahList";
@@ -85,9 +86,9 @@ const AppContent = () => {
     const saved = localStorage.getItem("quran-reading-mode");
     return (saved as "normal" | "sepia") || "normal";
   });
-  const [arabicFont, setArabicFont] = useState<"amiri" | "uthmani">(() => {
+  const [arabicFont, setArabicFont] = useState<ArabicFontType>(() => {
     const saved = localStorage.getItem("quran-arabic-font");
-    return (saved as "amiri" | "uthmani") || "amiri";
+    return (saved as ArabicFontType) || "amiri";
   });
   const { fontSize, setFontSize } = useFontSize();
   

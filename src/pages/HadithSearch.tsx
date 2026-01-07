@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Search, ArrowLeft, Book, Loader2, X, BookOpen, Sparkles } from "lucide-react";
 import { cn, formatNumber } from "@/lib/utils";
 import { Language } from "@/types/language";
+import { ArabicFontType } from "@/types/quranV1";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -19,7 +20,7 @@ import {
 
 interface HadithSearchProps {
   language: Language;
-  arabicFont: "amiri" | "uthmani";
+  arabicFont: ArabicFontType;
 }
 
 interface HadithBook {

@@ -13,12 +13,16 @@ import { cn, sanitizeArabicText } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
 import { toast } from "sonner";
 import { Language } from "@/types/language";
+import { ArabicFontType } from "@/types/quranV1";
 import { initializeVersesData, getBundledVerses, isBundledDataLoaded } from "@/services/bundledDataLoader";
+import { loadPageFont, getPageFontFamily, isFontLoaded } from "@/services/qpcFontLoader";
 
 interface Verse {
   surah_number: number;
   verse_number: number;
   arabic: string;
+  text_v1?: string;
+  page_number?: number;
 }
 
 interface PageData {
@@ -30,8 +34,8 @@ interface PageData {
 interface ReadPageProps {
   language: Language;
   readingMode?: "normal" | "sepia";
-  arabicFont?: "amiri" | "uthmani";
-  onArabicFontChange?: (font: "amiri" | "uthmani") => void;
+  arabicFont?: ArabicFontType;
+  onArabicFontChange?: (font: ArabicFontType) => void;
   // Optional: allow parent to control font size (for tablet header controls)
   fontSizeIndex?: number;
   onFontSizeIndexChange?: (index: number) => void;

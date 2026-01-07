@@ -11,6 +11,7 @@ import annurLogo from "@/assets/annur-digital-logo.jpeg";
 import appLogo from "@/assets/app-logo.png";
 import ownershipLogo from "@/assets/ownership-logo.png";
 import { Language, t, languageNames } from "@/types/language";
+import { ArabicFontType } from "@/types/quranV1";
 import { useArabicFontSize } from "@/hooks/useArabicFontSize";
 import { useDuaOfflineDownload } from "@/hooks/useDuaOfflineDownload";
 interface SettingsProps {
@@ -18,8 +19,8 @@ interface SettingsProps {
   onLanguageChange: (lang: Language) => void;
   readingMode?: "normal" | "sepia";
   onReadingModeChange?: (mode: "normal" | "sepia") => void;
-  arabicFont?: "amiri" | "uthmani";
-  onArabicFontChange?: (font: "amiri" | "uthmani") => void;
+  arabicFont?: ArabicFontType;
+  onArabicFontChange?: (font: ArabicFontType) => void;
   fontSize?: number;
   onFontSizeChange?: (size: number) => void;
 }

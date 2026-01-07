@@ -12,13 +12,14 @@ import { useVisitorTracking } from "@/hooks/useVisitorTracking";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useDeviceDetection, getStatusBarOffset } from "@/hooks/useDeviceDetection";
 import { Language } from "@/types/language";
+import { ArabicFontType } from "@/types/quranV1";
 interface LayoutProps {
   children: React.ReactNode;
   language: Language;
   onLanguageChange: (lang: Language) => void;
   // Optional ReadPage controls for tablet header
-  arabicFont?: "amiri" | "uthmani";
-  onArabicFontChange?: (font: "amiri" | "uthmani") => void;
+  arabicFont?: ArabicFontType;
+  onArabicFontChange?: (font: ArabicFontType) => void;
   onZoomIn?: () => void;
   onZoomOut?: () => void;
   canZoomIn?: boolean;

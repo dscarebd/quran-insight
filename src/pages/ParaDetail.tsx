@@ -10,11 +10,12 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sh
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Language } from "@/types/language";
+import { ArabicFontType } from "@/types/quranV1";
 
 interface ParaDetailProps {
   language: Language;
   readingMode?: "normal" | "sepia";
-  arabicFont?: "amiri" | "uthmani";
+  arabicFont?: ArabicFontType;
 }
 
 const ParaDetail = ({ language, readingMode = "normal", arabicFont = "amiri" }: ParaDetailProps) => {

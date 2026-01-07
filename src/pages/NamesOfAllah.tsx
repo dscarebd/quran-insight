@@ -5,10 +5,11 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sh
 import { cn } from "@/lib/utils";
 import { allahNames, AllahName } from "@/data/allahNames";
 import { Language } from "@/types/language";
+import { ArabicFontType } from "@/types/quranV1";
 
 interface NamesOfAllahProps {
   language: Language;
-  arabicFont?: string;
+  arabicFont?: ArabicFontType;
 }
 
 const NamesOfAllah = ({ language, arabicFont = "amiri" }: NamesOfAllahProps) => {

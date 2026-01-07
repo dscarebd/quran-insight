@@ -3,6 +3,7 @@ import { Copy, Check, HandHeart, ChevronRight, ArrowLeft, Search, X, Bookmark, B
 import { cn, formatNumber } from "@/lib/utils";
 import { toast } from "sonner";
 import { Language } from "@/types/language";
+import { ArabicFontType } from "@/types/quranV1";
 import { dailyDuaCategories, DailyDuaCategory, DailyDua } from "@/data/dailyDuas";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
@@ -13,7 +14,7 @@ import { useDuaAudio } from "@/hooks/useDuaAudio";
 
 interface DailyDuaPageProps {
   language: Language;
-  arabicFont?: "amiri" | "uthmani";
+  arabicFont?: ArabicFontType;
 }
 
 // Dynamic icon component

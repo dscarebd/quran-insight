@@ -3,6 +3,7 @@ import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import { ArrowLeft, Bookmark, BookmarkCheck, Share2, ChevronDown, ChevronUp, Loader2 } from "lucide-react";
 import { cn, formatNumber, sanitizeArabicText } from "@/lib/utils";
 import { Language } from "@/types/language";
+import { ArabicFontType } from "@/types/quranV1";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -17,7 +18,7 @@ import { getHadiths } from "@/services/bundledDataService";
 
 interface HadithDetailProps {
   language: Language;
-  arabicFont: "amiri" | "uthmani";
+  arabicFont: ArabicFontType;
 }
 
 interface Hadith {

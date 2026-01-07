@@ -15,12 +15,13 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Language } from "@/types/language";
+import { ArabicFontType } from "@/types/quranV1";
 import { useAuth } from "@/hooks/useAuth";
 
 interface BookmarksProps {
   language: Language;
   readingMode?: "normal" | "sepia";
-  arabicFont?: "amiri" | "uthmani";
+  arabicFont?: ArabicFontType;
 }
 
 interface BookmarkedVerse {
