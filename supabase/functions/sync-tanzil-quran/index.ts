@@ -1,3 +1,4 @@
+// Sync Tanzil Quran - v2 with pagination
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.49.2';
 
@@ -63,8 +64,21 @@ serve(async (req) => {
 
   try {
     const url = new URL(req.url);
-    const dryRun = url.searchParams.get('dry_run') !== 'false';
-    const surahFilter = url.searchParams.get('surah');
+    
+    // Support both URL params and request body for dry_run
+    let dryRun = url.searchParams.get('dry_run') !== 'false';
+    let surahFilter = url.searchParams.get('surah');
+    
+    // Also check request body for POST requests
+    if (req.method === 'POST') {
+      try {
+        const body = await req.json();
+        if (body.dry_run === false) dryRun = false;
+        if (body.surah) surahFilter = body.surah;
+      } catch (_e) {
+        // No body or invalid JSON, use URL params
+      }
+    }
 
     console.log(`Starting Tanzil sync - dry_run: ${dryRun}, surah filter: ${surahFilter || 'all'}`);
 
@@ -99,24 +113,44 @@ serve(async (req) => {
       throw new Error(`Expected 6236 verses, but only parsed ${tanzilVerses.size}. XML parsing may have failed.`);
     }
 
-    // Fetch all verses from database
-    let dbQuery = supabase
-      .from('verses')
-      .select('surah_number, verse_number, arabic')
-      .order('surah_number')
-      .order('verse_number');
+    // Fetch all verses from database using pagination to bypass 1000 row limit
+    const allDbVerses: { surah_number: number; verse_number: number; arabic: string }[] = [];
+    const pageSize = 1000;
+    let offset = 0;
+    let hasMore = true;
     
-    if (surahFilter) {
-      dbQuery = dbQuery.eq('surah_number', parseInt(surahFilter));
+    console.log('Fetching all verses from database with pagination...');
+    
+    while (hasMore) {
+      let dbQuery = supabase
+        .from('verses')
+        .select('surah_number, verse_number, arabic')
+        .order('surah_number')
+        .order('verse_number')
+        .range(offset, offset + pageSize - 1);
+      
+      if (surahFilter) {
+        dbQuery = dbQuery.eq('surah_number', parseInt(surahFilter));
+      }
+      
+      const { data: pageData, error: dbError } = await dbQuery;
+      
+      if (dbError) {
+        throw new Error(`Database error: ${dbError.message}`);
+      }
+      
+      if (pageData && pageData.length > 0) {
+        allDbVerses.push(...pageData);
+        offset += pageSize;
+        hasMore = pageData.length === pageSize;
+        console.log(`Fetched ${allDbVerses.length} verses so far...`);
+      } else {
+        hasMore = false;
+      }
     }
     
-    const { data: dbVerses, error: dbError } = await dbQuery;
-    
-    if (dbError) {
-      throw new Error(`Database error: ${dbError.message}`);
-    }
-    
-    console.log(`Fetched ${dbVerses?.length || 0} verses from database`);
+    const dbVerses = allDbVerses;
+    console.log(`Total verses fetched from database: ${dbVerses.length}`);
 
     const mismatches: MismatchReport[] = [];
     const missing: MismatchReport[] = [];
