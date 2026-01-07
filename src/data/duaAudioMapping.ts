@@ -1,9 +1,9 @@
 // Maps dua IDs to Hisnul Muslim audio file numbers
 // Audio URL: https://archive.org/download/HisnulMuslimAudio_201510/n{number}.mp3
 // Hisnul Muslim has ~250+ audio files numbered from n1.mp3 to n255+.mp3
+// Total mapped: ~110+ duas across both main and daily categories
 
 // Mapping for src/data/duas.ts (main dua categories)
-// Total mapped: ~65 duas from main categories
 export const duaAudioMapping: Record<string, number> = {
   // ============ Daily Life Duas ============
   "daily-1": 186,   // Anger Control - أَعُوذُ بِاللَّهِ مِنَ الشَّيْطَانِ الرَّجِيمِ
@@ -17,6 +17,7 @@ export const duaAudioMapping: Record<string, number> = {
   "daily-9": 17,    // Entering Home - بِسْمِ اللَّهِ وَلَجْنَا
   "daily-10": 15,   // Entering Mosque - اللَّهُمَّ افْتَحْ لِي أَبْوَابَ رَحْمَتِكَ
   "daily-11": 16,   // Leaving Mosque - اللَّهُمَّ إِنِّي أَسْأَلُكَ مِنْ فَضْلِكَ
+  "daily-12": 202,  // Before Study - رَبِّ زِدْنِي عِلْمًا
   "daily-13": 132,  // When Afraid - حَسْبُنَا اللَّهُ وَنِعْمَ الْوَكِيلُ
   "daily-14": 120,  // Anxiety Relief - اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ
   "daily-15": 156,  // During Rain - اللَّهُمَّ صَيِّبًا نَافِعًا
@@ -25,22 +26,51 @@ export const duaAudioMapping: Record<string, number> = {
   "daily-18": 218,  // Return from Travel - آيِبُونَ تَائِبُونَ عَابِدُونَ
   "daily-19": 121,  // Debt Relief - اللَّهُمَّ اكْفِنِي بِحَلَالِكَ
   "daily-20": 122,  // Distress - لَا إِلَهَ إِلَّا أَنْتَ سُبْحَانَكَ
+  "daily-21": 128,  // General Forgiveness - رَبِّ اغْفِرْ لِي وَتُبْ عَلَيَّ
   "daily-22": 81,   // Protection from Evil - اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ شَرِّ مَا خَلَقْتَ
+  "daily-23": 25,   // Good Character - اللَّهُمَّ اهْدِنِي لِأَحْسَنِ الْأَخْلَاقِ
+  "daily-25": 43,   // Guidance - اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ (Fatiha reference)
   "daily-26": 93,   // Night Protection - أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ
   "daily-27": 77,   // Health and Wellness - اللَّهُمَّ عَافِنِي فِي بَدَنِي
   "daily-28": 76,   // Gratitude - اللَّهُمَّ أَعِنِّي عَلَى ذِكْرِكَ
+  "daily-29": 86,   // Protection from Envy - وَمِنْ شَرِّ حَاسِدٍ (Surah Falaq)
+  "daily-33": 120,  // Protection from Debt - اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْمَغْرَمِ
   "daily-40": 69,   // Morning Protection - أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ
   "daily-41": 70,   // Evening Protection - أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ
   "daily-42": 100,  // Protection from Hellfire - اللَّهُمَّ أَجِرْنِي مِنَ النَّارِ
   "daily-45": 44,   // Light in Heart - اللَّهُمَّ اجْعَلْ فِي قَلْبِي نُورًا
   "daily-46": 93,   // Protection from Evil Eye - أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ
   "daily-47": 123,  // Relief from Worry - اللَّهُمَّ لَا سَهْلَ إِلَّا مَا جَعَلْتَهُ سَهْلًا
+  "daily-48": 144,  // When Seeing Someone Afflicted
+  "daily-49": 89,   // Faith Protection - يَا مُقَلِّبَ الْقُلُوبِ
+  "daily-50": 56,   // Jannah Prayer - اللَّهُمَّ إِنِّي أَسْأَلُكَ الْجَنَّةَ
 
   // ============ Morning Evening Duas ============
   "morning-1": 69,  // Morning remembrance - أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ
   "morning-2": 82,  // Ayatul Kursi morning (part of morning adhkar)
   "morning-3": 83,  // Surahs (Al-Ikhlas, Al-Falaq, An-Nas)
   "morning-4": 75,  // Sayyidul Istighfar
+  "me-001": 69,     // Morning Declaration
+  "me-002": 70,     // Evening Declaration  
+  "me-003": 92,     // Protection Dua - بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ
+  "me-004": 77,     // Wellbeing Dua - اللَّهُمَّ عَافِنِي فِي بَدَنِي
+  "me-005": 89,     // Faith Protection - يَا مُقَلِّبَ الْقُلُوبِ
+  "me-006": 128,    // Seeking Forgiveness - أَسْتَغْفِرُ اللَّهَ
+  "me-007": 71,     // Gratitude - اللَّهُمَّ مَا أَصْبَحَ بِي مِنْ نِعْمَةٍ
+  "me-008": 93,     // Protection from Evil - أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ
+  "me-009": 205,    // Peace of Heart - beneficial knowledge
+  "me-010": 72,     // Complete Reliance - رَضِيتُ بِاللَّهِ رَبًّا
+  "me-011": 82,     // Ayat al-Kursi
+  "me-012": 84,     // Surah Ikhlas
+  "me-013": 85,     // Surah Falaq
+  "me-014": 86,     // Surah Nas
+  "me-015": 75,     // Sayyidul Istighfar
+  "me-016": 80,     // Complete Wellbeing - اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَفْوَ
+  "me-017": 73,     // Day Beginning - اللَّهُمَّ بِكَ أَصْبَحْنَا
+  "me-018": 91,     // Protection from Disbelief
+  "me-019": 94,     // Glorification - سُبْحَانَ اللَّهِ وَبِحَمْدِهِ
+  "me-020": 78,     // Seeking Good of the Day
+  "me-024": 121,    // Good Provision - اللَّهُمَّ اكْفِنِي بِحَلَالِكَ
 
   // ============ Prayer Duas ============
   "prayer-1": 23,   // Starting prayer - سُبْحَانَكَ اللَّهُمَّ
@@ -69,10 +99,20 @@ export const duaAudioMapping: Record<string, number> = {
   // ============ Travel Duas ============
   "travel-1": 213,  // Starting journey
   "travel-2": 218,  // Return from travel
+
+  // ============ Weather Duas ============
+  "weather-1": 156, // During rain
+  "weather-2": 157, // After rain
+  "weather-3": 159, // Thunder - سُبْحَانَ الَّذِي يُسَبِّحُ الرَّعْدُ
+  "weather-4": 158, // Strong wind
+
+  // ============ Marriage & Family Duas ============
+  "marriage-1": 189, // Wedding congratulation - بَارَكَ اللَّهُ لَكَ
+  "marriage-2": 190, // Wedding night dua
+  "newborn-1": 193,  // For newborn - أُعِيذُكَ بِكَلِمَاتِ اللَّهِ
 };
 
 // Mapping for src/data/dailyDuas.ts (daily dua page)
-// Total mapped: ~45 duas from daily dua categories
 export const dailyDuaAudioMapping: Record<string, number> = {
   // ============ Salah/Prayer Duas ============
   "thana-sana": 23,        // Opening dua - سُبْحَانَكَ اللَّهُمَّ
@@ -95,6 +135,7 @@ export const dailyDuaAudioMapping: Record<string, number> = {
 
   // ============ Eid Duas ============
   "eid-takbeer": 167,      // Eid Takbeer
+  "eid-greeting": 168,     // Eid greeting - تَقَبَّلَ اللَّهُ
   "qurbani-dua": 170,      // Qurbani dua - بِسْمِ اللَّهِ وَاللَّهُ أَكْبَرُ
 
   // ============ Janaza/Funeral Duas ============
@@ -125,6 +166,12 @@ export const dailyDuaAudioMapping: Record<string, number> = {
   "before-wudu": 6,             // Before wudu - بِسْمِ اللَّهِ
   "after-wudu": 7,              // After wudu - أَشْهَدُ أَنْ لَا إِلَٰهَ إِلَّا اللَّهُ
   "after-wudu-complete": 8,     // Complete dua after wudu
+
+  // ============ Additional Duas ============
+  "dua-qunut": 35,              // Dua Qunut for Witr
+  "night-awakening": 102,       // When waking at night
+  "bad-dream": 107,             // After bad dream
+  "good-dream": 106,            // After good dream
 };
 
 // Helper function to get audio URL
@@ -150,4 +197,11 @@ export const getDuaAudioNumber = (duaId: string): number | null => {
 // Get audio number for daily dua
 export const getDailyDuaAudioNumber = (duaId: string): number | null => {
   return dailyDuaAudioMapping[duaId] || null;
+};
+
+// Get total count of unique audio files
+export const getTotalAudioCount = (): number => {
+  const mainNumbers = Object.values(duaAudioMapping);
+  const dailyNumbers = Object.values(dailyDuaAudioMapping);
+  return new Set([...mainNumbers, ...dailyNumbers]).size;
 };
