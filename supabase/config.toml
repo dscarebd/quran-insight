@@ -53,3 +53,6 @@ verify_jwt = false
 
 [functions.sync-quran-verses]
 verify_jwt = false
+
+[functions.sync-tanzil-quran]
+verify_jwt = false
