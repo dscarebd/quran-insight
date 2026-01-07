@@ -50,3 +50,6 @@ verify_jwt = false
 
 [functions.export-verses-csv]
 verify_jwt = false
+
+[functions.sync-quran-verses]
+verify_jwt = false
