@@ -1,16 +1,23 @@
 // QPC V1 Font Loader - Dynamically loads King Fahad Complex V1 page-based fonts
 // Each Quran page (1-604) has its own font file with unique glyph codes
+// Using nuqayah/qpc-fonts repo on GitHub (raw.githubusercontent.com)
 
-const FONT_CDN_BASE = 'https://static-cdn.tarteel.ai/qul/fonts/quran_fonts/v1/woff2';
+const FONT_CDN_BASE = 'https://raw.githubusercontent.com/mustafa0x/qpc-fonts/f93bf5f3/mushaf-woff2';
 
 // Track which fonts are already loaded
 const loadedFonts = new Set<number>();
 const loadingFonts = new Map<number, Promise<void>>();
 
+// Format page number to 3-digit string (001, 002, ... 604)
+const formatPageNumber = (pageNumber: number): string => {
+  return pageNumber.toString().padStart(3, '0');
+};
+
 // Create and inject @font-face rule for a specific page
 const injectFontFace = (pageNumber: number): void => {
   const fontFamily = `p${pageNumber}-v1`;
-  const fontUrl = `${FONT_CDN_BASE}/p${pageNumber}-v1.woff2`;
+  const paddedPage = formatPageNumber(pageNumber);
+  const fontUrl = `${FONT_CDN_BASE}/QCF_P${paddedPage}.woff2`;
   
   // Check if already exists
   if (document.querySelector(`style[data-font="${fontFamily}"]`)) {
@@ -56,7 +63,8 @@ export const loadPageFont = async (pageNumber: number): Promise<void> => {
       injectFontFace(pageNumber);
       
       const fontFamily = `p${pageNumber}-v1`;
-      const fontUrl = `${FONT_CDN_BASE}/p${pageNumber}-v1.woff2`;
+      const paddedPage = formatPageNumber(pageNumber);
+      const fontUrl = `${FONT_CDN_BASE}/QCF_P${paddedPage}.woff2`;
       
       // Preload the font file
       const link = document.createElement('link');
