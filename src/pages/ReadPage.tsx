@@ -1212,6 +1212,16 @@ const ReadPage = ({
       {/* Fixed Font Switch (Desktop only - Right) */}
       <div className="fixed right-4 top-1/2 -translate-y-1/2 z-40 hidden lg:flex flex-col gap-2">
         <Button
+          variant={arabicFont === "v1" ? "default" : "outline"}
+          onClick={() => onArabicFontChange?.("v1")}
+          className={cn(
+            "h-10 px-4 rounded-lg backdrop-blur text-sm",
+            arabicFont === "v1" ? "bg-primary text-primary-foreground" : "bg-background/80"
+          )}
+        >
+          King Fahad
+        </Button>
+        <Button
           variant={arabicFont === "uthmani" ? "default" : "outline"}
           onClick={() => onArabicFontChange?.("uthmani")}
           className={cn(
