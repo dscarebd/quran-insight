@@ -385,10 +385,14 @@ const ReadPage = ({
   }, []);
 
   // Fetch verses for a specific page (with caching) - uses bundled data first, falls back to Supabase
-  const fetchVersesForPage = useCallback(async (pageNum: number): Promise<Verse[]> => {
+  // When V1 font is selected, always fetch from Supabase to get text_v1 and page_number
+  const fetchVersesForPage = useCallback(async (pageNum: number, forceSupabase: boolean = false): Promise<Verse[]> => {
+    // Create a cache key that includes font preference
+    const cacheKey = forceSupabase ? pageNum + 10000 : pageNum;
+    
     // Check cache first
-    if (versesCache.has(pageNum)) {
-      return versesCache.get(pageNum)!;
+    if (versesCache.has(cacheKey)) {
+      return versesCache.get(cacheKey)!;
     }
 
     const pageData = getPageByNumber(pageNum);
@@ -398,6 +402,15 @@ const ReadPage = ({
     const expectedCount = pageData.startSurah === pageData.endSurah 
       ? pageData.endVerse - pageData.startVerse + 1
       : calculateExpectedVerseCount(pageData);
+
+    // If V1 font is needed, go directly to Supabase for text_v1 and page_number
+    if (forceSupabase) {
+      const supabaseVerses = await fetchVersesFromSupabase(pageData);
+      if (supabaseVerses.length > 0) {
+        versesCache.set(cacheKey, supabaseVerses);
+        return supabaseVerses;
+      }
+    }
 
     // Try bundled data first (works offline)
     let bundledVerses: Verse[] = [];
@@ -460,7 +473,7 @@ const ReadPage = ({
         };
 
         if (validateBundledVerses()) {
-          versesCache.set(pageNum, bundledVerses);
+          versesCache.set(cacheKey, bundledVerses);
           return bundledVerses;
         }
 
@@ -476,23 +489,24 @@ const ReadPage = ({
     const supabaseVerses = await fetchVersesFromSupabase(pageData);
     
     if (supabaseVerses.length > 0) {
-      versesCache.set(pageNum, supabaseVerses);
+      versesCache.set(cacheKey, supabaseVerses);
       return supabaseVerses;
     }
     
     // If Supabase also fails, return whatever bundled data we have
     if (bundledVerses.length > 0) {
-      versesCache.set(pageNum, bundledVerses);
+      versesCache.set(cacheKey, bundledVerses);
       return bundledVerses;
     }
     
     return [];
   }, [calculateExpectedVerseCount, fetchVersesFromSupabase]);
 
-  // Load initial pages
+  // Load initial pages - also reload when arabicFont changes to V1 (needs text_v1 data from Supabase)
   useEffect(() => {
     const loadInitialPages = async () => {
       setLoading(true);
+      const needsV1Data = arabicFont === "v1";
 
       try {
         // Load a smaller window: just the target page + 1 page after for faster initial render
@@ -505,7 +519,7 @@ const ReadPage = ({
         const pagesData = await Promise.all(
           pageNumbers.map(async (pageNum) => {
             try {
-              const verses = await fetchVersesForPage(pageNum);
+              const verses = await fetchVersesForPage(pageNum, needsV1Data);
               return {
                 pageNumber: pageNum,
                 verses,
@@ -533,7 +547,7 @@ const ReadPage = ({
     };
 
     loadInitialPages();
-  }, [initialPage, fetchVersesForPage, language]);
+  }, [initialPage, fetchVersesForPage, language, arabicFont]);
 
   // Preload V1 fonts for visible pages when V1 font is selected
   useEffect(() => {
@@ -563,22 +577,25 @@ const ReadPage = ({
   // Preload next 3 pages in background for smoother scrolling
   useEffect(() => {
     if (loading || loadedPages.length === 0) return;
+    const needsV1Data = arabicFont === "v1";
 
     const lastLoadedPage = loadedPages[loadedPages.length - 1]?.pageNumber || 0;
     const pagesToPreload: number[] = [];
+    const cacheOffset = needsV1Data ? 10000 : 0;
     
     for (let i = lastLoadedPage + 1; i <= Math.min(lastLoadedPage + 3, 604); i++) {
-      if (!versesCache.has(i)) pagesToPreload.push(i);
+      if (!versesCache.has(i + cacheOffset)) pagesToPreload.push(i);
     }
 
     // Preload in background (don't await, just cache)
     pagesToPreload.forEach((pageNum) => {
-      fetchVersesForPage(pageNum); // This will cache the result
+      fetchVersesForPage(pageNum, needsV1Data); // This will cache the result
     });
-  }, [loading, loadedPages, fetchVersesForPage]);
+  }, [loading, loadedPages, fetchVersesForPage, arabicFont]);
 
   const loadMorePagesDown = useCallback(async () => {
     if (loadingMore || loadedPages.length === 0) return;
+    const needsV1Data = arabicFont === "v1";
     
     const lastPage = loadedPages[loadedPages.length - 1]?.pageNumber || 0;
     if (lastPage >= 604) return;
@@ -594,7 +611,7 @@ const ReadPage = ({
     // Fetch in parallel
     const newPages = await Promise.all(
       pageNumbers.map(async (pageNum) => {
-        const verses = await fetchVersesForPage(pageNum);
+        const verses = await fetchVersesForPage(pageNum, needsV1Data);
         return { pageNumber: pageNum, verses, juzNumber: getJuzForPage(pageNum) };
       })
     );
@@ -603,11 +620,12 @@ const ReadPage = ({
       setLoadedPages(prev => [...prev, ...newPages]);
     }
     setLoadingMore(false);
-  }, [loadedPages, loadingMore, fetchVersesForPage]);
+  }, [loadedPages, loadingMore, fetchVersesForPage, arabicFont]);
 
   // Load more pages when scrolling up
   const loadMorePagesUp = useCallback(async () => {
     if (loadingMore || loadedPages.length === 0) return;
+    const needsV1Data = arabicFont === "v1";
 
     const firstPage = loadedPages[0]?.pageNumber || 1;
     if (firstPage <= 1) return;
@@ -626,7 +644,7 @@ const ReadPage = ({
     // Fetch in parallel
     const newPages = await Promise.all(
       pageNumbers.map(async (pageNum) => {
-        const verses = await fetchVersesForPage(pageNum);
+        const verses = await fetchVersesForPage(pageNum, needsV1Data);
         return { pageNumber: pageNum, verses, juzNumber: getJuzForPage(pageNum) };
       })
     );
@@ -647,7 +665,7 @@ const ReadPage = ({
     });
 
     setLoadingMore(false);
-  }, [loadedPages, loadingMore, fetchVersesForPage]);
+  }, [loadedPages, loadingMore, fetchVersesForPage, arabicFont]);
 
   // Set up intersection observer for infinite scroll
   useEffect(() => {
