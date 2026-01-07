@@ -18,6 +18,7 @@ import { AudioPlayerBar } from "@/components/AudioPlayerBar";
 import { ReciterSelector } from "@/components/ReciterSelector";
 import { SurahAudioControls } from "@/components/SurahAudioControls";
 import { VerseAudioButton } from "@/components/VerseAudioButton";
+import { WordByWordArabic } from "@/components/WordByWordArabic";
 
 interface SurahDetailProps {
   language: Language;
@@ -43,6 +44,8 @@ interface VerseCardProps {
   abRepeatEnd: number | null;
   onSetABStart: () => void;
   onSetABEnd: () => void;
+  audioProgress: number;
+  audioDuration: number;
 }
 
 const VerseCard = ({ 
@@ -62,7 +65,9 @@ const VerseCard = ({
   abRepeatStart,
   abRepeatEnd,
   onSetABStart,
-  onSetABEnd
+  onSetABEnd,
+  audioProgress,
+  audioDuration
 }: VerseCardProps) => {
   const [showTafsir, setShowTafsir] = useState(false);
 
@@ -151,13 +156,15 @@ const VerseCard = ({
         </div>
       </div>
 
-      {/* Arabic Text */}
-      <p 
-        className="mb-4 text-right leading-[2.2] text-foreground font-arabic"
-        style={{ fontSize: `${arabicFontSize}px` }}
-      >
-        {sanitizeArabicText(verse.arabic)}
-      </p>
+      {/* Arabic Text with Word-by-Word Highlighting */}
+      <WordByWordArabic
+        text={sanitizeArabicText(verse.arabic)}
+        fontSize={arabicFontSize}
+        isPlaying={isPlaying}
+        isCurrentVerse={isCurrentVerse}
+        progress={audioProgress}
+        duration={audioDuration}
+      />
 
       {/* Translation */}
       <p className={cn("mb-2 text-scale-body text-foreground", language === "bn" && "font-bengali")}>
@@ -476,6 +483,8 @@ const SurahDetail = ({ language, readingMode = "normal", arabicFont = "amiri" }:
                 abRepeatEnd={audio.abRepeatEnd}
                 onSetABStart={() => audio.setABRepeatStart(verse.verseNumber)}
                 onSetABEnd={() => audio.setABRepeatEnd(verse.verseNumber)}
+                audioProgress={audio.isCurrentVerse(verse.surahNumber, verse.verseNumber) ? audio.progress : 0}
+                audioDuration={audio.isCurrentVerse(verse.surahNumber, verse.verseNumber) ? audio.duration : 0}
               />
             </div>
           ))
