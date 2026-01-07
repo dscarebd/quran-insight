@@ -5,6 +5,8 @@ import { Verse } from "@/data/verses";
 import { LocalHadith } from "./offlineDataService";
 import { 
   initializeBundledData,
+  initializeVersesData,
+  initializeHadithsData,
   getBundledVerses,
   getBundledHadiths,
   getRandomBundledVerse,
@@ -20,8 +22,8 @@ import { hadithBooks } from "@/data/hadithBooks";
 
 // Get verses for a surah - uses bundled data with Supabase fallback
 export const getVerses = async (surahNumber: number): Promise<Verse[]> => {
-  // Ensure bundled data is loaded
-  await initializeBundledData();
+  // Only load verses data (fast ~500ms), don't wait for hadiths
+  await initializeVersesData();
   
   // Get from bundled data
   const verses = getBundledVerses(surahNumber);
@@ -58,8 +60,8 @@ export const getVerses = async (surahNumber: number): Promise<Verse[]> => {
 
 // Get hadiths for a book - uses bundled data with Supabase fallback
 export const getHadiths = async (bookSlug: string): Promise<LocalHadith[]> => {
-  // Ensure bundled data is loaded
-  await initializeBundledData();
+  // Only load hadiths data, don't wait for verses
+  await initializeHadithsData();
   
   // Get from bundled data
   const hadiths = getBundledHadiths(bookSlug);
@@ -100,7 +102,7 @@ export const getHadiths = async (bookSlug: string): Promise<LocalHadith[]> => {
 
 // Get a random verse for daily content
 export const getRandomVerse = async (dayOfYear: number): Promise<Verse | null> => {
-  await initializeBundledData();
+  await initializeVersesData();
   
   const verse = getRandomBundledVerse(dayOfYear);
   if (verse) return verse;
@@ -138,7 +140,7 @@ export const getRandomVerse = async (dayOfYear: number): Promise<Verse | null> =
 
 // Get a random hadith for daily content
 export const getRandomHadith = async (dayOfYear: number): Promise<LocalHadith | null> => {
-  await initializeBundledData();
+  await initializeHadithsData();
   
   const hadith = getRandomBundledHadith(dayOfYear);
   if (hadith) return hadith;
@@ -178,13 +180,13 @@ export const isHadithDataLoaded = (): boolean => {
 
 // Get all verses (for search)
 export const getAllVerses = async (): Promise<Verse[]> => {
-  await initializeBundledData();
+  await initializeVersesData();
   return getAllBundledVerses();
 };
 
 // Get all hadiths (for search)
 export const getAllHadiths = async (): Promise<LocalHadith[]> => {
-  await initializeBundledData();
+  await initializeHadithsData();
   return getAllBundledHadiths();
 };
 
