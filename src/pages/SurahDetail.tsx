@@ -76,8 +76,9 @@ const VerseCard = ({
   return (
     <div 
       className={cn(
-        "verse-card mb-4 animate-fade-in",
-        isCurrentVerse && isPlaying && "ring-2 ring-primary/30 bg-primary/5",
+        "verse-card mb-4 animate-fade-in transition-all duration-300",
+        isCurrentVerse && isPlaying && "animate-verse-playing rounded-lg",
+        isCurrentVerse && !isPlaying && "ring-2 ring-primary/40 bg-primary/5 rounded-lg",
         isInABRange && !isCurrentVerse && "bg-accent/30 border-l-2 border-primary/50"
       )}
       style={{ animationDelay: `${index * 0.05}s` }}
