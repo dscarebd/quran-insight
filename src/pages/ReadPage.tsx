@@ -306,57 +306,34 @@ const ReadPage = ({
     }
   }, [navigate]);
 
-  // Fetch verses for a specific page (with caching) - uses bundled data first for offline support
-  const fetchVersesForPage = useCallback(async (pageNum: number): Promise<Verse[]> => {
-    // Check cache first
-    if (versesCache.has(pageNum)) {
-      return versesCache.get(pageNum)!;
+  // Calculate expected verse count for a page based on page data
+  const calculateExpectedVerseCount = useCallback((pageData: ReturnType<typeof getPageByNumber>): number => {
+    if (!pageData) return 0;
+    
+    if (pageData.startSurah === pageData.endSurah) {
+      return pageData.endVerse - pageData.startVerse + 1;
     }
-
-    const pageData = getPageByNumber(pageNum);
-    if (!pageData) return [];
-
-    // Try bundled data first (works offline)
-    try {
-      await initializeBundledData();
-      
-      if (isBundledDataLoaded()) {
-        let verses: Verse[] = [];
-        
-        // Collect verses from all surahs in this page
-        for (let surahNum = pageData.startSurah; surahNum <= pageData.endSurah; surahNum++) {
-          const surahVerses = getBundledVerses(surahNum);
-          
-          const filtered = surahVerses.filter(v => {
-            if (surahNum === pageData.startSurah && surahNum === pageData.endSurah) {
-              return v.verseNumber >= pageData.startVerse && v.verseNumber <= pageData.endVerse;
-            }
-            if (surahNum === pageData.startSurah) {
-              return v.verseNumber >= pageData.startVerse;
-            }
-            if (surahNum === pageData.endSurah) {
-              return v.verseNumber <= pageData.endVerse;
-            }
-            return true;
-          }).map(v => ({
-            surah_number: v.surahNumber,
-            verse_number: v.verseNumber,
-            arabic: v.arabic
-          }));
-          
-          verses.push(...filtered);
-        }
-        
-        if (verses.length > 0) {
-          versesCache.set(pageNum, verses);
-          return verses;
-        }
+    
+    // For pages spanning multiple surahs, estimate based on verse ranges
+    // This is an approximation - actual count depends on surah lengths
+    let count = 0;
+    for (let surah = pageData.startSurah; surah <= pageData.endSurah; surah++) {
+      if (surah === pageData.startSurah) {
+        // From startVerse to end of surah (we don't know surah length, so estimate)
+        count += 50; // Conservative estimate
+      } else if (surah === pageData.endSurah) {
+        count += pageData.endVerse;
+      } else {
+        count += 20; // Middle surahs on same page are usually short
       }
-    } catch (error) {
-      console.log("Bundled data not available, trying Supabase:", error);
     }
+    return count;
+  }, []);
 
-    // Fallback to Supabase if bundled data is not available
+  // Fetch verses from Supabase database
+  const fetchVersesFromSupabase = useCallback(async (pageData: ReturnType<typeof getPageByNumber>): Promise<Verse[]> => {
+    if (!pageData) return [];
+    
     try {
       let verses: Verse[] = [];
       
@@ -394,15 +371,105 @@ const ReadPage = ({
           });
         }
       }
-
-      // Store in cache
-      versesCache.set(pageNum, verses);
+      
       return verses;
     } catch (error) {
-      console.error("Error fetching verses for page", pageNum, error);
+      console.error("Error fetching verses from Supabase:", error);
+      return [];
     }
-    return [];
   }, []);
+
+  // Fetch verses for a specific page (with caching) - uses bundled data first, falls back to Supabase
+  const fetchVersesForPage = useCallback(async (pageNum: number): Promise<Verse[]> => {
+    // Check cache first
+    if (versesCache.has(pageNum)) {
+      return versesCache.get(pageNum)!;
+    }
+
+    const pageData = getPageByNumber(pageNum);
+    if (!pageData) return [];
+
+    // Calculate expected verse count for this page
+    const expectedCount = pageData.startSurah === pageData.endSurah 
+      ? pageData.endVerse - pageData.startVerse + 1
+      : calculateExpectedVerseCount(pageData);
+
+    // Try bundled data first (works offline)
+    let bundledVerses: Verse[] = [];
+    try {
+      await initializeBundledData();
+      
+      if (isBundledDataLoaded()) {
+        // Collect verses from all surahs in this page
+        for (let surahNum = pageData.startSurah; surahNum <= pageData.endSurah; surahNum++) {
+          const surahVerses = getBundledVerses(surahNum);
+          
+          const filtered = surahVerses.filter(v => {
+            if (surahNum === pageData.startSurah && surahNum === pageData.endSurah) {
+              return v.verseNumber >= pageData.startVerse && v.verseNumber <= pageData.endVerse;
+            }
+            if (surahNum === pageData.startSurah) {
+              return v.verseNumber >= pageData.startVerse;
+            }
+            if (surahNum === pageData.endSurah) {
+              return v.verseNumber <= pageData.endVerse;
+            }
+            return true;
+          }).map(v => ({
+            surah_number: v.surahNumber,
+            verse_number: v.verseNumber,
+            arabic: v.arabic
+          }));
+          
+          bundledVerses.push(...filtered);
+        }
+        
+        // Sort by surah and verse number to ensure correct order
+        bundledVerses.sort((a, b) => {
+          if (a.surah_number !== b.surah_number) return a.surah_number - b.surah_number;
+          return a.verse_number - b.verse_number;
+        });
+        
+        // Verify bundled data completeness for single-surah pages
+        if (pageData.startSurah === pageData.endSurah) {
+          const isComplete = bundledVerses.length === expectedCount;
+          const hasAllVerses = bundledVerses.every((v, idx) => {
+            const expectedVerseNum = pageData.startVerse + idx;
+            return v.verse_number === expectedVerseNum;
+          });
+          
+          if (isComplete && hasAllVerses) {
+            versesCache.set(pageNum, bundledVerses);
+            return bundledVerses;
+          } else {
+            console.log(`Page ${pageNum}: Bundled data incomplete (got ${bundledVerses.length}, expected ${expectedCount}), falling back to database`);
+          }
+        } else if (bundledVerses.length > 0) {
+          // For multi-surah pages, use bundled if we have some data
+          versesCache.set(pageNum, bundledVerses);
+          return bundledVerses;
+        }
+      }
+    } catch (error) {
+      console.log("Bundled data not available, trying Supabase:", error);
+    }
+
+    // Fallback to Supabase if bundled data is incomplete or not available
+    const supabaseVerses = await fetchVersesFromSupabase(pageData);
+    
+    if (supabaseVerses.length > 0) {
+      versesCache.set(pageNum, supabaseVerses);
+      return supabaseVerses;
+    }
+    
+    // If Supabase also fails, return whatever bundled data we have
+    if (bundledVerses.length > 0) {
+      versesCache.set(pageNum, bundledVerses);
+      return bundledVerses;
+    }
+    
+    return [];
+  }, [calculateExpectedVerseCount, fetchVersesFromSupabase]);
 
   // Load initial pages
   useEffect(() => {
