@@ -542,7 +542,7 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
             <div className="rounded-lg border border-border bg-gradient-to-br from-primary/5 to-primary/10 p-3 text-center">
               <Heart className="h-6 w-6 text-primary mx-auto mb-2" />
               <h3 className={cn("text-base font-semibold", language === "bn" ? "font-bengali" : "font-sans")}>
-                {language === "bn" ? "জাযাকাল্লাহু খাইরান" : "JazakAllahu Khairan"}
+                {language === "bn" ? "জাযাকাল্লাহু খাইর" : "JazakAllahu Khair"}
               </h3>
               <p className={cn("text-sm text-muted-foreground mt-1", language === "bn" ? "font-bengali" : "font-sans")}>
                 {language === "bn" 
