@@ -1,11 +1,40 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Scale, Search, Loader2, ChevronRight, User } from "lucide-react";
+import { Scale, Search, Loader2, ChevronRight, User, Filter } from "lucide-react";
 import { Language } from "@/types/language";
 import { cn } from "@/lib/utils";
 import { supabase } from "@/integrations/supabase/client";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+// Categories matching admin panel
+const MASAIL_CATEGORIES = [
+  { value: "all", label: "সকল বিভাগ", labelEn: "All Categories" },
+  { value: "ঈমান ও আকীদা", label: "ঈমান ও আকীদা", labelEn: "Faith & Creed" },
+  { value: "তাহারাত ও পবিত্রতা", label: "তাহারাত ও পবিত্রতা", labelEn: "Purification" },
+  { value: "নামায", label: "নামায", labelEn: "Prayer" },
+  { value: "রোযা", label: "রোযা", labelEn: "Fasting" },
+  { value: "যাকাত", label: "যাকাত", labelEn: "Zakat" },
+  { value: "হজ্জ ও উমরাহ", label: "হজ্জ ও উমরাহ", labelEn: "Hajj & Umrah" },
+  { value: "কুরআন ও তিলাওয়াত", label: "কুরআন ও তিলাওয়াত", labelEn: "Quran & Recitation" },
+  { value: "দোয়া ও যিকির", label: "দোয়া ও যিকির", labelEn: "Dua & Dhikr" },
+  { value: "বিবাহ ও পরিবার", label: "বিবাহ ও পরিবার", labelEn: "Marriage & Family" },
+  { value: "তালাক ও ইদ্দত", label: "তালাক ও ইদ্দত", labelEn: "Divorce & Iddah" },
+  { value: "ব্যবসা ও লেনদেন", label: "ব্যবসা ও লেনদেন", labelEn: "Business & Trade" },
+  { value: "হালাল ও হারাম", label: "হালাল ও হারাম", labelEn: "Halal & Haram" },
+  { value: "পোশাক ও পর্দা", label: "পোশাক ও পর্দা", labelEn: "Clothing & Hijab" },
+  { value: "জানাযা ও কবর", label: "জানাযা ও কবর", labelEn: "Funeral & Burial" },
+  { value: "কুরবানী ও আকীকা", label: "কুরবানী ও আকীকা", labelEn: "Sacrifice & Aqiqah" },
+  { value: "সামাজিক বিষয়", label: "সামাজিক বিষয়", labelEn: "Social Issues" },
+  { value: "বিবিধ", label: "বিবিধ", labelEn: "Miscellaneous" },
+];
 
 interface MasailListProps {
   language: Language;
@@ -26,6 +55,7 @@ const MasailList = ({ language }: MasailListProps) => {
   const [masailList, setMasailList] = useState<Masail[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("all");
 
   useEffect(() => {
     fetchMasail();
@@ -46,12 +76,16 @@ const MasailList = ({ language }: MasailListProps) => {
     setLoading(false);
   };
 
-  const filteredMasail = masailList.filter(m =>
-    m.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    m.answer.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    (m.question && m.question.toLowerCase().includes(searchQuery.toLowerCase())) ||
-    (m.author && m.author.toLowerCase().includes(searchQuery.toLowerCase()))
-  );
+  const filteredMasail = masailList.filter(m => {
+    const matchesSearch = m.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      m.answer.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (m.question && m.question.toLowerCase().includes(searchQuery.toLowerCase())) ||
+      (m.author && m.author.toLowerCase().includes(searchQuery.toLowerCase()));
+    
+    const matchesCategory = selectedCategory === "all" || m.category === selectedCategory;
+    
+    return matchesSearch && matchesCategory;
+  });
 
   // Extract a preview from the answer
   const getPreview = (text: string, maxLength: number = 120) => {
@@ -84,18 +118,41 @@ const MasailList = ({ language }: MasailListProps) => {
           </div>
         </div>
 
-        {/* Search */}
-        <div className="relative mb-6">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-          <Input
-            placeholder={language === "bn" ? "মাসআলা খুঁজুন..." : "Search masail..."}
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className={cn(
-              "pl-10 h-12 text-base",
+        {/* Search and Filter */}
+        <div className="flex flex-col sm:flex-row gap-3 mb-6">
+          <div className="relative flex-1">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+            <Input
+              placeholder={language === "bn" ? "মাসআলা খুঁজুন..." : "Search masail..."}
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className={cn(
+                "pl-10 h-12 text-base",
+                language === "bn" && "font-bengali"
+              )}
+            />
+          </div>
+          
+          <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+            <SelectTrigger className={cn(
+              "w-full sm:w-[200px] h-12",
               language === "bn" && "font-bengali"
-            )}
-          />
+            )}>
+              <Filter className="h-4 w-4 mr-2" />
+              <SelectValue placeholder={language === "bn" ? "বিভাগ" : "Category"} />
+            </SelectTrigger>
+            <SelectContent>
+              {MASAIL_CATEGORIES.map((cat) => (
+                <SelectItem 
+                  key={cat.value} 
+                  value={cat.value}
+                  className={cn(language === "bn" && "font-bengali")}
+                >
+                  {language === "bn" ? cat.label : cat.labelEn}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
 
         {/* Results count */}
