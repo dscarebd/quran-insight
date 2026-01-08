@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { HandHeart, Clock, Sparkles, HelpCircle } from "lucide-react";
+import { HandHeart, Clock, Sparkles, HelpCircle, Bookmark } from "lucide-react";
 import { cn, formatNumber } from "@/lib/utils";
 import { duaCategories } from "@/data/duas";
 import { getUpcomingEventsCount } from "@/data/islamicCalendar";
@@ -63,17 +63,31 @@ export const QuickAccessCards = ({ language }: QuickAccessCardsProps) => {
       path: "/masail",
       gradient: "from-emerald-500 to-teal-600",
     },
+    {
+      id: "bookmarks",
+      icon: Bookmark,
+      labelEn: "Bookmarks",
+      labelBn: "বুকমার্ক",
+      descEn: "Your saved verses & hadiths",
+      descBn: "সংরক্ষিত আয়াত ও হাদিস",
+      path: "/bookmarks",
+      gradient: "from-rose-500 to-pink-600",
+      desktopOnly: true,
+    },
   ];
 
   return (
-    <div className="grid grid-cols-2 gap-2 sm:gap-3 md:gap-4 lg:grid-cols-4">
+    <div className="grid grid-cols-2 gap-2 sm:gap-3 md:gap-4 lg:grid-cols-5">
       {quickLinks.map((link) => {
         const Icon = link.icon;
         return (
           <button
             key={link.id}
             onClick={() => navigate(link.path)}
-            className="group relative overflow-hidden rounded-xl sm:rounded-2xl bg-card border border-border p-3 sm:p-4 md:p-5 text-left transition-all duration-300 hover:shadow-elevated hover:-translate-y-1 min-w-0"
+            className={cn(
+              "group relative overflow-hidden rounded-xl sm:rounded-2xl bg-card border border-border p-3 sm:p-4 md:p-5 text-left transition-all duration-300 hover:shadow-elevated hover:-translate-y-1 min-w-0",
+              link.desktopOnly && "hidden lg:block"
+            )}
           >
             {/* Gradient overlay on hover */}
             <div className={cn(
