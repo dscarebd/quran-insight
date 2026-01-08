@@ -39,6 +39,7 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Owner from "./pages/Owner";
 import MasailList from "./pages/MasailList";
 import MasailDetail from "./pages/MasailDetail";
+import ContactUs from "./pages/ContactUs";
 // Component to redirect to last read page
 const ReadPageRedirect = () => {
   const lastReadPage = localStorage.getItem("quran-last-read-page") || "1";
@@ -247,6 +248,11 @@ const AppContent = () => {
       <Route path="/owner" element={
         <Layout language={language} onLanguageChange={handleLanguageChange}>
           <Owner language={language} />
+        </Layout>
+      } />
+      <Route path="/contact" element={
+        <Layout language={language} onLanguageChange={handleLanguageChange}>
+          <ContactUs language={language} />
         </Layout>
       } />
       <Route path="/auth" element={
