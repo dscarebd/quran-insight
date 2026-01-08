@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { Info, Moon, Sun, BookOpen, Type, ChevronRight, FileText, ChevronDown, Globe, Palette, Shield, Building2, Heart } from "lucide-react";
+import { Info, Moon, Sun, BookOpen, Type, ChevronRight, FileText, ChevronDown, Globe, Palette, Shield, Building2, Heart, MessageSquare } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { useTheme } from "next-themes";
@@ -513,6 +513,23 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
                   </p>
                   <p className={cn("text-sm text-muted-foreground", language === "bn" ? "font-bengali" : "font-sans")}>
                     {language === "bn" ? "আপনার তথ্য কীভাবে সুরক্ষিত" : "How your data is protected"}
+                  </p>
+                </div>
+                <ChevronRight className="h-4 w-4 text-muted-foreground" />
+              </button>
+              <button
+                onClick={() => navigate("/contact")}
+                className="flex items-center gap-3 px-3 py-2.5 w-full text-left hover:bg-muted/50 transition-colors"
+              >
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10">
+                  <MessageSquare className="h-4 w-4 text-primary" />
+                </div>
+                <div className="flex-1">
+                  <p className={cn("text-base font-medium", language === "bn" ? "font-bengali" : "font-sans")}>
+                    {language === "bn" ? "যোগাযোগ করুন" : "Contact Us"}
+                  </p>
+                  <p className={cn("text-sm text-muted-foreground", language === "bn" ? "font-bengali" : "font-sans")}>
+                    {language === "bn" ? "মতামত ও পরামর্শ দিন" : "Share feedback & suggestions"}
                   </p>
                 </div>
                 <ChevronRight className="h-4 w-4 text-muted-foreground" />
