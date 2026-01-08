@@ -6,7 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
-import { Scale, Search, Trash2, Plus, Loader2, ExternalLink, X } from "lucide-react";
+import { Scale, Search, Trash2, Plus, Loader2, ExternalLink, X, Pencil } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface Masail {
@@ -24,8 +24,9 @@ const MasailManagement = () => {
   const [masailList, setMasailList] = useState<Masail[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
-  const [isAdding, setIsAdding] = useState(false);
+  const [isFormOpen, setIsFormOpen] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const [editingId, setEditingId] = useState<string | null>(null);
   
   // Form state
   const [formData, setFormData] = useState({
@@ -56,6 +57,28 @@ const MasailManagement = () => {
     setLoading(false);
   };
 
+  const resetForm = () => {
+    setFormData({ title: '', question: '', answer: '', author: '' });
+    setEditingId(null);
+    setIsFormOpen(false);
+  };
+
+  const openAddForm = () => {
+    resetForm();
+    setIsFormOpen(true);
+  };
+
+  const openEditForm = (masail: Masail) => {
+    setFormData({
+      title: masail.title,
+      question: masail.question || '',
+      answer: masail.answer,
+      author: masail.author || '',
+    });
+    setEditingId(masail.id);
+    setIsFormOpen(true);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -71,21 +94,37 @@ const MasailManagement = () => {
     setIsSaving(true);
     
     try {
-      const { error } = await supabase
-        .from('masail')
-        .insert({
-          title: formData.title.trim(),
-          question: formData.question.trim() || null,
-          answer: formData.answer.trim(),
-          author: formData.author.trim() || null,
-          source_id: `manual-${Date.now()}`,
-        });
+      if (editingId) {
+        // Update existing masail
+        const { error } = await supabase
+          .from('masail')
+          .update({
+            title: formData.title.trim(),
+            question: formData.question.trim() || null,
+            answer: formData.answer.trim(),
+            author: formData.author.trim() || null,
+          })
+          .eq('id', editingId);
 
-      if (error) throw error;
+        if (error) throw error;
+        toast.success('মাসআলা সফলভাবে আপডেট হয়েছে');
+      } else {
+        // Insert new masail
+        const { error } = await supabase
+          .from('masail')
+          .insert({
+            title: formData.title.trim(),
+            question: formData.question.trim() || null,
+            answer: formData.answer.trim(),
+            author: formData.author.trim() || null,
+            source_id: `manual-${Date.now()}`,
+          });
 
-      toast.success('মাসআলা সফলভাবে যোগ হয়েছে');
-      setFormData({ title: '', question: '', answer: '', author: '' });
-      setIsAdding(false);
+        if (error) throw error;
+        toast.success('মাসআলা সফলভাবে যোগ হয়েছে');
+      }
+
+      resetForm();
       fetchMasail();
     } catch (err: any) {
       console.error('Error saving masail:', err);
@@ -123,25 +162,24 @@ const MasailManagement = () => {
           <h1 className="text-2xl font-bold">মাসআলা ব্যবস্থাপনা</h1>
         </div>
         
-        {!isAdding && (
-          <Button onClick={() => setIsAdding(true)}>
+        {!isFormOpen && (
+          <Button onClick={openAddForm}>
             <Plus className="h-4 w-4 mr-2" /> নতুন মাসআলা যোগ করুন
           </Button>
         )}
       </div>
 
-      {/* Add New Masail Form */}
-      {isAdding && (
+      {/* Add/Edit Masail Form */}
+      {isFormOpen && (
         <Card className="p-6">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold font-bengali">নতুন মাসআলা যোগ করুন</h2>
+            <h2 className="text-lg font-semibold font-bengali">
+              {editingId ? 'মাসআলা সম্পাদনা করুন' : 'নতুন মাসআলা যোগ করুন'}
+            </h2>
             <Button 
               variant="ghost" 
               size="icon"
-              onClick={() => {
-                setIsAdding(false);
-                setFormData({ title: '', question: '', answer: '', author: '' });
-              }}
+              onClick={resetForm}
             >
               <X className="h-4 w-4" />
             </Button>
@@ -200,6 +238,8 @@ const MasailManagement = () => {
               <Button type="submit" disabled={isSaving}>
                 {isSaving ? (
                   <><Loader2 className="h-4 w-4 mr-2 animate-spin" /> সংরক্ষণ হচ্ছে...</>
+                ) : editingId ? (
+                  'আপডেট করুন'
                 ) : (
                   'সংরক্ষণ করুন'
                 )}
@@ -207,10 +247,7 @@ const MasailManagement = () => {
               <Button 
                 type="button" 
                 variant="outline"
-                onClick={() => {
-                  setIsAdding(false);
-                  setFormData({ title: '', question: '', answer: '', author: '' });
-                }}
+                onClick={resetForm}
               >
                 বাতিল
               </Button>
@@ -265,14 +302,24 @@ const MasailManagement = () => {
                       </a>
                     )}
                   </div>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="shrink-0 text-destructive hover:text-destructive"
-                    onClick={() => deleteMasail(masail.id)}
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </Button>
+                  <div className="flex items-center gap-1 shrink-0">
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="text-muted-foreground hover:text-foreground"
+                      onClick={() => openEditForm(masail)}
+                    >
+                      <Pencil className="h-4 w-4" />
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="text-destructive hover:text-destructive"
+                      onClick={() => deleteMasail(masail.id)}
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </div>
                 </div>
               ))}
               
