@@ -52,8 +52,7 @@ const MasailManagement = () => {
     const { data, error } = await supabase
       .from('masail')
       .select('*')
-      .order('created_at', { ascending: false })
-      .limit(100);
+      .order('created_at', { ascending: false });
 
     if (error) {
       console.error('Error fetching masail:', error);
