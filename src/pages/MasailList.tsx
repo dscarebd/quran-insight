@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Scale, Search, Loader2, ChevronRight, User, Filter } from "lucide-react";
+import { Scale, Search, Loader2, ChevronRight, User, Filter, Tag } from "lucide-react";
 import { Language } from "@/types/language";
 import { cn } from "@/lib/utils";
 import { supabase } from "@/integrations/supabase/client";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Badge } from "@/components/ui/badge";
 import {
   Select,
   SelectContent,
@@ -13,28 +14,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
-// Categories matching admin panel
-const MASAIL_CATEGORIES = [
-  { value: "all", label: "সকল বিভাগ", labelEn: "All Categories" },
-  { value: "ঈমান ও আকীদা", label: "ঈমান ও আকীদা", labelEn: "Faith & Creed" },
-  { value: "তাহারাত ও পবিত্রতা", label: "তাহারাত ও পবিত্রতা", labelEn: "Purification" },
-  { value: "নামায", label: "নামায", labelEn: "Prayer" },
-  { value: "রোযা", label: "রোযা", labelEn: "Fasting" },
-  { value: "যাকাত", label: "যাকাত", labelEn: "Zakat" },
-  { value: "হজ্জ ও উমরাহ", label: "হজ্জ ও উমরাহ", labelEn: "Hajj & Umrah" },
-  { value: "কুরআন ও তিলাওয়াত", label: "কুরআন ও তিলাওয়াত", labelEn: "Quran & Recitation" },
-  { value: "দোয়া ও যিকির", label: "দোয়া ও যিকির", labelEn: "Dua & Dhikr" },
-  { value: "বিবাহ ও পরিবার", label: "বিবাহ ও পরিবার", labelEn: "Marriage & Family" },
-  { value: "তালাক ও ইদ্দত", label: "তালাক ও ইদ্দত", labelEn: "Divorce & Iddah" },
-  { value: "ব্যবসা ও লেনদেন", label: "ব্যবসা ও লেনদেন", labelEn: "Business & Trade" },
-  { value: "হালাল ও হারাম", label: "হালাল ও হারাম", labelEn: "Halal & Haram" },
-  { value: "পোশাক ও পর্দা", label: "পোশাক ও পর্দা", labelEn: "Clothing & Hijab" },
-  { value: "জানাযা ও কবর", label: "জানাযা ও কবর", labelEn: "Funeral & Burial" },
-  { value: "কুরবানী ও আকীকা", label: "কুরবানী ও আকীকা", labelEn: "Sacrifice & Aqiqah" },
-  { value: "সামাজিক বিষয়", label: "সামাজিক বিষয়", labelEn: "Social Issues" },
-  { value: "বিবিধ", label: "বিবিধ", labelEn: "Miscellaneous" },
-];
 
 interface MasailListProps {
   language: Language;
@@ -56,6 +35,7 @@ const MasailList = ({ language }: MasailListProps) => {
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const [categories, setCategories] = useState<string[]>([]);
 
   useEffect(() => {
     fetchMasail();
@@ -72,6 +52,13 @@ const MasailList = ({ language }: MasailListProps) => {
       console.error('Error fetching masail:', error);
     } else {
       setMasailList(data || []);
+      // Extract unique categories from data
+      const uniqueCategories = [...new Set(
+        (data || [])
+          .map(m => m.category)
+          .filter((c): c is string => c !== null && c.trim() !== '')
+      )].sort();
+      setCategories(uniqueCategories);
     }
     setLoading(false);
   };
@@ -142,13 +129,16 @@ const MasailList = ({ language }: MasailListProps) => {
               <SelectValue placeholder={language === "bn" ? "বিভাগ" : "Category"} />
             </SelectTrigger>
             <SelectContent>
-              {MASAIL_CATEGORIES.map((cat) => (
+              <SelectItem value="all" className={cn(language === "bn" && "font-bengali")}>
+                {language === "bn" ? "সকল বিভাগ" : "All Categories"}
+              </SelectItem>
+              {categories.map((cat) => (
                 <SelectItem 
-                  key={cat.value} 
-                  value={cat.value}
+                  key={cat} 
+                  value={cat}
                   className={cn(language === "bn" && "font-bengali")}
                 >
-                  {language === "bn" ? cat.label : cat.labelEn}
+                  {cat}
                 </SelectItem>
               ))}
             </SelectContent>
@@ -210,6 +200,17 @@ const MasailList = ({ language }: MasailListProps) => {
                       )}>
                         {masail.title}
                       </h3>
+                      
+                      {/* Category Badge */}
+                      {masail.category && (
+                        <Badge 
+                          variant="secondary" 
+                          className="mb-2 font-bengali text-xs"
+                        >
+                          <Tag className="h-3 w-3 mr-1" />
+                          {masail.category}
+                        </Badge>
+                      )}
                       
                       {/* Author */}
                       {masail.author && (
