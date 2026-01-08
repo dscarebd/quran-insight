@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -6,8 +6,14 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
-import { Scale, Search, Trash2, Plus, Loader2, ExternalLink, X, Pencil } from "lucide-react";
+import { Scale, Search, Trash2, Plus, Loader2, ExternalLink, X, Pencil, ChevronDown } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 interface Masail {
   id: string;
@@ -152,6 +158,21 @@ const MasailManagement = () => {
     }
   };
 
+  // Get unique authors and categories from existing masail
+  const uniqueAuthors = useMemo(() => {
+    const authors = masailList
+      .map(m => m.author)
+      .filter((author): author is string => !!author && author.trim() !== '');
+    return [...new Set(authors)].sort();
+  }, [masailList]);
+
+  const uniqueCategories = useMemo(() => {
+    const categories = masailList
+      .map(m => m.category)
+      .filter((category): category is string => !!category && category.trim() !== '');
+    return [...new Set(categories)].sort();
+  }, [masailList]);
+
   const filteredMasail = masailList.filter(m =>
     m.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
     m.answer.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -229,24 +250,68 @@ const MasailManagement = () => {
 
             <div className="space-y-2">
               <Label htmlFor="author" className="font-bengali">লেখক/বক্তা:</Label>
-              <Input
-                id="author"
-                value={formData.author}
-                onChange={(e) => setFormData(prev => ({ ...prev, author: e.target.value }))}
-                placeholder="যেমন: মুফতী মনসুরুল হক সাহেব"
-                className="font-bengali"
-              />
+              <div className="flex gap-2">
+                <Input
+                  id="author"
+                  value={formData.author}
+                  onChange={(e) => setFormData(prev => ({ ...prev, author: e.target.value }))}
+                  placeholder="যেমন: মুফতী মনসুরুল হক সাহেব"
+                  className="font-bengali flex-1"
+                />
+                {uniqueAuthors.length > 0 && (
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="outline" size="icon" className="shrink-0">
+                        <ChevronDown className="h-4 w-4" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end" className="max-h-60 overflow-y-auto bg-background z-50">
+                      {uniqueAuthors.map((author) => (
+                        <DropdownMenuItem
+                          key={author}
+                          onClick={() => setFormData(prev => ({ ...prev, author }))}
+                          className="font-bengali cursor-pointer"
+                        >
+                          {author}
+                        </DropdownMenuItem>
+                      ))}
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                )}
+              </div>
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="category" className="font-bengali">বিভাগ:</Label>
-              <Input
-                id="category"
-                value={formData.category}
-                onChange={(e) => setFormData(prev => ({ ...prev, category: e.target.value }))}
-                placeholder="বিভাগের নাম লিখুন (যেমন: নামায, রোযা, যাকাত)"
-                className="font-bengali"
-              />
+              <div className="flex gap-2">
+                <Input
+                  id="category"
+                  value={formData.category}
+                  onChange={(e) => setFormData(prev => ({ ...prev, category: e.target.value }))}
+                  placeholder="বিভাগের নাম লিখুন (যেমন: নামায, রোযা, যাকাত)"
+                  className="font-bengali flex-1"
+                />
+                {uniqueCategories.length > 0 && (
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="outline" size="icon" className="shrink-0">
+                        <ChevronDown className="h-4 w-4" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end" className="max-h-60 overflow-y-auto bg-background z-50">
+                      {uniqueCategories.map((category) => (
+                        <DropdownMenuItem
+                          key={category}
+                          onClick={() => setFormData(prev => ({ ...prev, category }))}
+                          className="font-bengali cursor-pointer"
+                        >
+                          {category}
+                        </DropdownMenuItem>
+                      ))}
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                )}
+              </div>
             </div>
 
             <div className="flex gap-3 pt-2">
