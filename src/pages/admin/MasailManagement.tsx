@@ -5,8 +5,9 @@ import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
-import { Scale, Search, Trash2, Download, Play, Loader2 } from "lucide-react";
+import { Scale, Search, Trash2, Download, Loader2, ExternalLink } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 interface Masail {
   id: string;
@@ -15,6 +16,7 @@ interface Masail {
   answer: string;
   author: string | null;
   source_url: string | null;
+  category: string | null;
   created_at: string;
 }
 
@@ -28,6 +30,7 @@ const MasailManagement = () => {
   const [isDiscovering, setIsDiscovering] = useState(false);
   const [isImporting, setIsImporting] = useState(false);
   const [importProgress, setImportProgress] = useState({ imported: 0, total: 0, skipped: 0, failed: 0 });
+  const [activeSource, setActiveSource] = useState<'islamqa' | 'islamijindegi'>('islamqa');
 
   useEffect(() => {
     fetchMasail();
@@ -55,15 +58,17 @@ const MasailManagement = () => {
     setDiscoveredUrls([]);
     
     try {
+      const action = activeSource === 'islamqa' ? 'map-islamqa' : 'map';
+      
       const { data, error } = await supabase.functions.invoke('scrape-masail', {
-        body: { action: 'map' },
+        body: { action },
       });
 
       if (error) throw error;
       
       if (data.success) {
         setDiscoveredUrls(data.urls || []);
-        toast.success(`Discovered ${data.total} masail URLs`);
+        toast.success(`Discovered ${data.total} masail URLs from ${activeSource === 'islamqa' ? 'IslamQA.info' : 'islamijindegi.com'}`);
       } else {
         toast.error(data.error || 'Failed to discover URLs');
       }
@@ -89,10 +94,13 @@ const MasailManagement = () => {
     let totalSkipped = 0;
     let totalFailed = 0;
 
+    const action = activeSource === 'islamqa' ? 'batch-islamqa' : 'batch';
+    const batchSize = activeSource === 'islamqa' ? 3 : 5;
+
     try {
       while (remainingUrls.length > 0) {
         const { data, error } = await supabase.functions.invoke('scrape-masail', {
-          body: { action: 'batch', urls: remainingUrls },
+          body: { action, urls: remainingUrls },
         });
 
         if (error) throw error;
@@ -109,12 +117,10 @@ const MasailManagement = () => {
             failed: totalFailed,
           });
 
-          // Remove processed URLs (batch processes 5 at a time)
-          remainingUrls = remainingUrls.slice(5);
+          remainingUrls = remainingUrls.slice(batchSize);
           
-          // Small delay between batches
           if (remainingUrls.length > 0) {
-            await new Promise(resolve => setTimeout(resolve, 1000));
+            await new Promise(resolve => setTimeout(resolve, 1500));
           }
         } else {
           toast.error(data.error || 'Batch import failed');
@@ -148,7 +154,8 @@ const MasailManagement = () => {
 
   const filteredMasail = masailList.filter(m =>
     m.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    m.answer.toLowerCase().includes(searchQuery.toLowerCase())
+    m.answer.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    (m.category?.toLowerCase().includes(searchQuery.toLowerCase()) || false)
   );
 
   const progressPercent = importProgress.total > 0 
@@ -164,49 +171,96 @@ const MasailManagement = () => {
 
       {/* Import Section */}
       <Card className="p-6">
-        <h2 className="text-lg font-semibold mb-4">Import from islamijindegi.com</h2>
+        <h2 className="text-lg font-semibold mb-4">Import Masail</h2>
         
-        <div className="space-y-4">
-          <div className="flex gap-3">
-            <Button 
-              onClick={discoverUrls} 
-              disabled={isDiscovering || isImporting}
-              variant="outline"
-            >
-              {isDiscovering ? (
-                <><Loader2 className="h-4 w-4 mr-2 animate-spin" /> Discovering...</>
-              ) : (
-                <><Search className="h-4 w-4 mr-2" /> Discover URLs</>
-              )}
-            </Button>
-            
-            <Button 
-              onClick={startImport} 
-              disabled={isImporting || discoveredUrls.length === 0}
-            >
-              {isImporting ? (
-                <><Loader2 className="h-4 w-4 mr-2 animate-spin" /> Importing...</>
-              ) : (
-                <><Download className="h-4 w-4 mr-2" /> Import ({discoveredUrls.length})</>
-              )}
-            </Button>
-          </div>
+        <Tabs value={activeSource} onValueChange={(v) => {
+          setActiveSource(v as 'islamqa' | 'islamijindegi');
+          setDiscoveredUrls([]);
+        }}>
+          <TabsList className="mb-4">
+            <TabsTrigger value="islamqa" className="flex items-center gap-2">
+              <span>🌐</span> IslamQA.info (Bengali)
+            </TabsTrigger>
+            <TabsTrigger value="islamijindegi" className="flex items-center gap-2">
+              <span>📚</span> islamijindegi.com
+            </TabsTrigger>
+          </TabsList>
 
-          {discoveredUrls.length > 0 && (
+          <TabsContent value="islamqa" className="space-y-4">
             <p className="text-sm text-muted-foreground">
-              Found {discoveredUrls.length} masail URLs ready to import
+              Import high-quality Bengali Islamic Q&A from IslamQA.info - a trusted source with well-structured fatwas.
             </p>
-          )}
-
-          {isImporting && (
-            <div className="space-y-2">
-              <Progress value={progressPercent} className="h-2" />
-              <p className="text-sm text-muted-foreground">
-                Imported: {importProgress.imported} | Skipped: {importProgress.skipped} | Failed: {importProgress.failed} / {importProgress.total}
-              </p>
+            <div className="flex gap-3">
+              <Button 
+                onClick={discoverUrls} 
+                disabled={isDiscovering || isImporting}
+                variant="outline"
+              >
+                {isDiscovering ? (
+                  <><Loader2 className="h-4 w-4 mr-2 animate-spin" /> Discovering...</>
+                ) : (
+                  <><Search className="h-4 w-4 mr-2" /> Discover URLs</>
+                )}
+              </Button>
+              
+              <Button 
+                onClick={startImport} 
+                disabled={isImporting || discoveredUrls.length === 0}
+              >
+                {isImporting ? (
+                  <><Loader2 className="h-4 w-4 mr-2 animate-spin" /> Importing...</>
+                ) : (
+                  <><Download className="h-4 w-4 mr-2" /> Import ({discoveredUrls.length})</>
+                )}
+              </Button>
             </div>
-          )}
-        </div>
+          </TabsContent>
+
+          <TabsContent value="islamijindegi" className="space-y-4">
+            <p className="text-sm text-muted-foreground">
+              Import masail from islamijindegi.com (original source).
+            </p>
+            <div className="flex gap-3">
+              <Button 
+                onClick={discoverUrls} 
+                disabled={isDiscovering || isImporting}
+                variant="outline"
+              >
+                {isDiscovering ? (
+                  <><Loader2 className="h-4 w-4 mr-2 animate-spin" /> Discovering...</>
+                ) : (
+                  <><Search className="h-4 w-4 mr-2" /> Discover URLs</>
+                )}
+              </Button>
+              
+              <Button 
+                onClick={startImport} 
+                disabled={isImporting || discoveredUrls.length === 0}
+              >
+                {isImporting ? (
+                  <><Loader2 className="h-4 w-4 mr-2 animate-spin" /> Importing...</>
+                ) : (
+                  <><Download className="h-4 w-4 mr-2" /> Import ({discoveredUrls.length})</>
+                )}
+              </Button>
+            </div>
+          </TabsContent>
+        </Tabs>
+
+        {discoveredUrls.length > 0 && (
+          <p className="text-sm text-muted-foreground mt-4">
+            Found {discoveredUrls.length} masail URLs ready to import
+          </p>
+        )}
+
+        {isImporting && (
+          <div className="space-y-2 mt-4">
+            <Progress value={progressPercent} className="h-2" />
+            <p className="text-sm text-muted-foreground">
+              Imported: {importProgress.imported} | Skipped: {importProgress.skipped} | Failed: {importProgress.failed} / {importProgress.total}
+            </p>
+          </div>
+        )}
       </Card>
 
       {/* Masail List */}
@@ -237,13 +291,30 @@ const MasailManagement = () => {
                   className="flex items-start justify-between p-3 rounded-lg border bg-card hover:bg-accent/50 transition-colors"
                 >
                   <div className="flex-1 min-w-0">
-                    <h3 className="font-medium text-sm truncate font-bengali">{masail.title}</h3>
+                    <div className="flex items-center gap-2 mb-1">
+                      <h3 className="font-medium text-sm truncate font-bengali">{masail.title}</h3>
+                      {masail.category && (
+                        <span className="text-xs bg-primary/10 text-primary px-2 py-0.5 rounded-full shrink-0">
+                          {masail.category}
+                        </span>
+                      )}
+                    </div>
                     {masail.author && (
                       <p className="text-xs text-muted-foreground mt-1 font-bengali">{masail.author}</p>
                     )}
                     <p className="text-xs text-muted-foreground mt-1 line-clamp-2 font-bengali">
                       {masail.answer.substring(0, 150)}...
                     </p>
+                    {masail.source_url && (
+                      <a 
+                        href={masail.source_url} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="text-xs text-primary hover:underline flex items-center gap-1 mt-1"
+                      >
+                        <ExternalLink className="h-3 w-3" /> Source
+                      </a>
+                    )}
                   </div>
                   <Button
                     variant="ghost"
