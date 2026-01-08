@@ -44,8 +44,24 @@ export default defineConfig(({ mode }) => ({
         lang: "bn"
       },
       workbox: {
-        globPatterns: ["**/*.{js,css,html,ico,png,svg,woff2,otf,json,csv}"],
+        globPatterns: ["**/*.{js,css,html,ico,png,svg,woff2,otf}"],
+        globIgnores: ["**/data/**", "**/node_modules/**"],
+        maximumFileSizeToCacheInBytes: 5 * 1024 * 1024,
         runtimeCaching: [
+          {
+            urlPattern: /\/data\/.*\.(json|csv)$/,
+            handler: "CacheFirst",
+            options: {
+              cacheName: "data-cache",
+              expiration: {
+                maxEntries: 50,
+                maxAgeSeconds: 60 * 60 * 24 * 30
+              },
+              cacheableResponse: {
+                statuses: [0, 200]
+              }
+            }
+          },
           {
             urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
             handler: "CacheFirst",
