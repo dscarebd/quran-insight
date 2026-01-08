@@ -59,6 +59,7 @@ const DuasManagement = lazy(() => import("./pages/admin/DuasManagement"));
 const ImportDuas = lazy(() => import("./pages/admin/ImportDuas"));
 const HadithManagement = lazy(() => import("./pages/admin/HadithManagement"));
 const ExportData = lazy(() => import("./pages/admin/ExportData"));
+const MasailManagement = lazy(() => import("./pages/admin/MasailManagement"));
 const queryClient = new QueryClient();
 
 const LoadingFallback = () => (
@@ -264,6 +265,7 @@ const AppContent = () => {
         <Route path="admin-emails" element={<AdminEmailsManagement />} />
         <Route path="analytics" element={<Analytics />} />
         <Route path="export-data" element={<ExportData />} />
+        <Route path="masail" element={<MasailManagement />} />
       </Route>
       <Route path="*" element={<NotFound />} />
     </Routes>
