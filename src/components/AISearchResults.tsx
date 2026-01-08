@@ -254,8 +254,12 @@ export const AISearchResults = ({ response, language }: AISearchResultsProps) =>
                   );
                 },
                 strong: ({ children }) => <strong className="font-semibold text-primary">{children}</strong>,
+                em: ({ children }) => <span className="text-foreground">{children}</span>,
                 blockquote: ({ children }) => (
-                  <blockquote className="border-l-4 border-primary/50 bg-accent/30 pl-4 py-2 my-3 italic font-arabic text-lg">
+                  <blockquote className={cn(
+                    "border-l-4 border-primary/50 bg-accent/30 pl-4 py-2 my-3",
+                    language === "bn" ? "font-bengali" : "font-sans"
+                  )}>
                     {children}
                   </blockquote>
                 ),
