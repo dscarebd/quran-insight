@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { HelpCircle, Search, Loader2, ChevronRight, User, Tag, ArrowLeft, Share2, Printer, ChevronDown } from "lucide-react";
 import { Language } from "@/types/language";
-import { cn } from "@/lib/utils";
+import { cn, formatNumber } from "@/lib/utils";
 import { supabase } from "@/integrations/supabase/client";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -277,7 +277,7 @@ const MasailList = ({ language }: MasailListProps) => {
               language === "bn" && "font-bengali"
             )}>
               {language === "bn" 
-                ? `${filteredMasail.length}টি মাসআলা পাওয়া গেছে`
+                ? `${formatNumber(filteredMasail.length, language)}টি মাসআলা পাওয়া গেছে`
                 : `${filteredMasail.length} masail found`
               }
             </p>
@@ -484,7 +484,7 @@ const MasailList = ({ language }: MasailListProps) => {
             <div className="p-3 bg-muted/30 shrink-0">
               <p className="text-xs text-muted-foreground font-bengali">
                 {language === "bn" 
-                  ? `${filteredMasail.length}টি মাসআলা`
+                  ? `${formatNumber(filteredMasail.length, language)}টি মাসআলা`
                   : `${filteredMasail.length} masail`
                 }
               </p>
