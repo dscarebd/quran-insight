@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Scale, Search, Loader2, ChevronRight, User, Tag, ArrowLeft, Share2, Printer } from "lucide-react";
+import { Scale, Search, Loader2, ChevronRight, User, Tag, ArrowLeft, Share2, Printer, ChevronDown } from "lucide-react";
 import { Language } from "@/types/language";
 import { cn } from "@/lib/utils";
 import { supabase } from "@/integrations/supabase/client";
@@ -10,6 +10,12 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { toast } from "sonner";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 interface MasailListProps {
   language: Language;
@@ -191,30 +197,74 @@ const MasailList = ({ language }: MasailListProps) => {
             />
           </div>
 
-          {/* Category Pills */}
-          <ScrollArea className="w-full mb-4">
-            <div className="flex gap-2 pb-2">
-              <Button
-                variant={selectedCategory === "all" ? "default" : "outline"}
-                size="sm"
-                onClick={() => setSelectedCategory("all")}
-                className={cn("shrink-0 font-bengali")}
-              >
-                {language === "bn" ? "সব" : "All"}
-              </Button>
-              {categories.map((cat) => (
-                <Button
-                  key={cat}
-                  variant={selectedCategory === cat ? "default" : "outline"}
-                  size="sm"
-                  onClick={() => setSelectedCategory(cat)}
-                  className={cn("shrink-0 font-bengali whitespace-nowrap")}
-                >
-                  {cat}
+          {/* Filter Dropdowns */}
+          <div className="flex gap-2 mb-4">
+            {/* Category Dropdown */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" className="flex-1 justify-between font-bengali">
+                  <span className="flex items-center gap-2">
+                    <Tag className="h-4 w-4" />
+                    {selectedCategory === "all" 
+                      ? (language === "bn" ? "বিভাগ" : "Category")
+                      : selectedCategory
+                    }
+                  </span>
+                  <ChevronDown className="h-4 w-4 opacity-50" />
                 </Button>
-              ))}
-            </div>
-          </ScrollArea>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-56 bg-background border border-border z-50">
+                <DropdownMenuItem 
+                  onClick={() => setSelectedCategory("all")}
+                  className={cn("font-bengali", selectedCategory === "all" && "bg-accent")}
+                >
+                  {language === "bn" ? "সকল বিভাগ" : "All Categories"}
+                </DropdownMenuItem>
+                {categories.map((cat) => (
+                  <DropdownMenuItem 
+                    key={cat}
+                    onClick={() => setSelectedCategory(cat)}
+                    className={cn("font-bengali", selectedCategory === cat && "bg-accent")}
+                  >
+                    {cat}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+
+            {/* Writer Dropdown */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" className="flex-1 justify-between font-bengali">
+                  <span className="flex items-center gap-2">
+                    <User className="h-4 w-4" />
+                    {selectedWriter === "all" 
+                      ? (language === "bn" ? "লেখক" : "Writer")
+                      : selectedWriter
+                    }
+                  </span>
+                  <ChevronDown className="h-4 w-4 opacity-50" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-56 bg-background border border-border z-50">
+                <DropdownMenuItem 
+                  onClick={() => setSelectedWriter("all")}
+                  className={cn("font-bengali", selectedWriter === "all" && "bg-accent")}
+                >
+                  {language === "bn" ? "সকল লেখক" : "All Writers"}
+                </DropdownMenuItem>
+                {writers.map((writer) => (
+                  <DropdownMenuItem 
+                    key={writer}
+                    onClick={() => setSelectedWriter(writer)}
+                    className={cn("font-bengali", selectedWriter === writer && "bg-accent")}
+                  >
+                    {writer}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
 
           {/* Results count */}
           {!loading && (
