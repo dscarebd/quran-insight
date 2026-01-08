@@ -2,12 +2,12 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Progress } from "@/components/ui/progress";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
-import { Scale, Search, Trash2, Download, Loader2, ExternalLink } from "lucide-react";
+import { Scale, Search, Trash2, Plus, Loader2, ExternalLink, X } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 interface Masail {
   id: string;
@@ -24,13 +24,16 @@ const MasailManagement = () => {
   const [masailList, setMasailList] = useState<Masail[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
+  const [isAdding, setIsAdding] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
   
-  // Import state
-  const [discoveredUrls, setDiscoveredUrls] = useState<string[]>([]);
-  const [isDiscovering, setIsDiscovering] = useState(false);
-  const [isImporting, setIsImporting] = useState(false);
-  const [importProgress, setImportProgress] = useState({ imported: 0, total: 0, skipped: 0, failed: 0 });
-  const [activeSource, setActiveSource] = useState<'islamqa' | 'islamijindegi'>('islamqa');
+  // Form state
+  const [formData, setFormData] = useState({
+    title: '',
+    question: '',
+    answer: '',
+    author: '',
+  });
 
   useEffect(() => {
     fetchMasail();
@@ -53,88 +56,42 @@ const MasailManagement = () => {
     setLoading(false);
   };
 
-  const discoverUrls = async () => {
-    setIsDiscovering(true);
-    setDiscoveredUrls([]);
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     
-    try {
-      const action = activeSource === 'islamqa' ? 'map-islamqa' : 'map';
-      
-      const { data, error } = await supabase.functions.invoke('scrape-masail', {
-        body: { action },
-      });
-
-      if (error) throw error;
-      
-      if (data.success) {
-        setDiscoveredUrls(data.urls || []);
-        toast.success(`Discovered ${data.total} masail URLs from ${activeSource === 'islamqa' ? 'IslamQA.info' : 'islamijindegi.com'}`);
-      } else {
-        toast.error(data.error || 'Failed to discover URLs');
-      }
-    } catch (err: any) {
-      console.error('Error discovering URLs:', err);
-      toast.error(err.message || 'Failed to discover URLs');
-    } finally {
-      setIsDiscovering(false);
+    if (!formData.title.trim()) {
+      toast.error('শিরোনাম আবশ্যক');
+      return;
     }
-  };
-
-  const startImport = async () => {
-    if (discoveredUrls.length === 0) {
-      toast.error('No URLs to import. Discover URLs first.');
+    if (!formData.answer.trim()) {
+      toast.error('উত্তর আবশ্যক');
       return;
     }
 
-    setIsImporting(true);
-    setImportProgress({ imported: 0, total: discoveredUrls.length, skipped: 0, failed: 0 });
-
-    let remainingUrls = [...discoveredUrls];
-    let totalImported = 0;
-    let totalSkipped = 0;
-    let totalFailed = 0;
-
-    const action = activeSource === 'islamqa' ? 'batch-islamqa' : 'batch';
-    const batchSize = activeSource === 'islamqa' ? 3 : 5;
-
+    setIsSaving(true);
+    
     try {
-      while (remainingUrls.length > 0) {
-        const { data, error } = await supabase.functions.invoke('scrape-masail', {
-          body: { action, urls: remainingUrls },
+      const { error } = await supabase
+        .from('masail')
+        .insert({
+          title: formData.title.trim(),
+          question: formData.question.trim() || null,
+          answer: formData.answer.trim(),
+          author: formData.author.trim() || null,
+          source_id: `manual-${Date.now()}`,
         });
 
-        if (error) throw error;
+      if (error) throw error;
 
-        if (data.success) {
-          totalImported += data.results.imported;
-          totalSkipped += data.results.skipped;
-          totalFailed += data.results.failed;
-          
-          setImportProgress({
-            imported: totalImported,
-            total: discoveredUrls.length,
-            skipped: totalSkipped,
-            failed: totalFailed,
-          });
-
-          remainingUrls = remainingUrls.slice(batchSize);
-          
-          if (remainingUrls.length > 0) {
-            await new Promise(resolve => setTimeout(resolve, 1500));
-          }
-        } else {
-          toast.error(data.error || 'Batch import failed');
-          break;
-        }
-      }
-
-      toast.success(`Import complete: ${totalImported} imported, ${totalSkipped} skipped, ${totalFailed} failed`);
+      toast.success('মাসআলা সফলভাবে যোগ হয়েছে');
+      setFormData({ title: '', question: '', answer: '', author: '' });
+      setIsAdding(false);
       fetchMasail();
     } catch (err: any) {
-      console.error('Error during import:', err);
-      toast.error(err.message || 'Import failed');
+      console.error('Error saving masail:', err);
+      toast.error(err.message || 'সংরক্ষণ ব্যর্থ হয়েছে');
     } finally {
-      setIsImporting(false);
+      setIsSaving(false);
     }
   };
 
@@ -155,125 +112,124 @@ const MasailManagement = () => {
   const filteredMasail = masailList.filter(m =>
     m.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
     m.answer.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    (m.category?.toLowerCase().includes(searchQuery.toLowerCase()) || false)
+    (m.author?.toLowerCase().includes(searchQuery.toLowerCase()) || false)
   );
-
-  const progressPercent = importProgress.total > 0 
-    ? ((importProgress.imported + importProgress.skipped + importProgress.failed) / importProgress.total) * 100 
-    : 0;
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center gap-3">
-        <Scale className="h-6 w-6 text-primary" />
-        <h1 className="text-2xl font-bold">Masail Management</h1>
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <Scale className="h-6 w-6 text-primary" />
+          <h1 className="text-2xl font-bold">মাসআলা ব্যবস্থাপনা</h1>
+        </div>
+        
+        {!isAdding && (
+          <Button onClick={() => setIsAdding(true)}>
+            <Plus className="h-4 w-4 mr-2" /> নতুন মাসআলা যোগ করুন
+          </Button>
+        )}
       </div>
 
-      {/* Import Section */}
-      <Card className="p-6">
-        <h2 className="text-lg font-semibold mb-4">Import Masail</h2>
-        
-        <Tabs value={activeSource} onValueChange={(v) => {
-          setActiveSource(v as 'islamqa' | 'islamijindegi');
-          setDiscoveredUrls([]);
-        }}>
-          <TabsList className="mb-4">
-            <TabsTrigger value="islamqa" className="flex items-center gap-2">
-              <span>🌐</span> IslamQA.info (Bengali)
-            </TabsTrigger>
-            <TabsTrigger value="islamijindegi" className="flex items-center gap-2">
-              <span>📚</span> islamijindegi.com
-            </TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="islamqa" className="space-y-4">
-            <p className="text-sm text-muted-foreground">
-              Import high-quality Bengali Islamic Q&A from IslamQA.info - a trusted source with well-structured fatwas.
-            </p>
-            <div className="flex gap-3">
-              <Button 
-                onClick={discoverUrls} 
-                disabled={isDiscovering || isImporting}
-                variant="outline"
-              >
-                {isDiscovering ? (
-                  <><Loader2 className="h-4 w-4 mr-2 animate-spin" /> Discovering...</>
-                ) : (
-                  <><Search className="h-4 w-4 mr-2" /> Discover URLs</>
-                )}
-              </Button>
-              
-              <Button 
-                onClick={startImport} 
-                disabled={isImporting || discoveredUrls.length === 0}
-              >
-                {isImporting ? (
-                  <><Loader2 className="h-4 w-4 mr-2 animate-spin" /> Importing...</>
-                ) : (
-                  <><Download className="h-4 w-4 mr-2" /> Import ({discoveredUrls.length})</>
-                )}
-              </Button>
-            </div>
-          </TabsContent>
-
-          <TabsContent value="islamijindegi" className="space-y-4">
-            <p className="text-sm text-muted-foreground">
-              Import masail from islamijindegi.com (original source).
-            </p>
-            <div className="flex gap-3">
-              <Button 
-                onClick={discoverUrls} 
-                disabled={isDiscovering || isImporting}
-                variant="outline"
-              >
-                {isDiscovering ? (
-                  <><Loader2 className="h-4 w-4 mr-2 animate-spin" /> Discovering...</>
-                ) : (
-                  <><Search className="h-4 w-4 mr-2" /> Discover URLs</>
-                )}
-              </Button>
-              
-              <Button 
-                onClick={startImport} 
-                disabled={isImporting || discoveredUrls.length === 0}
-              >
-                {isImporting ? (
-                  <><Loader2 className="h-4 w-4 mr-2 animate-spin" /> Importing...</>
-                ) : (
-                  <><Download className="h-4 w-4 mr-2" /> Import ({discoveredUrls.length})</>
-                )}
-              </Button>
-            </div>
-          </TabsContent>
-        </Tabs>
-
-        {discoveredUrls.length > 0 && (
-          <p className="text-sm text-muted-foreground mt-4">
-            Found {discoveredUrls.length} masail URLs ready to import
-          </p>
-        )}
-
-        {isImporting && (
-          <div className="space-y-2 mt-4">
-            <Progress value={progressPercent} className="h-2" />
-            <p className="text-sm text-muted-foreground">
-              Imported: {importProgress.imported} | Skipped: {importProgress.skipped} | Failed: {importProgress.failed} / {importProgress.total}
-            </p>
+      {/* Add New Masail Form */}
+      {isAdding && (
+        <Card className="p-6">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold font-bengali">নতুন মাসআলা যোগ করুন</h2>
+            <Button 
+              variant="ghost" 
+              size="icon"
+              onClick={() => {
+                setIsAdding(false);
+                setFormData({ title: '', question: '', answer: '', author: '' });
+              }}
+            >
+              <X className="h-4 w-4" />
+            </Button>
           </div>
-        )}
-      </Card>
+          
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="title" className="font-bengali">শিরোনাম *</Label>
+              <Input
+                id="title"
+                value={formData.title}
+                onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
+                placeholder="মাসআলার শিরোনাম লিখুন..."
+                className="font-bengali"
+                required
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="question" className="font-bengali">প্রশ্ন:</Label>
+              <Textarea
+                id="question"
+                value={formData.question}
+                onChange={(e) => setFormData(prev => ({ ...prev, question: e.target.value }))}
+                placeholder="প্রশ্ন লিখুন (ঐচ্ছিক)..."
+                className="font-bengali min-h-[100px]"
+                rows={4}
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="answer" className="font-bengali">উত্তর: *</Label>
+              <Textarea
+                id="answer"
+                value={formData.answer}
+                onChange={(e) => setFormData(prev => ({ ...prev, answer: e.target.value }))}
+                placeholder="উত্তর লিখুন..."
+                className="font-bengali min-h-[200px]"
+                rows={8}
+                required
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="author" className="font-bengali">লেখক/বক্তা:</Label>
+              <Input
+                id="author"
+                value={formData.author}
+                onChange={(e) => setFormData(prev => ({ ...prev, author: e.target.value }))}
+                placeholder="যেমন: মুফতী মনসুরুল হক সাহেব"
+                className="font-bengali"
+              />
+            </div>
+
+            <div className="flex gap-3 pt-2">
+              <Button type="submit" disabled={isSaving}>
+                {isSaving ? (
+                  <><Loader2 className="h-4 w-4 mr-2 animate-spin" /> সংরক্ষণ হচ্ছে...</>
+                ) : (
+                  'সংরক্ষণ করুন'
+                )}
+              </Button>
+              <Button 
+                type="button" 
+                variant="outline"
+                onClick={() => {
+                  setIsAdding(false);
+                  setFormData({ title: '', question: '', answer: '', author: '' });
+                }}
+              >
+                বাতিল
+              </Button>
+            </div>
+          </form>
+        </Card>
+      )}
 
       {/* Masail List */}
       <Card className="p-6">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-semibold">Imported Masail ({masailList.length})</h2>
+          <h2 className="text-lg font-semibold font-bengali">মাসআলা তালিকা ({masailList.length})</h2>
           <div className="relative w-64">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
-              placeholder="Search masail..."
+              placeholder="অনুসন্ধান করুন..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-9"
+              className="pl-9 font-bengali"
             />
           </div>
         </div>
@@ -291,16 +247,9 @@ const MasailManagement = () => {
                   className="flex items-start justify-between p-3 rounded-lg border bg-card hover:bg-accent/50 transition-colors"
                 >
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-1">
-                      <h3 className="font-medium text-sm truncate font-bengali">{masail.title}</h3>
-                      {masail.category && (
-                        <span className="text-xs bg-primary/10 text-primary px-2 py-0.5 rounded-full shrink-0">
-                          {masail.category}
-                        </span>
-                      )}
-                    </div>
+                    <h3 className="font-medium text-sm truncate font-bengali">{masail.title}</h3>
                     {masail.author && (
-                      <p className="text-xs text-muted-foreground mt-1 font-bengali">{masail.author}</p>
+                      <p className="text-xs text-primary mt-1 font-bengali">লেখক/বক্তা: {masail.author}</p>
                     )}
                     <p className="text-xs text-muted-foreground mt-1 line-clamp-2 font-bengali">
                       {masail.answer.substring(0, 150)}...
@@ -328,8 +277,8 @@ const MasailManagement = () => {
               ))}
               
               {filteredMasail.length === 0 && (
-                <p className="text-center text-muted-foreground py-8">
-                  No masail found. Start by discovering and importing URLs.
+                <p className="text-center text-muted-foreground py-8 font-bengali">
+                  কোনো মাসআলা পাওয়া যায়নি। উপরে "নতুন মাসআলা যোগ করুন" বাটনে ক্লিক করুন।
                 </p>
               )}
             </div>
