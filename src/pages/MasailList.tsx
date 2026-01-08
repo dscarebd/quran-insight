@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Scale, Search, Loader2, ChevronRight, User, Tag, ArrowLeft, Share2, Printer, ChevronDown } from "lucide-react";
+import { HelpCircle, Search, Loader2, ChevronRight, User, Tag, ArrowLeft, Share2, Printer, ChevronDown } from "lucide-react";
 import { Language } from "@/types/language";
 import { cn } from "@/lib/utils";
 import { supabase } from "@/integrations/supabase/client";
@@ -165,7 +165,7 @@ const MasailList = ({ language }: MasailListProps) => {
           {/* Header */}
           <div className="mb-6 flex items-center gap-3">
             <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 text-white shadow-md">
-              <Scale className="h-6 w-6" />
+              <HelpCircle className="h-6 w-6" />
             </div>
             <div>
               <h1 className={cn(
@@ -290,7 +290,7 @@ const MasailList = ({ language }: MasailListProps) => {
             </div>
           ) : filteredMasail.length === 0 ? (
             <div className="flex flex-col items-center justify-center rounded-2xl border border-border bg-card p-12 text-center">
-              <Scale className="mb-4 h-16 w-16 text-muted-foreground/50" />
+              <HelpCircle className="mb-4 h-16 w-16 text-muted-foreground/50" />
               <h2 className={cn(
                 "text-xl font-semibold text-foreground mb-2",
                 language === "bn" && "font-bengali"
@@ -596,7 +596,7 @@ const MasailList = ({ language }: MasailListProps) => {
             </div>
           ) : (
             <div className="flex flex-col items-center justify-center h-screen text-center p-8">
-              <Scale className="h-16 w-16 text-muted-foreground/30 mb-4" />
+              <HelpCircle className="h-16 w-16 text-muted-foreground/30 mb-4" />
               <h2 className="text-xl font-semibold text-muted-foreground font-bengali mb-2">
                 {language === "bn" ? "একটি মাসআলা নির্বাচন করুন" : "Select a masail"}
               </h2>

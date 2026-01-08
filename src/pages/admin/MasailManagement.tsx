@@ -6,7 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
-import { Scale, Search, Trash2, Plus, Loader2, ExternalLink, X, Pencil, ChevronDown } from "lucide-react";
+import { HelpCircle, Search, Trash2, Plus, Loader2, ExternalLink, X, Pencil, ChevronDown } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   DropdownMenu,
@@ -182,7 +182,7 @@ const MasailManagement = () => {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <Scale className="h-6 w-6 text-primary" />
+          <HelpCircle className="h-6 w-6 text-primary" />
           <h1 className="text-2xl font-bold font-bengali">মাসআলা ব্যবস্থাপনা</h1>
         </div>
         
