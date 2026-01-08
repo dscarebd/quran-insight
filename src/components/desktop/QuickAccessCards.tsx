@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { HandHeart, Clock, Sparkles, Scale } from "lucide-react";
+import { HandHeart, Clock, Sparkles, HelpCircle } from "lucide-react";
 import { cn, formatNumber } from "@/lib/utils";
 import { duaCategories } from "@/data/duas";
 import { getUpcomingEventsCount } from "@/data/islamicCalendar";
@@ -55,7 +55,7 @@ export const QuickAccessCards = ({ language }: QuickAccessCardsProps) => {
     },
     {
       id: "masail",
-      icon: Scale,
+      icon: HelpCircle,
       labelEn: "Masail",
       labelBn: "মাসআলা",
       descEn: "Islamic Rulings & Fatwas",
