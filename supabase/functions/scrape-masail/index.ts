@@ -42,10 +42,10 @@ Deno.serve(async (req) => {
     if (action === 'map-islamqa') {
       console.log('Mapping IslamQA.info Bengali URLs...');
       
-      // First get the category page to find all topic links
-      const baseUrl = 'https://islamqa.info/bn/categories/topics';
+      // Scrape the main Bengali page and extract answer links
+      const baseUrl = 'https://islamqa.info/bn';
       
-      const response = await fetch('https://api.firecrawl.dev/v1/map', {
+      const response = await fetch('https://api.firecrawl.dev/v1/scrape', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${firecrawlApiKey}`,
@@ -53,31 +53,34 @@ Deno.serve(async (req) => {
         },
         body: JSON.stringify({
           url: baseUrl,
-          search: 'answers',
-          limit: 5000,
-          includeSubdomains: false,
+          formats: ['links'],
+          onlyMainContent: false,
         }),
       });
 
       const data = await response.json();
       
       if (!response.ok) {
-        console.error('Firecrawl Map API error:', data);
+        console.error('Firecrawl Scrape API error:', data);
         return new Response(
-          JSON.stringify({ success: false, error: data.error || 'Map request failed' }),
+          JSON.stringify({ success: false, error: data.error || 'Scrape request failed' }),
           { status: response.status, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
         );
       }
 
-      // Filter URLs that match IslamQA Bengali answer pattern
-      const answerUrls = (data.links || []).filter((link: string) => 
+      // Extract links from the scraped data
+      const allLinks = data.data?.links || [];
+      console.log(`Found ${allLinks.length} total links from IslamQA homepage`);
+      
+      // Filter URLs that match IslamQA Bengali answer pattern: /bn/answers/{number}
+      const answerUrls = allLinks.filter((link: string) => 
         link.includes('islamqa.info/bn/answers/') && 
         !link.includes('#') &&
-        /\/answers\/\d+/.test(link)
+        /\/bn\/answers\/\d+/.test(link)
       );
 
       // Remove duplicates
-      const uniqueUrls = [...new Set(answerUrls)];
+      const uniqueUrls = [...new Set(answerUrls)] as string[];
 
       console.log(`Found ${uniqueUrls.length} IslamQA Bengali answer URLs`);
       
