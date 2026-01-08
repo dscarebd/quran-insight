@@ -59,12 +59,3 @@ verify_jwt = false
 
 [functions.import-v1-glyphs]
 verify_jwt = false
-
-[functions.import-mushaf-words]
-verify_jwt = false
-
-[functions.import-tafsir-url]
-verify_jwt = false
-
-[functions.update-bengali-chapters]
-verify_jwt = false

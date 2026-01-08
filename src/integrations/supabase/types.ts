@@ -322,45 +322,6 @@ export type Database = {
         }
         Relationships: []
       }
-      mushaf_words: {
-        Row: {
-          char_type: string | null
-          created_at: string | null
-          id: number
-          line_number: number
-          page_number: number
-          surah_number: number
-          text_v1: string
-          verse_key: string
-          verse_number: number
-          word_position: number
-        }
-        Insert: {
-          char_type?: string | null
-          created_at?: string | null
-          id?: number
-          line_number: number
-          page_number: number
-          surah_number: number
-          text_v1: string
-          verse_key: string
-          verse_number: number
-          word_position: number
-        }
-        Update: {
-          char_type?: string | null
-          created_at?: string | null
-          id?: number
-          line_number?: number
-          page_number?: number
-          surah_number?: number
-          text_v1?: string
-          verse_key?: string
-          verse_number?: number
-          word_position?: number
-        }
-        Relationships: []
-      }
       page_views: {
         Row: {
           created_at: string
