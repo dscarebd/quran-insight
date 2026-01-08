@@ -26,6 +26,8 @@ interface Masail {
   created_at: string;
 }
 
+type SidebarTab = "all" | "categories" | "writers";
+
 const MasailList = ({ language }: MasailListProps) => {
   const navigate = useNavigate();
   const { id: selectedId } = useParams<{ id: string }>();
@@ -35,7 +37,10 @@ const MasailList = ({ language }: MasailListProps) => {
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const [selectedWriter, setSelectedWriter] = useState("all");
   const [categories, setCategories] = useState<string[]>([]);
+  const [writers, setWriters] = useState<string[]>([]);
+  const [activeTab, setActiveTab] = useState<SidebarTab>("all");
   const [selectedMasail, setSelectedMasail] = useState<Masail | null>(null);
 
   useEffect(() => {
@@ -70,6 +75,14 @@ const MasailList = ({ language }: MasailListProps) => {
           .filter((c): c is string => c !== null && c.trim() !== '')
       )].sort();
       setCategories(uniqueCategories);
+      
+      // Extract unique writers/authors from data
+      const uniqueWriters = [...new Set(
+        (data || [])
+          .map(m => m.author)
+          .filter((a): a is string => a !== null && a.trim() !== '')
+      )].sort();
+      setWriters(uniqueWriters);
     }
     setLoading(false);
   };
@@ -81,8 +94,9 @@ const MasailList = ({ language }: MasailListProps) => {
       (m.author && m.author.toLowerCase().includes(searchQuery.toLowerCase()));
     
     const matchesCategory = selectedCategory === "all" || m.category === selectedCategory;
+    const matchesWriter = selectedWriter === "all" || m.author === selectedWriter;
     
-    return matchesSearch && matchesCategory;
+    return matchesSearch && matchesCategory && matchesWriter;
   });
 
   // Extract a preview from the answer
@@ -320,40 +334,111 @@ const MasailList = ({ language }: MasailListProps) => {
             </div>
           </div>
 
-          {/* Category Tabs */}
+          {/* Tab Switcher - All, Categories, Writers */}
           <div className="flex border-b border-border/50">
             <button
-              onClick={() => setSelectedCategory("all")}
+              onClick={() => {
+                setActiveTab("all");
+                setSelectedCategory("all");
+                setSelectedWriter("all");
+              }}
               className={cn(
-                "flex-1 py-3 text-sm font-medium transition-colors font-bengali",
-                selectedCategory === "all"
+                "flex-1 py-3 text-sm font-medium transition-colors font-bengali rounded-tl-lg",
+                activeTab === "all"
                   ? "bg-primary text-primary-foreground"
                   : "bg-muted/50 text-muted-foreground hover:bg-muted"
               )}
             >
               {language === "bn" ? "সব" : "All"}
             </button>
+            <button
+              onClick={() => setActiveTab("categories")}
+              className={cn(
+                "flex-1 py-3 text-sm font-medium transition-colors font-bengali",
+                activeTab === "categories"
+                  ? "bg-primary text-primary-foreground"
+                  : "bg-muted/50 text-muted-foreground hover:bg-muted"
+              )}
+            >
+              {language === "bn" ? "বিভাগ" : "Category"}
+            </button>
+            <button
+              onClick={() => setActiveTab("writers")}
+              className={cn(
+                "flex-1 py-3 text-sm font-medium transition-colors font-bengali rounded-tr-lg",
+                activeTab === "writers"
+                  ? "bg-primary text-primary-foreground"
+                  : "bg-muted/50 text-muted-foreground hover:bg-muted"
+              )}
+            >
+              {language === "bn" ? "লেখক" : "Writer"}
+            </button>
           </div>
 
-          {/* Category List */}
-          <ScrollArea className="flex-1">
-            <div className="p-2">
-              {categories.map((cat) => (
-                <button
-                  key={cat}
-                  onClick={() => setSelectedCategory(cat)}
-                  className={cn(
-                    "w-full text-left px-4 py-3 rounded-lg mb-1 transition-all font-bengali text-sm",
-                    selectedCategory === cat
-                      ? "bg-primary/20 text-primary font-medium border-l-4 border-primary"
-                      : "hover:bg-muted/70 text-foreground"
-                  )}
-                >
-                  {cat}
-                </button>
-              ))}
-            </div>
-          </ScrollArea>
+          {/* Category/Writer List based on active tab */}
+          {activeTab !== "all" && (
+            <ScrollArea className="flex-1 max-h-[30vh]">
+              <div className="p-2">
+                {activeTab === "categories" ? (
+                  <>
+                    <button
+                      onClick={() => setSelectedCategory("all")}
+                      className={cn(
+                        "w-full text-left px-4 py-3 rounded-lg mb-1 transition-all font-bengali text-sm",
+                        selectedCategory === "all"
+                          ? "bg-primary/20 text-primary font-medium border-l-4 border-primary"
+                          : "hover:bg-muted/70 text-foreground"
+                      )}
+                    >
+                      {language === "bn" ? "সকল বিভাগ" : "All Categories"}
+                    </button>
+                    {categories.map((cat) => (
+                      <button
+                        key={cat}
+                        onClick={() => setSelectedCategory(cat)}
+                        className={cn(
+                          "w-full text-left px-4 py-3 rounded-lg mb-1 transition-all font-bengali text-sm",
+                          selectedCategory === cat
+                            ? "bg-primary/20 text-primary font-medium border-l-4 border-primary"
+                            : "hover:bg-muted/70 text-foreground"
+                        )}
+                      >
+                        {cat}
+                      </button>
+                    ))}
+                  </>
+                ) : (
+                  <>
+                    <button
+                      onClick={() => setSelectedWriter("all")}
+                      className={cn(
+                        "w-full text-left px-4 py-3 rounded-lg mb-1 transition-all font-bengali text-sm",
+                        selectedWriter === "all"
+                          ? "bg-primary/20 text-primary font-medium border-l-4 border-primary"
+                          : "hover:bg-muted/70 text-foreground"
+                      )}
+                    >
+                      {language === "bn" ? "সকল লেখক" : "All Writers"}
+                    </button>
+                    {writers.map((writer) => (
+                      <button
+                        key={writer}
+                        onClick={() => setSelectedWriter(writer)}
+                        className={cn(
+                          "w-full text-left px-4 py-3 rounded-lg mb-1 transition-all font-bengali text-sm",
+                          selectedWriter === writer
+                            ? "bg-primary/20 text-primary font-medium border-l-4 border-primary"
+                            : "hover:bg-muted/70 text-foreground"
+                        )}
+                      >
+                        {writer}
+                      </button>
+                    ))}
+                  </>
+                )}
+              </div>
+            </ScrollArea>
+          )}
 
           {/* Masail List in Sidebar */}
           <div className="border-t border-border/50">
