@@ -16,6 +16,7 @@ import { Language } from "@/types/language";
 import { ArabicFontType } from "@/types/quranV1";
 import { initializeVersesData, getBundledVerses, isBundledDataLoaded } from "@/services/bundledDataLoader";
 import { loadPageFont, getPageFontFamily, isFontLoaded } from "@/services/qpcFontLoader";
+import MushafPageView from "@/components/MushafPageView";
 
 interface Verse {
   surah_number: number;
@@ -1067,6 +1068,28 @@ const ReadPage = ({
               const versesBySurah = groupVersesBySurah(pageData.verses);
               const pageInfo = getPageByNumber(pageData.pageNumber);
               
+              // Use MushafPageView for V1 font (exact 15-line layout)
+              if (arabicFont === "v1") {
+                return (
+                  <div 
+                    key={pageData.pageNumber}
+                    ref={(el) => { pageRefs.current[pageData.pageNumber] = el; }}
+                    data-page={pageData.pageNumber}
+                    className="mb-8"
+                  >
+                    <MushafPageView
+                      pageNumber={pageData.pageNumber}
+                      fontSizeIndex={fontSizeIndex}
+                      onVerseClick={(surah, verse) => handleVerseClick(pageData.pageNumber, surah, verse)}
+                      highlightedVerse={highlightedVerse ? {
+                        surah: parseInt(highlightedVerse.split('-')[1]),
+                        verse: parseInt(highlightedVerse.split('-')[2])
+                      } : null}
+                    />
+                  </div>
+                );
+              }
+              
               return (
                 <div 
                   key={pageData.pageNumber}
@@ -1086,7 +1109,7 @@ const ReadPage = ({
                             <div className="relative inline-block">
                               <div className="surah-title-frame px-8 py-4">
                                 <h1 
-                                  className={cn("text-foreground surah-title-text", arabicFont === "uthmani" || arabicFont === "v1" ? "font-uthmani" : "font-arabic")}
+                                  className={cn("text-foreground surah-title-text", arabicFont === "uthmani" ? "font-uthmani" : "font-arabic")}
                                   style={{ fontSize: `${currentFontSize + 8}px` }}
                                 >
                                   {surah?.nameArabic}
@@ -1098,7 +1121,7 @@ const ReadPage = ({
                             {/* Bismillah */}
                             {parseInt(surahNum) !== 9 && parseInt(surahNum) !== 1 && (
                               <p 
-                                className={cn("text-foreground/80 mt-8 bismillah-text", arabicFont === "uthmani" || arabicFont === "v1" ? "font-uthmani" : "font-arabic")}
+                                className={cn("text-foreground/80 mt-8 bismillah-text", arabicFont === "uthmani" ? "font-uthmani" : "font-arabic")}
                                 dir="rtl"
                                 style={{ fontSize: `${currentFontSize}px` }}
                               >
@@ -1134,42 +1157,30 @@ const ReadPage = ({
                               <span 
                                 className={cn(
                                   "text-foreground",
-                                  arabicFont === "v1" 
-                                    ? "" // V1 uses inline font-family
-                                    : arabicFont === "uthmani" 
-                                      ? "font-uthmani" 
-                                      : "font-arabic"
+                                  arabicFont === "uthmani" 
+                                    ? "font-uthmani" 
+                                    : "font-arabic"
                                 )}
                                 style={{ 
                                   fontSize: `${currentFontSize}px`,
-                                  ...(arabicFont === "v1" && verse.page_number ? {
-                                    fontFamily: `'${getPageFontFamily(verse.page_number)}', 'KFGQPC Uthmanic Script HAFS', serif`,
-                                    letterSpacing: '0.02em',
-                                    lineHeight: 2.2,
-                                    wordSpacing: '0.12em',
-                                  } : {})
                                 }}
                               >
-                                  {arabicFont === "v1" && verse.text_v1 
-                                    ? verse.text_v1 
-                                    : sanitizeArabicText(verse.arabic)}
+                                  {sanitizeArabicText(verse.arabic)}
                                 </span>
-                                {/* Decorative Verse Number - only show when NOT using V1 font (V1 includes end markers) */}
-                                {arabicFont !== "v1" && (
-                                  <span 
-                                    className={cn(
-                                      "verse-number-circle inline-flex items-center justify-center mx-2 leading-none", 
-                                      arabicFont === "uthmani" ? "font-uthmani" : "font-arabic"
-                                    )}
-                                    style={{ 
-                                      width: `${currentFontSize * 1.2}px`, 
-                                      height: `${currentFontSize * 1.2}px`,
-                                      fontSize: `${currentFontSize * 0.5}px`
-                                    }}
-                                  >
-                                    {toArabicNumerals(verse.verse_number)}
-                                  </span>
-                                )}
+                                {/* Decorative Verse Number */}
+                                <span 
+                                  className={cn(
+                                    "verse-number-circle inline-flex items-center justify-center mx-2 leading-none", 
+                                    arabicFont === "uthmani" ? "font-uthmani" : "font-arabic"
+                                  )}
+                                  style={{ 
+                                    width: `${currentFontSize * 1.2}px`, 
+                                    height: `${currentFontSize * 1.2}px`,
+                                    fontSize: `${currentFontSize * 0.5}px`
+                                  }}
+                                >
+                                  {toArabicNumerals(verse.verse_number)}
+                                </span>
                               </span>
                             );
                           })}
