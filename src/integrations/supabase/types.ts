@@ -322,6 +322,45 @@ export type Database = {
         }
         Relationships: []
       }
+      masail: {
+        Row: {
+          answer: string
+          author: string | null
+          category: string | null
+          created_at: string
+          id: string
+          question: string | null
+          source_id: string | null
+          source_url: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          answer: string
+          author?: string | null
+          category?: string | null
+          created_at?: string
+          id?: string
+          question?: string | null
+          source_id?: string | null
+          source_url?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          answer?: string
+          author?: string | null
+          category?: string | null
+          created_at?: string
+          id?: string
+          question?: string | null
+          source_id?: string | null
+          source_url?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       mushaf_words: {
         Row: {
           char_type: string | null
