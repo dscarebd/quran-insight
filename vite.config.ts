@@ -17,6 +17,7 @@ export default defineConfig(({ mode }) => ({
       registerType: "autoUpdate",
       includeAssets: ["favicon.png", "fonts/**/*", "data/**/*"],
       manifest: {
+        id: "/",
         name: "Quran Insight",
         short_name: "Quran Insight",
         description: "AI-powered Quran search and Tafsir. Ask questions about the Quran in Bengali or English.",
@@ -26,18 +27,40 @@ export default defineConfig(({ mode }) => ({
         orientation: "portrait",
         scope: "/",
         start_url: "/",
+        prefer_related_applications: false,
         icons: [
           {
             src: "/favicon.png",
             sizes: "192x192",
             type: "image/png",
-            purpose: "any maskable"
+            purpose: "any"
           },
           {
             src: "/favicon.png",
             sizes: "512x512",
             type: "image/png",
-            purpose: "any maskable"
+            purpose: "any"
+          },
+          {
+            src: "/favicon.png",
+            sizes: "192x192",
+            type: "image/png",
+            purpose: "maskable"
+          },
+          {
+            src: "/favicon.png",
+            sizes: "512x512",
+            type: "image/png",
+            purpose: "maskable"
+          }
+        ],
+        screenshots: [
+          {
+            src: "/images/og-image.png",
+            sizes: "1200x630",
+            type: "image/png",
+            form_factor: "wide",
+            label: "Quran Insight Home"
           }
         ],
         categories: ["education", "books", "lifestyle"],
