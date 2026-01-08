@@ -325,21 +325,6 @@ const MasailList = ({ language }: MasailListProps) => {
                           {masail.title}
                         </h3>
                         
-                        {masail.category && (
-                          <Badge variant="secondary" className="mb-2 font-bengali text-xs">
-                            <Tag className="h-3 w-3 mr-1" />
-                            {masail.category}
-                          </Badge>
-                        )}
-                        
-                        {masail.author && (
-                          <div className="flex items-center gap-1.5 mb-2">
-                            <User className="h-3.5 w-3.5 text-muted-foreground" />
-                            <span className="text-xs text-muted-foreground font-bengali line-clamp-1">
-                              {masail.author}
-                            </span>
-                          </div>
-                        )}
                         
                         <p className={cn(
                           "text-sm text-muted-foreground line-clamp-2",
