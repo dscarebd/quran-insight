@@ -85,8 +85,8 @@ export const QuickAccessCards = ({ language }: QuickAccessCardsProps) => {
             key={link.id}
             onClick={() => navigate(link.path)}
             className={cn(
-              "group relative overflow-hidden rounded-xl sm:rounded-2xl bg-card border border-border p-3 sm:p-4 md:p-5 text-left transition-all duration-300 hover:shadow-elevated hover:-translate-y-1 min-w-0",
-              link.desktopOnly && "hidden lg:block"
+              "group relative overflow-hidden rounded-xl sm:rounded-2xl bg-card border border-border p-3 sm:p-4 md:p-5 text-left transition-all duration-300 hover:shadow-elevated hover:-translate-y-1 min-w-0 h-full flex flex-col",
+              link.desktopOnly && "hidden lg:flex"
             )}
           >
             {/* Gradient overlay on hover */}
@@ -104,18 +104,20 @@ export const QuickAccessCards = ({ language }: QuickAccessCardsProps) => {
             </div>
             
             {/* Content */}
-            <h3 className={cn(
-              "font-semibold text-sm sm:text-base text-foreground mb-0.5 sm:mb-1 truncate",
-              language === "bn" && "font-bengali"
-            )}>
-              {language === "bn" ? link.labelBn : link.labelEn}
-            </h3>
-            <p className={cn(
-              "text-xs sm:text-sm text-muted-foreground line-clamp-2 hidden sm:block",
-              language === "bn" && "font-bengali"
-            )}>
-              {language === "bn" ? link.descBn : link.descEn}
-            </p>
+            <div className="flex-1 flex flex-col">
+              <h3 className={cn(
+                "font-semibold text-sm sm:text-base text-foreground mb-0.5 sm:mb-1 truncate",
+                language === "bn" && "font-bengali"
+              )}>
+                {language === "bn" ? link.labelBn : link.labelEn}
+              </h3>
+              <p className={cn(
+                "text-xs sm:text-sm text-muted-foreground line-clamp-2 hidden sm:block",
+                language === "bn" && "font-bengali"
+              )}>
+                {language === "bn" ? link.descBn : link.descEn}
+              </p>
+            </div>
           </button>
         );
       })}
