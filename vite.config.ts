@@ -30,37 +30,37 @@ export default defineConfig(({ mode }) => ({
         prefer_related_applications: false,
         icons: [
           {
-            src: "/favicon.png",
-            sizes: "192x192",
-            type: "image/png",
-            purpose: "any"
-          },
-          {
-            src: "/favicon.png",
+            src: "/icon-512.png",
             sizes: "512x512",
             type: "image/png",
             purpose: "any"
           },
           {
-            src: "/favicon.png",
-            sizes: "192x192",
+            src: "/icon-512.png",
+            sizes: "512x512",
             type: "image/png",
             purpose: "maskable"
           },
           {
-            src: "/favicon.png",
-            sizes: "512x512",
+            src: "/icon-192.png",
+            sizes: "192x192",
+            type: "image/png",
+            purpose: "any"
+          },
+          {
+            src: "/icon-192.png",
+            sizes: "192x192",
             type: "image/png",
             purpose: "maskable"
           }
         ],
         screenshots: [
           {
-            src: "/images/og-image.png",
-            sizes: "1200x630",
+            src: "/screenshots/desktop.png",
+            sizes: "1456x816",
             type: "image/png",
             form_factor: "wide",
-            label: "Quran Insight Home"
+            label: "Quran Insight Desktop"
           }
         ],
         categories: ["education", "books", "lifestyle"],
