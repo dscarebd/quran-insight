@@ -198,19 +198,21 @@ const MasailList = ({ language }: MasailListProps) => {
           </div>
 
           {/* Filter Dropdowns */}
-          <div className="flex gap-2 mb-4">
+          <div className="grid grid-cols-2 gap-2 mb-4">
             {/* Category Dropdown */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline" className="flex-1 justify-between font-bengali">
-                  <span className="flex items-center gap-2">
-                    <Tag className="h-4 w-4" />
-                    {selectedCategory === "all" 
-                      ? (language === "bn" ? "বিভাগ" : "Category")
-                      : selectedCategory
-                    }
+                <Button variant="outline" className="w-full justify-between font-bengali h-10 px-3">
+                  <span className="flex items-center gap-1.5 min-w-0 flex-1">
+                    <Tag className="h-4 w-4 shrink-0" />
+                    <span className="truncate">
+                      {selectedCategory === "all" 
+                        ? (language === "bn" ? "বিভাগ" : "Category")
+                        : selectedCategory
+                      }
+                    </span>
                   </span>
-                  <ChevronDown className="h-4 w-4 opacity-50" />
+                  <ChevronDown className="h-4 w-4 opacity-50 shrink-0 ml-1" />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-56 bg-background border border-border z-50">
@@ -235,15 +237,17 @@ const MasailList = ({ language }: MasailListProps) => {
             {/* Writer Dropdown */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline" className="flex-1 justify-between font-bengali">
-                  <span className="flex items-center gap-2">
-                    <User className="h-4 w-4" />
-                    {selectedWriter === "all" 
-                      ? (language === "bn" ? "লেখক" : "Writer")
-                      : selectedWriter
-                    }
+                <Button variant="outline" className="w-full justify-between font-bengali h-10 px-3">
+                  <span className="flex items-center gap-1.5 min-w-0 flex-1">
+                    <User className="h-4 w-4 shrink-0" />
+                    <span className="truncate">
+                      {selectedWriter === "all" 
+                        ? (language === "bn" ? "লেখক" : "Writer")
+                        : selectedWriter
+                      }
+                    </span>
                   </span>
-                  <ChevronDown className="h-4 w-4 opacity-50" />
+                  <ChevronDown className="h-4 w-4 opacity-50 shrink-0 ml-1" />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-56 bg-background border border-border z-50">
