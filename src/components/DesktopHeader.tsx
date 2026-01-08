@@ -1,5 +1,5 @@
 import { useNavigate, useLocation } from "react-router-dom";
-import { Home, BookOpen, HandHelping, Settings, BookText, ScrollText } from "lucide-react";
+import { Home, BookOpen, HandHelping, Settings, BookText, ScrollText, Bookmark } from "lucide-react";
 import { LanguageToggle } from "./LanguageToggle";
 import appLogo from "@/assets/app-logo.png";
 import { cn } from "@/lib/utils";
@@ -136,8 +136,15 @@ export const DesktopHeader = ({ language, onLanguageChange }: DesktopHeaderProps
             })}
           </nav>
 
-          {/* Language Toggle */}
-          <div className="flex items-center gap-4">
+          {/* Language Toggle & Bookmark */}
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => navigate("/bookmarks")}
+              className="flex h-9 w-9 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+              aria-label="Bookmarks"
+            >
+              <Bookmark className="h-5 w-5" />
+            </button>
             <LanguageToggle language={language} onToggle={onLanguageChange} />
           </div>
         </div>
