@@ -355,7 +355,7 @@ const MasailManagement = () => {
             <Loader2 className="h-6 w-6 animate-spin text-primary" />
           </div>
         ) : (
-          <ScrollArea className="h-[400px]">
+          <ScrollArea className="h-[calc(100vh-300px)]">
             <div className="space-y-3">
               {filteredMasail.map((masail) => (
                 <div 
