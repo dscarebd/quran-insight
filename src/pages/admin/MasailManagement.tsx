@@ -8,6 +8,13 @@ import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { Scale, Search, Trash2, Plus, Loader2, ExternalLink, X, Pencil } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface Masail {
   id: string;
@@ -19,6 +26,27 @@ interface Masail {
   category: string | null;
   created_at: string;
 }
+
+// Predefined categories for masail
+const MASAIL_CATEGORIES = [
+  { value: "ঈমান ও আকীদা", label: "ঈমান ও আকীদা" },
+  { value: "তাহারাত ও পবিত্রতা", label: "তাহারাত ও পবিত্রতা" },
+  { value: "নামায", label: "নামায" },
+  { value: "রোযা", label: "রোযা" },
+  { value: "যাকাত", label: "যাকাত" },
+  { value: "হজ্জ ও উমরাহ", label: "হজ্জ ও উমরাহ" },
+  { value: "কুরআন ও তিলাওয়াত", label: "কুরআন ও তিলাওয়াত" },
+  { value: "দোয়া ও যিকির", label: "দোয়া ও যিকির" },
+  { value: "বিবাহ ও পরিবার", label: "বিবাহ ও পরিবার" },
+  { value: "তালাক ও ইদ্দত", label: "তালাক ও ইদ্দত" },
+  { value: "ব্যবসা ও লেনদেন", label: "ব্যবসা ও লেনদেন" },
+  { value: "হালাল ও হারাম", label: "হালাল ও হারাম" },
+  { value: "পোশাক ও পর্দা", label: "পোশাক ও পর্দা" },
+  { value: "জানাযা ও কবর", label: "জানাযা ও কবর" },
+  { value: "কুরবানী ও আকীকা", label: "কুরবানী ও আকীকা" },
+  { value: "সামাজিক বিষয়", label: "সামাজিক বিষয়" },
+  { value: "বিবিধ", label: "বিবিধ" },
+];
 
 const MasailManagement = () => {
   const [masailList, setMasailList] = useState<Masail[]>([]);
@@ -34,6 +62,7 @@ const MasailManagement = () => {
     question: '',
     answer: '',
     author: '',
+    category: '',
   });
 
   useEffect(() => {
@@ -58,7 +87,7 @@ const MasailManagement = () => {
   };
 
   const resetForm = () => {
-    setFormData({ title: '', question: '', answer: '', author: '' });
+    setFormData({ title: '', question: '', answer: '', author: '', category: '' });
     setEditingId(null);
     setIsFormOpen(false);
   };
@@ -74,6 +103,7 @@ const MasailManagement = () => {
       question: masail.question || '',
       answer: masail.answer,
       author: masail.author || '',
+      category: masail.category || '',
     });
     setEditingId(masail.id);
     setIsFormOpen(true);
@@ -103,6 +133,7 @@ const MasailManagement = () => {
             question: formData.question.trim() || null,
             answer: formData.answer.trim(),
             author: formData.author.trim() || null,
+            category: formData.category || null,
           })
           .eq('id', editingId);
 
@@ -117,6 +148,7 @@ const MasailManagement = () => {
             question: formData.question.trim() || null,
             answer: formData.answer.trim(),
             author: formData.author.trim() || null,
+            category: formData.category || null,
             source_id: `manual-${Date.now()}`,
           });
 
@@ -232,6 +264,25 @@ const MasailManagement = () => {
                 placeholder="যেমন: মুফতী মনসুরুল হক সাহেব"
                 className="font-bengali"
               />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="category" className="font-bengali">বিভাগ:</Label>
+              <Select
+                value={formData.category}
+                onValueChange={(value) => setFormData(prev => ({ ...prev, category: value }))}
+              >
+                <SelectTrigger className="font-bengali">
+                  <SelectValue placeholder="বিভাগ নির্বাচন করুন" />
+                </SelectTrigger>
+                <SelectContent>
+                  {MASAIL_CATEGORIES.map((cat) => (
+                    <SelectItem key={cat.value} value={cat.value} className="font-bengali">
+                      {cat.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
 
             <div className="flex gap-3 pt-2">
