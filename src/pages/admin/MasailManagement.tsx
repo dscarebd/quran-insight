@@ -183,11 +183,11 @@ const MasailManagement = () => {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <Scale className="h-6 w-6 text-primary" />
-          <h1 className="text-2xl font-bold">মাসআলা ব্যবস্থাপনা</h1>
+          <h1 className="text-2xl font-bold font-bengali">মাসআলা ব্যবস্থাপনা</h1>
         </div>
         
         {!isFormOpen && (
-          <Button onClick={openAddForm}>
+          <Button onClick={openAddForm} className="font-bengali">
             <Plus className="h-4 w-4 mr-2" /> নতুন মাসআলা যোগ করুন
           </Button>
         )}
