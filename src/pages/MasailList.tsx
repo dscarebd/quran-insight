@@ -55,25 +55,31 @@ const MasailList = ({ language }: MasailListProps) => {
 
   // Load selected masail when ID changes (for desktop direct linking)
   useEffect(() => {
-    if (selectedId && masailList.length > 0) {
-      const found = masailList.find(m => m.id === selectedId);
-      if (found) {
-        setSelectedMasail(found);
+    const loadMasailDetails = async () => {
+      if (selectedId) {
+        const details = await fetchMasailDetails(selectedId);
+        if (details) {
+          setSelectedMasail(details);
+        }
       }
-    }
-  }, [selectedId, masailList]);
+    };
+    loadMasailDetails();
+  }, [selectedId]);
 
   const fetchMasail = async () => {
     setLoading(true);
+    // Only fetch fields needed for list view - exclude large answer field
     const { data, error } = await supabase
       .from('masail')
-      .select('*')
+      .select('id, title, question, author, category, created_at')
       .order('created_at', { ascending: false });
 
     if (error) {
       console.error('Error fetching masail:', error);
     } else {
-      setMasailList(data || []);
+      // Cast to Masail with empty answer for list display
+      const listData = (data || []).map(m => ({ ...m, answer: '', source_url: null })) as Masail[];
+      setMasailList(listData);
       // Extract unique categories from data
       const uniqueCategories = [...new Set(
         (data || [])
@@ -91,6 +97,21 @@ const MasailList = ({ language }: MasailListProps) => {
       setWriters(uniqueWriters);
     }
     setLoading(false);
+  };
+
+  // Fetch full masail details when selected
+  const fetchMasailDetails = async (id: string) => {
+    const { data, error } = await supabase
+      .from('masail')
+      .select('*')
+      .eq('id', id)
+      .single();
+    
+    if (error) {
+      console.error('Error fetching masail details:', error);
+      return null;
+    }
+    return data as Masail;
   };
 
   const filteredMasail = masailList.filter(m => {
@@ -112,11 +133,15 @@ const MasailList = ({ language }: MasailListProps) => {
     return cleaned.substring(0, maxLength).trim() + '...';
   };
 
-  const handleMasailClick = (masail: Masail) => {
+  const handleMasailClick = async (masail: Masail) => {
     if (isMobile) {
       navigate(`/masail/${masail.id}`);
     } else {
-      setSelectedMasail(masail);
+      // Fetch full details for desktop view
+      const details = await fetchMasailDetails(masail.id);
+      if (details) {
+        setSelectedMasail(details);
+      }
       // Update URL without navigation
       window.history.replaceState(null, '', `/masail/${masail.id}`);
     }
@@ -326,12 +351,14 @@ const MasailList = ({ language }: MasailListProps) => {
                         </h3>
                         
                         
-                        <p className={cn(
-                          "text-sm text-muted-foreground line-clamp-2",
-                          "font-bengali leading-relaxed"
-                        )}>
-                          {getPreview(masail.answer)}
-                        </p>
+                        {masail.question && (
+                          <p className={cn(
+                            "text-sm text-muted-foreground line-clamp-2",
+                            "font-bengali leading-relaxed"
+                          )}>
+                            {getPreview(masail.question)}
+                          </p>
+                        )}
                       </div>
                       
                       <ChevronRight className="h-5 w-5 text-muted-foreground shrink-0 mt-1 transition-transform group-hover:translate-x-1" />
