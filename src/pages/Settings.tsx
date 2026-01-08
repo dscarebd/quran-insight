@@ -1,19 +1,17 @@
-import { useRef, useEffect } from "react";
-import { Info, Moon, Sun, BookOpen, Type, ChevronRight, FileText, ChevronDown, Globe, Palette, Shield, Building2, Heart, Download, Trash2, Loader2, CheckCircle2, Volume2 } from "lucide-react";
+import { useRef } from "react";
+import { Info, Moon, Sun, BookOpen, Type, ChevronRight, FileText, ChevronDown, Globe, Palette, Shield, Building2, Heart } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
 import { Slider } from "@/components/ui/slider";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { Progress } from "@/components/ui/progress";
 import annurLogo from "@/assets/annur-digital-logo.jpeg";
 import appLogo from "@/assets/app-logo.png";
 import ownershipLogo from "@/assets/ownership-logo.png";
 import { Language, t, languageNames } from "@/types/language";
 import { ArabicFontType } from "@/types/quranV1";
 import { useArabicFontSize } from "@/hooks/useArabicFontSize";
-import { useDuaOfflineDownload } from "@/hooks/useDuaOfflineDownload";
 interface SettingsProps {
   language: Language;
   onLanguageChange: (lang: Language) => void;
@@ -29,43 +27,6 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
   const navigate = useNavigate();
   const { theme, setTheme } = useTheme();
   const { arabicFontSize, setArabicFontSize, minArabicFontSize, maxArabicFontSize } = useArabicFontSize();
-  const { 
-    progress, 
-    cachedCount, 
-    totalAudioFiles, 
-    isCheckingCache, 
-    downloadAllAudio, 
-    clearCache, 
-    checkCachedFiles 
-  } = useDuaOfflineDownload();
-
-  // Check cached files on mount
-  useEffect(() => {
-    checkCachedFiles();
-  }, [checkCachedFiles]);
-
-  const handleDownloadAll = async () => {
-    toast.info(language === "bn" ? "অডিও ডাউনলোড শুরু হচ্ছে..." : "Starting audio download...");
-    const result = await downloadAllAudio();
-    if (result.failed > 0) {
-      toast.warning(
-        language === "bn" 
-          ? `${result.downloaded}টি ডাউনলোড হয়েছে, ${result.failed}টি ব্যর্থ হয়েছে` 
-          : `${result.downloaded} downloaded, ${result.failed} failed`
-      );
-    } else {
-      toast.success(
-        language === "bn" 
-          ? `সব ${result.downloaded}টি অডিও ডাউনলোড সম্পন্ন!` 
-          : `All ${result.downloaded} audio files downloaded!`
-      );
-    }
-  };
-
-  const handleClearCache = async () => {
-    await clearCache();
-    toast.success(language === "bn" ? "ক্যাশ মুছে ফেলা হয়েছে" : "Cache cleared");
-  };
 
   // Easter egg: 7 clicks on developer logo navigates to admin (no time restriction)
   const clickCountRef = useRef(0);
@@ -433,99 +394,6 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
                 </div>
               </CollapsibleContent>
             </Collapsible>
-          </section>
-
-          {/* Offline Audio Download Section */}
-          <section>
-            <h2 className={cn(
-              "mb-2 text-base font-medium text-muted-foreground tracking-wider",
-              language === "bn" ? "font-bengali" : "font-sans"
-            )}>
-              {language === "bn" ? "অফলাইন অডিও" : "Offline Audio"}
-            </h2>
-            <div className="rounded-lg border border-border bg-card overflow-hidden">
-              <div className="p-3">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary/10">
-                    <Volume2 className="h-4 w-4 text-primary" />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className={cn("text-base font-semibold", language === "bn" ? "font-bengali" : "font-sans")}>
-                      {language === "bn" ? "দোয়া অডিও ডাউনলোড" : "Dua Audio Download"}
-                    </h3>
-                    <p className={cn("text-sm text-muted-foreground", language === "bn" ? "font-bengali" : "font-sans")}>
-                      {isCheckingCache 
-                        ? (language === "bn" ? "চেক করা হচ্ছে..." : "Checking...")
-                        : (language === "bn" 
-                            ? `${cachedCount}/${totalAudioFiles}টি ক্যাশ করা হয়েছে` 
-                            : `${cachedCount}/${totalAudioFiles} cached`)}
-                    </p>
-                  </div>
-                  {cachedCount === totalAudioFiles && (
-                    <CheckCircle2 className="h-5 w-5 text-green-500" />
-                  )}
-                </div>
-
-                {/* Progress bar when downloading */}
-                {progress.inProgress && (
-                  <div className="mb-3 space-y-2">
-                    <Progress 
-                      value={(progress.downloaded / progress.total) * 100} 
-                      className="h-2"
-                    />
-                    <p className={cn("text-xs text-muted-foreground text-center", language === "bn" ? "font-bengali" : "font-sans")}>
-                      {language === "bn" 
-                        ? `${progress.downloaded}/${progress.total} ডাউনলোড হচ্ছে...` 
-                        : `Downloading ${progress.downloaded}/${progress.total}...`}
-                      {progress.currentFile && ` (${progress.currentFile})`}
-                    </p>
-                  </div>
-                )}
-
-                {/* Action buttons */}
-                <div className="flex gap-2">
-                  <button
-                    onClick={handleDownloadAll}
-                    disabled={progress.inProgress || cachedCount === totalAudioFiles}
-                    className={cn(
-                      "flex-1 flex items-center justify-center gap-2 rounded-md border border-border bg-primary/10 px-3 py-2 text-sm font-medium transition-colors",
-                      progress.inProgress || cachedCount === totalAudioFiles 
-                        ? "opacity-50 cursor-not-allowed" 
-                        : "hover:bg-primary/20",
-                      language === "bn" ? "font-bengali" : "font-sans"
-                    )}
-                  >
-                    {progress.inProgress ? (
-                      <Loader2 className="h-4 w-4 animate-spin" />
-                    ) : (
-                      <Download className="h-4 w-4" />
-                    )}
-                    {cachedCount === totalAudioFiles 
-                      ? (language === "bn" ? "ডাউনলোড সম্পন্ন" : "Downloaded")
-                      : (language === "bn" ? "সব ডাউনলোড করুন" : "Download All")}
-                  </button>
-                  
-                  {cachedCount > 0 && !progress.inProgress && (
-                    <button
-                      onClick={handleClearCache}
-                      className={cn(
-                        "flex items-center justify-center gap-2 rounded-md border border-border bg-destructive/10 px-3 py-2 text-sm font-medium text-destructive transition-colors hover:bg-destructive/20",
-                        language === "bn" ? "font-bengali" : "font-sans"
-                      )}
-                    >
-                      <Trash2 className="h-4 w-4" />
-                      {language === "bn" ? "মুছুন" : "Clear"}
-                    </button>
-                  )}
-                </div>
-                
-                <p className={cn("mt-2 text-xs text-muted-foreground", language === "bn" ? "font-bengali" : "font-sans")}>
-                  {language === "bn" 
-                    ? "অফলাইনে দোয়া অডিও শুনতে ডাউনলোড করুন" 
-                    : "Download to listen to dua audio offline"}
-                </p>
-              </div>
-            </div>
           </section>
 
           {/* Ownership & Developer Information */}
