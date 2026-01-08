@@ -441,8 +441,8 @@ const MasailList = ({ language }: MasailListProps) => {
           )}
 
           {/* Masail List in Sidebar */}
-          <div className="border-t border-border/50">
-            <div className="p-3 bg-muted/30">
+          <div className="border-t border-border/50 flex-1 flex flex-col min-h-0">
+            <div className="p-3 bg-muted/30 shrink-0">
               <p className="text-xs text-muted-foreground font-bengali">
                 {language === "bn" 
                   ? `${filteredMasail.length}টি মাসআলা`
@@ -450,8 +450,8 @@ const MasailList = ({ language }: MasailListProps) => {
                 }
               </p>
             </div>
-            <ScrollArea className="h-[40vh]">
-              <div className="p-2 space-y-1">
+            <ScrollArea className="flex-1">
+              <div className="p-2">
                 {loading ? (
                   <div className="flex items-center justify-center py-8">
                     <Loader2 className="h-6 w-6 animate-spin text-primary" />
