@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { ArrowLeft, Share2, Printer, Loader2 } from "lucide-react";
+import { ArrowLeft, Share2, Printer, Loader2, Tag } from "lucide-react";
 import { Language } from "@/types/language";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 
 interface MasailDetailProps {
@@ -144,9 +145,19 @@ const MasailDetail = ({ language }: MasailDetailProps) => {
       <ScrollArea className="h-[calc(100vh-60px)]">
         <div className="mx-auto max-w-4xl px-4 py-6">
           {/* Title */}
-          <h1 className="text-2xl md:text-3xl font-bold text-foreground font-bengali leading-relaxed mb-8 text-center">
+          <h1 className="text-2xl md:text-3xl font-bold text-foreground font-bengali leading-relaxed mb-4 text-center">
             {masail.title}
           </h1>
+
+          {/* Category Badge */}
+          {masail.category && (
+            <div className="flex justify-center mb-8">
+              <Badge variant="secondary" className="font-bengali text-sm px-3 py-1">
+                <Tag className="h-3.5 w-3.5 mr-1.5" />
+                {masail.category}
+              </Badge>
+            </div>
+          )}
 
           {/* Question Section */}
           {masail.question && (
