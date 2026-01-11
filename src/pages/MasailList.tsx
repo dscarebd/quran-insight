@@ -3,13 +3,15 @@ import { useNavigate, useParams } from "react-router-dom";
 import { HelpCircle, Search, Loader2, ChevronRight, User, Tag, ArrowLeft, Share2, Printer, ChevronDown } from "lucide-react";
 import { Language } from "@/types/language";
 import { cn, formatNumber } from "@/lib/utils";
-import { supabase } from "@/integrations/supabase/client";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { toast } from "sonner";
+import { useMasailOffline } from "@/hooks/useMasailOffline";
+import { OfflineIndicator } from "@/components/OfflineIndicator";
+import { LocalMasail } from "@/services/offlineDataService";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -21,17 +23,6 @@ interface MasailListProps {
   language: Language;
 }
 
-interface Masail {
-  id: string;
-  title: string;
-  question: string | null;
-  answer: string;
-  author: string | null;
-  category: string | null;
-  source_url: string | null;
-  created_at: string;
-}
-
 type SidebarTab = "all" | "categories" | "writers";
 
 const MasailList = ({ language }: MasailListProps) => {
@@ -39,80 +30,56 @@ const MasailList = ({ language }: MasailListProps) => {
   const { id: selectedId } = useParams<{ id: string }>();
   const isMobile = useIsMobile();
   
-  const [masailList, setMasailList] = useState<Masail[]>([]);
-  const [loading, setLoading] = useState(true);
+  // Use offline hook instead of direct Supabase
+  const { 
+    masailList, 
+    loading, 
+    isOffline, 
+    isSyncing, 
+    lastSyncTime, 
+    refresh,
+    getMasailById 
+  } = useMasailOffline();
+  
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [selectedWriter, setSelectedWriter] = useState("all");
   const [categories, setCategories] = useState<string[]>([]);
   const [writers, setWriters] = useState<string[]>([]);
   const [activeTab, setActiveTab] = useState<SidebarTab>("all");
-  const [selectedMasail, setSelectedMasail] = useState<Masail | null>(null);
+  const [selectedMasail, setSelectedMasail] = useState<LocalMasail | null>(null);
 
+  // Extract categories and writers from masailList
   useEffect(() => {
-    fetchMasail();
-  }, []);
+    if (masailList.length > 0) {
+      const uniqueCategories = [...new Set(
+        masailList
+          .map(m => m.category)
+          .filter((c): c is string => c !== null && c.trim() !== '')
+      )].sort();
+      setCategories(uniqueCategories);
+      
+      const uniqueWriters = [...new Set(
+        masailList
+          .map(m => m.author)
+          .filter((a): a is string => a !== null && a.trim() !== '')
+      )].sort();
+      setWriters(uniqueWriters);
+    }
+  }, [masailList]);
 
   // Load selected masail when ID changes (for desktop direct linking)
   useEffect(() => {
     const loadMasailDetails = async () => {
       if (selectedId) {
-        const details = await fetchMasailDetails(selectedId);
+        const details = await getMasailById(selectedId);
         if (details) {
           setSelectedMasail(details);
         }
       }
     };
     loadMasailDetails();
-  }, [selectedId]);
-
-  const fetchMasail = async () => {
-    setLoading(true);
-    // Only fetch fields needed for list view - exclude large answer field
-    const { data, error } = await supabase
-      .from('masail')
-      .select('id, title, question, author, category, created_at')
-      .order('created_at', { ascending: false });
-
-    if (error) {
-      console.error('Error fetching masail:', error);
-    } else {
-      // Cast to Masail with empty answer for list display
-      const listData = (data || []).map(m => ({ ...m, answer: '', source_url: null })) as Masail[];
-      setMasailList(listData);
-      // Extract unique categories from data
-      const uniqueCategories = [...new Set(
-        (data || [])
-          .map(m => m.category)
-          .filter((c): c is string => c !== null && c.trim() !== '')
-      )].sort();
-      setCategories(uniqueCategories);
-      
-      // Extract unique writers/authors from data
-      const uniqueWriters = [...new Set(
-        (data || [])
-          .map(m => m.author)
-          .filter((a): a is string => a !== null && a.trim() !== '')
-      )].sort();
-      setWriters(uniqueWriters);
-    }
-    setLoading(false);
-  };
-
-  // Fetch full masail details when selected
-  const fetchMasailDetails = async (id: string) => {
-    const { data, error } = await supabase
-      .from('masail')
-      .select('*')
-      .eq('id', id)
-      .single();
-    
-    if (error) {
-      console.error('Error fetching masail details:', error);
-      return null;
-    }
-    return data as Masail;
-  };
+  }, [selectedId, getMasailById]);
 
   const filteredMasail = masailList.filter(m => {
     const matchesSearch = m.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -133,12 +100,12 @@ const MasailList = ({ language }: MasailListProps) => {
     return cleaned.substring(0, maxLength).trim() + '...';
   };
 
-  const handleMasailClick = async (masail: Masail) => {
+  const handleMasailClick = async (masail: LocalMasail) => {
     if (isMobile) {
       navigate(`/masail/${masail.id}`);
     } else {
-      // Fetch full details for desktop view
-      const details = await fetchMasailDetails(masail.id);
+      // Get full details from IndexedDB
+      const details = await getMasailById(masail.id);
       if (details) {
         setSelectedMasail(details);
       }
@@ -187,25 +154,35 @@ const MasailList = ({ language }: MasailListProps) => {
     return (
       <div className="min-h-screen bg-background">
         <div className="mx-auto max-w-4xl px-4 py-6">
-          {/* Header */}
-          <div className="mb-6 flex items-center gap-3">
-            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 text-white shadow-md">
-              <HelpCircle className="h-6 w-6" />
+          {/* Header with Offline Indicator */}
+          <div className="mb-6 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 text-white shadow-md">
+                <HelpCircle className="h-6 w-6" />
+              </div>
+              <div>
+                <h1 className={cn(
+                  "text-2xl font-bold text-foreground",
+                  language === "bn" && "font-bengali"
+                )}>
+                  {language === "bn" ? "মাসআলা" : "Masail"}
+                </h1>
+                <p className={cn(
+                  "text-sm text-muted-foreground",
+                  language === "bn" && "font-bengali"
+                )}>
+                  {language === "bn" ? "ইসলামিক মাসআলা ও ফতোয়া" : "Islamic Rulings & Fatwas"}
+                </p>
+              </div>
             </div>
-            <div>
-              <h1 className={cn(
-                "text-2xl font-bold text-foreground",
-                language === "bn" && "font-bengali"
-              )}>
-                {language === "bn" ? "মাসআলা" : "Masail"}
-              </h1>
-              <p className={cn(
-                "text-sm text-muted-foreground",
-                language === "bn" && "font-bengali"
-              )}>
-                {language === "bn" ? "ইসলামিক মাসআলা ও ফতোয়া" : "Islamic Rulings & Fatwas"}
-              </p>
-            </div>
+            <OfflineIndicator
+              isOffline={isOffline}
+              isSyncing={isSyncing}
+              lastSyncTime={lastSyncTime}
+              onRefresh={refresh}
+              language={language}
+              showRefreshButton={false}
+            />
           </div>
 
           {/* Search */}
@@ -379,6 +356,17 @@ const MasailList = ({ language }: MasailListProps) => {
       <div className="flex">
         {/* Sidebar */}
         <div className="w-80 lg:w-96 shrink-0 bg-[hsl(155_30%_90%)] dark:bg-[hsl(155_20%_15%)] border-r border-border h-screen sticky top-0 flex flex-col">
+          {/* Offline Indicator */}
+          <div className="p-2 border-b border-border/50 bg-muted/30">
+            <OfflineIndicator
+              isOffline={isOffline}
+              isSyncing={isSyncing}
+              lastSyncTime={lastSyncTime}
+              onRefresh={refresh}
+              language={language}
+            />
+          </div>
+          
           {/* Search */}
           <div className="p-4 border-b border-border/50">
             <div className="relative">
