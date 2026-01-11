@@ -2,20 +2,24 @@
 import { supabase } from "@/integrations/supabase/client";
 import { 
   saveVerses, 
-  saveHadiths, 
+  saveHadiths,
+  saveMasail,
   getVerseCount, 
-  getHadithCount, 
+  getHadithCount,
+  getMasailCount,
   setMetadata, 
   getMetadata,
-  LocalHadith 
+  LocalHadith,
+  LocalMasail
 } from "./offlineDataService";
 import { Verse } from "@/data/verses";
 
 const BATCH_SIZE = 500;
 const SYNC_KEY = "last-sync-time";
+const MASAIL_SYNC_KEY = "last-masail-sync";
 
 export interface SyncProgress {
-  type: "verses" | "hadiths";
+  type: "verses" | "hadiths" | "masail";
   current: number;
   total: number;
   status: "syncing" | "complete" | "error";
@@ -201,4 +205,91 @@ export const syncBookHadiths = async (bookSlug: string): Promise<LocalHadith[]> 
   await saveHadiths(allHadiths);
 
   return allHadiths;
+};
+
+// Sync masail - smart sync using updated_at for incremental updates
+export const syncMasail = async (onProgress?: ProgressCallback): Promise<{
+  synced: number;
+  isOffline: boolean;
+}> => {
+  // Check online status
+  if (!navigator.onLine) {
+    return { synced: 0, isOffline: true };
+  }
+
+  try {
+    // Get last sync timestamp
+    const lastSync = await getMetadata(MASAIL_SYNC_KEY);
+    
+    // Build query - fetch all if first time, or only updated records
+    let query = supabase
+      .from("masail")
+      .select("*")
+      .order("updated_at", { ascending: true });
+    
+    if (lastSync) {
+      query = query.gt("updated_at", lastSync);
+    }
+
+    // Get total count for progress
+    const { count: totalCount } = await supabase
+      .from("masail")
+      .select("*", { count: "exact", head: true });
+
+    // Fetch in batches
+    const allMasail: LocalMasail[] = [];
+    let offset = 0;
+
+    while (true) {
+      const { data, error } = await query.range(offset, offset + BATCH_SIZE - 1);
+
+      if (error) throw error;
+      if (!data || data.length === 0) break;
+
+      allMasail.push(...(data as LocalMasail[]));
+      offset += data.length;
+
+      onProgress?.({
+        type: "masail",
+        current: offset,
+        total: totalCount || offset,
+        status: "syncing"
+      });
+
+      if (data.length < BATCH_SIZE) break;
+    }
+
+    if (allMasail.length > 0) {
+      // Save to IndexedDB
+      await saveMasail(allMasail);
+      
+      // Update last sync time to the most recent updated_at
+      const latestUpdate = allMasail[allMasail.length - 1].updated_at;
+      await setMetadata(MASAIL_SYNC_KEY, latestUpdate);
+    }
+
+    onProgress?.({
+      type: "masail",
+      current: totalCount || allMasail.length,
+      total: totalCount || allMasail.length,
+      status: "complete"
+    });
+
+    console.log(`Masail sync complete: ${allMasail.length} records synced`);
+    return { synced: allMasail.length, isOffline: false };
+  } catch (error) {
+    console.error("Masail sync error:", error);
+    onProgress?.({
+      type: "masail",
+      current: 0,
+      total: 0,
+      status: "error"
+    });
+    throw error;
+  }
+};
+
+// Get last masail sync time
+export const getLastMasailSync = async (): Promise<string | null> => {
+  return await getMetadata(MASAIL_SYNC_KEY);
 };

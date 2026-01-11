@@ -1,33 +1,25 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { ArrowLeft, Share2, Printer, Loader2, Tag } from "lucide-react";
+import { ArrowLeft, Share2, Printer, Loader2, Tag, WifiOff } from "lucide-react";
 import { Language } from "@/types/language";
-import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
+import { getMasailById } from "@/services/offlineDataService";
+import { LocalMasail } from "@/services/offlineDataService";
+import { supabase } from "@/integrations/supabase/client";
 
 interface MasailDetailProps {
   language: Language;
 }
 
-interface Masail {
-  id: string;
-  title: string;
-  question: string | null;
-  answer: string;
-  author: string | null;
-  category: string | null;
-  source_url: string | null;
-  created_at: string;
-}
-
 const MasailDetail = ({ language }: MasailDetailProps) => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const [masail, setMasail] = useState<Masail | null>(null);
+  const [masail, setMasail] = useState<LocalMasail | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isOfflineData, setIsOfflineData] = useState(false);
 
   useEffect(() => {
     if (id) {
@@ -37,18 +29,39 @@ const MasailDetail = ({ language }: MasailDetailProps) => {
 
   const fetchMasail = async (masailId: string) => {
     setLoading(true);
-    const { data, error } = await supabase
-      .from('masail')
-      .select('*')
-      .eq('id', masailId)
-      .single();
-
-    if (error) {
-      console.error('Error fetching masail:', error);
-      toast.error("মাসআলা লোড করা যায়নি");
-    } else {
-      setMasail(data);
+    
+    // Try IndexedDB first (works offline)
+    try {
+      const localData = await getMasailById(masailId);
+      if (localData) {
+        setMasail(localData);
+        setIsOfflineData(!navigator.onLine);
+        setLoading(false);
+        return;
+      }
+    } catch (error) {
+      console.error('Error loading from IndexedDB:', error);
     }
+
+    // If not found locally and online, try Supabase
+    if (navigator.onLine) {
+      const { data, error } = await supabase
+        .from('masail')
+        .select('*')
+        .eq('id', masailId)
+        .single();
+
+      if (error) {
+        console.error('Error fetching masail:', error);
+        toast.error("মাসআলা লোড করা যায়নি");
+      } else {
+        setMasail(data as LocalMasail);
+        setIsOfflineData(false);
+      }
+    } else {
+      toast.error("অফলাইনে এই মাসআলা পাওয়া যায়নি");
+    }
+    
     setLoading(false);
   };
 
@@ -108,9 +121,21 @@ const MasailDetail = ({ language }: MasailDetailProps) => {
             ফিরে যান
           </Button>
           <div className="flex flex-col items-center justify-center rounded-2xl border border-border bg-card p-12 text-center">
+            {!navigator.onLine && (
+              <WifiOff className="mb-4 h-10 w-10 text-amber-500" />
+            )}
             <h2 className="text-xl font-semibold text-foreground mb-2 font-bengali">
-              মাসআলা পাওয়া যায়নি
+              {!navigator.onLine 
+                ? "অফলাইনে এই মাসআলা পাওয়া যায়নি"
+                : "মাসআলা পাওয়া যায়নি"
+              }
             </h2>
+            <p className="text-muted-foreground font-bengali text-sm">
+              {!navigator.onLine 
+                ? "অনলাইনে সংযোগ করে আবার চেষ্টা করুন"
+                : "অন্য একটি মাসআলা নির্বাচন করুন"
+              }
+            </p>
           </div>
         </div>
       </div>
@@ -132,6 +157,13 @@ const MasailDetail = ({ language }: MasailDetailProps) => {
           </Button>
           
           <div className="flex items-center gap-1">
+            {/* Offline indicator */}
+            {isOfflineData && (
+              <Badge variant="outline" className="text-amber-600 border-amber-300 mr-2">
+                <WifiOff className="h-3 w-3 mr-1" />
+                <span className="font-bengali text-xs">অফলাইন</span>
+              </Badge>
+            )}
             <Button variant="ghost" size="icon" onClick={handlePrint} title="প্রিন্ট">
               <Printer className="h-4 w-4" />
             </Button>

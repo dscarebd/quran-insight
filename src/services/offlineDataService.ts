@@ -3,9 +3,10 @@
 import { Verse } from "@/data/verses";
 
 const DB_NAME = "quraninsight-offline";
-const DB_VERSION = 1;
+const DB_VERSION = 2; // Upgraded from 1 to add masail store
 const VERSES_STORE = "verses";
 const HADITHS_STORE = "hadiths";
+const MASAIL_STORE = "masail";
 const META_STORE = "metadata";
 
 export interface LocalHadith {
@@ -21,6 +22,18 @@ export interface LocalHadith {
   narrator_bengali: string | null;
   grade: string | null;
   grade_bengali: string | null;
+}
+
+export interface LocalMasail {
+  id: string;
+  title: string;
+  question: string | null;
+  answer: string;
+  author: string | null;
+  category: string | null;
+  source_url: string | null;
+  created_at: string;
+  updated_at: string;
 }
 
 let db: IDBDatabase | null = null;
@@ -58,6 +71,16 @@ const openDB = (): Promise<IDBDatabase> => {
         });
         hadithsStore.createIndex("book_slug", "book_slug", { unique: false });
         hadithsStore.createIndex("chapter", ["book_slug", "chapter_number"], { unique: false });
+      }
+
+      // Masail store with indexes for category, author, updated_at
+      if (!database.objectStoreNames.contains(MASAIL_STORE)) {
+        const masailStore = database.createObjectStore(MASAIL_STORE, { 
+          keyPath: "id" 
+        });
+        masailStore.createIndex("category", "category", { unique: false });
+        masailStore.createIndex("author", "author", { unique: false });
+        masailStore.createIndex("updated_at", "updated_at", { unique: false });
       }
 
       // Metadata store for sync status
@@ -258,6 +281,90 @@ export const setMetadata = async (key: string, value: any): Promise<void> => {
   });
 };
 
+// Masail operations
+export const saveMasail = async (masailList: LocalMasail[]): Promise<void> => {
+  const database = await openDB();
+  return new Promise((resolve, reject) => {
+    const transaction = database.transaction(MASAIL_STORE, "readwrite");
+    const store = transaction.objectStore(MASAIL_STORE);
+
+    masailList.forEach(masail => store.put(masail));
+
+    transaction.oncomplete = () => resolve();
+    transaction.onerror = () => reject(transaction.error);
+  });
+};
+
+export const getAllMasail = async (): Promise<LocalMasail[]> => {
+  const database = await openDB();
+  return new Promise((resolve, reject) => {
+    const transaction = database.transaction(MASAIL_STORE, "readonly");
+    const store = transaction.objectStore(MASAIL_STORE);
+    const request = store.getAll();
+
+    request.onerror = () => reject(request.error);
+    request.onsuccess = () => {
+      const masail = request.result as LocalMasail[];
+      // Sort by created_at descending (newest first)
+      masail.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+      resolve(masail);
+    };
+  });
+};
+
+export const getMasailById = async (id: string): Promise<LocalMasail | null> => {
+  const database = await openDB();
+  return new Promise((resolve, reject) => {
+    const transaction = database.transaction(MASAIL_STORE, "readonly");
+    const store = transaction.objectStore(MASAIL_STORE);
+    const request = store.get(id);
+
+    request.onerror = () => reject(request.error);
+    request.onsuccess = () => resolve(request.result || null);
+  });
+};
+
+export const getMasailCount = async (): Promise<number> => {
+  const database = await openDB();
+  return new Promise((resolve, reject) => {
+    const transaction = database.transaction(MASAIL_STORE, "readonly");
+    const store = transaction.objectStore(MASAIL_STORE);
+    const request = store.count();
+
+    request.onerror = () => reject(request.error);
+    request.onsuccess = () => resolve(request.result);
+  });
+};
+
+export const getMasailByCategory = async (category: string): Promise<LocalMasail[]> => {
+  const database = await openDB();
+  return new Promise((resolve, reject) => {
+    const transaction = database.transaction(MASAIL_STORE, "readonly");
+    const store = transaction.objectStore(MASAIL_STORE);
+    const index = store.index("category");
+    const request = index.getAll(IDBKeyRange.only(category));
+
+    request.onerror = () => reject(request.error);
+    request.onsuccess = () => {
+      const masail = request.result as LocalMasail[];
+      masail.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+      resolve(masail);
+    };
+  });
+};
+
+export const clearMasailStore = async (): Promise<void> => {
+  const database = await openDB();
+  return new Promise((resolve, reject) => {
+    const transaction = database.transaction(MASAIL_STORE, "readwrite");
+    const store = transaction.objectStore(MASAIL_STORE);
+    const request = store.clear();
+
+    request.onerror = () => reject(request.error);
+    request.onsuccess = () => resolve();
+  });
+};
+
 // Check if data is synced
 export const isDataSynced = async (): Promise<boolean> => {
   const verseCount = await getVerseCount();
@@ -266,8 +373,9 @@ export const isDataSynced = async (): Promise<boolean> => {
 };
 
 // Get sync status
-export const getSyncStatus = async (): Promise<{ verses: number; hadiths: number }> => {
+export const getSyncStatus = async (): Promise<{ verses: number; hadiths: number; masail: number }> => {
   const verses = await getVerseCount();
   const hadiths = await getHadithCount();
-  return { verses, hadiths };
+  const masail = await getMasailCount();
+  return { verses, hadiths, masail };
 };
