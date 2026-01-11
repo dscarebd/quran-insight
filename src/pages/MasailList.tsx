@@ -316,17 +316,22 @@ const MasailList = ({ language }: MasailListProps) => {
                   <button
                     key={masail.id}
                     onClick={() => handleMasailClick(masail)}
-                    className="w-full text-left rounded-xl border border-border bg-card p-4 transition-all hover:bg-accent/50 hover:shadow-md hover:-translate-y-0.5 group"
+                    className="w-full text-left rounded-xl border-l-4 border-l-amber-400 dark:border-l-amber-500 bg-card p-4 transition-all hover:bg-amber-50 dark:hover:bg-amber-900/20 hover:shadow-md hover:-translate-y-0.5 group shadow-sm"
                   >
                     <div className="flex items-start justify-between gap-3">
                       <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 mb-1.5">
+                          <HelpCircle className="h-4 w-4 text-amber-500 shrink-0" />
+                          <span className="text-[10px] font-semibold uppercase tracking-wider text-amber-600 dark:text-amber-400 font-bengali">
+                            {language === "bn" ? "মাসআলা" : "Masail"}
+                          </span>
+                        </div>
                         <h3 className={cn(
                           "font-semibold text-foreground mb-1 line-clamp-2",
                           "font-bengali text-base leading-relaxed"
                         )}>
                           {masail.title}
                         </h3>
-                        
                         
                         {masail.question && (
                           <p className={cn(
@@ -338,7 +343,7 @@ const MasailList = ({ language }: MasailListProps) => {
                         )}
                       </div>
                       
-                      <ChevronRight className="h-5 w-5 text-muted-foreground shrink-0 mt-1 transition-transform group-hover:translate-x-1" />
+                      <ChevronRight className="h-5 w-5 text-amber-500 shrink-0 mt-1 transition-transform group-hover:translate-x-1" />
                     </div>
                   </button>
                 ))}
@@ -432,16 +437,37 @@ const MasailList = ({ language }: MasailListProps) => {
           {/* Category/Writer List based on active tab */}
           {activeTab !== "all" && (
             <ScrollArea className="flex-1 max-h-[30vh]">
-              <div className="p-2">
+              <div className="p-3">
+                {/* Section Header for Categories/Writers */}
+                <div className="flex items-center gap-2 mb-3 px-2">
+                  {activeTab === "categories" ? (
+                    <Tag className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+                  ) : (
+                    <User className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+                  )}
+                  <span className={cn(
+                    "text-xs font-semibold uppercase tracking-wider",
+                    activeTab === "categories" 
+                      ? "text-emerald-700 dark:text-emerald-400" 
+                      : "text-blue-700 dark:text-blue-400",
+                    language === "bn" && "font-bengali"
+                  )}>
+                    {activeTab === "categories" 
+                      ? (language === "bn" ? "সকল বিভাগ" : "All Categories")
+                      : (language === "bn" ? "সকল লেখক" : "All Writers")
+                    }
+                  </span>
+                </div>
+                
                 {activeTab === "categories" ? (
                   <>
                     <button
                       onClick={() => setSelectedCategory("all")}
                       className={cn(
-                        "w-full text-left px-4 py-3 rounded-lg mb-1 transition-all font-bengali text-sm",
+                        "w-full text-left px-4 py-3 rounded-xl mb-2 transition-all font-bengali text-sm border-2",
                         selectedCategory === "all"
-                          ? "bg-primary/20 text-primary font-medium border-l-4 border-primary"
-                          : "hover:bg-muted/70 text-foreground"
+                          ? "bg-emerald-100 dark:bg-emerald-900/30 text-emerald-800 dark:text-emerald-300 font-medium border-emerald-400 dark:border-emerald-600 shadow-sm"
+                          : "bg-card hover:bg-emerald-50 dark:hover:bg-emerald-900/20 text-foreground border-transparent hover:border-emerald-200 dark:hover:border-emerald-800"
                       )}
                     >
                       {language === "bn" ? "সকল বিভাগ" : "All Categories"}
@@ -451,10 +477,10 @@ const MasailList = ({ language }: MasailListProps) => {
                         key={cat}
                         onClick={() => setSelectedCategory(cat)}
                         className={cn(
-                          "w-full text-left px-4 py-3 rounded-lg mb-1 transition-all font-bengali text-sm",
+                          "w-full text-left px-4 py-3 rounded-xl mb-2 transition-all font-bengali text-sm border-2",
                           selectedCategory === cat
-                            ? "bg-primary/20 text-primary font-medium border-l-4 border-primary"
-                            : "hover:bg-muted/70 text-foreground"
+                            ? "bg-emerald-100 dark:bg-emerald-900/30 text-emerald-800 dark:text-emerald-300 font-medium border-emerald-400 dark:border-emerald-600 shadow-sm"
+                            : "bg-card hover:bg-emerald-50 dark:hover:bg-emerald-900/20 text-foreground border-transparent hover:border-emerald-200 dark:hover:border-emerald-800"
                         )}
                       >
                         {cat}
@@ -466,10 +492,10 @@ const MasailList = ({ language }: MasailListProps) => {
                     <button
                       onClick={() => setSelectedWriter("all")}
                       className={cn(
-                        "w-full text-left px-4 py-3 rounded-lg mb-1 transition-all font-bengali text-sm",
+                        "w-full text-left px-4 py-3 rounded-xl mb-2 transition-all font-bengali text-sm border-2",
                         selectedWriter === "all"
-                          ? "bg-primary/20 text-primary font-medium border-l-4 border-primary"
-                          : "hover:bg-muted/70 text-foreground"
+                          ? "bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 font-medium border-blue-400 dark:border-blue-600 shadow-sm"
+                          : "bg-card hover:bg-blue-50 dark:hover:bg-blue-900/20 text-foreground border-transparent hover:border-blue-200 dark:hover:border-blue-800"
                       )}
                     >
                       {language === "bn" ? "সকল লেখক" : "All Writers"}
@@ -479,10 +505,10 @@ const MasailList = ({ language }: MasailListProps) => {
                         key={writer}
                         onClick={() => setSelectedWriter(writer)}
                         className={cn(
-                          "w-full text-left px-4 py-3 rounded-lg mb-1 transition-all font-bengali text-sm",
+                          "w-full text-left px-4 py-3 rounded-xl mb-2 transition-all font-bengali text-sm border-2",
                           selectedWriter === writer
-                            ? "bg-primary/20 text-primary font-medium border-l-4 border-primary"
-                            : "hover:bg-muted/70 text-foreground"
+                            ? "bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 font-medium border-blue-400 dark:border-blue-600 shadow-sm"
+                            : "bg-card hover:bg-blue-50 dark:hover:bg-blue-900/20 text-foreground border-transparent hover:border-blue-200 dark:hover:border-blue-800"
                         )}
                       >
                         {writer}
@@ -496,16 +522,23 @@ const MasailList = ({ language }: MasailListProps) => {
 
           {/* Masail List in Sidebar */}
           <div className="border-t border-border/50 flex-1 flex flex-col min-h-0">
-            <div className="p-3 bg-muted/30 shrink-0">
-              <p className="text-xs text-muted-foreground font-bengali">
-                {language === "bn" 
-                  ? `${formatNumber(filteredMasail.length, language)}টি মাসআলা`
-                  : `${filteredMasail.length} masail`
-                }
-              </p>
+            {/* Masail Section Header */}
+            <div className="p-3 bg-amber-50/50 dark:bg-amber-900/10 shrink-0 border-b border-amber-200/50 dark:border-amber-800/30">
+              <div className="flex items-center gap-2">
+                <HelpCircle className="h-4 w-4 text-amber-600 dark:text-amber-400" />
+                <span className={cn(
+                  "text-xs font-semibold uppercase tracking-wider text-amber-700 dark:text-amber-400",
+                  language === "bn" && "font-bengali"
+                )}>
+                  {language === "bn" 
+                    ? `${formatNumber(filteredMasail.length, language)}টি মাসআলা`
+                    : `${filteredMasail.length} Masail`
+                  }
+                </span>
+              </div>
             </div>
             <ScrollArea className="flex-1">
-              <div className="p-2">
+              <div className="p-3">
                 {loading ? (
                   <div className="flex items-center justify-center py-8">
                     <Loader2 className="h-6 w-6 animate-spin text-primary" />
@@ -520,10 +553,10 @@ const MasailList = ({ language }: MasailListProps) => {
                       key={masail.id}
                       onClick={() => handleMasailClick(masail)}
                       className={cn(
-                        "w-full text-left px-3 py-3 rounded-lg transition-all font-bengali text-sm leading-relaxed",
+                        "w-full text-left px-4 py-3 rounded-xl mb-2 transition-all font-bengali text-sm leading-relaxed border-l-4",
                         selectedMasail?.id === masail.id
-                          ? "bg-primary/15 text-primary border-l-4 border-primary"
-                          : "hover:bg-muted/70 text-foreground"
+                          ? "bg-amber-100 dark:bg-amber-900/30 text-amber-900 dark:text-amber-200 border-amber-500 dark:border-amber-500 shadow-sm"
+                          : "bg-card hover:bg-amber-50 dark:hover:bg-amber-900/20 text-foreground border-amber-300/50 dark:border-amber-700/50 hover:border-amber-400 dark:hover:border-amber-600"
                       )}
                     >
                       <span className="line-clamp-2">{masail.title}</span>
