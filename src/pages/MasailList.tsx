@@ -358,9 +358,10 @@ const MasailList = ({ language }: MasailListProps) => {
   // Desktop/Tablet Layout - Sidebar with content
   return (
     <div className="min-h-screen bg-[hsl(var(--muted)/0.3)]">
-      <div className="flex">
-        {/* Sidebar */}
-        <div className="w-80 lg:w-96 shrink-0 bg-[hsl(155_30%_90%)] dark:bg-[hsl(155_20%_15%)] border-r border-border h-screen sticky top-0 flex flex-col">
+      <div className="container mx-auto px-4 lg:px-8">
+        <div className="flex gap-6 py-6">
+          {/* Sidebar */}
+        <div className="w-80 lg:w-96 shrink-0 bg-[hsl(155_30%_90%)] dark:bg-[hsl(155_20%_15%)] border border-border rounded-xl h-[calc(100vh-8rem)] sticky top-24 flex flex-col overflow-hidden shadow-sm">
           {/* Offline Indicator */}
           <div className="p-2 border-b border-border/50 bg-muted/30">
             <OfflineIndicator
@@ -569,11 +570,11 @@ const MasailList = ({ language }: MasailListProps) => {
         </div>
 
         {/* Content Area */}
-        <div className="flex-1 min-h-screen">
+        <div className="flex-1">
           {selectedMasail ? (
-            <div className="bg-[hsl(155_25%_92%)] dark:bg-background min-h-screen">
+            <div className="bg-card dark:bg-card rounded-xl border border-border shadow-sm overflow-hidden">
               {/* Header */}
-              <div className="sticky top-0 z-10 bg-[hsl(155_25%_92%)]/95 dark:bg-background/95 backdrop-blur-md border-b border-border">
+              <div className="sticky top-0 z-10 bg-card/95 dark:bg-card/95 backdrop-blur-md border-b border-border">
                 <div className="px-6 lg:px-10 py-3 flex items-center justify-end gap-2">
                   <Button variant="ghost" size="icon" onClick={handlePrint} title="প্রিন্ট">
                     <Printer className="h-5 w-5" />
@@ -584,7 +585,7 @@ const MasailList = ({ language }: MasailListProps) => {
                 </div>
               </div>
 
-              <ScrollArea className="h-[calc(100vh-60px)]">
+              <ScrollArea className="h-[calc(100vh-12rem)]">
                 <div className="px-6 lg:px-10 py-8 max-w-4xl">
                   {/* Title */}
                   <h1 className="text-2xl lg:text-3xl font-bold text-foreground font-bengali leading-relaxed mb-4">
@@ -643,7 +644,7 @@ const MasailList = ({ language }: MasailListProps) => {
               </ScrollArea>
             </div>
           ) : (
-            <div className="flex flex-col items-center justify-center h-screen text-center p-8">
+            <div className="flex flex-col items-center justify-center h-[calc(100vh-12rem)] text-center p-8 bg-card rounded-xl border border-border shadow-sm">
               <HelpCircle className="h-16 w-16 text-muted-foreground/30 mb-4" />
               <h2 className="text-xl font-semibold text-muted-foreground font-bengali mb-2">
                 {language === "bn" ? "একটি মাসআলা নির্বাচন করুন" : "Select a masail"}
@@ -656,6 +657,7 @@ const MasailList = ({ language }: MasailListProps) => {
               </p>
             </div>
           )}
+        </div>
         </div>
       </div>
     </div>
