@@ -319,14 +319,6 @@ const MasailList = ({ language }: MasailListProps) => {
                           {masail.title}
                         </h3>
                         
-                        {masail.question && (
-                          <p className={cn(
-                            "text-sm text-muted-foreground line-clamp-2",
-                            "font-bengali leading-relaxed"
-                          )}>
-                            {getPreview(masail.question)}
-                          </p>
-                        )}
                       </div>
                       
                       <ChevronRight className="h-5 w-5 text-amber-500 shrink-0 mt-1 transition-transform group-hover:translate-x-1" />
