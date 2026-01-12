@@ -76,27 +76,25 @@ export const useOfflineBundle = (autoSync: boolean = true) => {
     }));
   }, []);
 
-  // Full sync of all data
+  // Full sync of all data - only once per day
   const syncAll = useCallback(async (force: boolean = false) => {
     if (!navigator.onLine) {
       console.log("Offline - cannot sync bundle");
       return { success: false, reason: "offline" };
     }
 
-    // Check if already synced recently (within 24 hours) unless forced
+    // Check if already synced today (same calendar day) unless forced
     if (!force) {
       const lastSync = localStorage.getItem(BUNDLE_SYNC_KEY);
       if (lastSync) {
-        const lastSyncTime = new Date(lastSync).getTime();
-        const now = Date.now();
-        const oneDay = 24 * 60 * 60 * 1000;
+        const lastSyncDate = new Date(lastSync).toDateString();
+        const todayDate = new Date().toDateString();
         
-        if (now - lastSyncTime < oneDay) {
-          const currentStatus = await checkStatus();
-          if (currentStatus?.isComplete) {
-            console.log("Bundle already synced within 24 hours");
-            return { success: true, reason: "already-synced" };
-          }
+        // Skip if already synced today
+        if (lastSyncDate === todayDate) {
+          console.log("Bundle already synced today");
+          await checkStatus();
+          return { success: true, reason: "already-synced-today" };
         }
       }
     }
@@ -156,17 +154,7 @@ export const useOfflineBundle = (autoSync: boolean = true) => {
     }
   }, [autoSync, checkStatus, syncAll]);
 
-  // Listen for online status changes
-  useEffect(() => {
-    const handleOnline = () => {
-      if (autoSync) {
-        syncAll(false);
-      }
-    };
-
-    window.addEventListener('online', handleOnline);
-    return () => window.removeEventListener('online', handleOnline);
-  }, [autoSync, syncAll]);
+  // No auto-sync on online event - sync only happens once per day on app load
 
   return {
     ...status,
