@@ -17,6 +17,7 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import ReactMarkdown from "react-markdown";
 import { useDuaAudio } from "@/hooks/useDuaAudio";
+import { useDuasOfflineSync } from "@/hooks/useDuasOfflineSync";
 
 interface DuaProps {
   language: Language;
@@ -48,6 +49,9 @@ const Dua = ({ language, arabicFont = "amiri" }: DuaProps) => {
   // AI Search
   const { search: aiSearch, isLoading: aiLoading, response: aiResponse, clear: clearAiSearch, isOnline } = useAISearch();
   const [showAiResults, setShowAiResults] = useState(false);
+
+  // Offline sync - will sync duas in background when page loads
+  useDuasOfflineSync(true);
 
   // Audio
   const { 
