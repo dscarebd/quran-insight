@@ -2,7 +2,7 @@
 // This ensures 100% offline functionality from first launch
 
 import { Verse } from "@/data/verses";
-import { LocalHadith } from "./offlineDataService";
+import { LocalHadith, LocalMasail } from "./offlineDataService";
 import { hadithBooks } from "@/data/hadithBooks";
 
 // Types for bundled duas
@@ -31,24 +31,32 @@ export interface BundledDuaCategory {
   display_order: number;
 }
 
+// Re-export LocalMasail type for consistency
+export type BundledMasail = LocalMasail;
+
 // Memory cache for loaded data
 let versesData: Verse[] | null = null;
 let hadithsData: LocalHadith[] | null = null;
 let duasData: BundledDua[] | null = null;
 let duaCategoriesData: BundledDuaCategory[] | null = null;
+let masailData: BundledMasail[] | null = null;
 
-// Separate loading state for verses, hadiths and duas
+// Separate loading state for verses, hadiths, duas and masail
 let isVersesLoading = false;
 let isHadithsLoading = false;
 let isDuasLoading = false;
+let isMasailLoading = false;
 let versesLoadPromise: Promise<void> | null = null;
 let hadithsLoadPromise: Promise<void> | null = null;
 let duasLoadPromise: Promise<void> | null = null;
+let masailLoadPromise: Promise<void> | null = null;
 
 // Indexed caches for fast lookups
 const versesBySurah = new Map<number, Verse[]>();
 const hadithsByBook = new Map<string, LocalHadith[]>();
 const duasByCategory = new Map<string, BundledDua[]>();
+const masailByCategory = new Map<string, BundledMasail[]>();
+const masailByAuthor = new Map<string, BundledMasail[]>();
 
 // Parse CSV data to Verse objects
 const parseVersesCsv = (csvText: string): Verse[] => {
@@ -320,13 +328,71 @@ export const initializeDuasData = async (): Promise<void> => {
   return duasLoadPromise;
 };
 
+// Load masail from JSON file
+const loadMasailFromJson = async (): Promise<BundledMasail[]> => {
+  try {
+    const response = await fetch('/data/masail-complete.json');
+    if (!response.ok) {
+      console.error('Failed to load masail JSON file');
+      return [];
+    }
+    const data = await response.json();
+    return Array.isArray(data) ? data : [];
+  } catch (error) {
+    console.error('Error loading masail from JSON:', error);
+    return [];
+  }
+};
+
+// Initialize ONLY masail data
+export const initializeMasailData = async (): Promise<void> => {
+  if (masailData) {
+    return; // Already loaded
+  }
+  
+  if (isMasailLoading && masailLoadPromise) {
+    return masailLoadPromise; // Return existing promise
+  }
+  
+  isMasailLoading = true;
+  
+  masailLoadPromise = (async () => {
+    console.log('Loading masail data...');
+    const startTime = performance.now();
+    
+    const masail = await loadMasailFromJson();
+    masailData = masail;
+    
+    // Build indexed caches by category and author
+    masail.forEach(m => {
+      if (m.category) {
+        const existingCategory = masailByCategory.get(m.category) || [];
+        existingCategory.push(m);
+        masailByCategory.set(m.category, existingCategory);
+      }
+      if (m.author) {
+        const existingAuthor = masailByAuthor.get(m.author) || [];
+        existingAuthor.push(m);
+        masailByAuthor.set(m.author, existingAuthor);
+      }
+    });
+    
+    const loadTime = Math.round(performance.now() - startTime);
+    console.log(`Loaded ${masail.length} masail in ${loadTime}ms`);
+    isMasailLoading = false;
+  })();
+  
+  return masailLoadPromise;
+};
+
 // Initialize ALL data (for backward compatibility and preloading)
 export const initializeBundledData = async (): Promise<void> => {
   // Start all loads in parallel
   await Promise.all([
     initializeVersesData(),
     initializeHadithsData(),
-    initializeDuasData()
+    initializeDuasData(),
+    initializeMasailData()
   ]);
 };
 
@@ -386,6 +452,37 @@ export const getRandomBundledDua = (dayOfYear: number): BundledDua | null => {
   return duasData[index];
 };
 
+// Get masail for a specific category
+export const getBundledMasailByCategory = (category: string): BundledMasail[] => {
+  return masailByCategory.get(category) || [];
+};
+
+// Get masail for a specific author
+export const getBundledMasailByAuthor = (author: string): BundledMasail[] => {
+  return masailByAuthor.get(author) || [];
+};
+
+// Get all masail
+export const getAllBundledMasail = (): BundledMasail[] => {
+  return masailData || [];
+};
+
+// Get masail by ID
+export const getBundledMasailById = (id: string): BundledMasail | null => {
+  if (!masailData) return null;
+  return masailData.find(m => m.id === id) || null;
+};
+
+// Get unique categories from masail
+export const getBundledMasailCategories = (): string[] => {
+  return Array.from(masailByCategory.keys()).sort();
+};
+
+// Get unique authors from masail
+export const getBundledMasailAuthors = (): string[] => {
+  return Array.from(masailByAuthor.keys()).sort();
+};
+
 // Check if bundled data is loaded
 export const isBundledDataLoaded = (): boolean => {
   return versesData !== null && versesData.length > 0;
@@ -401,12 +498,18 @@ export const isDuasDataLoaded = (): boolean => {
   return duasData !== null && duasData.length > 0;
 };
 
+// Check if masail are loaded
+export const isMasailDataLoaded = (): boolean => {
+  return masailData !== null && masailData.length > 0;
+};
+
 // Get loading status
 export const getBundledDataStatus = (): { 
   versesCount: number; 
   hadithsCount: number; 
   duasCount: number;
   duaCategoriesCount: number;
+  masailCount: number;
   isLoading: boolean;
 } => {
   return {
@@ -414,6 +517,53 @@ export const getBundledDataStatus = (): {
     hadithsCount: hadithsData?.length || 0,
     duasCount: duasData?.length || 0,
     duaCategoriesCount: duaCategoriesData?.length || 0,
-    isLoading: isVersesLoading || isHadithsLoading || isDuasLoading
+    masailCount: masailData?.length || 0,
+    isLoading: isVersesLoading || isHadithsLoading || isDuasLoading || isMasailLoading
   };
+};
+
+// Add new masail to the memory cache (for incremental sync)
+export const addMasailToCache = (newMasail: BundledMasail[]): void => {
+  if (!masailData) {
+    masailData = [];
+  }
+  
+  newMasail.forEach(m => {
+    // Check if already exists
+    const existingIndex = masailData!.findIndex(existing => existing.id === m.id);
+    if (existingIndex >= 0) {
+      // Update existing
+      masailData![existingIndex] = m;
+    } else {
+      // Add new
+      masailData!.push(m);
+    }
+    
+    // Update category index
+    if (m.category) {
+      const existingCategory = masailByCategory.get(m.category) || [];
+      const categoryIndex = existingCategory.findIndex(existing => existing.id === m.id);
+      if (categoryIndex >= 0) {
+        existingCategory[categoryIndex] = m;
+      } else {
+        existingCategory.push(m);
+      }
+      masailByCategory.set(m.category, existingCategory);
+    }
+    
+    // Update author index
+    if (m.author) {
+      const existingAuthor = masailByAuthor.get(m.author) || [];
+      const authorIndex = existingAuthor.findIndex(existing => existing.id === m.id);
+      if (authorIndex >= 0) {
+        existingAuthor[authorIndex] = m;
+      } else {
+        existingAuthor.push(m);
+      }
+      masailByAuthor.set(m.author, existingAuthor);
+    }
+  });
+  
+  // Sort by created_at descending
+  masailData.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
 };
