@@ -5,19 +5,50 @@ import { Verse } from "@/data/verses";
 import { LocalHadith } from "./offlineDataService";
 import { hadithBooks } from "@/data/hadithBooks";
 
+// Types for bundled duas
+export interface BundledDua {
+  dua_id: string;
+  category_id: string;
+  title_english: string;
+  title_bengali: string;
+  title_hindi: string;
+  arabic: string;
+  english: string;
+  bengali: string;
+  hindi: string;
+  transliteration: string;
+  transliteration_bengali: string;
+  transliteration_hindi: string;
+  reference: string;
+}
+
+export interface BundledDuaCategory {
+  category_id: string;
+  name_english: string;
+  name_bengali: string;
+  name_hindi: string;
+  icon: string;
+  display_order: number;
+}
+
 // Memory cache for loaded data
 let versesData: Verse[] | null = null;
 let hadithsData: LocalHadith[] | null = null;
+let duasData: BundledDua[] | null = null;
+let duaCategoriesData: BundledDuaCategory[] | null = null;
 
-// Separate loading state for verses and hadiths
+// Separate loading state for verses, hadiths and duas
 let isVersesLoading = false;
 let isHadithsLoading = false;
+let isDuasLoading = false;
 let versesLoadPromise: Promise<void> | null = null;
 let hadithsLoadPromise: Promise<void> | null = null;
+let duasLoadPromise: Promise<void> | null = null;
 
 // Indexed caches for fast lookups
 const versesBySurah = new Map<number, Verse[]>();
 const hadithsByBook = new Map<string, LocalHadith[]>();
+const duasByCategory = new Map<string, BundledDua[]>();
 
 // Parse CSV data to Verse objects
 const parseVersesCsv = (csvText: string): Verse[] => {
@@ -228,12 +259,74 @@ export const initializeHadithsData = async (): Promise<void> => {
   return hadithsLoadPromise;
 };
 
+// Load duas from JSON files
+const loadDuasFromJson = async (): Promise<{ duas: BundledDua[]; categories: BundledDuaCategory[] }> => {
+  try {
+    const [duasResponse, categoriesResponse] = await Promise.all([
+      fetch('/data/duas-complete.json'),
+      fetch('/data/duas-categories.json')
+    ]);
+    
+    if (!duasResponse.ok || !categoriesResponse.ok) {
+      console.error('Failed to load duas JSON files');
+      return { duas: [], categories: [] };
+    }
+    
+    const duas = await duasResponse.json();
+    const categories = await categoriesResponse.json();
+    
+    return { 
+      duas: Array.isArray(duas) ? duas : [], 
+      categories: Array.isArray(categories) ? categories : [] 
+    };
+  } catch (error) {
+    console.error('Error loading duas from JSON:', error);
+    return { duas: [], categories: [] };
+  }
+};
+
+// Initialize ONLY duas data
+export const initializeDuasData = async (): Promise<void> => {
+  if (duasData) {
+    return; // Already loaded
+  }
+  
+  if (isDuasLoading && duasLoadPromise) {
+    return duasLoadPromise; // Return existing promise
+  }
+  
+  isDuasLoading = true;
+  
+  duasLoadPromise = (async () => {
+    console.log('Loading duas data...');
+    const startTime = performance.now();
+    
+    const { duas, categories } = await loadDuasFromJson();
+    duasData = duas;
+    duaCategoriesData = categories;
+    
+    // Build indexed cache by category
+    duas.forEach(dua => {
+      const existing = duasByCategory.get(dua.category_id) || [];
+      existing.push(dua);
+      duasByCategory.set(dua.category_id, existing);
+    });
+    
+    const loadTime = Math.round(performance.now() - startTime);
+    console.log(`Loaded ${duas.length} duas and ${categories.length} categories in ${loadTime}ms`);
+    isDuasLoading = false;
+  })();
+  
+  return duasLoadPromise;
+};
+
 // Initialize ALL data (for backward compatibility and preloading)
 export const initializeBundledData = async (): Promise<void> => {
-  // Start both loads in parallel
+  // Start all loads in parallel
   await Promise.all([
     initializeVersesData(),
-    initializeHadithsData()
+    initializeHadithsData(),
+    initializeDuasData()
   ]);
 };
 
@@ -247,6 +340,16 @@ export const getBundledHadiths = (bookSlug: string): LocalHadith[] => {
   return hadithsByBook.get(bookSlug) || [];
 };
 
+// Get duas for a specific category
+export const getBundledDuas = (categoryId: string): BundledDua[] => {
+  return duasByCategory.get(categoryId) || [];
+};
+
+// Get all dua categories
+export const getBundledDuaCategories = (): BundledDuaCategory[] => {
+  return duaCategoriesData || [];
+};
+
 // Get all verses (for search, etc.)
 export const getAllBundledVerses = (): Verse[] => {
   return versesData || [];
@@ -255,6 +358,11 @@ export const getAllBundledVerses = (): Verse[] => {
 // Get all hadiths (for search, etc.)
 export const getAllBundledHadiths = (): LocalHadith[] => {
   return hadithsData || [];
+};
+
+// Get all duas (for search, etc.)
+export const getAllBundledDuas = (): BundledDua[] => {
+  return duasData || [];
 };
 
 // Get a random verse for daily content
@@ -271,6 +379,13 @@ export const getRandomBundledHadith = (dayOfYear: number): LocalHadith | null =>
   return hadithsData[index];
 };
 
+// Get a random dua for daily content
+export const getRandomBundledDua = (dayOfYear: number): BundledDua | null => {
+  if (!duasData || duasData.length === 0) return null;
+  const index = dayOfYear % duasData.length;
+  return duasData[index];
+};
+
 // Check if bundled data is loaded
 export const isBundledDataLoaded = (): boolean => {
   return versesData !== null && versesData.length > 0;
@@ -281,11 +396,24 @@ export const isHadithsDataLoaded = (): boolean => {
   return hadithsData !== null && hadithsData.length > 0;
 };
 
+// Check if duas are loaded
+export const isDuasDataLoaded = (): boolean => {
+  return duasData !== null && duasData.length > 0;
+};
+
 // Get loading status
-export const getBundledDataStatus = (): { versesCount: number; hadithsCount: number; isLoading: boolean } => {
+export const getBundledDataStatus = (): { 
+  versesCount: number; 
+  hadithsCount: number; 
+  duasCount: number;
+  duaCategoriesCount: number;
+  isLoading: boolean;
+} => {
   return {
     versesCount: versesData?.length || 0,
     hadithsCount: hadithsData?.length || 0,
-    isLoading: isVersesLoading || isHadithsLoading
+    duasCount: duasData?.length || 0,
+    duaCategoriesCount: duaCategoriesData?.length || 0,
+    isLoading: isVersesLoading || isHadithsLoading || isDuasLoading
   };
 };

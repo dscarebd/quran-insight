@@ -1,0 +1,162 @@
+[
+  {
+    "category_id": "daily-life",
+    "name_english": "Daily Life Duas",
+    "name_bengali": "দৈনন্দিন দোয়া",
+    "name_hindi": "दैनिक दुआएं",
+    "icon": "Calendar",
+    "display_order": 0
+  },
+  {
+    "category_id": "morning-evening",
+    "name_english": "Morning & Evening Dhikr",
+    "name_bengali": "সকাল-সন্ধ্যার যিকর",
+    "name_hindi": "सुबह-शाम के अज़कार",
+    "icon": "Sunrise",
+    "display_order": 1
+  },
+  {
+    "category_id": "protection",
+    "name_english": "Protection & Safety",
+    "name_bengali": "হিফাজতের দোয়া",
+    "name_hindi": "हिफ़ाज़त की दुआएं",
+    "icon": "Shield",
+    "display_order": 2
+  },
+  {
+    "category_id": "quran-duas",
+    "name_english": "Duas from the Qur'an",
+    "name_bengali": "কুরআনের দোয়া",
+    "name_hindi": "क़ुरआन की दुआएं",
+    "icon": "BookOpen",
+    "display_order": 3
+  },
+  {
+    "category_id": "sunnah-duas",
+    "name_english": "Duas from the Sunnah",
+    "name_bengali": "হাদীসের দোয়া",
+    "name_hindi": "हदीस की दुआएं",
+    "icon": "BookMarked",
+    "display_order": 4
+  },
+  {
+    "category_id": "guidance-iman",
+    "name_english": "Guidance & Iman",
+    "name_bengali": "ঈমান ও হিদায়াত",
+    "name_hindi": "ईमान और हिदायत",
+    "icon": "Compass",
+    "display_order": 5
+  },
+  {
+    "category_id": "knowledge-study",
+    "name_english": "Knowledge & Study",
+    "name_bengali": "জ্ঞান ও পড়াশোনার দোয়া",
+    "name_hindi": "इल्म और पढ़ाई की दुआएं",
+    "icon": "GraduationCap",
+    "display_order": 6
+  },
+  {
+    "category_id": "rizq-wealth",
+    "name_english": "Rizq & Wealth",
+    "name_bengali": "রিজিকের দোয়া",
+    "name_hindi": "रिज़्क़ और दौलत की दुआएं",
+    "icon": "Wallet",
+    "display_order": 7
+  },
+  {
+    "category_id": "health-healing",
+    "name_english": "Health & Healing",
+    "name_bengali": "সুস্থতার দোয়া",
+    "name_hindi": "सेहत और शिफ़ा की दुआएं",
+    "icon": "Heart",
+    "display_order": 8
+  },
+  {
+    "category_id": "stress-anxiety",
+    "name_english": "Stress, Anxiety & Sadness",
+    "name_bengali": "দুশ্চিন্তার দোয়া",
+    "name_hindi": "परेशानी, चिंता और ग़म की दुआएं",
+    "icon": "Brain",
+    "display_order": 9
+  },
+  {
+    "category_id": "work-success",
+    "name_english": "Work & Success",
+    "name_bengali": "কাজ ও সফলতার দোয়া",
+    "name_hindi": "काम और कामयाबी की दुआएं",
+    "icon": "Briefcase",
+    "display_order": 10
+  },
+  {
+    "category_id": "family-relationships",
+    "name_english": "Family & Relationships",
+    "name_bengali": "পরিবারের দোয়া",
+    "name_hindi": "परिवार और रिश्तों की दुआएं",
+    "icon": "Users",
+    "display_order": 11
+  },
+  {
+    "category_id": "marriage-spouse",
+    "name_english": "Marriage & Spouse",
+    "name_bengali": "বিবাহের দোয়া",
+    "name_hindi": "शादी और जीवनसाथी की दुआएं",
+    "icon": "HeartHandshake",
+    "display_order": 12
+  },
+  {
+    "category_id": "children-duas",
+    "name_english": "Children Duas",
+    "name_bengali": "সন্তানের দোয়া",
+    "name_hindi": "बच्चों की दुआएं",
+    "icon": "Baby",
+    "display_order": 13
+  },
+  {
+    "category_id": "travel-duas",
+    "name_english": "Travel Duas",
+    "name_bengali": "সফরের দোয়া",
+    "name_hindi": "सफ़र की दुआएं",
+    "icon": "Plane",
+    "display_order": 14
+  },
+  {
+    "category_id": "fear-hardship",
+    "name_english": "Fear, Hardship & Trials",
+    "name_bengali": "বিপদের দোয়া",
+    "name_hindi": "डर, मुसीबत और आज़माइश की दुआएं",
+    "icon": "AlertTriangle",
+    "display_order": 15
+  },
+  {
+    "category_id": "akhirah-duas",
+    "name_english": "Hereafter & Akhirah",
+    "name_bengali": "আখিরাতের দোয়া",
+    "name_hindi": "आख़िरत की दुआएं",
+    "icon": "Sunrise",
+    "display_order": 16
+  },
+  {
+    "category_id": "death-funeral",
+    "name_english": "Death & Funeral",
+    "name_bengali": "মৃত্যু ও জানাজা",
+    "name_hindi": "मौत और जनाज़े की दुआएं",
+    "icon": "Moon",
+    "display_order": 17
+  },
+  {
+    "category_id": "special-occasions",
+    "name_english": "Special Occasions",
+    "name_bengali": "বিশেষ উপলক্ষ",
+    "name_hindi": "ख़ास मौक़ों की दुआएं",
+    "icon": "Star",
+    "display_order": 18
+  },
+  {
+    "category_id": "forgiveness",
+    "name_english": "Forgiveness & Tawbah",
+    "name_bengali": "ক্ষমা ও তাওবা",
+    "name_hindi": "माफ़ी और तौबा की दुआएं",
+    "icon": "Heart",
+    "display_order": 19
+  }
+]

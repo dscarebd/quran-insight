@@ -1,6 +1,12 @@
 import { useState, useEffect, useCallback } from "react";
-import { syncAllData, syncMasail, syncDuas, SyncProgress } from "@/services/syncService";
-import { getSyncStatus } from "@/services/offlineDataService";
+import { syncMasail, SyncProgress } from "@/services/syncService";
+import { getMasailCount } from "@/services/offlineDataService";
+import { 
+  getBundledDataStatus, 
+  initializeVersesData, 
+  initializeHadithsData,
+  initializeDuasData
+} from "@/services/bundledDataLoader";
 
 export interface OfflineBundleStatus {
   verses: number;
@@ -9,7 +15,7 @@ export interface OfflineBundleStatus {
   duas: number;
   isComplete: boolean;
   isSyncing: boolean;
-  currentType: "verses" | "hadiths" | "masail" | "duas" | null;
+  currentType: "masail" | null;
   progress: number;
   total: number;
   error: string | null;
@@ -17,10 +23,7 @@ export interface OfflineBundleStatus {
 }
 
 const BUNDLE_SYNC_KEY = "offline-bundle-last-sync";
-const MIN_VERSES = 6200;
-const MIN_HADITHS = 36000;
 const MIN_MASAIL = 100;
-const MIN_DUAS = 50;
 
 export const useOfflineBundle = (autoSync: boolean = true) => {
   const [status, setStatus] = useState<OfflineBundleStatus>({
@@ -37,29 +40,48 @@ export const useOfflineBundle = (autoSync: boolean = true) => {
     lastSyncTime: null
   });
 
-  // Check current sync status
+  // Check current sync status - get bundled data counts + synced masail count
   const checkStatus = useCallback(async () => {
     try {
-      const { verses, hadiths, masail, duas } = await getSyncStatus();
+      // Initialize bundled data loaders if not already done
+      await Promise.all([
+        initializeVersesData(),
+        initializeHadithsData(),
+        initializeDuasData()
+      ]);
+
+      // Get bundled data counts
+      const bundledStatus = getBundledDataStatus();
+      
+      // Get synced masail count from IndexedDB
+      const masailCount = await getMasailCount();
+      
       const lastSync = localStorage.getItem(BUNDLE_SYNC_KEY);
       
+      // Complete if bundled data is loaded and masail is synced
       const isComplete = 
-        verses >= MIN_VERSES && 
-        hadiths >= MIN_HADITHS && 
-        masail >= MIN_MASAIL && 
-        duas >= MIN_DUAS;
+        bundledStatus.versesCount >= 6200 && 
+        bundledStatus.hadithsCount >= 36000 && 
+        bundledStatus.duasCount >= 50 &&
+        masailCount >= MIN_MASAIL;
 
       setStatus(prev => ({
         ...prev,
-        verses,
-        hadiths,
-        masail,
-        duas,
+        verses: bundledStatus.versesCount,
+        hadiths: bundledStatus.hadithsCount,
+        duas: bundledStatus.duasCount,
+        masail: masailCount,
         isComplete,
         lastSyncTime: lastSync
       }));
 
-      return { verses, hadiths, masail, duas, isComplete };
+      return { 
+        verses: bundledStatus.versesCount, 
+        hadiths: bundledStatus.hadithsCount, 
+        duas: bundledStatus.duasCount,
+        masail: masailCount, 
+        isComplete 
+      };
     } catch (e) {
       console.error("Error checking offline status:", e);
       return null;
@@ -70,16 +92,16 @@ export const useOfflineBundle = (autoSync: boolean = true) => {
   const handleProgress = useCallback((progress: SyncProgress) => {
     setStatus(prev => ({
       ...prev,
-      currentType: progress.type,
+      currentType: progress.type as "masail" | null,
       progress: progress.current,
       total: progress.total
     }));
   }, []);
 
-  // Full sync of all data - only once per day
+  // Sync only masail (verses, hadiths, duas are bundled)
   const syncAll = useCallback(async (force: boolean = false) => {
     if (!navigator.onLine) {
-      console.log("Offline - cannot sync bundle");
+      console.log("Offline - cannot sync");
       return { success: false, reason: "offline" };
     }
 
@@ -92,7 +114,7 @@ export const useOfflineBundle = (autoSync: boolean = true) => {
         
         // Skip if already synced today
         if (lastSyncDate === todayDate) {
-          console.log("Bundle already synced today");
+          console.log("Already synced today");
           await checkStatus();
           return { success: true, reason: "already-synced-today" };
         }
@@ -102,14 +124,8 @@ export const useOfflineBundle = (autoSync: boolean = true) => {
     setStatus(prev => ({ ...prev, isSyncing: true, error: null }));
 
     try {
-      // 1. Sync verses and hadiths (existing syncAllData)
-      await syncAllData(handleProgress);
-
-      // 2. Sync masail
+      // Only sync masail - verses, hadiths, duas are bundled in APK
       await syncMasail(handleProgress);
-
-      // 3. Sync duas
-      await syncDuas(handleProgress);
 
       // Update last sync time
       const now = new Date().toISOString();
@@ -125,7 +141,7 @@ export const useOfflineBundle = (autoSync: boolean = true) => {
         lastSyncTime: now
       }));
 
-      console.log("Offline bundle sync complete");
+      console.log("Offline sync complete (masail only)");
       return { success: true };
     } catch (e) {
       const errorMessage = e instanceof Error ? e.message : "Sync failed";
@@ -135,7 +151,7 @@ export const useOfflineBundle = (autoSync: boolean = true) => {
         currentType: null,
         error: errorMessage
       }));
-      console.error("Offline bundle sync error:", e);
+      console.error("Offline sync error:", e);
       return { success: false, reason: errorMessage };
     }
   }, [checkStatus, handleProgress]);
@@ -153,8 +169,6 @@ export const useOfflineBundle = (autoSync: boolean = true) => {
       return () => clearTimeout(timer);
     }
   }, [autoSync, checkStatus, syncAll]);
-
-  // No auto-sync on online event - sync only happens once per day on app load
 
   return {
     ...status,
