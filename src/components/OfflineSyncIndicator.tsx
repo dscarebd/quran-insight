@@ -45,45 +45,23 @@ export const OfflineSyncIndicator = ({ language, showDetails = false }: OfflineS
     return num.toString();
   };
 
-  // Compact indicator for header
+  // Compact indicator for header - only show when offline (since all data is bundled)
   if (!showDetails) {
+    // Don't show anything when online - all data is bundled, no need for indicator
+    if (isOnline) {
+      return null;
+    }
+    
     return (
       <Popover>
         <PopoverTrigger asChild>
           <button
-            className={cn(
-              "flex items-center gap-1.5 px-2 py-1 rounded-full text-xs transition-colors",
-              isOnline 
-                ? isComplete 
-                  ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
-                  : isLoading
-                    ? "bg-blue-500/10 text-blue-600 dark:text-blue-400"
-                    : "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
-                : "bg-red-500/10 text-red-600 dark:text-red-400"
-            )}
+            className="flex items-center gap-1.5 px-2 py-1 rounded-full text-xs transition-colors bg-red-500/10 text-red-600 dark:text-red-400"
           >
-            {!isOnline ? (
-              <>
-                <CloudOff className="h-3 w-3" />
-                <span className={cn(language === "bn" && "font-bengali")}>
-                  {language === "bn" ? "অফলাইন" : "Offline"}
-                </span>
-              </>
-            ) : isLoading ? (
-              <>
-                <Loader2 className="h-3 w-3 animate-spin" />
-                <span className={cn(language === "bn" && "font-bengali")}>
-                  {language === "bn" ? "লোড হচ্ছে" : "Loading"}
-                </span>
-              </>
-            ) : (
-              <>
-                <Check className="h-3 w-3" />
-                <span className={cn(language === "bn" && "font-bengali")}>
-                  {language === "bn" ? "সম্পূর্ণ" : "Ready"}
-                </span>
-              </>
-            )}
+            <CloudOff className="h-3 w-3" />
+            <span className={cn(language === "bn" && "font-bengali")}>
+              {language === "bn" ? "অফলাইন" : "Offline"}
+            </span>
           </button>
         </PopoverTrigger>
         <PopoverContent className="w-80 p-3" align="end">
