@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Cloud, CloudOff, Download, Check, Loader2, RefreshCw } from "lucide-react";
+import { Cloud, CloudOff, Download, Check, Loader2, RefreshCw, Package } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useOfflineBundle } from "@/hooks/useOfflineBundle";
 import { Language } from "@/types/language";
@@ -47,10 +47,7 @@ export const OfflineSyncIndicator = ({ language, showDetails = false }: OfflineS
 
   const getTypeLabel = (type: string) => {
     const labels: Record<string, { en: string; bn: string }> = {
-      verses: { en: "Verses", bn: "আয়াত" },
-      hadiths: { en: "Hadiths", bn: "হাদিস" },
-      masail: { en: "Masail", bn: "মাসায়েল" },
-      duas: { en: "Duas", bn: "দোয়া" }
+      masail: { en: "Masail", bn: "মাসায়েল" }
     };
     return language === "bn" ? labels[type]?.bn : labels[type]?.en;
   };
@@ -99,7 +96,7 @@ export const OfflineSyncIndicator = ({ language, showDetails = false }: OfflineS
               <>
                 <Check className="h-3 w-3" />
                 <span className={cn(language === "bn" && "font-bengali")}>
-                  {language === "bn" ? "সিঙ্ক" : "Synced"}
+                  {language === "bn" ? "সম্পূর্ণ" : "Ready"}
                 </span>
               </>
             ) : (
@@ -112,7 +109,7 @@ export const OfflineSyncIndicator = ({ language, showDetails = false }: OfflineS
             )}
           </button>
         </PopoverTrigger>
-        <PopoverContent className="w-72 p-3" align="end">
+        <PopoverContent className="w-80 p-3" align="end">
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <h4 className={cn("font-semibold text-sm", language === "bn" && "font-bengali")}>
@@ -145,30 +142,49 @@ export const OfflineSyncIndicator = ({ language, showDetails = false }: OfflineS
               </div>
             )}
 
-            <div className="grid grid-cols-2 gap-2 text-xs">
-              <div className="flex items-center justify-between p-2 rounded-md bg-muted/50">
-                <span className={cn("text-muted-foreground", language === "bn" && "font-bengali")}>
-                  {language === "bn" ? "আয়াত" : "Verses"}
+            {/* Bundled Data Section */}
+            <div className="space-y-1.5">
+              <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                <Package className="h-3 w-3" />
+                <span className={cn(language === "bn" && "font-bengali")}>
+                  {language === "bn" ? "অন্তর্ভুক্ত (ডাউনলোড প্রয়োজন নেই)" : "Built-in (no download needed)"}
                 </span>
-                <span className="font-medium">{formatNumber(verses)}</span>
+              </div>
+              <div className="grid grid-cols-3 gap-2 text-xs">
+                <div className="flex flex-col items-center p-2 rounded-md bg-emerald-500/10">
+                  <span className="font-medium text-emerald-600 dark:text-emerald-400">{formatNumber(verses)}</span>
+                  <span className={cn("text-[10px] text-muted-foreground", language === "bn" && "font-bengali")}>
+                    {language === "bn" ? "আয়াত" : "Verses"}
+                  </span>
+                </div>
+                <div className="flex flex-col items-center p-2 rounded-md bg-emerald-500/10">
+                  <span className="font-medium text-emerald-600 dark:text-emerald-400">{formatNumber(hadiths)}</span>
+                  <span className={cn("text-[10px] text-muted-foreground", language === "bn" && "font-bengali")}>
+                    {language === "bn" ? "হাদিস" : "Hadiths"}
+                  </span>
+                </div>
+                <div className="flex flex-col items-center p-2 rounded-md bg-emerald-500/10">
+                  <span className="font-medium text-emerald-600 dark:text-emerald-400">{formatNumber(duas)}</span>
+                  <span className={cn("text-[10px] text-muted-foreground", language === "bn" && "font-bengali")}>
+                    {language === "bn" ? "দোয়া" : "Duas"}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Synced Data Section */}
+            <div className="space-y-1.5">
+              <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                <Cloud className="h-3 w-3" />
+                <span className={cn(language === "bn" && "font-bengali")}>
+                  {language === "bn" ? "সিঙ্ক করা" : "Synced from server"}
+                </span>
               </div>
               <div className="flex items-center justify-between p-2 rounded-md bg-muted/50">
-                <span className={cn("text-muted-foreground", language === "bn" && "font-bengali")}>
-                  {language === "bn" ? "হাদিস" : "Hadiths"}
-                </span>
-                <span className="font-medium">{formatNumber(hadiths)}</span>
-              </div>
-              <div className="flex items-center justify-between p-2 rounded-md bg-muted/50">
-                <span className={cn("text-muted-foreground", language === "bn" && "font-bengali")}>
-                  {language === "bn" ? "দোয়া" : "Duas"}
-                </span>
-                <span className="font-medium">{formatNumber(duas)}</span>
-              </div>
-              <div className="flex items-center justify-between p-2 rounded-md bg-muted/50">
-                <span className={cn("text-muted-foreground", language === "bn" && "font-bengali")}>
+                <span className={cn("text-xs text-muted-foreground", language === "bn" && "font-bengali")}>
                   {language === "bn" ? "মাসায়েল" : "Masail"}
                 </span>
-                <span className="font-medium">{formatNumber(masail)}</span>
+                <span className="text-xs font-medium">{formatNumber(masail)}</span>
               </div>
             </div>
 
@@ -247,24 +263,43 @@ export const OfflineSyncIndicator = ({ language, showDetails = false }: OfflineS
         </div>
       )}
 
-      <div className="grid grid-cols-2 gap-3">
-        <div className="flex items-center justify-between p-3 rounded-lg bg-muted/50">
-          <span className={cn("text-sm text-muted-foreground", language === "bn" && "font-bengali")}>
-            {language === "bn" ? "কুরআনের আয়াত" : "Quran Verses"}
+      {/* Bundled Data Section */}
+      <div className="space-y-2">
+        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+          <Package className="h-4 w-4 text-emerald-600" />
+          <span className={cn(language === "bn" && "font-bengali")}>
+            {language === "bn" ? "অন্তর্ভুক্ত (ডাউনলোড প্রয়োজন নেই)" : "Built-in (no download needed)"}
           </span>
-          <span className="font-semibold">{formatNumber(verses)}</span>
         </div>
-        <div className="flex items-center justify-between p-3 rounded-lg bg-muted/50">
-          <span className={cn("text-sm text-muted-foreground", language === "bn" && "font-bengali")}>
-            {language === "bn" ? "হাদিস" : "Hadiths"}
-          </span>
-          <span className="font-semibold">{formatNumber(hadiths)}</span>
+        <div className="grid grid-cols-3 gap-3">
+          <div className="flex flex-col items-center p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/20">
+            <span className="font-semibold text-emerald-600 dark:text-emerald-400">{formatNumber(verses)}</span>
+            <span className={cn("text-xs text-muted-foreground", language === "bn" && "font-bengali")}>
+              {language === "bn" ? "কুরআনের আয়াত" : "Quran Verses"}
+            </span>
+          </div>
+          <div className="flex flex-col items-center p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/20">
+            <span className="font-semibold text-emerald-600 dark:text-emerald-400">{formatNumber(hadiths)}</span>
+            <span className={cn("text-xs text-muted-foreground", language === "bn" && "font-bengali")}>
+              {language === "bn" ? "হাদিস" : "Hadiths"}
+            </span>
+          </div>
+          <div className="flex flex-col items-center p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/20">
+            <span className="font-semibold text-emerald-600 dark:text-emerald-400">{formatNumber(duas)}</span>
+            <span className={cn("text-xs text-muted-foreground", language === "bn" && "font-bengali")}>
+              {language === "bn" ? "দোয়া সমূহ" : "Duas"}
+            </span>
+          </div>
         </div>
-        <div className="flex items-center justify-between p-3 rounded-lg bg-muted/50">
-          <span className={cn("text-sm text-muted-foreground", language === "bn" && "font-bengali")}>
-            {language === "bn" ? "দোয়া সমূহ" : "Duas"}
+      </div>
+
+      {/* Synced Data Section */}
+      <div className="space-y-2">
+        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+          <Cloud className="h-4 w-4" />
+          <span className={cn(language === "bn" && "font-bengali")}>
+            {language === "bn" ? "সিঙ্ক করা ডেটা" : "Synced from server"}
           </span>
-          <span className="font-semibold">{formatNumber(duas)}</span>
         </div>
         <div className="flex items-center justify-between p-3 rounded-lg bg-muted/50">
           <span className={cn("text-sm text-muted-foreground", language === "bn" && "font-bengali")}>
@@ -290,7 +325,7 @@ export const OfflineSyncIndicator = ({ language, showDetails = false }: OfflineS
           <>
             <RefreshCw className="h-4 w-4 mr-2" />
             <span className={cn(language === "bn" && "font-bengali")}>
-              {language === "bn" ? "এখনই সিঙ্ক করুন" : "Sync Now"}
+              {language === "bn" ? "মাসায়েল সিঙ্ক করুন" : "Sync Masail"}
             </span>
           </>
         )}

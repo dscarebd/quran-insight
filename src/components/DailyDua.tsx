@@ -4,118 +4,59 @@ import { HandHeart, ChevronRight, Copy, Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { Language } from "@/types/language";
-import { supabase } from "@/integrations/supabase/client";
+import { 
+  initializeDuasData, 
+  getRandomBundledDua, 
+  getBundledDuaCategories,
+  isDuasDataLoaded,
+  BundledDua,
+  BundledDuaCategory
+} from "@/services/bundledDataLoader";
 
 interface DailyDuaProps {
   language: Language;
 }
 
-interface DuaData {
-  id: string;
-  dua_id: string;
-  category_id: string;
-  title_english: string;
-  title_bengali: string;
-  arabic: string;
-  english: string;
-  bengali: string;
-  reference: string | null;
-}
-
-interface CategoryData {
-  category_id: string;
-  name_english: string;
-  name_bengali: string;
-}
-
 export const DailyDua = ({ language }: DailyDuaProps) => {
-  const [dua, setDua] = useState<DuaData | null>(null);
-  const [category, setCategory] = useState<CategoryData | null>(null);
+  const [dua, setDua] = useState<BundledDua | null>(null);
+  const [category, setCategory] = useState<BundledDuaCategory | null>(null);
   const [isCopied, setIsCopied] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchDailyDua = async () => {
-      // Get today's date as a cache key
-      const today = new Date();
-      const todayKey = `${today.getFullYear()}-${today.getMonth()}-${today.getDate()}`;
-      const cacheKey = "dua-of-day-cache";
-      
-      // Try to get cached data
-      try {
-        const cached = localStorage.getItem(cacheKey);
-        if (cached) {
-          const { dateKey, duaData, categoryData } = JSON.parse(cached);
-          if (dateKey === todayKey && duaData && categoryData) {
-            setDua(duaData);
-            setCategory(categoryData);
-            setIsLoading(false);
-            return;
-          }
-        }
-      } catch {
-        // Cache read failed, continue with fetch
-      }
-      
+    const loadDailyDua = async () => {
       setIsLoading(true);
       
-      // Get a deterministic "random" dua based on the day
+      // Ensure duas are loaded
+      if (!isDuasDataLoaded()) {
+        await initializeDuasData();
+      }
+      
+      // Get today's day of year for deterministic selection
+      const today = new Date();
       const dayOfYear = Math.floor(
         (today.getTime() - new Date(today.getFullYear(), 0, 0).getTime()) / 86400000
       );
-
-      // Fetch total count of duas
-      const { count } = await supabase
-        .from("duas")
-        .select("id", { count: "exact", head: true });
-
-      if (!count || count === 0) {
-        setIsLoading(false);
-        return;
-      }
-
-      // Get a dua based on day of year
-      const offset = dayOfYear % count;
-
-      const { data: duaData } = await supabase
-        .from("duas")
-        .select("id, dua_id, category_id, title_english, title_bengali, arabic, english, bengali, reference")
-        .order("category_id", { ascending: true })
-        .order("dua_id", { ascending: true })
-        .range(offset, offset)
-        .maybeSingle();
-
-      if (duaData) {
-        setDua(duaData);
-
-        // Fetch category info
-        const { data: categoryData } = await supabase
-          .from("dua_categories")
-          .select("category_id, name_english, name_bengali")
-          .eq("category_id", duaData.category_id)
-          .maybeSingle();
-
-        if (categoryData) {
-          setCategory(categoryData);
-          
-          // Cache the data for today
-          try {
-            localStorage.setItem(cacheKey, JSON.stringify({
-              dateKey: todayKey,
-              duaData,
-              categoryData
-            }));
-          } catch {
-            // Cache write failed, continue anyway
-          }
+      
+      // Get random dua based on day
+      const dailyDua = getRandomBundledDua(dayOfYear);
+      
+      if (dailyDua) {
+        setDua(dailyDua);
+        
+        // Find the category
+        const categories = getBundledDuaCategories();
+        const duaCategory = categories.find(c => c.category_id === dailyDua.category_id);
+        if (duaCategory) {
+          setCategory(duaCategory);
         }
       }
-
+      
       setIsLoading(false);
     };
 
-    fetchDailyDua();
+    loadDailyDua();
   }, []);
 
   const handleViewDua = () => {
