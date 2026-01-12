@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { Book, BookOpen, HandHeart, FileText, Sparkles, WifiOff, ChevronRight } from "lucide-react";
+import { Book, BookOpen, HandHeart, FileText, Sparkles, WifiOff, ChevronRight, HelpCircle } from "lucide-react";
 import { cn, sanitizeArabicText } from "@/lib/utils";
 import { Language } from "@/types/language";
 import { AISearchResponse, SearchResult } from "@/hooks/useAISearch";
@@ -22,6 +22,8 @@ const getIcon = (type: SearchResult["type"]) => {
       return HandHeart;
     case "surah":
       return FileText;
+    case "masail":
+      return HelpCircle;
     default:
       return BookOpen;
   }
@@ -33,6 +35,7 @@ const getTypeLabel = (type: SearchResult["type"], language: Language) => {
     hadith: { en: "Hadith", bn: "হাদিস" },
     dua: { en: "Dua", bn: "দোয়া" },
     surah: { en: "Surah", bn: "সূরা" },
+    masail: { en: "Masail", bn: "মাসআলা" },
   };
   return language === "bn" ? labels[type].bn : labels[type].en;
 };
@@ -47,6 +50,8 @@ const getTypeColor = (type: SearchResult["type"]) => {
       return "bg-gold/10 text-gold-dark";
     case "surah":
       return "bg-blue-500/10 text-blue-600 dark:text-blue-400";
+    case "masail":
+      return "bg-amber-500/10 text-amber-600 dark:text-amber-400";
     default:
       return "bg-muted text-muted-foreground";
   }
