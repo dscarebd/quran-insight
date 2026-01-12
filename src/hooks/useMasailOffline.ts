@@ -1,11 +1,17 @@
 import { useState, useEffect, useCallback } from "react";
 import { 
-  getAllMasail, 
-  getMasailById as getLocalMasailById,
+  saveMasail,
   getMasailCount,
   LocalMasail 
 } from "@/services/offlineDataService";
-import { syncMasail, getLastMasailSync } from "@/services/syncService";
+import { 
+  initializeMasailData,
+  getAllBundledMasail,
+  getBundledMasailById,
+  isMasailDataLoaded,
+  addMasailToCache,
+  BundledMasail
+} from "@/services/bundledDataLoader";
 import { supabase } from "@/integrations/supabase/client";
 
 export interface UseMasailOfflineResult {
@@ -16,9 +22,13 @@ export interface UseMasailOfflineResult {
   lastSyncTime: string | null;
   syncError: string | null;
   masailCount: number;
+  newMasailCount: number;
   refresh: () => Promise<void>;
   getMasailById: (id: string) => Promise<LocalMasail | null>;
 }
+
+const MASAIL_SYNC_KEY = "last-masail-incremental-sync";
+const BUNDLED_MASAIL_DATE = "2026-01-09T06:17:10.826965+00:00"; // Date of bundled data export
 
 export const useMasailOffline = (): UseMasailOfflineResult => {
   const [masailList, setMasailList] = useState<LocalMasail[]>([]);
@@ -28,24 +38,22 @@ export const useMasailOffline = (): UseMasailOfflineResult => {
   const [lastSyncTime, setLastSyncTime] = useState<string | null>(null);
   const [syncError, setSyncError] = useState<string | null>(null);
   const [masailCount, setMasailCount] = useState(0);
+  const [newMasailCount, setNewMasailCount] = useState(0);
 
   // Load last sync time on mount
   useEffect(() => {
-    const loadLastSync = async () => {
-      const lastSync = await getLastMasailSync();
-      if (lastSync) {
-        setLastSyncTime(new Date(lastSync).toLocaleString("bn-BD"));
-      }
-    };
-    loadLastSync();
+    const lastSync = localStorage.getItem(MASAIL_SYNC_KEY);
+    if (lastSync) {
+      setLastSyncTime(new Date(lastSync).toLocaleString("bn-BD"));
+    }
   }, []);
 
   // Listen for online/offline events
   useEffect(() => {
     const handleOnline = () => {
       setIsOffline(false);
-      // Trigger sync when coming back online
-      syncData();
+      // Trigger incremental sync when coming back online
+      syncNewMasail();
     };
     const handleOffline = () => setIsOffline(true);
 
@@ -58,7 +66,7 @@ export const useMasailOffline = (): UseMasailOfflineResult => {
     };
   }, []);
 
-  // Initial load - just load from IndexedDB, sync happens via global useOfflineBundle
+  // Initial load - load bundled data, then check for new masail
   useEffect(() => {
     loadData();
   }, []);
@@ -66,17 +74,19 @@ export const useMasailOffline = (): UseMasailOfflineResult => {
   const loadData = async () => {
     setLoading(true);
     try {
-      // Load from IndexedDB (global sync handles the syncing)
-      const local = await getAllMasail();
-      setMasailList(local);
-      setMasailCount(local.length);
+      // Initialize bundled masail data
+      await initializeMasailData();
       
-      // If no local data and online, trigger a sync
-      if (local.length === 0 && navigator.onLine) {
-        await syncData();
-        const refreshed = await getAllMasail();
-        setMasailList(refreshed);
-        setMasailCount(refreshed.length);
+      // Get bundled masail
+      const bundled = getAllBundledMasail();
+      setMasailList(bundled);
+      setMasailCount(bundled.length);
+      
+      console.log(`Loaded ${bundled.length} bundled masail`);
+      
+      // Check for new masail in background if online
+      if (navigator.onLine) {
+        syncNewMasail();
       }
     } catch (error) {
       console.error("Error loading masail:", error);
@@ -85,7 +95,8 @@ export const useMasailOffline = (): UseMasailOfflineResult => {
     }
   };
 
-  const syncData = async () => {
+  // Sync only NEW masail (after bundled data date)
+  const syncNewMasail = async () => {
     if (!navigator.onLine) {
       setIsOffline(true);
       return;
@@ -95,23 +106,45 @@ export const useMasailOffline = (): UseMasailOfflineResult => {
     setSyncError(null);
 
     try {
-      const result = await syncMasail();
+      // Get the latest updated_at from our cache or use bundled date
+      const lastSync = localStorage.getItem(MASAIL_SYNC_KEY) || BUNDLED_MASAIL_DATE;
       
-      if (!result.isOffline) {
-        // Reload from IndexedDB after sync
-        const local = await getAllMasail();
-        setMasailList(local);
-        setMasailCount(local.length);
+      // Fetch only masail created/updated after our last sync
+      const { data: newMasail, error } = await supabase
+        .from("masail")
+        .select("*")
+        .gt("updated_at", lastSync)
+        .order("updated_at", { ascending: true });
+
+      if (error) throw error;
+
+      if (newMasail && newMasail.length > 0) {
+        console.log(`Found ${newMasail.length} new/updated masail`);
         
-        // Update last sync time
-        const lastSync = await getLastMasailSync();
-        if (lastSync) {
-          setLastSyncTime(new Date(lastSync).toLocaleString("bn-BD"));
-        }
+        // Add to memory cache
+        addMasailToCache(newMasail as BundledMasail[]);
+        
+        // Also save to IndexedDB for persistence across sessions
+        await saveMasail(newMasail as LocalMasail[]);
+        
+        // Update local state
+        const updatedList = getAllBundledMasail();
+        setMasailList(updatedList);
+        setMasailCount(updatedList.length);
+        setNewMasailCount(prev => prev + newMasail.length);
+        
+        // Update last sync time to the most recent updated_at
+        const latestUpdate = newMasail[newMasail.length - 1].updated_at;
+        localStorage.setItem(MASAIL_SYNC_KEY, latestUpdate);
+        setLastSyncTime(new Date(latestUpdate).toLocaleString("bn-BD"));
+      } else {
+        console.log("No new masail to sync");
+        // Update last sync time even if no new data
+        localStorage.setItem(MASAIL_SYNC_KEY, new Date().toISOString());
       }
     } catch (error) {
-      console.error("Sync error:", error);
-      setSyncError("সিঙ্ক করতে সমস্যা হয়েছে");
+      console.error("Masail sync error:", error);
+      setSyncError("নতুন মাসআলা সিঙ্ক করতে সমস্যা হয়েছে");
     } finally {
       setIsSyncing(false);
     }
@@ -122,10 +155,10 @@ export const useMasailOffline = (): UseMasailOfflineResult => {
   }, []);
 
   const getMasailById = useCallback(async (id: string): Promise<LocalMasail | null> => {
-    // Try IndexedDB first
-    const local = await getLocalMasailById(id);
-    if (local) {
-      return local;
+    // Try bundled cache first
+    const bundled = getBundledMasailById(id);
+    if (bundled) {
+      return bundled;
     }
 
     // If not found locally and online, try Supabase
@@ -152,6 +185,7 @@ export const useMasailOffline = (): UseMasailOfflineResult => {
     lastSyncTime,
     syncError,
     masailCount,
+    newMasailCount,
     refresh,
     getMasailById
   };
