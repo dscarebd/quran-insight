@@ -3,10 +3,11 @@
 import { Verse } from "@/data/verses";
 
 const DB_NAME = "quraninsight-offline";
-const DB_VERSION = 2; // Upgraded from 1 to add masail store
+const DB_VERSION = 3; // Upgraded from 2 to add duas store
 const VERSES_STORE = "verses";
 const HADITHS_STORE = "hadiths";
 const MASAIL_STORE = "masail";
+const DUAS_STORE = "duas";
 const META_STORE = "metadata";
 
 export interface LocalHadith {
@@ -32,6 +33,22 @@ export interface LocalMasail {
   author: string | null;
   category: string | null;
   source_url: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface LocalDua {
+  id: string;
+  dua_id: string;
+  category_id: string;
+  title_english: string;
+  title_bengali: string;
+  arabic: string;
+  english: string;
+  bengali: string;
+  transliteration: string | null;
+  transliteration_bengali: string | null;
+  reference: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -81,6 +98,16 @@ const openDB = (): Promise<IDBDatabase> => {
         masailStore.createIndex("category", "category", { unique: false });
         masailStore.createIndex("author", "author", { unique: false });
         masailStore.createIndex("updated_at", "updated_at", { unique: false });
+      }
+
+      // Duas store with indexes for category_id
+      if (!database.objectStoreNames.contains(DUAS_STORE)) {
+        const duasStore = database.createObjectStore(DUAS_STORE, { 
+          keyPath: "id" 
+        });
+        duasStore.createIndex("category_id", "category_id", { unique: false });
+        duasStore.createIndex("dua_id", "dua_id", { unique: false });
+        duasStore.createIndex("updated_at", "updated_at", { unique: false });
       }
 
       // Metadata store for sync status
@@ -373,9 +400,91 @@ export const isDataSynced = async (): Promise<boolean> => {
 };
 
 // Get sync status
-export const getSyncStatus = async (): Promise<{ verses: number; hadiths: number; masail: number }> => {
+export const getSyncStatus = async (): Promise<{ verses: number; hadiths: number; masail: number; duas: number }> => {
   const verses = await getVerseCount();
   const hadiths = await getHadithCount();
   const masail = await getMasailCount();
-  return { verses, hadiths, masail };
+  const duas = await getDuaCount();
+  return { verses, hadiths, masail, duas };
+};
+
+// Duas operations
+export const saveDuas = async (duasList: LocalDua[]): Promise<void> => {
+  const database = await openDB();
+  return new Promise((resolve, reject) => {
+    const transaction = database.transaction(DUAS_STORE, "readwrite");
+    const store = transaction.objectStore(DUAS_STORE);
+
+    duasList.forEach(dua => store.put(dua));
+
+    transaction.oncomplete = () => resolve();
+    transaction.onerror = () => reject(transaction.error);
+  });
+};
+
+export const getAllDuas = async (): Promise<LocalDua[]> => {
+  const database = await openDB();
+  return new Promise((resolve, reject) => {
+    const transaction = database.transaction(DUAS_STORE, "readonly");
+    const store = transaction.objectStore(DUAS_STORE);
+    const request = store.getAll();
+
+    request.onerror = () => reject(request.error);
+    request.onsuccess = () => {
+      const duas = request.result as LocalDua[];
+      resolve(duas);
+    };
+  });
+};
+
+export const getDuasByCategory = async (categoryId: string): Promise<LocalDua[]> => {
+  const database = await openDB();
+  return new Promise((resolve, reject) => {
+    const transaction = database.transaction(DUAS_STORE, "readonly");
+    const store = transaction.objectStore(DUAS_STORE);
+    const index = store.index("category_id");
+    const request = index.getAll(IDBKeyRange.only(categoryId));
+
+    request.onerror = () => reject(request.error);
+    request.onsuccess = () => {
+      const duas = request.result as LocalDua[];
+      resolve(duas);
+    };
+  });
+};
+
+export const getDuaById = async (id: string): Promise<LocalDua | null> => {
+  const database = await openDB();
+  return new Promise((resolve, reject) => {
+    const transaction = database.transaction(DUAS_STORE, "readonly");
+    const store = transaction.objectStore(DUAS_STORE);
+    const request = store.get(id);
+
+    request.onerror = () => reject(request.error);
+    request.onsuccess = () => resolve(request.result || null);
+  });
+};
+
+export const getDuaCount = async (): Promise<number> => {
+  const database = await openDB();
+  return new Promise((resolve, reject) => {
+    const transaction = database.transaction(DUAS_STORE, "readonly");
+    const store = transaction.objectStore(DUAS_STORE);
+    const request = store.count();
+
+    request.onerror = () => reject(request.error);
+    request.onsuccess = () => resolve(request.result);
+  });
+};
+
+export const clearDuasStore = async (): Promise<void> => {
+  const database = await openDB();
+  return new Promise((resolve, reject) => {
+    const transaction = database.transaction(DUAS_STORE, "readwrite");
+    const store = transaction.objectStore(DUAS_STORE);
+    const request = store.clear();
+
+    request.onerror = () => reject(request.error);
+    request.onsuccess = () => resolve();
+  });
 };

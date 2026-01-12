@@ -3,7 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Language } from "@/types/language";
 import { surahs } from "@/data/surahs";
 import { duaCategories } from "@/data/duas";
-import { getAllVerses, getHadithsByBook, getAllMasail, LocalHadith, LocalMasail } from "@/services/offlineDataService";
+import { getAllVerses, getHadithsByBook, getAllMasail, getAllDuas, LocalHadith, LocalMasail, LocalDua } from "@/services/offlineDataService";
 
 const CACHE_KEY = "ai_search_cache";
 const CACHE_EXPIRY_HOURS = 24;
@@ -177,30 +177,65 @@ const searchLocalData = async (query: string, language: Language): Promise<Searc
     }
   });
 
-  // 2. Search duas (static data)
-  duaCategories.forEach(category => {
-    category.duas.forEach(dua => {
-      const matchesDua = searchTerms.some(term =>
-        (dua.titleEnglish?.toLowerCase().includes(term)) ||
-        (dua.titleBengali?.includes(term)) ||
-        dua.english.toLowerCase().includes(term) ||
-        dua.bengali.includes(term)
-      );
-
-      if (matchesDua) {
+  // 2. Search IndexedDB duas first (has more complete data from database)
+  try {
+    const indexedDuas = await getAllDuas();
+    const matchedDuas: { dua: LocalDua; score: number }[] = [];
+    
+    indexedDuas.forEach(dua => {
+      const score = calculateRelevance(dua.title_english, searchTerms) +
+                    calculateRelevance(dua.title_bengali, searchTerms) +
+                    calculateRelevance(dua.english, searchTerms) +
+                    calculateRelevance(dua.bengali, searchTerms);
+      if (score > 0) {
+        matchedDuas.push({ dua, score });
+      }
+    });
+    
+    // Sort by relevance and take top 5
+    matchedDuas
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 5)
+      .forEach(({ dua }) => {
         results.push({
           type: "dua",
-          title: dua.titleEnglish || category.nameEnglish,
-          titleBn: dua.titleBengali || category.nameBengali,
+          title: dua.title_english,
+          titleBn: dua.title_bengali,
           content: dua.english.substring(0, 150) + (dua.english.length > 150 ? "..." : ""),
           contentBn: dua.bengali.substring(0, 150) + (dua.bengali.length > 150 ? "..." : ""),
           arabic: dua.arabic,
-          reference: dua.reference || category.nameEnglish,
-          link: `/dua?category=${category.id}`
+          reference: dua.reference || dua.category_id,
+          link: `/dua?category=${dua.category_id}`
         });
-      }
+      });
+  } catch (e) {
+    console.log("IndexedDB duas not available, falling back to static data:", e);
+    
+    // 2b. Fallback to static duas data if IndexedDB is empty
+    duaCategories.forEach(category => {
+      category.duas.forEach(dua => {
+        const matchesDua = searchTerms.some(term =>
+          (dua.titleEnglish?.toLowerCase().includes(term)) ||
+          (dua.titleBengali?.includes(term)) ||
+          dua.english.toLowerCase().includes(term) ||
+          dua.bengali.includes(term)
+        );
+
+        if (matchesDua) {
+          results.push({
+            type: "dua",
+            title: dua.titleEnglish || category.nameEnglish,
+            titleBn: dua.titleBengali || category.nameBengali,
+            content: dua.english.substring(0, 150) + (dua.english.length > 150 ? "..." : ""),
+            contentBn: dua.bengali.substring(0, 150) + (dua.bengali.length > 150 ? "..." : ""),
+            arabic: dua.arabic,
+            reference: dua.reference || category.nameEnglish,
+            link: `/dua?category=${category.id}`
+          });
+        }
+      });
     });
-  });
+  }
 
   // 3. Search IndexedDB verses
   try {

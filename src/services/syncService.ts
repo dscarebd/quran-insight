@@ -4,22 +4,26 @@ import {
   saveVerses, 
   saveHadiths,
   saveMasail,
+  saveDuas,
   getVerseCount, 
   getHadithCount,
   getMasailCount,
+  getDuaCount,
   setMetadata, 
   getMetadata,
   LocalHadith,
-  LocalMasail
+  LocalMasail,
+  LocalDua
 } from "./offlineDataService";
 import { Verse } from "@/data/verses";
 
 const BATCH_SIZE = 500;
 const SYNC_KEY = "last-sync-time";
 const MASAIL_SYNC_KEY = "last-masail-sync";
+const DUAS_SYNC_KEY = "last-duas-sync";
 
 export interface SyncProgress {
-  type: "verses" | "hadiths" | "masail";
+  type: "verses" | "hadiths" | "masail" | "duas";
   current: number;
   total: number;
   status: "syncing" | "complete" | "error";
@@ -292,4 +296,98 @@ export const syncMasail = async (onProgress?: ProgressCallback): Promise<{
 // Get last masail sync time
 export const getLastMasailSync = async (): Promise<string | null> => {
   return await getMetadata(MASAIL_SYNC_KEY);
+};
+
+// Sync duas - smart sync using updated_at for incremental updates
+export const syncDuas = async (onProgress?: ProgressCallback): Promise<{
+  synced: number;
+  isOffline: boolean;
+}> => {
+  // Check online status
+  if (!navigator.onLine) {
+    return { synced: 0, isOffline: true };
+  }
+
+  try {
+    // Get last sync timestamp
+    const lastSync = await getMetadata(DUAS_SYNC_KEY);
+    
+    // Build query - fetch all if first time, or only updated records
+    let query = supabase
+      .from("duas")
+      .select("id, dua_id, category_id, title_english, title_bengali, arabic, english, bengali, transliteration, transliteration_bengali, reference, created_at, updated_at")
+      .order("updated_at", { ascending: true });
+    
+    if (lastSync) {
+      query = query.gt("updated_at", lastSync);
+    }
+
+    // Get total count for progress
+    const { count: totalCount } = await supabase
+      .from("duas")
+      .select("*", { count: "exact", head: true });
+
+    // Fetch in batches
+    const allDuas: LocalDua[] = [];
+    let offset = 0;
+
+    while (true) {
+      const { data, error } = await query.range(offset, offset + BATCH_SIZE - 1);
+
+      if (error) throw error;
+      if (!data || data.length === 0) break;
+
+      allDuas.push(...(data as LocalDua[]));
+      offset += data.length;
+
+      onProgress?.({
+        type: "duas",
+        current: offset,
+        total: totalCount || offset,
+        status: "syncing"
+      });
+
+      if (data.length < BATCH_SIZE) break;
+    }
+
+    if (allDuas.length > 0) {
+      // Save to IndexedDB
+      await saveDuas(allDuas);
+      
+      // Update last sync time to the most recent updated_at
+      const latestUpdate = allDuas[allDuas.length - 1].updated_at;
+      await setMetadata(DUAS_SYNC_KEY, latestUpdate);
+    }
+
+    onProgress?.({
+      type: "duas",
+      current: totalCount || allDuas.length,
+      total: totalCount || allDuas.length,
+      status: "complete"
+    });
+
+    console.log(`Duas sync complete: ${allDuas.length} records synced`);
+    return { synced: allDuas.length, isOffline: false };
+  } catch (error) {
+    console.error("Duas sync error:", error);
+    onProgress?.({
+      type: "duas",
+      current: 0,
+      total: 0,
+      status: "error"
+    });
+    throw error;
+  }
+};
+
+// Get last duas sync time
+export const getLastDuasSync = async (): Promise<string | null> => {
+  return await getMetadata(DUAS_SYNC_KEY);
+};
+
+// Get dua sync status
+export const getDuaSyncStatus = async (): Promise<{ count: number; lastSync: string | null }> => {
+  const count = await getDuaCount();
+  const lastSync = await getLastDuasSync();
+  return { count, lastSync };
 };
