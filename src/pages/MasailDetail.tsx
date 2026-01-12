@@ -67,20 +67,31 @@ const MasailDetail = ({ language }: MasailDetailProps) => {
 
   const handleShare = async () => {
     const shareUrl = window.location.href;
-    const shareText = masail?.title || "Islamic Masail";
+    const shareTitle = masail?.title || "ইসলামিক মাসআলা";
+    const shareText = masail?.question 
+      ? `${shareTitle}\n\nপ্রশ্ন: ${masail.question.substring(0, 150)}${masail.question.length > 150 ? '...' : ''}`
+      : shareTitle;
     
     if (navigator.share) {
       try {
         await navigator.share({
-          title: shareText,
+          title: shareTitle,
+          text: shareText,
           url: shareUrl,
         });
-      } catch (err) {
-        // User cancelled or error
+        toast.success(language === "bn" ? "শেয়ার করা হয়েছে" : "Shared successfully");
+      } catch (err: any) {
+        // User cancelled - don't show error
+        if (err?.name !== 'AbortError') {
+          // Fallback to clipboard
+          await navigator.clipboard.writeText(`${shareTitle}\n\n${shareUrl}`);
+          toast.success(language === "bn" ? "লিংক কপি করা হয়েছে" : "Link copied");
+        }
       }
     } else {
-      await navigator.clipboard.writeText(shareUrl);
-      toast.success("লিংক কপি করা হয়েছে");
+      // Fallback for browsers without Web Share API
+      await navigator.clipboard.writeText(`${shareTitle}\n\n${shareUrl}`);
+      toast.success(language === "bn" ? "লিংক কপি করা হয়েছে" : "Link copied");
     }
   };
 
