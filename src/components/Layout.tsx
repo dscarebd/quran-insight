@@ -11,7 +11,6 @@ import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 import { useVisitorTracking } from "@/hooks/useVisitorTracking";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useDeviceDetection, getStatusBarOffset } from "@/hooks/useDeviceDetection";
-import { useOfflineBundle } from "@/hooks/useOfflineBundle";
 import { Language } from "@/types/language";
 import { ArabicFontType } from "@/types/quranV1";
 interface LayoutProps {
@@ -42,7 +41,6 @@ export const Layout = ({
   const isMobile = useIsMobile();
   const location = useLocation();
   const { statusBarHeight } = useDeviceDetection();
-  const { isSyncing } = useOfflineBundle(true);
   
   // Calculate status bar offset with device-specific fallback
   const statusBarOffset = useMemo(() => getStatusBarOffset(statusBarHeight), [statusBarHeight]);
@@ -95,7 +93,6 @@ export const Layout = ({
             onZoomOut={onZoomOut}
             canZoomIn={canZoomIn}
             canZoomOut={canZoomOut}
-            isSyncing={isSyncing}
           />
         </div>
         <div 
