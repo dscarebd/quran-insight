@@ -420,15 +420,12 @@ const MasailList = ({ language }: MasailListProps) => {
                 {/* Section Header for Categories/Writers */}
                 <div className="flex items-center gap-2 mb-3 px-2">
                   {activeTab === "categories" ? (
-                    <Tag className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+                    <Tag className="h-4 w-4 text-primary" />
                   ) : (
-                    <User className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+                    <User className="h-4 w-4 text-primary" />
                   )}
                   <span className={cn(
-                    "text-xs font-semibold uppercase tracking-wider",
-                    activeTab === "categories" 
-                      ? "text-emerald-700 dark:text-emerald-400" 
-                      : "text-blue-700 dark:text-blue-400",
+                    "text-xs font-semibold uppercase tracking-wider text-primary",
                     language === "bn" && "font-bengali"
                   )}>
                     {activeTab === "categories" 
@@ -445,8 +442,8 @@ const MasailList = ({ language }: MasailListProps) => {
                       className={cn(
                         "w-full text-left px-4 py-3 rounded-xl mb-2 transition-all font-bengali text-sm border-2",
                         selectedCategory === "all"
-                          ? "bg-emerald-100 dark:bg-emerald-900/30 text-emerald-800 dark:text-emerald-300 font-medium border-emerald-400 dark:border-emerald-600 shadow-sm"
-                          : "bg-card hover:bg-emerald-50 dark:hover:bg-emerald-900/20 text-foreground border-transparent hover:border-emerald-200 dark:hover:border-emerald-800"
+                          ? "bg-primary/10 dark:bg-primary/20 text-primary font-medium border-primary shadow-sm"
+                          : "bg-card hover:bg-primary/5 dark:hover:bg-primary/10 text-foreground border-transparent hover:border-primary/30"
                       )}
                     >
                       {language === "bn" ? "সকল বিভাগ" : "All Categories"}
@@ -458,8 +455,8 @@ const MasailList = ({ language }: MasailListProps) => {
                         className={cn(
                           "w-full text-left px-4 py-3 rounded-xl mb-2 transition-all font-bengali text-sm border-2",
                           selectedCategory === cat
-                            ? "bg-emerald-100 dark:bg-emerald-900/30 text-emerald-800 dark:text-emerald-300 font-medium border-emerald-400 dark:border-emerald-600 shadow-sm"
-                            : "bg-card hover:bg-emerald-50 dark:hover:bg-emerald-900/20 text-foreground border-transparent hover:border-emerald-200 dark:hover:border-emerald-800"
+                            ? "bg-primary/10 dark:bg-primary/20 text-primary font-medium border-primary shadow-sm"
+                            : "bg-card hover:bg-primary/5 dark:hover:bg-primary/10 text-foreground border-transparent hover:border-primary/30"
                         )}
                       >
                         {cat}
@@ -473,8 +470,8 @@ const MasailList = ({ language }: MasailListProps) => {
                       className={cn(
                         "w-full text-left px-4 py-3 rounded-xl mb-2 transition-all font-bengali text-sm border-2",
                         selectedWriter === "all"
-                          ? "bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 font-medium border-blue-400 dark:border-blue-600 shadow-sm"
-                          : "bg-card hover:bg-blue-50 dark:hover:bg-blue-900/20 text-foreground border-transparent hover:border-blue-200 dark:hover:border-blue-800"
+                          ? "bg-primary/10 dark:bg-primary/20 text-primary font-medium border-primary shadow-sm"
+                          : "bg-card hover:bg-primary/5 dark:hover:bg-primary/10 text-foreground border-transparent hover:border-primary/30"
                       )}
                     >
                       {language === "bn" ? "সকল লেখক" : "All Writers"}
@@ -486,8 +483,8 @@ const MasailList = ({ language }: MasailListProps) => {
                         className={cn(
                           "w-full text-left px-4 py-3 rounded-xl mb-2 transition-all font-bengali text-sm border-2",
                           selectedWriter === writer
-                            ? "bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 font-medium border-blue-400 dark:border-blue-600 shadow-sm"
-                            : "bg-card hover:bg-blue-50 dark:hover:bg-blue-900/20 text-foreground border-transparent hover:border-blue-200 dark:hover:border-blue-800"
+                            ? "bg-primary/10 dark:bg-primary/20 text-primary font-medium border-primary shadow-sm"
+                            : "bg-card hover:bg-primary/5 dark:hover:bg-primary/10 text-foreground border-transparent hover:border-primary/30"
                         )}
                       >
                         {writer}
@@ -502,11 +499,11 @@ const MasailList = ({ language }: MasailListProps) => {
           {/* Masail List in Sidebar */}
           <div className="border-t border-border/50 flex-1 flex flex-col min-h-0">
             {/* Masail Section Header */}
-            <div className="p-3 bg-amber-50/50 dark:bg-amber-900/10 shrink-0 border-b border-amber-200/50 dark:border-amber-800/30">
+            <div className="p-3 bg-primary/5 dark:bg-primary/10 shrink-0 border-b border-primary/20">
               <div className="flex items-center gap-2">
-                <HelpCircle className="h-4 w-4 text-amber-600 dark:text-amber-400" />
+                <HelpCircle className="h-4 w-4 text-primary" />
                 <span className={cn(
-                  "text-xs font-semibold uppercase tracking-wider text-amber-700 dark:text-amber-400",
+                  "text-xs font-semibold uppercase tracking-wider text-primary",
                   language === "bn" && "font-bengali"
                 )}>
                   {language === "bn" 
@@ -534,8 +531,8 @@ const MasailList = ({ language }: MasailListProps) => {
                       className={cn(
                         "w-full text-left px-4 py-3 rounded-xl mb-2 transition-all font-bengali text-sm leading-relaxed border-l-4",
                         selectedMasail?.id === masail.id
-                          ? "bg-amber-100 dark:bg-amber-900/30 text-amber-900 dark:text-amber-200 border-amber-500 dark:border-amber-500 shadow-sm"
-                          : "bg-card hover:bg-amber-50 dark:hover:bg-amber-900/20 text-foreground border-amber-300/50 dark:border-amber-700/50 hover:border-amber-400 dark:hover:border-amber-600"
+                          ? "bg-primary/10 dark:bg-primary/20 text-primary border-primary shadow-sm"
+                          : "bg-card hover:bg-primary/5 dark:hover:bg-primary/10 text-foreground border-primary/30 hover:border-primary"
                       )}
                     >
                       <span className="line-clamp-2">{masail.title}</span>
