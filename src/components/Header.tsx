@@ -7,6 +7,7 @@ import appLogo from "@/assets/app-logo.png";
 import { Language, t } from "@/types/language";
 import { ArabicFontType } from "@/types/quranV1";
 import { cn } from "@/lib/utils";
+import { OfflineSyncIndicator } from "./OfflineSyncIndicator";
 
 interface HeaderProps {
   language: Language;
@@ -61,6 +62,10 @@ export const Header = ({
       
       {/* Right side controls */}
       <div className="flex items-center gap-1 sm:gap-2 shrink-0">
+        {/* Offline Sync Indicator (Mobile/Tablet) */}
+        <div className="lg:hidden">
+          <OfflineSyncIndicator language={language} />
+        </div>
         {/* Tablet-only ReadPage controls (visible on sm-lg, hidden on mobile xs and desktop lg+) */}
         {isReadPage && onZoomIn && onZoomOut && onArabicFontChange && (
           <div className="hidden sm:flex lg:hidden items-center gap-1">

@@ -1,6 +1,7 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import { Home, BookOpen, HandHelping, Settings, BookText, ScrollText } from "lucide-react";
 import { LanguageToggle } from "./LanguageToggle";
+import { OfflineSyncIndicator } from "./OfflineSyncIndicator";
 import appLogo from "@/assets/app-logo.png";
 import { cn } from "@/lib/utils";
 import { Language } from "@/types/language";
@@ -136,8 +137,9 @@ export const DesktopHeader = ({ language, onLanguageChange }: DesktopHeaderProps
             })}
           </nav>
 
-          {/* Language Toggle */}
-          <div className="flex items-center gap-2">
+          {/* Language Toggle & Offline Sync */}
+          <div className="flex items-center gap-3">
+            <OfflineSyncIndicator language={language} />
             <LanguageToggle language={language} onToggle={onLanguageChange} />
           </div>
         </div>
