@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { Info, Moon, Sun, BookOpen, Type, ChevronRight, FileText, ChevronDown, Globe, Palette, Shield, Building2, Heart, MessageSquare, CloudDownload } from "lucide-react";
+import { Moon, Sun, BookOpen, Type, ChevronRight, FileText, ChevronDown, Globe, Palette, Shield, Heart, MessageSquare } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { useTheme } from "next-themes";
@@ -12,7 +12,7 @@ import ownershipLogo from "@/assets/ownership-logo.png";
 import { Language, t, languageNames } from "@/types/language";
 import { ArabicFontType } from "@/types/quranV1";
 import { useArabicFontSize } from "@/hooks/useArabicFontSize";
-import { OfflineSyncIndicator } from "@/components/OfflineSyncIndicator";
+
 interface SettingsProps {
   language: Language;
   onLanguageChange: (lang: Language) => void;
@@ -397,16 +397,6 @@ const Settings = ({ language, onLanguageChange, readingMode = "normal", onReadin
             </Collapsible>
           </section>
 
-          {/* Offline Data Section */}
-          <section>
-            <h2 className={cn(
-              "mb-2 text-base font-medium text-muted-foreground tracking-wider",
-              language === "bn" ? "font-bengali" : "font-sans"
-            )}>
-              {language === "bn" ? "অফলাইন ডেটা" : "Offline Data"}
-            </h2>
-            <OfflineSyncIndicator language={language} showDetails={true} />
-          </section>
 
           {/* Ownership & Developer Information */}
           <section>
