@@ -3,12 +3,16 @@ import { supabase } from "@/integrations/supabase/client";
 import { Language } from "@/types/language";
 import { surahs } from "@/data/surahs";
 import { duaCategories } from "@/data/duas";
+import { getAllVerses, getHadithsByBook, getAllMasail, LocalHadith, LocalMasail } from "@/services/offlineDataService";
 
 const CACHE_KEY = "ai_search_cache";
 const CACHE_EXPIRY_HOURS = 24;
 
+// All hadith book slugs for offline search
+const HADITH_BOOKS = ["bukhari", "muslim", "abudawud", "tirmidhi", "nasai", "ibnmajah", "malik"];
+
 export interface SearchResult {
-  type: "verse" | "hadith" | "dua" | "surah";
+  type: "verse" | "hadith" | "dua" | "surah" | "masail";
   title: string;
   titleBn: string;
   content: string;
@@ -125,14 +129,32 @@ const useOnlineStatus = () => {
   return isOnline;
 };
 
-// Offline search using local data
-const searchLocalData = (query: string, language: Language): SearchResult[] => {
+// Helper to calculate relevance score
+const calculateRelevance = (text: string, searchTerms: string[]): number => {
+  if (!text) return 0;
+  const lowerText = text.toLowerCase();
+  let score = 0;
+  
+  for (const term of searchTerms) {
+    if (lowerText.includes(term)) {
+      score += 1;
+      // Bonus for exact word match
+      if (new RegExp(`\\b${term}\\b`, 'i').test(text)) {
+        score += 0.5;
+      }
+    }
+  }
+  return score;
+};
+
+// Offline search using local data + IndexedDB
+const searchLocalData = async (query: string, language: Language): Promise<SearchResult[]> => {
   const results: SearchResult[] = [];
-  const searchTerms = query.toLowerCase().split(/\s+/).filter(t => t.length > 2);
+  const searchTerms = query.toLowerCase().split(/\s+/).filter(t => t.length > 1);
   
   if (searchTerms.length === 0) return results;
 
-  // Search surahs
+  // 1. Search surahs (static data)
   surahs.forEach(surah => {
     const matchesName = searchTerms.some(term => 
       surah.nameEnglish.toLowerCase().includes(term) ||
@@ -155,7 +177,7 @@ const searchLocalData = (query: string, language: Language): SearchResult[] => {
     }
   });
 
-  // Search duas
+  // 2. Search duas (static data)
   duaCategories.forEach(category => {
     category.duas.forEach(dua => {
       const matchesDua = searchTerms.some(term =>
@@ -170,8 +192,8 @@ const searchLocalData = (query: string, language: Language): SearchResult[] => {
           type: "dua",
           title: dua.titleEnglish || category.nameEnglish,
           titleBn: dua.titleBengali || category.nameBengali,
-          content: dua.english.substring(0, 150) + "...",
-          contentBn: dua.bengali.substring(0, 150) + "...",
+          content: dua.english.substring(0, 150) + (dua.english.length > 150 ? "..." : ""),
+          contentBn: dua.bengali.substring(0, 150) + (dua.bengali.length > 150 ? "..." : ""),
           arabic: dua.arabic,
           reference: dua.reference || category.nameEnglish,
           link: `/dua?category=${category.id}`
@@ -179,6 +201,112 @@ const searchLocalData = (query: string, language: Language): SearchResult[] => {
       }
     });
   });
+
+  // 3. Search IndexedDB verses
+  try {
+    const verses = await getAllVerses();
+    const matchedVerses: { verse: any; score: number }[] = [];
+    
+    verses.forEach(verse => {
+      const score = calculateRelevance(verse.bengali, searchTerms) + 
+                    calculateRelevance(verse.english, searchTerms);
+      if (score > 0) {
+        matchedVerses.push({ verse, score });
+      }
+    });
+    
+    // Sort by relevance and take top 5
+    matchedVerses
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 5)
+      .forEach(({ verse }) => {
+        results.push({
+          type: "verse",
+          title: `Surah ${verse.surahNumber}, Verse ${verse.verseNumber}`,
+          titleBn: `সূরা ${verse.surahNumber}, আয়াত ${verse.verseNumber}`,
+          content: verse.english?.substring(0, 150) + (verse.english?.length > 150 ? "..." : "") || "",
+          contentBn: verse.bengali?.substring(0, 150) + (verse.bengali?.length > 150 ? "..." : "") || "",
+          arabic: verse.arabic,
+          reference: `${verse.surahNumber}:${verse.verseNumber}`,
+          link: `/surah/${verse.surahNumber}?verse=${verse.verseNumber}`
+        });
+      });
+  } catch (e) {
+    console.log("Verses not available offline:", e);
+  }
+
+  // 4. Search IndexedDB hadiths
+  try {
+    const matchedHadiths: { hadith: LocalHadith; score: number; bookSlug: string }[] = [];
+    
+    for (const bookSlug of HADITH_BOOKS) {
+      try {
+        const hadiths = await getHadithsByBook(bookSlug);
+        hadiths.forEach(hadith => {
+          const score = calculateRelevance(hadith.bengali || "", searchTerms) + 
+                        calculateRelevance(hadith.english || "", searchTerms);
+          if (score > 0) {
+            matchedHadiths.push({ hadith, score, bookSlug });
+          }
+        });
+      } catch (e) {
+        // Book not available offline
+      }
+    }
+    
+    // Sort by relevance and take top 5
+    matchedHadiths
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 5)
+      .forEach(({ hadith, bookSlug }) => {
+        const bookName = bookSlug.charAt(0).toUpperCase() + bookSlug.slice(1);
+        results.push({
+          type: "hadith",
+          title: `${bookName}, Hadith ${hadith.hadith_number}`,
+          titleBn: `${bookName}, হাদিস ${hadith.hadith_number}`,
+          content: hadith.english?.substring(0, 150) + (hadith.english && hadith.english.length > 150 ? "..." : "") || "",
+          contentBn: hadith.bengali?.substring(0, 150) + (hadith.bengali && hadith.bengali.length > 150 ? "..." : "") || "",
+          arabic: hadith.arabic || undefined,
+          reference: hadith.grade || "",
+          link: `/hadith/${bookSlug}?hadith=${hadith.hadith_number}`
+        });
+      });
+  } catch (e) {
+    console.log("Hadiths not available offline:", e);
+  }
+
+  // 5. Search IndexedDB masail
+  try {
+    const masailList = await getAllMasail();
+    const matchedMasail: { masail: LocalMasail; score: number }[] = [];
+    
+    masailList.forEach(masail => {
+      const score = calculateRelevance(masail.title, searchTerms) + 
+                    calculateRelevance(masail.question || "", searchTerms) +
+                    calculateRelevance(masail.answer, searchTerms);
+      if (score > 0) {
+        matchedMasail.push({ masail, score });
+      }
+    });
+    
+    // Sort by relevance and take top 5
+    matchedMasail
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 5)
+      .forEach(({ masail }) => {
+        results.push({
+          type: "masail",
+          title: masail.title,
+          titleBn: masail.title,
+          content: masail.answer?.substring(0, 150) + (masail.answer?.length > 150 ? "..." : "") || "",
+          contentBn: masail.answer?.substring(0, 150) + (masail.answer?.length > 150 ? "..." : "") || "",
+          reference: masail.category || "",
+          link: `/masail/${masail.id}`
+        });
+      });
+  } catch (e) {
+    console.log("Masail not available offline:", e);
+  }
 
   return results.slice(0, 20);
 };
@@ -211,7 +339,7 @@ export const useAISearch = () => {
       // If offline and no cache, use local data only
       if (!isOnline) {
         console.log("Offline mode: searching local data");
-        const localResults = searchLocalData(query, language);
+        const localResults = await searchLocalData(query, language);
         
         const offlineResponse: AISearchResponse = {
           answer: language === "bn" 
@@ -239,7 +367,7 @@ export const useAISearch = () => {
       if (data.error) {
         // Fallback to local search on AI error
         console.log("AI search failed, falling back to local search:", data.error);
-        const localResults = searchLocalData(query, language);
+        const localResults = await searchLocalData(query, language);
         
         const fallbackResponse: AISearchResponse = {
           answer: language === "bn"
@@ -322,7 +450,7 @@ export const useAISearch = () => {
       }
       
       // Fallback to local search on any error
-      const localResults = searchLocalData(query, language);
+      const localResults = await searchLocalData(query, language);
       
       if (localResults.length > 0) {
         setResponse({
