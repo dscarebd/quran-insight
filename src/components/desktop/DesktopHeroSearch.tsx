@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { Search, Mic, MicOff, Sparkles, X } from "lucide-react";
+import { Search, Mic, MicOff, Sparkles, X, WifiOff } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { Language } from "@/types/language";
@@ -10,11 +10,12 @@ interface DesktopHeroSearchProps {
   isLoading?: boolean;
   hasResults?: boolean;
   onClear?: () => void;
+  isOnline?: boolean;
 }
 
 const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
 
-export const DesktopHeroSearch = ({ language, onSearch, isLoading, hasResults, onClear }: DesktopHeroSearchProps) => {
+export const DesktopHeroSearch = ({ language, onSearch, isLoading, hasResults, onClear, isOnline = true }: DesktopHeroSearchProps) => {
   const [query, setQuery] = useState("");
   const [isFocused, setIsFocused] = useState(false);
   const [isListening, setIsListening] = useState(false);
@@ -179,6 +180,16 @@ export const DesktopHeroSearch = ({ language, onSearch, isLoading, hasResults, o
       <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-gold to-transparent opacity-60" />
       <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-gold to-transparent opacity-60" />
       
+      {/* Offline indicator */}
+      {!isOnline && (
+        <div className="absolute top-3 right-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-500/20 border border-amber-500/30 text-amber-200 text-xs">
+          <WifiOff className="h-3 w-3" />
+          <span className={cn("font-medium", language === "bn" && "font-bengali")}>
+            {language === "bn" ? "অফলাইন" : "Offline"}
+          </span>
+        </div>
+      )}
+      
       {/* Content */}
       <div className="relative z-10">
         {/* Icon */}
@@ -201,8 +212,12 @@ export const DesktopHeroSearch = ({ language, onSearch, isLoading, hasResults, o
           language === "bn" && "font-bengali"
         )}>
           {language === "bn"
-            ? "বাংলা বা ইংরেজিতে অনুসন্ধান করুন। এআই এর মাধ্যমে জানুন সঠিক তথ্য।"
-            : "Search in Bengali or English. Get accurate information through AI."}
+            ? isOnline 
+              ? "বাংলা বা ইংরেজিতে অনুসন্ধান করুন। এআই এর মাধ্যমে জানুন সঠিক তথ্য।"
+              : "অফলাইন মোডে স্থানীয় ডেটা থেকে অনুসন্ধান করুন।"
+            : isOnline
+              ? "Search in Bengali or English. Get accurate information through AI."
+              : "Search from local data in offline mode."}
         </p>
 
         {/* Search Form */}

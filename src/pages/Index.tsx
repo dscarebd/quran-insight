@@ -58,6 +58,7 @@ const Index = ({ language }: IndexProps) => {
           isLoading={isLoading}
           hasResults={!!searchQuery}
           onClear={clearSearch}
+          isOnline={isOnline}
         />
         
         {/* Continue Reading - after hero, before quick access (mobile/tablet only) - hide when searching */}
