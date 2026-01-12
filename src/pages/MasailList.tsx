@@ -312,12 +312,6 @@ const MasailList = ({ language }: MasailListProps) => {
                   >
                     <div className="flex items-start justify-between gap-3">
                       <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2 mb-1.5">
-                          <HelpCircle className="h-4 w-4 text-amber-500 shrink-0" />
-                          <span className="text-[10px] font-semibold uppercase tracking-wider text-amber-600 dark:text-amber-400 font-bengali">
-                            {language === "bn" ? "মাসআলা" : "Masail"}
-                          </span>
-                        </div>
                         <h3 className={cn(
                           "font-semibold text-foreground mb-1 line-clamp-2",
                           "font-bengali text-base leading-relaxed"
