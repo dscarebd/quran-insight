@@ -175,14 +175,6 @@ const MasailList = ({ language }: MasailListProps) => {
                 </p>
               </div>
             </div>
-            <OfflineIndicator
-              isOffline={isOffline}
-              isSyncing={isSyncing}
-              lastSyncTime={lastSyncTime}
-              onRefresh={refresh}
-              language={language}
-              showRefreshButton={false}
-            />
           </div>
 
           {/* Search */}
