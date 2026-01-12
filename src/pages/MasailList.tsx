@@ -308,7 +308,7 @@ const MasailList = ({ language }: MasailListProps) => {
                   <button
                     key={masail.id}
                     onClick={() => handleMasailClick(masail)}
-                    className="w-full text-left rounded-xl border-l-4 border-l-amber-400 dark:border-l-amber-500 bg-card p-4 transition-all hover:bg-amber-50 dark:hover:bg-amber-900/20 hover:shadow-md hover:-translate-y-0.5 group shadow-sm"
+                    className="w-full text-left rounded-xl border-l-4 border-l-primary bg-card p-4 transition-all hover:bg-primary/5 dark:hover:bg-primary/10 hover:shadow-md hover:-translate-y-0.5 group shadow-sm"
                   >
                     <div className="flex items-start justify-between gap-3">
                       <div className="flex-1 min-w-0">
@@ -321,7 +321,7 @@ const MasailList = ({ language }: MasailListProps) => {
                         
                       </div>
                       
-                      <ChevronRight className="h-5 w-5 text-amber-500 shrink-0 mt-1 transition-transform group-hover:translate-x-1" />
+                      <ChevronRight className="h-5 w-5 text-primary shrink-0 mt-1 transition-transform group-hover:translate-x-1" />
                     </div>
                   </button>
                 ))}
