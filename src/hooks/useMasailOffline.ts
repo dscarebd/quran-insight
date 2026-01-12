@@ -58,7 +58,7 @@ export const useMasailOffline = (): UseMasailOfflineResult => {
     };
   }, []);
 
-  // Initial load
+  // Initial load - just load from IndexedDB, sync happens via global useOfflineBundle
   useEffect(() => {
     loadData();
   }, []);
@@ -66,25 +66,20 @@ export const useMasailOffline = (): UseMasailOfflineResult => {
   const loadData = async () => {
     setLoading(true);
     try {
-      // If online, sync first
-      if (navigator.onLine) {
-        await syncData();
-      }
-      
-      // Always load from IndexedDB (source of truth for display)
+      // Load from IndexedDB (global sync handles the syncing)
       const local = await getAllMasail();
       setMasailList(local);
       setMasailCount(local.length);
+      
+      // If no local data and online, trigger a sync
+      if (local.length === 0 && navigator.onLine) {
+        await syncData();
+        const refreshed = await getAllMasail();
+        setMasailList(refreshed);
+        setMasailCount(refreshed.length);
+      }
     } catch (error) {
       console.error("Error loading masail:", error);
-      // Try loading from IndexedDB even if sync failed
-      try {
-        const local = await getAllMasail();
-        setMasailList(local);
-        setMasailCount(local.length);
-      } catch (e) {
-        console.error("Error loading from IndexedDB:", e);
-      }
     } finally {
       setLoading(false);
     }
