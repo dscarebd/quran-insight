@@ -576,9 +576,6 @@ const MasailList = ({ language }: MasailListProps) => {
               {/* Header */}
               <div className="sticky top-0 z-10 bg-card/95 dark:bg-card/95 backdrop-blur-md border-b border-border">
                 <div className="px-6 lg:px-10 py-3 flex items-center justify-end gap-2">
-                  <Button variant="ghost" size="icon" onClick={handlePrint} title="প্রিন্ট">
-                    <Printer className="h-5 w-5" />
-                  </Button>
                   <Button variant="ghost" size="icon" onClick={handleShare} title="শেয়ার">
                     <Share2 className="h-5 w-5" />
                   </Button>
