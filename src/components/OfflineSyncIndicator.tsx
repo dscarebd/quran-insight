@@ -1,10 +1,8 @@
 import { useState, useEffect } from "react";
-import { Cloud, CloudOff, Download, Check, Loader2, RefreshCw, Package } from "lucide-react";
+import { CloudOff, Check, Loader2, Package } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useOfflineBundle } from "@/hooks/useOfflineBundle";
 import { Language } from "@/types/language";
-import { Progress } from "@/components/ui/progress";
-import { Button } from "@/components/ui/button";
 import {
   Popover,
   PopoverContent,
@@ -24,13 +22,7 @@ export const OfflineSyncIndicator = ({ language, showDetails = false }: OfflineS
     masail, 
     duas, 
     isComplete,
-    isLoading,
-    isSyncing, 
-    currentType, 
-    progress, 
-    total,
-    syncAll,
-    lastSyncTime
+    isLoading
   } = useOfflineBundle(true);
 
   useEffect(() => {
@@ -53,8 +45,6 @@ export const OfflineSyncIndicator = ({ language, showDetails = false }: OfflineS
     return num.toString();
   };
 
-  const progressPercent = total > 0 ? Math.round((progress / total) * 100) : 0;
-
   // Compact indicator for header
   if (!showDetails) {
     return (
@@ -66,9 +56,9 @@ export const OfflineSyncIndicator = ({ language, showDetails = false }: OfflineS
               isOnline 
                 ? isComplete 
                   ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
-                  : isLoading || isSyncing
+                  : isLoading
                     ? "bg-blue-500/10 text-blue-600 dark:text-blue-400"
-                    : "bg-amber-500/10 text-amber-600 dark:text-amber-400"
+                    : "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
                 : "bg-red-500/10 text-red-600 dark:text-red-400"
             )}
           >
@@ -86,25 +76,11 @@ export const OfflineSyncIndicator = ({ language, showDetails = false }: OfflineS
                   {language === "bn" ? "লোড হচ্ছে" : "Loading"}
                 </span>
               </>
-            ) : isSyncing ? (
-              <>
-                <Loader2 className="h-3 w-3 animate-spin" />
-                <span className={cn(language === "bn" && "font-bengali")}>
-                  {total > 0 ? `${progress}/${total}` : language === "bn" ? "চেক হচ্ছে" : "Checking"}
-                </span>
-              </>
-            ) : isComplete ? (
+            ) : (
               <>
                 <Check className="h-3 w-3" />
                 <span className={cn(language === "bn" && "font-bengali")}>
                   {language === "bn" ? "সম্পূর্ণ" : "Ready"}
-                </span>
-              </>
-            ) : (
-              <>
-                <Download className="h-3 w-3" />
-                <span className={cn(language === "bn" && "font-bengali")}>
-                  {language === "bn" ? "আপডেট" : "Update"}
                 </span>
               </>
             )}
@@ -112,36 +88,9 @@ export const OfflineSyncIndicator = ({ language, showDetails = false }: OfflineS
         </PopoverTrigger>
         <PopoverContent className="w-80 p-3" align="end">
           <div className="space-y-3">
-            <div className="flex items-center justify-between">
-              <h4 className={cn("font-semibold text-sm", language === "bn" && "font-bengali")}>
-                {language === "bn" ? "অফলাইন ডেটা" : "Offline Data"}
-              </h4>
-              {isOnline && !isSyncing && !isLoading && (
-                <Button 
-                  size="sm" 
-                  variant="ghost" 
-                  className="h-7 px-2"
-                  onClick={() => syncAll(true)}
-                >
-                  <RefreshCw className="h-3 w-3 mr-1" />
-                  <span className={cn("text-xs", language === "bn" && "font-bengali")}>
-                    {language === "bn" ? "আপডেট" : "Update"}
-                  </span>
-                </Button>
-              )}
-            </div>
-
-            {isSyncing && currentType && total > 0 && (
-              <div className="space-y-1.5">
-                <div className="flex items-center justify-between text-xs">
-                  <span className={cn("text-muted-foreground", language === "bn" && "font-bengali")}>
-                    {language === "bn" ? "নতুন মাসায়েল ডাউনলোড হচ্ছে" : "Downloading new masail"}
-                  </span>
-                  <span className="font-medium">{progress}/{total}</span>
-                </div>
-                <Progress value={progressPercent} className="h-1.5" />
-              </div>
-            )}
+            <h4 className={cn("font-semibold text-sm", language === "bn" && "font-bengali")}>
+              {language === "bn" ? "অফলাইন ডেটা" : "Offline Data"}
+            </h4>
 
             {/* All Bundled Data */}
             <div className="space-y-1.5">
@@ -179,18 +128,6 @@ export const OfflineSyncIndicator = ({ language, showDetails = false }: OfflineS
               </div>
             </div>
 
-            {lastSyncTime && (
-              <p className={cn("text-xs text-muted-foreground text-center", language === "bn" && "font-bengali")}>
-                {language === "bn" ? "নতুন মাসায়েল চেক: " : "Last update check: "}
-                {new Date(lastSyncTime).toLocaleDateString(language === "bn" ? "bn-BD" : "en-US", {
-                  month: "short",
-                  day: "numeric",
-                  hour: "2-digit",
-                  minute: "2-digit"
-                })}
-              </p>
-            )}
-
             {!isOnline && (
               <p className={cn("text-xs text-amber-600 dark:text-amber-400 text-center", language === "bn" && "font-bengali")}>
                 {language === "bn" 
@@ -209,29 +146,16 @@ export const OfflineSyncIndicator = ({ language, showDetails = false }: OfflineS
     <div className="rounded-lg border border-border bg-card p-4 space-y-4">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          {isOnline ? (
-            <Cloud className="h-5 w-5 text-primary" />
-          ) : (
-            <CloudOff className="h-5 w-5 text-muted-foreground" />
-          )}
+          <Package className="h-5 w-5 text-emerald-600" />
           <h3 className={cn("font-semibold", language === "bn" && "font-bengali")}>
             {language === "bn" ? "অফলাইন ডেটা" : "Offline Data"}
           </h3>
         </div>
         <div className={cn(
           "flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs",
-          isComplete 
-            ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
-            : "bg-amber-500/10 text-amber-600 dark:text-amber-400"
+          "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
         )}>
-          {isComplete ? (
-            <>
-              <Check className="h-3 w-3" />
-              <span className={cn(language === "bn" && "font-bengali")}>
-                {language === "bn" ? "সম্পূর্ণ" : "Complete"}
-              </span>
-            </>
-          ) : isLoading ? (
+          {isLoading ? (
             <>
               <Loader2 className="h-3 w-3 animate-spin" />
               <span className={cn(language === "bn" && "font-bengali")}>
@@ -240,26 +164,14 @@ export const OfflineSyncIndicator = ({ language, showDetails = false }: OfflineS
             </>
           ) : (
             <>
-              <Download className="h-3 w-3" />
+              <Check className="h-3 w-3" />
               <span className={cn(language === "bn" && "font-bengali")}>
-                {language === "bn" ? "অসম্পূর্ণ" : "Incomplete"}
+                {language === "bn" ? "সম্পূর্ণ" : "Complete"}
               </span>
             </>
           )}
         </div>
       </div>
-
-      {isSyncing && currentType && total > 0 && (
-        <div className="space-y-2">
-          <div className="flex items-center justify-between text-sm">
-            <span className={cn("text-muted-foreground", language === "bn" && "font-bengali")}>
-              {language === "bn" ? "নতুন মাসায়েল ডাউনলোড হচ্ছে" : "Downloading new masail"}
-            </span>
-            <span className="font-medium">{progress}/{total}</span>
-          </div>
-          <Progress value={progressPercent} className="h-2" />
-        </div>
-      )}
 
       {/* All Bundled Data */}
       <div className="space-y-2">
@@ -297,40 +209,11 @@ export const OfflineSyncIndicator = ({ language, showDetails = false }: OfflineS
         </div>
       </div>
 
-      <Button 
-        className="w-full" 
-        onClick={() => syncAll(true)}
-        disabled={isSyncing || isLoading || !isOnline}
-      >
-        {isSyncing ? (
-          <>
-            <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-            <span className={cn(language === "bn" && "font-bengali")}>
-              {language === "bn" ? "আপডেট হচ্ছে..." : "Updating..."}
-            </span>
-          </>
-        ) : (
-          <>
-            <RefreshCw className="h-4 w-4 mr-2" />
-            <span className={cn(language === "bn" && "font-bengali")}>
-              {language === "bn" ? "নতুন মাসায়েল চেক করুন" : "Check for new masail"}
-            </span>
-          </>
-        )}
-      </Button>
-
-      {lastSyncTime && (
-        <p className={cn("text-xs text-muted-foreground text-center", language === "bn" && "font-bengali")}>
-          {language === "bn" ? "সর্বশেষ আপডেট চেক: " : "Last update check: "}
-          {new Date(lastSyncTime).toLocaleDateString(language === "bn" ? "bn-BD" : "en-US", {
-            year: "numeric",
-            month: "short",
-            day: "numeric",
-            hour: "2-digit",
-            minute: "2-digit"
-          })}
-        </p>
-      )}
+      <p className={cn("text-xs text-muted-foreground text-center", language === "bn" && "font-bengali")}>
+        {language === "bn" 
+          ? "সমস্ত ডেটা অ্যাপে অন্তর্ভুক্ত। ইন্টারনেট ছাড়াই ব্যবহার করুন।" 
+          : "All data is built into the app. Use without internet."}
+      </p>
     </div>
   );
 };

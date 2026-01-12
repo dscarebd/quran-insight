@@ -1,4 +1,4 @@
-import { Bookmark, ZoomIn, ZoomOut, Settings, RefreshCw } from "lucide-react";
+import { Bookmark, ZoomIn, ZoomOut, Settings } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { LanguageToggle } from "./LanguageToggle";
 import { SidebarTrigger } from "@/components/ui/sidebar";
@@ -18,8 +18,6 @@ interface HeaderProps {
   onZoomOut?: () => void;
   canZoomIn?: boolean;
   canZoomOut?: boolean;
-  // Sync status
-  isSyncing?: boolean;
 }
 
 export const Header = ({
@@ -31,7 +29,6 @@ export const Header = ({
   onZoomOut,
   canZoomIn = true,
   canZoomOut = true,
-  isSyncing = false,
 }: HeaderProps) => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -60,10 +57,6 @@ export const Header = ({
         )}>
           {language === "bn" ? "কুরআন ইনসাইট" : "Quran Insight"}
         </h1>
-        {/* Subtle sync indicator - only shows when syncing */}
-        {isSyncing && (
-          <RefreshCw className="h-4 w-4 text-primary/60 animate-spin shrink-0" />
-        )}
       </div>
       
       {/* Right side controls */}
