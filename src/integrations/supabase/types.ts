@@ -427,6 +427,63 @@ export type Database = {
         }
         Relationships: []
       }
+      pdf_books: {
+        Row: {
+          author_bengali: string | null
+          author_english: string | null
+          category: string | null
+          cover_image_url: string | null
+          created_at: string | null
+          description_bengali: string | null
+          description_english: string | null
+          display_order: number | null
+          file_size_mb: number | null
+          id: string
+          is_featured: boolean | null
+          pdf_url: string
+          title_bengali: string
+          title_english: string
+          total_pages: number | null
+          updated_at: string | null
+        }
+        Insert: {
+          author_bengali?: string | null
+          author_english?: string | null
+          category?: string | null
+          cover_image_url?: string | null
+          created_at?: string | null
+          description_bengali?: string | null
+          description_english?: string | null
+          display_order?: number | null
+          file_size_mb?: number | null
+          id?: string
+          is_featured?: boolean | null
+          pdf_url: string
+          title_bengali: string
+          title_english: string
+          total_pages?: number | null
+          updated_at?: string | null
+        }
+        Update: {
+          author_bengali?: string | null
+          author_english?: string | null
+          category?: string | null
+          cover_image_url?: string | null
+          created_at?: string | null
+          description_bengali?: string | null
+          description_english?: string | null
+          display_order?: number | null
+          file_size_mb?: number | null
+          id?: string
+          is_featured?: boolean | null
+          pdf_url?: string
+          title_bengali?: string
+          title_english?: string
+          total_pages?: number | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string | null
