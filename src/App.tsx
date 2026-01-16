@@ -240,7 +240,7 @@ const AppContent = () => {
           <Developer language={language} />
         </Layout>
       } />
-      <Route path="/privacy-policy" element={
+      <Route path="/privacy" element={
         <Layout language={language} onLanguageChange={handleLanguageChange}>
           <PrivacyPolicy language={language} />
         </Layout>
