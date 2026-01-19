@@ -2,21 +2,20 @@ import { Surah } from "@/data/surahs";
 
 // Common transliteration mappings for Arabic/Bengali names
 const transliterationMap: Record<string, string> = {
-  'ph': 'f',
-  'aa': 'a',
-  'ee': 'i',
-  'ii': 'i',
-  'oo': 'u',
-  'uu': 'u',
-  'gh': 'g',
-  'kh': 'k',
-  'sh': 's',
-  'th': 't',
-  'dh': 'd',
-  'zh': 'z',
-  "'": '',
-  '-': '',
-  ' ': '',
+  "ph": "f",
+  "aa": "a",
+  "ee": "i",
+  "ii": "i",
+  "oo": "u",
+  "uu": "u",
+  "gh": "g",
+  "kh": "k",
+  "sh": "s",
+  "th": "t",
+  "dh": "d",
+  "zh": "z",
+  "'": "",
+  "-": "",
 };
 
 // Bengali phonetic variations mapping
@@ -34,23 +33,29 @@ const bengaliVariations: Record<string, string[]> = {
  */
 export function normalizeText(text: string): string {
   if (!text) return '';
-  
+
   let normalized = text.toLowerCase().trim();
-  
+
   // Remove common prefixes for Arabic names
   normalized = normalized.replace(/^(al-|as-|ar-|an-|at-|ad-)/i, '');
-  
+
   // Apply transliteration mappings
   for (const [from, to] of Object.entries(transliterationMap)) {
     normalized = normalized.replace(new RegExp(from, 'gi'), to);
   }
-  
-  // Remove diacritics from Bengali text
+
+  // Remove diacritics from Latin/Bengali text
   normalized = normalized.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-  
+
   // Remove Arabic diacritics (tashkeel)
   normalized = normalized.replace(/[\u064B-\u0652]/g, '');
-  
+
+  // Drop punctuation/symbol noise but keep letters/numbers/spaces (works for Latin/Arabic/Bengali)
+  normalized = normalized.replace(/[^\p{L}\p{N}\s]/gu, ' ');
+
+  // Normalize whitespace
+  normalized = normalized.replace(/\s+/g, ' ').trim();
+
   return normalized;
 }
 
@@ -88,12 +93,12 @@ export function levenshteinDistance(str1: string, str2: string): number {
  */
 export function generateNgrams(text: string, n: number = 2): Set<string> {
   const ngrams = new Set<string>();
-  const normalized = normalizeText(text);
-  
+  const normalized = normalizeText(text).replace(/\s+/g, "");
+
   for (let i = 0; i <= normalized.length - n; i++) {
     ngrams.add(normalized.substring(i, i + n));
   }
-  
+
   return ngrams;
 }
 
@@ -121,46 +126,53 @@ export function ngramSimilarity(text1: string, text2: string, n: number = 2): nu
  */
 export function calculateFieldScore(field: string, query: string): number {
   if (!field || !query) return 0;
-  
+
   const normalizedField = normalizeText(field);
   const normalizedQuery = normalizeText(query);
-  
-  // Exact match
-  if (normalizedField === normalizedQuery) return 100;
-  
+
+  const compactField = normalizedField.replace(/\s+/g, "");
+  const compactQuery = normalizedQuery.replace(/\s+/g, "");
+
+  if (!compactField || !compactQuery) return 0;
+
+  // Exact match (ignoring whitespace/punctuation)
+  if (compactField === compactQuery) return 100;
+
   // Starts with query
-  if (normalizedField.startsWith(normalizedQuery)) return 85;
-  
+  if (compactField.startsWith(compactQuery)) return 85;
+
   // Contains query
-  if (normalizedField.includes(normalizedQuery)) return 70;
-  
+  if (compactField.includes(compactQuery)) return 70;
+
   // Check if query starts with field (for shorter queries like "yas" for "yaseen")
-  if (normalizedQuery.length >= 2 && normalizedField.startsWith(normalizedQuery.substring(0, 2))) {
-    const distance = levenshteinDistance(normalizedField.substring(0, normalizedQuery.length), normalizedQuery);
+  if (compactQuery.length >= 2 && compactField.startsWith(compactQuery.substring(0, 2))) {
+    const distance = levenshteinDistance(compactField.substring(0, compactQuery.length), compactQuery);
     if (distance <= 2) return 60;
   }
-  
+
   // Levenshtein distance check (for typos)
-  const maxLen = Math.max(normalizedField.length, normalizedQuery.length);
-  const distance = levenshteinDistance(normalizedField, normalizedQuery);
+  const maxLen = Math.max(compactField.length, compactQuery.length);
+  if (maxLen === 0) return 0;
+
+  const distance = levenshteinDistance(compactField, compactQuery);
   const similarityRatio = 1 - (distance / maxLen);
-  
+
   // Allow up to 2-3 character differences depending on length
-  const allowedDistance = Math.min(3, Math.floor(normalizedQuery.length / 2) + 1);
+  const allowedDistance = Math.min(3, Math.floor(compactQuery.length / 2) + 1);
   if (distance <= allowedDistance) {
     return Math.round(50 + (similarityRatio * 30));
   }
-  
-  // N-gram similarity
+
+  // N-gram similarity (spaces ignored inside generateNgrams)
   const similarity = ngramSimilarity(field, query);
   if (similarity >= 0.4) {
     return Math.round(similarity * 50);
   }
-  
-  // Word tokenization - check if any word matches
+
+  // Word tokenization - check if any word matches (works now that normalizeText preserves spaces)
   const fieldWords = normalizedField.split(/\s+/);
   const queryWords = normalizedQuery.split(/\s+/);
-  
+
   for (const qWord of queryWords) {
     if (qWord.length < 2) continue;
     for (const fWord of fieldWords) {
@@ -171,7 +183,7 @@ export function calculateFieldScore(field: string, query: string): number {
       if (wordDistance <= 1) return 25;
     }
   }
-  
+
   return 0;
 }
 
