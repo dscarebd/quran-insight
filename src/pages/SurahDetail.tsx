@@ -15,6 +15,7 @@ import { Language } from "@/types/language";
 import { ArabicFontType } from "@/types/quranV1";
 import { getVerses } from "@/services/bundledDataService";
 import { useQuranAudio } from "@/hooks/useQuranAudio";
+import { useSleepTimer } from "@/hooks/useSleepTimer";
 import { AudioPlayerBar } from "@/components/AudioPlayerBar";
 import { ReciterSelector } from "@/components/ReciterSelector";
 import { SurahAudioControls } from "@/components/SurahAudioControls";
@@ -221,6 +222,13 @@ const SurahDetail = ({ language, readingMode = "normal", arabicFont = "amiri" }:
       if (element) {
         element.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
+    }
+  });
+
+  // Sleep timer hook - stops audio when timer ends
+  const sleepTimer = useSleepTimer({
+    onTimerEnd: () => {
+      audio.stop();
     }
   });
 
@@ -631,6 +639,11 @@ const SurahDetail = ({ language, readingMode = "normal", arabicFont = "amiri" }:
           canPlayPrevious={audio.canPlayPrevious}
           canPlayNext={audio.canPlayNext}
           onReciterClick={() => setReciterSheetOpen(true)}
+          sleepTimerActive={sleepTimer.isActive}
+          sleepTimerDuration={sleepTimer.duration}
+          sleepTimerFormattedTime={sleepTimer.formattedTime}
+          onSleepTimerSelect={sleepTimer.startTimer}
+          onSleepTimerCancel={sleepTimer.stopTimer}
         />
       )}
     </div>
