@@ -1,10 +1,10 @@
 import { useMemo, useRef, useEffect, ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
-import { Book, ChevronRight } from "lucide-react";
+import { Book, ChevronRight, HelpCircle } from "lucide-react";
 import { cn, formatNumber } from "@/lib/utils";
 import { Language } from "@/types/language";
 import { surahs, Surah } from "@/data/surahs";
-import { fuzzySearchSurahs, normalizeText } from "@/utils/fuzzySearch";
+import { fuzzySearchSurahs, getClosestSurahMatches, normalizeText } from "@/utils/fuzzySearch";
 
 interface SurahSuggestionsProps {
   query: string;
@@ -94,10 +94,24 @@ export const SurahSuggestions = ({
   const navigate = useNavigate();
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Fuzzy search for matching surahs
-  const suggestions = useMemo(() => {
-    if (!query || query.trim().length < 2) return [];
-    return fuzzySearchSurahs(surahs, query.trim()).slice(0, maxResults);
+  // Fuzzy search for matching surahs with "Did you mean..." fallback
+  const { suggestions, didYouMeanSuggestions } = useMemo(() => {
+    if (!query || query.trim().length < 2) {
+      return { suggestions: [], didYouMeanSuggestions: [] };
+    }
+
+    const results = fuzzySearchSurahs(surahs, query.trim()).slice(0, maxResults);
+
+    if (results.length > 0) {
+      return { suggestions: results, didYouMeanSuggestions: [] };
+    }
+
+    // No direct matches - get closest for "Did you mean..."
+    const closest = getClosestSurahMatches(surahs, query.trim(), 3);
+    return {
+      suggestions: [],
+      didYouMeanSuggestions: closest.map((c) => c.surah),
+    };
   }, [query, maxResults]);
 
   // Handle click outside to close
@@ -143,7 +157,10 @@ export const SurahSuggestions = ({
     onClose?.();
   };
 
-  if (!isVisible || suggestions.length === 0) return null;
+  if (!isVisible || (suggestions.length === 0 && didYouMeanSuggestions.length === 0)) return null;
+
+  const isDidYouMean = suggestions.length === 0 && didYouMeanSuggestions.length > 0;
+  const displaySuggestions = isDidYouMean ? didYouMeanSuggestions : suggestions;
 
   return (
     <div
@@ -154,29 +171,54 @@ export const SurahSuggestions = ({
       )}
     >
       {/* Header */}
-      <div className="px-3 py-2 bg-muted/50 border-b border-border">
+      <div className={cn(
+        "px-3 py-2 border-b",
+        isDidYouMean 
+          ? "bg-amber-50 dark:bg-amber-900/20 border-amber-200 dark:border-amber-800" 
+          : "bg-muted/50 border-border"
+      )}>
         <p className={cn(
-          "text-xs text-muted-foreground flex items-center gap-1.5",
+          "text-xs flex items-center gap-1.5",
+          isDidYouMean 
+            ? "text-amber-700 dark:text-amber-300" 
+            : "text-muted-foreground",
           language === "bn" && "font-bengali"
         )}>
-          <Book className="h-3 w-3" />
-          {language === "bn" ? "সূরা পরামর্শ" : "Surah Suggestions"}
+          {isDidYouMean ? (
+            <>
+              <HelpCircle className="h-3 w-3" />
+              {language === "bn" ? "আপনি কি খুঁজছেন?" : "Did you mean..."}
+            </>
+          ) : (
+            <>
+              <Book className="h-3 w-3" />
+              {language === "bn" ? "সূরা পরামর্শ" : "Surah Suggestions"}
+            </>
+          )}
         </p>
       </div>
 
       {/* Suggestions list */}
       <div className="max-h-72 overflow-y-auto">
-        {suggestions.map((surah, index) => (
+        {displaySuggestions.map((surah, index) => (
           <button
             key={surah.number}
             onClick={() => handleSurahClick(surah)}
             className={cn(
-              "w-full flex items-center gap-3 px-3 py-2.5 text-left transition-colors hover:bg-accent/50",
-              index !== suggestions.length - 1 && "border-b border-border/50"
+              "w-full flex items-center gap-3 px-3 py-2.5 text-left transition-colors",
+              isDidYouMean 
+                ? "hover:bg-amber-50/50 dark:hover:bg-amber-900/30" 
+                : "hover:bg-accent/50",
+              index !== displaySuggestions.length - 1 && "border-b border-border/50"
             )}
           >
             {/* Number badge */}
-            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-sm font-semibold text-primary">
+            <div className={cn(
+              "flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-sm font-semibold",
+              isDidYouMean 
+                ? "bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300" 
+                : "bg-primary/10 text-primary"
+            )}>
               {formatNumber(surah.number, language)}
             </div>
 
@@ -184,18 +226,18 @@ export const SurahSuggestions = ({
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2 flex-wrap">
                 <span className="font-arabic text-base text-foreground">
-                  {highlightMatch(surah.nameArabic, query)}
+                  {isDidYouMean ? surah.nameArabic : highlightMatch(surah.nameArabic, query)}
                 </span>
                 <span className="text-sm font-medium text-foreground">
-                  {highlightMatch(surah.nameEnglish, query)}
+                  {isDidYouMean ? surah.nameEnglish : highlightMatch(surah.nameEnglish, query)}
                 </span>
                 <span className="text-sm font-bengali text-muted-foreground">
-                  ({highlightMatch(surah.nameBengali, query)})
+                  ({isDidYouMean ? surah.nameBengali : highlightMatch(surah.nameBengali, query)})
                 </span>
               </div>
               <p className="text-xs text-muted-foreground truncate">
-                <span>{highlightMatch(surah.meaningEnglish, query)}</span>
-                <span className="font-bengali"> • {highlightMatch(surah.meaningBengali, query)}</span>
+                <span>{isDidYouMean ? surah.meaningEnglish : highlightMatch(surah.meaningEnglish, query)}</span>
+                <span className="font-bengali"> • {isDidYouMean ? surah.meaningBengali : highlightMatch(surah.meaningBengali, query)}</span>
                 <span>
                   {" · "}
                   {language === "bn" 
@@ -206,7 +248,10 @@ export const SurahSuggestions = ({
             </div>
 
             {/* Arrow */}
-            <ChevronRight className="h-4 w-4 text-muted-foreground shrink-0" />
+            <ChevronRight className={cn(
+              "h-4 w-4 shrink-0",
+              isDidYouMean ? "text-amber-600 dark:text-amber-400" : "text-muted-foreground"
+            )} />
           </button>
         ))}
       </div>

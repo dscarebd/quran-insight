@@ -16,6 +16,16 @@ const transliterationMap: Record<string, string> = {
   "zh": "z",
   "'": "",
   "-": "",
+  // Additional phonetic variations for better matching
+  "oh": "a",    // rohman → rahman
+  "o": "a",     // common Bengali/South Asian transliteration
+  "aw": "a",    // awl → al
+  "ay": "a",    // ayman → aman
+  "ei": "i",    // yasein → yasin
+  "ea": "i",    // readi → radi
+  "ou": "u",    // sourah → surah
+  "q": "k",     // qalam → kalam
+  "x": "kh",    // for some transliterations
 };
 
 // Bengali phonetic variations mapping
@@ -212,6 +222,23 @@ export function fuzzyMatchSurah(surah: Surah, query: string): number {
   
   // Return the highest score
   return Math.max(...scores);
+}
+
+/**
+ * Get closest Surah matches even below threshold (for "Did you mean..." suggestions)
+ */
+export function getClosestSurahMatches(
+  surahs: Surah[],
+  query: string,
+  maxResults: number = 3
+): Array<{ surah: Surah; score: number }> {
+  if (!query || query.trim().length < 2) return [];
+
+  return surahs
+    .map((surah) => ({ surah, score: fuzzyMatchSurah(surah, query) }))
+    .filter(({ score }) => score > 0) // Any positive match
+    .sort((a, b) => b.score - a.score)
+    .slice(0, maxResults);
 }
 
 /**
