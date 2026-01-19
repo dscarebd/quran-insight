@@ -151,13 +151,25 @@ export function calculateFieldScore(field: string, query: string): number {
   // Starts with query
   if (compactField.startsWith(compactQuery)) return 85;
 
-  // Contains query
+  // Contains query (e.g., "kaf" in "kahf")
   if (compactField.includes(compactQuery)) return 70;
+  
+  // Query contains field (for very short fields)
+  if (compactQuery.includes(compactField) && compactField.length >= 2) return 65;
 
   // Check if query starts with field (for shorter queries like "yas" for "yaseen")
   if (compactQuery.length >= 2 && compactField.startsWith(compactQuery.substring(0, 2))) {
     const distance = levenshteinDistance(compactField.substring(0, compactQuery.length), compactQuery);
     if (distance <= 2) return 60;
+  }
+  
+  // Check if field starts with query prefix (for partial typing)
+  if (compactField.length >= 2 && compactQuery.length >= 2) {
+    const minLen = Math.min(compactField.length, compactQuery.length);
+    const fieldPrefix = compactField.substring(0, minLen);
+    const queryPrefix = compactQuery.substring(0, minLen);
+    const prefixDistance = levenshteinDistance(fieldPrefix, queryPrefix);
+    if (prefixDistance <= 1) return 55;
   }
 
   // Levenshtein distance check (for typos)
@@ -173,13 +185,14 @@ export function calculateFieldScore(field: string, query: string): number {
     return Math.round(50 + (similarityRatio * 30));
   }
 
-  // N-gram similarity (spaces ignored inside generateNgrams)
+  // N-gram similarity (lowered threshold for short queries)
   const similarity = ngramSimilarity(field, query);
-  if (similarity >= 0.4) {
+  const ngramThreshold = compactQuery.length <= 3 ? 0.25 : 0.4;
+  if (similarity >= ngramThreshold) {
     return Math.round(similarity * 50);
   }
 
-  // Word tokenization - check if any word matches (works now that normalizeText preserves spaces)
+  // Word tokenization - check if any word matches
   const fieldWords = normalizedField.split(/\s+/);
   const queryWords = normalizedQuery.split(/\s+/);
 
@@ -191,6 +204,8 @@ export function calculateFieldScore(field: string, query: string): number {
       }
       const wordDistance = levenshteinDistance(fWord, qWord);
       if (wordDistance <= 1) return 25;
+      // For short queries, allow more distance
+      if (qWord.length <= 4 && wordDistance <= 2) return 15;
     }
   }
 
