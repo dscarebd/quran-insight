@@ -3,6 +3,7 @@ import { Search, Mic, MicOff, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { Language } from "@/types/language";
+import { SurahSuggestions } from "@/components/SurahSuggestions";
 
 interface SearchSectionProps {
   language: Language;
@@ -17,6 +18,7 @@ export const SearchSection = ({ language, onSearch, isLoading }: SearchSectionPr
   const [query, setQuery] = useState("");
   const [isFocused, setIsFocused] = useState(false);
   const [isListening, setIsListening] = useState(false);
+  const [showSuggestions, setShowSuggestions] = useState(false);
   const recognitionRef = useRef<any>(null);
 
   // Initialize speech recognition
@@ -66,8 +68,27 @@ export const SearchSection = ({ language, onSearch, isLoading }: SearchSectionPr
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (query.trim()) {
+      setShowSuggestions(false);
       onSearch(query.trim());
     }
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setQuery(value);
+    setShowSuggestions(value.trim().length >= 2);
+  };
+
+  const handleInputFocus = () => {
+    setIsFocused(true);
+    if (query.trim().length >= 2) {
+      setShowSuggestions(true);
+    }
+  };
+
+  const handleInputBlur = () => {
+    setIsFocused(false);
+    setTimeout(() => setShowSuggestions(false), 200);
   };
 
   const toggleVoiceSearch = () => {
@@ -118,7 +139,7 @@ export const SearchSection = ({ language, onSearch, isLoading }: SearchSectionPr
       </p>
 
       {/* Search Form */}
-      <form onSubmit={handleSubmit} className="mx-auto max-w-2xl">
+      <form onSubmit={handleSubmit} className="relative mx-auto max-w-2xl">
         <div
           className={cn(
             "relative flex items-center rounded-full border-2 bg-card transition-all duration-300",
@@ -136,9 +157,9 @@ export const SearchSection = ({ language, onSearch, isLoading }: SearchSectionPr
           <input
             type="text"
             value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            onFocus={() => setIsFocused(true)}
-            onBlur={() => setIsFocused(false)}
+            onChange={handleInputChange}
+            onFocus={handleInputFocus}
+            onBlur={handleInputBlur}
             placeholder={placeholderText}
             className={cn(
               "min-w-0 flex-1 bg-transparent px-3 py-3 text-sm focus:outline-none sm:px-6 sm:py-4 sm:text-lg font-bengali placeholder:font-bengali",
@@ -181,6 +202,14 @@ export const SearchSection = ({ language, onSearch, isLoading }: SearchSectionPr
             </button>
           </div>
         </div>
+
+        {/* Surah Suggestions Dropdown */}
+        <SurahSuggestions
+          query={query}
+          language={language}
+          isVisible={showSuggestions && !isLoading}
+          onClose={() => setShowSuggestions(false)}
+        />
       </form>
     </div>
   );
