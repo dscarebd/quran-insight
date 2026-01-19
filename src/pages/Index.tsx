@@ -1,10 +1,13 @@
 import { useState, useEffect, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import { ContinueReading } from "@/components/ContinueReading";
+import { ContinuePlayingCard } from "@/components/ContinuePlayingCard";
 import { DesktopHeroSearch } from "@/components/desktop/DesktopHeroSearch";
 import { QuickAccessCards } from "@/components/desktop/QuickAccessCards";
 import { DesktopDailyContent } from "@/components/desktop/DesktopDailyContent";
 import { AISearchResults } from "@/components/AISearchResults";
 import { useAISearch } from "@/hooks/useAISearch";
+import { useLastPlayedPosition } from "@/hooks/useLastPlayedPosition";
 import { useToast } from "@/hooks/use-toast";
 import { Language } from "@/types/language";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -15,8 +18,10 @@ interface IndexProps {
 }
 
 const Index = ({ language }: IndexProps) => {
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
   const { search, clear, isLoading, error, response, isOnline } = useAISearch();
+  const { lastPosition, hasLastPosition, clearPosition } = useLastPlayedPosition();
   const { toast } = useToast();
 
   // Clear search function
@@ -48,6 +53,16 @@ const Index = ({ language }: IndexProps) => {
     await search(query, language);
   };
 
+  // Handle resume from last position
+  const handleResumePlayback = () => {
+    if (lastPosition) {
+      // Navigate to the surah with the verse hash to scroll to it
+      navigate(`/surah/${lastPosition.surahNumber}#verse-${lastPosition.verseNumber}`);
+      // Clear the position after navigating (it will be saved again when they pause)
+      clearPosition();
+    }
+  };
+
   return (
     <div className="flex-1 overflow-y-auto overflow-x-hidden max-w-full">
       <div className="mx-auto max-w-6xl px-3 sm:px-4 md:px-6 py-6 sm:py-8 overflow-hidden">
@@ -60,6 +75,18 @@ const Index = ({ language }: IndexProps) => {
           onClear={clearSearch}
           isOnline={isOnline}
         />
+        
+        {/* Continue Playing - show when there's a saved position and not searching */}
+        {!searchQuery && hasLastPosition && lastPosition && (
+          <div className="mt-6">
+            <ContinuePlayingCard
+              position={lastPosition}
+              language={language}
+              onResume={handleResumePlayback}
+              onDismiss={clearPosition}
+            />
+          </div>
+        )}
         
         {/* Continue Reading - after hero, before quick access (mobile/tablet only) - hide when searching */}
         {!searchQuery && <ContinueReading language={language} />}

@@ -42,12 +42,13 @@ interface UseQuranAudioOptions {
   autoPlayNext?: boolean;
   onVerseEnd?: (surahNumber: number, verseNumber: number) => void;
   onVerseStart?: (surahNumber: number, verseNumber: number) => void;
+  onPositionChange?: (surahNumber: number, verseNumber: number, reciterId: string, progress: number) => void;
 }
 
 const PRELOAD_COUNT = 3; // Number of verses to preload ahead
 
 export const useQuranAudio = (options: UseQuranAudioOptions = {}) => {
-  const { autoPlayNext = true, onVerseEnd, onVerseStart } = options;
+  const { autoPlayNext = true, onVerseEnd, onVerseStart, onPositionChange } = options;
   
   const [state, setState] = useState<AudioState>({
     isPlaying: false,
@@ -397,10 +398,16 @@ export const useQuranAudio = (options: UseQuranAudioOptions = {}) => {
 
   const pause = useCallback(async () => {
     if (audioRef.current) {
+      const currentProgress = audioRef.current.currentTime;
       audioRef.current.pause();
       await setPlaybackState('paused');
+      
+      // Save position when pausing
+      if (state.currentSurah && state.currentVerse) {
+        onPositionChange?.(state.currentSurah, state.currentVerse, reciterId, currentProgress);
+      }
     }
-  }, []);
+  }, [state.currentSurah, state.currentVerse, reciterId, onPositionChange]);
 
   const resume = useCallback(async () => {
     if (audioRef.current) {
@@ -410,6 +417,12 @@ export const useQuranAudio = (options: UseQuranAudioOptions = {}) => {
   }, []);
 
   const stop = useCallback(async () => {
+    // Save position before stopping (if there's a current position)
+    if (state.currentSurah && state.currentVerse && audioRef.current) {
+      const currentProgress = audioRef.current.currentTime;
+      onPositionChange?.(state.currentSurah, state.currentVerse, reciterId, currentProgress);
+    }
+    
     if (audioRef.current) {
       audioRef.current.pause();
       audioRef.current.currentTime = 0;
@@ -430,7 +443,7 @@ export const useQuranAudio = (options: UseQuranAudioOptions = {}) => {
       abRepeatEnd: null,
       playbackSpeed: prev.playbackSpeed
     }));
-  }, [stopProgressTracking]);
+  }, [stopProgressTracking, state.currentSurah, state.currentVerse, reciterId, onPositionChange]);
 
   // Refs for media session callbacks (to avoid stale closures)
   const playPreviousRef = useRef<(() => void) | null>(null);
