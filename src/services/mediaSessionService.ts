@@ -50,6 +50,19 @@ export async function setMediaMetadata(metadata: {
 }): Promise<void> {
   const { title, artist, album = 'Quran Insight', artworkUrl } = metadata;
   
+  // Generate absolute artwork URL for native platforms
+  const getAbsoluteArtworkUrl = (url?: string): string | undefined => {
+    if (!url) return undefined;
+    if (url.startsWith('http://') || url.startsWith('https://')) return url;
+    // For relative URLs, try to construct absolute URL
+    if (typeof window !== 'undefined') {
+      return new URL(url, window.location.origin).href;
+    }
+    return url;
+  };
+
+  const absoluteArtworkUrl = getAbsoluteArtworkUrl(artworkUrl);
+
   if (Capacitor.isNativePlatform() && mediaSessionPlugin) {
     // Use Capacitor plugin
     try {
@@ -57,7 +70,7 @@ export async function setMediaMetadata(metadata: {
         title,
         artist,
         album,
-        artwork: artworkUrl ? [{ src: artworkUrl }] : undefined,
+        artwork: absoluteArtworkUrl ? [{ src: absoluteArtworkUrl }] : undefined,
       });
     } catch (error) {
       console.warn('Failed to set media metadata via Capacitor:', error);
@@ -68,11 +81,11 @@ export async function setMediaMetadata(metadata: {
       title,
       artist,
       album,
-      artwork: artworkUrl ? [
-        { src: artworkUrl, sizes: '96x96', type: 'image/png' },
-        { src: artworkUrl, sizes: '128x128', type: 'image/png' },
-        { src: artworkUrl, sizes: '256x256', type: 'image/png' },
-        { src: artworkUrl, sizes: '512x512', type: 'image/png' },
+      artwork: absoluteArtworkUrl ? [
+        { src: absoluteArtworkUrl, sizes: '96x96', type: 'image/png' },
+        { src: absoluteArtworkUrl, sizes: '128x128', type: 'image/png' },
+        { src: absoluteArtworkUrl, sizes: '256x256', type: 'image/png' },
+        { src: absoluteArtworkUrl, sizes: '512x512', type: 'image/png' },
       ] : undefined,
     });
   }
