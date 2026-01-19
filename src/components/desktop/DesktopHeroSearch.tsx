@@ -3,6 +3,7 @@ import { Search, Mic, MicOff, Sparkles, X, WifiOff } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { Language } from "@/types/language";
+import { SurahSuggestions } from "@/components/SurahSuggestions";
 
 interface DesktopHeroSearchProps {
   language: Language;
@@ -19,7 +20,9 @@ export const DesktopHeroSearch = ({ language, onSearch, isLoading, hasResults, o
   const [query, setQuery] = useState("");
   const [isFocused, setIsFocused] = useState(false);
   const [isListening, setIsListening] = useState(false);
+  const [showSuggestions, setShowSuggestions] = useState(false);
   const recognitionRef = useRef<any>(null);
+  const formRef = useRef<HTMLFormElement>(null);
 
   useEffect(() => {
     if (SpeechRecognition) {
@@ -57,7 +60,30 @@ export const DesktopHeroSearch = ({ language, onSearch, isLoading, hasResults, o
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (query.trim()) onSearch(query.trim());
+    if (query.trim()) {
+      setShowSuggestions(false);
+      onSearch(query.trim());
+    }
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setQuery(value);
+    // Show suggestions when typing at least 2 characters
+    setShowSuggestions(value.trim().length >= 2);
+  };
+
+  const handleInputFocus = () => {
+    setIsFocused(true);
+    if (query.trim().length >= 2) {
+      setShowSuggestions(true);
+    }
+  };
+
+  const handleInputBlur = () => {
+    setIsFocused(false);
+    // Delay hiding to allow click on suggestions
+    setTimeout(() => setShowSuggestions(false), 200);
   };
 
   const toggleVoiceSearch = () => {
@@ -92,7 +118,7 @@ export const DesktopHeroSearch = ({ language, onSearch, isLoading, hasResults, o
         </div>
         
         {/* Compact Search Form */}
-        <form onSubmit={handleSubmit} className="relative z-10 mx-auto max-w-2xl">
+        <form onSubmit={handleSubmit} ref={formRef} className="relative z-10 mx-auto max-w-2xl">
           <div
             className={cn(
               "relative flex items-center rounded-full bg-white/95 backdrop-blur-sm transition-all duration-300 shadow-lg",
@@ -104,9 +130,9 @@ export const DesktopHeroSearch = ({ language, onSearch, isLoading, hasResults, o
             <input
               type="text"
               value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              onFocus={() => setIsFocused(true)}
-              onBlur={() => setIsFocused(false)}
+              onChange={handleInputChange}
+              onFocus={handleInputFocus}
+              onBlur={handleInputBlur}
               placeholder={language === "bn" ? "আবার অনুসন্ধান করুন..." : "Search again..."}
               className={cn(
                 "min-w-0 flex-1 bg-transparent pl-10 pr-2 py-2.5 sm:py-3 text-sm text-foreground focus:outline-none",
@@ -121,6 +147,7 @@ export const DesktopHeroSearch = ({ language, onSearch, isLoading, hasResults, o
                   type="button"
                   onClick={() => {
                     setQuery("");
+                    setShowSuggestions(false);
                     onClear?.();
                   }}
                   className="flex h-7 w-7 items-center justify-center rounded-full text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-all shrink-0"
@@ -161,6 +188,14 @@ export const DesktopHeroSearch = ({ language, onSearch, isLoading, hasResults, o
               </button>
             </div>
           </div>
+
+          {/* Surah Suggestions Dropdown */}
+          <SurahSuggestions
+            query={query}
+            language={language}
+            isVisible={showSuggestions && !isLoading}
+            onClose={() => setShowSuggestions(false)}
+          />
         </form>
       </div>
     );
@@ -221,7 +256,7 @@ export const DesktopHeroSearch = ({ language, onSearch, isLoading, hasResults, o
         </p>
 
         {/* Search Form */}
-        <form onSubmit={handleSubmit} className="mx-auto max-w-2xl">
+        <form onSubmit={handleSubmit} ref={formRef} className="relative mx-auto max-w-2xl">
           <div
             className={cn(
               "relative flex items-center rounded-full bg-white/95 backdrop-blur-sm transition-all duration-300 shadow-lg",
@@ -233,9 +268,9 @@ export const DesktopHeroSearch = ({ language, onSearch, isLoading, hasResults, o
             <input
               type="text"
               value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              onFocus={() => setIsFocused(true)}
-              onBlur={() => setIsFocused(false)}
+              onChange={handleInputChange}
+              onFocus={handleInputFocus}
+              onBlur={handleInputBlur}
               placeholder={language === "bn" ? "উদাহরণ: নামাজ সম্পর্কে কুরআন কি বলে?" : "Example: What does Quran say about prayer?"}
               className={cn(
                 "min-w-0 flex-1 bg-transparent pl-11 sm:pl-14 pr-2 sm:pr-4 py-3 sm:py-4 text-sm sm:text-base text-foreground focus:outline-none",
@@ -251,6 +286,7 @@ export const DesktopHeroSearch = ({ language, onSearch, isLoading, hasResults, o
                   type="button"
                   onClick={() => {
                     setQuery("");
+                    setShowSuggestions(false);
                     onClear?.();
                   }}
                   className="flex h-7 w-7 sm:h-9 sm:w-9 items-center justify-center rounded-full text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-all shrink-0"
@@ -291,6 +327,14 @@ export const DesktopHeroSearch = ({ language, onSearch, isLoading, hasResults, o
               </button>
             </div>
           </div>
+
+          {/* Surah Suggestions Dropdown */}
+          <SurahSuggestions
+            query={query}
+            language={language}
+            isVisible={showSuggestions && !isLoading}
+            onClose={() => setShowSuggestions(false)}
+          />
         </form>
       </div>
     </div>
