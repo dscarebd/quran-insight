@@ -1,7 +1,7 @@
 import { useState, useMemo, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useFontSize } from "@/hooks/useFontSize";
-import { Home, BookOpen, ChevronRight, Search, BookText, HandHelping, ScrollText } from "lucide-react";
+import { Home, BookOpen, ChevronRight, Search, BookText, HandHelping, ScrollText, HelpCircle } from "lucide-react";
 import { cn, formatNumber } from "@/lib/utils";
 import { surahs } from "@/data/surahs";
 import { paras } from "@/data/paras";
@@ -10,6 +10,13 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Language, t } from "@/types/language";
+import { 
+  fuzzySearchSurahs, 
+  fuzzySearchParas, 
+  getClosestSurahMatches, 
+  getClosestParaMatches,
+  Para 
+} from "@/utils/fuzzySearch";
 
 interface MobileNavFooterProps {
   language: Language;
@@ -126,28 +133,42 @@ export const MobileNavFooter = ({ language }: MobileNavFooterProps) => {
     }
   }, [quranSheetOpen, activeTab, currentParaNumber, paraSearch]);
 
-  // Filter surahs based on search
-  const filteredSurahs = useMemo(() => {
-    const query = surahSearch.toLowerCase().trim();
-    if (!query) return surahs;
-    return surahs.filter((surah) =>
-      surah.nameEnglish.toLowerCase().includes(query) ||
-      surah.nameBengali.includes(query) ||
-      surah.nameArabic.includes(query) ||
-      surah.number.toString().includes(query)
-    );
+  // Filter surahs based on fuzzy search with "Did you mean..." fallback
+  const { filteredSurahs, didYouMeanSurahs } = useMemo(() => {
+    const query = surahSearch.trim();
+    if (!query) return { filteredSurahs: surahs, didYouMeanSurahs: [] };
+    
+    const results = fuzzySearchSurahs(surahs, query);
+    if (results.length > 0) {
+      return { filteredSurahs: results, didYouMeanSurahs: [] };
+    }
+    
+    // No matches - get closest for "Did you mean..."
+    if (query.length >= 2) {
+      const closest = getClosestSurahMatches(surahs, query, 5);
+      return { filteredSurahs: [], didYouMeanSurahs: closest.map(c => c.surah) };
+    }
+    
+    return { filteredSurahs: [], didYouMeanSurahs: [] };
   }, [surahSearch]);
 
-  // Filter paras based on search
-  const filteredParas = useMemo(() => {
-    const query = paraSearch.toLowerCase().trim();
-    if (!query) return paras;
-    return paras.filter((para) =>
-      para.nameEnglish.toLowerCase().includes(query) ||
-      para.nameBengali.includes(query) ||
-      para.nameArabic.includes(query) ||
-      para.number.toString().includes(query)
-    );
+  // Filter paras based on fuzzy search with "Did you mean..." fallback
+  const { filteredParas, didYouMeanParas } = useMemo(() => {
+    const query = paraSearch.trim();
+    if (!query) return { filteredParas: paras, didYouMeanParas: [] };
+    
+    const results = fuzzySearchParas(paras as Para[], query);
+    if (results.length > 0) {
+      return { filteredParas: results, didYouMeanParas: [] };
+    }
+    
+    // No matches - get closest for "Did you mean..."
+    if (query.length >= 2) {
+      const closest = getClosestParaMatches(paras as Para[], query, 5);
+      return { filteredParas: [], didYouMeanParas: closest.map(c => c.para) };
+    }
+    
+    return { filteredParas: [], didYouMeanParas: [] };
   }, [paraSearch]);
 
   return (
@@ -224,6 +245,56 @@ export const MobileNavFooter = ({ language }: MobileNavFooterProps) => {
               </div>
               <ScrollArea className="h-[calc(75vh-200px)]">
                 <div className="py-2">
+                  {/* Did you mean section */}
+                  {filteredSurahs.length === 0 && didYouMeanSurahs.length > 0 && (
+                    <>
+                      <div className="px-4 py-2 bg-amber-50 dark:bg-amber-900/20 border-b border-amber-200 dark:border-amber-800">
+                        <p className={cn(
+                          "text-sm flex items-center gap-1.5 text-amber-700 dark:text-amber-300",
+                          language === "bn" && "font-bengali"
+                        )}>
+                          <HelpCircle className="h-4 w-4" />
+                          {language === "bn" ? "আপনি কি খুঁজছেন?" : "Did you mean..."}
+                        </p>
+                      </div>
+                      {didYouMeanSurahs.map((surah) => (
+                        <button
+                          key={surah.number}
+                          onClick={() => handleSurahClick(surah.number)}
+                          className="flex items-center gap-3 w-full px-4 py-3 transition-colors hover:bg-amber-50/50 dark:hover:bg-amber-900/30"
+                        >
+                          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-sm font-semibold font-bengali bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300">
+                            {formatNumber(surah.number, language)}
+                          </div>
+                          <div className="flex-1 min-w-0 text-left">
+                            <div className="flex items-center justify-between gap-2">
+                              <span className={cn("font-medium text-base truncate", language === "bn" && "font-bengali")}>
+                                {language === "bn" ? surah.nameBengali : surah.nameEnglish}
+                              </span>
+                              <span className="font-arabic text-sm text-muted-foreground shrink-0">
+                                {surah.nameArabic}
+                              </span>
+                            </div>
+                            <span className={cn("text-sm text-muted-foreground font-bengali")}>
+                              {surah.nameArabic} • {formatNumber(surah.totalVerses, language)} {language === "bn" ? "আয়াত" : "verses"}
+                            </span>
+                          </div>
+                          <ChevronRight className="h-4 w-4 text-amber-600 dark:text-amber-400 shrink-0" />
+                        </button>
+                      ))}
+                    </>
+                  )}
+                  
+                  {/* No results message */}
+                  {filteredSurahs.length === 0 && didYouMeanSurahs.length === 0 && surahSearch.trim().length >= 2 && (
+                    <div className="text-center py-8 px-4">
+                      <p className={cn("text-muted-foreground", language === "bn" && "font-bengali")}>
+                        {language === "bn" ? "কোনো সূরা পাওয়া যায়নি" : "No surahs found"}
+                      </p>
+                    </div>
+                  )}
+                  
+                  {/* Regular surah list */}
                   {filteredSurahs.map((surah) => (
                     <button
                       key={surah.number}
@@ -282,6 +353,58 @@ export const MobileNavFooter = ({ language }: MobileNavFooterProps) => {
               </div>
               <ScrollArea className="h-[calc(75vh-200px)]">
                 <div className="py-2">
+                  {/* Did you mean section */}
+                  {filteredParas.length === 0 && didYouMeanParas.length > 0 && (
+                    <>
+                      <div className="px-4 py-2 bg-amber-50 dark:bg-amber-900/20 border-b border-amber-200 dark:border-amber-800">
+                        <p className={cn(
+                          "text-sm flex items-center gap-1.5 text-amber-700 dark:text-amber-300",
+                          language === "bn" && "font-bengali"
+                        )}>
+                          <HelpCircle className="h-4 w-4" />
+                          {language === "bn" ? "আপনি কি খুঁজছেন?" : "Did you mean..."}
+                        </p>
+                      </div>
+                      {didYouMeanParas.map((para) => (
+                        <button
+                          key={para.number}
+                          onClick={() => handleParaClick(para.number)}
+                          className="flex items-center gap-3 w-full px-4 py-3 transition-colors hover:bg-amber-50/50 dark:hover:bg-amber-900/30"
+                        >
+                          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-sm font-semibold font-bengali bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300">
+                            {formatNumber(para.number, language)}
+                          </div>
+                          <div className="flex-1 min-w-0 text-left">
+                            <div className="flex items-center justify-between gap-2">
+                              <span className={cn("font-medium text-base truncate", language === "bn" && "font-bengali")}>
+                                {language === "bn" ? para.nameBengali : para.nameEnglish}
+                              </span>
+                              <span className="font-arabic text-sm text-muted-foreground shrink-0">
+                                {para.nameArabic}
+                              </span>
+                            </div>
+                            <span className={cn("text-sm text-muted-foreground font-bengali")}>
+                              {para.nameArabic} • {language === "bn"
+                                ? `সূরা ${formatNumber(para.startSurah, language)}:${formatNumber(para.startVerse, language)} - ${formatNumber(para.endSurah, language)}:${formatNumber(para.endVerse, language)}`
+                                : `Surah ${para.startSurah}:${para.startVerse} - ${para.endSurah}:${para.endVerse}`}
+                            </span>
+                          </div>
+                          <ChevronRight className="h-4 w-4 text-amber-600 dark:text-amber-400 shrink-0" />
+                        </button>
+                      ))}
+                    </>
+                  )}
+                  
+                  {/* No results message */}
+                  {filteredParas.length === 0 && didYouMeanParas.length === 0 && paraSearch.trim().length >= 2 && (
+                    <div className="text-center py-8 px-4">
+                      <p className={cn("text-muted-foreground", language === "bn" && "font-bengali")}>
+                        {language === "bn" ? "কোনো পারা পাওয়া যায়নি" : "No paras found"}
+                      </p>
+                    </div>
+                  )}
+                  
+                  {/* Regular para list */}
                   {filteredParas.map((para) => (
                     <button
                       key={para.number}

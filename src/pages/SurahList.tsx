@@ -1,12 +1,12 @@
 import { useNavigate } from "react-router-dom";
-import { Book, ChevronRight, Search, Layers } from "lucide-react";
+import { Book, ChevronRight, Search, Layers, HelpCircle } from "lucide-react";
 import { useState, useEffect, useMemo } from "react";
 import { surahs } from "@/data/surahs";
 import { paras } from "@/data/paras";
 import { cn, formatNumber } from "@/lib/utils";
 import { Language } from "@/types/language";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { fuzzySearchSurahs, fuzzySearchParas, Para } from "@/utils/fuzzySearch";
+import { fuzzySearchSurahs, fuzzySearchParas, getClosestSurahMatches, getClosestParaMatches, Para } from "@/utils/fuzzySearch";
 
 interface SurahListProps {
   language: Language;
@@ -23,14 +23,42 @@ const SurahList = ({ language }: SurahListProps) => {
     window.scrollTo(0, 0);
   }, []);
 
-  // Use fuzzy search for surahs
-  const filteredSurahs = useMemo(() => {
-    return fuzzySearchSurahs(surahs, surahSearch);
+  // Use fuzzy search for surahs with "Did you mean..." fallback
+  const { filteredSurahs, didYouMeanSurahs } = useMemo(() => {
+    const query = surahSearch.trim();
+    if (!query) return { filteredSurahs: surahs, didYouMeanSurahs: [] };
+    
+    const results = fuzzySearchSurahs(surahs, query);
+    if (results.length > 0) {
+      return { filteredSurahs: results, didYouMeanSurahs: [] };
+    }
+    
+    // No matches - get closest for "Did you mean..."
+    if (query.length >= 2) {
+      const closest = getClosestSurahMatches(surahs, query, 5);
+      return { filteredSurahs: [], didYouMeanSurahs: closest.map(c => c.surah) };
+    }
+    
+    return { filteredSurahs: [], didYouMeanSurahs: [] };
   }, [surahSearch]);
 
-  // Use fuzzy search for paras
-  const filteredParas = useMemo(() => {
-    return fuzzySearchParas(paras as Para[], paraSearch);
+  // Use fuzzy search for paras with "Did you mean..." fallback
+  const { filteredParas, didYouMeanParas } = useMemo(() => {
+    const query = paraSearch.trim();
+    if (!query) return { filteredParas: paras, didYouMeanParas: [] };
+    
+    const results = fuzzySearchParas(paras as Para[], query);
+    if (results.length > 0) {
+      return { filteredParas: results, didYouMeanParas: [] };
+    }
+    
+    // No matches - get closest for "Did you mean..."
+    if (query.length >= 2) {
+      const closest = getClosestParaMatches(paras as Para[], query, 5);
+      return { filteredParas: [], didYouMeanParas: closest.map(c => c.para) };
+    }
+    
+    return { filteredParas: [], didYouMeanParas: [] };
   }, [paraSearch]);
 
   const currentSearch = activeTab === "surah" ? surahSearch : paraSearch;
@@ -154,8 +182,64 @@ const SurahList = ({ language }: SurahListProps) => {
               ))}
             </div>
 
+            {/* Did you mean section */}
+            {filteredSurahs.length === 0 && didYouMeanSurahs.length > 0 && (
+              <div className="mb-6">
+                <div className="flex items-center gap-2 mb-4 px-1">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300">
+                    <HelpCircle className="h-4 w-4" />
+                  </div>
+                  <p className={cn(
+                    "text-sm font-medium text-amber-700 dark:text-amber-300",
+                    language === "bn" && "font-bengali"
+                  )}>
+                    {language === "bn" ? "আপনি কি খুঁজছেন?" : "Did you mean..."}
+                  </p>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                  {didYouMeanSurahs.map((surah) => (
+                    <button
+                      key={surah.number}
+                      onClick={() => navigate(`/surah/${surah.number}`)}
+                      className="group relative overflow-hidden rounded-2xl border border-amber-200 dark:border-amber-800 bg-amber-50/50 dark:bg-amber-900/20 p-4 text-left transition-all duration-200 hover:shadow-elevated hover:-translate-y-0.5 hover:border-amber-300 dark:hover:border-amber-700"
+                    >
+                      <div className="absolute top-3 right-3 flex h-8 w-8 items-center justify-center rounded-lg bg-amber-100 dark:bg-amber-900/40 text-sm font-semibold text-amber-700 dark:text-amber-300">
+                        {formatNumber(surah.number, language)}
+                      </div>
+                      <p className="font-arabic text-xl text-foreground mb-2 pr-10">
+                        {surah.nameArabic}
+                      </p>
+                      <h3 className={cn(
+                        "font-semibold text-sm text-foreground mb-1",
+                        language === "bn" && "font-bengali"
+                      )}>
+                        {language === "bn" ? surah.nameBengali : surah.nameEnglish}
+                      </h3>
+                      <p className={cn(
+                        "text-sm text-muted-foreground mb-3",
+                        language === "bn" && "font-bengali"
+                      )}>
+                        {language === "bn" ? surah.meaningBengali : surah.meaningEnglish}
+                      </p>
+                      <div className="flex items-center justify-between">
+                        <span className={cn(
+                          "text-xs text-muted-foreground",
+                          language === "bn" && "font-bengali"
+                        )}>
+                          {language === "bn" 
+                            ? `${formatNumber(surah.totalVerses, language)} আয়াত` 
+                            : `${surah.totalVerses} verses`}
+                        </span>
+                        <ChevronRight className="h-4 w-4 text-amber-600 dark:text-amber-400 opacity-0 group-hover:opacity-100 transition-opacity" />
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {/* No results */}
-            {filteredSurahs.length === 0 && (
+            {filteredSurahs.length === 0 && didYouMeanSurahs.length === 0 && surahSearch.trim().length >= 2 && (
               <div className="text-center py-12">
                 <p className={cn(
                   "text-muted-foreground",
@@ -221,8 +305,66 @@ const SurahList = ({ language }: SurahListProps) => {
               ))}
             </div>
 
+            {/* Did you mean section for Paras */}
+            {filteredParas.length === 0 && didYouMeanParas.length > 0 && (
+              <div className="mb-6">
+                <div className="flex items-center gap-2 mb-4 px-1">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300">
+                    <HelpCircle className="h-4 w-4" />
+                  </div>
+                  <p className={cn(
+                    "text-sm font-medium text-amber-700 dark:text-amber-300",
+                    language === "bn" && "font-bengali"
+                  )}>
+                    {language === "bn" ? "আপনি কি খুঁজছেন?" : "Did you mean..."}
+                  </p>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                  {didYouMeanParas.map((para) => (
+                    <button
+                      key={para.number}
+                      onClick={() => navigate(`/para/${para.number}`)}
+                      className="group relative overflow-hidden rounded-2xl border border-amber-200 dark:border-amber-800 bg-amber-50/50 dark:bg-amber-900/20 p-4 text-left transition-all duration-200 hover:shadow-elevated hover:-translate-y-0.5 hover:border-amber-300 dark:hover:border-amber-700"
+                    >
+                      <div className="absolute top-3 right-3 flex h-8 w-8 items-center justify-center rounded-lg bg-amber-100 dark:bg-amber-900/40 text-sm font-semibold text-amber-700 dark:text-amber-300">
+                        {formatNumber(para.number, language)}
+                      </div>
+                      <p className="font-arabic text-xl text-foreground mb-2 pr-10">
+                        {para.nameArabic}
+                      </p>
+                      <h3 className={cn(
+                        "font-semibold text-sm text-foreground mb-1",
+                        language === "bn" && "font-bengali"
+                      )}>
+                        {language === "bn" ? para.nameBengali : para.nameEnglish}
+                      </h3>
+                      <p className={cn(
+                        "text-sm text-muted-foreground mb-3",
+                        language === "bn" && "font-bengali"
+                      )}>
+                        {language === "bn"
+                          ? `সূরা ${formatNumber(para.startSurah, language)} - ${formatNumber(para.endSurah, language)}`
+                          : `Surah ${para.startSurah} - ${para.endSurah}`}
+                      </p>
+                      <div className="flex items-center justify-between">
+                        <span className={cn(
+                          "text-xs text-muted-foreground",
+                          language === "bn" && "font-bengali"
+                        )}>
+                          {language === "bn"
+                            ? `আয়াত ${formatNumber(para.startVerse, language)} - ${formatNumber(para.endVerse, language)}`
+                            : `Verse ${para.startVerse} - ${para.endVerse}`}
+                        </span>
+                        <ChevronRight className="h-4 w-4 text-amber-600 dark:text-amber-400 opacity-0 group-hover:opacity-100 transition-opacity" />
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {/* No results */}
-            {filteredParas.length === 0 && (
+            {filteredParas.length === 0 && didYouMeanParas.length === 0 && paraSearch.trim().length >= 2 && (
               <div className="text-center py-12">
                 <p className={cn(
                   "text-muted-foreground",
