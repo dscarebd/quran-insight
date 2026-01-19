@@ -116,26 +116,26 @@ export const SurahSuggestions = ({
 
             {/* Surah info */}
             <div className="flex-1 min-w-0">
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 flex-wrap">
                 <span className="font-arabic text-base text-foreground">
                   {surah.nameArabic}
                 </span>
-                <span className={cn(
-                  "text-sm font-medium text-foreground truncate",
-                  language === "bn" && "font-bengali"
-                )}>
-                  {language === "bn" ? surah.nameBengali : surah.nameEnglish}
+                <span className="text-sm font-medium text-foreground">
+                  {surah.nameEnglish}
+                </span>
+                <span className="text-sm font-bengali text-muted-foreground">
+                  ({surah.nameBengali})
                 </span>
               </div>
-              <p className={cn(
-                "text-xs text-muted-foreground truncate",
-                language === "bn" && "font-bengali"
-              )}>
-                {language === "bn" ? surah.meaningBengali : surah.meaningEnglish}
-                {" · "}
-                {language === "bn" 
-                  ? `${formatNumber(surah.totalVerses, language)} আয়াত`
-                  : `${surah.totalVerses} verses`}
+              <p className="text-xs text-muted-foreground truncate">
+                <span>{surah.meaningEnglish}</span>
+                <span className="font-bengali"> • {surah.meaningBengali}</span>
+                <span>
+                  {" · "}
+                  {language === "bn" 
+                    ? `${formatNumber(surah.totalVerses, language)} আয়াত`
+                    : `${surah.totalVerses} verses`}
+                </span>
               </p>
             </div>
 
