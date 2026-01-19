@@ -6,6 +6,8 @@ import { Language } from "@/types/language";
 import { surahs } from "@/data/surahs";
 import { getReciterById } from "@/data/reciters";
 import { RepeatMode, PlaybackSpeed } from "@/hooks/useQuranAudio";
+import { SleepTimerButton } from "@/components/SleepTimerButton";
+import { SleepTimerDuration } from "@/hooks/useSleepTimer";
 
 interface AudioPlayerBarProps {
   isPlaying: boolean;
@@ -30,6 +32,12 @@ interface AudioPlayerBarProps {
   canPlayPrevious: boolean;
   canPlayNext: boolean;
   onReciterClick?: () => void;
+  // Sleep timer props
+  sleepTimerActive?: boolean;
+  sleepTimerDuration?: SleepTimerDuration;
+  sleepTimerFormattedTime?: string;
+  onSleepTimerSelect?: (minutes: SleepTimerDuration) => void;
+  onSleepTimerCancel?: () => void;
 }
 
 const formatTime = (seconds: number): string => {
@@ -70,7 +78,12 @@ export const AudioPlayerBar = ({
   onCycleSpeed,
   canPlayPrevious,
   canPlayNext,
-  onReciterClick
+  onReciterClick,
+  sleepTimerActive = false,
+  sleepTimerDuration = null,
+  sleepTimerFormattedTime = "0:00",
+  onSleepTimerSelect,
+  onSleepTimerCancel,
 }: AudioPlayerBarProps) => {
   if (currentSurah === null || currentVerse === null) return null;
 
@@ -131,6 +144,18 @@ export const AudioPlayerBar = ({
               )}
             </div>
           </div>
+
+          {/* Sleep Timer Button */}
+          {onSleepTimerSelect && onSleepTimerCancel && (
+            <SleepTimerButton
+              isActive={sleepTimerActive}
+              duration={sleepTimerDuration}
+              formattedTime={sleepTimerFormattedTime}
+              language={language}
+              onSelectDuration={onSleepTimerSelect}
+              onCancel={onSleepTimerCancel}
+            />
+          )}
 
           {/* Speed Button */}
           <Button
