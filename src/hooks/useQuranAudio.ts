@@ -127,10 +127,14 @@ export const useQuranAudio = (options: UseQuranAudioOptions = {}) => {
     const reciter = getReciterById(reciterId);
     
     if (surah) {
+      // Rich metadata for notification display
+      // Title: Arabic name + English name + Verse
+      // Artist: Reciter name with style
       await setMediaMetadata({
-        title: `${surah.nameEnglish} - Verse ${verseNumber}`,
-        artist: reciter?.nameEnglish || 'Quran Reciter',
-        album: 'Quran Insight',
+        title: `${surah.nameArabic} ${surah.nameEnglish} · Ayah ${verseNumber}`,
+        artist: reciter ? `${reciter.nameEnglish} (${reciter.style})` : 'Quran Reciter',
+        album: `Surah ${surahNumber} · ${surah.totalVerses} Verses`,
+        artworkUrl: '/favicon.png', // App icon for notification
       });
     }
   }, [reciterId]);
