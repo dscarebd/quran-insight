@@ -321,3 +321,20 @@ export function fuzzySearchParas(paras: Para[], query: string, minScore: number 
     .sort((a, b) => b.score - a.score)
     .map(({ para }) => para);
 }
+
+/**
+ * Get closest Para matches even below threshold (for "Did you mean..." suggestions)
+ */
+export function getClosestParaMatches(
+  paras: Para[],
+  query: string,
+  maxResults: number = 3
+): Array<{ para: Para; score: number }> {
+  if (!query || query.trim().length < 2) return [];
+
+  return paras
+    .map((para) => ({ para, score: fuzzyMatchPara(para, query) }))
+    .filter(({ score }) => score > 0) // Any positive match
+    .sort((a, b) => b.score - a.score)
+    .slice(0, maxResults);
+}

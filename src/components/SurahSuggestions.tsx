@@ -122,14 +122,14 @@ export const SurahSuggestions = ({
       }
     };
 
-    if (isVisible && suggestions.length > 0) {
+    if (isVisible && (suggestions.length > 0 || didYouMeanSuggestions.length > 0)) {
       document.addEventListener("mousedown", handleClickOutside);
     }
 
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [isVisible, suggestions.length, onClose]);
+  }, [isVisible, suggestions.length, didYouMeanSuggestions.length, onClose]);
 
   // Handle keyboard navigation
   useEffect(() => {
