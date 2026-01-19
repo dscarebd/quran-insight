@@ -16,6 +16,7 @@ import { ArabicFontType } from "@/types/quranV1";
 import { getVerses } from "@/services/bundledDataService";
 import { useQuranAudio } from "@/hooks/useQuranAudio";
 import { useSleepTimer } from "@/hooks/useSleepTimer";
+import { useLastPlayedPosition } from "@/hooks/useLastPlayedPosition";
 import { AudioPlayerBar } from "@/components/AudioPlayerBar";
 import { ReciterSelector } from "@/components/ReciterSelector";
 import { SurahAudioControls } from "@/components/SurahAudioControls";
@@ -213,6 +214,9 @@ const SurahDetail = ({ language, readingMode = "normal", arabicFont = "amiri" }:
   const verseRefs = useRef<{ [key: number]: HTMLDivElement | null }>({});
   const surahListRefs = useRef<{ [key: number]: HTMLButtonElement | null }>({});
 
+  // Last played position hook
+  const { savePosition } = useLastPlayedPosition();
+
   // Audio hook
   const audio = useQuranAudio({
     autoPlayNext: true,
@@ -222,6 +226,10 @@ const SurahDetail = ({ language, readingMode = "normal", arabicFont = "amiri" }:
       if (element) {
         element.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
+    },
+    onPositionChange: (surahNum, verseNum, reciterId, progress) => {
+      // Save position when audio pauses or stops
+      savePosition(surahNum, verseNum, reciterId, progress);
     }
   });
 
