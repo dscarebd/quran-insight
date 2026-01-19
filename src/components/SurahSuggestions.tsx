@@ -1,10 +1,10 @@
-import { useMemo, useRef, useEffect } from "react";
+import { useMemo, useRef, useEffect, ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 import { Book, ChevronRight } from "lucide-react";
 import { cn, formatNumber } from "@/lib/utils";
 import { Language } from "@/types/language";
 import { surahs, Surah } from "@/data/surahs";
-import { fuzzySearchSurahs } from "@/utils/fuzzySearch";
+import { fuzzySearchSurahs, normalizeText } from "@/utils/fuzzySearch";
 
 interface SurahSuggestionsProps {
   query: string;
@@ -15,6 +15,72 @@ interface SurahSuggestionsProps {
   maxResults?: number;
   className?: string;
 }
+
+/**
+ * Highlights matching parts of text based on the search query
+ */
+const highlightMatch = (text: string, query: string): ReactNode => {
+  if (!text || !query || query.length < 2) return text;
+
+  const normalizedQuery = normalizeText(query);
+  const normalizedText = normalizeText(text);
+  
+  // Find the start index of the match in normalized text
+  const matchIndex = normalizedText.indexOf(normalizedQuery);
+  
+  if (matchIndex === -1) {
+    // Try to find partial matches at word boundaries
+    const words = normalizedQuery.split(/\s+/);
+    let result: ReactNode[] = [];
+    let lastIndex = 0;
+    let hasMatch = false;
+    
+    for (const word of words) {
+      if (word.length < 2) continue;
+      const wordIndex = normalizedText.indexOf(word);
+      if (wordIndex !== -1) {
+        hasMatch = true;
+        // Map back to original text positions (approximate)
+        const ratio = text.length / normalizedText.length;
+        const origStart = Math.floor(wordIndex * ratio);
+        const origEnd = Math.min(text.length, Math.ceil((wordIndex + word.length) * ratio));
+        
+        if (origStart > lastIndex) {
+          result.push(text.substring(lastIndex, origStart));
+        }
+        result.push(
+          <mark key={wordIndex} className="bg-primary/20 text-primary font-medium rounded px-0.5">
+            {text.substring(origStart, origEnd)}
+          </mark>
+        );
+        lastIndex = origEnd;
+      }
+    }
+    
+    if (hasMatch) {
+      if (lastIndex < text.length) {
+        result.push(text.substring(lastIndex));
+      }
+      return result;
+    }
+    return text;
+  }
+
+  // Map normalized positions back to original text (approximate for most cases)
+  const ratio = text.length / normalizedText.length;
+  const origStart = Math.floor(matchIndex * ratio);
+  const origEnd = Math.min(text.length, Math.ceil((matchIndex + normalizedQuery.length) * ratio));
+
+  return (
+    <>
+      {text.substring(0, origStart)}
+      <mark className="bg-primary/20 text-primary font-medium rounded px-0.5">
+        {text.substring(origStart, origEnd)}
+      </mark>
+      {text.substring(origEnd)}
+    </>
+  );
+};
 
 export const SurahSuggestions = ({
   query,
@@ -118,18 +184,18 @@ export const SurahSuggestions = ({
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2 flex-wrap">
                 <span className="font-arabic text-base text-foreground">
-                  {surah.nameArabic}
+                  {highlightMatch(surah.nameArabic, query)}
                 </span>
                 <span className="text-sm font-medium text-foreground">
-                  {surah.nameEnglish}
+                  {highlightMatch(surah.nameEnglish, query)}
                 </span>
                 <span className="text-sm font-bengali text-muted-foreground">
-                  ({surah.nameBengali})
+                  ({highlightMatch(surah.nameBengali, query)})
                 </span>
               </div>
               <p className="text-xs text-muted-foreground truncate">
-                <span>{surah.meaningEnglish}</span>
-                <span className="font-bengali"> • {surah.meaningBengali}</span>
+                <span>{highlightMatch(surah.meaningEnglish, query)}</span>
+                <span className="font-bengali"> • {highlightMatch(surah.meaningBengali, query)}</span>
                 <span>
                   {" · "}
                   {language === "bn" 
