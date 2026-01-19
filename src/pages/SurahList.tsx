@@ -1,11 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import { Book, ChevronRight, Search, Layers } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { surahs } from "@/data/surahs";
 import { paras } from "@/data/paras";
 import { cn, formatNumber } from "@/lib/utils";
 import { Language } from "@/types/language";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { fuzzySearchSurahs, fuzzySearchParas, Para } from "@/utils/fuzzySearch";
 
 interface SurahListProps {
   language: Language;
@@ -22,27 +23,15 @@ const SurahList = ({ language }: SurahListProps) => {
     window.scrollTo(0, 0);
   }, []);
 
-  const filteredSurahs = surahs.filter((surah) => {
-    const query = surahSearch.toLowerCase();
-    return (
-      surah.nameEnglish.toLowerCase().includes(query) ||
-      surah.nameBengali.includes(query) ||
-      surah.nameArabic.includes(query) ||
-      surah.number.toString().includes(query) ||
-      surah.meaningEnglish.toLowerCase().includes(query) ||
-      surah.meaningBengali.includes(query)
-    );
-  });
+  // Use fuzzy search for surahs
+  const filteredSurahs = useMemo(() => {
+    return fuzzySearchSurahs(surahs, surahSearch);
+  }, [surahSearch]);
 
-  const filteredParas = paras.filter((para) => {
-    const query = paraSearch.toLowerCase();
-    return (
-      para.nameEnglish.toLowerCase().includes(query) ||
-      para.nameBengali.includes(query) ||
-      para.nameArabic.includes(query) ||
-      para.number.toString().includes(query)
-    );
-  });
+  // Use fuzzy search for paras
+  const filteredParas = useMemo(() => {
+    return fuzzySearchParas(paras as Para[], paraSearch);
+  }, [paraSearch]);
 
   const currentSearch = activeTab === "surah" ? surahSearch : paraSearch;
   const setCurrentSearch = activeTab === "surah" ? setSurahSearch : setParaSearch;

@@ -5,7 +5,16 @@ import {
   cacheAudio, 
   isAudioCached 
 } from "@/services/quranAudioService";
-import { DEFAULT_RECITER_ID } from "@/data/reciters";
+import { DEFAULT_RECITER_ID, getReciterById } from "@/data/reciters";
+import { surahs } from "@/data/surahs";
+import {
+  initMediaSession,
+  setMediaMetadata,
+  setPlaybackState,
+  setPositionState,
+  setActionHandlers,
+  clearMediaSession,
+} from "@/services/mediaSessionService";
 
 export type RepeatMode = "none" | "verse" | "surah" | "ab";
 export type PlaybackSpeed = 0.5 | 0.75 | 1 | 1.25 | 1.5;
@@ -66,6 +75,7 @@ export const useQuranAudio = (options: UseQuranAudioOptions = {}) => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const progressIntervalRef = useRef<number | null>(null);
   const preloadedAudioRef = useRef<Map<string, PreloadedAudio>>(new Map());
+  const mediaSessionInitializedRef = useRef<boolean>(false);
 
   // Helper to get preload cache key
   const getPreloadKey = useCallback((surah: number, verse: number, reciter: string) => {
@@ -76,6 +86,18 @@ export const useQuranAudio = (options: UseQuranAudioOptions = {}) => {
   useEffect(() => {
     localStorage.setItem("quran-reciter", reciterId);
   }, [reciterId]);
+
+  // Initialize media session on mount
+  useEffect(() => {
+    if (!mediaSessionInitializedRef.current) {
+      initMediaSession().then((supported) => {
+        if (supported) {
+          mediaSessionInitializedRef.current = true;
+          console.log('Media session initialized');
+        }
+      });
+    }
+  }, []);
 
   // Cleanup on unmount
   useEffect(() => {
@@ -94,8 +116,24 @@ export const useQuranAudio = (options: UseQuranAudioOptions = {}) => {
         }
       });
       preloadedAudioRef.current.clear();
+      // Clear media session
+      clearMediaSession();
     };
   }, []);
+
+  // Update media session metadata when current verse changes
+  const updateMediaSessionMetadata = useCallback(async (surahNumber: number, verseNumber: number) => {
+    const surah = surahs.find(s => s.number === surahNumber);
+    const reciter = getReciterById(reciterId);
+    
+    if (surah) {
+      await setMediaMetadata({
+        title: `${surah.nameEnglish} - Verse ${verseNumber}`,
+        artist: reciter?.nameEnglish || 'Quran Reciter',
+        album: 'Quran Insight',
+      });
+    }
+  }, [reciterId]);
 
   const updateProgress = useCallback(() => {
     if (audioRef.current) {
@@ -257,10 +295,23 @@ export const useQuranAudio = (options: UseQuranAudioOptions = {}) => {
         }));
       }
 
-      audio.onplay = () => {
+      audio.onplay = async () => {
         setState(prev => ({ ...prev, isPlaying: true }));
         startProgressTracking();
         onVerseStart?.(surahNumber, verseNumber);
+        
+        // Update media session for background playback
+        await updateMediaSessionMetadata(surahNumber, verseNumber);
+        await setPlaybackState('playing');
+        
+        // Set up media session action handlers
+        await setActionHandlers({
+          onPlay: () => resume(),
+          onPause: () => pause(),
+          onPreviousTrack: () => playPreviousRef.current?.(),
+          onNextTrack: () => playNextRef.current?.(),
+          onStop: () => stop(),
+        });
         
         // Preload upcoming verses when current verse starts playing
         if (versesCount) {
@@ -268,9 +319,10 @@ export const useQuranAudio = (options: UseQuranAudioOptions = {}) => {
         }
       };
 
-      audio.onpause = () => {
+      audio.onpause = async () => {
         setState(prev => ({ ...prev, isPlaying: false }));
         stopProgressTracking();
+        await setPlaybackState('paused');
       };
 
       audio.onended = async () => {
@@ -339,25 +391,28 @@ export const useQuranAudio = (options: UseQuranAudioOptions = {}) => {
     }
   }, [reciterId, autoPlayNext, onVerseEnd, onVerseStart, startProgressTracking, stopProgressTracking, getPreloadKey, preloadUpcomingVerses, state.playbackSpeed]);
 
-  const pause = useCallback(() => {
+  const pause = useCallback(async () => {
     if (audioRef.current) {
       audioRef.current.pause();
+      await setPlaybackState('paused');
     }
   }, []);
 
-  const resume = useCallback(() => {
+  const resume = useCallback(async () => {
     if (audioRef.current) {
-      audioRef.current.play();
+      await audioRef.current.play();
+      await setPlaybackState('playing');
     }
   }, []);
 
-  const stop = useCallback(() => {
+  const stop = useCallback(async () => {
     if (audioRef.current) {
       audioRef.current.pause();
       audioRef.current.currentTime = 0;
       audioRef.current = null;
     }
     stopProgressTracking();
+    await clearMediaSession();
     setState(prev => ({
       isPlaying: false,
       isLoading: false,
@@ -372,6 +427,10 @@ export const useQuranAudio = (options: UseQuranAudioOptions = {}) => {
       playbackSpeed: prev.playbackSpeed
     }));
   }, [stopProgressTracking]);
+
+  // Refs for media session callbacks (to avoid stale closures)
+  const playPreviousRef = useRef<(() => void) | null>(null);
+  const playNextRef = useRef<(() => void) | null>(null);
 
   const togglePlay = useCallback((
     surahNumber: number,
@@ -407,6 +466,12 @@ export const useQuranAudio = (options: UseQuranAudioOptions = {}) => {
       playVerse(state.currentSurah, state.currentVerse + 1, totalVerses);
     }
   }, [state.currentSurah, state.currentVerse, totalVerses, playVerse]);
+
+  // Update refs for media session callbacks
+  useEffect(() => {
+    playPreviousRef.current = playPrevious;
+    playNextRef.current = playNext;
+  }, [playPrevious, playNext]);
 
   const isCurrentVerse = useCallback((surahNumber: number, verseNumber: number) => {
     return state.currentSurah === surahNumber && state.currentVerse === verseNumber;
