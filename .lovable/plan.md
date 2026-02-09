@@ -1,44 +1,47 @@
 
 
-# Fix API Documentation Stats
+# Fix Stats Number Formatting
 
 ## Problem
-The API documentation page shows hardcoded statistics that don't match the actual database counts:
+The `formatCount` function rounds numbers down to hundreds, showing "6,200+" instead of "6,236" for verses.
 
-| Content | Shown | Actual |
-|---------|-------|--------|
-| Verses | 6,236+ | 6,236 |
-| Hadiths | 10,000+ | 36,435 |
-| Duas | 120+ | 1,000 |
-| Masail | 500+ | 393 |
+Current logic for 6236:
+- `Math.floor(6236 / 1000)` = 6
+- Remainder: `236` → truncated to `2` → shows `200+`
+- Result: "6,200+" (incorrect)
 
 ## Solution
-Update the hardcoded stats in `src/pages/ApiDocs.tsx` to reflect accurate counts.
+Update the `formatCount` function to show the exact count with a comma separator and "+" suffix.
 
 ## Changes
 
-### File: `src/pages/ApiDocs.tsx`
+### File: `src/hooks/useApiStats.ts`
 
-Update lines 190-195:
+**Before (line 33-38):**
+```typescript
+export const formatCount = (count: number): string => {
+  if (count >= 1000) {
+    return `${Math.floor(count / 1000).toLocaleString()},${String(count % 1000).padStart(3, '0').slice(0, -2)}00+`;
+  }
+  return `${count}+`;
+};
+```
 
-```javascript
-// Before (incorrect)
-const stats = [
-  { value: "6,236+", label: "Verses", labelBn: "আয়াত" },
-  { value: "10,000+", label: "Hadiths", labelBn: "হাদিস" },
-  { value: "120+", label: "Duas", labelBn: "দোয়া" },
-  { value: "500+", label: "Masail", labelBn: "মাসায়েল" }
-];
-
-// After (correct)
-const stats = [
-  { value: "6,236+", label: "Verses", labelBn: "আয়াত" },
-  { value: "36,000+", label: "Hadiths", labelBn: "হাদিস" },
-  { value: "1,000+", label: "Duas", labelBn: "দোয়া" },
-  { value: "390+", label: "Masail", labelBn: "মাসায়েল" }
-];
+**After:**
+```typescript
+export const formatCount = (count: number): string => {
+  return `${count.toLocaleString()}+`;
+};
 ```
 
 ## Result
-The API documentation page will display accurate content counts that match the database.
+
+| Content | Before | After |
+|---------|--------|-------|
+| Verses | 6,200+ | 6,236+ |
+| Hadiths | 36,400+ | 36,435+ |
+| Duas | 1,000+ | 1,000+ |
+| Masail | 300+ | 393+ |
+
+The stats will now show exact counts with proper thousand separators.
 
