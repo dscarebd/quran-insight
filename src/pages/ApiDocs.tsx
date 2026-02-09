@@ -6,9 +6,11 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Badge } from "@/components/ui/badge";
+
 import { Language } from "@/types/language";
 import { toast } from "sonner";
 import ApiCodeExamples from "@/components/ApiCodeExamples";
+import { useApiStats, formatCount } from "@/hooks/useApiStats";
 
 interface ApiDocsProps {
   language: Language;
@@ -187,11 +189,11 @@ const endpoints = [
   }
 ];
 
-const stats = [
-  { value: "6,236+", label: "Verses", labelBn: "আয়াত" },
-  { value: "36,000+", label: "Hadiths", labelBn: "হাদিস" },
-  { value: "1,000+", label: "Duas", labelBn: "দোয়া" },
-  { value: "390+", label: "Masail", labelBn: "মাসায়েল" }
+const statLabels = [
+  { key: "verses" as const, label: "Verses", labelBn: "আয়াত" },
+  { key: "hadiths" as const, label: "Hadiths", labelBn: "হাদিস" },
+  { key: "duas" as const, label: "Duas", labelBn: "দোয়া" },
+  { key: "masail" as const, label: "Masail", labelBn: "মাসায়েল" }
 ];
 
 const ApiDocs = ({ language }: ApiDocsProps) => {
@@ -199,6 +201,7 @@ const ApiDocs = ({ language }: ApiDocsProps) => {
   const [copiedText, setCopiedText] = useState<string | null>(null);
   const [tryItResults, setTryItResults] = useState<Record<string, unknown>>({});
   const [loadingEndpoint, setLoadingEndpoint] = useState<string | null>(null);
+  const { data: stats, isLoading: statsLoading } = useApiStats();
 
   const copyToClipboard = async (text: string, label: string) => {
     try {
@@ -267,9 +270,11 @@ const ApiDocs = ({ language }: ApiDocsProps) => {
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {stats.map((stat) => (
-                <div key={stat.label} className="text-center p-3 rounded-lg bg-background/50">
-                  <div className="text-2xl font-bold text-primary">{stat.value}</div>
+              {statLabels.map((stat) => (
+                <div key={stat.key} className="text-center p-3 rounded-lg bg-background/50">
+                  <div className="text-2xl font-bold text-primary">
+                    {statsLoading ? "..." : formatCount(stats?.[stat.key] || 0)}
+                  </div>
                   <div className={cn("text-sm text-muted-foreground", language === "bn" ? "font-bengali" : "font-sans")}>
                     {language === "bn" ? stat.labelBn : stat.label}
                   </div>
