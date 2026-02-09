@@ -1,112 +1,44 @@
 
-# Add Multi-Language Code Examples to API Docs
 
-## Overview
-Enhance the API documentation page with code examples in multiple programming languages (JavaScript, Python, cURL, PHP, and Go) to help developers integrate the API in their preferred language.
+# Fix API Documentation Stats
 
-## What Will Be Added
+## Problem
+The API documentation page shows hardcoded statistics that don't match the actual database counts:
 
-### New "Code Examples" Section
-A dedicated tabbed section between "Quick Start" and "Endpoints" showing the same API call in different languages:
+| Content | Shown | Actual |
+|---------|-------|--------|
+| Verses | 6,236+ | 6,236 |
+| Hadiths | 10,000+ | 36,435 |
+| Duas | 120+ | 1,000 |
+| Masail | 500+ | 393 |
 
-| Language | Use Case |
-|----------|----------|
-| JavaScript | Web apps, Node.js backends |
-| Python | Data science, scripts, Django/Flask apps |
-| cURL | Terminal testing, shell scripts |
-| PHP | WordPress plugins, Laravel apps |
-| Go | High-performance backends |
+## Solution
+Update the hardcoded stats in `src/pages/ApiDocs.tsx` to reflect accurate counts.
 
-### Code Examples Content
+## Changes
 
-Each language will show how to:
-1. Fetch all Surahs (basic GET request)
-2. Fetch verses with filters (query parameters)
-3. Handle the JSON response
+### File: `src/pages/ApiDocs.tsx`
 
-### Example Previews
+Update lines 190-195:
 
-**JavaScript (Fetch)**
 ```javascript
-const response = await fetch(
-  "https://iacjtvvlyxkmrzaxkedk.supabase.co/functions/v1/public-api/surahs"
-);
-const data = await response.json();
-console.log(data);
+// Before (incorrect)
+const stats = [
+  { value: "6,236+", label: "Verses", labelBn: "আয়াত" },
+  { value: "10,000+", label: "Hadiths", labelBn: "হাদিস" },
+  { value: "120+", label: "Duas", labelBn: "দোয়া" },
+  { value: "500+", label: "Masail", labelBn: "মাসায়েল" }
+];
+
+// After (correct)
+const stats = [
+  { value: "6,236+", label: "Verses", labelBn: "আয়াত" },
+  { value: "36,000+", label: "Hadiths", labelBn: "হাদিস" },
+  { value: "1,000+", label: "Duas", labelBn: "দোয়া" },
+  { value: "390+", label: "Masail", labelBn: "মাসায়েল" }
+];
 ```
 
-**Python (requests)**
-```python
-import requests
+## Result
+The API documentation page will display accurate content counts that match the database.
 
-response = requests.get(
-    "https://iacjtvvlyxkmrzaxkedk.supabase.co/functions/v1/public-api/surahs"
-)
-data = response.json()
-print(data)
-```
-
-**cURL**
-```bash
-curl -X GET "https://iacjtvvlyxkmrzaxkedk.supabase.co/functions/v1/public-api/surahs"
-```
-
-**PHP**
-```php
-$response = file_get_contents(
-    "https://iacjtvvlyxkmrzaxkedk.supabase.co/functions/v1/public-api/surahs"
-);
-$data = json_decode($response, true);
-print_r($data);
-```
-
-**Go**
-```go
-resp, err := http.Get(
-    "https://iacjtvvlyxkmrzaxkedk.supabase.co/functions/v1/public-api/surahs"
-)
-defer resp.Body.Close()
-body, _ := io.ReadAll(resp.Body)
-fmt.Println(string(body))
-```
-
-## UI Design
-
-### Tabbed Interface
-- Horizontal tabs for each language with language icons/names
-- Active tab highlighted with primary color
-- Copy button for each code block
-- Smooth transitions between tabs
-
-### Visual Style
-- Code blocks with syntax-appropriate styling
-- Language name badge on each tab
-- Bengali/English language support for labels
-- Matches existing card-based design
-
-## Page Structure (After Changes)
-
-1. Header (existing)
-2. Hero Section with stats (existing)
-3. Quick Start - Base URL only (simplified)
-4. **Code Examples** (new tabbed section)
-5. Endpoints (existing)
-6. Common Parameters (existing)
-7. Attribution (existing)
-
-## Technical Implementation
-
-### File to Modify
-`src/pages/ApiDocs.tsx`
-
-### Changes
-1. Add new state for selected language tab
-2. Create code examples data structure for each language
-3. Add new Card component with Tabs for language selection
-4. Each tab contains the code example with copy functionality
-5. Support both simple (Surahs) and filtered (Verses) examples
-
-### Components Used
-- Existing `Tabs`, `TabsList`, `TabsTrigger`, `TabsContent` from Radix UI
-- Existing `Card`, `Button`, `Badge` components
-- Existing copy-to-clipboard functionality
