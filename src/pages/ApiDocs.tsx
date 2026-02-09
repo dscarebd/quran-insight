@@ -189,9 +189,9 @@ const endpoints = [
 
 const stats = [
   { value: "6,236+", label: "Verses", labelBn: "আয়াত" },
-  { value: "10,000+", label: "Hadiths", labelBn: "হাদিস" },
-  { value: "120+", label: "Duas", labelBn: "দোয়া" },
-  { value: "500+", label: "Masail", labelBn: "মাসায়েল" }
+  { value: "36,000+", label: "Hadiths", labelBn: "হাদিস" },
+  { value: "1,000+", label: "Duas", labelBn: "দোয়া" },
+  { value: "390+", label: "Masail", labelBn: "মাসায়েল" }
 ];
 
 const ApiDocs = ({ language }: ApiDocsProps) => {
