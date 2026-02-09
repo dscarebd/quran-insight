@@ -273,7 +273,7 @@ const ApiDocs = ({ language }: ApiDocsProps) => {
               {statLabels.map((stat) => (
                 <div key={stat.key} className="text-center p-3 rounded-lg bg-background/50">
                   <div className="text-2xl font-bold text-primary">
-                    {statsLoading ? "..." : formatCount(stats?.[stat.key] || 0)}
+                    {statsLoading ? "..." : formatCount(stats?.[stat.key] || 0, language)}
                   </div>
                   <div className={cn("text-sm text-muted-foreground", language === "bn" ? "font-bengali" : "font-sans")}>
                     {language === "bn" ? stat.labelBn : stat.label}

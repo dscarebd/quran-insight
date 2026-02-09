@@ -30,9 +30,13 @@ export const useApiStats = () => {
   });
 };
 
-export const formatCount = (count: number): string => {
-  if (count >= 1000) {
-    return `${Math.floor(count / 1000).toLocaleString()},${String(count % 1000).padStart(3, '0').slice(0, -2)}00+`;
-  }
-  return `${count}+`;
+const bengaliNumerals = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
+
+const toBengaliNumber = (num: string): string => {
+  return num.replace(/[0-9]/g, (digit) => bengaliNumerals[parseInt(digit)]);
+};
+
+export const formatCount = (count: number, language: "en" | "bn" | "hi" = "en"): string => {
+  const formatted = `${count.toLocaleString()}+`;
+  return language === "bn" ? toBengaliNumber(formatted) : formatted;
 };
