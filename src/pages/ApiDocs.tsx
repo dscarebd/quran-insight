@@ -8,6 +8,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/component
 import { Badge } from "@/components/ui/badge";
 import { Language } from "@/types/language";
 import { toast } from "sonner";
+import ApiCodeExamples from "@/components/ApiCodeExamples";
 
 interface ApiDocsProps {
   language: Language;
@@ -222,15 +223,6 @@ const ApiDocs = ({ language }: ApiDocsProps) => {
     setLoadingEndpoint(null);
   };
 
-  const quickStartCode = `// Fetch all Surahs
-fetch("${BASE_URL}/surahs")
-  .then(res => res.json())
-  .then(data => console.log(data));
-
-// Fetch verses of Surah Al-Fatiha
-fetch("${BASE_URL}/verses?surah=1")
-  .then(res => res.json())
-  .then(data => console.log(data));`;
 
   return (
     <div className="min-h-screen bg-background pb-20">
@@ -287,16 +279,15 @@ fetch("${BASE_URL}/verses?surah=1")
           </CardContent>
         </Card>
 
-        {/* Quick Start */}
+        {/* Quick Start - Base URL */}
         <Card>
-          <CardHeader>
+          <CardHeader className="pb-3">
             <CardTitle className={cn("flex items-center gap-2", language === "bn" ? "font-bengali" : "font-sans")}>
               <Sparkles className="h-5 w-5 text-primary" />
               {language === "bn" ? "দ্রুত শুরু" : "Quick Start"}
             </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4">
-            {/* Base URL */}
+          <CardContent>
             <div>
               <label className={cn("text-sm font-medium text-muted-foreground", language === "bn" ? "font-bengali" : "font-sans")}>
                 Base URL
@@ -314,29 +305,11 @@ fetch("${BASE_URL}/verses?surah=1")
                 </Button>
               </div>
             </div>
-
-            {/* Code Example */}
-            <div>
-              <div className="flex items-center justify-between mb-1">
-                <label className={cn("text-sm font-medium text-muted-foreground", language === "bn" ? "font-bengali" : "font-sans")}>
-                  {language === "bn" ? "উদাহরণ কোড" : "Example Code"}
-                </label>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => copyToClipboard(quickStartCode, "code")}
-                  className="h-7 gap-1"
-                >
-                  {copiedText === "code" ? <Check className="h-3 w-3 text-green-500" /> : <Copy className="h-3 w-3" />}
-                  {language === "bn" ? "কপি" : "Copy"}
-                </Button>
-              </div>
-              <pre className="p-4 rounded-lg bg-muted text-sm font-mono overflow-x-auto whitespace-pre-wrap">
-                {quickStartCode}
-              </pre>
-            </div>
           </CardContent>
         </Card>
+
+        {/* Code Examples Section */}
+        <ApiCodeExamples language={language} baseUrl={BASE_URL} />
 
         {/* Endpoints */}
         <div className="space-y-3">
