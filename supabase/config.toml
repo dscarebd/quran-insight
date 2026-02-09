@@ -68,3 +68,6 @@ verify_jwt = false
 
 [functions.update-bengali-chapters]
 verify_jwt = false
+
+[functions.public-api]
+verify_jwt = false
