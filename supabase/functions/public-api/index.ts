@@ -144,7 +144,7 @@ Deno.serve(async (req) => {
       case 'duas': {
         let query = supabase
           .from('duas')
-          .select('dua_id, category_id, title_english, title_bengali, arabic, transliteration, transliteration_bengali, english, bengali, reference', { count: 'exact' });
+          .select('dua_id, category_id, title_english, title_bengali, title_hindi, arabic, transliteration, transliteration_bengali, transliteration_hindi, english, bengali, hindi, reference', { count: 'exact' });
 
         if (categoryId) {
           query = query.eq('category_id', categoryId);
