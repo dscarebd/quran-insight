@@ -47,8 +47,8 @@ const endpoints = [
     name: "Verses",
     nameBn: "আয়াত সমূহ",
     path: "/verses",
-    description: "Get Quran verses with Arabic, Bengali, English translations and Tafsir",
-    descriptionBn: "আরবি, বাংলা, ইংরেজি অনুবাদ ও তাফসির সহ কুরআনের আয়াত",
+    description: "Get complete Quran verses with Arabic text, English & Bengali translations, and Tafsir (explanations) in both languages",
+    descriptionBn: "সম্পূর্ণ কুরআনের আয়াত - আরবি টেক্সট, ইংরেজি ও বাংলা অনুবাদ এবং উভয় ভাষায় তাফসির সহ",
     params: [
       { name: "surah", type: "number", description: "Filter by surah number (1-114)", descriptionBn: "সূরা নম্বর দিয়ে ফিল্টার (১-১১৪)" },
       { name: "para", type: "number", description: "Filter by para/juz number (1-30)", descriptionBn: "পারা নম্বর দিয়ে ফিল্টার (১-৩০)" }
@@ -62,7 +62,8 @@ const endpoints = [
           arabic: "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ",
           english: "In the name of Allah, the Most Gracious, the Most Merciful",
           bengali: "পরম করুণাময় অতি দয়ালু আল্লাহর নামে",
-          tafsir_bengali: "...",
+          tafsir_english: "This verse is known as Bismillah and is recited at the beginning of every surah except At-Tawbah...",
+          tafsir_bengali: "এই আয়াতটি বিসমিল্লাহ নামে পরিচিত এবং সূরা তাওবাহ ছাড়া প্রতিটি সূরার শুরুতে পাঠ করা হয়...",
           page_number: 1
         }
       ],
@@ -73,8 +74,8 @@ const endpoints = [
     name: "Hadiths",
     nameBn: "হাদিস সমূহ",
     path: "/hadiths",
-    description: "Get Hadiths from various collections (Bukhari, Muslim, etc.)",
-    descriptionBn: "বিভিন্ন সংকলন থেকে হাদিস (বুখারী, মুসলিম ইত্যাদি)",
+    description: "Get complete Hadiths with Arabic, English & Bengali text, narrator info, chapter details, and authenticity grades",
+    descriptionBn: "সম্পূর্ণ হাদিস - আরবি, ইংরেজি ও বাংলা টেক্সট, বর্ণনাকারী, অধ্যায় ও সনদের তথ্য সহ",
     params: [
       { name: "book", type: "string", description: "Filter by book slug (bukhari, muslim, tirmidhi, etc.)", descriptionBn: "বইয়ের স্লাগ দিয়ে ফিল্টার" }
     ],
@@ -86,14 +87,17 @@ const endpoints = [
           book_slug: "bukhari",
           chapter_number: 1,
           chapter_name_english: "Revelation",
-          arabic: "...",
-          english: "...",
-          bengali: "...",
+          chapter_name_bengali: "ওহী",
+          arabic: "حَدَّثَنَا الْحُمَيْدِيُّ عَبْدُ اللَّهِ بْنُ الزُّبَيْرِ...",
+          english: "Narrated Umar bin Al-Khattab: I heard Allah's Messenger saying...",
+          bengali: "উমর ইবনুল খাত্তাব (রাঃ) থেকে বর্ণিত: আমি আল্লাহর রাসূলকে বলতে শুনেছি...",
           narrator_english: "Umar bin Al-Khattab",
-          grade: "Sahih"
+          narrator_bengali: "উমর ইবনুল খাত্তাব (রাঃ)",
+          grade: "Sahih",
+          grade_bengali: "সহীহ"
         }
       ],
-      meta: { total: 7563, limit: 100, offset: 0 }
+      meta: { total: 36435, limit: 100, offset: 0 }
     }
   },
   {
@@ -121,8 +125,8 @@ const endpoints = [
     name: "Duas",
     nameBn: "দোয়া সমূহ",
     path: "/duas",
-    description: "Get Duas with Arabic, transliteration, and translations",
-    descriptionBn: "আরবি, উচ্চারণ ও অনুবাদ সহ দোয়া",
+    description: "Get complete Duas with Arabic, transliterations, and translations in English, Bengali & Hindi",
+    descriptionBn: "সম্পূর্ণ দোয়া - আরবি, উচ্চারণ এবং ইংরেজি, বাংলা ও হিন্দি অনুবাদ সহ",
     params: [
       { name: "category", type: "string", description: "Filter by category_id", descriptionBn: "ক্যাটাগরি আইডি দিয়ে ফিল্টার" }
     ],
@@ -134,14 +138,18 @@ const endpoints = [
           category_id: "morning-evening",
           title_english: "Morning Supplication",
           title_bengali: "সকালের দোয়া",
-          arabic: "...",
-          transliteration: "...",
-          english: "...",
-          bengali: "...",
-          reference: "Sahih Muslim"
+          title_hindi: "सुबह की दुआ",
+          arabic: "اللَّهُمَّ بِكَ أَصْبَحْنَا وَبِكَ أَمْسَيْنَا...",
+          transliteration: "Allahumma bika asbahna wa bika amsayna...",
+          transliteration_bengali: "আল্লাহুম্মা বিকা আসবাহনা ওয়া বিকা আমসাইনা...",
+          transliteration_hindi: "अल्लाहुम्मा बिका असबहना व बिका अमसैना...",
+          english: "O Allah, by Your leave we have reached the morning and by Your leave we have reached the evening...",
+          bengali: "হে আল্লাহ, তোমার অনুগ্রহে আমরা সকালে উপনীত হয়েছি এবং তোমার অনুগ্রহে সন্ধ্যায় উপনীত হয়েছি...",
+          hindi: "ऐ अल्लाह, तेरी कृपा से हम सुबह तक पहुंचे और तेरी कृपा से हम शाम तक पहुंचे...",
+          reference: "Abu Dawud 5068"
         }
       ],
-      meta: { total: 120, limit: 100, offset: 0 }
+      meta: { total: 1000, limit: 100, offset: 0 }
     }
   },
   {
