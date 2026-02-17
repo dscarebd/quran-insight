@@ -71,3 +71,9 @@ verify_jwt = false
 
 [functions.public-api]
 verify_jwt = false
+
+[functions.lms-register]
+verify_jwt = false
+
+[functions.lms-progress]
+verify_jwt = false

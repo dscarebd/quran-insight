@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { ContinueReading } from "@/components/ContinueReading";
 import { ContinuePlayingCard } from "@/components/ContinuePlayingCard";
+import { LmsContinueCard } from "@/components/lms/LmsContinueCard";
 import { DesktopHeroSearch } from "@/components/desktop/DesktopHeroSearch";
 import { QuickAccessCards } from "@/components/desktop/QuickAccessCards";
 import { DesktopDailyContent } from "@/components/desktop/DesktopDailyContent";
@@ -9,6 +10,8 @@ import { AISearchResults } from "@/components/AISearchResults";
 import { useAISearch } from "@/hooks/useAISearch";
 import { useLastPlayedPosition } from "@/hooks/useLastPlayedPosition";
 import { useToast } from "@/hooks/use-toast";
+import { useLmsStudent } from "@/hooks/useLmsStudent";
+import { useLmsCourses, useLmsProgress, useLmsCertificates } from "@/hooks/useLmsCourses";
 import { Language } from "@/types/language";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
@@ -23,6 +26,31 @@ const Index = ({ language }: IndexProps) => {
   const { search, clear, isLoading, error, response, isOnline } = useAISearch();
   const { lastPosition, hasLastPosition, clearPosition } = useLastPlayedPosition();
   const { toast } = useToast();
+  const { studentId, isRegistered } = useLmsStudent();
+  const { data: courses } = useLmsCourses();
+  const { data: allProgress } = useLmsProgress(studentId);
+  const { data: certificates } = useLmsCertificates(studentId);
+
+  // Find the most recent in-progress course for the LMS continue card
+  const lmsContinueCourse = (() => {
+    if (!isRegistered || !courses || !allProgress) return null;
+    for (const course of courses) {
+      const courseProgress = allProgress.filter((p) => p.course_id === course.id);
+      const completedCount = courseProgress.filter((p) => p.is_completed).length;
+      const hasCert = certificates?.some((c) => c.course_id === course.id);
+      if (completedCount > 0 || hasCert) {
+        return {
+          courseId: course.id,
+          courseName: course.title_english, // will be handled by language in component
+          courseBn: course.title_bengali,
+          completedLessons: completedCount,
+          totalLessons: course.total_lessons,
+          hasCertificate: !!hasCert,
+        };
+      }
+    }
+    return null;
+  })();
 
   // Clear search function
   const clearSearch = useCallback(() => {
@@ -88,8 +116,18 @@ const Index = ({ language }: IndexProps) => {
           </div>
         )}
         
-        {/* Continue Reading - after hero, before quick access (mobile/tablet only) - hide when searching */}
-        {!searchQuery && <ContinueReading language={language} />}
+        {/* LMS Continue Card or Continue Reading */}
+        {!searchQuery && lmsContinueCourse && (
+          <LmsContinueCard
+            language={language}
+            courseName={language === "bn" ? lmsContinueCourse.courseBn : lmsContinueCourse.courseName}
+            courseId={lmsContinueCourse.courseId}
+            completedLessons={lmsContinueCourse.completedLessons}
+            totalLessons={lmsContinueCourse.totalLessons}
+            hasCertificate={lmsContinueCourse.hasCertificate}
+          />
+        )}
+        {!searchQuery && !lmsContinueCourse && <ContinueReading language={language} />}
         
         {/* Search Results */}
         {searchQuery && (
