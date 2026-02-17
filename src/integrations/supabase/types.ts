@@ -428,6 +428,228 @@ export type Database = {
           },
         ]
       }
+      lms_certificates: {
+        Row: {
+          certificate_number: string
+          completed_at: string
+          course_id: string
+          created_at: string
+          id: string
+          student_id: string
+        }
+        Insert: {
+          certificate_number: string
+          completed_at?: string
+          course_id: string
+          created_at?: string
+          id?: string
+          student_id: string
+        }
+        Update: {
+          certificate_number?: string
+          completed_at?: string
+          course_id?: string
+          created_at?: string
+          id?: string
+          student_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lms_certificates_course_id_fkey"
+            columns: ["course_id"]
+            isOneToOne: false
+            referencedRelation: "lms_courses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lms_certificates_student_id_fkey"
+            columns: ["student_id"]
+            isOneToOne: false
+            referencedRelation: "lms_students"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      lms_courses: {
+        Row: {
+          created_at: string
+          description_bengali: string
+          description_english: string
+          display_order: number
+          id: string
+          is_published: boolean
+          thumbnail_url: string | null
+          title_bengali: string
+          title_english: string
+          total_lessons: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description_bengali?: string
+          description_english?: string
+          display_order?: number
+          id?: string
+          is_published?: boolean
+          thumbnail_url?: string | null
+          title_bengali: string
+          title_english: string
+          total_lessons?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description_bengali?: string
+          description_english?: string
+          display_order?: number
+          id?: string
+          is_published?: boolean
+          thumbnail_url?: string | null
+          title_bengali?: string
+          title_english?: string
+          total_lessons?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      lms_lessons: {
+        Row: {
+          course_id: string
+          created_at: string
+          description_bengali: string | null
+          description_english: string | null
+          duration_seconds: number | null
+          id: string
+          is_published: boolean
+          lesson_order: number
+          title_bengali: string
+          title_english: string
+          updated_at: string
+          video_url: string
+        }
+        Insert: {
+          course_id: string
+          created_at?: string
+          description_bengali?: string | null
+          description_english?: string | null
+          duration_seconds?: number | null
+          id?: string
+          is_published?: boolean
+          lesson_order?: number
+          title_bengali: string
+          title_english: string
+          updated_at?: string
+          video_url: string
+        }
+        Update: {
+          course_id?: string
+          created_at?: string
+          description_bengali?: string | null
+          description_english?: string | null
+          duration_seconds?: number | null
+          id?: string
+          is_published?: boolean
+          lesson_order?: number
+          title_bengali?: string
+          title_english?: string
+          updated_at?: string
+          video_url?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lms_lessons_course_id_fkey"
+            columns: ["course_id"]
+            isOneToOne: false
+            referencedRelation: "lms_courses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      lms_progress: {
+        Row: {
+          completed_at: string | null
+          course_id: string
+          created_at: string
+          id: string
+          is_completed: boolean
+          lesson_id: string
+          student_id: string
+          updated_at: string
+          watched_seconds: number
+        }
+        Insert: {
+          completed_at?: string | null
+          course_id: string
+          created_at?: string
+          id?: string
+          is_completed?: boolean
+          lesson_id: string
+          student_id: string
+          updated_at?: string
+          watched_seconds?: number
+        }
+        Update: {
+          completed_at?: string | null
+          course_id?: string
+          created_at?: string
+          id?: string
+          is_completed?: boolean
+          lesson_id?: string
+          student_id?: string
+          updated_at?: string
+          watched_seconds?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lms_progress_course_id_fkey"
+            columns: ["course_id"]
+            isOneToOne: false
+            referencedRelation: "lms_courses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lms_progress_lesson_id_fkey"
+            columns: ["lesson_id"]
+            isOneToOne: false
+            referencedRelation: "lms_lessons"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lms_progress_student_id_fkey"
+            columns: ["student_id"]
+            isOneToOne: false
+            referencedRelation: "lms_students"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      lms_students: {
+        Row: {
+          created_at: string
+          device_id: string
+          email: string
+          full_name: string
+          id: string
+          phone: string
+        }
+        Insert: {
+          created_at?: string
+          device_id: string
+          email: string
+          full_name: string
+          id?: string
+          phone: string
+        }
+        Update: {
+          created_at?: string
+          device_id?: string
+          email?: string
+          full_name?: string
+          id?: string
+          phone?: string
+        }
+        Relationships: []
+      }
       login_attempts: {
         Row: {
           attempt_time: string

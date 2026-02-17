@@ -41,6 +41,10 @@ import MasailList from "./pages/MasailList";
 import MasailDetail from "./pages/MasailDetail";
 import ContactUs from "./pages/ContactUs";
 import ApiDocs from "./pages/ApiDocs";
+import CourseList from "./pages/CourseList";
+import CourseDetail from "./pages/CourseDetail";
+import LessonPlayer from "./pages/LessonPlayer";
+import CertificatePage from "./pages/CertificatePage";
 // Component to redirect to last read page
 const ReadPageRedirect = () => {
   const lastReadPage = localStorage.getItem("quran-last-read-page") || "1";
@@ -63,6 +67,9 @@ const ImportDuas = lazy(() => import("./pages/admin/ImportDuas"));
 const HadithManagement = lazy(() => import("./pages/admin/HadithManagement"));
 const ExportData = lazy(() => import("./pages/admin/ExportData"));
 const MasailManagement = lazy(() => import("./pages/admin/MasailManagement"));
+const CourseManagement = lazy(() => import("./pages/admin/CourseManagement"));
+const LessonManagement = lazy(() => import("./pages/admin/LessonManagement"));
+const LmsStudentsAdmin = lazy(() => import("./pages/admin/LmsStudents"));
 const queryClient = new QueryClient();
 
 const LoadingFallback = () => (
@@ -261,6 +268,26 @@ const AppContent = () => {
           <ApiDocs language={language} />
         </Layout>
       } />
+      <Route path="/courses" element={
+        <Layout language={language} onLanguageChange={handleLanguageChange}>
+          <CourseList language={language} />
+        </Layout>
+      } />
+      <Route path="/courses/:courseId" element={
+        <Layout language={language} onLanguageChange={handleLanguageChange}>
+          <CourseDetail language={language} />
+        </Layout>
+      } />
+      <Route path="/courses/:courseId/lesson/:lessonId" element={
+        <Layout language={language} onLanguageChange={handleLanguageChange}>
+          <LessonPlayer language={language} />
+        </Layout>
+      } />
+      <Route path="/courses/:courseId/certificate" element={
+        <Layout language={language} onLanguageChange={handleLanguageChange}>
+          <CertificatePage language={language} />
+        </Layout>
+      } />
       <Route path="/auth" element={
         <Suspense fallback={<LoadingFallback />}>
           <Auth />
@@ -284,6 +311,9 @@ const AppContent = () => {
         <Route path="analytics" element={<Analytics />} />
         <Route path="export-data" element={<ExportData />} />
         <Route path="masail" element={<MasailManagement />} />
+        <Route path="courses" element={<CourseManagement />} />
+        <Route path="courses/:courseId/lessons" element={<LessonManagement />} />
+        <Route path="lms-students" element={<LmsStudentsAdmin />} />
       </Route>
       <Route path="*" element={<NotFound />} />
     </Routes>
