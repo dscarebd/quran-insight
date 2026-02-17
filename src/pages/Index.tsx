@@ -2,7 +2,6 @@ import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { ContinueReading } from "@/components/ContinueReading";
 import { ContinuePlayingCard } from "@/components/ContinuePlayingCard";
-import { LmsContinueCard } from "@/components/lms/LmsContinueCard";
 import { DesktopHeroSearch } from "@/components/desktop/DesktopHeroSearch";
 import { QuickAccessCards } from "@/components/desktop/QuickAccessCards";
 import { DesktopDailyContent } from "@/components/desktop/DesktopDailyContent";
@@ -116,18 +115,8 @@ const Index = ({ language }: IndexProps) => {
           </div>
         )}
         
-        {/* LMS Continue Card or Continue Reading */}
-        {!searchQuery && lmsContinueCourse && (
-          <LmsContinueCard
-            language={language}
-            courseName={language === "bn" ? lmsContinueCourse.courseBn : lmsContinueCourse.courseName}
-            courseId={lmsContinueCourse.courseId}
-            completedLessons={lmsContinueCourse.completedLessons}
-            totalLessons={lmsContinueCourse.totalLessons}
-            hasCertificate={lmsContinueCourse.hasCertificate}
-          />
-        )}
-        {!searchQuery && !lmsContinueCourse && <ContinueReading language={language} />}
+        {/* Floating Continue Card (LMS or Reading) */}
+        {!searchQuery && <ContinueReading language={language} lmsContinueCourse={lmsContinueCourse} />}
         
         {/* Search Results */}
         {searchQuery && (
