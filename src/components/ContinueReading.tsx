@@ -96,7 +96,7 @@ export const ContinueReading = ({ language, lmsContinueCourse }: ContinueReading
                 : `/courses/${lmsContinueCourse.courseId}`
             )
           }
-          className="w-full flex items-center gap-2 sm:gap-3 p-2.5 sm:p-3 bg-card hover:bg-card/90 border border-border shadow-lg rounded-xl transition-all duration-200 group overflow-hidden"
+          className="w-full flex items-center gap-2 sm:gap-3 p-2.5 sm:p-3 bg-card border border-border shadow-lg rounded-xl sm:rounded-2xl transition-all duration-300 group overflow-hidden hover:shadow-elevated hover:-translate-y-1"
         >
           <div className="flex h-9 w-9 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
             {lmsContinueCourse.hasCertificate ? (
@@ -137,7 +137,7 @@ export const ContinueReading = ({ language, lmsContinueCourse }: ContinueReading
       <div className="mt-6 animate-fade-in">
         <button
           onClick={() => navigate("/courses")}
-          className="w-full flex items-center gap-2 sm:gap-3 p-2.5 sm:p-3 bg-card hover:bg-card/90 border border-border shadow-lg rounded-xl transition-all duration-200 group overflow-hidden"
+          className="w-full flex items-center gap-2 sm:gap-3 p-2.5 sm:p-3 bg-card border border-border shadow-lg rounded-xl sm:rounded-2xl transition-all duration-300 group overflow-hidden hover:shadow-elevated hover:-translate-y-1"
         >
           <div className="flex h-9 w-9 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
             <GraduationCap className="h-4 w-4 sm:h-5 sm:w-5" />
@@ -170,7 +170,7 @@ export const ContinueReading = ({ language, lmsContinueCourse }: ContinueReading
     <div className="mt-6 animate-fade-in">
       <button
         onClick={handleContinue}
-        className="w-full flex items-center gap-2 sm:gap-3 p-2.5 sm:p-3 bg-card hover:bg-card/90 border border-border shadow-lg rounded-xl transition-all duration-200 group overflow-hidden"
+        className="w-full flex items-center gap-2 sm:gap-3 p-2.5 sm:p-3 bg-card border border-border shadow-lg rounded-xl sm:rounded-2xl transition-all duration-300 group overflow-hidden hover:shadow-elevated hover:-translate-y-1"
       >
         <div className="flex h-9 w-9 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
           <BookOpen className="h-4 w-4 sm:h-5 sm:w-5" />
