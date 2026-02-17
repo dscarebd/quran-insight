@@ -87,7 +87,7 @@ export const ContinueReading = ({ language, lmsContinueCourse }: ContinueReading
       : 0;
 
     return (
-      <div className="fixed bottom-16 sm:bottom-4 left-0 right-0 z-40 px-3 sm:px-4 md:px-6 mx-auto max-w-6xl">
+      <div className="mt-6">
         <button
           onClick={() =>
             navigate(
@@ -134,7 +134,7 @@ export const ContinueReading = ({ language, lmsContinueCourse }: ContinueReading
   if (!lastRead) {
     // Default: show "Start Learning" card linking to /courses
     return (
-      <div className="fixed bottom-16 sm:bottom-4 left-0 right-0 z-40 px-3 sm:px-4 md:px-6 mx-auto max-w-6xl">
+      <div className="mt-6">
         <button
           onClick={() => navigate("/courses")}
           className="w-full flex items-center gap-2 sm:gap-3 p-2.5 sm:p-3 bg-card hover:bg-card/90 border border-border shadow-lg rounded-xl transition-all duration-200 group overflow-hidden"
@@ -167,7 +167,7 @@ export const ContinueReading = ({ language, lmsContinueCourse }: ContinueReading
   };
 
   return (
-    <div className="fixed bottom-16 sm:bottom-4 left-0 right-0 z-40 px-3 sm:px-4 md:px-6 mx-auto max-w-6xl lg:hidden">
+    <div className="mt-6">
       <button
         onClick={handleContinue}
         className="w-full flex items-center gap-2 sm:gap-3 p-2.5 sm:p-3 bg-card hover:bg-card/90 border border-border shadow-lg rounded-xl transition-all duration-200 group overflow-hidden"
