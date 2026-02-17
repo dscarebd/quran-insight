@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { HandHeart, Clock, Sparkles, HelpCircle, Bookmark, GraduationCap } from "lucide-react";
+import { HandHeart, Clock, Sparkles, HelpCircle, Bookmark } from "lucide-react";
 import { cn, formatNumber } from "@/lib/utils";
 import { duaCategories } from "@/data/duas";
 import { getUpcomingEventsCount } from "@/data/islamicCalendar";
@@ -20,16 +20,6 @@ export const QuickAccessCards = ({ language }: QuickAccessCardsProps) => {
   const calendarEventsCount = getUpcomingEventsCount();
 
   const quickLinks = [
-    {
-      id: "courses",
-      icon: GraduationCap,
-      labelEn: "Courses",
-      labelBn: "কোর্সসমূহ",
-      descEn: "Learn with video courses",
-      descBn: "ভিডিও কোর্সে শিখুন",
-      path: "/courses",
-      gradient: "from-primary to-emerald-600",
-    },
     {
       id: "names",
       icon: Sparkles,
