@@ -131,7 +131,32 @@ export const ContinueReading = ({ language, lmsContinueCourse }: ContinueReading
     );
   }
 
-  if (!lastRead) return null;
+  if (!lastRead) {
+    // Default: show "Start Learning" card linking to /courses
+    return (
+      <div className="fixed bottom-16 sm:bottom-4 left-0 right-0 z-40 px-3 sm:px-4 md:px-6 mx-auto max-w-6xl">
+        <button
+          onClick={() => navigate("/courses")}
+          className="w-full flex items-center gap-2 sm:gap-3 p-2.5 sm:p-3 bg-card hover:bg-card/90 border border-border shadow-lg rounded-xl transition-all duration-200 group overflow-hidden"
+        >
+          <div className="flex h-9 w-9 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+            <GraduationCap className="h-4 w-4 sm:h-5 sm:w-5" />
+          </div>
+          <div className="flex-1 text-left min-w-0 overflow-hidden">
+            <p className={cn("text-sm sm:text-base text-muted-foreground truncate", language === "bn" && "font-bengali")}>
+              {language === "bn" ? "কোর্স দেখুন" : "Browse Courses"}
+            </p>
+            <p className={cn("font-semibold text-foreground truncate text-base sm:text-lg", language === "bn" && "font-bengali")}>
+              {language === "bn" ? "শিখুন" : "Start Learning"}
+            </p>
+          </div>
+          <div className="flex h-8 w-8 sm:h-9 sm:w-9 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground group-hover:scale-105 transition-transform">
+            <ChevronRight className="h-4 w-4 sm:h-5 sm:w-5" />
+          </div>
+        </button>
+      </div>
+    );
+  }
 
   const surah = surahs.find((s) => s.number === lastRead.surahNumber);
   if (!surah) return null;
