@@ -7,6 +7,8 @@ import { useLmsCertificates } from "@/hooks/useLmsCourses";
 import { useLmsStudent } from "@/hooks/useLmsStudent";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import html2canvas from "html2canvas";
+import { useCallback, useRef } from "react";
 
 interface CertificatePageProps {
   language: Language;
@@ -40,6 +42,17 @@ const CertificatePage = ({ language }: CertificatePageProps) => {
     enabled: !!studentId,
   });
 
+  const certRef = useRef<HTMLDivElement>(null);
+
+  const handleDownload = useCallback(async () => {
+    if (!certRef.current) return;
+    const canvas = await html2canvas(certRef.current, { scale: 2, useCORS: true, backgroundColor: null });
+    const link = document.createElement("a");
+    link.download = `certificate-${cert?.certificate_number || "download"}.png`;
+    link.href = canvas.toDataURL("image/png");
+    link.click();
+  }, [cert]);
+
   if (!cert || !course) {
     return (
       <div className="flex-1 overflow-y-auto">
@@ -69,6 +82,7 @@ const CertificatePage = ({ language }: CertificatePageProps) => {
 
         {/* Certificate Card */}
         <div
+          ref={certRef}
           id="lms-certificate"
           className="relative overflow-hidden rounded-2xl border-2 border-gold/30 bg-gradient-to-br from-card via-card to-accent/20 p-8 sm:p-12 text-center"
           style={{ boxShadow: "var(--shadow-gold)" }}
@@ -117,7 +131,17 @@ const CertificatePage = ({ language }: CertificatePageProps) => {
               </p>
               <p className="font-mono text-xs">{cert.certificate_number}</p>
             </div>
-          </div>
+        </div>
+
+        {/* Download Button */}
+        <div className="mt-4 flex justify-center">
+          <Button onClick={handleDownload} className="gap-2">
+            <Download className="h-4 w-4" />
+            <span className={cn(language === "bn" && "font-bengali")}>
+              {language === "bn" ? "সার্টিফিকেট ডাউনলোড করুন" : "Download Certificate"}
+            </span>
+          </Button>
+        </div>
         </div>
 
         {/* Achievement Badge */}
