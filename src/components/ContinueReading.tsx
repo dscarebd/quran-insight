@@ -144,7 +144,7 @@ export const ContinueReading = ({ language, lmsContinueCourse }: ContinueReading
           </div>
           <div className="flex-1 text-left min-w-0 overflow-hidden">
             <p className={cn("text-sm sm:text-base text-muted-foreground truncate", language === "bn" && "font-bengali")}>
-              {language === "bn" ? "শিখুন" : "Start Learning"}
+              {language === "bn" ? "এখনই শুরু করুন" : "Start Learning"}
             </p>
             <p className={cn("font-semibold text-foreground truncate text-base sm:text-lg", language === "bn" && "font-bengali")}>
               {language === "bn" ? "৩০ দিনে কুরআন শিখুন" : "Learn Quran in 30 Days"}
