@@ -47,12 +47,12 @@ export const ContinueReading = ({ language, lmsContinueCourse }: ContinueReading
           </div>
 
           <div className="flex-1 text-left min-w-0 overflow-hidden">
-            <p className={cn("text-xs sm:text-sm font-medium text-muted-foreground truncate uppercase tracking-wide", language === "bn" && "font-bengali normal-case tracking-normal")}>
+            <p className={cn("text-xs font-medium text-muted-foreground truncate uppercase tracking-wide", language === "bn" && "font-bengali normal-case tracking-normal")}>
               {lmsContinueCourse.hasCertificate
                 ? language === "bn" ? "সার্টিফিকেট দেখুন" : "View Certificate"
                 : language === "bn" ? "শিখতে থাকুন" : "Continue Learning"}
             </p>
-            <p className={cn("font-bold text-foreground truncate text-base sm:text-lg leading-tight", language === "bn" && "font-bengali")}>
+            <p className={cn("font-semibold text-foreground truncate text-sm sm:text-base leading-tight", language === "bn" && "font-bengali")}>
               {language === "bn" ? lmsContinueCourse.courseBn : lmsContinueCourse.courseName}
             </p>
             {!lmsContinueCourse.hasCertificate && (
@@ -81,10 +81,10 @@ export const ContinueReading = ({ language, lmsContinueCourse }: ContinueReading
           <GraduationCap className="h-5 w-5 sm:h-6 sm:w-6" />
         </div>
         <div className="flex-1 text-left min-w-0 overflow-hidden">
-          <p className={cn("text-xs sm:text-sm font-medium text-muted-foreground truncate uppercase tracking-wide", language === "bn" && "font-bengali normal-case tracking-normal")}>
+          <p className={cn("text-xs font-medium text-muted-foreground truncate uppercase tracking-wide", language === "bn" && "font-bengali normal-case tracking-normal")}>
             {language === "bn" ? "এখনই শুরু করুন" : "Start Learning"}
           </p>
-          <p className={cn("font-bold text-foreground truncate text-base sm:text-lg leading-tight", language === "bn" && "font-bengali")}>
+          <p className={cn("font-semibold text-foreground truncate text-sm sm:text-base leading-tight", language === "bn" && "font-bengali")}>
             {language === "bn" ? "৩০ দিনে কুরআন শিখুন" : "Learn Quran in 30 Days"}
           </p>
         </div>
