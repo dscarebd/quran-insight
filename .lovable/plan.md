@@ -1,29 +1,31 @@
 
+## Remove Quran Reading Card — Always Show LMS Card
 
-# Always-Visible LMS Floating Card
+The goal is to strip out the "Continue Reading" (Quran history) card entirely and make the component always render either the LMS course progress card or the default "Start Learning" fallback.
 
-## Problem
-The floating card at the bottom of the homepage only appears when a user has LMS progress or Quran reading history. For new users or users who haven't started a course, nothing shows — there's no entry point to the LMS.
+### What changes
 
-## Solution
-Make the `ContinueReading` component always show a floating card that links to `/courses`:
+**`src/components/ContinueReading.tsx`**
 
-1. **If LMS course progress exists** -- Show the current "Continue Learning" card with progress bar (existing behavior)
-2. **If no LMS progress but reading history exists** -- Show "Continue Reading" card (existing behavior)  
-3. **If neither exists (NEW)** -- Show a default "Start Learning" / "শিখুন" card linking to `/courses`, styled the same way with a `GraduationCap` icon
+1. Remove all localStorage reading logic (`readLastReadFromStorage`, the `lastRead` state, the `useEffect` that listens to storage events).
+2. Remove the unused imports: `useCallback`, `useEffect`, `useState`, `BookOpen`, `surahs`, `getPageByNumber`, `formatNumber`.
+3. Remove the "Continue Reading" card JSX block entirely (lines 161–208).
+4. Remove the `if (!lastRead)` guard — the default fallback card now renders unconditionally when `lmsContinueCourse` is null/undefined.
 
-This ensures the floating card is always visible as shown in the reference screenshot.
+### Result after change
 
-## Technical Details
+Priority logic becomes simple and clean:
 
-### File: `src/components/ContinueReading.tsx`
+```text
+lmsContinueCourse present?
+  YES → Show "Continue Learning / View Certificate" LMS card
+  NO  → Always show default "Start Learning" card → /courses
+```
 
-- After the existing `if (!lastRead) return null` check (line 134), instead of returning null, render a default LMS access card
-- The fallback card will:
-  - Use the same fixed positioning (`fixed bottom-16 sm:bottom-4 ...`)
-  - Show `GraduationCap` icon
-  - Display "শিখুন" / "Start Learning" text and "কোর্স দেখুন" / "Browse Courses" subtitle
-  - Navigate to `/courses` on click
-- Priority order: LMS progress card > Reading card > Default courses card
+The Quran reading history card is fully removed (kept in git history so it can be restored later).
 
-No other files need changes since the `ContinueReading` component is already rendered on the homepage.
+### Technical Details
+
+- The `lastRead` state, `readLastReadFromStorage` callback, and the three `window.addEventListener` calls for `quran:lastReadChanged`, `storage`, and `focus` will all be deleted.
+- Unused imports (`useCallback`, `useEffect`, `useState`, `BookOpen`, `surahs`, `getPageByNumber`, `formatNumber`) will be cleaned up to avoid lint warnings.
+- No changes needed in `src/pages/Index.tsx` — the props interface and usage remain the same.
