@@ -1,14 +1,12 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { ArrowLeft, GraduationCap, Award } from "lucide-react";
+import { ArrowLeft, Award } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Language } from "@/types/language";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useLmsLessons, useLmsProgress, useLmsCertificates } from "@/hooks/useLmsCourses";
-import { useLmsStudent } from "@/hooks/useLmsStudent";
 import { LmsLessonItem } from "@/components/lms/LmsLessonItem";
-import { LmsStudentRegistration } from "@/components/lms/LmsStudentRegistration";
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery } from "@tanstack/react-query";
 
@@ -19,7 +17,6 @@ interface CourseDetailProps {
 const CourseDetail = ({ language }: CourseDetailProps) => {
   const { courseId } = useParams<{ courseId: string }>();
   const navigate = useNavigate();
-  const { studentId, showRegistration, setShowRegistration, register, isRegistering } = useLmsStudent();
 
   const { data: course, isLoading: courseLoading } = useQuery({
     queryKey: ["lms-course", courseId],
@@ -36,12 +33,12 @@ const CourseDetail = ({ language }: CourseDetailProps) => {
   });
 
   const { data: lessons, isLoading: lessonsLoading } = useLmsLessons(courseId);
-  const { data: progress } = useLmsProgress(studentId, courseId);
-  const { data: certificates } = useLmsCertificates(studentId);
+  const { data: progress } = useLmsProgress(null, courseId);
+  const { data: certificates } = useLmsCertificates(null);
 
   const hasCert = certificates?.some((c) => c.course_id === courseId) || false;
 
-  const isLessonUnlocked = (lessonOrder: number, lessonId: string) => {
+  const isLessonUnlocked = (lessonOrder: number) => {
     if (lessonOrder === 1) return true;
     if (!lessons || !progress) return false;
     const prevLesson = lessons.find((l) => l.lesson_order === lessonOrder - 1);
@@ -128,22 +125,14 @@ const CourseDetail = ({ language }: CourseDetailProps) => {
             <LmsLessonItem
               key={lesson.id}
               lesson={lesson}
-              progress={progress?.find((p) => p.lesson_id === lesson.id)}
-              isUnlocked={isLessonUnlocked(lesson.lesson_order, lesson.id)}
+              progress={progress?.find((p) => p.lesson_id === lesson.id) as any}
+              isUnlocked={isLessonUnlocked(lesson.lesson_order)}
               language={language}
               courseId={courseId!}
             />
           ))}
         </div>
       </div>
-
-      <LmsStudentRegistration
-        open={showRegistration}
-        onOpenChange={setShowRegistration}
-        onRegister={register}
-        isRegistering={isRegistering}
-        language={language}
-      />
     </div>
   );
 };
