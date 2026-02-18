@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { useLmsLocalProgress, LocalLessonProgress } from "./useLmsLocalProgress";
 
 export interface LmsCourse {
   id: string;
@@ -26,15 +27,8 @@ export interface LmsLesson {
   is_published: boolean;
 }
 
-export interface LmsProgress {
-  id: string;
-  student_id: string;
-  lesson_id: string;
-  course_id: string;
-  watched_seconds: number;
-  is_completed: boolean;
-  completed_at: string | null;
-}
+// Re-export for backwards compat
+export type LmsProgress = LocalLessonProgress & { id: string; student_id: string; updated_at?: string };
 
 export interface LmsCertificate {
   id: string;
@@ -89,34 +83,39 @@ export function useLmsLessons(courseId: string | undefined) {
   });
 }
 
-export function useLmsProgress(studentId: string | null, courseId?: string) {
-  return useQuery({
-    queryKey: ["lms-progress", studentId, courseId],
-    queryFn: async () => {
-      let query = supabase
-        .from("lms_progress")
-        .select("*")
-        .eq("student_id", studentId!);
-      if (courseId) query = query.eq("course_id", courseId);
-      const { data, error } = await query;
-      if (error) throw error;
-      return data as LmsProgress[];
-    },
-    enabled: !!studentId,
-  });
+// Returns localStorage-backed progress as a hook (matches old API shape)
+export function useLmsProgress(_studentId: string | null, courseId?: string) {
+  const { getAllProgress } = useLmsLocalProgress();
+  const progress = getAllProgress(courseId);
+  // Shape to match old LmsProgress interface consumers expect
+  const shaped = progress.map((p) => ({
+    ...p,
+    id: p.lesson_id,
+    student_id: "local",
+  }));
+  return { data: shaped.length ? shaped : [] as any[] };
 }
 
-export function useLmsCertificates(studentId: string | null) {
-  return useQuery({
-    queryKey: ["lms-certificates", studentId],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from("lms_certificates")
-        .select("*")
-        .eq("student_id", studentId!);
-      if (error) throw error;
-      return data as LmsCertificate[];
-    },
-    enabled: !!studentId,
-  });
+// Certificates stored in localStorage
+const CERT_KEY = "lms-certificates";
+
+export function useLmsCertificates(_studentId: string | null) {
+  const getCerts = (): LmsCertificate[] => {
+    try {
+      return JSON.parse(localStorage.getItem(CERT_KEY) || "[]");
+    } catch {
+      return [];
+    }
+  };
+  return { data: getCerts() };
+}
+
+export function saveLocalCertificate(cert: LmsCertificate) {
+  try {
+    const existing: LmsCertificate[] = JSON.parse(localStorage.getItem(CERT_KEY) || "[]");
+    if (!existing.find((c) => c.course_id === cert.course_id)) {
+      existing.push(cert);
+      localStorage.setItem(CERT_KEY, JSON.stringify(existing));
+    }
+  } catch {}
 }

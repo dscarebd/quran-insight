@@ -1,9 +1,9 @@
 import { useRef, useState, useEffect, useCallback } from "react";
-import { supabase } from "@/integrations/supabase/client";
 import { cn } from "@/lib/utils";
 import { Language } from "@/types/language";
 import { Button } from "@/components/ui/button";
-import { ChevronRight, CheckCircle2, Loader2 } from "lucide-react";
+import { ChevronRight, CheckCircle2 } from "lucide-react";
+import { useLmsLocalProgress } from "@/hooks/useLmsLocalProgress";
 
 interface LmsVideoPlayerProps {
   videoUrl: string;
@@ -23,7 +23,6 @@ export const LmsVideoPlayer = ({
   videoUrl,
   lessonId,
   courseId,
-  studentId,
   durationSeconds,
   initialWatchedSeconds,
   isCompleted: initialCompleted,
@@ -34,56 +33,35 @@ export const LmsVideoPlayer = ({
 }: LmsVideoPlayerProps) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isCompleted, setIsCompleted] = useState(initialCompleted);
-  const [isSaving, setIsSaving] = useState(false);
   const lastSaveRef = useRef(0);
+  const { saveProgress } = useLmsLocalProgress();
 
-  const saveProgress = useCallback(
-    async (currentTime: number, forceSave = false) => {
+  const handleSaveProgress = useCallback(
+    (currentTime: number, forceSave = false) => {
       const now = Date.now();
-      if (!forceSave && now - lastSaveRef.current < 10000) return; // every 10s
+      if (!forceSave && now - lastSaveRef.current < 5000) return;
       lastSaveRef.current = now;
 
-      try {
-        const { data } = await supabase.functions.invoke("lms-progress", {
-          body: {
-            student_id: studentId,
-            lesson_id: lessonId,
-            course_id: courseId,
-            watched_seconds: Math.floor(currentTime),
-            duration_seconds: durationSeconds,
-          },
-        });
-        if (data?.is_completed && !isCompleted) {
-          setIsCompleted(true);
-          onComplete();
-        }
-      } catch (err) {
-        console.error("Failed to save progress:", err);
+      const newlyCompleted = saveProgress(lessonId, courseId, currentTime, durationSeconds);
+      if (newlyCompleted && !isCompleted) {
+        setIsCompleted(true);
+        onComplete();
       }
     },
-    [studentId, lessonId, courseId, durationSeconds, isCompleted, onComplete]
+    [lessonId, courseId, durationSeconds, isCompleted, onComplete, saveProgress]
   );
 
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
-    // Set initial position
     if (initialWatchedSeconds > 0 && !initialCompleted) {
       video.currentTime = initialWatchedSeconds;
     }
 
-    const handleTimeUpdate = () => {
-      saveProgress(video.currentTime);
-    };
-
-    const handleEnded = () => {
-      saveProgress(video.duration || durationSeconds || 0, true);
-    };
-
-    const handlePause = () => {
-      saveProgress(video.currentTime, true);
-    };
+    const handleTimeUpdate = () => handleSaveProgress(video.currentTime);
+    const handleEnded = () => handleSaveProgress(video.duration || durationSeconds || 0, true);
+    const handlePause = () => handleSaveProgress(video.currentTime, true);
 
     video.addEventListener("timeupdate", handleTimeUpdate);
     video.addEventListener("ended", handleEnded);
@@ -93,12 +71,9 @@ export const LmsVideoPlayer = ({
       video.removeEventListener("timeupdate", handleTimeUpdate);
       video.removeEventListener("ended", handleEnded);
       video.removeEventListener("pause", handlePause);
-      // Save on unmount
-      if (video.currentTime > 0) {
-        saveProgress(video.currentTime, true);
-      }
+      if (video.currentTime > 0) handleSaveProgress(video.currentTime, true);
     };
-  }, [saveProgress, initialWatchedSeconds, initialCompleted, durationSeconds]);
+  }, [handleSaveProgress, initialWatchedSeconds, initialCompleted, durationSeconds]);
 
   return (
     <div className="space-y-4">

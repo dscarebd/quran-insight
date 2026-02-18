@@ -5,12 +5,9 @@ import { Language } from "@/types/language";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useLmsLessons, useLmsProgress } from "@/hooks/useLmsCourses";
-import { useLmsStudent } from "@/hooks/useLmsStudent";
 import { LmsVideoPlayer } from "@/components/lms/LmsVideoPlayer";
-import { LmsStudentRegistration } from "@/components/lms/LmsStudentRegistration";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { useEffect } from "react";
 
 interface LessonPlayerProps {
   language: Language;
@@ -20,14 +17,6 @@ const LessonPlayer = ({ language }: LessonPlayerProps) => {
   const { courseId, lessonId } = useParams<{ courseId: string; lessonId: string }>();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const { studentId, isRegistered, showRegistration, setShowRegistration, register, isRegistering, requireRegistration } = useLmsStudent();
-
-  // Redirect if not registered
-  useEffect(() => {
-    if (!isRegistered) {
-      requireRegistration();
-    }
-  }, [isRegistered, requireRegistration]);
 
   const { data: lesson, isLoading: lessonLoading } = useQuery({
     queryKey: ["lms-lesson", lessonId],
@@ -44,11 +33,10 @@ const LessonPlayer = ({ language }: LessonPlayerProps) => {
   });
 
   const { data: lessons } = useLmsLessons(courseId);
-  const { data: progress } = useLmsProgress(studentId, courseId);
+  const { data: progress } = useLmsProgress(null, courseId);
 
   const currentProgress = progress?.find((p) => p.lesson_id === lessonId);
 
-  // Check if lesson is unlocked
   const isUnlocked = (() => {
     if (!lesson || !lessons) return false;
     if (lesson.lesson_order === 1) return true;
@@ -115,21 +103,19 @@ const LessonPlayer = ({ language }: LessonPlayerProps) => {
         ) : (
           <>
             {/* Video */}
-            {studentId && (
-              <LmsVideoPlayer
-                videoUrl={lesson.video_url}
-                lessonId={lesson.id}
-                courseId={courseId!}
-                studentId={studentId}
-                durationSeconds={lesson.duration_seconds}
-                initialWatchedSeconds={currentProgress?.watched_seconds || 0}
-                isCompleted={currentProgress?.is_completed || false}
-                hasNextLesson={!!nextLesson}
-                onComplete={handleComplete}
-                onNextLesson={handleNextLesson}
-                language={language}
-              />
-            )}
+            <LmsVideoPlayer
+              videoUrl={lesson.video_url}
+              lessonId={lesson.id}
+              courseId={courseId!}
+              studentId="local"
+              durationSeconds={lesson.duration_seconds}
+              initialWatchedSeconds={currentProgress?.watched_seconds || 0}
+              isCompleted={currentProgress?.is_completed || false}
+              hasNextLesson={!!nextLesson}
+              onComplete={handleComplete}
+              onNextLesson={handleNextLesson}
+              language={language}
+            />
 
             {/* Lesson info */}
             <div className="mt-6">
@@ -145,14 +131,6 @@ const LessonPlayer = ({ language }: LessonPlayerProps) => {
           </>
         )}
       </div>
-
-      <LmsStudentRegistration
-        open={showRegistration}
-        onOpenChange={setShowRegistration}
-        onRegister={register}
-        isRegistering={isRegistering}
-        language={language}
-      />
     </div>
   );
 };

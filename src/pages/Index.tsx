@@ -9,7 +9,7 @@ import { AISearchResults } from "@/components/AISearchResults";
 import { useAISearch } from "@/hooks/useAISearch";
 import { useLastPlayedPosition } from "@/hooks/useLastPlayedPosition";
 import { useToast } from "@/hooks/use-toast";
-import { useLmsStudent } from "@/hooks/useLmsStudent";
+
 import { useLmsCourses, useLmsProgress, useLmsCertificates } from "@/hooks/useLmsCourses";
 import { Language } from "@/types/language";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -25,14 +25,13 @@ const Index = ({ language }: IndexProps) => {
   const { search, clear, isLoading, error, response, isOnline } = useAISearch();
   const { lastPosition, hasLastPosition, clearPosition } = useLastPlayedPosition();
   const { toast } = useToast();
-  const { studentId, isRegistered } = useLmsStudent();
   const { data: courses } = useLmsCourses();
-  const { data: allProgress } = useLmsProgress(studentId);
-  const { data: certificates } = useLmsCertificates(studentId);
+  const { data: allProgress } = useLmsProgress(null);
+  const { data: certificates } = useLmsCertificates(null);
 
   // Find the most recent in-progress course for the LMS continue card
   const lmsContinueCourse = (() => {
-    if (!isRegistered || !courses || !allProgress) return null;
+    if (!courses || !allProgress) return null;
     for (const course of courses) {
       const courseProgress = allProgress.filter((p) => p.course_id === course.id);
       const completedCount = courseProgress.filter((p) => p.is_completed).length;

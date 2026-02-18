@@ -4,8 +4,6 @@ import { cn } from "@/lib/utils";
 import { Language } from "@/types/language";
 import { Progress } from "@/components/ui/progress";
 import { useLmsCourses, useLmsProgress, useLmsCertificates } from "@/hooks/useLmsCourses";
-import { useLmsStudent } from "@/hooks/useLmsStudent";
-import { LmsStudentRegistration } from "@/components/lms/LmsStudentRegistration";
 import { Skeleton } from "@/components/ui/skeleton";
 
 interface CourseListProps {
@@ -15,9 +13,8 @@ interface CourseListProps {
 const CourseList = ({ language }: CourseListProps) => {
   const navigate = useNavigate();
   const { data: courses, isLoading } = useLmsCourses();
-  const { studentId, isRegistered, showRegistration, setShowRegistration, register, isRegistering, requireRegistration } = useLmsStudent();
-  const { data: progress } = useLmsProgress(studentId);
-  const { data: certificates } = useLmsCertificates(studentId);
+  const { data: progress } = useLmsProgress(null);
+  const { data: certificates } = useLmsCertificates(null);
 
   const getCourseProg = (courseId: string) => {
     if (!progress) return { completed: 0 };
@@ -26,11 +23,6 @@ const CourseList = ({ language }: CourseListProps) => {
   };
 
   const hasCert = (courseId: string) => certificates?.some((c) => c.course_id === courseId) || false;
-
-  const handleCourseClick = (courseId: string) => {
-    if (!requireRegistration()) return;
-    navigate(`/courses/${courseId}`);
-  };
 
   return (
     <div className="flex-1 overflow-y-auto">
@@ -75,7 +67,7 @@ const CourseList = ({ language }: CourseListProps) => {
               return (
                 <button
                   key={course.id}
-                  onClick={() => handleCourseClick(course.id)}
+                  onClick={() => navigate(`/courses/${course.id}`)}
                   className="group relative overflow-hidden rounded-xl border border-border bg-card p-4 text-left transition-all duration-300 hover:shadow-elevated hover:-translate-y-1"
                 >
                   {/* Thumbnail */}
@@ -121,14 +113,6 @@ const CourseList = ({ language }: CourseListProps) => {
           </div>
         )}
       </div>
-
-      <LmsStudentRegistration
-        open={showRegistration}
-        onOpenChange={setShowRegistration}
-        onRegister={register}
-        isRegistering={isRegistering}
-        language={language}
-      />
     </div>
   );
 };
