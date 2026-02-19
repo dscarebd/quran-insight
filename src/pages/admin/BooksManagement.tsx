@@ -139,6 +139,8 @@ const BooksManagement = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["admin-pdf-books"] });
+      queryClient.invalidateQueries({ queryKey: ["pdf-books"] });
+      queryClient.refetchQueries({ queryKey: ["admin-pdf-books"] });
       toast.success("Book added! It will appear in the Read page books section.");
       resetForm();
     },
