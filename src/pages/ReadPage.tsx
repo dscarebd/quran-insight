@@ -132,11 +132,9 @@ const ReadPage = ({
           const verseKey = `${initialPage}-${targetVerse.surah}-${targetVerse.verse}`;
           const verseEl = verseRefs.current[verseKey];
           if (verseEl) {
+            // Just scroll — lastReadVerse from localStorage provides the permanent
+            // bg-primary/20 mark. No pulse animation needed.
             verseEl.scrollIntoView({ behavior: "smooth", block: "center" });
-            // Only set temporary pulse highlight — lastReadVerse from localStorage
-            // provides the permanent bg-primary/20 mark, so no need to clear it
-            setHighlightedVerse(verseKey);
-            setTimeout(() => setHighlightedVerse(null), 3000);
           }
         }, 300);
       } else {
