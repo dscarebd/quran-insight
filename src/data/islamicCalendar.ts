@@ -318,8 +318,9 @@ export const sunnahFastingInfo = {
 
 // Reference date: 1 Rajab 1447 = December 22, 2025 (verified astronomical calculation)
 // This provides accurate conversion for current dates
-const REFERENCE_HIJRI = { year: 1447, month: 7, day: 1 };
-const REFERENCE_GREGORIAN = new Date(2025, 11, 22); // December 22, 2025
+// Verified: 1 Ramadan 1447 = February 19, 2026
+const REFERENCE_HIJRI = { year: 1447, month: 9, day: 1 };
+const REFERENCE_GREGORIAN = new Date(2026, 1, 19); // February 19, 2026
 
 // Average length of a Hijri month and year (lunar calendar)
 const HIJRI_MONTH_LENGTH = 29.530589;
