@@ -14,8 +14,8 @@ export const QuickAccessCards = ({ language }: QuickAccessCardsProps) => {
     {
       id: "names",
       icon: Sparkles,
-      labelEn: "99 Names of Allah",
-      labelBn: "আল্লাহর ৯৯ নাম",
+      labelEn: "Names of Allah",
+      labelBn: "আল্লাহর নাম",
       descEn: "Beautiful names with meanings",
       descBn: "সুন্দর নামসমূহ ও অর্থ",
       path: "/names-of-allah",
