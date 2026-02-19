@@ -63,7 +63,7 @@ const QuranReadHub = ({ language }: QuranReadHubProps) => {
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2">
               {Array.from({ length: 6 }).map((_, i) => (
                 <div key={i} className="rounded-xl overflow-hidden border border-border bg-card">
-                  <Skeleton className="w-full aspect-[3/4]" />
+                  <Skeleton className="w-full aspect-square" />
                   <div className="p-2 space-y-1.5">
                     <Skeleton className="h-3 w-full" />
                     <Skeleton className="h-2.5 w-2/3" />
@@ -88,7 +88,7 @@ const QuranReadHub = ({ language }: QuranReadHubProps) => {
                   className="rounded-lg overflow-hidden border border-border bg-card text-left hover:border-primary/50 active:scale-[0.97] transition-all shadow-sm hover:shadow-md"
                 >
                   {/* Cover Image */}
-                  <div className="relative w-full aspect-[3/4] bg-muted overflow-hidden">
+                  <div className="relative w-full aspect-square bg-muted overflow-hidden">
                     {book.cover_image_url ? (
                       <img
                         src={book.cover_image_url}
