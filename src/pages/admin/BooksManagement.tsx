@@ -40,8 +40,14 @@ const BooksManagement = () => {
   const [coverFile, setCoverFile] = useState<File | null>(null);
   const [pdfUrl, setPdfUrl] = useState("");
   const [uploadMode, setUploadMode] = useState<"file" | "url">("file");
+  // Edit-specific file state
+  const [editPdfFile, setEditPdfFile] = useState<File | null>(null);
+  const [editCoverFile, setEditCoverFile] = useState<File | null>(null);
+  const [editPdfUrl, setEditPdfUrl] = useState("");
   const pdfInputRef = useRef<HTMLInputElement>(null);
   const coverInputRef = useRef<HTMLInputElement>(null);
+  const editPdfInputRef = useRef<HTMLInputElement>(null);
+  const editCoverInputRef = useRef<HTMLInputElement>(null);
 
   const [formData, setFormData] = useState<BookFormData>({
     title_english: "",
@@ -155,17 +161,55 @@ const BooksManagement = () => {
   });
 
   const updateMutation = useMutation({
-    mutationFn: async ({ id, ...data }: Partial<PDFBook> & { id: string }) => {
-      const { error } = await supabase.from("pdf_books").update(data).eq("id", id);
+    mutationFn: async ({ id, pdfFileToUpload, coverFileToUpload, ...data }: Partial<PDFBook> & { id: string; pdfFileToUpload?: File; coverFileToUpload?: File }) => {
+      setIsUploading(true);
+      setUploadProgress(10);
+
+      let finalPdfUrl = data.pdf_url;
+      let finalCoverUrl = data.cover_image_url;
+
+      if (pdfFileToUpload) {
+        setUploadStatus(`Uploading new PDF (${(pdfFileToUpload.size / 1024 / 1024).toFixed(0)}MB)...`);
+        let fakeProgress = 10;
+        const interval = setInterval(() => {
+          fakeProgress = Math.min(fakeProgress + 1, 70);
+          setUploadProgress(fakeProgress);
+        }, 1000);
+        const pdfPath = `books/${Date.now()}-${pdfFileToUpload.name.replace(/\s+/g, "-")}`;
+        const { error } = await supabase.storage.from("pdf-books").upload(pdfPath, pdfFileToUpload, { contentType: "application/pdf" });
+        clearInterval(interval);
+        if (error) throw error;
+        finalPdfUrl = supabase.storage.from("pdf-books").getPublicUrl(pdfPath).data.publicUrl;
+        setUploadProgress(75);
+      }
+
+      if (coverFileToUpload) {
+        setUploadStatus("Uploading new cover image...");
+        const coverPath = `covers/${Date.now()}-${coverFileToUpload.name.replace(/\s+/g, "-")}`;
+        const { error } = await supabase.storage.from("pdf-books").upload(coverPath, coverFileToUpload, { contentType: coverFileToUpload.type });
+        if (error) throw error;
+        finalCoverUrl = supabase.storage.from("pdf-books").getPublicUrl(coverPath).data.publicUrl;
+        setUploadProgress(90);
+      }
+
+      setUploadStatus("Saving...");
+      const { error } = await supabase.from("pdf_books").update({ ...data, pdf_url: finalPdfUrl, cover_image_url: finalCoverUrl }).eq("id", id);
       if (error) throw error;
+      setUploadProgress(100);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["admin-pdf-books"] });
+      queryClient.invalidateQueries({ queryKey: ["pdf-books"] });
       toast.success("Book updated successfully");
       resetForm();
     },
     onError: (error) => {
       toast.error(`Failed to update book: ${error.message}`);
+    },
+    onSettled: () => {
+      setIsUploading(false);
+      setUploadProgress(0);
+      setUploadStatus("");
     }
   });
 
@@ -200,18 +244,22 @@ const BooksManagement = () => {
     setCoverFile(null);
     setPdfUrl("");
     setEditPdfUrl("");
+    setEditPdfFile(null);
+    setEditCoverFile(null);
     setUploadMode("file");
     setEditingBook(null);
     setIsDialogOpen(false);
     if (pdfInputRef.current) pdfInputRef.current.value = "";
     if (coverInputRef.current) coverInputRef.current.value = "";
+    if (editPdfInputRef.current) editPdfInputRef.current.value = "";
+    if (editCoverInputRef.current) editCoverInputRef.current.value = "";
   };
-
-  const [editPdfUrl, setEditPdfUrl] = useState("");
 
   const handleEdit = (book: PDFBook) => {
     setEditingBook(book);
     setEditPdfUrl(book.pdf_url || "");
+    setEditPdfFile(null);
+    setEditCoverFile(null);
     setFormData({
       title_english: book.title_english,
       title_bengali: book.title_bengali,
@@ -233,8 +281,15 @@ const BooksManagement = () => {
       return;
     }
     if (editingBook) {
-      if (!editPdfUrl.trim()) { toast.error("PDF URL cannot be empty"); return; }
-      updateMutation.mutate({ id: editingBook.id, ...formData, pdf_url: editPdfUrl.trim() });
+      if (!editPdfUrl.trim() && !editPdfFile) { toast.error("PDF URL or file is required"); return; }
+      updateMutation.mutate({
+        id: editingBook.id,
+        ...formData,
+        pdf_url: editPdfUrl.trim(),
+        cover_image_url: editingBook.cover_image_url,
+        pdfFileToUpload: editPdfFile || undefined,
+        coverFileToUpload: editCoverFile || undefined,
+      });
     } else {
       if (uploadMode === "url") {
         if (!pdfUrl.trim()) { toast.error("Please enter a PDF URL"); return; }
@@ -245,6 +300,7 @@ const BooksManagement = () => {
       }
     }
   };
+
 
   return (
     <div className="space-y-6">
@@ -368,24 +424,73 @@ const BooksManagement = () => {
                 <Label>Featured Book</Label>
               </div>
 
-              {/* PDF URL update — only when editing */}
+              {/* PDF + Cover update — only when editing */}
               {editingBook && (
-                <div className="space-y-2 border border-border rounded-xl p-4 bg-muted/30">
-                  <div className="flex items-center gap-2 text-sm font-semibold">
-                    <Link className="h-4 w-4" />
-                    <span>PDF File URL</span>
+                <div className="space-y-4 border border-border rounded-xl p-4 bg-muted/30">
+                  {/* PDF section */}
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-2 text-sm font-semibold">
+                      <FileText className="h-4 w-4" />
+                      <span>PDF File</span>
+                    </div>
+                    <div
+                      className="border-2 border-dashed border-border rounded-lg p-4 text-center cursor-pointer hover:border-primary/50 transition-colors"
+                      onClick={() => editPdfInputRef.current?.click()}
+                    >
+                      {editPdfFile ? (
+                        <div className="space-y-1">
+                          <FileText className="h-6 w-6 mx-auto text-primary" />
+                          <p className="text-sm font-medium">{editPdfFile.name}</p>
+                          <p className="text-xs text-muted-foreground">{(editPdfFile.size / 1024 / 1024).toFixed(1)} MB — will replace current PDF</p>
+                        </div>
+                      ) : (
+                        <div className="space-y-1">
+                          <Upload className="h-6 w-6 mx-auto text-muted-foreground/40" />
+                          <p className="text-xs text-muted-foreground">Click to upload a new PDF (optional)</p>
+                        </div>
+                      )}
+                    </div>
+                    <input ref={editPdfInputRef} type="file" accept=".pdf,application/pdf" className="hidden" onChange={(e) => setEditPdfFile(e.target.files?.[0] || null)} />
+                    {!editPdfFile && (
+                      <>
+                        <p className="text-xs text-muted-foreground">Or paste a direct URL:</p>
+                        <Input value={editPdfUrl} onChange={(e) => setEditPdfUrl(e.target.value)} placeholder="https://example.com/quran.pdf" type="url" />
+                      </>
+                    )}
                   </div>
-                  <Input
-                    value={editPdfUrl}
-                    onChange={(e) => setEditPdfUrl(e.target.value)}
-                    placeholder="https://example.com/quran.pdf"
-                    type="url"
-                  />
-                  <p className="text-xs text-muted-foreground">
-                    Update the PDF link. You can paste a direct public URL or a storage URL. Leave as-is to keep the existing file.
-                  </p>
+
+                  {/* Cover section */}
+                  <div className="space-y-2 pt-3 border-t border-border">
+                    <div className="flex items-center gap-2 text-sm font-semibold">
+                      <ImageIcon className="h-4 w-4" />
+                      <span>Cover Image</span>
+                    </div>
+                    <div
+                      className="border-2 border-dashed border-border rounded-lg p-4 text-center cursor-pointer hover:border-primary/50 transition-colors"
+                      onClick={() => editCoverInputRef.current?.click()}
+                    >
+                      {editCoverFile ? (
+                        <div className="space-y-1">
+                          <img src={URL.createObjectURL(editCoverFile)} alt="Cover preview" className="h-20 mx-auto object-cover rounded shadow" />
+                          <p className="text-xs text-muted-foreground mt-1">{editCoverFile.name} — will replace current cover</p>
+                        </div>
+                      ) : editingBook.cover_image_url ? (
+                        <div className="space-y-1">
+                          <img src={editingBook.cover_image_url} alt="Current cover" className="h-16 mx-auto object-cover rounded shadow opacity-60" />
+                          <p className="text-xs text-muted-foreground">Current cover — click to replace</p>
+                        </div>
+                      ) : (
+                        <div className="space-y-1">
+                          <ImageIcon className="h-6 w-6 mx-auto text-muted-foreground/40" />
+                          <p className="text-xs text-muted-foreground">Click to upload a cover image (optional)</p>
+                        </div>
+                      )}
+                    </div>
+                    <input ref={editCoverInputRef} type="file" accept="image/*" className="hidden" onChange={(e) => setEditCoverFile(e.target.files?.[0] || null)} />
+                  </div>
                 </div>
               )}
+
 
               {/* File Upload Section — only for new books */}
               {!editingBook && (
