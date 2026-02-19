@@ -3,7 +3,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Layout } from "@/components/Layout";
 import { ReadPageWrapper } from "@/components/ReadPageWrapper";
 import { AuthProvider } from "@/hooks/useAuth";
@@ -45,11 +45,9 @@ import CourseList from "./pages/CourseList";
 import CourseDetail from "./pages/CourseDetail";
 import LessonPlayer from "./pages/LessonPlayer";
 import CertificatePage from "./pages/CertificatePage";
-// Component to redirect to last read page
-const ReadPageRedirect = () => {
-  const lastReadPage = localStorage.getItem("quran-last-read-page") || "1";
-  return <Navigate to={`/read/${lastReadPage}`} replace />;
-};
+import QuranReadHub from "./pages/QuranReadHub";
+import DirectPDFReader from "./pages/DirectPDFReader";
+
 
 // Lazy load admin pages
 const Admin = lazy(() => import("./pages/Admin"));
@@ -70,6 +68,7 @@ const MasailManagement = lazy(() => import("./pages/admin/MasailManagement"));
 const CourseManagement = lazy(() => import("./pages/admin/CourseManagement"));
 const LessonManagement = lazy(() => import("./pages/admin/LessonManagement"));
 const LmsStudentsAdmin = lazy(() => import("./pages/admin/LmsStudents"));
+const BooksManagement = lazy(() => import("./pages/admin/BooksManagement"));
 const queryClient = new QueryClient();
 
 const LoadingFallback = () => (
@@ -158,7 +157,14 @@ const AppContent = () => {
           <ParaDetail language={language} readingMode={readingMode} arabicFont={arabicFont} />
         </Layout>
       } />
-      <Route path="/read" element={<ReadPageRedirect />} />
+      <Route path="/read" element={
+        <Layout language={language} onLanguageChange={handleLanguageChange}>
+          <QuranReadHub language={language} />
+        </Layout>
+      } />
+      <Route path="/read/pdf/:bookId" element={
+        <DirectPDFReader language={language} />
+      } />
       <Route path="/read/:pageNumber" element={
         <ReadPageWrapper
           language={language}
@@ -310,6 +316,7 @@ const AppContent = () => {
         <Route path="admin-emails" element={<AdminEmailsManagement />} />
         <Route path="analytics" element={<Analytics />} />
         <Route path="export-data" element={<ExportData />} />
+        <Route path="books" element={<BooksManagement />} />
         <Route path="masail" element={<MasailManagement />} />
         <Route path="courses" element={<CourseManagement />} />
         <Route path="courses/:courseId/lessons" element={<LessonManagement />} />
