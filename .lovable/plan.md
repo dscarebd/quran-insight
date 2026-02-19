@@ -1,91 +1,80 @@
 
-## Two Bug Fixes
+## Fix: Eliminate White Screen Delay When Clicking "Last Read"
 
-### Issue 1: Last Read Verse Not Showing Color When Returning to Reader
+### Root Cause
 
-**Root Cause:**
+The white screen occurs because `ReadPage` always sets `loading = true` at the start of `loadInitialPages()`, even when the verse data for that page is already in the `versesCache` Map. This causes React to render the skeleton loader (white boxes) for the duration of the async fetch — even if the cache lookup is instant.
 
-The `lastReadVerse` state is initialized from `localStorage` on mount:
 ```tsx
-const [lastReadVerse, setLastReadVerse] = useState<string | null>(() => {
-  const saved = localStorage.getItem("quran-last-read-verse");
-  return saved || null;
+// In loadInitialPages():
+setLoading(true);  // ← Always triggers white screen flash
+// ...
+const verses = await fetchVersesForPage(pageNum, needsV1Data);  // cache hit is instant but async
+```
+
+Even though `versesCache` is a module-level Map (survives navigation), the `setLoading(true)` → `setLoading(false)` cycle still causes a render flash because React batches these state updates through the async boundary.
+
+### The Fix
+
+**1. Check cache synchronously before setting `loading = true`**
+
+Before starting the async load, check if ALL pages in the initial window are already cached. If they are, load them synchronously (no async needed) and skip the loading state entirely:
+
+```tsx
+const loadInitialPages = async () => {
+  const needsV1Data = arabicFont === "v1";
+  const startPage = Math.max(initialPage - 1, 1);
+  const endPage = Math.min(initialPage + 1, 604);
+  const pageNumbers = [];
+  for (let i = startPage; i <= endPage; i++) pageNumbers.push(i);
+  
+  const cacheOffset = needsV1Data ? 10000 : 0;
+  
+  // Check if ALL pages are already cached
+  const allCached = pageNumbers.every(p => versesCache.has(p + cacheOffset));
+  
+  if (allCached) {
+    // Load synchronously from cache — no loading state needed
+    const pagesData = pageNumbers.map(pageNum => ({
+      pageNumber: pageNum,
+      verses: versesCache.get(pageNum + cacheOffset)!,
+      juzNumber: getJuzForPage(pageNum),
+    }));
+    setLoadedPages(pagesData);
+    setLoading(false);
+    return;
+  }
+  
+  // Only show loading state when actually fetching
+  setLoading(true);
+  // ... rest of async fetch logic
+};
+```
+
+**2. Initialize `loading` state based on whether the page is already cached**
+
+Instead of `useState(true)`, initialize `loading` based on whether the initial page data is already in cache. This prevents even the first render from showing a skeleton:
+
+```tsx
+const [loading, setLoading] = useState<boolean>(() => {
+  // If initial page is cached, we can render immediately
+  const cacheKey = initialPage; // simplified (V1 adds 10000)
+  return !versesCache.has(cacheKey);
 });
 ```
 
-So the correct value IS in state. However, there is also a **verse visibility auto-save observer** (`verseObserverRef`) that fires as soon as the page renders. When you arrive at `/read/34?verse=2:216`, the page scrolls to the target verse — but during that scroll, the IntersectionObserver sees OTHER verses passing through the viewport and **overwrites** `lastReadVerse` with a different verse key before the scroll even completes. This clears the teal highlight from the correct verse.
-
-Additionally, the scroll itself has a timing issue: `verseRefs` may not be populated yet when the 300ms timeout fires (because the DOM hasn't rendered yet), so `verseEl` is `null` and scrolling never happens.
-
-**Fix:**
-1. Add a `scrollingToVerseRef` guard flag. When navigating to a target verse, set this flag to `true` for ~1.5 seconds. The auto-save observer will skip overwriting `lastReadVerse` while this flag is active.
-2. Increase the scroll delay from 300ms to 600ms to give the DOM time to fully render verse elements before attempting `scrollIntoView`.
-3. Use a retry mechanism — if `verseEl` is null after the initial delay, retry up to 3 times with 200ms intervals.
-
----
-
-### Issue 2: Page Scrolls to Bottom When Navigating (Home and Other Pages)
-
-**Root Cause:**
-
-The Layout uses `overflow-y-auto` on the inner scroll container div. When React Router navigates between routes, the `AnimatePresence` + `PageTransition` (framer-motion) animation plays — but the **scroll position of the container is not reset**. So if you were scrolled down on one page (e.g. the reader), navigating to the home page keeps the same scroll offset, making it appear that you're at the bottom.
-
-There is currently **no `ScrollToTop` component** in `App.tsx`. This is the standard React Router fix for this exact issue.
-
-**Fix:**
-1. Create `src/components/ScrollToTop.tsx` — a component that watches route changes and resets the scroll position of the Layout's inner container to 0.
-2. Since the scroll container is not `window` but a `div` inside Layout, we need to reset the correct element. The cleanest approach: add `id="main-scroll-container"` to the scrollable div in `Layout.tsx` and have `ScrollToTop` target it via `document.getElementById`.
-3. Place `<ScrollToTop />` inside `BrowserRouter` in `App.tsx`.
-
----
-
 ### Files to Change
 
-1. **`src/components/ScrollToTop.tsx`** (new file) — resets scroll on route change
-2. **`src/App.tsx`** — add `<ScrollToTop />` inside `BrowserRouter`  
-3. **`src/components/Layout.tsx`** — add `id="main-scroll-container"` to the scrollable div
-4. **`src/pages/ReadPage.tsx`** — fix the verse highlight being overwritten by the auto-save observer, and improve scroll timing with retry logic
+- **`src/pages/ReadPage.tsx`** — Two changes:
+  1. Initialize `loading` state from cache (instant render when cached)
+  2. Skip `setLoading(true)` when all required pages are in cache
 
-### Technical Details
+### What This Fixes
 
-**ScrollToTop component:**
-```tsx
-import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+- **First visit** to `/read/34`: Shows skeleton loader (normal, data must be fetched)
+- **Return visit** via "Continue Reading": Instantly renders the page with no white flash, then scrolls to the marked verse
+- **Verse highlight**: The `lastReadVerse` from localStorage is already in state on mount, so the teal color appears immediately with the content
 
-export const ScrollToTop = () => {
-  const { pathname } = useLocation();
-  useEffect(() => {
-    // Reset both window and the layout scroll container
-    window.scrollTo(0, 0);
-    const container = document.getElementById("main-scroll-container");
-    if (container) container.scrollTop = 0;
-  }, [pathname]);
-  return null;
-};
-```
+### Technical Note
 
-**ReadPage guard (prevents auto-save from overwriting lastReadVerse during initial scroll):**
-```tsx
-const scrollingToVerseRef = useRef(false);
-
-// In scroll effect:
-scrollingToVerseRef.current = true;
-setTimeout(() => { scrollingToVerseRef.current = false; }, 1500);
-
-// In IntersectionObserver callback:
-if (scrollingToVerseRef.current) return; // don't overwrite lastReadVerse
-```
-
-**Retry scroll logic:**
-```tsx
-const tryScrollToVerse = (verseKey: string, attempt = 0) => {
-  const verseEl = verseRefs.current[verseKey];
-  if (verseEl) {
-    verseEl.scrollIntoView({ behavior: "smooth", block: "center" });
-  } else if (attempt < 5) {
-    setTimeout(() => tryScrollToVerse(verseKey, attempt + 1), 200);
-  }
-};
-setTimeout(() => tryScrollToVerse(verseKey), 600);
-```
+The `versesCache` Map is declared at module level (`const versesCache = new Map<number, Verse[]>()`), so it persists across React Router navigations within the same browser session. The fix simply exploits this existing cache by checking it synchronously before triggering any loading state.
