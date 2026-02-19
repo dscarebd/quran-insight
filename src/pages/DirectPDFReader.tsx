@@ -1,6 +1,6 @@
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { ArrowLeft, Navigation, Search, Loader2, BookOpen } from "lucide-react";
+import { ArrowLeft, Navigation, Search, Loader2, BookOpen, MapPin } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Language } from "@/types/language";
 import { useBookById } from "@/hooks/useBookLibrary";
@@ -28,6 +28,21 @@ for (const page of quranPages) {
   }
 }
 
+// Build a sorted list of [surahNumber, startPage] for reverse lookup
+const surahPageEntries = Object.entries(surahToPage)
+  .map(([s, p]) => ({ surah: Number(s), page: p }))
+  .sort((a, b) => a.page - b.page);
+
+// Given a mushaf page number, return the surah number active on that page
+const getSurahFromPage = (page: number): number => {
+  let currentSurah = 1;
+  for (const entry of surahPageEntries) {
+    if (entry.page <= page) currentSurah = entry.surah;
+    else break;
+  }
+  return currentSurah;
+};
+
 // Compute para start page (approximate: para 1 = page 1, para N ~ page (N-1)*20 + 1)
 // We use a simple approximation since para pages depend on the specific PDF layout
 const paraToPage: Record<number, number> = {
@@ -52,6 +67,8 @@ const DirectPDFReader = ({ language }: DirectPDFReaderProps) => {
   const [pageInput, setPageInput] = useState("1");
   const [surahSearch, setSurahSearch] = useState("");
   const [paraSearch, setParaSearch] = useState("");
+  const surahItemRefs = useRef<Record<number, HTMLButtonElement | null>>({});
+
 
   const isBn = language === "bn";
 
@@ -119,10 +136,21 @@ const DirectPDFReader = ({ language }: DirectPDFReaderProps) => {
     );
   }, [paraSearch]);
 
+  const currentSurahNumber = useMemo(() => getSurahFromPage(currentPage), [currentPage]);
+
+  const jumpToCurrentSurah = useCallback(() => {
+    setSurahSearch("");
+    setTimeout(() => {
+      const el = surahItemRefs.current[currentSurahNumber];
+      el?.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, 50);
+  }, [currentSurahNumber]);
+
   const toBengali = (n: number) =>
     String(n).split("").map(d => "০১২৩৪৫৬৭৮৯"[parseInt(d)] ?? d).join("");
 
   const formatNum = (n: number) => isBn ? toBengali(n) : String(n);
+
 
   if (bookLoading) {
     return (
@@ -249,7 +277,7 @@ const DirectPDFReader = ({ language }: DirectPDFReaderProps) => {
 
               {/* Surah Tab */}
               <TabsContent value="surah" className="flex-1 mt-0 overflow-hidden flex flex-col">
-                <div className="px-4 py-3">
+                <div className="px-4 py-3 space-y-2">
                   <div className="relative">
                     <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                     <Input
@@ -260,23 +288,42 @@ const DirectPDFReader = ({ language }: DirectPDFReaderProps) => {
                       className={cn("pl-9", isBn && "font-bengali placeholder:font-bengali")}
                     />
                   </div>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={jumpToCurrentSurah}
+                    className={cn("w-full gap-2 text-primary border-primary/30 hover:bg-primary/5", isBn && "font-bengali")}
+                  >
+                    <MapPin className="h-3.5 w-3.5" />
+                    {isBn
+                      ? `বর্তমান সূরায় যান (${filteredSurahs.find(s => s.number === currentSurahNumber) ? (isBn ? filteredSurahs.find(s => s.number === currentSurahNumber)!.nameBengali : filteredSurahs.find(s => s.number === currentSurahNumber)!.nameEnglish) : ""})`
+                      : `Jump to current: ${surahs.find(s => s.number === currentSurahNumber)?.nameEnglish ?? ""}`}
+                  </Button>
                 </div>
                 <ScrollArea className="flex-1">
                   <div className="py-1">
                     {filteredSurahs.map((surah) => {
                       const page = surahToPage[surah.number];
+                      const isCurrent = surah.number === currentSurahNumber;
                       return (
                         <button
                           key={surah.number}
+                          ref={(el) => { surahItemRefs.current[surah.number] = el; }}
                           onClick={() => page && navigateToPage(page)}
                           disabled={!page}
-                          className="flex items-center gap-3 w-full px-4 py-2.5 transition-colors hover:bg-muted text-left disabled:opacity-40"
+                          className={cn(
+                            "flex items-center gap-3 w-full px-4 py-2.5 transition-colors text-left disabled:opacity-40",
+                            isCurrent ? "bg-primary/10 hover:bg-primary/15" : "hover:bg-muted"
+                          )}
                         >
-                          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-muted text-xs font-semibold text-muted-foreground font-bengali">
+                          <div className={cn(
+                            "flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-xs font-semibold font-bengali",
+                            isCurrent ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"
+                          )}>
                             {formatNum(surah.number)}
                           </div>
                           <div className="flex-1 min-w-0">
-                            <p className={cn("text-sm font-medium truncate", isBn && "font-bengali")}>
+                            <p className={cn("text-sm font-medium truncate", isBn && "font-bengali", isCurrent && "text-primary font-semibold")}>
                               {isBn ? surah.nameBengali : surah.nameEnglish}
                             </p>
                             <p className="text-xs text-muted-foreground font-arabic">
@@ -284,7 +331,7 @@ const DirectPDFReader = ({ language }: DirectPDFReaderProps) => {
                             </p>
                           </div>
                           {page && (
-                            <span className="text-xs text-muted-foreground shrink-0 font-bengali">
+                            <span className={cn("text-xs shrink-0 font-bengali", isCurrent ? "text-primary font-medium" : "text-muted-foreground")}>
                               {isBn ? `পৃ. ${formatNum(page)}` : `p. ${page}`}
                             </span>
                           )}
