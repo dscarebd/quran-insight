@@ -95,7 +95,8 @@ export const Layout = ({
             canZoomOut={canZoomOut}
           />
         </div>
-        <div 
+          <div 
+          id="main-scroll-container"
           className="flex-1 overflow-y-auto overflow-x-hidden max-w-full pb-[calc(3.5rem+env(safe-area-inset-bottom,0px))] lg:pb-0"
           style={{ paddingTop: `calc(${statusBarOffset} + 57px)` }}
         >

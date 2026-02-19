@@ -98,6 +98,8 @@ const ReadPage = ({
   const observerRef = useRef<IntersectionObserver | null>(null);
   const bottomSentinelRef = useRef<HTMLDivElement>(null);
   const topSentinelRef = useRef<HTMLDivElement>(null);
+  // Guard: prevents auto-save observer from overwriting lastReadVerse during initial scroll
+  const scrollingToVerseRef = useRef(false);
   
   const pageListRefs = useRef<{ [key: number]: HTMLButtonElement | null }>({});
   const surahListRefs = useRef<{ [key: number]: HTMLButtonElement | null }>({});
@@ -125,31 +127,34 @@ const ReadPage = ({
 
     requestAnimationFrame(() => {
       el.scrollIntoView({ behavior: "auto", block: "start" });
-      
-      // If we have a target verse from URL, scroll to and highlight it
+
+      // Helper: retry scrollIntoView until element is in the DOM (up to 5 attempts)
+      const tryScrollToVerse = (verseKey: string, attempt = 0) => {
+        const verseEl = verseRefs.current[verseKey];
+        if (verseEl) {
+          verseEl.scrollIntoView({ behavior: "smooth", block: "center" });
+        } else if (attempt < 5) {
+          setTimeout(() => tryScrollToVerse(verseKey, attempt + 1), 200);
+        }
+      };
+
+      // If we have a target verse from URL, set the guard flag and scroll to it
       if (targetVerse) {
-        setTimeout(() => {
-          const verseKey = `${initialPage}-${targetVerse.surah}-${targetVerse.verse}`;
-          const verseEl = verseRefs.current[verseKey];
-          if (verseEl) {
-            // Just scroll — lastReadVerse from localStorage provides the permanent
-            // bg-primary/20 mark. No pulse animation needed.
-            verseEl.scrollIntoView({ behavior: "smooth", block: "center" });
-          }
-        }, 300);
+        // Activate guard so the IntersectionObserver won't overwrite lastReadVerse
+        scrollingToVerseRef.current = true;
+        setTimeout(() => { scrollingToVerseRef.current = false; }, 1500);
+
+        const verseKey = `${initialPage}-${targetVerse.surah}-${targetVerse.verse}`;
+        setTimeout(() => tryScrollToVerse(verseKey), 600);
       } else {
         // Fallback: no ?verse= param but we have a lastReadVerse in localStorage
-        // Auto-scroll to it so the user lands on their marked verse
         const savedVerseKey = localStorage.getItem("quran-last-read-verse");
         if (savedVerseKey) {
           const parts = savedVerseKey.split("-");
           if (parts.length >= 3 && parseInt(parts[0]) === initialPage) {
-            setTimeout(() => {
-              const verseEl = verseRefs.current[savedVerseKey];
-              if (verseEl) {
-                verseEl.scrollIntoView({ behavior: "smooth", block: "center" });
-              }
-            }, 300);
+            scrollingToVerseRef.current = true;
+            setTimeout(() => { scrollingToVerseRef.current = false; }, 1500);
+            setTimeout(() => tryScrollToVerse(savedVerseKey), 600);
           }
         }
       }
@@ -233,7 +238,8 @@ const ReadPage = ({
         }
         
         // Auto-save if we have a clearly visible verse (>50% visible)
-        if (bestKey && bestRatio > 0.5 && lastAutoSavedVerse.current !== bestKey) {
+        // Skip while scrollingToVerseRef is active to prevent overwriting the target verse highlight
+        if (bestKey && bestRatio > 0.5 && lastAutoSavedVerse.current !== bestKey && !scrollingToVerseRef.current) {
           lastAutoSavedVerse.current = bestKey;
           setLastReadVerse(bestKey);
           localStorage.setItem("quran-last-read-verse", bestKey);
