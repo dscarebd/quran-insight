@@ -104,8 +104,11 @@ const ReadPage = ({
 
   // Ensure we land on the requested page after refresh (avoid snapping back to page 1)
   const didScrollToInitialRef = useRef(false);
+  // Guard: top sentinel is disabled until 1s after the initial scroll completes
+  const topSentinelEnabledRef = useRef(false);
   useEffect(() => {
     didScrollToInitialRef.current = false;
+    topSentinelEnabledRef.current = false;
   }, [initialPage]);
 
   useEffect(() => {
@@ -117,6 +120,8 @@ const ReadPage = ({
     if (!container || !el) return;
 
     didScrollToInitialRef.current = true;
+    // Enable top sentinel only after a short delay so it doesn't fire during the initial scroll
+    setTimeout(() => { topSentinelEnabledRef.current = true; }, 1000);
 
     requestAnimationFrame(() => {
       el.scrollIntoView({ behavior: "auto", block: "start" });
@@ -680,9 +685,9 @@ const ReadPage = ({
 
     const topObserver = new IntersectionObserver(
       (entries) => {
-        // Don't auto-prepend pages on initial mount; it can pull us back to page 1
-        // before we scroll to the requested page.
-        if (!didScrollToInitialRef.current) return;
+        // Don't auto-prepend pages until both the initial scroll is done AND
+        // the 1-second cooldown has elapsed — prevents snapping back to page 1.
+        if (!topSentinelEnabledRef.current) return;
 
         if (entries[0].isIntersecting) {
           loadMorePagesUp();
@@ -1039,6 +1044,7 @@ const ReadPage = ({
       <main 
         ref={contentRef}
         className="flex-1 overflow-auto pb-24 touch-pan-y"
+        style={{ overflowAnchor: 'none' }}
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
