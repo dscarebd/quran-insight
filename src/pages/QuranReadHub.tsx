@@ -22,26 +22,34 @@ const QuranReadHub = ({ language }: QuranReadHubProps) => {
     <div className="min-h-screen bg-background pb-24">
       <div className="px-4 py-4 space-y-6">
         {/* Read in the App Card */}
-        <section>
-          <h2 className={cn("text-sm font-semibold text-muted-foreground uppercase tracking-wide mb-3", isBn && "font-bengali")}>
-            {isBn ? "মাসহাফ পাঠক" : "Mushaf Reader"}
-          </h2>
+        <section className="animate-fade-in">
           <button
             onClick={() => navigate(`/read/${lastReadPage}`)}
-            className="w-full rounded-2xl bg-primary/15 border border-primary/30 p-5 flex items-center gap-4 hover:bg-primary/20 active:scale-[0.98] transition-all text-left"
+            className="w-full flex items-center gap-2 sm:gap-3 p-3 sm:p-4 bg-card border border-border shadow-lg rounded-xl sm:rounded-2xl transition-all duration-300 group overflow-hidden hover:shadow-md hover:-translate-y-1 text-left"
           >
-            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-primary/20">
-              <BookOpen className="h-8 w-8 text-primary" />
+            <div className="flex h-10 w-10 sm:h-11 sm:w-11 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary transition-all duration-300">
+              <BookOpen className="h-5 w-5 sm:h-6 sm:w-6" />
             </div>
-            <div className="flex-1 min-w-0">
-              <p className={cn("text-lg font-bold leading-tight text-foreground", isBn && "font-bengali")}>
+            <div className="flex-1 min-w-0 overflow-hidden">
+              <p className={cn(
+                "text-xs font-medium text-muted-foreground truncate uppercase tracking-wide",
+                isBn && "font-bengali normal-case tracking-normal"
+              )}>
+                {isBn ? "মাসহাফ পাঠক" : "Mushaf Reader"}
+              </p>
+              <p className={cn(
+                "font-semibold text-foreground truncate text-sm sm:text-base leading-tight",
+                isBn && "font-bengali"
+              )}>
                 {isBn ? "অ্যাপে পড়ুন" : "Read in the App"}
-              </p>
-              <p className={cn("text-sm text-muted-foreground mt-0.5", isBn && "font-bengali")}>
-                {isBn ? "হিফয মাসহাফ সহ সম্পূর্ণ কুরআন" : "Full Quran with Hifz Mushaf"}
+                <span className={cn("text-muted-foreground font-normal text-xs sm:text-sm", isBn && "font-bengali")}>
+                  {" · "}{isBn ? "হিফয মাসহাফ সহ সম্পূর্ণ কুরআন" : "Full Quran with Hifz Mushaf"}
+                </span>
               </p>
             </div>
-            <ChevronRight className="h-5 w-5 text-primary shrink-0" />
+            <div className="flex h-9 w-9 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground group-hover:scale-110 transition-all duration-300">
+              <ChevronRight className="h-4 w-4 sm:h-5 sm:w-5" />
+            </div>
           </button>
         </section>
 
