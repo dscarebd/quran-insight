@@ -28,20 +28,20 @@ const QuranReadHub = ({ language }: QuranReadHubProps) => {
           </h2>
           <button
             onClick={() => navigate(`/read/${lastReadPage}`)}
-            className="w-full rounded-2xl bg-primary text-primary-foreground p-5 flex items-center gap-4 shadow-lg hover:opacity-90 active:scale-[0.98] transition-all text-left"
+            className="w-full rounded-2xl bg-primary/15 border border-primary/30 p-5 flex items-center gap-4 hover:bg-primary/20 active:scale-[0.98] transition-all text-left"
           >
-            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-primary-foreground/20">
-              <BookOpen className="h-8 w-8 text-primary-foreground" />
+            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-primary/20">
+              <BookOpen className="h-8 w-8 text-primary" />
             </div>
             <div className="flex-1 min-w-0">
-              <p className={cn("text-lg font-bold leading-tight", isBn && "font-bengali")}>
+              <p className={cn("text-lg font-bold leading-tight text-foreground", isBn && "font-bengali")}>
                 {isBn ? "অ্যাপে পড়ুন" : "Read in the App"}
               </p>
-              <p className={cn("text-sm text-primary-foreground/70 mt-0.5", isBn && "font-bengali")}>
+              <p className={cn("text-sm text-muted-foreground mt-0.5", isBn && "font-bengali")}>
                 {isBn ? "হিফয মাসহাফ সহ সম্পূর্ণ কুরআন" : "Full Quran with Hifz Mushaf"}
               </p>
             </div>
-            <ChevronRight className="h-5 w-5 text-primary-foreground/70 shrink-0" />
+            <ChevronRight className="h-5 w-5 text-primary shrink-0" />
           </button>
         </section>
 
