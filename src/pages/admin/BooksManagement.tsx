@@ -197,6 +197,7 @@ const BooksManagement = () => {
     setPdfFile(null);
     setCoverFile(null);
     setPdfUrl("");
+    setEditPdfUrl("");
     setUploadMode("file");
     setEditingBook(null);
     setIsDialogOpen(false);
@@ -204,8 +205,11 @@ const BooksManagement = () => {
     if (coverInputRef.current) coverInputRef.current.value = "";
   };
 
+  const [editPdfUrl, setEditPdfUrl] = useState("");
+
   const handleEdit = (book: PDFBook) => {
     setEditingBook(book);
+    setEditPdfUrl(book.pdf_url || "");
     setFormData({
       title_english: book.title_english,
       title_bengali: book.title_bengali,
@@ -227,7 +231,8 @@ const BooksManagement = () => {
       return;
     }
     if (editingBook) {
-      updateMutation.mutate({ id: editingBook.id, ...formData });
+      if (!editPdfUrl.trim()) { toast.error("PDF URL cannot be empty"); return; }
+      updateMutation.mutate({ id: editingBook.id, ...formData, pdf_url: editPdfUrl.trim() });
     } else {
       if (uploadMode === "url") {
         if (!pdfUrl.trim()) { toast.error("Please enter a PDF URL"); return; }
@@ -360,6 +365,25 @@ const BooksManagement = () => {
                 />
                 <Label>Featured Book</Label>
               </div>
+
+              {/* PDF URL update — only when editing */}
+              {editingBook && (
+                <div className="space-y-2 border border-border rounded-xl p-4 bg-muted/30">
+                  <div className="flex items-center gap-2 text-sm font-semibold">
+                    <Link className="h-4 w-4" />
+                    <span>PDF File URL</span>
+                  </div>
+                  <Input
+                    value={editPdfUrl}
+                    onChange={(e) => setEditPdfUrl(e.target.value)}
+                    placeholder="https://example.com/quran.pdf"
+                    type="url"
+                  />
+                  <p className="text-xs text-muted-foreground">
+                    Update the PDF link. You can paste a direct public URL or a storage URL. Leave as-is to keep the existing file.
+                  </p>
+                </div>
+              )}
 
               {/* File Upload Section — only for new books */}
               {!editingBook && (
