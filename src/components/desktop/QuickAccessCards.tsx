@@ -81,7 +81,7 @@ export const QuickAccessCards = ({ language }: QuickAccessCardsProps) => {
           <button
             key={link.id}
             onClick={() => navigate(link.path)}
-            className="group relative overflow-hidden rounded-xl bg-card border border-border p-2.5 sm:p-4 md:p-5 text-left transition-all duration-300 hover:shadow-elevated hover:-translate-y-1 min-w-0 h-full flex flex-col"
+            className="group relative overflow-hidden rounded-xl bg-card border border-border p-3 sm:p-4 md:p-5 text-left transition-all duration-300 hover:shadow-elevated hover:-translate-y-1 min-w-0 h-full flex flex-col"
           >
             {/* Gradient overlay on hover */}
             <div className={cn(
@@ -91,16 +91,16 @@ export const QuickAccessCards = ({ language }: QuickAccessCardsProps) => {
 
             {/* Icon */}
             <div className={cn(
-              "mb-2 flex h-8 w-8 sm:h-10 sm:w-10 md:h-12 md:w-12 items-center justify-center rounded-lg sm:rounded-xl bg-gradient-to-br text-white shadow-md transition-transform group-hover:scale-110 shrink-0",
+              "mb-2.5 flex h-11 w-11 sm:h-12 sm:w-12 md:h-14 md:w-14 items-center justify-center rounded-xl bg-gradient-to-br text-white shadow-md transition-transform group-hover:scale-110 shrink-0",
               link.gradient
             )}>
-              <Icon className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6" />
+              <Icon className="h-6 w-6 sm:h-6 sm:w-6 md:h-7 md:w-7" />
             </div>
 
             {/* Content */}
             <div className="flex-1 flex flex-col">
               <h3 className={cn(
-                "font-semibold text-[10px] sm:text-xs md:text-sm text-foreground leading-tight line-clamp-2",
+                "font-semibold text-xs sm:text-sm md:text-sm text-foreground leading-tight line-clamp-2",
                 language === "bn" && "font-bengali"
               )}>
                 {language === "bn" ? link.labelBn : link.labelEn}
