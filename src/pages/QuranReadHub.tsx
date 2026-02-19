@@ -60,7 +60,7 @@ const QuranReadHub = ({ language }: QuranReadHubProps) => {
           </h2>
 
           {isLoading ? (
-            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-2">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2">
               {Array.from({ length: 6 }).map((_, i) => (
                 <div key={i} className="rounded-xl overflow-hidden border border-border bg-card">
                   <Skeleton className="w-full aspect-[3/4]" />
@@ -80,7 +80,7 @@ const QuranReadHub = ({ language }: QuranReadHubProps) => {
               <p>{isBn ? "কোনো বই পাওয়া যায়নি" : "No books available"}</p>
             </div>
           ) : (
-            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-2">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2">
               {books.map((book) => (
                 <button
                   key={book.id}
