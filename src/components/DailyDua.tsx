@@ -112,7 +112,7 @@ export const DailyDua = ({ language }: DailyDuaProps) => {
         {/* Copy Button */}
         <button
           onClick={handleCopy}
-          className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full bg-background/80 text-muted-foreground opacity-0 transition-all hover:bg-background hover:text-primary group-hover:opacity-100"
+          className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full bg-background/80 text-muted-foreground transition-all hover:bg-background hover:text-primary"
         >
           {isCopied ? (
             <Check className="h-4 w-4 text-green-500" />

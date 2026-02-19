@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Sparkles, ChevronRight, Bookmark, Copy, Check } from "lucide-react";
+import { Sparkles, ChevronRight, Copy, Check } from "lucide-react";
 import { cn, formatNumber, sanitizeArabicText } from "@/lib/utils";
 import { toast } from "sonner";
 import { Language } from "@/types/language";
@@ -29,7 +29,6 @@ const CACHE_KEY = 'daily-verse-cache';
 
 export const DailyVerse = ({ language }: DailyVerseProps) => {
   const [verse, setVerse] = useState<CachedVerse['verse'] | null>(null);
-  const [isBookmarked, setIsBookmarked] = useState(false);
   const [copied, setCopied] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
@@ -165,29 +164,21 @@ export const DailyVerse = ({ language }: DailyVerseProps) => {
 
   return (
     <div className="mx-auto mt-10 max-w-2xl animate-fade-in" style={{ animationDelay: "0.3s" }}>
-      {/* Label */}
-      <div className="mb-4 flex items-center justify-center gap-2 text-primary">
-        <Sparkles className="h-4 w-4" />
-        <span className={cn("text-sm font-medium", language === "bn" && "font-bengali")}>
-          {language === "bn" ? "আজকের আয়াত" : "Verse of the Day"}
-        </span>
-      </div>
-
-      {/* Verse Card */}
-      <div className="verse-card group">
-        {/* Action Buttons */}
-        <div className="absolute right-4 top-4 flex items-center gap-1">
+      {/* Verse Card — title + copy inside card header like Dua/Hadith cards */}
+      <div className="verse-card">
+        {/* Card Header: label + copy button */}
+        <div className="mb-4 flex items-center justify-between">
+          <div className="flex items-center gap-2 text-primary">
+            <Sparkles className="h-4 w-4" />
+            <span className={cn("text-sm font-medium", language === "bn" && "font-bengali")}>
+              {language === "bn" ? "আজকের আয়াত" : "Verse of the Day"}
+            </span>
+          </div>
           <button
             onClick={handleCopy}
-            className="flex h-8 w-8 items-center justify-center rounded-full bg-background/80 text-muted-foreground opacity-0 transition-all hover:bg-background hover:text-primary group-hover:opacity-100"
+            className="flex h-8 w-8 items-center justify-center rounded-full text-muted-foreground transition-all hover:text-primary"
           >
             {copied ? <Check className="h-4 w-4 text-primary" /> : <Copy className="h-4 w-4" />}
-          </button>
-          <button
-            onClick={() => setIsBookmarked(!isBookmarked)}
-            className="flex h-8 w-8 items-center justify-center rounded-full bg-background/80 text-muted-foreground opacity-0 transition-all hover:bg-background hover:text-primary group-hover:opacity-100"
-          >
-            <Bookmark className={`h-4 w-4 ${isBookmarked ? "fill-primary text-primary" : ""}`} />
           </button>
         </div>
 

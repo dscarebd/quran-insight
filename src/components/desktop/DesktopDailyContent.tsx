@@ -34,9 +34,26 @@ const bookIconColors: Record<string, string> = {
 export const DesktopDailyContent = ({ language }: DesktopDailyContentProps) => {
   const navigate = useNavigate();
   const { verse, dua, hadith, isLoading } = useDailyContent();
+  const [isVerseCopied, setIsVerseCopied] = useState(false);
   const [isDuaCopied, setIsDuaCopied] = useState(false);
   const [isHadithCopied, setIsHadithCopied] = useState(false);
   const { arabicFontSize } = useArabicFontSize();
+
+  const handleCopyVerse = async () => {
+    if (!verse) return;
+    const ref = language === "bn"
+      ? `${verse.surahNameBengali} ${verse.surahNumber}:${verse.verseNumber}`
+      : `${verse.surahNameEnglish} ${verse.surahNumber}:${verse.verseNumber}`;
+    const text = `${verse.arabic}\n\n${language === "bn" ? verse.bengali : verse.english}\n\n— ${ref}`;
+    try {
+      await navigator.clipboard.writeText(text);
+      setIsVerseCopied(true);
+      toast.success(language === "bn" ? "কপি করা হয়েছে" : "Copied to clipboard");
+      setTimeout(() => setIsVerseCopied(false), 2000);
+    } catch {
+      toast.error(language === "bn" ? "কপি করতে ব্যর্থ" : "Failed to copy");
+    }
+  };
 
   const handleCopyDua = async () => {
     if (!dua) return;
@@ -103,7 +120,12 @@ export const DesktopDailyContent = ({ language }: DesktopDailyContentProps) => {
                 {language === "bn" ? "আজকের আয়াত" : "Verse of the Day"}
               </span>
             </div>
-            <div className="h-px flex-1 mx-3 sm:mx-4 bg-gradient-to-r from-border via-gold/30 to-border" />
+            <button
+              onClick={handleCopyVerse}
+              className="flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
+            >
+              {isVerseCopied ? <Check className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-green-500" /> : <Copy className="h-3.5 w-3.5 sm:h-4 sm:w-4" />}
+            </button>
           </div>
           
           {/* Arabic */}
