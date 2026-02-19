@@ -1,43 +1,91 @@
 
-## Bug Fix: Last Read Verse Mark Not Showing on "Continue Reading"
+## Two Bug Fixes
 
-### Root Cause
+### Issue 1: Last Read Verse Not Showing Color When Returning to Reader
 
-When the user taps "Continue Reading" on the home page, it navigates to:
-```
-/read/35
-```
+**Root Cause:**
 
-But when `ReadPage` loads, it only shows the `bg-primary/20` highlight for a verse if `lastReadVerse === verseKey`. The `lastReadVerse` IS loaded from `localStorage` on mount, so the teal highlight exists in state — but the page never **scrolls to that verse**. The user arrives at the top of page 35 and has to manually scroll down to find the marked verse.
-
-Additionally, when the user taps "Continue Reading" from `Index.tsx`, the verse info is not passed in the URL — so the existing `targetVerse` / `scrollIntoView` logic inside `ReadPage` never fires for the last-read verse.
-
-### The Fix (2 files)
-
-**1. `src/pages/Index.tsx`** — Pass verse coordinates in the URL:
+The `lastReadVerse` state is initialized from `localStorage` on mount:
 ```tsx
-// Before
-onClick={() => navigate(`/read/${lastReadSurah.pageNum}`)}
-
-// After
-onClick={() => navigate(`/read/${lastReadSurah.pageNum}?verse=${lastReadSurah.surahNumber}:${lastReadSurah.verseNumber}`)}
+const [lastReadVerse, setLastReadVerse] = useState<string | null>(() => {
+  const saved = localStorage.getItem("quran-last-read-verse");
+  return saved || null;
+});
 ```
 
-**2. `src/pages/ReadPage.tsx`** — When arriving via `?verse=` param, keep the `lastReadVerse` highlight permanently (don't clear it after 3s) and scroll to it:
+So the correct value IS in state. However, there is also a **verse visibility auto-save observer** (`verseObserverRef`) that fires as soon as the page renders. When you arrive at `/read/34?verse=2:216`, the page scrolls to the target verse — but during that scroll, the IntersectionObserver sees OTHER verses passing through the viewport and **overwrites** `lastReadVerse` with a different verse key before the scroll even completes. This clears the teal highlight from the correct verse.
 
-Currently the `targetVerse` logic sets `highlightedVerse` (temporary pulse) and clears it after 3 seconds:
+Additionally, the scroll itself has a timing issue: `verseRefs` may not be populated yet when the 300ms timeout fires (because the DOM hasn't rendered yet), so `verseEl` is `null` and scrolling never happens.
+
+**Fix:**
+1. Add a `scrollingToVerseRef` guard flag. When navigating to a target verse, set this flag to `true` for ~1.5 seconds. The auto-save observer will skip overwriting `lastReadVerse` while this flag is active.
+2. Increase the scroll delay from 300ms to 600ms to give the DOM time to fully render verse elements before attempting `scrollIntoView`.
+3. Use a retry mechanism — if `verseEl` is null after the initial delay, retry up to 3 times with 200ms intervals.
+
+---
+
+### Issue 2: Page Scrolls to Bottom When Navigating (Home and Other Pages)
+
+**Root Cause:**
+
+The Layout uses `overflow-y-auto` on the inner scroll container div. When React Router navigates between routes, the `AnimatePresence` + `PageTransition` (framer-motion) animation plays — but the **scroll position of the container is not reset**. So if you were scrolled down on one page (e.g. the reader), navigating to the home page keeps the same scroll offset, making it appear that you're at the bottom.
+
+There is currently **no `ScrollToTop` component** in `App.tsx`. This is the standard React Router fix for this exact issue.
+
+**Fix:**
+1. Create `src/components/ScrollToTop.tsx` — a component that watches route changes and resets the scroll position of the Layout's inner container to 0.
+2. Since the scroll container is not `window` but a `div` inside Layout, we need to reset the correct element. The cleanest approach: add `id="main-scroll-container"` to the scrollable div in `Layout.tsx` and have `ScrollToTop` target it via `document.getElementById`.
+3. Place `<ScrollToTop />` inside `BrowserRouter` in `App.tsx`.
+
+---
+
+### Files to Change
+
+1. **`src/components/ScrollToTop.tsx`** (new file) — resets scroll on route change
+2. **`src/App.tsx`** — add `<ScrollToTop />` inside `BrowserRouter`  
+3. **`src/components/Layout.tsx`** — add `id="main-scroll-container"` to the scrollable div
+4. **`src/pages/ReadPage.tsx`** — fix the verse highlight being overwritten by the auto-save observer, and improve scroll timing with retry logic
+
+### Technical Details
+
+**ScrollToTop component:**
 ```tsx
-setHighlightedVerse(verseKey);
-setTimeout(() => setHighlightedVerse(null), 3000); // clears the pulse
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
+
+export const ScrollToTop = () => {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    // Reset both window and the layout scroll container
+    window.scrollTo(0, 0);
+    const container = document.getElementById("main-scroll-container");
+    if (container) container.scrollTop = 0;
+  }, [pathname]);
+  return null;
+};
 ```
 
-The permanent green mark comes from `lastReadVerse` state. The problem is: when coming from "Continue Reading", the `lastReadVerse` from localStorage should match the verse in the URL — but the scroll logic needs to use `verseRefs` to find and scroll to it.
+**ReadPage guard (prevents auto-save from overwriting lastReadVerse during initial scroll):**
+```tsx
+const scrollingToVerseRef = useRef(false);
 
-The fix ensures that when `targetVerse` is present and matches `lastReadVerse`, the scroll fires correctly AND the `lastReadVerse` state (permanent green mark) stays visible. We only need to ensure the `setHighlightedVerse` timeout clears just the pulse animation — the permanent `bg-primary/20` from `lastReadVerse` remains.
+// In scroll effect:
+scrollingToVerseRef.current = true;
+setTimeout(() => { scrollingToVerseRef.current = false; }, 1500);
 
-This is actually already correct — the `lastReadVerse` from localStorage already gives the permanent mark. The only missing piece is scrolling to it. So the main fix is just **passing the verse in the URL** from `Index.tsx`.
+// In IntersectionObserver callback:
+if (scrollingToVerseRef.current) return; // don't overwrite lastReadVerse
+```
 
-### Files Changed
-
-1. **`src/pages/Index.tsx`** — Add `?verse=surah:verse` to the Continue Reading navigation URL
-2. **`src/pages/ReadPage.tsx`** — Also handle the case where no `?verse=` param exists but `lastReadVerse` is in localStorage, by auto-scrolling to it after the initial page load (fallback scroll for direct `/read/:page` navigation)
+**Retry scroll logic:**
+```tsx
+const tryScrollToVerse = (verseKey: string, attempt = 0) => {
+  const verseEl = verseRefs.current[verseKey];
+  if (verseEl) {
+    verseEl.scrollIntoView({ behavior: "smooth", block: "center" });
+  } else if (attempt < 5) {
+    setTimeout(() => tryScrollToVerse(verseKey, attempt + 1), 200);
+  }
+};
+setTimeout(() => tryScrollToVerse(verseKey), 600);
+```
