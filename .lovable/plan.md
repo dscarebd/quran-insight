@@ -1,66 +1,104 @@
 
-## Fix: Read Page Jumps to Page 1 After Scrolling
+## Read Hub Page + Direct PDF Reading (No Download Required)
 
-### Root Cause
+### What We're Building
 
-When navigating to `/read/37` (from the Continue Reading card), the page loads correctly and scrolls to page 37. However, the `topSentinelRef` (invisible div above the first loaded page) immediately becomes visible in the viewport after scrolling to page 37 — because loaded pages start at page 36, so the top sentinel is right above page 36 which is above page 37. This triggers `loadMorePagesUp()`, which prepends pages 33–35 into `loadedPages`.
+Currently the "Read" button goes directly to the Hifz mushaf reader. The user wants it to first open a **hub/landing page** that shows:
+1. A prominent "Read in the App" card (opens the existing mushaf reader)
+2. A grid of Quran PDF books managed by admin (from the `pdf_books` table)
+3. Clicking any PDF opens it **directly in the in-app PDF viewer** — no download step needed (streams from URL)
+4. Inside the PDF viewer, users can search and jump by Surah / Page / Para (like the existing reader footer)
 
-The DOM grows upward. The code tries to compensate by doing `c.scrollTop += diff` inside a `requestAnimationFrame`, but this is unreliable — the browser may not have painted the new content yet, or the container's scroll anchor behavior interferes, causing the scroll position to snap back to 0 (the very top), showing page 1.
+---
 
-Additionally, when `loadedPages` changes, the page-visibility `IntersectionObserver` is recreated and resets `visibilityByPageRef.current = {}`, momentarily losing track of which page is visible.
+### Architecture Overview
 
-### The Fix — Two Changes in `src/pages/ReadPage.tsx`
+```text
+/read (new hub page)
+ ├── "Read in the App" big card → /read/1 (last page)
+ └── PDF book grid → /read/pdf/:bookId (new direct-stream route)
 
-**Fix 1: Use CSS `overflow-anchor: none` on the scroll container**
-
-The scroll container needs `overflow-anchor: none` so the browser doesn't try to manage scroll anchoring itself (which conflicts with our manual `scrollTop` adjustment). This prevents the browser from pinning the viewport to an element and jumping around.
-
-**Fix 2: Use double-nested `requestAnimationFrame` + `scrollTop` correction more robustly**
-
-Replace the current single `requestAnimationFrame` in `loadMorePagesUp` with a more reliable approach:
-- Save `scrollTop` before prepending
-- After DOM update, compute `newScrollHeight - prevScrollHeight` and add it to `scrollTop`
-- Use `double rAF` (already done) but also use a `MutationObserver` or `setTimeout` fallback
-
-Actually, the simpler and more reliable fix is:
-
-**Fix 2 (better): Guard the top sentinel more carefully**
-
-The top sentinel fires too eagerly right after the initial scroll. The `didScrollToInitialRef.current` guard was meant to prevent this, but the issue is the **timing**: `didScrollToInitialRef.current` is set to `true` inside the scroll-to-initial `useEffect` (via `requestAnimationFrame`), but the `IntersectionObserver` for the top sentinel was already set up before that fires, and the sentinel is already intersecting.
-
-**The reliable fix:**
-1. Add a short **cooldown after initial scroll** before the top sentinel is allowed to trigger. Use a ref `topSentinelEnabledRef` that starts `false` and becomes `true` only after a 1-second delay once `didScrollToInitialRef.current` is set.
-2. Also add `style={{ overflowAnchor: 'none' }}` to the scroll container `<main>` to prevent browser scroll-anchor interference.
-
-### Files to change
-
-**`src/pages/ReadPage.tsx`** — two targeted changes:
-
-**Change 1** — Add a `topSentinelEnabledRef` with a 1-second delay after initial scroll:
-```
-// After setting didScrollToInitialRef.current = true in the scroll-to-initial useEffect:
-setTimeout(() => { topSentinelEnabledRef.current = true; }, 1000);
+/read/pdf/:bookId (new route, no download required)
+ └── Streams PDF from URL → PDFViewerWithNav (enhanced viewer)
 ```
 
-**Change 2** — In the `topObserver` callback, check `topSentinelEnabledRef` instead of (or in addition to) `didScrollToInitialRef`:
+---
+
+### Files to Create / Modify
+
+**1. `src/pages/QuranReadHub.tsx` (NEW)**
+- Hub/landing page that replaces the current `/read` redirect
+- Shows "Read in the App" card at top (navigates to last read page or page 1)
+- Shows a grid of PDF books from `pdf_books` table (using existing `useBookLibrary` hook)
+- No download step — each card has a "Read" button that navigates to `/read/pdf/:bookId`
+- Language-aware (Bengali/English labels)
+
+**2. `src/pages/DirectPDFReader.tsx` (NEW)**
+- New page at `/read/pdf/:bookId`
+- Fetches the book data from `pdf_books` table using `useBookById`
+- Streams the PDF directly from `book.pdf_url` using `fetch()` to a Blob (in-memory, no IndexedDB caching required — just a simple state)
+- Restores reading progress from `pdfStorageService.getReadingProgress()` (saves progress too)
+- Renders the existing `PDFViewer` component
+- Adds a **navigation sheet** in the header — tabs for Page / Surah / Para (similar to ReadPage footer), allowing user to jump to any page
+
+**3. `src/App.tsx` (MODIFY)**
+- Change `/read` route from `ReadPageRedirect` to `QuranReadHub` (wrapped in Layout)
+- Add new route `/read/pdf/:bookId` → `DirectPDFReader`
+- Keep `/read/:pageNumber` route intact for mushaf reader
+
+**4. `src/components/MobileNavFooter.tsx` (MODIFY)**
+- Change "Read" button action from `navigate("/read")` (which currently auto-redirects to last page) to `navigate("/read")` — same path, but now the hub page exists
+
+**5. `src/pages/admin/BooksManagement.tsx` (MODIFY — optional, minor)**
+- No changes needed; books are already managed there with `display_order` and `is_featured` flags that can be used to control what shows on the hub
+
+---
+
+### Key Technical Details
+
+**Direct Streaming (No Download)**
+The `DirectPDFReader` will fetch the PDF on mount:
+```typescript
+const response = await fetch(book.pdf_url);
+const blob = await response.blob();
+setPdfBlob(blob);
 ```
-if (!topSentinelEnabledRef.current) return;
-```
+This loads it into memory. No IndexedDB. Reading progress (current page) is still saved to IndexedDB via `updateLastPage` from `pdfStorageService`, so users can resume where they left off.
 
-**Change 3** — Add `overflowAnchor: 'none'` to the `<main>` scroll container so browser scroll anchoring doesn't fight with the manual `scrollTop` adjustment:
-```tsx
-<main ... style={{ overflowAnchor: 'none' }}>
-```
+**PDF Navigation (Page / Surah / Para tabs)**
+A Sheet/drawer in the header toolbar will contain:
+- **Page tab**: Number input + slider (1 to total pages)
+- **Surah tab**: Search + list of 114 surahs — maps surah start page using `surahs` data (existing `src/data/surahs.ts` has `startPage` field)
+- **Para tab**: Search + list of 30 paras — maps para start page using `paras` data (existing `src/data/paras.ts` has `startPage` field)
 
-### Why this works
+The navigation sheet fires `setCurrentPage(n)` in PDFViewer — we'll lift page state up into `DirectPDFReader` and pass it as a controlled prop to `PDFViewer` (minor enhancement to `PDFViewer` to accept `currentPage` as controlled prop).
 
-- The 1-second cooldown ensures the user actually has time to see and interact with their target page before the top sentinel starts triggering upward page loads
-- `overflow-anchor: none` tells the browser "don't try to maintain scroll position yourself" — our manual `scrollTop += diff` in `loadMorePagesUp` then works correctly without the browser fighting it
-- Together these two changes eliminate the race condition that caused the snap-to-page-1 jump
+**Hub Page Layout**
+- Matches the reference image style: 2-column book grid with cover thumbnails and title below
+- "Read in the App" is a full-width prominent card at the top
+- Books show cover image (or placeholder), Bengali/English title
+- No download button shown on hub — just "Read" (opens directly)
 
-### Summary of changes
-- 1 file modified: `src/pages/ReadPage.tsx`
-- Add `topSentinelEnabledRef` (new ref, initialized to `false`)
-- Set it to `true` after 1 second in the scroll-to-initial effect
-- Guard top sentinel observer with this new ref
-- Add `overflowAnchor: 'none'` style to the `<main>` element
+**Admin Control**
+- Books are already managed via admin panel at `/abdullah/books`
+- `display_order` controls the order shown
+- `is_featured` can be used to highlight certain books
+- No admin changes needed — existing `pdf_books` table is used
+
+---
+
+### Route Changes Summary
+
+| Before | After |
+|--------|--------|
+| `/read` → redirect to `/read/lastPage` | `/read` → `QuranReadHub` (hub page) |
+| `/read/:pageNumber` → mushaf reader | `/read/:pageNumber` → mushaf reader (unchanged) |
+| `/books/:bookId` → requires download | `/read/pdf/:bookId` → direct stream reader |
+| `/books` → book library with download | `/books` → unchanged (still available) |
+
+### Files Changed
+1. `src/pages/QuranReadHub.tsx` — NEW
+2. `src/pages/DirectPDFReader.tsx` — NEW
+3. `src/App.tsx` — modify routes
+4. `src/components/MobileNavFooter.tsx` — read button now goes to hub (already does, but confirm behavior)
+5. `src/components/PDFViewer.tsx` — minor: accept optional controlled `page` prop for external navigation
