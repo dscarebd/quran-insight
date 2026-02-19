@@ -7,7 +7,7 @@ interface IslamicCalendarProps {
 
 const IslamicCalendar = ({ language }: IslamicCalendarProps) => {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background pb-6">
       <div className="max-w-2xl mx-auto px-4">
         <IslamicCalendarSection language={language} />
       </div>
