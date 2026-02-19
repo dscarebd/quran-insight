@@ -70,7 +70,12 @@ const ReadPage = ({
   
   // Store loaded pages data
   const [loadedPages, setLoadedPages] = useState<PageData[]>([]);
-  const [loading, setLoading] = useState(true);
+  // Initialize loading based on cache — skip skeleton if data is already available
+  const [loading, setLoading] = useState<boolean>(() => {
+    const needsV1 = false; // can't read arabicFont prop here, safe default
+    const cacheKey = initialPage; // V1 would be +10000, conservative check
+    return !versesCache.has(cacheKey);
+  });
   const [loadingMore, setLoadingMore] = useState(false);
   const [currentVisiblePage, setCurrentVisiblePage] = useState(initialPage);
   const [highlightedVerse, setHighlightedVerse] = useState<string | null>(null);
@@ -530,16 +535,31 @@ const ReadPage = ({
   // Load initial pages - also reload when arabicFont changes to V1 (needs text_v1 data from Supabase)
   useEffect(() => {
     const loadInitialPages = async () => {
-      setLoading(true);
       const needsV1Data = arabicFont === "v1";
+      const cacheOffset = needsV1Data ? 10000 : 0;
+
+      const startPage = Math.max(initialPage - 1, 1);
+      const endPage = Math.min(initialPage + 1, 604);
+      const pageNumbers: number[] = [];
+      for (let i = startPage; i <= endPage; i++) pageNumbers.push(i);
+
+      // ── Synchronous cache hit: skip loading state entirely ──
+      const allCached = pageNumbers.every(p => versesCache.has(p + cacheOffset));
+      if (allCached) {
+        const pagesData = pageNumbers.map(pageNum => ({
+          pageNumber: pageNum,
+          verses: versesCache.get(pageNum + cacheOffset)!,
+          juzNumber: getJuzForPage(pageNum),
+        }));
+        setLoadedPages(pagesData);
+        setLoading(false);
+        return;
+      }
+
+      // ── Must fetch — show skeleton ──
+      setLoading(true);
 
       try {
-        // Load a smaller window: just the target page + 1 page after for faster initial render
-        const startPage = Math.max(initialPage - 1, 1);
-        const endPage = Math.min(initialPage + 1, 604);
-        const pageNumbers = [];
-        for (let i = startPage; i <= endPage; i++) pageNumbers.push(i);
-
         // Fetch all pages in parallel for faster loading
         const pagesData = await Promise.all(
           pageNumbers.map(async (pageNum) => {
