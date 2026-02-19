@@ -42,9 +42,9 @@ const QuranReadHub = ({ language }: QuranReadHubProps) => {
                 isBn && "font-bengali"
               )}>
                 {isBn ? "অ্যাপে পড়ুন" : "Read in the App"}
-                <span className={cn("text-muted-foreground font-normal text-xs sm:text-sm", isBn && "font-bengali")}>
-                  {" · "}{isBn ? "হিফয মাসহাফ সহ সম্পূর্ণ কুরআন" : "Full Quran with Hifz Mushaf"}
-                </span>
+              </p>
+              <p className={cn("text-muted-foreground font-normal text-xs truncate mt-0.5", isBn && "font-bengali")}>
+                {isBn ? "হিফয মাসহাফ সহ সম্পূর্ণ কুরআন" : "Full Quran with Hifz Mushaf"}
               </p>
             </div>
             <div className="flex h-9 w-9 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground group-hover:scale-110 transition-all duration-300">
