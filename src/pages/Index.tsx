@@ -1,18 +1,16 @@
 import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { ContinueReading } from "@/components/ContinueReading";
-import { ContinuePlayingCard } from "@/components/ContinuePlayingCard";
+import { GraduationCap, Award, ChevronRight } from "lucide-react";
 import { DesktopHeroSearch } from "@/components/desktop/DesktopHeroSearch";
 import { QuickAccessCards } from "@/components/desktop/QuickAccessCards";
 import { DesktopDailyContent } from "@/components/desktop/DesktopDailyContent";
 import { AISearchResults } from "@/components/AISearchResults";
 import { useAISearch } from "@/hooks/useAISearch";
-import { useLastPlayedPosition } from "@/hooks/useLastPlayedPosition";
 import { useToast } from "@/hooks/use-toast";
-
 import { useLmsCourses, useLmsProgress, useLmsCertificates } from "@/hooks/useLmsCourses";
 import { Language } from "@/types/language";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
 
 interface IndexProps {
@@ -23,47 +21,22 @@ const Index = ({ language }: IndexProps) => {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
   const { search, clear, isLoading, error, response, isOnline } = useAISearch();
-  const { lastPosition, hasLastPosition, clearPosition } = useLastPlayedPosition();
   const { toast } = useToast();
-  const { data: courses } = useLmsCourses();
+  const { data: courses, isLoading: coursesLoading } = useLmsCourses();
   const { data: allProgress } = useLmsProgress(null);
   const { data: certificates } = useLmsCertificates(null);
 
-  // Find the most recent in-progress course for the LMS continue card
-  const lmsContinueCourse = (() => {
-    if (!courses || !allProgress) return null;
-    for (const course of courses) {
-      const courseProgress = allProgress.filter((p) => p.course_id === course.id);
-      const completedCount = courseProgress.filter((p) => p.is_completed).length;
-      const hasCert = certificates?.some((c) => c.course_id === course.id);
-      if (completedCount > 0 || hasCert) {
-        return {
-          courseId: course.id,
-          courseName: course.title_english, // will be handled by language in component
-          courseBn: course.title_bengali,
-          completedLessons: completedCount,
-          totalLessons: course.total_lessons,
-          hasCertificate: !!hasCert,
-        };
-      }
-    }
-    return null;
-  })();
-
-  // Clear search function
   const clearSearch = useCallback(() => {
     setSearchQuery("");
     clear();
   }, [clear]);
 
-  // Listen for home navigation event to clear search
   useEffect(() => {
     const handleClearSearch = () => clearSearch();
     window.addEventListener("clear-home-search", handleClearSearch);
     return () => window.removeEventListener("clear-home-search", handleClearSearch);
   }, [clearSearch]);
 
-  // Show error toast
   useEffect(() => {
     if (error) {
       toast({
@@ -79,15 +52,16 @@ const Index = ({ language }: IndexProps) => {
     await search(query, language);
   };
 
-  // Handle resume from last position
-  const handleResumePlayback = () => {
-    if (lastPosition) {
-      // Navigate to the surah with the verse hash to scroll to it
-      navigate(`/surah/${lastPosition.surahNumber}#verse-${lastPosition.verseNumber}`);
-      // Clear the position after navigating (it will be saved again when they pause)
-      clearPosition();
-    }
+  const getCourseProg = (courseId: string) => {
+    if (!allProgress) return { completed: 0 };
+    const courseProg = (allProgress as any[]).filter((p) => p.course_id === courseId && p.is_completed);
+    return { completed: courseProg.length };
   };
+
+  const hasCert = (courseId: string) =>
+    certificates?.some((c) => c.course_id === courseId) || false;
+
+  const hasCourses = !coursesLoading && courses && courses.length > 0;
 
   return (
     <div className="flex-1 overflow-y-auto overflow-x-hidden max-w-full">
@@ -101,22 +75,7 @@ const Index = ({ language }: IndexProps) => {
           onClear={clearSearch}
           isOnline={isOnline}
         />
-        
-        {/* Continue Playing - show when there's a saved position and not searching */}
-        {!searchQuery && hasLastPosition && lastPosition && (
-          <div className="mt-6">
-            <ContinuePlayingCard
-              position={lastPosition}
-              language={language}
-              onResume={handleResumePlayback}
-              onDismiss={clearPosition}
-            />
-          </div>
-        )}
-        
-        {/* Floating Continue Card (LMS or Reading) */}
-        {!searchQuery && <ContinueReading language={language} lmsContinueCourse={lmsContinueCourse} />}
-        
+
         {/* Search Results */}
         {searchQuery && (
           <div className="mt-6 sm:mt-8">
@@ -134,9 +93,96 @@ const Index = ({ language }: IndexProps) => {
             ) : null}
           </div>
         )}
-        
+
         {!searchQuery && (
           <>
+            {/* Courses Section */}
+            {(coursesLoading || hasCourses) && (
+              <div className="mt-8 sm:mt-10">
+                <div className="flex items-center justify-between mb-4 sm:mb-6">
+                  <h2 className={cn(
+                    "text-lg sm:text-xl font-semibold text-foreground",
+                    language === "bn" && "font-bengali"
+                  )}>
+                    {language === "bn" ? "কোর্সসমূহ" : "Courses"}
+                  </h2>
+                  <button
+                    onClick={() => navigate("/courses")}
+                    className={cn(
+                      "flex items-center gap-1 text-sm text-primary hover:text-primary/80 transition-colors font-medium",
+                      language === "bn" && "font-bengali"
+                    )}
+                  >
+                    {language === "bn" ? "সব দেখুন" : "View all"}
+                    <ChevronRight className="h-4 w-4" />
+                  </button>
+                </div>
+
+                {coursesLoading ? (
+                  <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                    {[1, 2, 3].map((i) => (
+                      <Skeleton key={i} className="h-64 rounded-xl" />
+                    ))}
+                  </div>
+                ) : (
+                  <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                    {courses!.map((course) => {
+                      const { completed } = getCourseProg(course.id);
+                      const total = course.total_lessons;
+                      const percent = total > 0 ? Math.round((completed / total) * 100) : 0;
+                      const certified = hasCert(course.id);
+
+                      return (
+                        <button
+                          key={course.id}
+                          onClick={() => navigate(`/courses/${course.id}`)}
+                          className="group relative overflow-hidden rounded-xl border border-border bg-card p-4 text-left transition-all duration-300 hover:shadow-elevated hover:-translate-y-1"
+                        >
+                          {/* Thumbnail */}
+                          {course.thumbnail_url ? (
+                            <div className="aspect-video rounded-lg overflow-hidden mb-3 bg-muted">
+                              <img
+                                src={course.thumbnail_url}
+                                alt={language === "bn" ? course.title_bengali : course.title_english}
+                                className="w-full h-full object-cover pointer-events-none"
+                              />
+                            </div>
+                          ) : (
+                            <div className="aspect-video rounded-lg mb-3 bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
+                              <GraduationCap className="h-10 w-10 text-primary/40" />
+                            </div>
+                          )}
+
+                          {/* Completed Badge */}
+                          {certified && (
+                            <div className="absolute top-6 right-6 flex items-center gap-1 bg-primary text-primary-foreground px-2 py-1 rounded-full text-xs font-semibold">
+                              <Award className="h-3 w-3" />
+                              {language === "bn" ? "সম্পন্ন" : "Completed"}
+                            </div>
+                          )}
+
+                          <h3 className={cn("font-semibold text-foreground mb-1", language === "bn" && "font-bengali")}>
+                            {language === "bn" ? course.title_bengali : course.title_english}
+                          </h3>
+                          <p className={cn("text-sm text-muted-foreground line-clamp-2 mb-3", language === "bn" && "font-bengali")}>
+                            {language === "bn" ? course.description_bengali : course.description_english}
+                          </p>
+
+                          {/* Progress */}
+                          <div className="flex items-center gap-2">
+                            <Progress value={percent} className="h-1.5 flex-1" />
+                            <span className="text-xs text-muted-foreground shrink-0">
+                              {completed}/{total}
+                            </span>
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+            )}
+
             {/* Quick Access Cards */}
             <div className="mt-8 sm:mt-10">
               <h2 className={cn(
@@ -147,7 +193,7 @@ const Index = ({ language }: IndexProps) => {
               </h2>
               <QuickAccessCards language={language} />
             </div>
-            
+
             {/* Daily Content */}
             <div className="mt-8 sm:mt-10">
               <h2 className={cn(
