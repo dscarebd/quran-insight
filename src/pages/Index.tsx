@@ -129,7 +129,7 @@ const Index = ({ language }: IndexProps) => {
         {!searchQuery && surahInfo && lastReadSurah && (
           <div className="mt-6 animate-fade-in">
             <button
-              onClick={() => navigate(`/read/${lastReadSurah.pageNum}`)}
+              onClick={() => navigate(`/read/${lastReadSurah.pageNum}?verse=${lastReadSurah.surahNumber}:${lastReadSurah.verseNumber}`)}
               className="w-full flex items-center gap-2 sm:gap-3 p-3 sm:p-4 bg-card border border-border shadow-lg rounded-xl sm:rounded-2xl transition-all duration-300 group overflow-hidden hover:shadow-elevated hover:-translate-y-1"
             >
               <div className="flex h-10 w-10 sm:h-11 sm:w-11 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary transition-all duration-300">

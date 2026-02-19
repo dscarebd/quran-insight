@@ -133,11 +133,27 @@ const ReadPage = ({
           const verseEl = verseRefs.current[verseKey];
           if (verseEl) {
             verseEl.scrollIntoView({ behavior: "smooth", block: "center" });
+            // Only set temporary pulse highlight — lastReadVerse from localStorage
+            // provides the permanent bg-primary/20 mark, so no need to clear it
             setHighlightedVerse(verseKey);
-            // Remove highlight after 3 seconds
             setTimeout(() => setHighlightedVerse(null), 3000);
           }
         }, 300);
+      } else {
+        // Fallback: no ?verse= param but we have a lastReadVerse in localStorage
+        // Auto-scroll to it so the user lands on their marked verse
+        const savedVerseKey = localStorage.getItem("quran-last-read-verse");
+        if (savedVerseKey) {
+          const parts = savedVerseKey.split("-");
+          if (parts.length >= 3 && parseInt(parts[0]) === initialPage) {
+            setTimeout(() => {
+              const verseEl = verseRefs.current[savedVerseKey];
+              if (verseEl) {
+                verseEl.scrollIntoView({ behavior: "smooth", block: "center" });
+              }
+            }, 300);
+          }
+        }
       }
     });
   }, [loading, loadedPages, initialPage, targetVerse]);
