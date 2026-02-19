@@ -177,14 +177,14 @@ const DirectPDFReader = ({ language }: DirectPDFReaderProps) => {
               <Navigation className="h-4 w-4" />
             </Button>
           </SheetTrigger>
-          <SheetContent side="bottom" className="h-[80vh] rounded-t-2xl px-0">
-            <SheetHeader className="px-4 pb-3 border-b border-border">
+          <SheetContent side="bottom" className="h-[80vh] rounded-t-2xl px-0 flex flex-col">
+            <SheetHeader className="px-4 pb-3 border-b border-border shrink-0">
               <SheetTitle className={cn("text-center", isBn && "font-bengali")}>
                 {isBn ? "নেভিগেশন" : "Navigation"}
               </SheetTitle>
             </SheetHeader>
 
-            <Tabs value={navTab} onValueChange={(v) => setNavTab(v as "page" | "surah" | "para")} className="flex flex-col h-[calc(80vh-64px)]">
+            <Tabs value={navTab} onValueChange={(v) => setNavTab(v as "page" | "surah" | "para")} className="flex flex-col flex-1 min-h-0">
               <TabsList className="grid w-full grid-cols-3 mx-4 mt-3" style={{ width: "calc(100% - 32px)" }}>
                 <TabsTrigger value="page" className={isBn ? "font-bengali" : ""}>
                   {isBn ? "পৃষ্ঠা" : "Page"}
