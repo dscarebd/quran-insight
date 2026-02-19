@@ -91,10 +91,10 @@ export const QuickAccessCards = ({ language }: QuickAccessCardsProps) => {
 
             {/* Icon */}
             <div className={cn(
-              "mb-2.5 flex h-11 w-11 sm:h-12 sm:w-12 md:h-14 md:w-14 items-center justify-center rounded-xl bg-gradient-to-br text-white shadow-md transition-transform group-hover:scale-110 shrink-0",
+              "mb-2.5 flex h-9 w-9 sm:h-10 sm:w-10 md:h-11 md:w-11 items-center justify-center rounded-xl bg-gradient-to-br text-white shadow-md transition-transform group-hover:scale-110 shrink-0",
               link.gradient
             )}>
-              <Icon className="h-6 w-6 sm:h-6 sm:w-6 md:h-7 md:w-7" />
+              <Icon className="h-4 w-4 sm:h-5 sm:w-5 md:h-5 md:w-5" />
             </div>
 
             {/* Content */}
