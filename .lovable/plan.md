@@ -1,104 +1,43 @@
 
-## Read Hub Page + Direct PDF Reading (No Download Required)
+## Bug Fix: Last Read Verse Mark Not Showing on "Continue Reading"
 
-### What We're Building
+### Root Cause
 
-Currently the "Read" button goes directly to the Hifz mushaf reader. The user wants it to first open a **hub/landing page** that shows:
-1. A prominent "Read in the App" card (opens the existing mushaf reader)
-2. A grid of Quran PDF books managed by admin (from the `pdf_books` table)
-3. Clicking any PDF opens it **directly in the in-app PDF viewer** — no download step needed (streams from URL)
-4. Inside the PDF viewer, users can search and jump by Surah / Page / Para (like the existing reader footer)
-
----
-
-### Architecture Overview
-
-```text
-/read (new hub page)
- ├── "Read in the App" big card → /read/1 (last page)
- └── PDF book grid → /read/pdf/:bookId (new direct-stream route)
-
-/read/pdf/:bookId (new route, no download required)
- └── Streams PDF from URL → PDFViewerWithNav (enhanced viewer)
+When the user taps "Continue Reading" on the home page, it navigates to:
+```
+/read/35
 ```
 
----
+But when `ReadPage` loads, it only shows the `bg-primary/20` highlight for a verse if `lastReadVerse === verseKey`. The `lastReadVerse` IS loaded from `localStorage` on mount, so the teal highlight exists in state — but the page never **scrolls to that verse**. The user arrives at the top of page 35 and has to manually scroll down to find the marked verse.
 
-### Files to Create / Modify
+Additionally, when the user taps "Continue Reading" from `Index.tsx`, the verse info is not passed in the URL — so the existing `targetVerse` / `scrollIntoView` logic inside `ReadPage` never fires for the last-read verse.
 
-**1. `src/pages/QuranReadHub.tsx` (NEW)**
-- Hub/landing page that replaces the current `/read` redirect
-- Shows "Read in the App" card at top (navigates to last read page or page 1)
-- Shows a grid of PDF books from `pdf_books` table (using existing `useBookLibrary` hook)
-- No download step — each card has a "Read" button that navigates to `/read/pdf/:bookId`
-- Language-aware (Bengali/English labels)
+### The Fix (2 files)
 
-**2. `src/pages/DirectPDFReader.tsx` (NEW)**
-- New page at `/read/pdf/:bookId`
-- Fetches the book data from `pdf_books` table using `useBookById`
-- Streams the PDF directly from `book.pdf_url` using `fetch()` to a Blob (in-memory, no IndexedDB caching required — just a simple state)
-- Restores reading progress from `pdfStorageService.getReadingProgress()` (saves progress too)
-- Renders the existing `PDFViewer` component
-- Adds a **navigation sheet** in the header — tabs for Page / Surah / Para (similar to ReadPage footer), allowing user to jump to any page
+**1. `src/pages/Index.tsx`** — Pass verse coordinates in the URL:
+```tsx
+// Before
+onClick={() => navigate(`/read/${lastReadSurah.pageNum}`)}
 
-**3. `src/App.tsx` (MODIFY)**
-- Change `/read` route from `ReadPageRedirect` to `QuranReadHub` (wrapped in Layout)
-- Add new route `/read/pdf/:bookId` → `DirectPDFReader`
-- Keep `/read/:pageNumber` route intact for mushaf reader
-
-**4. `src/components/MobileNavFooter.tsx` (MODIFY)**
-- Change "Read" button action from `navigate("/read")` (which currently auto-redirects to last page) to `navigate("/read")` — same path, but now the hub page exists
-
-**5. `src/pages/admin/BooksManagement.tsx` (MODIFY — optional, minor)**
-- No changes needed; books are already managed there with `display_order` and `is_featured` flags that can be used to control what shows on the hub
-
----
-
-### Key Technical Details
-
-**Direct Streaming (No Download)**
-The `DirectPDFReader` will fetch the PDF on mount:
-```typescript
-const response = await fetch(book.pdf_url);
-const blob = await response.blob();
-setPdfBlob(blob);
+// After
+onClick={() => navigate(`/read/${lastReadSurah.pageNum}?verse=${lastReadSurah.surahNumber}:${lastReadSurah.verseNumber}`)}
 ```
-This loads it into memory. No IndexedDB. Reading progress (current page) is still saved to IndexedDB via `updateLastPage` from `pdfStorageService`, so users can resume where they left off.
 
-**PDF Navigation (Page / Surah / Para tabs)**
-A Sheet/drawer in the header toolbar will contain:
-- **Page tab**: Number input + slider (1 to total pages)
-- **Surah tab**: Search + list of 114 surahs — maps surah start page using `surahs` data (existing `src/data/surahs.ts` has `startPage` field)
-- **Para tab**: Search + list of 30 paras — maps para start page using `paras` data (existing `src/data/paras.ts` has `startPage` field)
+**2. `src/pages/ReadPage.tsx`** — When arriving via `?verse=` param, keep the `lastReadVerse` highlight permanently (don't clear it after 3s) and scroll to it:
 
-The navigation sheet fires `setCurrentPage(n)` in PDFViewer — we'll lift page state up into `DirectPDFReader` and pass it as a controlled prop to `PDFViewer` (minor enhancement to `PDFViewer` to accept `currentPage` as controlled prop).
+Currently the `targetVerse` logic sets `highlightedVerse` (temporary pulse) and clears it after 3 seconds:
+```tsx
+setHighlightedVerse(verseKey);
+setTimeout(() => setHighlightedVerse(null), 3000); // clears the pulse
+```
 
-**Hub Page Layout**
-- Matches the reference image style: 2-column book grid with cover thumbnails and title below
-- "Read in the App" is a full-width prominent card at the top
-- Books show cover image (or placeholder), Bengali/English title
-- No download button shown on hub — just "Read" (opens directly)
+The permanent green mark comes from `lastReadVerse` state. The problem is: when coming from "Continue Reading", the `lastReadVerse` from localStorage should match the verse in the URL — but the scroll logic needs to use `verseRefs` to find and scroll to it.
 
-**Admin Control**
-- Books are already managed via admin panel at `/abdullah/books`
-- `display_order` controls the order shown
-- `is_featured` can be used to highlight certain books
-- No admin changes needed — existing `pdf_books` table is used
+The fix ensures that when `targetVerse` is present and matches `lastReadVerse`, the scroll fires correctly AND the `lastReadVerse` state (permanent green mark) stays visible. We only need to ensure the `setHighlightedVerse` timeout clears just the pulse animation — the permanent `bg-primary/20` from `lastReadVerse` remains.
 
----
-
-### Route Changes Summary
-
-| Before | After |
-|--------|--------|
-| `/read` → redirect to `/read/lastPage` | `/read` → `QuranReadHub` (hub page) |
-| `/read/:pageNumber` → mushaf reader | `/read/:pageNumber` → mushaf reader (unchanged) |
-| `/books/:bookId` → requires download | `/read/pdf/:bookId` → direct stream reader |
-| `/books` → book library with download | `/books` → unchanged (still available) |
+This is actually already correct — the `lastReadVerse` from localStorage already gives the permanent mark. The only missing piece is scrolling to it. So the main fix is just **passing the verse in the URL** from `Index.tsx`.
 
 ### Files Changed
-1. `src/pages/QuranReadHub.tsx` — NEW
-2. `src/pages/DirectPDFReader.tsx` — NEW
-3. `src/App.tsx` — modify routes
-4. `src/components/MobileNavFooter.tsx` — read button now goes to hub (already does, but confirm behavior)
-5. `src/components/PDFViewer.tsx` — minor: accept optional controlled `page` prop for external navigation
+
+1. **`src/pages/Index.tsx`** — Add `?verse=surah:verse` to the Continue Reading navigation URL
+2. **`src/pages/ReadPage.tsx`** — Also handle the case where no `?verse=` param exists but `lastReadVerse` is in localStorage, by auto-scrolling to it after the initial page load (fallback scroll for direct `/read/:page` navigation)
