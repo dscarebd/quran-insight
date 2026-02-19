@@ -150,7 +150,10 @@ const Index = ({ language }: IndexProps) => {
                   {language === "bn" ? surahInfo.nameBengali : surahInfo.nameEnglish}
                   <span className="text-muted-foreground font-normal text-xs sm:text-sm">
                     {" · "}
-                    {language === "bn" ? "আয়াত" : "Verse"} {lastReadSurah.verseNumber}
+                    {language === "bn" ? "আয়াত" : "Verse"}{" "}
+                    {language === "bn"
+                      ? lastReadSurah.verseNumber.toString().split("").map(d => "০১২৩৪৫৬৭৮৯"[parseInt(d)]).join("")
+                      : lastReadSurah.verseNumber}
                   </span>
                 </p>
               </div>
