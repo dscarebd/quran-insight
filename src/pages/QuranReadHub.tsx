@@ -60,13 +60,13 @@ const QuranReadHub = ({ language }: QuranReadHubProps) => {
           </h2>
 
           {isLoading ? (
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-2">
               {Array.from({ length: 6 }).map((_, i) => (
                 <div key={i} className="rounded-xl overflow-hidden border border-border bg-card">
                   <Skeleton className="w-full aspect-[3/4]" />
-                  <div className="p-3 space-y-2">
-                    <Skeleton className="h-4 w-full" />
-                    <Skeleton className="h-3 w-2/3" />
+                  <div className="p-2 space-y-1.5">
+                    <Skeleton className="h-3 w-full" />
+                    <Skeleton className="h-2.5 w-2/3" />
                   </div>
                 </div>
               ))}
@@ -80,12 +80,12 @@ const QuranReadHub = ({ language }: QuranReadHubProps) => {
               <p>{isBn ? "কোনো বই পাওয়া যায়নি" : "No books available"}</p>
             </div>
           ) : (
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-2">
               {books.map((book) => (
                 <button
                   key={book.id}
                   onClick={() => navigate(`/read/pdf/${book.id}`)}
-                  className="rounded-xl overflow-hidden border border-border bg-card text-left hover:border-primary/50 active:scale-[0.97] transition-all shadow-sm hover:shadow-md"
+                  className="rounded-lg overflow-hidden border border-border bg-card text-left hover:border-primary/50 active:scale-[0.97] transition-all shadow-sm hover:shadow-md"
                 >
                   {/* Cover Image */}
                   <div className="relative w-full aspect-[3/4] bg-muted overflow-hidden">
@@ -97,45 +97,27 @@ const QuranReadHub = ({ language }: QuranReadHubProps) => {
                         loading="lazy"
                       />
                     ) : (
-                      <div className="w-full h-full flex flex-col items-center justify-center gap-2 bg-gradient-to-br from-primary/10 to-primary/20">
-                        <BookText className="h-10 w-10 text-primary/50" />
+                      <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-primary/10 to-primary/20">
+                        <BookText className="h-6 w-6 text-primary/50" />
                       </div>
                     )}
                     {book.is_featured && (
-                      <div className="absolute top-2 right-2">
-                        <Badge className="bg-amber-500 text-white border-0 text-xs px-1.5 py-0.5 flex items-center gap-1">
-                          <Star className="h-3 w-3 fill-current" />
+                      <div className="absolute top-1 right-1">
+                        <Badge className="bg-amber-500 text-white border-0 text-[10px] px-1 py-0 flex items-center gap-0.5">
+                          <Star className="h-2.5 w-2.5 fill-current" />
                         </Badge>
                       </div>
                     )}
                   </div>
 
                   {/* Book Info */}
-                  <div className="p-2.5 space-y-0.5">
+                  <div className="p-1.5">
                     <p className={cn(
-                      "text-sm font-semibold text-foreground leading-tight line-clamp-2",
+                      "text-xs font-semibold text-foreground leading-tight line-clamp-2",
                       isBn && "font-bengali"
                     )}>
                       {isBn ? book.title_bengali : book.title_english}
                     </p>
-                    {(isBn ? book.author_bengali : book.author_english) && (
-                      <p className={cn(
-                        "text-xs text-muted-foreground truncate",
-                        isBn && "font-bengali"
-                      )}>
-                        {isBn ? book.author_bengali : book.author_english}
-                      </p>
-                    )}
-                    <div className={cn(
-                      "flex items-center gap-1 mt-1.5",
-                    )}>
-                      <span className={cn(
-                        "text-xs font-medium text-primary",
-                        isBn && "font-bengali"
-                      )}>
-                        {isBn ? "পড়ুন →" : "Read →"}
-                      </span>
-                    </div>
                   </div>
                 </button>
               ))}
