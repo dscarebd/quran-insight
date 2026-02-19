@@ -54,8 +54,8 @@ export const QuickAccessCards = ({ language }: QuickAccessCardsProps) => {
     {
       id: "calendar",
       icon: CalendarDays,
-      labelEn: "Islamic Calendar",
-      labelBn: "ইসলামিক ক্যালেন্ডার",
+      labelEn: "Calendar",
+      labelBn: "ক্যালেন্ডার",
       descEn: "Islamic dates & events",
       descBn: "ইসলামিক তারিখ ও ইভেন্ট",
       path: "/islamic-calendar",
