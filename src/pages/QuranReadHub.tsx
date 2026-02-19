@@ -85,7 +85,7 @@ const QuranReadHub = ({ language }: QuranReadHubProps) => {
                 <button
                   key={book.id}
                   onClick={() => navigate(`/read/pdf/${book.id}`)}
-                  className="rounded-lg overflow-hidden border border-border bg-card text-left hover:border-primary/50 active:scale-[0.97] transition-all shadow-sm hover:shadow-md"
+                  className="overflow-hidden border border-border bg-card text-left hover:border-primary/50 active:scale-[0.97] transition-all shadow-sm hover:shadow-md"
                 >
                   {/* Cover Image */}
                   <div className="relative w-full aspect-square bg-muted overflow-hidden">
@@ -93,7 +93,7 @@ const QuranReadHub = ({ language }: QuranReadHubProps) => {
                       <img
                         src={book.cover_image_url}
                         alt={isBn ? book.title_bengali : book.title_english}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-contain"
                         loading="lazy"
                       />
                     ) : (
