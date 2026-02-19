@@ -1,42 +1,49 @@
 
-## Remove All Content from the Calendar Page
+## Fix: Hijri Date Showing 30 Sha'ban Instead of 1 Ramadan
 
-### What the User Wants
-Clear the Islamic Calendar page of all existing content — events list, sticky header details, section titles, icons, badges, dates, and countdown. Leave it as a blank/empty page shell.
+### Root Cause
+The reference anchor date in `src/data/islamicCalendar.ts` is off by exactly 1 day.
 
-### What Currently Exists
-The page renders:
-1. A sticky header with a CalendarDays icon, page title, and current Hijri date
-2. An "Upcoming Events" section title with a star icon
-3. A list of up to 20 event cards, each with: category icon, event name, Arabic name, category badge, Hijri date, Gregorian date, and days-until countdown
-
-### Plan
-Replace the entire page content with a simple empty shell — just the outer `div` with the background class, no header, no events, no imports for unused data/icons. Keep the component signature intact so routing still works.
-
-### Technical Changes — `src/pages/IslamicCalendar.tsx`
-
-- Remove all imports except `Language` type (needed for props)
-- Remove all helper functions (`getCategoryColor`, `getCategoryIconBg`, `getCategoryIcon`)
-- Remove all data hooks and formatting functions from the component body
-- Replace the JSX with a single empty `div`
-- Keep the component export so the route `/islamic-calendar` doesn't break
-
-**Result:**
-```tsx
-import { Language } from "@/types/language";
-
-interface IslamicCalendarProps {
-  language: Language;
-}
-
-const IslamicCalendar = ({ language }: IslamicCalendarProps) => {
-  return (
-    <div className="min-h-screen bg-background pb-24" />
-  );
-};
-
-export default IslamicCalendar;
+The current reference says:
+```
+1 Rajab 1447 = December 22, 2025
 ```
 
+Working the math forward to today (Feb 19, 2026):
+- Dec 22 → Feb 19 = **59 days elapsed**
+- Starting from day 1 of Rajab (month 7): 1 + 59 = day 60
+- Rajab has 30 days → day 60 lands on **30 Sha'ban** (month 8, day 30)
+
+But today is confirmed to be **1 Ramadan 1447**, which means the reference is 1 day behind. The correct astronomical date is:
+```
+1 Rajab 1447 = December 21, 2025  (not December 22)
+```
+
+OR more simply and accurately: use today's known verified date as the new anchor:
+```
+1 Ramadan 1447 = February 19, 2026
+```
+
+Using a closer and user-verified reference eliminates accumulated drift and is more reliable.
+
+### Fix Plan — `src/data/islamicCalendar.ts`
+
+**Change the reference anchor** from:
+```ts
+const REFERENCE_HIJRI = { year: 1447, month: 7, day: 1 };
+const REFERENCE_GREGORIAN = new Date(2025, 11, 22); // December 22, 2025
+```
+To:
+```ts
+// Verified: 1 Ramadan 1447 = February 19, 2026
+const REFERENCE_HIJRI = { year: 1447, month: 9, day: 1 };
+const REFERENCE_GREGORIAN = new Date(2026, 1, 19); // February 19, 2026
+```
+
+This single change fixes:
+1. The current Hijri date display (shows correct "1 Ramadan" today)
+2. All upcoming Islamic event dates calculated from `getUpcomingEvents()`
+3. The `hijriToGregorian()` function used for event date cards
+
 ### Files to Change
-- **`src/pages/IslamicCalendar.tsx`** — strip all content, keep empty shell
+- **`src/data/islamicCalendar.ts`** — update the two reference constant lines only (lines 321–322)
