@@ -20,13 +20,6 @@ const QuranReadHub = ({ language }: QuranReadHubProps) => {
 
   return (
     <div className="min-h-screen bg-background pb-24">
-      {/* Header */}
-      <div className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm border-b border-border px-4 py-3">
-        <h1 className={cn("text-xl font-bold text-foreground", isBn && "font-bengali")}>
-          {isBn ? "পড়ুন" : "Read"}
-        </h1>
-      </div>
-
       <div className="px-4 py-4 space-y-6">
         {/* Read in the App Card */}
         <section>
