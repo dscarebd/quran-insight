@@ -28,6 +28,8 @@ interface PDFViewerProps {
   initialPage?: number;
   language: Language;
   onPageChange?: (page: number, total: number) => void;
+  /** External controlled page — when set, syncs the viewer to this page */
+  controlledPage?: number;
 }
 
 export const PDFViewer = ({
@@ -35,7 +37,8 @@ export const PDFViewer = ({
   bookId,
   initialPage = 1,
   language,
-  onPageChange
+  onPageChange,
+  controlledPage
 }: PDFViewerProps) => {
   const [numPages, setNumPages] = useState<number>(0);
   const [pageNumber, setPageNumber] = useState<number>(initialPage);
@@ -44,6 +47,15 @@ export const PDFViewer = ({
   const [isLoading, setIsLoading] = useState(true);
   const [pageInputValue, setPageInputValue] = useState<string>(String(initialPage));
   const [pdfUrl, setPdfUrl] = useState<string>("");
+
+  // Sync with external controlled page changes
+  useEffect(() => {
+    if (controlledPage !== undefined && controlledPage !== pageNumber) {
+      setPageNumber(controlledPage);
+      setPageInputValue(String(controlledPage));
+    }
+  }, [controlledPage]);
+
   const containerRef = useRef<HTMLDivElement>(null);
   const saveTimeoutRef = useRef<NodeJS.Timeout>();
 
