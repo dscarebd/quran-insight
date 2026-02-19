@@ -5,7 +5,7 @@ import { Language } from "@/types/language";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import IslamicCalendarSection from "@/components/IslamicCalendarSection";
+
 import {
   calculatePrayerTimes,
   getNextPrayer,
@@ -773,8 +773,6 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
           </CardContent>
         </Card>
 
-        {/* Islamic Calendar Section */}
-        <IslamicCalendarSection language={language} />
       </div>
     </div>
   );
