@@ -96,90 +96,61 @@ const Index = ({ language }: IndexProps) => {
 
         {!searchQuery && (
           <>
-            {/* Courses Section */}
+            {/* Courses floating card */}
             {(coursesLoading || hasCourses) && (
-              <div className="mt-8 sm:mt-10">
-                <div className="flex items-center justify-between mb-4 sm:mb-6">
-                  <h2 className={cn(
-                    "text-lg sm:text-xl font-semibold text-foreground",
-                    language === "bn" && "font-bengali"
-                  )}>
-                    {language === "bn" ? "কোর্সসমূহ" : "Courses"}
-                  </h2>
-                  <button
-                    onClick={() => navigate("/courses")}
-                    className={cn(
-                      "flex items-center gap-1 text-sm text-primary hover:text-primary/80 transition-colors font-medium",
-                      language === "bn" && "font-bengali"
-                    )}
-                  >
-                    {language === "bn" ? "সব দেখুন" : "View all"}
-                    <ChevronRight className="h-4 w-4" />
-                  </button>
-                </div>
-
+              <div className="mt-6 animate-fade-in">
                 {coursesLoading ? (
-                  <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                    {[1, 2, 3].map((i) => (
-                      <Skeleton key={i} className="h-64 rounded-xl" />
-                    ))}
-                  </div>
-                ) : (
-                  <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                    {courses!.map((course) => {
-                      const { completed } = getCourseProg(course.id);
-                      const total = course.total_lessons;
-                      const percent = total > 0 ? Math.round((completed / total) * 100) : 0;
-                      const certified = hasCert(course.id);
+                  <Skeleton className="h-[72px] w-full rounded-xl" />
+                ) : (() => {
+                  // Pick the first in-progress course, else first course
+                  const activeCourse = courses!.find((c) => {
+                    const { completed } = getCourseProg(c.id);
+                    return completed > 0 && !hasCert(c.id);
+                  }) || courses![0];
+                  if (!activeCourse) return null;
+                  const { completed } = getCourseProg(activeCourse.id);
+                  const total = activeCourse.total_lessons;
+                  const percent = total > 0 ? Math.round((completed / total) * 100) : 0;
+                  const certified = hasCert(activeCourse.id);
 
-                      return (
-                        <button
-                          key={course.id}
-                          onClick={() => navigate(`/courses/${course.id}`)}
-                          className="group relative overflow-hidden rounded-xl border border-border bg-card p-4 text-left transition-all duration-300 hover:shadow-elevated hover:-translate-y-1"
-                        >
-                          {/* Thumbnail */}
-                          {course.thumbnail_url ? (
-                            <div className="aspect-video rounded-lg overflow-hidden mb-3 bg-muted">
-                              <img
-                                src={course.thumbnail_url}
-                                alt={language === "bn" ? course.title_bengali : course.title_english}
-                                className="w-full h-full object-cover pointer-events-none"
-                              />
-                            </div>
-                          ) : (
-                            <div className="aspect-video rounded-lg mb-3 bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
-                              <GraduationCap className="h-10 w-10 text-primary/40" />
-                            </div>
-                          )}
+                  return (
+                    <button
+                      onClick={() => navigate(`/courses/${activeCourse.id}`)}
+                      className="w-full flex items-center gap-2 sm:gap-3 p-3 sm:p-4 bg-card border border-border shadow-lg rounded-xl sm:rounded-2xl transition-all duration-300 group overflow-hidden hover:shadow-elevated hover:-translate-y-1"
+                    >
+                      <div className="flex h-10 w-10 sm:h-11 sm:w-11 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary transition-all duration-300">
+                        {certified ? (
+                          <Award className="h-5 w-5 sm:h-6 sm:w-6" />
+                        ) : (
+                          <GraduationCap className="h-5 w-5 sm:h-6 sm:w-6" />
+                        )}
+                      </div>
 
-                          {/* Completed Badge */}
-                          {certified && (
-                            <div className="absolute top-6 right-6 flex items-center gap-1 bg-primary text-primary-foreground px-2 py-1 rounded-full text-xs font-semibold">
-                              <Award className="h-3 w-3" />
-                              {language === "bn" ? "সম্পন্ন" : "Completed"}
-                            </div>
-                          )}
-
-                          <h3 className={cn("font-semibold text-foreground mb-1", language === "bn" && "font-bengali")}>
-                            {language === "bn" ? course.title_bengali : course.title_english}
-                          </h3>
-                          <p className={cn("text-sm text-muted-foreground line-clamp-2 mb-3", language === "bn" && "font-bengali")}>
-                            {language === "bn" ? course.description_bengali : course.description_english}
-                          </p>
-
-                          {/* Progress */}
-                          <div className="flex items-center gap-2">
+                      <div className="flex-1 text-left min-w-0 overflow-hidden">
+                        <p className={cn("text-xs font-medium text-muted-foreground truncate uppercase tracking-wide", language === "bn" && "font-bengali normal-case tracking-normal")}>
+                          {certified
+                            ? (language === "bn" ? "সার্টিফিকেট দেখুন" : "View Certificate")
+                            : completed > 0
+                              ? (language === "bn" ? "শিখতে থাকুন" : "Continue Learning")
+                              : (language === "bn" ? "এখনই শুরু করুন" : "Start Learning")}
+                        </p>
+                        <p className={cn("font-semibold text-foreground truncate text-sm sm:text-base leading-tight", language === "bn" && "font-bengali")}>
+                          {language === "bn" ? activeCourse.title_bengali : activeCourse.title_english}
+                        </p>
+                        {!certified && (
+                          <div className="flex items-center gap-2 mt-1">
                             <Progress value={percent} className="h-1.5 flex-1" />
-                            <span className="text-xs text-muted-foreground shrink-0">
-                              {completed}/{total}
-                            </span>
+                            <span className="text-xs text-muted-foreground shrink-0 font-medium">{completed}/{total}</span>
                           </div>
-                        </button>
-                      );
-                    })}
-                  </div>
-                )}
+                        )}
+                      </div>
+
+                      <div className="flex h-9 w-9 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground group-hover:scale-110 transition-all duration-300">
+                        <ChevronRight className="h-4 w-4 sm:h-5 sm:w-5" />
+                      </div>
+                    </button>
+                  );
+                })()}
               </div>
             )}
 
