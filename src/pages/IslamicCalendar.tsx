@@ -402,7 +402,7 @@ const IslamicCalendar = ({ language }: IslamicCalendarProps) => {
                   {upcomingLabel[language]}
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-3 max-h-[500px] overflow-y-auto">
+              <CardContent className="space-y-3">
                 {upcomingEvents.map((event, index) => {
                   const CategoryIcon = getCategoryIcon(event.category);
                   const eventName = language === 'bn' ? event.nameBn : language === 'hi' ? event.nameHi : event.nameEn;
