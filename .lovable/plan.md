@@ -1,80 +1,66 @@
 
-## Fix: Eliminate White Screen Delay When Clicking "Last Read"
+## Split "Prayer & Calendar" into Two Cards + Add a Books Card
 
-### Root Cause
+### Current State
 
-The white screen occurs because `ReadPage` always sets `loading = true` at the start of `loadInitialPages()`, even when the verse data for that page is already in the `versesCache` Map. This causes React to render the skeleton loader (white boxes) for the duration of the async fetch — even if the cache lookup is instant.
+The Quick Access cards currently has 5 items:
+1. 99 Names of Allah
+2. Prayer & Calendar (combined — links to `/prayer-times`)
+3. Daily Duas
+4. Masail
+5. Bookmarks (desktop-only)
 
-```tsx
-// In loadInitialPages():
-setLoading(true);  // ← Always triggers white screen flash
-// ...
-const verses = await fetchVersesForPage(pageNum, needsV1Data);  // cache hit is instant but async
-```
+The grid is `grid-cols-2` on mobile (so only 4 visible cards in 2 rows).
 
-Even though `versesCache` is a module-level Map (survives navigation), the `setLoading(true)` → `setLoading(false)` cycle still causes a render flash because React batches these state updates through the async boundary.
+### What the User Wants
 
-### The Fix
+- Split card #2 into two separate cards:
+  - **Prayer Times** → `/prayer-times`
+  - **Islamic Calendar** → `/islamic-calendar`
+- Add a new **Books** card → `/read` (the QuranReadHub page showing Mushaf + PDF books)
+- This gives **6 cards total** displayed in a **3-column grid** on mobile (2 rows × 3 cols)
 
-**1. Check cache synchronously before setting `loading = true`**
+### New Card List (in order)
 
-Before starting the async load, check if ALL pages in the initial window are already cached. If they are, load them synchronously (no async needed) and skip the loading state entirely:
+| # | Label (EN) | Label (BN) | Path | Icon | Gradient |
+|---|---|---|---|---|---|
+| 1 | 99 Names of Allah | আল্লাহর ৯৯ নাম | `/names-of-allah` | Sparkles | sky→blue |
+| 2 | Prayer Times | নামাজের সময় | `/prayer-times` | Clock | violet→purple |
+| 3 | Daily Duas | দৈনিক দোয়া | `/daily-dua` | HandHeart | amber→orange |
+| 4 | Masail | মাসআলা | `/masail` | HelpCircle | emerald→teal |
+| 5 | Islamic Calendar | ইসলামিক ক্যালেন্ডার | `/islamic-calendar` | CalendarDays | cyan→sky |
+| 6 | Books | বই সমূহ | `/read` | BookOpen | rose→pink |
 
-```tsx
-const loadInitialPages = async () => {
-  const needsV1Data = arabicFont === "v1";
-  const startPage = Math.max(initialPage - 1, 1);
-  const endPage = Math.min(initialPage + 1, 604);
-  const pageNumbers = [];
-  for (let i = startPage; i <= endPage; i++) pageNumbers.push(i);
-  
-  const cacheOffset = needsV1Data ? 10000 : 0;
-  
-  // Check if ALL pages are already cached
-  const allCached = pageNumbers.every(p => versesCache.has(p + cacheOffset));
-  
-  if (allCached) {
-    // Load synchronously from cache — no loading state needed
-    const pagesData = pageNumbers.map(pageNum => ({
-      pageNumber: pageNum,
-      verses: versesCache.get(pageNum + cacheOffset)!,
-      juzNumber: getJuzForPage(pageNum),
-    }));
-    setLoadedPages(pagesData);
-    setLoading(false);
-    return;
-  }
-  
-  // Only show loading state when actually fetching
-  setLoading(true);
-  // ... rest of async fetch logic
-};
-```
+### Technical Changes — `src/components/desktop/QuickAccessCards.tsx`
 
-**2. Initialize `loading` state based on whether the page is already cached**
-
-Instead of `useState(true)`, initialize `loading` based on whether the initial page data is already in cache. This prevents even the first render from showing a skeleton:
-
-```tsx
-const [loading, setLoading] = useState<boolean>(() => {
-  // If initial page is cached, we can render immediately
-  const cacheKey = initialPage; // simplified (V1 adds 10000)
-  return !versesCache.has(cacheKey);
-});
-```
+1. **Import** `CalendarDays` and `BookOpen` from `lucide-react` (alongside existing imports)
+2. **Remove** the combined `prayer-calendar` entry
+3. **Add** separate `prayer` entry (same gradient, just Prayer Times label)
+4. **Add** `calendar` entry using `CalendarDays` icon with cyan gradient
+5. **Add** `books` entry using `BookOpen` icon with rose→pink gradient (previously used for Bookmarks)
+6. **Remove** `desktopOnly` from Bookmarks OR replace it with Books card — since we now have exactly 6 cards, no need for any `desktopOnly` hiding
+7. **Change grid**: `grid-cols-3 lg:grid-cols-6` — 3 per row on mobile, 6 per row on desktop
+8. **Fix label text**: change `truncate` to `line-clamp-2` with `text-[10px] sm:text-xs` to prevent cropping on small cards
+9. **Shrink mobile icon**: `h-8 w-8` on mobile (`sm:h-10 sm:w-10` on larger), reduce padding to `p-2.5 sm:p-4`
 
 ### Files to Change
 
-- **`src/pages/ReadPage.tsx`** — Two changes:
-  1. Initialize `loading` state from cache (instant render when cached)
-  2. Skip `setLoading(true)` when all required pages are in cache
+- **`src/components/desktop/QuickAccessCards.tsx`** — only file that needs changing
 
-### What This Fixes
+### Layout Diagram
 
-- **First visit** to `/read/34`: Shows skeleton loader (normal, data must be fetched)
-- **Return visit** via "Continue Reading": Instantly renders the page with no white flash, then scrolls to the marked verse
-- **Verse highlight**: The `lastReadVerse` from localStorage is already in state on mount, so the teal color appears immediately with the content
+```text
+Mobile (3-col grid):
+┌──────────┬──────────┬──────────┐
+│ 99 Names │  Prayer  │  Daily   │
+│ of Allah │  Times   │  Duas    │
+├──────────┼──────────┼──────────┤
+│  Masail  │ Islamic  │  Books   │
+│          │ Calendar │          │
+└──────────┴──────────┴──────────┘
 
-### Technical Note
-
-The `versesCache` Map is declared at module level (`const versesCache = new Map<number, Verse[]>()`), so it persists across React Router navigations within the same browser session. The fix simply exploits this existing cache by checking it synchronously before triggering any loading state.
+Desktop (6-col grid):
+┌───────┬───────┬───────┬───────┬───────┬───────┐
+│Names  │Prayer │Duas   │Masail │Calendar│Books │
+└───────┴───────┴───────┴───────┴───────┴───────┘
+```
