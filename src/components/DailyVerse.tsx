@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Sparkles, ChevronRight, Bookmark } from "lucide-react";
+import { Sparkles, ChevronRight, Bookmark, Copy, Check } from "lucide-react";
 import { cn, formatNumber, sanitizeArabicText } from "@/lib/utils";
+import { toast } from "sonner";
 import { Language } from "@/types/language";
 import { supabase } from "@/integrations/supabase/client";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -29,6 +30,7 @@ const CACHE_KEY = 'daily-verse-cache';
 export const DailyVerse = ({ language }: DailyVerseProps) => {
   const [verse, setVerse] = useState<CachedVerse['verse'] | null>(null);
   const [isBookmarked, setIsBookmarked] = useState(false);
+  const [copied, setCopied] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
   const { arabicFontSize } = useArabicFontSize();
@@ -127,6 +129,18 @@ export const DailyVerse = ({ language }: DailyVerseProps) => {
     }
   };
 
+  const handleCopy = () => {
+    if (!verse) return;
+    const ref = language === "bn"
+      ? `${verse.surahNameBengali}: ${verse.verseNumber}`
+      : `${verse.surahNameEnglish}: ${verse.verseNumber}`;
+    const text = `${verse.arabic}\n\n${language === "bn" ? verse.bengali : verse.english}\n\n— ${ref}`;
+    navigator.clipboard.writeText(text);
+    setCopied(true);
+    toast.success(language === "bn" ? "কপি হয়েছে" : "Copied!", { duration: 1500 });
+    setTimeout(() => setCopied(false), 2000);
+  };
+
   if (isLoading) {
     return (
       <div className="mx-auto mt-10 max-w-2xl animate-fade-in" style={{ animationDelay: "0.3s" }}>
@@ -161,13 +175,21 @@ export const DailyVerse = ({ language }: DailyVerseProps) => {
 
       {/* Verse Card */}
       <div className="verse-card group">
-        {/* Bookmark Button */}
-        <button
-          onClick={() => setIsBookmarked(!isBookmarked)}
-          className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-full bg-background/80 text-muted-foreground opacity-0 transition-all hover:bg-background hover:text-primary group-hover:opacity-100"
-        >
-          <Bookmark className={`h-4 w-4 ${isBookmarked ? "fill-primary text-primary" : ""}`} />
-        </button>
+        {/* Action Buttons */}
+        <div className="absolute right-4 top-4 flex items-center gap-1">
+          <button
+            onClick={handleCopy}
+            className="flex h-8 w-8 items-center justify-center rounded-full bg-background/80 text-muted-foreground opacity-0 transition-all hover:bg-background hover:text-primary group-hover:opacity-100"
+          >
+            {copied ? <Check className="h-4 w-4 text-primary" /> : <Copy className="h-4 w-4" />}
+          </button>
+          <button
+            onClick={() => setIsBookmarked(!isBookmarked)}
+            className="flex h-8 w-8 items-center justify-center rounded-full bg-background/80 text-muted-foreground opacity-0 transition-all hover:bg-background hover:text-primary group-hover:opacity-100"
+          >
+            <Bookmark className={`h-4 w-4 ${isBookmarked ? "fill-primary text-primary" : ""}`} />
+          </button>
+        </div>
 
         {/* Arabic Text */}
         <p 
