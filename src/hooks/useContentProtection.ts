@@ -1,89 +1,58 @@
 import { useEffect } from "react";
 
+const isEditableTarget = (e: Event): boolean => {
+  const target = e.target as HTMLElement;
+  return (
+    target.tagName === "INPUT" ||
+    target.tagName === "TEXTAREA" ||
+    target.isContentEditable
+  );
+};
+
 export const useContentProtection = () => {
   useEffect(() => {
-    // Disable right-click context menu
     const handleContextMenu = (e: MouseEvent) => {
+      if (isEditableTarget(e)) return;
       e.preventDefault();
-      return false;
     };
 
-    // Disable keyboard shortcuts for copy, inspect, view source
     const handleKeyDown = (e: KeyboardEvent) => {
-      // Disable F12 (Dev Tools)
-      if (e.key === "F12") {
-        e.preventDefault();
-        return false;
-      }
+      const inEditable = isEditableTarget(e);
 
-      // Disable Ctrl+Shift+I (Dev Tools)
-      if (e.ctrlKey && e.shiftKey && e.key === "I") {
-        e.preventDefault();
-        return false;
-      }
+      // Always block dev tools shortcuts
+      if (e.key === "F12") { e.preventDefault(); return; }
+      if (e.ctrlKey && e.shiftKey && (e.key === "I" || e.key === "J")) { e.preventDefault(); return; }
+      if (e.ctrlKey && e.key === "u") { e.preventDefault(); return; }
+      if (e.ctrlKey && e.key === "s") { e.preventDefault(); return; }
+      if (e.ctrlKey && e.key === "p") { e.preventDefault(); return; }
 
-      // Disable Ctrl+Shift+J (Console)
-      if (e.ctrlKey && e.shiftKey && e.key === "J") {
-        e.preventDefault();
-        return false;
-      }
+      // Allow all shortcuts inside input/textarea
+      if (inEditable) return;
 
-      // Disable Ctrl+U (View Source)
-      if (e.ctrlKey && e.key === "u") {
-        e.preventDefault();
-        return false;
-      }
-
-      // Disable Ctrl+S (Save)
-      if (e.ctrlKey && e.key === "s") {
-        e.preventDefault();
-        return false;
-      }
-
-      // Disable Ctrl+C (Copy)
-      if (e.ctrlKey && e.key === "c") {
-        e.preventDefault();
-        return false;
-      }
-
-      // Disable Ctrl+A (Select All)
-      if (e.ctrlKey && e.key === "a") {
-        e.preventDefault();
-        return false;
-      }
-
-      // Disable Ctrl+P (Print)
-      if (e.ctrlKey && e.key === "p") {
-        e.preventDefault();
-        return false;
-      }
+      // Block copy/select-all outside editable elements
+      if (e.ctrlKey && e.key === "c") { e.preventDefault(); return; }
+      if (e.ctrlKey && e.key === "a") { e.preventDefault(); return; }
     };
 
-    // Disable copy event
     const handleCopy = (e: ClipboardEvent) => {
+      if (isEditableTarget(e)) return;
       e.preventDefault();
-      return false;
     };
 
-    // Disable cut event
     const handleCut = (e: ClipboardEvent) => {
+      if (isEditableTarget(e)) return;
       e.preventDefault();
-      return false;
     };
 
-    // Disable select start
     const handleSelectStart = (e: Event) => {
+      if (isEditableTarget(e)) return;
       e.preventDefault();
-      return false;
     };
 
-    // Disable drag start for images
     const handleDragStart = (e: DragEvent) => {
       e.preventDefault();
-      return false;
     };
 
-    // Add event listeners
     document.addEventListener("contextmenu", handleContextMenu);
     document.addEventListener("keydown", handleKeyDown);
     document.addEventListener("copy", handleCopy);
@@ -91,7 +60,6 @@ export const useContentProtection = () => {
     document.addEventListener("selectstart", handleSelectStart);
     document.addEventListener("dragstart", handleDragStart);
 
-    // Cleanup
     return () => {
       document.removeEventListener("contextmenu", handleContextMenu);
       document.removeEventListener("keydown", handleKeyDown);
