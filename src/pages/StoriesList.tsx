@@ -165,10 +165,6 @@ const StoriesList = ({ language }: StoriesListProps) => {
                             {story.author}
                           </span>
                         )}
-                        <span className="flex items-center gap-1">
-                          <Clock className="h-3 w-3" />
-                          {format(new Date(story.created_at), "MMM d, yyyy")}
-                        </span>
                       </div>
                     </div>
 
