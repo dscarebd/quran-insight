@@ -1,5 +1,5 @@
-import { useState, useEffect, useMemo } from "react";
-import { Clock, MapPin, RefreshCw, Sunrise, Sun, Sunset, Moon, Crosshair, ChevronDown } from "lucide-react";
+import { useState, useEffect, useMemo, useRef } from "react";
+import { Clock, MapPin, RefreshCw, Sunrise, Sun, Sunset, Moon, Crosshair, ChevronDown, Globe, Flag } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Language } from "@/types/language";
 import { Card, CardContent } from "@/components/ui/card";
@@ -40,13 +40,19 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
   const [selectedCity, setSelectedCity] = useState('dhaka');
   const [currentTime, setCurrentTime] = useState(new Date());
   const [timeRemaining, setTimeRemaining] = useState<{ hours: number; minutes: number; totalMinutes: number } | null>(null);
+  const [showLocationPicker, setShowLocationPicker] = useState(false);
+  const [locationTab, setLocationTab] = useState<'bangladesh' | 'world'>('bangladesh');
+  const locationPickerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => { window.scrollTo(0, 0); }, []);
 
   // Auto-detect location on first load
   useEffect(() => {
     const hasManualLocation = localStorage.getItem('prayerTimesBDLocation');
-    if (!hasManualLocation && navigator.geolocation) {
+    if (hasManualLocation) {
+      // Use saved Bangladesh location
+      setUseBangladeshLocation(true);
+    } else if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           setLocation({ latitude: position.coords.latitude, longitude: position.coords.longitude, city: language === 'bn' ? 'আপনার অবস্থান' : 'Your Location' });
@@ -95,8 +101,20 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
   };
   const handleUpazilaChange = (upazilaId: string) => {
     setSelectedUpazila(upazilaId);
-    setTimeout(() => setUseBangladeshLocation(false), 300);
+    enableBangladeshLocation();
+    setTimeout(() => setShowLocationPicker(false), 300);
   };
+
+  // Close location picker on outside click
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (locationPickerRef.current && !locationPickerRef.current.contains(e.target as Node)) {
+        setShowLocationPicker(false);
+      }
+    };
+    if (showLocationPicker) document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [showLocationPicker]);
 
   useEffect(() => {
     if (useBangladeshLocation) {
@@ -401,19 +419,126 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
   return (
     <div className="min-h-screen bg-background">
       {/* Location Bar */}
-      <div className="bg-card border-b border-border">
+      <div className="bg-card border-b border-border" ref={locationPickerRef}>
         <div className="max-w-4xl mx-auto px-4 py-3 flex items-center gap-3">
-          <div className="flex items-center gap-2 flex-1 min-w-0">
+          <button
+            onClick={() => setShowLocationPicker(!showLocationPicker)}
+            className="flex items-center gap-2 flex-1 min-w-0 text-left"
+          >
             <MapPin className="w-4 h-4 text-primary shrink-0" />
             <span className={cn("text-sm font-medium text-foreground truncate", language === 'bn' && 'font-bengali')}>
               {location.city || (language === 'bn' ? 'ঢাকা' : 'Dhaka')}
             </span>
-            <ChevronDown className="w-3 h-3 text-muted-foreground shrink-0" />
-          </div>
-          <Button variant="ghost" size="icon" onClick={getUserLocation} disabled={isLoading} className="h-8 w-8 shrink-0">
+            <ChevronDown className={cn("w-3 h-3 text-muted-foreground shrink-0 transition-transform", showLocationPicker && "rotate-180")} />
+          </button>
+          <Button variant="ghost" size="icon" onClick={(e) => { e.stopPropagation(); getUserLocation(); setShowLocationPicker(false); }} disabled={isLoading} className="h-8 w-8 shrink-0">
             {isLoading ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Crosshair className="w-4 h-4" />}
           </Button>
         </div>
+
+        {/* Location Picker Panel */}
+        {showLocationPicker && (
+          <div className="max-w-4xl mx-auto px-4 pb-4 space-y-3 border-t border-border pt-3">
+            {/* Tab Toggle */}
+            <div className="flex gap-2">
+              <Button
+                variant={locationTab === 'bangladesh' ? 'default' : 'outline'}
+                size="sm"
+                onClick={() => setLocationTab('bangladesh')}
+                className="flex-1 gap-1.5"
+              >
+                <Flag className="w-3.5 h-3.5" />
+                {language === 'bn' ? 'বাংলাদেশ' : 'Bangladesh'}
+              </Button>
+              <Button
+                variant={locationTab === 'world' ? 'default' : 'outline'}
+                size="sm"
+                onClick={() => setLocationTab('world')}
+                className="flex-1 gap-1.5"
+              >
+                <Globe className="w-3.5 h-3.5" />
+                {language === 'bn' ? 'বিশ্ব' : 'World'}
+              </Button>
+            </div>
+
+            {locationTab === 'bangladesh' ? (
+              <div className="space-y-2.5">
+                {/* Division */}
+                <div>
+                  <label className={cn("text-xs text-muted-foreground mb-1 block", language === 'bn' && 'font-bengali')}>
+                    {language === 'bn' ? 'বিভাগ' : 'Division'}
+                  </label>
+                  <Select value={selectedDivision} onValueChange={handleDivisionChange}>
+                    <SelectTrigger className="h-9 bg-background">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent className="bg-popover z-[100]">
+                      {bangladeshDivisions.map(div => (
+                        <SelectItem key={div.id} value={div.id}>
+                          {language === 'bn' ? div.name_bn : div.name_en}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                {/* District */}
+                <div>
+                  <label className={cn("text-xs text-muted-foreground mb-1 block", language === 'bn' && 'font-bengali')}>
+                    {language === 'bn' ? 'জেলা' : 'District'}
+                  </label>
+                  <Select value={selectedDistrict} onValueChange={handleDistrictChange}>
+                    <SelectTrigger className="h-9 bg-background">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent className="bg-popover z-[100] max-h-60">
+                      {getDistricts().map(dist => (
+                        <SelectItem key={dist.id} value={dist.id}>
+                          {language === 'bn' ? dist.name_bn : dist.name_en}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                {/* Upazila */}
+                <div>
+                  <label className={cn("text-xs text-muted-foreground mb-1 block", language === 'bn' && 'font-bengali')}>
+                    {language === 'bn' ? 'উপজেলা' : 'Upazila'}
+                  </label>
+                  <Select value={selectedUpazila} onValueChange={handleUpazilaChange}>
+                    <SelectTrigger className="h-9 bg-background">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent className="bg-popover z-[100] max-h-60">
+                      {getUpazilas().map(upz => (
+                        <SelectItem key={upz.id} value={upz.id}>
+                          {language === 'bn' ? upz.name_bn : upz.name_en}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+            ) : (
+              <div>
+                <label className={cn("text-xs text-muted-foreground mb-1 block", language === 'bn' && 'font-bengali')}>
+                  {language === 'bn' ? 'শহর নির্বাচন করুন' : 'Select City'}
+                </label>
+                <Select value={selectedCity} onValueChange={(city) => { handleCityChange(city); setShowLocationPicker(false); }}>
+                  <SelectTrigger className="h-9 bg-background">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent className="bg-popover z-[100] max-h-60">
+                    {Object.entries(cityNames).filter(([key]) => key !== 'custom').map(([key, val]) => (
+                      <SelectItem key={key} value={key}>
+                        {language === 'bn' ? val.bn : val.en} ({val.tz})
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
+          </div>
+        )}
       </div>
 
       <div className="max-w-4xl mx-auto px-4 py-4 space-y-4">
