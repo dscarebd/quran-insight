@@ -70,7 +70,7 @@ export const QuickAccessCards = ({ language }: QuickAccessCardsProps) => {
       descEn: "Find Qibla direction",
       descBn: "কিবলার দিক খুঁজুন",
       path: "/qibla",
-      gradient: "from-teal-500 to-emerald-600",
+      gradient: "from-indigo-500 to-blue-700",
       hideOnDesktop: true,
     },
     {
