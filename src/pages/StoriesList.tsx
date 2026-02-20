@@ -125,9 +125,9 @@ const StoriesList = ({ language }: StoriesListProps) => {
                   onClick={() => navigate(`/stories/${story.id}`)}
                   className="w-full text-left group"
                 >
-                  <div className="overflow-hidden rounded-xl bg-card border border-border transition-all duration-300 hover:shadow-card hover:-translate-y-0.5 flex flex-col sm:flex-row">
+                  <div className="overflow-hidden rounded-xl bg-card border border-border transition-all duration-300 hover:shadow-card hover:-translate-y-0.5 flex flex-row">
                     {/* Cover Image: full width on mobile, 1:1 square on sm+ */}
-                    <div className="relative shrink-0 w-full h-44 sm:w-36 sm:h-36 md:w-44 md:h-44 overflow-hidden">
+                    <div className="relative shrink-0 w-28 h-28 sm:w-36 sm:h-36 md:w-44 md:h-44 overflow-hidden">
                       {story.cover_image_url ? (
                         <img
                           src={story.cover_image_url}
