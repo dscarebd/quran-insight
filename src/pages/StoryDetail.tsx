@@ -124,21 +124,22 @@ const StoryDetail = ({ language }: StoryDetailProps) => {
       )}
 
       <article className="mx-auto max-w-6xl px-4 sm:px-6 md:px-8 py-6 sm:py-8">
+        {/* Desktop: Back button at top */}
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => navigate("/stories")}
+          className={cn("mb-4 -ml-2 w-fit hidden md:inline-flex", language === "bn" && "font-bengali")}
+        >
+          <ArrowLeft className="h-4 w-4 mr-1.5" />
+          {language === "bn" ? "ফিরে যান" : "Back"}
+        </Button>
+
         {/* Desktop: side-by-side layout - details left, image right */}
         {story.cover_image_url && (
           <div className="hidden md:flex gap-8 mb-8">
             {/* Left: Meta info */}
             <div className="flex-1 flex flex-col justify-center">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => navigate("/stories")}
-                className={cn("mb-4 -ml-2 w-fit", language === "bn" && "font-bengali")}
-              >
-                <ArrowLeft className="h-4 w-4 mr-1.5" />
-                {language === "bn" ? "ফিরে যান" : "Back"}
-              </Button>
-
               {catLabel && (
                 <Badge
                   variant="secondary"
@@ -180,18 +181,6 @@ const StoryDetail = ({ language }: StoryDetailProps) => {
           </div>
         )}
 
-        {/* Desktop: back button when no cover */}
-        {!story.cover_image_url && (
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => navigate("/stories")}
-            className={cn("mb-6 -ml-2 hidden md:inline-flex", language === "bn" && "font-bengali")}
-          >
-            <ArrowLeft className="h-4 w-4 mr-1.5" />
-            {language === "bn" ? "ফিরে যান" : "Back"}
-          </Button>
-        )}
 
         {/* Mobile-only meta (below image) */}
         <div className="md:hidden">
