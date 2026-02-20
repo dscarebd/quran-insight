@@ -70,16 +70,16 @@ const StoryDetail = ({ language }: StoryDetailProps) => {
 
   return (
     <div className="flex-1 overflow-y-auto max-w-full">
-      {/* Hero Cover */}
+      {/* Cover Image - full size, no overlay back button on mobile */}
       {story.cover_image_url && (
-        <div className="relative w-full h-48 sm:h-64 md:h-80 overflow-hidden">
+        <div className="relative w-full overflow-hidden">
           <img
             src={story.cover_image_url}
             alt=""
-            className="w-full h-full object-cover"
+            className="w-full h-auto object-contain"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/30 to-transparent" />
-          <div className="absolute top-4 left-4">
+          {/* Back button only on desktop */}
+          <div className="absolute top-4 left-4 hidden sm:block">
             <Button
               variant="secondary"
               size="sm"
@@ -94,13 +94,13 @@ const StoryDetail = ({ language }: StoryDetailProps) => {
       )}
 
       <article className="mx-auto max-w-3xl px-4 sm:px-6 md:px-8 py-6 sm:py-8">
-        {/* Back button if no cover */}
+        {/* Back button if no cover - desktop only */}
         {!story.cover_image_url && (
           <Button
             variant="ghost"
             size="sm"
             onClick={() => navigate("/stories")}
-            className={cn("mb-6 -ml-2", language === "bn" && "font-bengali")}
+            className={cn("mb-6 -ml-2 hidden sm:inline-flex", language === "bn" && "font-bengali")}
           >
             <ArrowLeft className="h-4 w-4 mr-1.5" />
             {language === "bn" ? "ফিরে যান" : "Back"}
@@ -122,19 +122,15 @@ const StoryDetail = ({ language }: StoryDetailProps) => {
           {title}
         </h1>
 
-        {/* Meta */}
-        <div className="flex items-center gap-4 text-sm text-muted-foreground mb-6">
-          {story.author && (
+        {/* Meta - author only, no date */}
+        {story.author && (
+          <div className="flex items-center gap-4 text-sm text-muted-foreground mb-6">
             <span className={cn("flex items-center gap-1.5", language === "bn" && "font-bengali")}>
               <User className="h-4 w-4" />
               {story.author}
             </span>
-          )}
-          <span className="flex items-center gap-1.5">
-            <Clock className="h-4 w-4" />
-            {format(new Date(story.created_at), "MMMM d, yyyy")}
-          </span>
-        </div>
+          </div>
+        )}
 
         <Separator className="mb-8" />
 
@@ -145,19 +141,6 @@ const StoryDetail = ({ language }: StoryDetailProps) => {
           language === "bn" && "font-bengali text-base sm:text-lg leading-loose"
         )}>
           {content}
-        </div>
-
-        {/* Footer nav */}
-        <Separator className="mt-10 mb-6" />
-        <div className="flex justify-center">
-          <Button
-            variant="outline"
-            onClick={() => navigate("/stories")}
-            className={cn(language === "bn" && "font-bengali")}
-          >
-            <ArrowLeft className="h-4 w-4 mr-1.5" />
-            {language === "bn" ? "সকল গল্প দেখুন" : "View All Stories"}
-          </Button>
         </div>
       </article>
     </div>
