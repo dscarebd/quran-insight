@@ -65,7 +65,7 @@ const StoriesList = ({ language }: StoriesListProps) => {
 
   return (
     <div className="flex-1 overflow-y-auto max-w-full">
-      <div className="mx-auto max-w-5xl px-3 sm:px-4 md:px-6 py-6 sm:py-8">
+      <div className="mx-auto max-w-6xl px-3 sm:px-4 md:px-6 py-6 sm:py-8">
         {/* Header */}
         <div className="mb-8 text-center">
           <h1 className={cn(
