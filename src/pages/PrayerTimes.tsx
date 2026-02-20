@@ -506,7 +506,7 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
         </Card>
 
         {/* Bottom Cards: Sehri & Iftar (only during Ramadan) */}
-        {prayerTimes && isRamadan && (
+        {prayerTimes && (
           <div className="grid grid-cols-3 gap-3">
             <div className="rounded-xl bg-primary/15 p-4 text-center">
               <p className="text-lg font-bold text-primary">{formatTimeShort(prayerTimes.fajr.start)}</p>
