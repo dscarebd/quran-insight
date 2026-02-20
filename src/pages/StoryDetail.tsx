@@ -1,9 +1,10 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
+import { useRef, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Language } from "@/types/language";
 import { cn } from "@/lib/utils";
-import { ArrowLeft, ScrollText, Loader2, Clock, User } from "lucide-react";
+import { ArrowLeft, ScrollText, Loader2, Clock, User, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
@@ -16,6 +17,7 @@ interface StoryDetailProps {
 const StoryDetail = ({ language }: StoryDetailProps) => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const touchStartX = useRef<number | null>(null);
 
   const { data: story, isLoading } = useQuery({
     queryKey: ["story", id],
@@ -31,6 +33,21 @@ const StoryDetail = ({ language }: StoryDetailProps) => {
     enabled: !!id,
   });
 
+  // Fetch all published stories for prev/next navigation
+  const { data: allStories = [] } = useQuery({
+    queryKey: ["stories"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("stories")
+        .select("id")
+        .eq("is_published", true)
+        .order("display_order", { ascending: true })
+        .order("created_at", { ascending: false });
+      if (error) throw error;
+      return data;
+    },
+  });
+
   const { data: dbCategories = [] } = useQuery({
     queryKey: ["story-categories"],
     queryFn: async () => {
@@ -42,6 +59,31 @@ const StoryDetail = ({ language }: StoryDetailProps) => {
       return data;
     },
   });
+
+  const currentIndex = allStories.findIndex((s) => s.id === id);
+  const prevStory = currentIndex > 0 ? allStories[currentIndex - 1] : null;
+  const nextStory = currentIndex < allStories.length - 1 ? allStories[currentIndex + 1] : null;
+
+  const goToPrev = useCallback(() => {
+    if (prevStory) navigate(`/stories/${prevStory.id}`);
+  }, [prevStory, navigate]);
+
+  const goToNext = useCallback(() => {
+    if (nextStory) navigate(`/stories/${nextStory.id}`);
+  }, [nextStory, navigate]);
+
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+  }, []);
+
+  const handleTouchEnd = useCallback((e: React.TouchEvent) => {
+    if (touchStartX.current === null) return;
+    const diff = e.changedTouches[0].clientX - touchStartX.current;
+    touchStartX.current = null;
+    if (Math.abs(diff) < 80) return; // minimum swipe distance
+    if (diff > 0) goToPrev();
+    else goToNext();
+  }, [goToPrev, goToNext]);
 
   if (isLoading) {
     return (
@@ -69,7 +111,7 @@ const StoryDetail = ({ language }: StoryDetailProps) => {
   const catLabel = catEntry ? { en: catEntry.name_english, bn: catEntry.name_bengali } : null;
 
   return (
-    <div className="flex-1 overflow-y-auto max-w-full">
+    <div className="flex-1 overflow-y-auto max-w-full" onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
       {/* Mobile: full-width image on top */}
       {story.cover_image_url && (
         <div className="relative w-full overflow-hidden md:hidden">
@@ -220,6 +262,31 @@ const StoryDetail = ({ language }: StoryDetailProps) => {
           language === "bn" && "font-bengali text-base sm:text-lg leading-loose"
         )}>
           {content}
+        {/* Prev / Next navigation */}
+        {(prevStory || nextStory) && (
+          <div className="flex items-center justify-between mt-10 pt-6 border-t border-border">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={goToPrev}
+              disabled={!prevStory}
+              className={cn("gap-1.5", language === "bn" && "font-bengali")}
+            >
+              <ChevronLeft className="h-4 w-4" />
+              {language === "bn" ? "আগের গল্প" : "Previous"}
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={goToNext}
+              disabled={!nextStory}
+              className={cn("gap-1.5", language === "bn" && "font-bengali")}
+            >
+              {language === "bn" ? "পরের গল্প" : "Next"}
+              <ChevronRight className="h-4 w-4" />
+            </Button>
+          </div>
+        )}
         </div>
       </article>
     </div>
