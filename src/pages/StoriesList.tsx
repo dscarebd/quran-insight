@@ -143,7 +143,7 @@ const StoriesList = ({ language }: StoriesListProps) => {
 
                     {/* Details */}
                     <div className="flex-1 p-3 sm:p-4 flex flex-col justify-center min-w-0">
-                      <Badge variant="outline" className={cn("w-fit mb-1.5 text-[10px] sm:text-xs", language === "bn" && "font-bengali")}>
+                      <Badge variant="outline" className={cn("w-fit mb-1.5 text-[10px] sm:text-xs hidden sm:inline-flex", language === "bn" && "font-bengali")}>
                         {getCategoryLabel(story.category, language)}
                       </Badge>
                       <h3 className={cn(
