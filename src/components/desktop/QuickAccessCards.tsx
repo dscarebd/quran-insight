@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { HandHeart, Clock, Sparkles, HelpCircle, CalendarDays, ScrollText } from "lucide-react";
+import { HandHeart, Clock, Sparkles, HelpCircle, CalendarDays, ScrollText, Compass } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Language } from "@/types/language";
 
@@ -62,6 +62,16 @@ export const QuickAccessCards = ({ language }: QuickAccessCardsProps) => {
       gradient: "from-cyan-500 to-sky-600",
     },
     {
+      id: "qibla",
+      icon: Compass,
+      labelEn: "Qibla",
+      labelBn: "কিবলা",
+      descEn: "Find Qibla direction",
+      descBn: "কিবলার দিক খুঁজুন",
+      path: "/qibla",
+      gradient: "from-teal-500 to-emerald-600",
+    },
+    {
       id: "stories",
       icon: ScrollText,
       labelEn: "Stories",
@@ -74,7 +84,7 @@ export const QuickAccessCards = ({ language }: QuickAccessCardsProps) => {
   ];
 
   return (
-    <div className="grid grid-cols-3 gap-2 sm:gap-3 md:gap-4 lg:grid-cols-6">
+    <div className="grid grid-cols-3 sm:grid-cols-4 gap-2 sm:gap-3 md:gap-4 lg:grid-cols-7">
       {quickLinks.map((link) => {
         const Icon = link.icon;
         return (

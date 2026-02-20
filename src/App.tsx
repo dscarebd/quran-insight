@@ -50,6 +50,7 @@ import QuranReadHub from "./pages/QuranReadHub";
 import DirectPDFReader from "./pages/DirectPDFReader";
 import StoriesList from "./pages/StoriesList";
 import StoryDetail from "./pages/StoryDetail";
+import QiblaPage from "./pages/Qibla";
 
 
 // Lazy load admin pages
@@ -207,6 +208,11 @@ const AppContent = () => {
       <Route path="/prayer-times" element={
         <Layout language={language} onLanguageChange={handleLanguageChange}>
           <PrayerTimes language={language} />
+        </Layout>
+      } />
+      <Route path="/qibla" element={
+        <Layout language={language} onLanguageChange={handleLanguageChange}>
+          <QiblaPage language={language} />
         </Layout>
       } />
       <Route path="/names-of-allah" element={
