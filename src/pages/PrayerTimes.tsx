@@ -43,6 +43,20 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
 
   useEffect(() => { window.scrollTo(0, 0); }, []);
 
+  // Auto-detect location on first load
+  useEffect(() => {
+    const hasManualLocation = localStorage.getItem('prayerTimesBDLocation');
+    if (!hasManualLocation && navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setLocation({ latitude: position.coords.latitude, longitude: position.coords.longitude, city: language === 'bn' ? 'আপনার অবস্থান' : 'Your Location' });
+          setSelectedCity('custom');
+        },
+        () => { /* fallback to default Dhaka */ }
+      );
+    }
+  }, []);
+
   // Bangladesh hierarchical location selection
   const [selectedDivision, setSelectedDivision] = useState<string>(() => {
     const saved = localStorage.getItem('prayerTimesBDLocation');
@@ -282,7 +296,20 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
     return language === 'bn' ? str.split('').map(d => '০১২৩৪৫৬৭৮৯'[parseInt(d)] || d).join('') : str;
   };
 
-  // Countdown timer display
+  // Parse time helper (reusable)
+  const parseTimeToMins = (timeStr: string): number => {
+    if (timeStr === '--:--') return -1;
+    const match = timeStr.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
+    if (!match) return -1;
+    let hours = parseInt(match[1], 10);
+    const minutes = parseInt(match[2], 10);
+    const period = match[3].toUpperCase();
+    if (period === 'PM' && hours !== 12) hours += 12;
+    if (period === 'AM' && hours === 12) hours = 0;
+    return hours * 60 + minutes;
+  };
+
+  // Waqt countdown display (for current prayer ending / next prayer starting)
   const countdownDisplay = useMemo(() => {
     if (!timeRemaining) return { h: toBn2(0), m: toBn2(0), s: toBn2(0) };
     const now = new Date();
@@ -290,23 +317,30 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
     return { h: toBn2(timeRemaining.hours), m: toBn2(timeRemaining.minutes), s: toBn2(secs < 0 ? 0 : secs) };
   }, [timeRemaining, currentTime, language]);
 
+  // Iftar countdown (time remaining until Maghrib)
+  const iftarCountdown = useMemo(() => {
+    if (!prayerTimes) return { h: toBn2(0), m: toBn2(0), s: toBn2(0), passed: true };
+    const maghribMins = parseTimeToMins(prayerTimes.maghrib.start);
+    if (maghribMins < 0) return { h: toBn2(0), m: toBn2(0), s: toBn2(0), passed: true };
+    const now = new Date();
+    const currentMins = now.getHours() * 60 + now.getMinutes();
+    const currentSecs = now.getSeconds();
+    if (currentMins >= maghribMins) return { h: toBn2(0), m: toBn2(0), s: toBn2(0), passed: true };
+    const totalSecsLeft = (maghribMins - currentMins) * 60 - currentSecs;
+    const h = Math.floor(totalSecsLeft / 3600);
+    const m = Math.floor((totalSecsLeft % 3600) / 60);
+    const s = totalSecsLeft % 60;
+    return { h: toBn2(h), m: toBn2(m), s: toBn2(s < 0 ? 0 : s), passed: false };
+  }, [prayerTimes, currentTime, language]);
+
+  // Is it Ramadan?
+  const isRamadan = hijriDate.month === 9;
+
   // Calculate progress for the circular countdown
   const countdownProgress = useMemo(() => {
-    if (!timeRemaining || !currentPrayer || !prayerTimes) return 0;
-    // Calculate total waqt duration and elapsed
-    const parseTime = (timeStr: string): number => {
-      if (timeStr === '--:--') return -1;
-      const match = timeStr.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
-      if (!match) return -1;
-      let hours = parseInt(match[1], 10);
-      const minutes = parseInt(match[2], 10);
-      const period = match[3].toUpperCase();
-      if (period === 'PM' && hours !== 12) hours += 12;
-      if (period === 'AM' && hours === 12) hours = 0;
-      return hours * 60 + minutes;
-    };
-    const startMins = parseTime(currentPrayer.time);
-    let endMins = parseTime(currentPrayer.endTime);
+    if (!currentPrayer || !prayerTimes) return 0;
+    const startMins = parseTimeToMins(currentPrayer.time);
+    let endMins = parseTimeToMins(currentPrayer.endTime);
     if (endMins < startMins) endMins += 24 * 60;
     const totalDuration = endMins - startMins;
     const now = new Date();
@@ -383,8 +417,6 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
             </div>
           </div>
         </div>
-
-
 
 
         {/* Main Content: Countdown + Prayer List */}
@@ -473,8 +505,8 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
           </CardContent>
         </Card>
 
-        {/* Bottom Cards: Sehri & Iftar (during Ramadan) */}
-        {prayerTimes && (
+        {/* Bottom Cards: Sehri & Iftar (only during Ramadan) */}
+        {prayerTimes && isRamadan && (
           <div className="grid grid-cols-3 gap-3">
             <div className="rounded-xl bg-primary/15 p-4 text-center">
               <p className="text-lg font-bold text-primary">{formatTimeShort(prayerTimes.fajr.start)}</p>
@@ -490,7 +522,10 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
             </div>
             <div className="rounded-xl bg-primary/15 p-4 text-center">
               <p className="text-lg font-bold text-primary tabular-nums">
-                {countdownDisplay.h}:{countdownDisplay.m}:{countdownDisplay.s}
+                {iftarCountdown.passed
+                  ? (language === 'bn' ? 'ইফতার হয়েছে' : 'Iftar passed')
+                  : `${iftarCountdown.h}:${iftarCountdown.m}:${iftarCountdown.s}`
+                }
               </p>
               <p className={cn("text-xs text-muted-foreground", language === 'bn' && 'font-bengali')}>
                 {language === 'bn' ? 'ইফতার বাকি' : 'Iftar left'}
