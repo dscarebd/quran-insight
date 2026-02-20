@@ -1,49 +1,31 @@
 
 
-## Add Manual Location Selector to Prayer Times Page
+## Fix Prayer Time Accuracy (5-minute Maghrib/Iftar discrepancy)
 
-### Current State
-The Prayer Times page already has the Bangladesh hierarchical location data (8 divisions, 64 districts, 495+ upazilas) imported and state management wired up, but there is no visible UI for users to select their location manually. The location bar only shows the current city name and a GPS button.
+### Problem
+The Maghrib (Iftar) time for Mohanganj, Netrokona shows 5:53 PM but the correct time should be ~5:58 PM -- a 5-minute gap caused by two issues in the calculation algorithm.
 
-### What Will Change
+### Root Causes
 
-**Location Bar Enhancement** (in `src/pages/PrayerTimes.tsx`):
-- Make the location bar clickable to expand a location selector panel
-- Add a collapsible/expandable section below the location bar with:
-  - A toggle between "Bangladesh" and "World" location modes
-  - **Bangladesh mode**: Three cascading dropdowns -- Division, District, Upazila
-  - **World mode**: The existing city select dropdown for international locations
-- When a user selects a Bangladesh upazila, prayer times update immediately using that upazila's GPS coordinates
-- Selected location is saved to localStorage (already wired up) so it persists across sessions
+1. **Simplified Equation of Time formula** -- The current code uses a Spencer/NOAA approximation for the Equation of Time that can drift 1-3 minutes from the accurate value. The standard PrayTimes.org algorithm (used by most Islamic prayer time apps) computes Right Ascension directly from the ecliptic longitude, which is more precise.
 
-### UI Layout (Mobile-First)
+2. **No Maghrib safety offset** -- Most Bangladesh Islamic calendars and apps add a 2-3 minute buffer after astronomical sunset for Maghrib/Iftar (to account for terrain, atmospheric conditions, and precaution). The current code uses raw astronomical sunset with zero offset.
 
-```text
-+--------------------------------------+
-| [pin] Savar, Dhaka        [GPS btn]  |  <-- clickable to expand
-+--------------------------------------+
-| [Bangladesh] [World]                  |  <-- tab toggle
-|                                       |
-| Division:  [Dhaka        v]          |
-| District:  [Dhaka        v]          |
-| Upazila:   [Savar        v]          |
-+--------------------------------------+
-```
+### Solution
 
-### Technical Details
+**File to modify:** `src/data/prayerTimes.ts`
 
-1. **New state**: `showLocationPicker` (boolean) to toggle the selector panel visibility
+1. **Replace the Equation of Time calculation** with the PrayTimes.org Right Ascension-based method:
+   - Compute RA = arctan2(cos(e) * sin(L), cos(L)) / 15
+   - EqT = mean sun longitude / 15 - RA (with hour-angle normalization)
+   - This matches the U.S. Naval Observatory algorithm and is accurate to ~1 arcminute
 
-2. **Location bar**: The existing `ChevronDown` icon area becomes a clickable trigger that toggles the selector panel
+2. **Add a +3 minute offset to Maghrib** -- Standard practice in Bangladesh (IFB method) to add a small precautionary buffer after astronomical sunset for Maghrib start time. This also fixes Iftar time accuracy.
 
-3. **Bangladesh tab**: Uses the existing `bangladeshDivisions` data, `handleDivisionChange`, `handleDistrictChange`, `handleUpazilaChange` functions, and `enableBangladeshLocation()` -- all already implemented but not exposed in the UI
+3. **Propagate the offset** -- The Maghrib offset also shifts the Asr end time (Asr ends at Maghrib) and Isha calculations that depend on sunset.
 
-4. **World tab**: Renders a `Select` dropdown with the existing `cityNames` entries, using the existing `handleCityChange` function
-
-5. **Auto-close**: Panel closes after upazila selection (already handled via `setTimeout` in `handleUpazilaChange`) or when clicking outside
-
-6. **Styling**: Uses existing `Card`, `Select`, `Button` components with Tailwind classes matching the page's teal/primary theme
-
-### Files to Modify
-- `src/pages/PrayerTimes.tsx` -- Add the location picker UI section between the location bar and the main content
+### Expected Result
+- Maghrib/Iftar for Mohanganj, Netrokona will show ~5:58 PM instead of 5:53 PM
+- All other prayer times will also be slightly more accurate (~1-2 minute improvement)
+- The fix applies globally, improving accuracy for all locations
 
