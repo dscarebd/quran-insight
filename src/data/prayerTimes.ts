@@ -67,38 +67,45 @@ const getJulianDay = (date: Date): number => {
   return Math.floor(365.25 * (y + 4716)) + Math.floor(30.6001 * (m + 1)) + day + b - 1524.5;
 };
 
-// Calculate sun's equation of time and declination
+// Normalize angle to 0-360 range
+const fixAngle = (a: number): number => {
+  a = a - 360 * Math.floor(a / 360);
+  return a < 0 ? a + 360 : a;
+};
+
+// Normalize hour to 0-24 range
+const fixHour = (a: number): number => {
+  a = a - 24 * Math.floor(a / 24);
+  return a < 0 ? a + 24 : a;
+};
+
+// Calculate sun's equation of time and declination using PrayTimes.org RA-based method
 const getSunPosition = (jd: number): { declination: number; equationOfTime: number } => {
   const d = jd - 2451545.0; // Days since J2000.0
   
-  // Mean longitude of the sun
-  const L = (280.46646 + 0.9856474 * d) % 360;
+  // Mean longitude of the sun (corrected to 0-360)
+  const L = fixAngle(280.46646 + 0.9856474 * d);
   
   // Mean anomaly of the sun
-  const g = toRadians((357.5291 + 0.98560028 * d) % 360);
+  const g = fixAngle(357.5291 + 0.98560028 * d);
+  const gRad = toRadians(g);
   
-  // Ecliptic longitude
-  const lambda = toRadians(L + 1.9148 * Math.sin(g) + 0.02 * Math.sin(2 * g));
+  // Ecliptic longitude of the sun
+  const eclipticLong = fixAngle(L + 1.9148 * Math.sin(gRad) + 0.02 * Math.sin(2 * gRad) + 0.0003 * Math.sin(3 * gRad));
+  const lambdaRad = toRadians(eclipticLong);
   
   // Obliquity of the ecliptic
-  const epsilon = toRadians(23.439 - 0.0000004 * d);
+  const epsilon = 23.439 - 0.0000004 * d;
+  const epsilonRad = toRadians(epsilon);
   
   // Sun's declination
-  const declination = toDegrees(Math.asin(Math.sin(epsilon) * Math.sin(lambda)));
+  const declination = toDegrees(Math.asin(Math.sin(epsilonRad) * Math.sin(lambdaRad)));
   
-  // Equation of time (in minutes)
-  const y = Math.tan(epsilon / 2) * Math.tan(epsilon / 2);
-  const L_rad = toRadians(L);
-  const eot = 4 * toDegrees(
-    y * Math.sin(2 * L_rad) -
-    2 * 0.0167 * Math.sin(g) +
-    4 * 0.0167 * y * Math.sin(g) * Math.cos(2 * L_rad) -
-    0.5 * y * y * Math.sin(4 * L_rad) -
-    1.25 * 0.0167 * 0.0167 * Math.sin(2 * g)
-  );
+  // Right Ascension (PrayTimes.org method)
+  const RA = toDegrees(Math.atan2(Math.cos(epsilonRad) * Math.sin(lambdaRad), Math.cos(lambdaRad))) / 15;
   
-  // Convert equation of time from minutes to hours
-  const equationOfTime = eot / 60;
+  // Equation of Time = mean sun longitude / 15 - RA (in hours)
+  const equationOfTime = fixHour(L / 15 - RA);
   
   return { declination, equationOfTime };
 };
@@ -197,13 +204,14 @@ export const calculatePrayerTimes = (
   const asrHourAngle = Math.abs(asrCosAngle) <= 1 ? toDegrees(Math.acos(asrCosAngle)) / 15 : 3;
   const asr = midday + asrHourAngle;
   
-  // Maghrib (at sunset)
-  const maghrib = sunset;
+  // Maghrib (sunset + 3 minute safety buffer, standard IFB practice)
+  const maghribOffset = 3 / 60; // 3 minutes in hours
+  const maghrib = sunset + maghribOffset;
   
   // Isha
   let isha: number;
   if (params.ishaMinutes) {
-    isha = sunset + params.ishaMinutes / 60;
+    isha = maghrib + params.ishaMinutes / 60;
   } else {
     isha = getPrayerTime(latitude, declination, params.ishaAngle, equationOfTime, longitude, timezone, false);
   }
