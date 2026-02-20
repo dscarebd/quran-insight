@@ -1,34 +1,49 @@
 
-## Move "Back" Button to Top of Page (Desktop)
 
-Currently the "Back" button is nested inside the side-by-side (image + details) layout on desktop. The user wants it placed at the very top of the article area, above the cover image layout, so it's always visible at the top.
+## Add Manual Location Selector to Prayer Times Page
 
-### Changes
+### Current State
+The Prayer Times page already has the Bangladesh hierarchical location data (8 divisions, 64 districts, 495+ upazilas) imported and state management wired up, but there is no visible UI for users to select their location manually. The location bar only shows the current city name and a GPS button.
 
-**`src/pages/StoryDetail.tsx`**
+### What Will Change
 
-1. Add a standalone "Back" button at the top of the `<article>` element, visible only on desktop (`hidden md:inline-flex`)
-2. Remove the existing "Back" button from inside the side-by-side layout (lines 132-140) to avoid duplication
-3. Also keep the existing standalone back button for the no-cover-image desktop case but remove duplication
+**Location Bar Enhancement** (in `src/pages/PrayerTimes.tsx`):
+- Make the location bar clickable to expand a location selector panel
+- Add a collapsible/expandable section below the location bar with:
+  - A toggle between "Bangladesh" and "World" location modes
+  - **Bangladesh mode**: Three cascading dropdowns -- Division, District, Upazila
+  - **World mode**: The existing city select dropdown for international locations
+- When a user selects a Bangladesh upazila, prayer times update immediately using that upazila's GPS coordinates
+- Selected location is saved to localStorage (already wired up) so it persists across sessions
 
-### Technical Detail
+### UI Layout (Mobile-First)
 
-Inside the `<article>` tag (line 126), insert a new back button before the side-by-side layout:
-
-```tsx
-<article className="mx-auto max-w-6xl px-4 sm:px-6 md:px-8 py-6 sm:py-8">
-  {/* Desktop: Back button at top */}
-  <Button
-    variant="ghost"
-    size="sm"
-    onClick={() => navigate("/stories")}
-    className={cn("mb-4 -ml-2 w-fit hidden md:inline-flex", language === "bn" && "font-bengali")}
-  >
-    <ArrowLeft className="h-4 w-4 mr-1.5" />
-    {language === "bn" ? "ফিরে যান" : "Back"}
-  </Button>
-
-  {/* Desktop: side-by-side layout ... */}
+```text
++--------------------------------------+
+| [pin] Savar, Dhaka        [GPS btn]  |  <-- clickable to expand
++--------------------------------------+
+| [Bangladesh] [World]                  |  <-- tab toggle
+|                                       |
+| Division:  [Dhaka        v]          |
+| District:  [Dhaka        v]          |
+| Upazila:   [Savar        v]          |
++--------------------------------------+
 ```
 
-Then remove the back button from inside the side-by-side meta section (lines 132-140) and from the no-cover desktop section to avoid duplicates.
+### Technical Details
+
+1. **New state**: `showLocationPicker` (boolean) to toggle the selector panel visibility
+
+2. **Location bar**: The existing `ChevronDown` icon area becomes a clickable trigger that toggles the selector panel
+
+3. **Bangladesh tab**: Uses the existing `bangladeshDivisions` data, `handleDivisionChange`, `handleDistrictChange`, `handleUpazilaChange` functions, and `enableBangladeshLocation()` -- all already implemented but not exposed in the UI
+
+4. **World tab**: Renders a `Select` dropdown with the existing `cityNames` entries, using the existing `handleCityChange` function
+
+5. **Auto-close**: Panel closes after upazila selection (already handled via `setTimeout` in `handleUpazilaChange`) or when clicking outside
+
+6. **Styling**: Uses existing `Card`, `Select`, `Button` components with Tailwind classes matching the page's teal/primary theme
+
+### Files to Modify
+- `src/pages/PrayerTimes.tsx` -- Add the location picker UI section between the location bar and the main content
+
