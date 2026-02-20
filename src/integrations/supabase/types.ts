@@ -854,6 +854,51 @@ export type Database = {
         }
         Relationships: []
       }
+      stories: {
+        Row: {
+          author: string | null
+          category: string
+          content_bengali: string
+          content_english: string
+          cover_image_url: string | null
+          created_at: string
+          display_order: number
+          id: string
+          is_published: boolean
+          title_bengali: string
+          title_english: string
+          updated_at: string
+        }
+        Insert: {
+          author?: string | null
+          category?: string
+          content_bengali?: string
+          content_english?: string
+          cover_image_url?: string | null
+          created_at?: string
+          display_order?: number
+          id?: string
+          is_published?: boolean
+          title_bengali: string
+          title_english: string
+          updated_at?: string
+        }
+        Update: {
+          author?: string | null
+          category?: string
+          content_bengali?: string
+          content_english?: string
+          cover_image_url?: string | null
+          created_at?: string
+          display_order?: number
+          id?: string
+          is_published?: boolean
+          title_bengali?: string
+          title_english?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       surahs: {
         Row: {
           created_at: string | null

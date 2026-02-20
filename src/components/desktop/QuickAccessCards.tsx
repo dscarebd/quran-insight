@@ -68,7 +68,7 @@ export const QuickAccessCards = ({ language }: QuickAccessCardsProps) => {
       labelBn: "গল্প সমূহ",
       descEn: "Islamic Stories & Tafsir",
       descBn: "ইসলামিক গল্প ও তাফসীর",
-      path: "/read",
+      path: "/stories",
       gradient: "from-rose-500 to-pink-600",
     },
   ];
