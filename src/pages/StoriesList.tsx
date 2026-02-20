@@ -1,5 +1,5 @@
-import { useState, useMemo } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useMemo, useEffect } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Language } from "@/types/language";
@@ -15,7 +15,8 @@ interface StoriesListProps {
 
 const StoriesList = ({ language }: StoriesListProps) => {
   const navigate = useNavigate();
-  const [activeCategory, setActiveCategory] = useState("all");
+  const [searchParams] = useSearchParams();
+  const [activeCategory, setActiveCategory] = useState(searchParams.get("category") || "all");
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const { data: dbCategories = [] } = useQuery({
