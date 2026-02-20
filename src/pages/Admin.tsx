@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate, Outlet, useLocation } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
-import { Loader2, Book, Users, Mail, FileText, LogOut, Home, BarChart3, BookOpen, FolderOpen, HelpCircle, GraduationCap, ScrollText } from "lucide-react";
+import { Loader2, Book, Users, Mail, FileText, LogOut, Home, BarChart3, BookOpen, FolderOpen, HelpCircle, GraduationCap, ScrollText, Tags } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { NavLink } from "@/components/NavLink";
 import { cn } from "@/lib/utils";
@@ -28,6 +28,7 @@ const adminNavItems = [
   { title: "Duas", url: "/abdullah/duas", icon: BookOpen, showInMobile: false },
   { title: "Masail", url: "/abdullah/masail", icon: HelpCircle, showInMobile: false },
   { title: "Stories", url: "/abdullah/stories", icon: ScrollText, showInMobile: true },
+  { title: "Story Categories", url: "/abdullah/story-categories", icon: Tags, showInMobile: false },
   { title: "Courses", url: "/abdullah/courses", icon: GraduationCap, showInMobile: true },
   { title: "LMS Students", url: "/abdullah/lms-students", icon: Users, showInMobile: false },
   { title: "Users", url: "/abdullah/users", icon: Users, showInMobile: false },

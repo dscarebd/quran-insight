@@ -899,6 +899,33 @@ export type Database = {
         }
         Relationships: []
       }
+      story_categories: {
+        Row: {
+          created_at: string
+          display_order: number
+          id: string
+          name_bengali: string
+          name_english: string
+          slug: string
+        }
+        Insert: {
+          created_at?: string
+          display_order?: number
+          id?: string
+          name_bengali: string
+          name_english: string
+          slug: string
+        }
+        Update: {
+          created_at?: string
+          display_order?: number
+          id?: string
+          name_bengali?: string
+          name_english?: string
+          slug?: string
+        }
+        Relationships: []
+      }
       surahs: {
         Row: {
           created_at: string | null

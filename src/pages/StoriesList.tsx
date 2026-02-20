@@ -4,34 +4,42 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Language } from "@/types/language";
 import { cn } from "@/lib/utils";
-import { ScrollText, Clock, User, ChevronRight, ChevronDown } from "lucide-react";
+import { ScrollText, User, ChevronRight, ChevronDown } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
-import { format } from "date-fns";
+
 
 interface StoriesListProps {
   language: Language;
 }
 
-const CATEGORIES = [
-  { id: "all", labelEn: "All", labelBn: "সকল" },
-  { id: "prophets", labelEn: "Prophets", labelBn: "নবীদের কাহিনী" },
-  { id: "tafsir", labelEn: "Tafsir", labelBn: "তাফসীর" },
-  { id: "history", labelEn: "History", labelBn: "ইতিহাস" },
-  { id: "moral", labelEn: "Moral", labelBn: "শিক্ষামূলক" },
-  { id: "general", labelEn: "General", labelBn: "সাধারণ" },
-];
-
-const getCategoryLabel = (categoryId: string, language: Language) => {
-  const cat = CATEGORIES.find((c) => c.id === categoryId);
-  if (!cat) return categoryId;
-  return language === "bn" ? cat.labelBn : cat.labelEn;
-};
-
 const StoriesList = ({ language }: StoriesListProps) => {
   const navigate = useNavigate();
   const [activeCategory, setActiveCategory] = useState("all");
   const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  const { data: dbCategories = [] } = useQuery({
+    queryKey: ["story-categories"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("story_categories")
+        .select("*")
+        .order("display_order", { ascending: true });
+      if (error) throw error;
+      return data;
+    },
+  });
+
+  const CATEGORIES = [
+    { id: "all", labelEn: "All", labelBn: "সকল" },
+    ...dbCategories.map((c) => ({ id: c.slug, labelEn: c.name_english, labelBn: c.name_bengali })),
+  ];
+
+  const getCategoryLabel = (categoryId: string) => {
+    const cat = CATEGORIES.find((c) => c.id === categoryId);
+    if (!cat) return categoryId;
+    return language === "bn" ? cat.labelBn : cat.labelEn;
+  };
 
   const { data: stories = [], isLoading } = useQuery({
     queryKey: ["stories"],
@@ -84,7 +92,7 @@ const StoriesList = ({ language }: StoriesListProps) => {
               language === "bn" && "font-bengali"
             )}
           >
-            {getCategoryLabel(activeCategory === "all" ? "all" : activeCategory, language) || (language === "bn" ? "সকল" : "All")}
+            {getCategoryLabel(activeCategory === "all" ? "all" : activeCategory) || (language === "bn" ? "সকল" : "All")}
             <ChevronDown className={cn("h-4 w-4 transition-transform", dropdownOpen && "rotate-180")} />
           </button>
           {dropdownOpen && (
@@ -177,7 +185,7 @@ const StoriesList = ({ language }: StoriesListProps) => {
                     {/* Details */}
                     <div className="flex-1 p-3 sm:p-4 flex flex-col justify-center min-w-0">
                       <Badge variant="outline" className={cn("w-fit mb-1.5 text-[10px] sm:text-xs hidden sm:inline-flex", language === "bn" && "font-bengali")}>
-                        {getCategoryLabel(story.category, language)}
+                        {getCategoryLabel(story.category)}
                       </Badge>
                       <h3 className={cn(
                         "font-bold text-sm sm:text-base md:text-lg text-foreground line-clamp-2 mb-1 group-hover:text-primary transition-colors leading-snug",

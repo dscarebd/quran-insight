@@ -73,6 +73,7 @@ const LessonManagement = lazy(() => import("./pages/admin/LessonManagement"));
 const LmsStudentsAdmin = lazy(() => import("./pages/admin/LmsStudents"));
 const BooksManagement = lazy(() => import("./pages/admin/BooksManagement"));
 const StoriesManagement = lazy(() => import("./pages/admin/StoriesManagement"));
+const StoryCategoriesManagement = lazy(() => import("./pages/admin/StoryCategoriesManagement"));
 const queryClient = new QueryClient();
 
 const LoadingFallback = () => (
@@ -333,6 +334,7 @@ const AppContent = () => {
         <Route path="books" element={<BooksManagement />} />
         <Route path="masail" element={<MasailManagement />} />
         <Route path="stories" element={<StoriesManagement />} />
+        <Route path="story-categories" element={<StoryCategoriesManagement />} />
         <Route path="courses" element={<CourseManagement />} />
         <Route path="courses/:courseId/lessons" element={<LessonManagement />} />
         <Route path="lms-students" element={<LmsStudentsAdmin />} />
