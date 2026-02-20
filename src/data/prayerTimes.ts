@@ -191,8 +191,8 @@ export const calculatePrayerTimes = (
   const asrCotAngle = asrShadowFactor + Math.tan(toRadians(Math.abs(latitude - declination)));
   const asrAngle = toDegrees(Math.atan(1 / asrCotAngle));
   
-  // For Asr, we calculate differently - it's based on the sun's altitude
-  const asrCosAngle = (Math.sin(toRadians(90 - asrAngle)) - Math.sin(toRadians(latitude)) * Math.sin(toRadians(declination))) /
+  // For Asr, we need the hour angle when sun altitude equals asrAngle
+  const asrCosAngle = (Math.sin(toRadians(asrAngle)) - Math.sin(toRadians(latitude)) * Math.sin(toRadians(declination))) /
     (Math.cos(toRadians(latitude)) * Math.cos(toRadians(declination)));
   const asrHourAngle = Math.abs(asrCosAngle) <= 1 ? toDegrees(Math.acos(asrCosAngle)) / 15 : 3;
   const asr = midday + asrHourAngle;
