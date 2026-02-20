@@ -1,10 +1,11 @@
-import { useState, useEffect } from "react";
-import { Clock, MapPin, RefreshCw, Sunrise, Sun, Sunset, Moon, Crosshair } from "lucide-react";
+import { useState, useEffect, useMemo } from "react";
+import { Clock, MapPin, RefreshCw, Sunrise, Sun, Sunset, Moon, Crosshair, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Language } from "@/types/language";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Separator } from "@/components/ui/separator";
 
 import {
   calculatePrayerTimes,
@@ -15,7 +16,6 @@ import {
   PrayerTimes as PrayerTimesType,
   PrayerTimeRange,
   Location,
-  CalculationMethod
 } from "@/data/prayerTimes";
 import {
   bangladeshDivisions,
@@ -24,7 +24,7 @@ import {
   getUpazilaById,
   defaultBangladeshLocation,
 } from "@/data/bangladeshLocations";
-import { toBengaliNumber } from "@/data/islamicCalendar";
+import { toBengaliNumber, getCurrentHijriDate, hijriMonths } from "@/data/islamicCalendar";
 import { toast } from "sonner";
 
 interface PrayerTimesProps {
@@ -39,207 +39,87 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [selectedCity, setSelectedCity] = useState('dhaka');
   const [currentTime, setCurrentTime] = useState(new Date());
-  const [timeRemaining, setTimeRemaining] = useState<{ hours: number; minutes: number } | null>(null);
+  const [timeRemaining, setTimeRemaining] = useState<{ hours: number; minutes: number; totalMinutes: number } | null>(null);
 
-  // Scroll to top when page loads
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+  useEffect(() => { window.scrollTo(0, 0); }, []);
 
-  // Bangladesh hierarchical location selection (replaces calculation method)
+  // Bangladesh hierarchical location selection
   const [selectedDivision, setSelectedDivision] = useState<string>(() => {
     const saved = localStorage.getItem('prayerTimesBDLocation');
-    if (saved) {
-      try {
-        return JSON.parse(saved).divisionId || defaultBangladeshLocation.divisionId;
-      } catch {
-        return defaultBangladeshLocation.divisionId;
-      }
-    }
+    if (saved) { try { return JSON.parse(saved).divisionId || defaultBangladeshLocation.divisionId; } catch { return defaultBangladeshLocation.divisionId; } }
     return defaultBangladeshLocation.divisionId;
   });
-
   const [selectedDistrict, setSelectedDistrict] = useState<string>(() => {
     const saved = localStorage.getItem('prayerTimesBDLocation');
-    if (saved) {
-      try {
-        return JSON.parse(saved).districtId || defaultBangladeshLocation.districtId;
-      } catch {
-        return defaultBangladeshLocation.districtId;
-      }
-    }
+    if (saved) { try { return JSON.parse(saved).districtId || defaultBangladeshLocation.districtId; } catch { return defaultBangladeshLocation.districtId; } }
     return defaultBangladeshLocation.districtId;
   });
-
   const [selectedUpazila, setSelectedUpazila] = useState<string>(() => {
     const saved = localStorage.getItem('prayerTimesBDLocation');
-    if (saved) {
-      try {
-        return JSON.parse(saved).upazilaId || defaultBangladeshLocation.upazilaId;
-      } catch {
-        return defaultBangladeshLocation.upazilaId;
-      }
-    }
+    if (saved) { try { return JSON.parse(saved).upazilaId || defaultBangladeshLocation.upazilaId; } catch { return defaultBangladeshLocation.upazilaId; } }
     return defaultBangladeshLocation.upazilaId;
   });
-
-  // Track if using Bangladesh location
   const [useBangladeshLocation, setUseBangladeshLocation] = useState(false);
 
-  const pageTitle = {
-    en: 'Prayer Times',
-    bn: 'নামাজের সময়',
-    hi: 'नमाज़ का समय'
-  };
+  const getDistricts = () => getDivisionById(selectedDivision)?.districts || [];
+  const getUpazilas = () => getDistrictById(selectedDivision, selectedDistrict)?.upazilas || [];
+  const getCurrentUpazila = () => getUpazilaById(selectedDivision, selectedDistrict, selectedUpazila);
 
-  const locationLabel = {
-    en: 'Location',
-    bn: 'অবস্থান',
-    hi: 'स्थान'
-  };
-
-  const divisionLabel = {
-    en: 'Division',
-    bn: 'বিভাগ',
-    hi: 'विभाग'
-  };
-
-  const districtLabel = {
-    en: 'District',
-    bn: 'জেলা',
-    hi: 'जिला'
-  };
-
-  const upazilaLabel = {
-    en: 'Upazila',
-    bn: 'উপজেলা',
-    hi: 'उपजिला'
-  };
-
-  const nextPrayerLabel = {
-    en: 'Next Prayer',
-    bn: 'পরবর্তী নামাজ',
-    hi: 'अगली नमाज़'
-  };
-
-  const useLocationLabel = {
-    en: 'Use My Location',
-    bn: 'আমার অবস্থান ব্যবহার করুন',
-    hi: 'मेरा स्थान उपयोग करें'
-  };
-
-  const bdLocationLabel = {
-    en: 'Bangladesh Location (Detailed)',
-    bn: 'বাংলাদেশ অবস্থান (বিস্তারিত)',
-    hi: 'बांग्लादेश स्थान (विस्तृत)'
-  };
-
-  // Get districts based on selected division
-  const getDistricts = () => {
-    const division = getDivisionById(selectedDivision);
-    return division?.districts || [];
-  };
-
-  // Get upazilas based on selected district
-  const getUpazilas = () => {
-    const district = getDistrictById(selectedDivision, selectedDistrict);
-    return district?.upazilas || [];
-  };
-
-  // Get current upazila data
-  const getCurrentUpazila = () => {
-    return getUpazilaById(selectedDivision, selectedDistrict, selectedUpazila);
-  };
-
-  // Handle division change
   const handleDivisionChange = (divisionId: string) => {
     setSelectedDivision(divisionId);
     const division = getDivisionById(divisionId);
     if (division && division.districts.length > 0) {
       const firstDistrict = division.districts[0];
       setSelectedDistrict(firstDistrict.id);
-      if (firstDistrict.upazilas.length > 0) {
-        setSelectedUpazila(firstDistrict.upazilas[0].id);
-      }
+      if (firstDistrict.upazilas.length > 0) setSelectedUpazila(firstDistrict.upazilas[0].id);
     }
   };
-
-  // Handle district change
   const handleDistrictChange = (districtId: string) => {
     setSelectedDistrict(districtId);
     const district = getDistrictById(selectedDivision, districtId);
-    if (district && district.upazilas.length > 0) {
-      setSelectedUpazila(district.upazilas[0].id);
-    }
+    if (district && district.upazilas.length > 0) setSelectedUpazila(district.upazilas[0].id);
   };
-
-  // Handle upazila change - auto close after selection
   const handleUpazilaChange = (upazilaId: string) => {
     setSelectedUpazila(upazilaId);
-    // Auto close the dropdown after a brief delay
-    setTimeout(() => {
-      setUseBangladeshLocation(false);
-    }, 300);
+    setTimeout(() => setUseBangladeshLocation(false), 300);
   };
 
-  // Save Bangladesh location to localStorage
   useEffect(() => {
     if (useBangladeshLocation) {
-      localStorage.setItem('prayerTimesBDLocation', JSON.stringify({
-        divisionId: selectedDivision,
-        districtId: selectedDistrict,
-        upazilaId: selectedUpazila
-      }));
+      localStorage.setItem('prayerTimesBDLocation', JSON.stringify({ divisionId: selectedDivision, districtId: selectedDistrict, upazilaId: selectedUpazila }));
     }
   }, [selectedDivision, selectedDistrict, selectedUpazila, useBangladeshLocation]);
 
-  // Update location when Bangladesh upazila changes
   useEffect(() => {
     if (useBangladeshLocation) {
       const upazila = getCurrentUpazila();
       if (upazila) {
-        setLocation({
-          latitude: upazila.latitude,
-          longitude: upazila.longitude,
-          city: language === 'bn' ? upazila.name_bn : upazila.name_en
-        });
+        setLocation({ latitude: upazila.latitude, longitude: upazila.longitude, city: language === 'bn' ? upazila.name_bn : upazila.name_en });
         setSelectedCity('custom');
       }
     }
   }, [selectedUpazila, selectedDistrict, selectedDivision, useBangladeshLocation, language]);
 
-  // Update current time every second for countdown
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentTime(new Date());
-      if (nextPrayer) {
-        const remaining = getTimeRemaining(nextPrayer.time);
-        setTimeRemaining(remaining);
-      }
+      if (nextPrayer) setTimeRemaining(getTimeRemaining(nextPrayer.time));
     }, 1000);
     return () => clearInterval(timer);
   }, [nextPrayer]);
 
-  // Calculate prayer times when location changes (always use IFB for Bangladesh)
   useEffect(() => {
     const times = calculatePrayerTimes(location, new Date(), 'IFB');
     setPrayerTimes(times);
     const next = getNextPrayer(times);
     setNextPrayer(next);
-    if (next) {
-      setTimeRemaining(getTimeRemaining(next.time));
-    }
-    
-    // Get current running prayer
-    const current = getCurrentRunningPrayer(times);
-    setCurrentPrayer(current);
+    if (next) setTimeRemaining(getTimeRemaining(next.time));
+    setCurrentPrayer(getCurrentRunningPrayer(times));
   }, [location]);
 
-  // Get current running prayer based on current time
-  const getCurrentRunningPrayer = (times: PrayerTimesType): { name: string; time: string; endTime: string; nameAr: string; nameBn: string } | null => {
+  const getCurrentRunningPrayer = (times: PrayerTimesType) => {
     const now = new Date();
     const currentMinutes = now.getHours() * 60 + now.getMinutes();
-    
     const parseTime = (timeStr: string): number => {
       if (timeStr === '--:--') return -1;
       const match = timeStr.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
@@ -251,7 +131,6 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
       if (period === 'AM' && hours === 12) hours = 0;
       return hours * 60 + minutes;
     };
-
     const prayers = [
       { key: 'fajr', name: 'Fajr', nameAr: 'الفجر', nameBn: 'ফজর', start: times.fajr.start, end: times.fajr.end },
       { key: 'dhuhr', name: 'Dhuhr', nameAr: 'الظهر', nameBn: 'যোহর', start: times.dhuhr.start, end: times.dhuhr.end },
@@ -259,128 +138,82 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
       { key: 'maghrib', name: 'Maghrib', nameAr: 'المغرب', nameBn: 'মাগরিব', start: times.maghrib.start, end: times.maghrib.end },
       { key: 'isha', name: 'Isha', nameAr: 'العشاء', nameBn: 'ইশা', start: times.isha.start, end: times.isha.end },
     ];
-
     for (const prayer of prayers) {
       const startMins = parseTime(prayer.start);
       let endMins = parseTime(prayer.end);
-      
-      // Handle overnight (Isha to Fajr)
       if (endMins < startMins) {
-        // If current time is after start OR before end (next day)
-        if (currentMinutes >= startMins || currentMinutes < endMins) {
+        if (currentMinutes >= startMins || currentMinutes < endMins)
           return { name: prayer.name, time: prayer.start, endTime: prayer.end, nameAr: prayer.nameAr, nameBn: prayer.nameBn };
-        }
       } else {
-        if (currentMinutes >= startMins && currentMinutes < endMins) {
+        if (currentMinutes >= startMins && currentMinutes < endMins)
           return { name: prayer.name, time: prayer.start, endTime: prayer.end, nameAr: prayer.nameAr, nameBn: prayer.nameBn };
-        }
       }
     }
-    
     return null;
   };
 
-  // Get user's location via GPS
   const getUserLocation = () => {
     setIsLoading(true);
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          const { latitude, longitude } = position.coords;
-          setLocation({
-            latitude,
-            longitude,
-            city: language === 'bn' ? 'আপনার অবস্থান' : 'Your Location'
-          });
+          setLocation({ latitude: position.coords.latitude, longitude: position.coords.longitude, city: language === 'bn' ? 'আপনার অবস্থান' : 'Your Location' });
           setSelectedCity('custom');
           setUseBangladeshLocation(false);
           setIsLoading(false);
           toast.success(language === 'bn' ? 'অবস্থান পাওয়া গেছে' : 'Location found');
         },
-        (error) => {
-          console.error('Geolocation error:', error);
-          setIsLoading(false);
-          toast.error(language === 'bn' ? 'অবস্থান পাওয়া যায়নি' : 'Could not get location');
-        }
+        () => { setIsLoading(false); toast.error(language === 'bn' ? 'অবস্থান পাওয়া যায়নি' : 'Could not get location'); }
       );
-    } else {
-      setIsLoading(false);
-      toast.error(language === 'bn' ? 'জিওলোকেশন সাপোর্ট নেই' : 'Geolocation not supported');
-    }
+    } else { setIsLoading(false); toast.error(language === 'bn' ? 'জিওলোকেশন সাপোর্ট নেই' : 'Geolocation not supported'); }
   };
 
-  // Handle city change
   const handleCityChange = (city: string) => {
     setSelectedCity(city);
     setUseBangladeshLocation(false);
-    if (city !== 'custom' && defaultLocations[city]) {
-      setLocation(defaultLocations[city]);
-    }
+    if (city !== 'custom' && defaultLocations[city]) setLocation(defaultLocations[city]);
   };
 
-  // Enable Bangladesh detailed location
   const enableBangladeshLocation = () => {
     setUseBangladeshLocation(true);
     const upazila = getCurrentUpazila();
     if (upazila) {
-      setLocation({
-        latitude: upazila.latitude,
-        longitude: upazila.longitude,
-        city: language === 'bn' ? upazila.name_bn : upazila.name_en
-      });
+      setLocation({ latitude: upazila.latitude, longitude: upazila.longitude, city: language === 'bn' ? upazila.name_bn : upazila.name_en });
       setSelectedCity('custom');
     }
   };
 
   const formatTimeDisplay = (time: string, lang: Language) => {
     if (time === '--:--') return time;
-    
     const match = time.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
     if (!match) return time;
-    
     const hours = parseInt(match[1], 10);
     let minutes = parseInt(match[2], 10);
     const period = match[3].toUpperCase();
-    
-    if (minutes >= 60) {
-      minutes = minutes % 60;
-    }
-    
+    if (minutes >= 60) minutes = minutes % 60;
     if (lang === 'bn') {
-      const periodBn = period === 'AM' ? 'AM' : 'PM';
       const minStr = minutes < 10 ? '০' + toBengaliNumber(minutes) : toBengaliNumber(minutes);
-      return `${toBengaliNumber(hours)}:${minStr} ${periodBn}`;
+      return `${toBengaliNumber(hours)}:${minStr} ${period}`;
     }
-    
     return `${hours}:${minutes.toString().padStart(2, '0')} ${period}`;
   };
 
-  const getPrayerIcon = (prayerKey: string) => {
-    switch (prayerKey) {
-      case 'fajr': return <Moon className="w-5 h-5" />;
-      case 'sunrise': return <Sunrise className="w-5 h-5" />;
-      case 'dhuhr': return <Sun className="w-5 h-5" />;
-      case 'asr': return <Sun className="w-5 h-5" />;
-      case 'maghrib': return <Sunset className="w-5 h-5" />;
-      case 'isha': return <Moon className="w-5 h-5" />;
-      default: return <Clock className="w-5 h-5" />;
+  // Short format for the list (no AM/PM for cleaner look)
+  const formatTimeShort = (time: string) => {
+    if (time === '--:--') return time;
+    const match = time.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
+    if (!match) return time;
+    const hours = parseInt(match[1], 10);
+    let minutes = parseInt(match[2], 10);
+    if (minutes >= 60) minutes = minutes % 60;
+    if (language === 'bn') {
+      const minStr = minutes < 10 ? '০' + toBengaliNumber(minutes) : toBengaliNumber(minutes);
+      return `${toBengaliNumber(hours)}:${minStr}`;
     }
-  };
-
-  const getPrayerGradient = (prayerKey: string) => {
-    switch (prayerKey) {
-      case 'fajr': return 'from-indigo-500 to-purple-600';
-      case 'sunrise': return 'from-orange-400 to-yellow-500';
-      case 'dhuhr': return 'from-yellow-400 to-amber-500';
-      case 'asr': return 'from-amber-500 to-orange-500';
-      case 'maghrib': return 'from-rose-500 to-pink-600';
-      case 'isha': return 'from-blue-600 to-indigo-700';
-      default: return 'from-primary to-primary';
-    }
+    return `${hours}:${minutes.toString().padStart(2, '0')}`;
   };
 
   const cityNames: Record<string, { en: string; bn: string; tz: string }> = {
-    // UTC-12 to UTC-1
     baker: { en: 'Baker Island', bn: 'বেকার আইল্যান্ড', tz: '-12:00' },
     samoa: { en: 'Samoa', bn: 'সামোয়া', tz: '-11:00' },
     honolulu: { en: 'Honolulu', bn: 'হনলুলু', tz: '-10:00' },
@@ -394,9 +227,7 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
     saopaulo: { en: 'São Paulo', bn: 'সাও পাওলো', tz: '-03:00' },
     atlantic: { en: 'Atlantic', bn: 'আটলান্টিক', tz: '-02:00' },
     azores: { en: 'Azores', bn: 'আজোরেস', tz: '-01:00' },
-    // UTC+0
     london: { en: 'London', bn: 'লন্ডন', tz: '+00:00' },
-    // UTC+1 to UTC+6
     paris: { en: 'Paris', bn: 'প্যারিস', tz: '+01:00' },
     cairo: { en: 'Cairo', bn: 'কায়রো', tz: '+02:00' },
     istanbul: { en: 'Istanbul', bn: 'ইস্তাম্বুল', tz: '+03:00' },
@@ -412,7 +243,6 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
     chittagong: { en: 'Chittagong', bn: 'চট্টগ্রাম', tz: '+06:00' },
     sylhet: { en: 'Sylhet', bn: 'সিলেট', tz: '+06:00' },
     rajshahi: { en: 'Rajshahi', bn: 'রাজশাহী', tz: '+06:00' },
-    // UTC+7 to UTC+14
     yangon: { en: 'Yangon', bn: 'ইয়াঙ্গুন', tz: '+06:30' },
     bangkok: { en: 'Bangkok', bn: 'ব্যাংকক', tz: '+07:00' },
     jakarta: { en: 'Jakarta', bn: 'জাকার্তা', tz: '+07:00' },
@@ -430,72 +260,134 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
     custom: { en: 'Your Location', bn: 'আপনার অবস্থান', tz: '' },
   };
 
-  const formatTimeRemaining = (remaining: { hours: number; minutes: number } | null, lang: Language) => {
-    if (!remaining) return '';
-    const { hours, minutes } = remaining;
-    if (lang === 'bn') {
-      if (hours > 0) {
-        return `${toBengaliNumber(hours)} ঘণ্টা ${toBengaliNumber(minutes)} মিনিট বাকি`;
-      }
-      return `${toBengaliNumber(minutes)} মিনিট বাকি`;
-    }
-    if (hours > 0) {
-      return `${hours}h ${minutes}m remaining`;
-    }
-    return `${minutes}m remaining`;
+  // Hijri date
+  const hijriDate = useMemo(() => getCurrentHijriDate(), []);
+  const hijriMonthName = language === 'bn' ? hijriMonths.bn[hijriDate.month - 1] : hijriMonths.en[hijriDate.month - 1];
+  const hijriDay = language === 'bn' ? toBengaliNumber(hijriDate.day) : hijriDate.day;
+
+  // Day name
+  const dayNames = {
+    en: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+    bn: ['রবিবার', 'সোমবার', 'মঙ্গলবার', 'বুধবার', 'বৃহস্পতিবার', 'শুক্রবার', 'শনিবার'],
   };
+  const today = new Date();
+  const dayName = language === 'bn' ? dayNames.bn[today.getDay()] : dayNames.en[today.getDay()];
+  const gregDate = language === 'bn'
+    ? `${toBengaliNumber(today.getDate())} ${['জানুয়ারি','ফেব্রুয়ারি','মার্চ','এপ্রিল','মে','জুন','জুলাই','আগস্ট','সেপ্টেম্বর','অক্টোবর','নভেম্বর','ডিসেম্বর'][today.getMonth()]}`
+    : `${today.getDate()} ${['January','February','March','April','May','June','July','August','September','October','November','December'][today.getMonth()]}`;
+
+  // Countdown timer display
+  const countdownDisplay = useMemo(() => {
+    if (!timeRemaining) return { h: '00', m: '00', s: '00' };
+    const now = new Date();
+    const secs = 59 - now.getSeconds();
+    const h = timeRemaining.hours.toString().padStart(2, '0');
+    const m = timeRemaining.minutes.toString().padStart(2, '0');
+    const sec = secs.toString().padStart(2, '0');
+    return { h, m, s: sec };
+  }, [timeRemaining, currentTime]);
+
+  // Calculate progress for the circular countdown
+  const countdownProgress = useMemo(() => {
+    if (!timeRemaining || !currentPrayer || !prayerTimes) return 0;
+    // Calculate total waqt duration and elapsed
+    const parseTime = (timeStr: string): number => {
+      if (timeStr === '--:--') return -1;
+      const match = timeStr.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
+      if (!match) return -1;
+      let hours = parseInt(match[1], 10);
+      const minutes = parseInt(match[2], 10);
+      const period = match[3].toUpperCase();
+      if (period === 'PM' && hours !== 12) hours += 12;
+      if (period === 'AM' && hours === 12) hours = 0;
+      return hours * 60 + minutes;
+    };
+    const startMins = parseTime(currentPrayer.time);
+    let endMins = parseTime(currentPrayer.endTime);
+    if (endMins < startMins) endMins += 24 * 60;
+    const totalDuration = endMins - startMins;
+    const now = new Date();
+    let currentMins = now.getHours() * 60 + now.getMinutes();
+    if (currentMins < startMins) currentMins += 24 * 60;
+    const elapsed = currentMins - startMins;
+    return totalDuration > 0 ? Math.min((elapsed / totalDuration) * 100, 100) : 0;
+  }, [currentPrayer, prayerTimes, currentTime]);
+
+  // Prayer list for the right side
+  const prayerList = useMemo(() => {
+    if (!prayerTimes) return [];
+    const keys: (keyof typeof prayerNames)[] = ['fajr', 'dhuhr', 'asr', 'maghrib', 'isha'];
+    return keys.map(key => {
+      const names = prayerNames[key];
+      const timeData = prayerTimes[key] as PrayerTimeRange;
+      const isCurrent = currentPrayer?.name.toLowerCase() === key;
+      // Check if it's Friday for Dhuhr -> Jumu'ah
+      const isFriday = today.getDay() === 5;
+      const displayName = key === 'dhuhr' && isFriday
+        ? (language === 'bn' ? 'জুমু\'আ' : 'Jumu\'ah')
+        : (language === 'bn' ? names.bn : names.en);
+      return { key, name: displayName, start: timeData.start, end: timeData.end, isCurrent };
+    });
+  }, [prayerTimes, currentPrayer, language]);
+
+  // SVG circular progress
+  const circleRadius = 70;
+  const circumference = 2 * Math.PI * circleRadius;
+  const strokeDashoffset = circumference - (countdownProgress / 100) * circumference;
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Sticky Header for Mobile/Tablet */}
-      <div className="sticky top-0 z-20 bg-background/95 backdrop-blur-md border-b border-border lg:hidden">
-        <div className="max-w-4xl mx-auto px-4 py-3 sm:py-4">
-          <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-xl bg-gradient-to-br from-violet-500 to-purple-600 text-white shadow-md shrink-0">
-              <Clock className="h-5 w-5 sm:h-6 sm:w-6" />
-            </div>
-            <div className="flex-1 min-w-0">
-              <h1 className={cn(
-                "text-lg sm:text-xl font-semibold text-foreground truncate",
-                language === "bn" && "font-bengali"
-              )}>
-                {pageTitle[language]}
+      {/* Location Bar */}
+      <div className="bg-card border-b border-border">
+        <div className="max-w-4xl mx-auto px-4 py-3 flex items-center gap-3">
+          <div className="flex items-center gap-2 flex-1 min-w-0">
+            <MapPin className="w-4 h-4 text-primary shrink-0" />
+            <span className={cn("text-sm font-medium text-foreground truncate", language === 'bn' && 'font-bengali')}>
+              {location.city || (language === 'bn' ? 'ঢাকা' : 'Dhaka')}
+            </span>
+            <ChevronDown className="w-3 h-3 text-muted-foreground shrink-0" />
+          </div>
+          <Button variant="ghost" size="icon" onClick={getUserLocation} disabled={isLoading} className="h-8 w-8 shrink-0">
+            {isLoading ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Crosshair className="w-4 h-4" />}
+          </Button>
+        </div>
+      </div>
+
+      <div className="max-w-4xl mx-auto px-4 py-4 space-y-4">
+
+        {/* Hijri Date Header */}
+        <div className="rounded-2xl bg-gradient-to-r from-primary to-primary/70 p-5 text-primary-foreground">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className={cn("text-2xl font-bold", language === 'bn' && 'font-bengali')}>
+                {hijriDay} {hijriMonthName}
               </h1>
+              <p className={cn("text-sm opacity-90", language === 'bn' && 'font-bengali')}>
+                {dayName} - {gregDate}
+              </p>
+            </div>
+            <div className="flex items-center gap-6">
+              <div className="text-center">
+                <Sunrise className="w-5 h-5 mx-auto mb-1 opacity-80" />
+                <p className="text-lg font-bold">{prayerTimes ? formatTimeShort(prayerTimes.sunrise) : '--:--'}</p>
+                <p className="text-[10px] opacity-70">{language === 'bn' ? 'সূর্যোদয়' : 'Sunrise'}</p>
+              </div>
+              <div className="text-center">
+                <Sunset className="w-5 h-5 mx-auto mb-1 opacity-80" />
+                <p className="text-lg font-bold">{prayerTimes ? formatTimeShort(prayerTimes.maghrib.start) : '--:--'}</p>
+                <p className="text-[10px] opacity-70">{language === 'bn' ? 'সূর্যাস্ত' : 'Sunset'}</p>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Desktop Header */}
-      <div className="hidden lg:block text-center py-6">
-        <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-violet-500 to-purple-600 text-white shadow-lg mb-4">
-          <Clock className="w-8 h-8" />
-        </div>
-        <h1 className={cn(
-          "text-lg sm:text-xl font-semibold text-foreground mb-2",
-          language === "bn" && "font-bengali"
-        )}>
-          {pageTitle[language]}
-        </h1>
-      </div>
-
-      <div className="container mx-auto px-4 py-4 lg:py-6 max-w-4xl">
-
-        {/* Location & Settings */}
-        <Card className="mb-6">
-          <CardContent className="p-4 space-y-4">
-            {/* All elements in one row */}
-            <div className="flex flex-row items-end gap-3">
-              {/* City Selection - Desktop only */}
+        {/* Location Selection (collapsible) */}
+        <Card>
+          <CardContent className="p-4 space-y-3">
+            <div className="flex flex-row items-center gap-3">
               <div className="hidden lg:block lg:flex-1">
-                <label className={cn(
-                  "text-sm font-medium text-muted-foreground mb-2 block",
-                  language === "bn" && "font-bengali"
-                )}>
-                  {locationLabel[language]}
-                </label>
                 <Select value={selectedCity} onValueChange={handleCityChange}>
-                  <SelectTrigger>
+                  <SelectTrigger className="h-9">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -503,116 +395,55 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
                       const cityData = cityNames[city];
                       const name = language === 'bn' ? cityData.bn : cityData.en;
                       const tzDisplay = cityData.tz ? ` (${cityData.tz})` : '';
-                      return (
-                        <SelectItem key={city} value={city}>
-                          {name}{tzDisplay}
-                        </SelectItem>
-                      );
+                      return <SelectItem key={city} value={city}>{name}{tzDisplay}</SelectItem>;
                     })}
                   </SelectContent>
                 </Select>
               </div>
-
-              {/* Bangladesh Location Button */}
               <Button
                 variant={useBangladeshLocation ? "default" : "outline"}
                 onClick={enableBangladeshLocation}
-                className={cn(
-                  "flex-1 lg:flex-[2] h-10",
-                  language === "bn" && "font-bengali"
-                )}
+                className={cn("flex-1 lg:flex-[2] h-9", language === "bn" && "font-bengali")}
+                size="sm"
               >
                 <MapPin className="w-4 h-4 mr-2 shrink-0" />
                 <span className="truncate">
-                  {getCurrentUpazila() 
-                    ? (language === 'bn' ? getCurrentUpazila()?.name_bn : getCurrentUpazila()?.name_en)
-                    : bdLocationLabel[language]
-                  }
+                  {getCurrentUpazila() ? (language === 'bn' ? getCurrentUpazila()?.name_bn : getCurrentUpazila()?.name_en) : (language === 'bn' ? 'বাংলাদেশ অবস্থান' : 'Bangladesh Location')}
                 </span>
               </Button>
-
-              {/* GPS Location Button - Icon only */}
-              <Button
-                variant="outline"
-                size="icon"
-                onClick={getUserLocation}
-                disabled={isLoading}
-                className="h-10 w-10 shrink-0"
-                title={useLocationLabel[language]}
-              >
-                {isLoading ? (
-                  <RefreshCw className="w-4 h-4 animate-spin" />
-                ) : (
-                  <Crosshair className="w-4 h-4" />
-                )}
-              </Button>
             </div>
-
-            {/* Bangladesh Cascading Dropdowns - Full Width Below */}
             {useBangladeshLocation && (
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 pt-4 border-t">
-                {/* Division */}
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 pt-3 border-t border-border">
                 <div>
-                  <label className={cn(
-                    "text-sm font-medium text-muted-foreground mb-2 block",
-                    language === "bn" && "font-bengali"
-                  )}>
-                    {divisionLabel[language]}
+                  <label className={cn("text-xs font-medium text-muted-foreground mb-1 block", language === "bn" && "font-bengali")}>
+                    {language === 'bn' ? 'বিভাগ' : 'Division'}
                   </label>
                   <Select value={selectedDivision} onValueChange={handleDivisionChange}>
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
+                    <SelectTrigger className="h-9"><SelectValue /></SelectTrigger>
                     <SelectContent>
-                      {bangladeshDivisions.map(division => (
-                        <SelectItem key={division.id} value={division.id}>
-                          {language === 'bn' ? division.name_bn : division.name_en}
-                        </SelectItem>
-                      ))}
+                      {bangladeshDivisions.map(d => <SelectItem key={d.id} value={d.id}>{language === 'bn' ? d.name_bn : d.name_en}</SelectItem>)}
                     </SelectContent>
                   </Select>
                 </div>
-
-                {/* District */}
                 <div>
-                  <label className={cn(
-                    "text-sm font-medium text-muted-foreground mb-2 block",
-                    language === "bn" && "font-bengali"
-                  )}>
-                    {districtLabel[language]}
+                  <label className={cn("text-xs font-medium text-muted-foreground mb-1 block", language === "bn" && "font-bengali")}>
+                    {language === 'bn' ? 'জেলা' : 'District'}
                   </label>
                   <Select value={selectedDistrict} onValueChange={handleDistrictChange}>
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
+                    <SelectTrigger className="h-9"><SelectValue /></SelectTrigger>
                     <SelectContent>
-                      {getDistricts().map(district => (
-                        <SelectItem key={district.id} value={district.id}>
-                          {language === 'bn' ? district.name_bn : district.name_en}
-                        </SelectItem>
-                      ))}
+                      {getDistricts().map(d => <SelectItem key={d.id} value={d.id}>{language === 'bn' ? d.name_bn : d.name_en}</SelectItem>)}
                     </SelectContent>
                   </Select>
                 </div>
-
-                {/* Upazila */}
                 <div>
-                  <label className={cn(
-                    "text-sm font-medium text-muted-foreground mb-2 block",
-                    language === "bn" && "font-bengali"
-                  )}>
-                    {upazilaLabel[language]}
+                  <label className={cn("text-xs font-medium text-muted-foreground mb-1 block", language === "bn" && "font-bengali")}>
+                    {language === 'bn' ? 'উপজেলা' : 'Upazila'}
                   </label>
                   <Select value={selectedUpazila} onValueChange={handleUpazilaChange}>
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
+                    <SelectTrigger className="h-9"><SelectValue /></SelectTrigger>
                     <SelectContent>
-                      {getUpazilas().map(upazila => (
-                        <SelectItem key={upazila.id} value={upazila.id}>
-                          {language === 'bn' ? upazila.name_bn : upazila.name_en}
-                        </SelectItem>
-                      ))}
+                      {getUpazilas().map(u => <SelectItem key={u.id} value={u.id}>{language === 'bn' ? u.name_bn : u.name_en}</SelectItem>)}
                     </SelectContent>
                   </Select>
                 </div>
@@ -621,157 +452,127 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
           </CardContent>
         </Card>
 
-        {/* Current & Next Prayer Card */}
-        {(currentPrayer || nextPrayer) && (
-          <Card className="mb-6 bg-gradient-to-br from-primary/10 to-primary/5 border-primary/20">
-            <CardContent className="p-4">
-              <div className={cn(
-                "flex items-center gap-4",
-                currentPrayer && nextPrayer ? "justify-between" : "justify-center"
-              )}>
-                {/* Current Running Prayer */}
-                {currentPrayer && (
-                  <div className={cn("flex items-center gap-3", !nextPrayer && "text-center flex-col")}>
-                    <div>
-                      <p className={cn(
-                        "text-xs text-muted-foreground",
-                        language === "bn" && "font-bengali"
-                      )}>
-                        {language === 'bn' ? 'চলমান নামাজ' : 'Current Prayer'}
-                      </p>
-                      <div className={cn("flex items-center gap-1.5", !nextPrayer && "justify-center")}>
-                        <span className={cn(
-                          "text-base font-bold text-emerald-600 dark:text-emerald-400",
-                          language === "bn" && "font-bengali"
-                        )}>
-                          {language === 'bn' ? currentPrayer.nameBn : currentPrayer.name}
-                        </span>
-                        <span className="text-sm text-emerald-600 dark:text-emerald-400" dir="rtl">
-                          {currentPrayer.nameAr}
-                        </span>
-                      </div>
-                      <p className="text-xs text-muted-foreground">
-                        {formatTimeDisplay(currentPrayer.time, language)} - {formatTimeDisplay(currentPrayer.endTime, language)}
-                      </p>
-                    </div>
-                  </div>
-                )}
-                
-                {/* Next Prayer */}
-                {nextPrayer && (
-                  <div className={cn(!currentPrayer ? "text-center" : "text-right")}>
-                    <p className={cn(
-                      "text-xs text-muted-foreground",
-                      language === "bn" && "font-bengali"
-                    )}>
-                      {nextPrayerLabel[language]}
+        {/* Main Content: Countdown + Prayer List */}
+        <Card className="overflow-hidden">
+          <CardContent className="p-0">
+            <div className="grid grid-cols-1 md:grid-cols-2">
+              {/* Left: Countdown Circle */}
+              <div className="flex flex-col items-center justify-center p-6 md:p-8 md:border-r border-border">
+                {currentPrayer ? (
+                  <>
+                    <h2 className={cn("text-xl font-bold text-primary mb-1", language === 'bn' && 'font-bengali')}>
+                      {language === 'bn' ? currentPrayer.nameBn : currentPrayer.name}
+                    </h2>
+                    <p className={cn("text-xs text-muted-foreground mb-6", language === 'bn' && 'font-bengali')}>
+                      {language === 'bn' ? 'ওয়াক্ত শেষ হবে' : 'Waqt ends in'}
                     </p>
-                    <div className={cn("flex items-center gap-1.5", !currentPrayer ? "justify-center" : "justify-end")}>
-                      <span className={cn(
-                        "text-base font-bold text-primary",
-                        language === "bn" && "font-bengali"
-                      )}>
-                        {language === 'bn' ? nextPrayer.nameBn : nextPrayer.name}
-                      </span>
-                      <span className="text-sm text-primary" dir="rtl">
-                        {nextPrayer.nameAr}
-                      </span>
-                    </div>
-                    {timeRemaining && (
-                      <p className={cn(
-                        "text-xs text-muted-foreground animate-pulse",
-                        language === "bn" && "font-bengali"
-                      )}>
-                        {formatTimeRemaining(timeRemaining, language)}
-                      </p>
-                    )}
-                  </div>
-                )}
-              </div>
-            </CardContent>
-          </Card>
-        )}
+                  </>
+                ) : nextPrayer ? (
+                  <>
+                    <h2 className={cn("text-xl font-bold text-primary mb-1", language === 'bn' && 'font-bengali')}>
+                      {language === 'bn' ? nextPrayer.nameBn : nextPrayer.name}
+                    </h2>
+                    <p className={cn("text-xs text-muted-foreground mb-6", language === 'bn' && 'font-bengali')}>
+                      {language === 'bn' ? 'পরবর্তী নামাজ' : 'Next Prayer'}
+                    </p>
+                  </>
+                ) : null}
 
-        {/* Prayer Times Grid */}
-        {prayerTimes && (
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
-            {(Object.keys(prayerNames) as Array<keyof typeof prayerNames>).map((prayerKey) => {
-              const names = prayerNames[prayerKey];
-              const timeData = prayerTimes[prayerKey];
-              const isCurrentPrayer = currentPrayer?.name.toLowerCase() === prayerKey;
-              
-              const isRange = typeof timeData === 'object' && 'start' in timeData;
-              const startTime = isRange ? (timeData as PrayerTimeRange).start : (timeData as string);
-              const endTime = isRange ? (timeData as PrayerTimeRange).end : null;
-              
-              return (
-                <Card
-                  key={prayerKey}
-                  className={cn(
-                    "transition-all duration-300",
-                    isCurrentPrayer && "ring-2 ring-emerald-500 ring-offset-2 ring-offset-background"
-                  )}
-                >
-                  <CardContent className="p-4 text-center">
-                    {/* Icon */}
-                    <div className={cn(
-                      "mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br text-white shadow-md",
-                      getPrayerGradient(prayerKey)
-                    )}>
-                      {getPrayerIcon(prayerKey)}
+                {/* Circular Progress */}
+                <div className="relative w-44 h-44 mb-4">
+                  <svg className="w-full h-full -rotate-90" viewBox="0 0 160 160">
+                    {/* Background circle */}
+                    <circle cx="80" cy="80" r={circleRadius} fill="none" stroke="hsl(var(--muted))" strokeWidth="6" />
+                    {/* Progress arc */}
+                    <circle
+                      cx="80" cy="80" r={circleRadius}
+                      fill="none"
+                      stroke="hsl(var(--primary))"
+                      strokeWidth="6"
+                      strokeLinecap="round"
+                      strokeDasharray={circumference}
+                      strokeDashoffset={strokeDashoffset}
+                      className="transition-all duration-1000"
+                    />
+                  </svg>
+                  {/* Countdown text in center */}
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <span className="text-2xl font-bold text-primary tabular-nums tracking-wider">
+                      {countdownDisplay.h}:{countdownDisplay.m}:{countdownDisplay.s}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Right: Prayer Times List */}
+              <div className="flex flex-col">
+                {prayerList.map((prayer, idx) => (
+                  <div key={prayer.key}>
+                    <div
+                      className={cn(
+                        "flex items-center justify-between px-5 py-3.5 transition-colors",
+                        prayer.isCurrent
+                          ? "bg-gradient-to-r from-primary/20 to-primary/10"
+                          : "hover:bg-muted/30"
+                      )}
+                    >
+                      <span className={cn(
+                        "font-semibold text-sm",
+                        prayer.isCurrent ? "text-primary" : "text-foreground",
+                        language === 'bn' && 'font-bengali'
+                      )}>
+                        {prayer.name}
+                      </span>
+                      <span className={cn(
+                        "font-bold text-sm tabular-nums",
+                        prayer.isCurrent ? "text-primary" : "text-foreground"
+                      )}>
+                        {formatTimeShort(prayer.start)} - {formatTimeShort(prayer.end)}
+                      </span>
                     </div>
-                    
-                    {/* Prayer Name */}
-                    <h3 className={cn(
-                      "font-semibold text-foreground",
-                      language === "bn" && "font-bengali"
-                    )}>
-                      {language === 'bn' ? names.bn : names.en}
-                    </h3>
-                    <p className="text-xs text-primary/70 mb-2" dir="rtl">
-                      {names.ar}
-                    </p>
-                    
-                    {/* Time */}
-                    {isRange && endTime ? (
-                      <p className="text-sm sm:text-base font-bold text-foreground whitespace-nowrap">
-                        {formatTimeDisplay(startTime, language)} - {formatTimeDisplay(endTime, language)}
-                      </p>
-                    ) : (
-                      <p className="text-base sm:text-lg font-bold text-foreground">
-                        {formatTimeDisplay(startTime, language)}
-                      </p>
-                    )}
-                  </CardContent>
-                </Card>
-              );
-            })}
+                    {idx < prayerList.length - 1 && <Separator />}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Bottom Cards: Sehri & Iftar (during Ramadan) */}
+        {prayerTimes && (
+          <div className="grid grid-cols-3 gap-3">
+            <div className="rounded-xl bg-primary/15 p-4 text-center">
+              <p className="text-lg font-bold text-primary">{formatTimeShort(prayerTimes.fajr.start)}</p>
+              <p className={cn("text-xs text-muted-foreground", language === 'bn' && 'font-bengali')}>
+                {language === 'bn' ? 'সেহরি শেষ' : 'Sehri ends'}
+              </p>
+            </div>
+            <div className="rounded-xl bg-primary/15 p-4 text-center">
+              <p className="text-lg font-bold text-primary">{formatTimeShort(prayerTimes.maghrib.start)}</p>
+              <p className={cn("text-xs text-muted-foreground", language === 'bn' && 'font-bengali')}>
+                {language === 'bn' ? 'ইফতার শুরু' : 'Iftar starts'}
+              </p>
+            </div>
+            <div className="rounded-xl bg-primary/15 p-4 text-center">
+              <p className="text-lg font-bold text-primary tabular-nums">
+                {countdownDisplay.h}:{countdownDisplay.m}:{countdownDisplay.s}
+              </p>
+              <p className={cn("text-xs text-muted-foreground", language === 'bn' && 'font-bengali')}>
+                {language === 'bn' ? 'ইফতার বাকি' : 'Iftar left'}
+              </p>
+            </div>
           </div>
         )}
 
-        {/* Current Location Info */}
-        <Card className="mt-6">
-          <CardContent className="p-4 text-center">
-            <div className="flex items-center justify-center gap-2 text-muted-foreground">
-              <MapPin className="w-4 h-4" />
-              <span className={cn(
-                "text-sm",
-                language === "bn" && "font-bengali"
-              )}>
-                {location.city || (language === 'bn' ? 'অজানা অবস্থান' : 'Unknown Location')}
-              </span>
-              <span className="text-xs">
-                ({location.latitude.toFixed(2)}°, {location.longitude.toFixed(2)}°)
-              </span>
-            </div>
-            <p className="text-xs text-muted-foreground mt-2">
-              {language === 'bn' 
-                ? 'হিসাব পদ্ধতি: ইসলামিক ফাউন্ডেশন বাংলাদেশ (হানাফি)' 
-                : 'Calculation Method: Islamic Foundation Bangladesh (Hanafi)'
-              }
-            </p>
-          </CardContent>
-        </Card>
+        {/* Calculation Method Info */}
+        <div className="text-center py-2">
+          <p className={cn("text-xs text-muted-foreground", language === 'bn' && 'font-bengali')}>
+            {language === 'bn' 
+              ? 'হিসাব পদ্ধতি: ইসলামিক ফাউন্ডেশন বাংলাদেশ (হানাফি)' 
+              : 'Calculation: Islamic Foundation Bangladesh (Hanafi)'
+            }
+          </p>
+        </div>
 
       </div>
     </div>
