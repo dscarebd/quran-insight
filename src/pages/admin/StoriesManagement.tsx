@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
-import { ScrollText, Search, Trash2, Plus, Loader2, X, Pencil, ChevronDown } from "lucide-react";
+import { ScrollText, Search, Trash2, Plus, Loader2, X, Pencil, ChevronDown, Upload, ImageIcon } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   DropdownMenu,
@@ -52,6 +52,7 @@ const StoriesManagement = () => {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
 
   const [formData, setFormData] = useState({
     title_english: "",
@@ -302,23 +303,86 @@ const StoriesManagement = () => {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label>Cover Image URL</Label>
+            <div className="space-y-2">
+              <Label>Cover Image</Label>
+              {formData.cover_image_url && (
+                <div className="relative w-full max-w-xs">
+                  <img
+                    src={formData.cover_image_url}
+                    alt="Cover preview"
+                    className="w-full h-32 object-cover rounded-lg border border-border"
+                  />
+                  <Button
+                    type="button"
+                    variant="destructive"
+                    size="icon"
+                    className="absolute top-1 right-1 h-6 w-6"
+                    onClick={() => setFormData((p) => ({ ...p, cover_image_url: "" }))}
+                  >
+                    <X className="h-3 w-3" />
+                  </Button>
+                </div>
+              )}
+              <div className="flex gap-2">
+                <label className="cursor-pointer">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={async (e) => {
+                      const file = e.target.files?.[0];
+                      if (!file) return;
+                      if (file.size > 5 * 1024 * 1024) {
+                        toast.error("Image must be under 5MB");
+                        return;
+                      }
+                      setIsUploading(true);
+                      try {
+                        const ext = file.name.split(".").pop();
+                        const fileName = `${Date.now()}-${Math.random().toString(36).substring(2, 8)}.${ext}`;
+                        const { error: uploadError } = await supabase.storage
+                          .from("story-covers")
+                          .upload(fileName, file, { contentType: file.type });
+                        if (uploadError) throw uploadError;
+                        const { data: urlData } = supabase.storage
+                          .from("story-covers")
+                          .getPublicUrl(fileName);
+                        setFormData((p) => ({ ...p, cover_image_url: urlData.publicUrl }));
+                        toast.success("Image uploaded");
+                      } catch (err: any) {
+                        console.error("Upload error:", err);
+                        toast.error(err.message || "Upload failed");
+                      } finally {
+                        setIsUploading(false);
+                        e.target.value = "";
+                      }
+                    }}
+                  />
+                  <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-md border border-input bg-background text-sm font-medium hover:bg-accent transition-colors ${isUploading ? "opacity-50 pointer-events-none" : ""}`}>
+                    {isUploading ? (
+                      <><Loader2 className="h-4 w-4 animate-spin" /> Uploading...</>
+                    ) : (
+                      <><Upload className="h-4 w-4" /> Upload Image</>
+                    )}
+                  </div>
+                </label>
+                <span className="text-muted-foreground text-sm self-center">or</span>
                 <Input
                   value={formData.cover_image_url}
                   onChange={(e) => setFormData((p) => ({ ...p, cover_image_url: e.target.value }))}
-                  placeholder="https://..."
+                  placeholder="Paste image URL..."
+                  className="flex-1"
                 />
               </div>
-              <div className="space-y-2">
-                <Label>Display Order</Label>
-                <Input
-                  type="number"
-                  value={formData.display_order}
-                  onChange={(e) => setFormData((p) => ({ ...p, display_order: parseInt(e.target.value) || 0 }))}
-                />
-              </div>
+            </div>
+
+            <div className="space-y-2">
+              <Label>Display Order</Label>
+              <Input
+                type="number"
+                value={formData.display_order}
+                onChange={(e) => setFormData((p) => ({ ...p, display_order: parseInt(e.target.value) || 0 }))}
+              />
             </div>
 
             <div className="flex items-center gap-3">
