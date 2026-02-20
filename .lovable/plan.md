@@ -1,20 +1,34 @@
 
-## Fix Content Width to Match Header
+## Move "Back" Button to Top of Page (Desktop)
 
-Both the Stories List and Story Detail pages use narrower max-width containers than the desktop header, causing the content to appear narrower than the navigation bar.
-
-### The Problem
-
-| Component | Current Width | Required Width |
-|---|---|---|
-| Desktop Header | `max-w-6xl` (72rem) | `max-w-6xl` (no change) |
-| Stories List | `max-w-5xl` (64rem) | `max-w-6xl` |
-| Story Detail | `max-w-4xl` (56rem) | `max-w-6xl` |
+Currently the "Back" button is nested inside the side-by-side (image + details) layout on desktop. The user wants it placed at the very top of the article area, above the cover image layout, so it's always visible at the top.
 
 ### Changes
 
-**1. `src/pages/StoriesList.tsx`**
-- Change `max-w-5xl` to `max-w-6xl` on the main content wrapper
+**`src/pages/StoryDetail.tsx`**
 
-**2. `src/pages/StoryDetail.tsx`**
-- Change `max-w-4xl` to `max-w-6xl` on the `<article>` wrapper
+1. Add a standalone "Back" button at the top of the `<article>` element, visible only on desktop (`hidden md:inline-flex`)
+2. Remove the existing "Back" button from inside the side-by-side layout (lines 132-140) to avoid duplication
+3. Also keep the existing standalone back button for the no-cover-image desktop case but remove duplication
+
+### Technical Detail
+
+Inside the `<article>` tag (line 126), insert a new back button before the side-by-side layout:
+
+```tsx
+<article className="mx-auto max-w-6xl px-4 sm:px-6 md:px-8 py-6 sm:py-8">
+  {/* Desktop: Back button at top */}
+  <Button
+    variant="ghost"
+    size="sm"
+    onClick={() => navigate("/stories")}
+    className={cn("mb-4 -ml-2 w-fit hidden md:inline-flex", language === "bn" && "font-bengali")}
+  >
+    <ArrowLeft className="h-4 w-4 mr-1.5" />
+    {language === "bn" ? "ফিরে যান" : "Back"}
+  </Button>
+
+  {/* Desktop: side-by-side layout ... */}
+```
+
+Then remove the back button from inside the side-by-side meta section (lines 132-140) and from the no-cover desktop section to avoid duplicates.
