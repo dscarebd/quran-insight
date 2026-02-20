@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { HandHeart, Clock, Sparkles, HelpCircle, CalendarDays, BookOpen } from "lucide-react";
+import { HandHeart, Clock, Sparkles, HelpCircle, CalendarDays, ScrollText } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Language } from "@/types/language";
 
@@ -62,12 +62,12 @@ export const QuickAccessCards = ({ language }: QuickAccessCardsProps) => {
       gradient: "from-cyan-500 to-sky-600",
     },
     {
-      id: "books",
-      icon: BookOpen,
-      labelEn: "Books",
-      labelBn: "বই সমূহ",
-      descEn: "Quran & Islamic books",
-      descBn: "কুরআন ও ইসলামিক বই",
+      id: "stories",
+      icon: ScrollText,
+      labelEn: "Stories",
+      labelBn: "গল্প সমূহ",
+      descEn: "Islamic Stories & Tafsir",
+      descBn: "ইসলামিক গল্প ও তাফসীর",
       path: "/read",
       gradient: "from-rose-500 to-pink-600",
     },
