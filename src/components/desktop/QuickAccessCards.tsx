@@ -94,7 +94,7 @@ export const QuickAccessCards = ({ language }: QuickAccessCardsProps) => {
             key={link.id}
             onClick={() => navigate(link.path)}
             className={cn(
-              "group relative overflow-hidden rounded-xl bg-card border border-border p-3 sm:p-4 md:p-5 text-left transition-all duration-300 hover:shadow-elevated hover:-translate-y-1 min-w-0 h-full flex flex-col",
+              "group relative overflow-hidden rounded-xl bg-card border border-border p-3 sm:p-4 md:p-5 text-center transition-all duration-300 hover:shadow-elevated hover:-translate-y-1 min-w-0 h-full flex flex-col items-center",
               (link as any).hideOnMobile && "hidden sm:flex",
               (link as any).hideOnDesktop && "flex sm:hidden"
             )}
