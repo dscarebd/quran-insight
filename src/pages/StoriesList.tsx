@@ -80,7 +80,7 @@ const StoriesList = ({ language }: StoriesListProps) => {
           <button
             onClick={() => setDropdownOpen(!dropdownOpen)}
             className={cn(
-              "flex items-center gap-2 px-4 py-2.5 rounded-lg border border-border bg-card text-sm font-medium text-foreground shadow-sm",
+              "w-full flex items-center justify-between px-4 py-2.5 rounded-lg border border-border bg-card text-sm font-medium text-foreground shadow-sm",
               language === "bn" && "font-bengali"
             )}
           >
@@ -88,7 +88,7 @@ const StoriesList = ({ language }: StoriesListProps) => {
             <ChevronDown className={cn("h-4 w-4 transition-transform", dropdownOpen && "rotate-180")} />
           </button>
           {dropdownOpen && (
-            <div className="absolute top-full mt-1 z-50 bg-card border border-border rounded-lg shadow-lg w-48">
+            <div className="absolute top-full left-0 right-0 mt-1 z-50 bg-card border border-border rounded-lg shadow-lg">
               {CATEGORIES.map((cat) => (
                 <button
                   key={cat.id}
