@@ -124,19 +124,10 @@ const StoryDetail = ({ language }: StoryDetailProps) => {
       )}
 
       <article className="mx-auto max-w-4xl px-4 sm:px-6 md:px-8 py-6 sm:py-8">
-        {/* Desktop: side-by-side layout - image left, meta right */}
+        {/* Desktop: side-by-side layout - details left, image right */}
         {story.cover_image_url && (
           <div className="hidden md:flex gap-8 mb-8">
-            {/* Left: Cover Image */}
-            <div className="shrink-0 w-80 lg:w-96 overflow-hidden rounded-xl">
-              <img
-                src={story.cover_image_url}
-                alt=""
-                className="w-full h-auto object-contain rounded-xl"
-              />
-            </div>
-
-            {/* Right: Meta info */}
+            {/* Left: Meta info */}
             <div className="flex-1 flex flex-col justify-center">
               <Button
                 variant="ghost"
@@ -176,6 +167,15 @@ const StoryDetail = ({ language }: StoryDetailProps) => {
                 <Clock className="h-4 w-4" />
                 {format(new Date(story.created_at), "MMMM d, yyyy")}
               </span>
+            </div>
+
+            {/* Right: Cover Image */}
+            <div className="shrink-0 w-80 lg:w-96 overflow-hidden rounded-xl">
+              <img
+                src={story.cover_image_url}
+                alt=""
+                className="w-full h-auto object-contain rounded-xl"
+              />
             </div>
           </div>
         )}
