@@ -51,9 +51,7 @@ const StoriesList = ({ language }: StoriesListProps) => {
     return stories.filter((s) => s.category === activeCategory);
   }, [stories, activeCategory]);
 
-  // Featured story is the first one
-  const featured = filtered.length > 0 ? filtered[0] : null;
-  const rest = filtered.length > 1 ? filtered.slice(1) : [];
+  // All stories use the same horizontal card layout
 
   return (
     <div className="flex-1 overflow-y-auto max-w-full">
@@ -116,147 +114,72 @@ const StoriesList = ({ language }: StoriesListProps) => {
             </p>
           </div>
         ) : (
-          <div className="space-y-8">
-            {/* Featured / Hero Post */}
-            {featured && (
-              <button
-                onClick={() => navigate(`/stories/${featured.id}`)}
-                className="w-full text-left group"
-              >
-                <div className="relative overflow-hidden rounded-2xl bg-card border border-border transition-all duration-300 hover:shadow-elevated hover:-translate-y-1">
-                  {featured.cover_image_url ? (
-                    <div className="relative h-48 sm:h-64 md:h-72 overflow-hidden">
-                      <img
-                        src={featured.cover_image_url}
-                        alt=""
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-                      <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-6">
-                        <Badge variant="secondary" className="mb-2 text-xs">
-                          {getCategoryLabel(featured.category, language)}
-                        </Badge>
-                        <h2 className={cn(
-                          "text-xl sm:text-2xl font-bold text-white leading-tight mb-2",
-                          language === "bn" && "font-bengali"
-                        )}>
-                          {language === "bn" ? featured.title_bengali : featured.title_english}
-                        </h2>
-                        <p className={cn(
-                          "text-white/80 text-sm line-clamp-2",
-                          language === "bn" && "font-bengali"
-                        )}>
-                          {(language === "bn" ? featured.content_bengali : featured.content_english).substring(0, 180)}...
-                        </p>
-                        <div className="flex items-center gap-3 mt-3 text-white/60 text-xs">
-                          {featured.author && (
-                            <span className="flex items-center gap-1">
-                              <User className="h-3 w-3" />
-                              {featured.author}
-                            </span>
-                          )}
-                          <span className="flex items-center gap-1">
-                            <Clock className="h-3 w-3" />
-                            {format(new Date(featured.created_at), "MMM d, yyyy")}
-                          </span>
+          <div className="space-y-4">
+            {/* All stories in horizontal card layout */}
+            {filtered.map((story) => {
+              const title = language === "bn" ? story.title_bengali : story.title_english;
+              const content = language === "bn" ? story.content_bengali : story.content_english;
+              return (
+                <button
+                  key={story.id}
+                  onClick={() => navigate(`/stories/${story.id}`)}
+                  className="w-full text-left group"
+                >
+                  <div className="overflow-hidden rounded-xl bg-card border border-border transition-all duration-300 hover:shadow-card hover:-translate-y-0.5 flex flex-row">
+                    {/* Left: Cover Image (1:1) */}
+                    <div className="relative shrink-0 w-28 h-28 sm:w-36 sm:h-36 md:w-44 md:h-44 overflow-hidden">
+                      {story.cover_image_url ? (
+                        <img
+                          src={story.cover_image_url}
+                          alt=""
+                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        />
+                      ) : (
+                        <div className="w-full h-full bg-gradient-to-br from-primary/10 to-accent/20 flex items-center justify-center">
+                          <ScrollText className="h-8 w-8 text-primary/40" />
                         </div>
-                      </div>
+                      )}
                     </div>
-                  ) : (
-                    <div className="p-5 sm:p-6">
-                      <Badge variant="secondary" className="mb-3 text-xs">
-                        {getCategoryLabel(featured.category, language)}
+
+                    {/* Right: Details */}
+                    <div className="flex-1 p-3 sm:p-4 flex flex-col justify-center min-w-0">
+                      <Badge variant="outline" className={cn("w-fit mb-1.5 text-[10px] sm:text-xs", language === "bn" && "font-bengali")}>
+                        {getCategoryLabel(story.category, language)}
                       </Badge>
-                      <h2 className={cn(
-                        "text-xl sm:text-2xl font-bold text-foreground leading-tight mb-2 group-hover:text-primary transition-colors",
+                      <h3 className={cn(
+                        "font-bold text-sm sm:text-base md:text-lg text-foreground line-clamp-2 mb-1 group-hover:text-primary transition-colors leading-snug",
                         language === "bn" && "font-bengali"
                       )}>
-                        {language === "bn" ? featured.title_bengali : featured.title_english}
-                      </h2>
+                        {title}
+                      </h3>
                       <p className={cn(
-                        "text-muted-foreground text-sm line-clamp-3 mb-3",
+                        "text-xs sm:text-sm text-muted-foreground line-clamp-2 mb-2",
                         language === "bn" && "font-bengali"
                       )}>
-                        {(language === "bn" ? featured.content_bengali : featured.content_english).substring(0, 250)}...
+                        {content.substring(0, 150)}...
                       </p>
-                      <div className="flex items-center gap-3 text-muted-foreground text-xs">
-                        {featured.author && (
-                          <span className="flex items-center gap-1">
+                      <div className="flex items-center gap-3 text-muted-foreground text-[10px] sm:text-xs">
+                        {story.author && (
+                          <span className={cn("flex items-center gap-1", language === "bn" && "font-bengali")}>
                             <User className="h-3 w-3" />
-                            {featured.author}
+                            {story.author}
                           </span>
                         )}
                         <span className="flex items-center gap-1">
                           <Clock className="h-3 w-3" />
-                          {format(new Date(featured.created_at), "MMM d, yyyy")}
+                          {format(new Date(story.created_at), "MMM d, yyyy")}
                         </span>
                       </div>
                     </div>
-                  )}
-                </div>
-              </button>
-            )}
 
-            {/* Grid of remaining posts */}
-            {rest.length > 0 && (
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                {rest.map((story) => (
-                  <button
-                    key={story.id}
-                    onClick={() => navigate(`/stories/${story.id}`)}
-                    className="w-full text-left group"
-                  >
-                    <div className="h-full overflow-hidden rounded-xl bg-card border border-border transition-all duration-300 hover:shadow-elevated hover:-translate-y-1 flex flex-col">
-                      {story.cover_image_url ? (
-                        <div className="relative h-36 sm:h-40 overflow-hidden">
-                          <img
-                            src={story.cover_image_url}
-                            alt=""
-                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                          />
-                        </div>
-                      ) : (
-                        <div className="h-28 bg-gradient-to-br from-rose-500/10 to-pink-600/10 flex items-center justify-center">
-                          <ScrollText className="h-8 w-8 text-rose-500/50" />
-                        </div>
-                      )}
-                      <div className="p-4 flex-1 flex flex-col">
-                        <Badge variant="outline" className="w-fit mb-2 text-xs">
-                          {getCategoryLabel(story.category, language)}
-                        </Badge>
-                        <h3 className={cn(
-                          "font-semibold text-sm sm:text-base text-foreground line-clamp-2 mb-1.5 group-hover:text-primary transition-colors",
-                          language === "bn" && "font-bengali"
-                        )}>
-                          {language === "bn" ? story.title_bengali : story.title_english}
-                        </h3>
-                        <p className={cn(
-                          "text-xs text-muted-foreground line-clamp-2 flex-1",
-                          language === "bn" && "font-bengali"
-                        )}>
-                          {(language === "bn" ? story.content_bengali : story.content_english).substring(0, 120)}...
-                        </p>
-                        <div className="flex items-center justify-between mt-3 pt-3 border-t border-border">
-                          <div className="flex items-center gap-2 text-muted-foreground text-xs">
-                            {story.author && (
-                              <span className="flex items-center gap-1">
-                                <User className="h-3 w-3" />
-                                {story.author}
-                              </span>
-                            )}
-                            <span className="flex items-center gap-1">
-                              <Clock className="h-3 w-3" />
-                              {format(new Date(story.created_at), "MMM d")}
-                            </span>
-                          </div>
-                          <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
-                        </div>
-                      </div>
+                    {/* Arrow */}
+                    <div className="hidden sm:flex items-center pr-4">
+                      <ChevronRight className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
                     </div>
-                  </button>
-                ))}
-              </div>
-            )}
+                  </div>
+                </button>
+              );
+            })}
           </div>
         )}
       </div>
