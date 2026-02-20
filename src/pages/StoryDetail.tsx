@@ -109,7 +109,11 @@ const StoryDetail = ({ language }: StoryDetailProps) => {
 
         {/* Category Badge */}
         {catLabel && (
-          <Badge variant="secondary" className={cn("mb-4", language === "bn" && "font-bengali")}>
+          <Badge
+            variant="secondary"
+            className={cn("mb-4 cursor-pointer hover:bg-secondary/80 transition-colors", language === "bn" && "font-bengali")}
+            onClick={() => navigate(`/stories?category=${story.category}`)}
+          >
             {language === "bn" ? catLabel.bn : catLabel.en}
           </Badge>
         )}
