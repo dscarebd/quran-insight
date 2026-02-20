@@ -276,16 +276,19 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
     ? `${toBengaliNumber(today.getDate())} ${['জানুয়ারি','ফেব্রুয়ারি','মার্চ','এপ্রিল','মে','জুন','জুলাই','আগস্ট','সেপ্টেম্বর','অক্টোবর','নভেম্বর','ডিসেম্বর'][today.getMonth()]}`
     : `${today.getDate()} ${['January','February','March','April','May','June','July','August','September','October','November','December'][today.getMonth()]}`;
 
+  // Helper to convert a 2-digit string to Bengali
+  const toBn2 = (num: number) => {
+    const str = num.toString().padStart(2, '0');
+    return language === 'bn' ? str.split('').map(d => '০১২৩৪৫৬৭৮৯'[parseInt(d)] || d).join('') : str;
+  };
+
   // Countdown timer display
   const countdownDisplay = useMemo(() => {
-    if (!timeRemaining) return { h: '00', m: '00', s: '00' };
+    if (!timeRemaining) return { h: toBn2(0), m: toBn2(0), s: toBn2(0) };
     const now = new Date();
     const secs = 59 - now.getSeconds();
-    const h = timeRemaining.hours.toString().padStart(2, '0');
-    const m = timeRemaining.minutes.toString().padStart(2, '0');
-    const sec = secs.toString().padStart(2, '0');
-    return { h, m, s: sec };
-  }, [timeRemaining, currentTime]);
+    return { h: toBn2(timeRemaining.hours), m: toBn2(timeRemaining.minutes), s: toBn2(secs < 0 ? 0 : secs) };
+  }, [timeRemaining, currentTime, language]);
 
   // Calculate progress for the circular countdown
   const countdownProgress = useMemo(() => {
