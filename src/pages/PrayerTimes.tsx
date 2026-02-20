@@ -384,76 +384,8 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
           </div>
         </div>
 
-        {/* Location Selection (collapsible) */}
-        <Card>
-          <CardContent className="p-4 space-y-3">
-            <div className="flex flex-row items-center gap-3">
-              <div className="hidden lg:block lg:flex-1">
-                <Select value={selectedCity} onValueChange={handleCityChange}>
-                  <SelectTrigger className="h-9">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {Object.keys(cityNames).filter(c => c !== 'custom' || selectedCity === 'custom').map(city => {
-                      const cityData = cityNames[city];
-                      const name = language === 'bn' ? cityData.bn : cityData.en;
-                      const tzDisplay = cityData.tz ? ` (${cityData.tz})` : '';
-                      return <SelectItem key={city} value={city}>{name}{tzDisplay}</SelectItem>;
-                    })}
-                  </SelectContent>
-                </Select>
-              </div>
-              <Button
-                variant={useBangladeshLocation ? "default" : "outline"}
-                onClick={enableBangladeshLocation}
-                className={cn("flex-1 lg:flex-[2] h-9", language === "bn" && "font-bengali")}
-                size="sm"
-              >
-                <MapPin className="w-4 h-4 mr-2 shrink-0" />
-                <span className="truncate">
-                  {getCurrentUpazila() ? (language === 'bn' ? getCurrentUpazila()?.name_bn : getCurrentUpazila()?.name_en) : (language === 'bn' ? 'বাংলাদেশ অবস্থান' : 'Bangladesh Location')}
-                </span>
-              </Button>
-            </div>
-            {useBangladeshLocation && (
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 pt-3 border-t border-border">
-                <div>
-                  <label className={cn("text-xs font-medium text-muted-foreground mb-1 block", language === "bn" && "font-bengali")}>
-                    {language === 'bn' ? 'বিভাগ' : 'Division'}
-                  </label>
-                  <Select value={selectedDivision} onValueChange={handleDivisionChange}>
-                    <SelectTrigger className="h-9"><SelectValue /></SelectTrigger>
-                    <SelectContent>
-                      {bangladeshDivisions.map(d => <SelectItem key={d.id} value={d.id}>{language === 'bn' ? d.name_bn : d.name_en}</SelectItem>)}
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div>
-                  <label className={cn("text-xs font-medium text-muted-foreground mb-1 block", language === "bn" && "font-bengali")}>
-                    {language === 'bn' ? 'জেলা' : 'District'}
-                  </label>
-                  <Select value={selectedDistrict} onValueChange={handleDistrictChange}>
-                    <SelectTrigger className="h-9"><SelectValue /></SelectTrigger>
-                    <SelectContent>
-                      {getDistricts().map(d => <SelectItem key={d.id} value={d.id}>{language === 'bn' ? d.name_bn : d.name_en}</SelectItem>)}
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div>
-                  <label className={cn("text-xs font-medium text-muted-foreground mb-1 block", language === "bn" && "font-bengali")}>
-                    {language === 'bn' ? 'উপজেলা' : 'Upazila'}
-                  </label>
-                  <Select value={selectedUpazila} onValueChange={handleUpazilaChange}>
-                    <SelectTrigger className="h-9"><SelectValue /></SelectTrigger>
-                    <SelectContent>
-                      {getUpazilas().map(u => <SelectItem key={u.id} value={u.id}>{language === 'bn' ? u.name_bn : u.name_en}</SelectItem>)}
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-            )}
-          </CardContent>
-        </Card>
+
+
 
         {/* Main Content: Countdown + Prayer List */}
         <Card className="overflow-hidden">
