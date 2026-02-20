@@ -257,8 +257,7 @@ const StoryDetail = ({ language }: StoryDetailProps) => {
 
         {/* Content */}
         <div className={cn(
-          "prose prose-sm sm:prose-base max-w-none text-foreground/90 leading-relaxed whitespace-pre-wrap",
-          "prose-headings:text-foreground prose-p:text-foreground/90",
+          "w-full text-foreground/90 leading-relaxed whitespace-pre-wrap text-sm sm:text-base",
           language === "bn" && "font-bengali text-base sm:text-lg leading-loose"
         )}>
           {content}
