@@ -40,6 +40,7 @@ export const QuickAccessCards = ({ language }: QuickAccessCardsProps) => {
       descBn: "দৈনিক দোয়া ও মোনাজাত",
       path: "/daily-dua",
       gradient: "from-amber-500 to-orange-600",
+      hideOnMobile: true,
     },
     {
       id: "masail",
@@ -70,6 +71,7 @@ export const QuickAccessCards = ({ language }: QuickAccessCardsProps) => {
       descBn: "কিবলার দিক খুঁজুন",
       path: "/qibla",
       gradient: "from-teal-500 to-emerald-600",
+      hideOnDesktop: true,
     },
     {
       id: "stories",
@@ -84,14 +86,18 @@ export const QuickAccessCards = ({ language }: QuickAccessCardsProps) => {
   ];
 
   return (
-    <div className="grid grid-cols-3 sm:grid-cols-4 gap-2 sm:gap-3 md:gap-4 lg:grid-cols-7">
+    <div className="grid grid-cols-3 gap-2 sm:gap-3 md:gap-4 lg:grid-cols-6">
       {quickLinks.map((link) => {
         const Icon = link.icon;
         return (
           <button
             key={link.id}
             onClick={() => navigate(link.path)}
-            className="group relative overflow-hidden rounded-xl bg-card border border-border p-3 sm:p-4 md:p-5 text-left transition-all duration-300 hover:shadow-elevated hover:-translate-y-1 min-w-0 h-full flex flex-col"
+            className={cn(
+              "group relative overflow-hidden rounded-xl bg-card border border-border p-3 sm:p-4 md:p-5 text-left transition-all duration-300 hover:shadow-elevated hover:-translate-y-1 min-w-0 h-full flex flex-col",
+              (link as any).hideOnMobile && "hidden sm:flex",
+              (link as any).hideOnDesktop && "flex sm:hidden"
+            )}
           >
             {/* Gradient overlay on hover */}
             <div className={cn(
