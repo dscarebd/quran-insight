@@ -1,21 +1,20 @@
 
+## Fix Content Width to Match Header
 
-## Rename "Books" Quick Access Card to "Stories"
+Both the Stories List and Story Detail pages use narrower max-width containers than the desktop header, causing the content to appear narrower than the navigation bar.
 
-A single-file change to update the "Books" card in the Quick Access grid to reflect story-type content.
+### The Problem
 
-### Changes in `src/components/desktop/QuickAccessCards.tsx`
+| Component | Current Width | Required Width |
+|---|---|---|
+| Desktop Header | `max-w-6xl` (72rem) | `max-w-6xl` (no change) |
+| Stories List | `max-w-5xl` (64rem) | `max-w-6xl` |
+| Story Detail | `max-w-4xl` (56rem) | `max-w-6xl` |
 
-- **Icon**: Change from `BookOpen` to `ScrollText` (better represents stories/narratives)
-- **English label**: "Books" → "Stories"
-- **Bengali label**: "বই সমূহ" → "গল্প সমূহ"
-- **English description**: "Quran & Islamic books" → "Islamic Stories & Tafsir"
-- **Bengali description**: "কুরআন ও ইসলামিক বই" → "ইসলামিক গল্প ও তাফসীর"
-- **Gradient**: Keep the existing rose-to-pink gradient
+### Changes
 
-### Technical Details
+**1. `src/pages/StoriesList.tsx`**
+- Change `max-w-5xl` to `max-w-6xl` on the main content wrapper
 
-- Import `ScrollText` from `lucide-react` instead of `BookOpen`
-- Only the last entry in the `quickLinks` array is modified
-- No routing or backend changes needed -- the path remains `/read`
-
+**2. `src/pages/StoryDetail.tsx`**
+- Change `max-w-4xl` to `max-w-6xl` on the `<article>` wrapper
