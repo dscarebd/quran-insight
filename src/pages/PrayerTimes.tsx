@@ -105,10 +105,15 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
     setTimeout(() => setShowLocationPicker(false), 300);
   };
 
-  // Close location picker on outside click
+  // Close location picker on outside click (ignore Select portaled content)
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
-      if (locationPickerRef.current && !locationPickerRef.current.contains(e.target as Node)) {
+      const target = e.target as HTMLElement;
+      // Don't close if clicking inside a Radix Select portal
+      if (target.closest('[data-radix-popper-content-wrapper]') || target.closest('[role="listbox"]') || target.closest('[role="option"]')) {
+        return;
+      }
+      if (locationPickerRef.current && !locationPickerRef.current.contains(target)) {
         setShowLocationPicker(false);
       }
     };
@@ -427,7 +432,16 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
           >
             <MapPin className="w-4 h-4 text-primary shrink-0" />
             <span className={cn("text-sm font-medium text-foreground truncate", language === 'bn' && 'font-bengali')}>
-              {location.city || (language === 'bn' ? 'ঢাকা' : 'Dhaka')}
+              {useBangladeshLocation ? (() => {
+                const upazila = getCurrentUpazila();
+                const district = getDistrictById(selectedDivision, selectedDistrict);
+                if (upazila && district) {
+                  return language === 'bn' 
+                    ? `${upazila.name_bn}, ${district.name_bn}` 
+                    : `${upazila.name_en}, ${district.name_en}`;
+                }
+                return location.city || (language === 'bn' ? 'ঢাকা' : 'Dhaka');
+              })() : (location.city || (language === 'bn' ? 'ঢাকা' : 'Dhaka'))}
             </span>
             <ChevronDown className={cn("w-3 h-3 text-muted-foreground shrink-0 transition-transform", showLocationPicker && "rotate-180")} />
           </button>
