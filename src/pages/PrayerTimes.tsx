@@ -336,6 +336,32 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
   // Is it Ramadan?
   const isRamadan = hijriDate.month === 9;
 
+  // Prohibited prayer times (calculated from sunrise, dhuhr, maghrib)
+  const prohibitedTimes = useMemo(() => {
+    if (!prayerTimes) return null;
+    const sunriseMins = parseTimeToMins(prayerTimes.sunrise);
+    const dhuhrMins = parseTimeToMins(prayerTimes.dhuhr.start);
+    const maghribMins = parseTimeToMins(prayerTimes.maghrib.start);
+    if (sunriseMins < 0 || dhuhrMins < 0 || maghribMins < 0) return null;
+
+    // Helper to format minutes back to time string
+    const minsToTime = (totalMins: number) => {
+      let h = Math.floor(totalMins / 60) % 24;
+      const m = totalMins % 60;
+      const period = h >= 12 ? 'PM' : 'AM';
+      let h12 = h % 12;
+      if (h12 === 0) h12 = 12;
+      const timeStr = `${h12}:${m.toString().padStart(2, '0')} ${period}`;
+      return formatTimeShort(timeStr);
+    };
+
+    return {
+      morning: { start: minsToTime(sunriseMins), end: minsToTime(sunriseMins + 15) },
+      noon: { start: minsToTime(dhuhrMins - 3), end: minsToTime(dhuhrMins) },
+      evening: { start: minsToTime(maghribMins - 15), end: minsToTime(maghribMins) },
+    };
+  }, [prayerTimes, language]);
+
   // Calculate progress for the circular countdown
   const countdownProgress = useMemo(() => {
     if (!currentPrayer || !prayerTimes) return 0;
@@ -532,6 +558,45 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
               </p>
             </div>
           </div>
+        )}
+
+        {/* Prohibited Prayer Times */}
+        {prohibitedTimes && (
+          <Card>
+            <CardContent className="p-4">
+              <h3 className={cn("font-semibold text-sm text-foreground mb-3", language === 'bn' && 'font-bengali')}>
+                {language === 'bn' ? 'নিষিদ্ধ নামাজের সময়' : 'Prohibited Prayer Times'}
+              </h3>
+              <div className="space-y-2.5">
+                <div className="flex items-center justify-between">
+                  <span className={cn("text-sm text-muted-foreground", language === 'bn' && 'font-bengali')}>
+                    {language === 'bn' ? 'সকাল:' : 'Morning:'}
+                  </span>
+                  <span className="text-sm font-medium text-foreground tabular-nums">
+                    {prohibitedTimes.morning.start} - {prohibitedTimes.morning.end}
+                  </span>
+                </div>
+                <Separator />
+                <div className="flex items-center justify-between">
+                  <span className={cn("text-sm text-muted-foreground", language === 'bn' && 'font-bengali')}>
+                    {language === 'bn' ? 'দুপুর:' : 'Noon:'}
+                  </span>
+                  <span className="text-sm font-medium text-foreground tabular-nums">
+                    {prohibitedTimes.noon.start} - {prohibitedTimes.noon.end}
+                  </span>
+                </div>
+                <Separator />
+                <div className="flex items-center justify-between">
+                  <span className={cn("text-sm text-muted-foreground", language === 'bn' && 'font-bengali')}>
+                    {language === 'bn' ? 'সন্ধ্যা:' : 'Evening:'}
+                  </span>
+                  <span className="text-sm font-medium text-foreground tabular-nums">
+                    {prohibitedTimes.evening.start} - {prohibitedTimes.evening.end}
+                  </span>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
         )}
 
         {/* Calculation Method Info */}
