@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { Sparkles, HandHeart, ChevronRight, Copy, Check, BookOpen } from "lucide-react";
+import { Sparkles, ChevronRight, Copy, Check, BookOpen } from "lucide-react";
 import { cn, formatNumber, sanitizeArabicText } from "@/lib/utils";
 import { toast } from "sonner";
 import { Language } from "@/types/language";
@@ -7,6 +7,7 @@ import { useDailyContent } from "@/hooks/useDailyContent";
 import { useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useArabicFontSize } from "@/hooks/useArabicFontSize";
+import { QiblaCompass } from "@/components/QiblaCompass";
 
 interface DesktopDailyContentProps {
   language: Language;
@@ -33,9 +34,8 @@ const bookIconColors: Record<string, string> = {
 
 export const DesktopDailyContent = ({ language }: DesktopDailyContentProps) => {
   const navigate = useNavigate();
-  const { verse, dua, hadith, isLoading } = useDailyContent();
+  const { verse, hadith, isLoading } = useDailyContent();
   const [isVerseCopied, setIsVerseCopied] = useState(false);
-  const [isDuaCopied, setIsDuaCopied] = useState(false);
   const [isHadithCopied, setIsHadithCopied] = useState(false);
   const { arabicFontSize } = useArabicFontSize();
 
@@ -55,18 +55,6 @@ export const DesktopDailyContent = ({ language }: DesktopDailyContentProps) => {
     }
   };
 
-  const handleCopyDua = async () => {
-    if (!dua) return;
-    const textToCopy = `${dua.arabic}\n\n${dua.bengali}\n\n${dua.english}${dua.reference ? `\n\n(${dua.reference})` : ""}`;
-    try {
-      await navigator.clipboard.writeText(textToCopy);
-      setIsDuaCopied(true);
-      toast.success(language === "bn" ? "কপি করা হয়েছে" : "Copied to clipboard");
-      setTimeout(() => setIsDuaCopied(false), 2000);
-    } catch {
-      toast.error(language === "bn" ? "কপি করতে ব্যর্থ" : "Failed to copy");
-    }
-  };
 
   const handleCopyHadith = async () => {
     if (!hadith) return;
@@ -160,81 +148,8 @@ export const DesktopDailyContent = ({ language }: DesktopDailyContentProps) => {
         </div>
       )}
 
-      {/* Daily Dua Card */}
-      {dua && (
-        <div className="group relative overflow-hidden rounded-xl sm:rounded-2xl border border-border bg-card p-4 sm:p-6 transition-all duration-300 hover:shadow-elevated hover:-translate-y-1 hover:scale-[1.02]">
-          {/* Decorative corner */}
-          <div className="absolute -right-8 -top-8 h-24 w-24 rounded-full bg-gradient-to-br from-gold/20 to-transparent blur-2xl" />
-          
-          {/* Header */}
-          <div className="mb-3 sm:mb-4 flex items-center justify-between">
-            <div className="flex items-center gap-2 text-gold-dark">
-              <div className="flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-lg bg-gold/10">
-                <HandHeart className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-              </div>
-              <span className={cn("text-sm font-semibold text-foreground", language === "bn" && "font-bengali")}>
-                {language === "bn" ? "আজকের দোয়া" : "Dua of the Day"}
-              </span>
-            </div>
-            <button
-              onClick={handleCopyDua}
-              className="flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
-            >
-              {isDuaCopied ? <Check className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-green-500" /> : <Copy className="h-3.5 w-3.5 sm:h-4 sm:w-4" />}
-            </button>
-          </div>
-          
-          {/* Title */}
-          {(dua.title_bengali || dua.title_english) && (
-            <p className={cn(
-              "mb-2 sm:mb-3 text-center text-sm font-semibold text-gold-dark",
-              language === "bn" && "font-bengali"
-            )}>
-              {language === "bn" ? dua.title_bengali : dua.title_english}
-            </p>
-          )}
-          
-          {/* Arabic */}
-          <p 
-            className="mb-3 sm:mb-4 text-center font-arabic text-foreground"
-            style={{ fontSize: `${Math.max(arabicFontSize - 4, 20)}px` }}
-          >
-            {dua.arabic}
-          </p>
-          
-          {/* Translation */}
-          <p className={cn(
-            "mb-3 sm:mb-4 text-center text-scale-sm text-muted-foreground line-clamp-3",
-            language === "bn" && "font-bengali"
-          )}>
-            {language === "bn" ? dua.bengali : dua.english}
-          </p>
-
-          {/* Reference note for general supplications */}
-          {dua.reference && (dua.reference === "দোয়া সংকলন" || dua.reference === "সাধারণ প্রার্থনা - জায়েয দোয়া") && (
-            <p className={cn(
-              "mb-2 text-[9px] sm:text-[10px] text-muted-foreground/60 text-center",
-              language === "bn" && "font-bengali"
-            )}>
-              {language === "bn" 
-                ? "সাধারণ প্রার্থনা - জায়েয" 
-                : "General permissible prayer"}
-            </p>
-          )}
-          
-          {/* View Dua - Navigate to exact dua */}
-          <button 
-            onClick={() => navigate(`/dua/${dua.category_id}?dua=${dua.dua_id}`)}
-            className={cn(
-              "mx-auto flex items-center gap-1.5 rounded-full bg-gold/10 px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-medium text-gold-dark transition-colors hover:bg-gold hover:text-white",
-              language === "bn" && "font-bengali"
-            )}
-          >
-            {language === "bn" ? dua.category_name_bengali : dua.category_name_english}
-            <ChevronRight className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-          </button>
-        </div>
-      )}
+      {/* Qibla Compass Card */}
+      <QiblaCompass language={language} />
 
       {/* Hadith of the Day Card */}
       {hadith && (
