@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo, useRef } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -37,15 +38,23 @@ interface Story {
   created_at: string;
 }
 
-const CATEGORIES = [
-  { value: "prophets", label: "নবীদের কাহিনী (Prophets)" },
-  { value: "tafsir", label: "তাফসীর (Tafsir)" },
-  { value: "history", label: "ইতিহাস (History)" },
-  { value: "moral", label: "শিক্ষামূলক (Moral)" },
-  { value: "general", label: "সাধারণ (General)" },
-];
-
 const StoriesManagement = () => {
+  const { data: dbCategories = [] } = useQuery({
+    queryKey: ["story-categories"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("story_categories")
+        .select("*")
+        .order("display_order", { ascending: true });
+      if (error) throw error;
+      return data;
+    },
+  });
+
+  const CATEGORIES = dbCategories.map((c) => ({
+    value: c.slug,
+    label: `${c.name_bengali} (${c.name_english})`,
+  }));
   const [stories, setStories] = useState<Story[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");

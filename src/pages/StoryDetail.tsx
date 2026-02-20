@@ -13,14 +13,6 @@ interface StoryDetailProps {
   language: Language;
 }
 
-const CATEGORIES: Record<string, { en: string; bn: string }> = {
-  prophets: { en: "Prophets", bn: "নবীদের কাহিনী" },
-  tafsir: { en: "Tafsir", bn: "তাফসীর" },
-  history: { en: "History", bn: "ইতিহাস" },
-  moral: { en: "Moral", bn: "শিক্ষামূলক" },
-  general: { en: "General", bn: "সাধারণ" },
-};
-
 const StoryDetail = ({ language }: StoryDetailProps) => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
@@ -37,6 +29,18 @@ const StoryDetail = ({ language }: StoryDetailProps) => {
       return data;
     },
     enabled: !!id,
+  });
+
+  const { data: dbCategories = [] } = useQuery({
+    queryKey: ["story-categories"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("story_categories")
+        .select("*")
+        .order("display_order", { ascending: true });
+      if (error) throw error;
+      return data;
+    },
   });
 
   if (isLoading) {
@@ -61,7 +65,8 @@ const StoryDetail = ({ language }: StoryDetailProps) => {
 
   const title = language === "bn" ? story.title_bengali : story.title_english;
   const content = language === "bn" ? story.content_bengali : story.content_english;
-  const catLabel = CATEGORIES[story.category];
+  const catEntry = dbCategories.find((c) => c.slug === story.category);
+  const catLabel = catEntry ? { en: catEntry.name_english, bn: catEntry.name_bengali } : null;
 
   return (
     <div className="flex-1 overflow-y-auto max-w-full">
