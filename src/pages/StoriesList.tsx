@@ -198,7 +198,7 @@ const StoriesList = ({ language }: StoriesListProps) => {
                         "text-xs sm:text-sm text-muted-foreground line-clamp-2 mb-2",
                         language === "bn" && "font-bengali"
                       )}>
-                        {content.substring(0, 150)}...
+                        {content ? `${content.substring(0, 150)}...` : ""}
                       </p>
                       <div className="flex items-center gap-3 text-muted-foreground text-[10px] sm:text-xs">
                         {story.author && (
