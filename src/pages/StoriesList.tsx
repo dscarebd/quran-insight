@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Language } from "@/types/language";
 import { cn } from "@/lib/utils";
-import { ScrollText, Clock, User, ChevronRight } from "lucide-react";
+import { ScrollText, Clock, User, ChevronRight, ChevronDown } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
 import { format } from "date-fns";
@@ -31,6 +31,7 @@ const getCategoryLabel = (categoryId: string, language: Language) => {
 const StoriesList = ({ language }: StoriesListProps) => {
   const navigate = useNavigate();
   const [activeCategory, setActiveCategory] = useState("all");
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const { data: stories = [], isLoading } = useQuery({
     queryKey: ["stories"],
@@ -74,8 +75,40 @@ const StoriesList = ({ language }: StoriesListProps) => {
           </p>
         </div>
 
-        {/* Category Filter */}
-        <div className="flex gap-2 overflow-x-auto pb-3 mb-8 scrollbar-hide justify-center">
+        {/* Category Filter - Dropdown on mobile, pills on sm+ */}
+        <div className="relative sm:hidden flex justify-center mb-8">
+          <button
+            onClick={() => setDropdownOpen(!dropdownOpen)}
+            className={cn(
+              "flex items-center gap-2 px-4 py-2.5 rounded-lg border border-border bg-card text-sm font-medium text-foreground shadow-sm",
+              language === "bn" && "font-bengali"
+            )}
+          >
+            {getCategoryLabel(activeCategory === "all" ? "all" : activeCategory, language) || (language === "bn" ? "সকল" : "All")}
+            <ChevronDown className={cn("h-4 w-4 transition-transform", dropdownOpen && "rotate-180")} />
+          </button>
+          {dropdownOpen && (
+            <div className="absolute top-full mt-1 z-50 bg-card border border-border rounded-lg shadow-lg w-48">
+              {CATEGORIES.map((cat) => (
+                <button
+                  key={cat.id}
+                  onClick={() => { setActiveCategory(cat.id); setDropdownOpen(false); }}
+                  className={cn(
+                    "w-full text-left px-4 py-2.5 text-sm transition-colors first:rounded-t-lg last:rounded-b-lg",
+                    activeCategory === cat.id
+                      ? "bg-primary text-primary-foreground"
+                      : "text-foreground hover:bg-accent",
+                    language === "bn" && "font-bengali"
+                  )}
+                >
+                  {language === "bn" ? cat.labelBn : cat.labelEn}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+
+        <div className="hidden sm:flex gap-2 overflow-x-auto pb-3 mb-8 scrollbar-hide justify-center">
           {CATEGORIES.map((cat) => (
             <button
               key={cat.id}
