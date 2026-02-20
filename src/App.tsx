@@ -48,6 +48,8 @@ import LessonPlayer from "./pages/LessonPlayer";
 import CertificatePage from "./pages/CertificatePage";
 import QuranReadHub from "./pages/QuranReadHub";
 import DirectPDFReader from "./pages/DirectPDFReader";
+import StoriesList from "./pages/StoriesList";
+import StoryDetail from "./pages/StoryDetail";
 
 
 // Lazy load admin pages
@@ -70,6 +72,7 @@ const CourseManagement = lazy(() => import("./pages/admin/CourseManagement"));
 const LessonManagement = lazy(() => import("./pages/admin/LessonManagement"));
 const LmsStudentsAdmin = lazy(() => import("./pages/admin/LmsStudents"));
 const BooksManagement = lazy(() => import("./pages/admin/BooksManagement"));
+const StoriesManagement = lazy(() => import("./pages/admin/StoriesManagement"));
 const queryClient = new QueryClient();
 
 const LoadingFallback = () => (
@@ -240,6 +243,16 @@ const AppContent = () => {
           <MasailDetail language={language} />
         </Layout>
       } />
+      <Route path="/stories" element={
+        <Layout language={language} onLanguageChange={handleLanguageChange}>
+          <StoriesList language={language} />
+        </Layout>
+      } />
+      <Route path="/stories/:id" element={
+        <Layout language={language} onLanguageChange={handleLanguageChange}>
+          <StoryDetail language={language} />
+        </Layout>
+      } />
       <Route path="/settings" element={
         <Layout language={language} onLanguageChange={handleLanguageChange}>
           <Settings language={language} onLanguageChange={handleLanguageChange} readingMode={readingMode} onReadingModeChange={setReadingMode} arabicFont={arabicFont} onArabicFontChange={setArabicFont} fontSize={fontSize} onFontSizeChange={setFontSize} />
@@ -319,6 +332,7 @@ const AppContent = () => {
         <Route path="export-data" element={<ExportData />} />
         <Route path="books" element={<BooksManagement />} />
         <Route path="masail" element={<MasailManagement />} />
+        <Route path="stories" element={<StoriesManagement />} />
         <Route path="courses" element={<CourseManagement />} />
         <Route path="courses/:courseId/lessons" element={<LessonManagement />} />
         <Route path="lms-students" element={<LmsStudentsAdmin />} />
