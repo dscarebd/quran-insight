@@ -786,5 +786,179 @@ export const dailyDuaCategories: DailyDuaCategory[] = [
         referenceEn: "Mustadrak al-Hakim"
       }
     ]
+  },
+
+  // ============ ধৈর্য ও কৃতজ্ঞতা - Patience & Gratitude ============
+  {
+    id: "patience-gratitude",
+    nameEnglish: "Patience & Gratitude",
+    nameBengali: "ধৈর্য ও কৃতজ্ঞতা",
+    icon: "Heart",
+    duas: [
+      {
+        id: "patience-calamity",
+        titleBn: "বিপদে ধৈর্যের দোয়া",
+        titleEn: "Dua for Patience in Calamity",
+        arabic: "إِنَّا لِلَّهِ وَإِنَّا إِلَيْهِ رَاجِعُونَ، اللَّهُمَّ أْجُرْنِي فِي مُصِيبَتِي وَأَخْلِفْ لِي خَيْرًا مِنْهَا",
+        bengali: "নিশ্চয়ই আমরা আল্লাহর জন্য এবং তাঁর কাছেই ফিরে যাব। হে আল্লাহ! আমার বিপদে আমাকে সওয়াব দাও এবং এর চেয়ে উত্তম বিকল্প দান করো।",
+        english: "Indeed we belong to Allah and to Him we shall return. O Allah, reward me in my calamity and replace it with something better.",
+        transliteration: "Innā lillāhi wa innā ilayhi rāji'ūn. Allāhummaj'urnī fī muṣībatī wa akhlif lī khayran minhā",
+        transliterationBn: "ইন্না লিল্লাহি ওয়া ইন্না ইলাইহি রাজিঊন। আল্লাহুম্মাজুরনী ফী মুসীবাতী ওয়া আখলিফ লী খাইরান মিনহা",
+        referenceBn: "সহীহ মুসলিম ৯১৮",
+        referenceEn: "Sahih Muslim 918"
+      },
+      {
+        id: "shukr-dua",
+        titleBn: "কৃতজ্ঞতার দোয়া",
+        titleEn: "Dua for Gratitude",
+        arabic: "اللَّهُمَّ أَعِنِّي عَلَىٰ ذِكْرِكَ وَشُكْرِكَ وَحُسْنِ عِبَادَتِكَ",
+        bengali: "হে আল্লাহ! তোমার যিকর, তোমার শুকরিয়া এবং তোমার সুন্দর ইবাদত করতে আমাকে সাহায্য করো।",
+        english: "O Allah, help me in remembering You, being grateful to You, and worshipping You in the best manner.",
+        transliteration: "Allāhumma a'innī 'alā dhikrika wa shukrika wa ḥusni 'ibādatik",
+        transliterationBn: "আল্লাহুম্মা আইন্নী আলা যিকরিকা ওয়া শুকরিকা ওয়া হুসনি ইবাদাতিক",
+        referenceBn: "আবু দাউদ ১৫২২",
+        referenceEn: "Abu Dawud 1522"
+      },
+      {
+        id: "steadfastness-dua",
+        titleBn: "দৃঢ়তার দোয়া",
+        titleEn: "Dua for Steadfastness",
+        arabic: "يَا مُقَلِّبَ الْقُلُوبِ ثَبِّتْ قَلْبِي عَلَىٰ دِينِكَ",
+        bengali: "হে অন্তরসমূহের পরিবর্তনকারী! আমার অন্তরকে তোমার দ্বীনের উপর দৃঢ় রাখো।",
+        english: "O Turner of the hearts, make my heart firm upon Your religion.",
+        transliteration: "Yā Muqallibal-qulūbi thabbit qalbī 'alā dīnik",
+        transliterationBn: "ইয়া মুক্বাল্লিবাল কুলূবি সাব্বিত ক্বালবী আলা দীনিক",
+        referenceBn: "তিরমিযী ২১৪০",
+        referenceEn: "Tirmidhi 2140"
+      },
+      {
+        id: "hardship-ease",
+        titleBn: "কষ্টে সহজতার দোয়া",
+        titleEn: "Dua for Ease in Hardship",
+        arabic: "اللَّهُمَّ لَا سَهْلَ إِلَّا مَا جَعَلْتَهُ سَهْلًا وَأَنْتَ تَجْعَلُ الْحَزْنَ إِذَا شِئْتَ سَهْلًا",
+        bengali: "হে আল্লাহ! সহজ নয় কিছুই যদি তুমি সহজ না করো। তুমি চাইলে কঠিন বিষয়কেও সহজ করে দাও।",
+        english: "O Allah, nothing is easy except what You make easy, and You can make what is difficult easy if You wish.",
+        transliteration: "Allāhumma lā sahla illā mā ja'altahu sahlan wa Anta taj'alul-ḥazna idhā shi'ta sahlā",
+        transliterationBn: "আল্লাহুম্মা লা সাহলা ইল্লা মা জাআলতাহু সাহলান ওয়া আনতা তাজআলুল হাযনা ইযা শি'তা সাহলা",
+        referenceBn: "ইবনে হিব্বান ৯৭৪",
+        referenceEn: "Ibn Hibban 974"
+      }
+    ]
+  },
+
+  // ============ পিতামাতা ও পরিবার - Parents & Family ============
+  {
+    id: "parents-family",
+    nameEnglish: "Parents & Family",
+    nameBengali: "পিতামাতা ও পরিবার",
+    icon: "Users",
+    duas: [
+      {
+        id: "parents-mercy",
+        titleBn: "পিতামাতার জন্য দোয়া",
+        titleEn: "Dua for Parents",
+        arabic: "رَبِّ ارْحَمْهُمَا كَمَا رَبَّيَانِي صَغِيرًا",
+        bengali: "হে আমার রব! তাদের প্রতি দয়া করো, যেমন তারা আমাকে শৈশবে লালন-পালন করেছেন।",
+        english: "My Lord, have mercy on them both as they raised me when I was small.",
+        transliteration: "Rabbirḥamhumā kamā rabbayānī ṣaghīrā",
+        transliterationBn: "রাব্বির হামহুমা কামা রাব্বায়ানী সাগীরা",
+        referenceBn: "সূরা আল-ইসরা ১৭:২৪",
+        referenceEn: "Surah Al-Isra 17:24"
+      },
+      {
+        id: "parents-forgiveness",
+        titleBn: "পিতামাতার ক্ষমার দোয়া",
+        titleEn: "Forgiveness for Parents",
+        arabic: "رَبِّ اغْفِرْ لِي وَلِوَالِدَيَّ وَلِلْمُؤْمِنِينَ يَوْمَ يَقُومُ الْحِسَابُ",
+        bengali: "হে আমার রব! হিসাবের দিন আমাকে, আমার পিতামাতাকে এবং সকল মুমিনকে ক্ষমা করুন।",
+        english: "My Lord, forgive me, my parents, and the believers on the Day when the reckoning will be established.",
+        transliteration: "Rabbighfir lī wa liwālidayya wa lil-mu'minīna yawma yaqūmul-ḥisāb",
+        transliterationBn: "রাব্বিগফির লী ওয়া লিওয়ালিদাইয়া ওয়া লিলমু'মিনীনা ইয়াওমা ইয়াক্বূমুল হিসাব",
+        referenceBn: "সূরা ইবরাহীম ১৪:৪১",
+        referenceEn: "Surah Ibrahim 14:41"
+      },
+      {
+        id: "righteous-spouse",
+        titleBn: "সৎ জীবনসঙ্গীর দোয়া",
+        titleEn: "Dua for Righteous Spouse",
+        arabic: "رَبَّنَا هَبْ لَنَا مِنْ أَزْوَاجِنَا وَذُرِّيَّاتِنَا قُرَّةَ أَعْيُنٍ وَاجْعَلْنَا لِلْمُتَّقِينَ إِمَامًا",
+        bengali: "হে আমাদের রব! আমাদের স্ত্রী ও সন্তানদের থেকে আমাদের চোখের শীতলতা দান করো এবং আমাদের মুত্তাকীদের ইমাম বানাও।",
+        english: "Our Lord, grant us from our spouses and offspring comfort to our eyes and make us leaders of the righteous.",
+        transliteration: "Rabbanā hab lanā min azwājinā wa dhurriyyātinā qurrata a'yunin waj'alnā lil-muttaqīna imāmā",
+        transliterationBn: "রাব্বানা হাব লানা মিন আযওয়াজিনা ওয়া যুররিয়্যাতিনা কুররাতা আ'ইউনিন ওয়াজআলনা লিলমুত্তাক্বীনা ইমামা",
+        referenceBn: "সূরা আল-ফুরকান ২৫:৭৪",
+        referenceEn: "Surah Al-Furqan 25:74"
+      },
+      {
+        id: "righteous-children",
+        titleBn: "সৎ সন্তানের দোয়া",
+        titleEn: "Dua for Righteous Children",
+        arabic: "رَبِّ هَبْ لِي مِنَ الصَّالِحِينَ",
+        bengali: "হে আমার রব! আমাকে সৎকর্মশীল সন্তান দান করুন।",
+        english: "My Lord, grant me righteous offspring.",
+        transliteration: "Rabbi hab lī minaṣ-ṣāliḥīn",
+        transliterationBn: "রাব্বি হাব লী মিনাস সালিহীন",
+        referenceBn: "সূরা আস-সাফফাত ৩৭:১০০",
+        referenceEn: "Surah As-Saffat 37:100"
+      }
+    ]
+  },
+
+  // ============ রমজান ও রোজা - Ramadan & Fasting ============
+  {
+    id: "ramadan-fasting",
+    nameEnglish: "Ramadan & Fasting",
+    nameBengali: "রমজান ও রোজা",
+    icon: "Moon",
+    duas: [
+      {
+        id: "sehri-intention",
+        titleBn: "সেহরির নিয়ত",
+        titleEn: "Intention for Suhoor/Fasting",
+        arabic: "وَبِصَوْمِ غَدٍ نَوَيْتُ مِنْ شَهْرِ رَمَضَانَ",
+        bengali: "আমি রমজান মাসের আগামীকালের রোজা রাখার নিয়ত করলাম।",
+        english: "I intend to fast tomorrow in the month of Ramadan.",
+        transliteration: "Wa biṣawmi ghadin nawaitu min shahri Ramaḍān",
+        transliterationBn: "ওয়া বিসাওমি গাদিন নাওয়াইতু মিন শাহরি রামাদান",
+        referenceBn: "ফিকহী মাসআলা",
+        referenceEn: "Fiqh ruling"
+      },
+      {
+        id: "iftar-dua",
+        titleBn: "ইফতারের দোয়া",
+        titleEn: "Dua for Breaking Fast (Iftar)",
+        arabic: "ذَهَبَ الظَّمَأُ وَابْتَلَّتِ الْعُرُوقُ وَثَبَتَ الْأَجْرُ إِنْ شَاءَ اللَّهُ",
+        bengali: "পিপাসা দূর হলো, শিরাগুলো সিক্ত হলো এবং ইনশাআল্লাহ সওয়াব নির্ধারিত হলো।",
+        english: "The thirst has gone, the veins have been moistened, and the reward is confirmed, if Allah wills.",
+        transliteration: "Dhahabaz-ẓama'u wabtallatil-'urūqu wa thabatal-ajru in shā'Allāh",
+        transliterationBn: "যাহাবায যামাউ ওয়াবতাল্লাতিল উরূক্বু ওয়া সাবাতাল আজরু ইন শাআল্লাহ",
+        referenceBn: "আবু দাউদ ২৩৫৭",
+        referenceEn: "Abu Dawud 2357"
+      },
+      {
+        id: "laylatul-qadr",
+        titleBn: "লাইলাতুল কদরের দোয়া",
+        titleEn: "Dua for Laylatul Qadr",
+        arabic: "اللَّهُمَّ إِنَّكَ عَفُوٌّ تُحِبُّ الْعَفْوَ فَاعْفُ عَنِّي",
+        bengali: "হে আল্লাহ! নিশ্চয়ই তুমি ক্ষমাশীল, তুমি ক্ষমা করতে ভালোবাসো, তাই আমাকে ক্ষমা করো।",
+        english: "O Allah, You are Forgiving and love forgiveness, so forgive me.",
+        transliteration: "Allāhumma innaka 'Afuwwun tuḥibbul-'afwa fa'fu 'annī",
+        transliterationBn: "আল্লাহুম্মা ইন্নাকা আফুউউন তুহিব্বুল আফওয়া ফা'ফু আন্নী",
+        referenceBn: "তিরমিযী ৩৫১৩",
+        referenceEn: "Tirmidhi 3513"
+      },
+      {
+        id: "ramadan-welcome",
+        titleBn: "রমজান মাসের দোয়া",
+        titleEn: "Dua for Ramadan",
+        arabic: "اللَّهُمَّ بَارِكْ لَنَا فِي رَجَبٍ وَشَعْبَانَ وَبَلِّغْنَا رَمَضَانَ",
+        bengali: "হে আল্লাহ! রজব ও শাবান মাসে আমাদের বরকত দান করো এবং আমাদের রমজান পর্যন্ত পৌঁছাও।",
+        english: "O Allah, bless us in Rajab and Sha'ban and allow us to reach Ramadan.",
+        transliteration: "Allāhumma bārik lanā fī Rajaba wa Sha'bāna wa ballighnā Ramaḍān",
+        transliterationBn: "আল্লাহুম্মা বারিক লানা ফী রাজাবা ওয়া শা'বানা ওয়া বাল্লিগনা রামাদান",
+        referenceBn: "মুসনাদে আহমাদ",
+        referenceEn: "Musnad Ahmad"
+      }
+    ]
   }
 ];
