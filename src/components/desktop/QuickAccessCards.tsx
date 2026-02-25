@@ -34,10 +34,11 @@ export const QuickAccessCards = ({ language }: QuickAccessCardsProps) => {
     {
       id: "stories",
       icon: ScrollText,
-      labelEn: "Stories",
-      labelBn: "গল্প সমূহ",
-      descEn: "Islamic Stories & Tafsir",
-      descBn: "ইসলামিক গল্প ও তাফসীর",
+      labelEn: "Tafsir's",
+      labelBn: "তাফসীর",
+      descEn: "Islamic Tafsir & Stories",
+      descBn: "ইসলামিক তাফসীর ও গল্প",
+      
       path: "/stories",
       gradient: "from-rose-500 to-pink-600",
     },
