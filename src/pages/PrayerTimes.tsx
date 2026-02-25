@@ -432,7 +432,9 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
     if (!timeRemaining) return { h: toBn2(0), m: toBn2(0), s: toBn2(0) };
     const now = new Date();
     const secs = 59 - now.getSeconds();
-    return { h: toBn2(timeRemaining.hours), m: toBn2(timeRemaining.minutes), s: toBn2(secs < 0 ? 0 : secs) };
+    const totalMins = (timeRemaining.hours * 60) + timeRemaining.minutes;
+    const isUrgent = totalMins < 5;
+    return { h: toBn2(timeRemaining.hours), m: toBn2(timeRemaining.minutes), s: toBn2(secs < 0 ? 0 : secs), isUrgent };
   }, [timeRemaining, currentTime, language]);
 
   // Iftar countdown (time remaining until Maghrib)
@@ -737,8 +739,8 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
                       return (
                         <ellipse
                           cx={dotX} cy={dotY} rx="6" ry="4"
-                          fill="hsl(var(--destructive))"
-                          style={{ filter: 'drop-shadow(0 0 3px hsl(var(--destructive) / 0.6))' }}
+                          fill={countdownDisplay.isUrgent ? "hsl(var(--destructive))" : "hsl(var(--primary))"}
+                          style={{ filter: `drop-shadow(0 0 3px ${countdownDisplay.isUrgent ? 'hsl(var(--destructive) / 0.6)' : 'hsl(var(--primary) / 0.6)'})` }}
                           className="transition-all duration-1000"
                           transform={`rotate(${(countdownProgress / 100) * 360}, ${dotX}, ${dotY})`}
                         />
@@ -747,7 +749,7 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
                   </svg>
                   {/* Countdown text in center */}
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="text-2xl font-bold text-destructive tabular-nums tracking-wider">
+                    <span className={cn("text-2xl font-bold tabular-nums tracking-wider", countdownDisplay.isUrgent ? "text-destructive" : "text-primary")}>
                       {countdownDisplay.h}:{countdownDisplay.m}:{countdownDisplay.s}
                     </span>
                   </div>
