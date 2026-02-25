@@ -1,9 +1,10 @@
-import { useState, useEffect, useCallback } from "react";
-import { Compass, Navigation, MapPin } from "lucide-react";
+import { useState, useEffect, useCallback, useRef } from "react";
+import { Compass, Navigation, MapPin, LocateFixed } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Language } from "@/types/language";
 import { toast } from "sonner";
 import { getCurrentPosition } from "@/utils/geolocation";
+import { Capacitor } from "@capacitor/core";
 
 interface QiblaCompassProps {
   language: Language;
@@ -12,20 +13,41 @@ interface QiblaCompassProps {
 const KAABA_LAT = 21.4225;
 const KAABA_LNG = 39.8262;
 
-// Calculate Qibla bearing from a given location
 const calculateQiblaBearing = (lat: number, lng: number): number => {
   const toRad = (d: number) => (d * Math.PI) / 180;
   const toDeg = (r: number) => (r * 180) / Math.PI;
-
   const φ1 = toRad(lat);
   const φ2 = toRad(KAABA_LAT);
   const Δλ = toRad(KAABA_LNG - lng);
-
   const x = Math.sin(Δλ) * Math.cos(φ2);
   const y = Math.cos(φ1) * Math.sin(φ2) - Math.sin(φ1) * Math.cos(φ2) * Math.cos(Δλ);
-
   let bearing = toDeg(Math.atan2(x, y));
   return (bearing + 360) % 360;
+};
+
+const reverseGeocode = async (lat: number, lng: number): Promise<string> => {
+  try {
+    const res = await fetch(
+      `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json&zoom=12&accept-language=en`,
+      { headers: { "User-Agent": "QuranInsight/1.0" } }
+    );
+    if (!res.ok) throw new Error("Geocode failed");
+    const data = await res.json();
+    const addr = data.address;
+    // Return the most specific meaningful name
+    return (
+      addr?.city ||
+      addr?.town ||
+      addr?.village ||
+      addr?.suburb ||
+      addr?.county ||
+      addr?.state ||
+      data?.display_name?.split(",")[0] ||
+      "Unknown"
+    );
+  } catch {
+    return "";
+  }
 };
 
 export const QiblaCompass = ({ language }: QiblaCompassProps) => {
@@ -33,49 +55,69 @@ export const QiblaCompass = ({ language }: QiblaCompassProps) => {
   const [deviceHeading, setDeviceHeading] = useState<number | null>(null);
   const [hasPermission, setHasPermission] = useState(false);
   const [locationName, setLocationName] = useState<string | null>(null);
+  const [coords, setCoords] = useState<{ lat: number; lng: number } | null>(null);
   const [isRequestingPermission, setIsRequestingPermission] = useState(false);
+  const orientationRef = useRef(false);
 
-  // Get user location and calculate Qibla
+  // Get user location, calculate Qibla, and reverse-geocode
   useEffect(() => {
-    // Try saved location first
     const savedLat = localStorage.getItem("prayer-lat");
     const savedLng = localStorage.getItem("prayer-lng");
     const savedCity = localStorage.getItem("prayer-city");
 
     if (savedLat && savedLng) {
-      const bearing = calculateQiblaBearing(parseFloat(savedLat), parseFloat(savedLng));
-      setQiblaBearing(bearing);
+      const lat = parseFloat(savedLat);
+      const lng = parseFloat(savedLng);
+      setQiblaBearing(calculateQiblaBearing(lat, lng));
+      setCoords({ lat, lng });
       setLocationName(savedCity || null);
     }
 
-    // Also try live geolocation (works on both web and native APK)
-    getCurrentPosition().then(({ latitude, longitude }) => {
-      const bearing = calculateQiblaBearing(latitude, longitude);
-      setQiblaBearing(bearing);
-      localStorage.setItem("prayer-lat", String(latitude));
-      localStorage.setItem("prayer-lng", String(longitude));
-    }).catch(() => {
-      // If no saved location either, default to Dhaka
-      if (!savedLat) {
-        setQiblaBearing(calculateQiblaBearing(23.8103, 90.4125));
-        setLocationName("Dhaka");
-      }
-    });
+    getCurrentPosition()
+      .then(async ({ latitude, longitude }) => {
+        setQiblaBearing(calculateQiblaBearing(latitude, longitude));
+        setCoords({ lat: latitude, lng: longitude });
+        localStorage.setItem("prayer-lat", String(latitude));
+        localStorage.setItem("prayer-lng", String(longitude));
+
+        // Reverse geocode for exact location name
+        const name = await reverseGeocode(latitude, longitude);
+        if (name) {
+          setLocationName(name);
+          localStorage.setItem("prayer-city", name);
+        }
+      })
+      .catch(() => {
+        if (!savedLat) {
+          setQiblaBearing(calculateQiblaBearing(23.8103, 90.4125));
+          setCoords({ lat: 23.8103, lng: 90.4125 });
+          setLocationName("Dhaka");
+        }
+      });
   }, []);
 
-  // Device orientation for live compass
+  // Device orientation handler
   const handleOrientation = useCallback((e: DeviceOrientationEvent) => {
-    // webkitCompassHeading for iOS, alpha for Android
-    const heading = (e as any).webkitCompassHeading ?? (e.alpha != null ? (360 - e.alpha) % 360 : null);
+    const heading =
+      (e as any).webkitCompassHeading ??
+      (e.alpha != null ? (360 - e.alpha) % 360 : null);
     if (heading != null) {
       setDeviceHeading(heading);
     }
   }, []);
 
+  // Auto-enable compass on native platforms (no permission dialog needed on Android)
+  useEffect(() => {
+    if (Capacitor.isNativePlatform() && !orientationRef.current) {
+      orientationRef.current = true;
+      window.addEventListener("deviceorientation", handleOrientation, true);
+      setHasPermission(true);
+    }
+  }, [handleOrientation]);
+
   const requestCompassPermission = async () => {
     setIsRequestingPermission(true);
     try {
-      // iOS 13+ requires permission
       if (typeof (DeviceOrientationEvent as any).requestPermission === "function") {
         const permission = await (DeviceOrientationEvent as any).requestPermission();
         if (permission === "granted") {
@@ -85,19 +127,8 @@ export const QiblaCompass = ({ language }: QiblaCompassProps) => {
           toast.error(language === "bn" ? "কম্পাস অনুমতি প্রত্যাখ্যাত" : "Compass permission denied");
         }
       } else {
-        // Android / desktop – just listen
         window.addEventListener("deviceorientation", handleOrientation, true);
         setHasPermission(true);
-        // Check if we actually get events after a short delay
-        setTimeout(() => {
-          setDeviceHeading((prev) => {
-            if (prev === null) {
-              // No events received - likely desktop
-              return prev;
-            }
-            return prev;
-          });
-        }, 1000);
       }
     } catch {
       toast.error(language === "bn" ? "কম্পাস উপলব্ধ নয়" : "Compass not available");
@@ -111,15 +142,14 @@ export const QiblaCompass = ({ language }: QiblaCompassProps) => {
     };
   }, [handleOrientation]);
 
-  // The needle rotation: point towards Qibla relative to device heading
-  const needleRotation = qiblaBearing != null
-    ? deviceHeading != null
-      ? qiblaBearing - deviceHeading
-      : qiblaBearing
-    : 0;
+  const needleRotation =
+    qiblaBearing != null
+      ? deviceHeading != null
+        ? qiblaBearing - deviceHeading
+        : qiblaBearing
+      : 0;
 
   const compassRotation = deviceHeading != null ? -deviceHeading : 0;
-
   const bearingText = qiblaBearing != null ? `${Math.round(qiblaBearing)}°` : "--";
 
   return (
@@ -137,13 +167,17 @@ export const QiblaCompass = ({ language }: QiblaCompassProps) => {
             {language === "bn" ? "কিবলা দিক" : "Qibla Direction"}
           </span>
         </div>
-        {locationName && (
-          <div className="flex items-center gap-1 text-xs text-muted-foreground">
-            <MapPin className="h-3 w-3" />
-            <span>{locationName}</span>
-          </div>
-        )}
       </div>
+
+      {/* Location badge - top right corner */}
+      {locationName && (
+        <div className="absolute top-4 right-4 z-10 flex items-center gap-1.5 rounded-full bg-primary/10 px-2.5 py-1 border border-primary/20">
+          <LocateFixed className="h-3 w-3 text-primary" />
+          <span className="text-[11px] font-medium text-primary max-w-[120px] truncate">
+            {locationName}
+          </span>
+        </div>
+      )}
 
       {/* Compass Visual */}
       <div className="relative mx-auto flex items-center justify-center" style={{ width: 180, height: 180 }}>
@@ -152,11 +186,9 @@ export const QiblaCompass = ({ language }: QiblaCompassProps) => {
           className="absolute inset-0 transition-transform duration-300 ease-out"
           style={{ transform: `rotate(${compassRotation}deg)` }}
         >
-          {/* Outer ring */}
           <svg viewBox="0 0 180 180" className="w-full h-full">
             <circle cx="90" cy="90" r="85" fill="none" stroke="hsl(var(--border))" strokeWidth="2" />
             <circle cx="90" cy="90" r="75" fill="none" stroke="hsl(var(--border))" strokeWidth="0.5" strokeDasharray="4 4" />
-            {/* Tick marks */}
             {Array.from({ length: 72 }).map((_, i) => {
               const angle = i * 5;
               const isMajor = angle % 90 === 0;
@@ -178,7 +210,6 @@ export const QiblaCompass = ({ language }: QiblaCompassProps) => {
               );
             })}
           </svg>
-          {/* Cardinal labels */}
           {[
             { label: "N", angle: 0, color: "text-red-500 font-bold" },
             { label: "E", angle: 90, color: "text-muted-foreground" },
@@ -210,22 +241,11 @@ export const QiblaCompass = ({ language }: QiblaCompassProps) => {
           style={{ transform: `rotate(${needleRotation}deg)` }}
         >
           <svg viewBox="0 0 180 180" className="w-full h-full">
-            {/* Needle pointing up (towards Qibla) */}
-            <polygon
-              points="90,20 84,90 96,90"
-              fill="hsl(var(--primary))"
-              opacity="0.9"
-            />
-            <polygon
-              points="90,160 84,90 96,90"
-              fill="hsl(var(--muted-foreground))"
-              opacity="0.3"
-            />
-            {/* Center dot */}
+            <polygon points="90,20 84,90 96,90" fill="hsl(var(--primary))" opacity="0.9" />
+            <polygon points="90,160 84,90 96,90" fill="hsl(var(--muted-foreground))" opacity="0.3" />
             <circle cx="90" cy="90" r="5" fill="hsl(var(--primary))" />
             <circle cx="90" cy="90" r="2.5" fill="hsl(var(--primary-foreground))" />
           </svg>
-          {/* Kaaba icon at needle tip */}
           <div
             className="absolute flex items-center justify-center"
             style={{ top: 8, left: "50%", transform: "translateX(-50%)" }}
@@ -237,15 +257,13 @@ export const QiblaCompass = ({ language }: QiblaCompassProps) => {
 
       {/* Bearing info */}
       <div className="mt-3 text-center">
-        <p className={cn("text-lg font-bold text-foreground tabular-nums")}>
-          {bearingText}
-        </p>
+        <p className="text-lg font-bold text-foreground tabular-nums">{bearingText}</p>
         <p className={cn("text-xs text-muted-foreground", language === "bn" && "font-bengali")}>
           {language === "bn" ? "কিবলা বিয়ারিং" : "Qibla Bearing"}
         </p>
       </div>
 
-      {/* Enable live compass button */}
+      {/* Enable live compass button - only shown on web (auto-enabled on native) */}
       {!hasPermission && (
         <button
           onClick={requestCompassPermission}
