@@ -425,7 +425,7 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
     <div className="min-h-screen bg-background">
       {/* Location Bar */}
       <div className="bg-card border-b border-border" ref={locationPickerRef}>
-        <div className="max-w-4xl mx-auto px-4 py-3 flex items-center gap-3">
+        <div className="max-w-6xl mx-auto px-3 sm:px-4 md:px-6 py-3 flex items-center gap-3">
           <button
             onClick={() => setShowLocationPicker(!showLocationPicker)}
             className="flex items-center gap-2 flex-1 min-w-0 text-left"
@@ -452,7 +452,7 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
 
         {/* Location Picker Panel */}
         {showLocationPicker && (
-          <div className="max-w-4xl mx-auto px-4 pb-4 space-y-3 border-t border-border pt-3">
+          <div className="max-w-6xl mx-auto px-3 sm:px-4 md:px-6 pb-4 space-y-3 border-t border-border pt-3">
             {/* Tab Toggle */}
             <div className="flex gap-2">
               <Button
@@ -555,7 +555,7 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
         )}
       </div>
 
-      <div className="max-w-4xl mx-auto px-4 py-4 space-y-4">
+      <div className="max-w-6xl mx-auto px-3 sm:px-4 md:px-6 py-4 space-y-4">
 
         {/* Hijri Date Header */}
         <div className="rounded-2xl bg-gradient-to-r from-primary to-primary/70 p-5 text-primary-foreground">
