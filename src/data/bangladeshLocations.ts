@@ -1,5 +1,5 @@
 // Bangladesh Administrative Divisions with GPS Coordinates
-// 8 Divisions → 64 Districts → 495+ Upazilas
+// 8 Divisions → 64 Districts → 495+ Upazilas + Major City Thanas
 
 export interface Upazila {
   id: string;
@@ -42,6 +42,40 @@ export const bangladeshDivisions: Division[] = [
           { id: "savar", name_en: "Savar", name_bn: "সাভার", latitude: 23.8583, longitude: 90.2666 },
           { id: "dhaka_north", name_en: "Dhaka North", name_bn: "ঢাকা উত্তর", latitude: 23.8103, longitude: 90.4125 },
           { id: "dhaka_south", name_en: "Dhaka South", name_bn: "ঢাকা দক্ষিণ", latitude: 23.7104, longitude: 90.4074 },
+          // Dhaka City Thanas
+          { id: "uttara", name_en: "Uttara", name_bn: "উত্তরা", latitude: 23.8759, longitude: 90.3795 },
+          { id: "mirpur", name_en: "Mirpur", name_bn: "মিরপুর", latitude: 23.8042, longitude: 90.3524 },
+          { id: "pallabi", name_en: "Pallabi", name_bn: "পল্লবী", latitude: 23.8275, longitude: 90.3638 },
+          { id: "kafrul", name_en: "Kafrul", name_bn: "কাফরুল", latitude: 23.7896, longitude: 90.3880 },
+          { id: "cantonment", name_en: "Cantonment", name_bn: "ক্যান্টনমেন্ট", latitude: 23.8130, longitude: 90.4020 },
+          { id: "gulshan", name_en: "Gulshan", name_bn: "গুলশান", latitude: 23.7925, longitude: 90.4078 },
+          { id: "banani", name_en: "Banani", name_bn: "বনানী", latitude: 23.7937, longitude: 90.4066 },
+          { id: "mohammadpur", name_en: "Mohammadpur", name_bn: "মোহাম্মদপুর", latitude: 23.7662, longitude: 90.3589 },
+          { id: "adabor", name_en: "Adabor", name_bn: "আদাবর", latitude: 23.7615, longitude: 90.3548 },
+          { id: "tejgaon", name_en: "Tejgaon", name_bn: "তেজগাঁও", latitude: 23.7628, longitude: 90.3928 },
+          { id: "farmgate", name_en: "Farmgate", name_bn: "ফার্মগেট", latitude: 23.7573, longitude: 90.3870 },
+          { id: "dhanmondi", name_en: "Dhanmondi", name_bn: "ধানমন্ডি", latitude: 23.7461, longitude: 90.3742 },
+          { id: "ramna", name_en: "Ramna", name_bn: "রমনা", latitude: 23.7400, longitude: 90.4100 },
+          { id: "shahbagh", name_en: "Shahbagh", name_bn: "শাহবাগ", latitude: 23.7391, longitude: 90.3962 },
+          { id: "motijheel", name_en: "Motijheel", name_bn: "মতিঝিল", latitude: 23.7340, longitude: 90.4172 },
+          { id: "paltan", name_en: "Paltan", name_bn: "পল্টন", latitude: 23.7372, longitude: 90.4120 },
+          { id: "lalbagh", name_en: "Lalbagh", name_bn: "লালবাগ", latitude: 23.7192, longitude: 90.3890 },
+          { id: "hazaribagh", name_en: "Hazaribagh", name_bn: "হাজারীবাগ", latitude: 23.7259, longitude: 90.3730 },
+          { id: "kamrangirchar", name_en: "Kamrangirchar", name_bn: "কামরাঙ্গীরচর", latitude: 23.7200, longitude: 90.3600 },
+          { id: "kotwali", name_en: "Kotwali", name_bn: "কোতোয়ালী", latitude: 23.7141, longitude: 90.4015 },
+          { id: "sutrapur", name_en: "Sutrapur", name_bn: "সূত্রাপুর", latitude: 23.7130, longitude: 90.4150 },
+          { id: "wari", name_en: "Wari", name_bn: "ওয়ারী", latitude: 23.7172, longitude: 90.4133 },
+          { id: "demra", name_en: "Demra", name_bn: "ডেমরা", latitude: 23.7081, longitude: 90.4917 },
+          { id: "kadamtali", name_en: "Kadamtali", name_bn: "কদমতলী", latitude: 23.6917, longitude: 90.4583 },
+          { id: "jatrabari", name_en: "Jatrabari", name_bn: "যাত্রাবাড়ী", latitude: 23.7108, longitude: 90.4345 },
+          { id: "shyampur", name_en: "Shyampur", name_bn: "শ্যামপুর", latitude: 23.6920, longitude: 90.4370 },
+          { id: "badda", name_en: "Badda", name_bn: "বাড্ডা", latitude: 23.7814, longitude: 90.4265 },
+          { id: "khilkhet", name_en: "Khilkhet", name_bn: "খিলক্ষেত", latitude: 23.8290, longitude: 90.4230 },
+          { id: "vatara", name_en: "Vatara", name_bn: "ভাটারা", latitude: 23.8150, longitude: 90.4350 },
+          { id: "turag", name_en: "Turag", name_bn: "তুরাগ", latitude: 23.8750, longitude: 90.3430 },
+          { id: "dakshinkhan", name_en: "Dakshinkhan", name_bn: "দক্ষিণখান", latitude: 23.8520, longitude: 90.4380 },
+          { id: "uttarkhan", name_en: "Uttarkhan", name_bn: "উত্তরখান", latitude: 23.8690, longitude: 90.4350 },
+          { id: "bimanbandar", name_en: "Bimanbandar", name_bn: "বিমানবন্দর", latitude: 23.8513, longitude: 90.4081 },
         ]
       },
       {
@@ -70,6 +104,7 @@ export const bangladeshDivisions: Division[] = [
           { id: "kaliganj", name_en: "Kaliganj", name_bn: "কালীগঞ্জ", latitude: 24.0833, longitude: 90.5000 },
           { id: "kapasia", name_en: "Kapasia", name_bn: "কাপাসিয়া", latitude: 24.1167, longitude: 90.5833 },
           { id: "sreepur", name_en: "Sreepur", name_bn: "শ্রীপুর", latitude: 24.2000, longitude: 90.4833 },
+          { id: "tongi", name_en: "Tongi", name_bn: "টঙ্গী", latitude: 23.8893, longitude: 90.4010 },
         ]
       },
       {
@@ -152,6 +187,8 @@ export const bangladeshDivisions: Division[] = [
           { id: "narayanganj_sadar", name_en: "Narayanganj Sadar", name_bn: "নারায়ণগঞ্জ সদর", latitude: 23.6238, longitude: 90.5000 },
           { id: "rupganj", name_en: "Rupganj", name_bn: "রূপগঞ্জ", latitude: 23.8000, longitude: 90.5333 },
           { id: "sonargaon", name_en: "Sonargaon", name_bn: "সোনারগাঁও", latitude: 23.7333, longitude: 90.6167 },
+          { id: "fatulla", name_en: "Fatulla", name_bn: "ফতুল্লা", latitude: 23.6420, longitude: 90.4710 },
+          { id: "siddhirganj", name_en: "Siddhirganj", name_bn: "সিদ্ধিরগঞ্জ", latitude: 23.6790, longitude: 90.5080 },
         ]
       },
       {
@@ -273,7 +310,6 @@ export const bangladeshDivisions: Division[] = [
           { id: "banshkhali", name_en: "Banshkhali", name_bn: "বাঁশখালী", latitude: 22.0000, longitude: 91.9333 },
           { id: "boalkhali", name_en: "Boalkhali", name_bn: "বোয়ালখালী", latitude: 22.3833, longitude: 91.9333 },
           { id: "chandanaish", name_en: "Chandanaish", name_bn: "চন্দনাইশ", latitude: 22.1833, longitude: 92.0167 },
-          { id: "chattogram_city", name_en: "Chattogram City", name_bn: "চট্টগ্রাম শহর", latitude: 22.3569, longitude: 91.7832 },
           { id: "fatikchhari", name_en: "Fatikchhari", name_bn: "ফটিকছড়ি", latitude: 22.7000, longitude: 91.7500 },
           { id: "hathazari", name_en: "Hathazari", name_bn: "হাটহাজারী", latitude: 22.5167, longitude: 91.8000 },
           { id: "lohagara", name_en: "Lohagara", name_bn: "লোহাগাড়া", latitude: 22.0833, longitude: 92.0167 },
@@ -284,6 +320,22 @@ export const bangladeshDivisions: Division[] = [
           { id: "sandwip", name_en: "Sandwip", name_bn: "সন্দ্বীপ", latitude: 22.5167, longitude: 91.5333 },
           { id: "satkania", name_en: "Satkania", name_bn: "সাতকানিয়া", latitude: 22.1167, longitude: 92.0833 },
           { id: "sitakunda", name_en: "Sitakunda", name_bn: "সীতাকুণ্ড", latitude: 22.6333, longitude: 91.6500 },
+          // Chattogram City Thanas
+          { id: "kotwali_ctg", name_en: "Kotwali (Ctg)", name_bn: "কোতোয়ালী (চট্ট)", latitude: 22.3350, longitude: 91.8360 },
+          { id: "pahartali", name_en: "Pahartali", name_bn: "পাহাড়তলী", latitude: 22.3660, longitude: 91.7580 },
+          { id: "panchlaish", name_en: "Panchlaish", name_bn: "পাঁচলাইশ", latitude: 22.3700, longitude: 91.8100 },
+          { id: "bayezid", name_en: "Bayezid Bostami", name_bn: "বায়েজিদ বোস্তামী", latitude: 22.3850, longitude: 91.8120 },
+          { id: "double_mooring", name_en: "Double Mooring", name_bn: "ডাবল মুরিং", latitude: 22.3250, longitude: 91.8130 },
+          { id: "chandgaon", name_en: "Chandgaon", name_bn: "চান্দগাঁও", latitude: 22.3730, longitude: 91.8290 },
+          { id: "bakalia", name_en: "Bakalia", name_bn: "বাকলিয়া", latitude: 22.3450, longitude: 91.8280 },
+          { id: "halishahar", name_en: "Halishahar", name_bn: "হালিশহর", latitude: 22.3420, longitude: 91.7690 },
+          { id: "patenga", name_en: "Patenga", name_bn: "পতেঙ্গা", latitude: 22.2480, longitude: 91.7920 },
+          { id: "karnaphuli", name_en: "Karnaphuli", name_bn: "কর্ণফুলী", latitude: 22.3140, longitude: 91.8550 },
+          { id: "akbar_shah", name_en: "Akbar Shah", name_bn: "আকবর শাহ", latitude: 22.3380, longitude: 91.8450 },
+          { id: "bandar_ctg", name_en: "Bandar (Ctg)", name_bn: "বন্দর (চট্ট)", latitude: 22.2900, longitude: 91.8200 },
+          { id: "epz", name_en: "EPZ", name_bn: "ইপিজেড", latitude: 22.3440, longitude: 91.7770 },
+          { id: "agrabad", name_en: "Agrabad", name_bn: "আগ্রাবাদ", latitude: 22.3270, longitude: 91.7900 },
+          { id: "nasirabad", name_en: "Nasirabad", name_bn: "নাসিরাবাদ", latitude: 22.3760, longitude: 91.7880 },
         ]
       },
       {
@@ -510,8 +562,12 @@ export const bangladeshDivisions: Division[] = [
           { id: "mohanpur", name_en: "Mohanpur", name_bn: "মোহনপুর", latitude: 24.5500, longitude: 88.6500 },
           { id: "paba", name_en: "Paba", name_bn: "পবা", latitude: 24.3500, longitude: 88.5833 },
           { id: "puthia", name_en: "Puthia", name_bn: "পুঠিয়া", latitude: 24.3500, longitude: 88.8167 },
-          { id: "rajshahi_city", name_en: "Rajshahi City", name_bn: "রাজশাহী শহর", latitude: 24.3745, longitude: 88.6042 },
           { id: "tanore", name_en: "Tanore", name_bn: "তানোর", latitude: 24.6333, longitude: 88.6333 },
+          // Rajshahi City Thanas
+          { id: "boalia", name_en: "Boalia", name_bn: "বোয়ালিয়া", latitude: 24.3750, longitude: 88.5830 },
+          { id: "rajpara", name_en: "Rajpara", name_bn: "রাজপাড়া", latitude: 24.3680, longitude: 88.6050 },
+          { id: "motihar", name_en: "Motihar", name_bn: "মতিহার", latitude: 24.3700, longitude: 88.6280 },
+          { id: "shah_makhdum", name_en: "Shah Makhdum", name_bn: "শাহ মখদুম", latitude: 24.3630, longitude: 88.5980 },
         ]
       },
       {
@@ -602,12 +658,18 @@ export const bangladeshDivisions: Division[] = [
           { id: "dacope", name_en: "Dacope", name_bn: "দাকোপ", latitude: 22.5500, longitude: 89.5000 },
           { id: "dighalia", name_en: "Dighalia", name_bn: "দিঘলিয়া", latitude: 22.8833, longitude: 89.3833 },
           { id: "dumuria", name_en: "Dumuria", name_bn: "ডুমুরিয়া", latitude: 22.8167, longitude: 89.3167 },
-          { id: "khulna_city", name_en: "Khulna City", name_bn: "খুলনা শহর", latitude: 22.8456, longitude: 89.5403 },
           { id: "koyra", name_en: "Koyra", name_bn: "কয়রা", latitude: 22.4333, longitude: 89.3500 },
           { id: "paikgachha", name_en: "Paikgachha", name_bn: "পাইকগাছা", latitude: 22.5500, longitude: 89.4167 },
           { id: "phultala", name_en: "Phultala", name_bn: "ফুলতলা", latitude: 22.9500, longitude: 89.4500 },
           { id: "rupsha", name_en: "Rupsha", name_bn: "রূপসা", latitude: 22.8167, longitude: 89.6000 },
           { id: "terokhada", name_en: "Terokhada", name_bn: "তেরখাদা", latitude: 22.9333, longitude: 89.5333 },
+          // Khulna City Thanas
+          { id: "kotwali_khulna", name_en: "Kotwali (Khulna)", name_bn: "কোতোয়ালী (খুলনা)", latitude: 22.8130, longitude: 89.5640 },
+          { id: "sonadanga", name_en: "Sonadanga", name_bn: "সোনাডাঙ্গা", latitude: 22.8230, longitude: 89.5350 },
+          { id: "khalishpur", name_en: "Khalishpur", name_bn: "খালিশপুর", latitude: 22.8330, longitude: 89.5150 },
+          { id: "daulatpur_khulna", name_en: "Daulatpur (Khulna)", name_bn: "দৌলতপুর (খুলনা)", latitude: 22.8500, longitude: 89.4900 },
+          { id: "khan_jahan_ali", name_en: "Khan Jahan Ali", name_bn: "খান জাহান আলী", latitude: 22.7950, longitude: 89.5580 },
+          { id: "labanchara", name_en: "Labanchara", name_bn: "লবণচরা", latitude: 22.8050, longitude: 89.5750 },
         ]
       },
       {
@@ -704,6 +766,11 @@ export const bangladeshDivisions: Division[] = [
           { id: "mehendiganj", name_en: "Mehendiganj", name_bn: "মেহেন্দিগঞ্জ", latitude: 22.8333, longitude: 90.5000 },
           { id: "muladi", name_en: "Muladi", name_bn: "মুলাদী", latitude: 22.9167, longitude: 90.4000 },
           { id: "wazirpur", name_en: "Wazirpur", name_bn: "উজিরপুর", latitude: 22.8333, longitude: 90.2167 },
+          // Barishal City Thanas
+          { id: "kotwali_barishal", name_en: "Kotwali (Barishal)", name_bn: "কোতোয়ালী (বরিশাল)", latitude: 22.7000, longitude: 90.3680 },
+          { id: "band_road", name_en: "Band Road", name_bn: "বান্ড রোড", latitude: 22.6950, longitude: 90.3550 },
+          { id: "rupatali", name_en: "Rupatali", name_bn: "রূপাতলী", latitude: 22.6890, longitude: 90.3620 },
+          { id: "kawnia", name_en: "Kawnia", name_bn: "কাউনিয়া", latitude: 22.7120, longitude: 90.3750 },
         ]
       },
       {
@@ -833,6 +900,12 @@ export const bangladeshDivisions: Division[] = [
           { id: "osmani_nagar", name_en: "Osmani Nagar", name_bn: "ওসমানী নগর", latitude: 24.7333, longitude: 91.9167 },
           { id: "sylhet_sadar", name_en: "Sylhet Sadar", name_bn: "সিলেট সদর", latitude: 24.8949, longitude: 91.8687 },
           { id: "zakiganj", name_en: "Zakiganj", name_bn: "জকিগঞ্জ", latitude: 24.8667, longitude: 92.2000 },
+          // Sylhet City Thanas
+          { id: "kotwali_sylhet", name_en: "Kotwali (Sylhet)", name_bn: "কোতোয়ালী (সিলেট)", latitude: 24.8940, longitude: 91.8700 },
+          { id: "shah_poran", name_en: "Shah Poran", name_bn: "শাহপরাণ", latitude: 24.9060, longitude: 91.8570 },
+          { id: "moglabazar", name_en: "Moglabazar", name_bn: "মোগলাবাজার", latitude: 24.8800, longitude: 91.8800 },
+          { id: "airport_sylhet", name_en: "Airport (Sylhet)", name_bn: "এয়ারপোর্ট (সিলেট)", latitude: 24.9660, longitude: 91.8670 },
+          { id: "jalalabad", name_en: "Jalalabad", name_bn: "জালালাবাদ", latitude: 24.9050, longitude: 91.8480 },
         ]
       },
     ]
@@ -943,6 +1016,10 @@ export const bangladeshDivisions: Division[] = [
           { id: "pirganj_rangpur", name_en: "Pirganj", name_bn: "পীরগঞ্জ", latitude: 25.4000, longitude: 89.0000 },
           { id: "rangpur_sadar", name_en: "Rangpur Sadar", name_bn: "রংপুর সদর", latitude: 25.7558, longitude: 89.2445 },
           { id: "taraganj", name_en: "Taraganj", name_bn: "তারাগঞ্জ", latitude: 25.8333, longitude: 89.0500 },
+          // Rangpur City Thanas
+          { id: "kotwali_rangpur", name_en: "Kotwali (Rangpur)", name_bn: "কোতোয়ালী (রংপুর)", latitude: 25.7440, longitude: 89.2500 },
+          { id: "mahiganj", name_en: "Mahiganj", name_bn: "মাহিগঞ্জ", latitude: 25.7650, longitude: 89.2350 },
+          { id: "tajhat", name_en: "Tajhat", name_bn: "তাজহাট", latitude: 25.7500, longitude: 89.2250 },
         ]
       },
       {
