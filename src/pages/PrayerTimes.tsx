@@ -732,21 +732,6 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
                       style={{ filter: 'drop-shadow(0 0 4px hsl(var(--primary) / 0.4))' }}
                     />
                     {/* Indicator dot at progress end */}
-                    {(() => {
-                      const angle = (countdownProgress / 100) * 2 * Math.PI - Math.PI / 2;
-                      const dotX = 80 + circleRadius * Math.cos(angle);
-                      const dotY = 80 + circleRadius * Math.sin(angle);
-                      return (
-                        <circle
-                          cx={dotX} cy={dotY} r="7"
-                          fill={countdownDisplay.isUrgent ? "hsl(var(--destructive))" : "hsl(var(--primary))"}
-                          stroke="white"
-                          strokeWidth="2"
-                          style={{ filter: `drop-shadow(0 0 6px ${countdownDisplay.isUrgent ? 'hsl(var(--destructive) / 0.8)' : 'hsl(var(--primary) / 0.8)'})` }}
-                          className="transition-all duration-1000"
-                        />
-                      );
-                    })()}
                   </svg>
                   {/* Countdown text in center */}
                   <div className="absolute inset-0 flex items-center justify-center">
