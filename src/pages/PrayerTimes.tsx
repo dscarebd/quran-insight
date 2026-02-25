@@ -737,12 +737,13 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
                       const dotX = 80 + circleRadius * Math.cos(angle);
                       const dotY = 80 + circleRadius * Math.sin(angle);
                       return (
-                        <ellipse
-                          cx={dotX} cy={dotY} rx="6" ry="4"
+                        <circle
+                          cx={dotX} cy={dotY} r="7"
                           fill={countdownDisplay.isUrgent ? "hsl(var(--destructive))" : "hsl(var(--primary))"}
-                          style={{ filter: `drop-shadow(0 0 3px ${countdownDisplay.isUrgent ? 'hsl(var(--destructive) / 0.6)' : 'hsl(var(--primary) / 0.6)'})` }}
+                          stroke="white"
+                          strokeWidth="2"
+                          style={{ filter: `drop-shadow(0 0 6px ${countdownDisplay.isUrgent ? 'hsl(var(--destructive) / 0.8)' : 'hsl(var(--primary) / 0.8)'})` }}
                           className="transition-all duration-1000"
-                          transform={`rotate(${(countdownProgress / 100) * 360}, ${dotX}, ${dotY})`}
                         />
                       );
                     })()}
