@@ -480,18 +480,7 @@ export const bangladeshDivisions: Division[] = [
           { id: "singra", name_en: "Singra", name_bn: "সিংড়া", latitude: 24.4833, longitude: 89.1333 },
         ]
       },
-      {
-        id: "nawabganj",
-        name_en: "Nawabganj",
-        name_bn: "নবাবগঞ্জ",
-        upazilas: [
-          { id: "bholahat_nb", name_en: "Bholahat", name_bn: "ভোলাহাট", latitude: 24.9000, longitude: 88.0833 },
-          { id: "gomastapur_nb", name_en: "Gomastapur", name_bn: "গোমস্তাপুর", latitude: 24.7000, longitude: 88.1333 },
-          { id: "nachole_nb", name_en: "Nachole", name_bn: "নাচোল", latitude: 24.7167, longitude: 88.4667 },
-          { id: "nawabganj_sadar", name_en: "Nawabganj Sadar", name_bn: "নবাবগঞ্জ সদর", latitude: 24.5965, longitude: 88.2778 },
-          { id: "shibganj_nb", name_en: "Shibganj", name_bn: "শিবগঞ্জ", latitude: 24.8333, longitude: 88.2333 },
-        ]
-      },
+      // Nawabganj is Chapainawabganj (already listed above)
       {
         id: "pabna",
         name_en: "Pabna",
