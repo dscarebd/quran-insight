@@ -706,16 +706,19 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
                 ) : null}
 
                 {/* Circular Progress */}
-                <div className="relative w-44 h-44 mb-4">
-                  <svg className="w-full h-full -rotate-90" viewBox="0 0 160 160">
+                <div className="relative w-48 h-48 mb-4">
+                  {/* Outer decorative ring */}
+                  <div className="absolute inset-0 rounded-full border-[3px] border-primary/15" />
+                  <div className="absolute inset-1.5 rounded-full border border-primary/8" />
+                  <svg className="absolute inset-3 w-[calc(100%-24px)] h-[calc(100%-24px)] -rotate-90" viewBox="0 0 160 160">
                     {/* Background circle */}
-                    <circle cx="80" cy="80" r={circleRadius} fill="none" stroke="hsl(var(--muted))" strokeWidth="6" />
+                    <circle cx="80" cy="80" r={circleRadius} fill="none" stroke="hsl(var(--muted))" strokeWidth="7" />
                     {/* Progress arc */}
                     <circle
                       cx="80" cy="80" r={circleRadius}
                       fill="none"
                       stroke="hsl(var(--primary))"
-                      strokeWidth="6"
+                      strokeWidth="7"
                       strokeLinecap="round"
                       strokeDasharray={circumference}
                       strokeDashoffset={strokeDashoffset}
