@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Search, Star, X, Sparkles } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
-import { cn } from "@/lib/utils";
+import { cn, formatNumber } from "@/lib/utils";
 import { allahNames, AllahName } from "@/data/allahNames";
 import { Language } from "@/types/language";
 import { ArabicFontType } from "@/types/quranV1";
@@ -97,7 +97,7 @@ const NamesOfAllah = ({ language, arabicFont = "amiri" }: NamesOfAllahProps) => 
             >
               {/* Number badge */}
               <div className="absolute top-2 left-2 w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center">
-                <span className="text-xs font-medium text-primary">{name.id}</span>
+                <span className="text-xs font-medium text-primary">{formatNumber(name.id, language)}</span>
               </div>
 
 
@@ -145,7 +145,7 @@ const NamesOfAllah = ({ language, arabicFont = "amiri" }: NamesOfAllahProps) => 
               <SheetHeader className="text-center pb-4 border-b border-border">
                 <div className="flex items-center justify-center gap-2 mb-2">
                   <span className="px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium">
-                    #{selectedName.id}
+                    #{formatNumber(selectedName.id, language)}
                   </span>
                 </div>
                 <SheetTitle className="text-scale-arabic-xl font-arabic">

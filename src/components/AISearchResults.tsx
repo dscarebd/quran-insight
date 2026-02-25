@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { Book, BookOpen, HandHeart, FileText, Sparkles, WifiOff, ChevronRight, HelpCircle } from "lucide-react";
-import { cn, sanitizeArabicText } from "@/lib/utils";
+import { cn, sanitizeArabicText, formatNumber } from "@/lib/utils";
 import { Language } from "@/types/language";
 import { AISearchResponse, SearchResult } from "@/hooks/useAISearch";
 import { Card } from "@/components/ui/card";
@@ -315,7 +315,7 @@ export const AISearchResults = ({ response, language }: AISearchResultsProps) =>
                     language === "bn" && "font-bengali"
                   )}>
                     {language === "bn" 
-                      ? `সূরা ${verse.surah_number}, আয়াত ${verse.verse_number}`
+                      ? `সূরা ${formatNumber(verse.surah_number, language)}, আয়াত ${formatNumber(verse.verse_number, language)}`
                       : `Surah ${verse.surah_number}, Verse ${verse.verse_number}`}
                   </span>
                   <ChevronRight className="h-4 w-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -367,7 +367,7 @@ export const AISearchResults = ({ response, language }: AISearchResultsProps) =>
                       language === "bn" && "font-bengali"
                     )}>
                       {language === "bn" 
-                        ? `${hadith.book_slug}, হাদিস ${hadith.hadith_number}`
+                        ? `${hadith.book_slug}, হাদিস ${formatNumber(hadith.hadith_number, language)}`
                         : `${hadith.book_slug}, Hadith ${hadith.hadith_number}`}
                     </span>
                     {hadith.grade && (
@@ -491,7 +491,7 @@ export const AISearchResults = ({ response, language }: AISearchResultsProps) =>
             language === "bn" && "font-bengali"
           )}>
             {language === "bn" 
-              ? `${response.results.length}টি সম্পর্কিত ফলাফল`
+              ? `${formatNumber(response.results.length, language)}টি সম্পর্কিত ফলাফল`
               : `${response.results.length} Related Results`}
           </h3>
           
