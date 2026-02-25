@@ -26,6 +26,7 @@ import {
 } from "@/data/bangladeshLocations";
 import { toBengaliNumber, getCurrentHijriDate, hijriMonths } from "@/data/islamicCalendar";
 import { toast } from "sonner";
+import { getCurrentPosition } from "@/utils/geolocation";
 
 interface PrayerTimesProps {
   language: Language;
@@ -60,28 +61,24 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
       // Use saved GPS location
       setLocation({ latitude: parseFloat(savedLat), longitude: parseFloat(savedLng), city: savedCity || (language === 'bn' ? 'আপনার অবস্থান' : 'Your Location') });
       setSelectedCity('custom');
-    } else if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        async (position) => {
-          const { latitude, longitude } = position.coords;
-          let cityName = language === 'bn' ? 'আপনার অবস্থান' : 'Your Location';
-          try {
-            const res = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json&accept-language=${language === 'bn' ? 'bn' : 'en'}`);
-            if (res.ok) {
-              const data = await res.json();
-              const addr = data.address;
-              cityName = addr?.city || addr?.town || addr?.village || addr?.county || addr?.state || cityName;
-            }
-          } catch { /* ignore */ }
-          setLocation({ latitude, longitude, city: cityName });
-          setSelectedCity('custom');
-          localStorage.setItem('prayer-lat', String(latitude));
-          localStorage.setItem('prayer-lng', String(longitude));
-          localStorage.setItem('prayer-city', cityName);
-        },
-        () => { /* fallback to default Dhaka */ },
-        { enableHighAccuracy: true, timeout: 10000, maximumAge: 300000 }
-      );
+    } else {
+      // Try GPS (works on both web and native APK)
+      getCurrentPosition().then(async ({ latitude, longitude }) => {
+        let cityName = language === 'bn' ? 'আপনার অবস্থান' : 'Your Location';
+        try {
+          const res = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json&accept-language=${language === 'bn' ? 'bn' : 'en'}`);
+          if (res.ok) {
+            const data = await res.json();
+            const addr = data.address;
+            cityName = addr?.city || addr?.town || addr?.village || addr?.county || addr?.state || cityName;
+          }
+        } catch { /* ignore */ }
+        setLocation({ latitude, longitude, city: cityName });
+        setSelectedCity('custom');
+        localStorage.setItem('prayer-lat', String(latitude));
+        localStorage.setItem('prayer-lng', String(longitude));
+        localStorage.setItem('prayer-city', cityName);
+      }).catch(() => { /* fallback to default Dhaka */ });
     }
   }, []);
 
@@ -211,57 +208,46 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
     return null;
   };
 
-  const getUserLocation = () => {
+  const getUserLocation = async () => {
     setIsLoading(true);
-    if (!navigator.geolocation) {
+    try {
+      const { latitude, longitude } = await getCurrentPosition();
+      let cityName = language === 'bn' ? 'আপনার অবস্থান' : 'Your Location';
+
+      // Reverse geocode to get city name
+      try {
+        const res = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json&accept-language=${language === 'bn' ? 'bn' : 'en'}`);
+        if (res.ok) {
+          const data = await res.json();
+          const addr = data.address;
+          cityName = addr?.city || addr?.town || addr?.village || addr?.county || addr?.state || cityName;
+        }
+      } catch {
+        // Keep default name on fetch failure
+      }
+
+      setLocation({ latitude, longitude, city: cityName });
+      setSelectedCity('custom');
+      setUseBangladeshLocation(false);
+
+      // Save GPS location for persistence
+      localStorage.setItem('prayer-lat', String(latitude));
+      localStorage.setItem('prayer-lng', String(longitude));
+      localStorage.setItem('prayer-city', cityName);
+      localStorage.removeItem('prayerTimesBDLocation');
+
       setIsLoading(false);
-      toast.error(language === 'bn' ? 'জিওলোকেশন সাপোর্ট নেই' : 'Geolocation not supported');
-      return;
+      toast.success(language === 'bn' ? `অবস্থান পাওয়া গেছে: ${cityName}` : `Location found: ${cityName}`);
+    } catch (err: any) {
+      setIsLoading(false);
+      if (err?.message === 'PERMISSION_DENIED') {
+        toast.error(language === 'bn' ? 'অবস্থান অনুমতি প্রত্যাখ্যাত। সেটিংস থেকে অনুমতি দিন।' : 'Location permission denied. Please allow in settings.');
+      } else if (err?.message === 'TIMEOUT') {
+        toast.error(language === 'bn' ? 'অবস্থান খুঁজতে সময় শেষ হয়েছে' : 'Location request timed out');
+      } else {
+        toast.error(language === 'bn' ? 'অবস্থান পাওয়া যায়নি' : 'Could not get location');
+      }
     }
-    navigator.geolocation.getCurrentPosition(
-      async (position) => {
-        const { latitude, longitude } = position.coords;
-        let cityName = language === 'bn' ? 'আপনার অবস্থান' : 'Your Location';
-
-        // Reverse geocode to get city name
-        try {
-          const res = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json&accept-language=${language === 'bn' ? 'bn' : 'en'}`);
-          if (res.ok) {
-            const data = await res.json();
-            const addr = data.address;
-            cityName = addr?.city || addr?.town || addr?.village || addr?.county || addr?.state || cityName;
-          }
-        } catch {
-          // Keep default name on fetch failure
-        }
-
-        setLocation({ latitude, longitude, city: cityName });
-        setSelectedCity('custom');
-        setUseBangladeshLocation(false);
-
-        // Save GPS location for persistence
-        localStorage.setItem('prayer-lat', String(latitude));
-        localStorage.setItem('prayer-lng', String(longitude));
-        localStorage.setItem('prayer-city', cityName);
-        localStorage.removeItem('prayerTimesBDLocation');
-
-        setIsLoading(false);
-        toast.success(language === 'bn' ? `অবস্থান পাওয়া গেছে: ${cityName}` : `Location found: ${cityName}`);
-      },
-      (error) => {
-        setIsLoading(false);
-        if (error.code === error.PERMISSION_DENIED) {
-          toast.error(language === 'bn' ? 'অবস্থান অনুমতি প্রত্যাখ্যাত। ব্রাউজার সেটিংস থেকে অনুমতি দিন।' : 'Location permission denied. Please allow in browser settings.');
-        } else if (error.code === error.POSITION_UNAVAILABLE) {
-          toast.error(language === 'bn' ? 'অবস্থান পাওয়া যায়নি' : 'Location unavailable');
-        } else if (error.code === error.TIMEOUT) {
-          toast.error(language === 'bn' ? 'অবস্থান খুঁজতে সময় শেষ হয়েছে' : 'Location request timed out');
-        } else {
-          toast.error(language === 'bn' ? 'অবস্থান পাওয়া যায়নি' : 'Could not get location');
-        }
-      },
-      { enableHighAccuracy: true, timeout: 10000, maximumAge: 300000 }
-    );
   };
 
   const handleCityChange = (city: string) => {

@@ -3,6 +3,7 @@ import { Compass, Navigation, MapPin } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Language } from "@/types/language";
 import { toast } from "sonner";
+import { getCurrentPosition } from "@/utils/geolocation";
 
 interface QiblaCompassProps {
   language: Language;
@@ -47,28 +48,19 @@ export const QiblaCompass = ({ language }: QiblaCompassProps) => {
       setLocationName(savedCity || null);
     }
 
-    // Also try live geolocation
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (pos) => {
-          const bearing = calculateQiblaBearing(pos.coords.latitude, pos.coords.longitude);
-          setQiblaBearing(bearing);
-          localStorage.setItem("prayer-lat", String(pos.coords.latitude));
-          localStorage.setItem("prayer-lng", String(pos.coords.longitude));
-        },
-        () => {
-          // If no saved location either, default to Dhaka
-          if (!savedLat) {
-            setQiblaBearing(calculateQiblaBearing(23.8103, 90.4125));
-            setLocationName("Dhaka");
-          }
-        },
-        { timeout: 5000 }
-      );
-    } else if (!savedLat) {
-      setQiblaBearing(calculateQiblaBearing(23.8103, 90.4125));
-      setLocationName("Dhaka");
-    }
+    // Also try live geolocation (works on both web and native APK)
+    getCurrentPosition().then(({ latitude, longitude }) => {
+      const bearing = calculateQiblaBearing(latitude, longitude);
+      setQiblaBearing(bearing);
+      localStorage.setItem("prayer-lat", String(latitude));
+      localStorage.setItem("prayer-lng", String(longitude));
+    }).catch(() => {
+      // If no saved location either, default to Dhaka
+      if (!savedLat) {
+        setQiblaBearing(calculateQiblaBearing(23.8103, 90.4125));
+        setLocationName("Dhaka");
+      }
+    });
   }, []);
 
   // Device orientation for live compass
