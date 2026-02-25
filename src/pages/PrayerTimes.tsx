@@ -433,7 +433,7 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
     const now = new Date();
     const secs = 59 - now.getSeconds();
     const totalMins = (timeRemaining.hours * 60) + timeRemaining.minutes;
-    const isUrgent = totalMins < 5;
+    const isUrgent = totalMins < 15;
     return { h: toBn2(timeRemaining.hours), m: toBn2(timeRemaining.minutes), s: toBn2(secs < 0 ? 0 : secs), isUrgent };
   }, [timeRemaining, currentTime, language]);
 
