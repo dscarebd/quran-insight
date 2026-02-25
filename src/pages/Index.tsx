@@ -125,9 +125,9 @@ const Index = ({ language }: IndexProps) => {
           </div>
         )}
 
-        {/* Last Read Surah Card */}
+        {/* Last Read Surah Card - mobile only */}
         {!searchQuery && surahInfo && lastReadSurah && (
-          <div className="mt-6 animate-fade-in">
+          <div className="mt-6 animate-fade-in md:hidden">
             <button
               onClick={() => navigate(`/read/${lastReadSurah.pageNum}?verse=${lastReadSurah.surahNumber}:${lastReadSurah.verseNumber}`)}
               className="w-full flex items-center gap-2 sm:gap-3 p-3 sm:p-4 bg-card border border-border shadow-lg rounded-xl sm:rounded-2xl transition-all duration-300 group overflow-hidden hover:shadow-elevated hover:-translate-y-1"
