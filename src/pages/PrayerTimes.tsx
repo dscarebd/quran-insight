@@ -705,29 +705,49 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
                   </>
                 ) : null}
 
-                {/* Circular Progress */}
-                <div className="relative w-48 h-48 mb-4">
-                  {/* Outer decorative ring */}
-                  <div className="absolute inset-0 rounded-full border-[3px] border-primary/15" />
-                  <div className="absolute inset-1.5 rounded-full border border-primary/8" />
-                  <svg className="absolute inset-3 w-[calc(100%-24px)] h-[calc(100%-24px)] -rotate-90" viewBox="0 0 160 160">
-                    {/* Background circle */}
-                    <circle cx="80" cy="80" r={circleRadius} fill="none" stroke="hsl(var(--muted))" strokeWidth="7" />
+                {/* Circular Progress - 3D embossed style */}
+                <div className="relative w-52 h-52 mb-4">
+                  {/* Outer glow ring */}
+                  <div className="absolute inset-0 rounded-full border-2 border-primary/20" />
+                  {/* Inner shadow ring for 3D depth */}
+                  <div 
+                    className="absolute inset-2 rounded-full bg-card"
+                    style={{ boxShadow: 'inset 0 4px 15px hsl(var(--foreground) / 0.15), inset 0 -2px 8px hsl(var(--primary) / 0.1), 0 2px 10px hsl(var(--foreground) / 0.08)' }}
+                  />
+                  <svg className="absolute inset-2 w-[calc(100%-16px)] h-[calc(100%-16px)] -rotate-90" viewBox="0 0 160 160">
+                    {/* Background track */}
+                    <circle cx="80" cy="80" r={circleRadius} fill="none" stroke="hsl(var(--muted))" strokeWidth="8" strokeOpacity="0.5" />
                     {/* Progress arc */}
                     <circle
                       cx="80" cy="80" r={circleRadius}
                       fill="none"
                       stroke="hsl(var(--primary))"
-                      strokeWidth="7"
+                      strokeWidth="8"
                       strokeLinecap="round"
                       strokeDasharray={circumference}
                       strokeDashoffset={strokeDashoffset}
                       className="transition-all duration-1000"
+                      style={{ filter: 'drop-shadow(0 0 4px hsl(var(--primary) / 0.4))' }}
                     />
+                    {/* Indicator dot at progress end */}
+                    {(() => {
+                      const angle = (countdownProgress / 100) * 2 * Math.PI - Math.PI / 2;
+                      const dotX = 80 + circleRadius * Math.cos(angle);
+                      const dotY = 80 + circleRadius * Math.sin(angle);
+                      return (
+                        <ellipse
+                          cx={dotX} cy={dotY} rx="6" ry="4"
+                          fill="hsl(var(--destructive))"
+                          style={{ filter: 'drop-shadow(0 0 3px hsl(var(--destructive) / 0.6))' }}
+                          className="transition-all duration-1000"
+                          transform={`rotate(${(countdownProgress / 100) * 360}, ${dotX}, ${dotY})`}
+                        />
+                      );
+                    })()}
                   </svg>
                   {/* Countdown text in center */}
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="text-2xl font-bold text-primary tabular-nums tracking-wider">
+                    <span className="text-2xl font-bold text-destructive tabular-nums tracking-wider">
                       {countdownDisplay.h}:{countdownDisplay.m}:{countdownDisplay.s}
                     </span>
                   </div>
