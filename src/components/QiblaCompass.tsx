@@ -106,13 +106,26 @@ export const QiblaCompass = ({ language }: QiblaCompassProps) => {
     }
   }, []);
 
-  // Auto-enable compass on native platforms (no permission dialog needed on Android)
+  // Auto-enable compass on page load
   useEffect(() => {
-    if (Capacitor.isNativePlatform() && !orientationRef.current) {
-      orientationRef.current = true;
-      window.addEventListener("deviceorientation", handleOrientation, true);
-      setHasPermission(true);
-    }
+    if (orientationRef.current) return;
+    orientationRef.current = true;
+
+    const startCompass = async () => {
+      try {
+        if (typeof (DeviceOrientationEvent as any).requestPermission === "function") {
+          // iOS requires explicit permission
+          const permission = await (DeviceOrientationEvent as any).requestPermission();
+          if (permission !== "granted") return;
+        }
+        window.addEventListener("deviceorientation", handleOrientation, true);
+        setHasPermission(true);
+      } catch {
+        // Silent fail – button fallback still available
+      }
+    };
+
+    startCompass();
   }, [handleOrientation]);
 
   const requestCompassPermission = async () => {
