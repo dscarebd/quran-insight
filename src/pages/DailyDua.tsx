@@ -131,7 +131,7 @@ const DailyDuaPage = ({ language, arabicFont = "amiri" }: DailyDuaPageProps) => 
     <div className="min-h-screen bg-background">
       {/* Header */}
       <div className="sticky top-0 z-10 bg-background/95 backdrop-blur border-b border-border">
-        <div className="max-w-4xl mx-auto px-4 py-4">
+        <div className="max-w-6xl mx-auto px-3 sm:px-4 md:px-6 py-4">
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 text-white shadow-md shrink-0">
               <HandHeart className="h-5 w-5 sm:h-6 sm:w-6" />
@@ -212,7 +212,7 @@ const DailyDuaPage = ({ language, arabicFont = "amiri" }: DailyDuaPageProps) => 
 
       {/* Favorites Section */}
       {showFavorites && !searchQuery.trim() && (
-        <div className="max-w-4xl mx-auto px-4 py-4">
+        <div className="max-w-6xl mx-auto px-3 sm:px-4 md:px-6 py-4">
           <p className={cn(
             "text-sm text-muted-foreground mb-3",
             language === "bn" && "font-bengali"
@@ -273,7 +273,7 @@ const DailyDuaPage = ({ language, arabicFont = "amiri" }: DailyDuaPageProps) => 
 
       {/* Search Results */}
       {searchQuery.trim() && (
-        <div className="max-w-4xl mx-auto px-4 py-4">
+        <div className="max-w-6xl mx-auto px-3 sm:px-4 md:px-6 py-4">
           <p className={cn(
             "text-sm text-muted-foreground mb-3",
             language === "bn" && "font-bengali"
@@ -328,7 +328,7 @@ const DailyDuaPage = ({ language, arabicFont = "amiri" }: DailyDuaPageProps) => 
 
       {/* Categories Grid - Hidden when searching or showing favorites */}
       {!searchQuery.trim() && !showFavorites && (
-        <div className="max-w-4xl mx-auto px-4 py-6">
+        <div className="max-w-6xl mx-auto px-3 sm:px-4 md:px-6 py-6">
           <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
             {dailyDuaCategories.map((category, index) => (
               <button
