@@ -554,5 +554,237 @@ export const dailyDuaCategories: DailyDuaCategory[] = [
         referenceEn: "Tirmidhi 55"
       }
     ]
+  },
+
+  // ============ ইস্তিগফার ও তাওবা - Istighfar & Repentance ============
+  {
+    id: "istighfar-tawbah",
+    nameEnglish: "Istighfar & Repentance",
+    nameBengali: "ইস্তিগফার ও তাওবা",
+    icon: "HeartHandshake",
+    duas: [
+      {
+        id: "sayyidul-istighfar",
+        titleBn: "সাইয়্যিদুল ইস্তিগফার (শ্রেষ্ঠ ক্ষমা প্রার্থনা)",
+        titleEn: "Sayyidul Istighfar (Master of Repentance)",
+        arabic: "اللَّهُمَّ أَنْتَ رَبِّي لَا إِلَٰهَ إِلَّا أَنْتَ خَلَقْتَنِي وَأَنَا عَبْدُكَ وَأَنَا عَلَىٰ عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ أَبُوءُ لَكَ بِنِعْمَتِكَ عَلَيَّ وَأَبُوءُ بِذَنْبِي فَاغْفِرْ لِي فَإِنَّهُ لَا يَغْفِرُ الذُّنُوبَ إِلَّا أَنْتَ",
+        bengali: "হে আল্লাহ! তুমি আমার রব, তুমি ছাড়া কোন ইলাহ নেই। তুমি আমাকে সৃষ্টি করেছ, আমি তোমার বান্দা। আমি তোমার অঙ্গীকার ও প্রতিশ্রুতির উপর যথাসাধ্য আছি। আমি আমার কৃতকর্মের অনিষ্ট থেকে তোমার কাছে আশ্রয় চাই। আমার প্রতি তোমার নিয়ামতের স্বীকৃতি দিচ্ছি এবং আমার পাপ স্বীকার করছি। তুমি আমাকে ক্ষমা করো, কেননা তুমি ছাড়া কেউ পাপ ক্ষমা করতে পারে না।",
+        english: "O Allah, You are my Lord, there is no god but You. You created me and I am Your servant. I uphold Your covenant and promise as best I can. I seek refuge in You from the evil I have done. I acknowledge Your blessings upon me and I confess my sins. Forgive me, for none forgives sins but You.",
+        transliteration: "Allāhumma Anta Rabbī lā ilāha illā Anta khalaqtanī wa ana 'abduka wa ana 'alā 'ahdika wa wa'dika masta-ṭa'tu, a'ūdhu bika min sharri mā ṣana'tu, abū'u laka bi ni'matika 'alayya wa abū'u bi dhanbī faghfir lī fa innahu lā yaghfirudh-dhunūba illā Ant",
+        transliterationBn: "আল্লাহুম্মা আনতা রাব্বী লা ইলাহা ইল্লা আনতা খালাক্বতানী ওয়া আনা আবদুকা ওয়া আনা আলা আহদিকা ওয়া ওয়া'দিকা মাসতাতা'তু, আঊযু বিকা মিন শাররি মা সানা'তু, আবূউ লাকা বিনি'মাতিকা আলাইয়া ওয়া আবূউ বিযানবী ফাগফির লী ফা ইন্নাহু লা ইয়াগফিরুয যুনূবা ইল্লা আনত",
+        referenceBn: "সহীহ বুখারী ৬৩০৬",
+        referenceEn: "Sahih Bukhari 6306"
+      },
+      {
+        id: "istighfar-simple",
+        titleBn: "সহজ ইস্তিগফার",
+        titleEn: "Simple Istighfar",
+        arabic: "أَسْتَغْفِرُ اللَّهَ الْعَظِيمَ الَّذِي لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ وَأَتُوبُ إِلَيْهِ",
+        bengali: "আমি মহান আল্লাহর কাছে ক্ষমা চাই, যিনি ছাড়া কোন ইলাহ নেই, তিনি চিরজীবী, চিরস্থায়ী এবং আমি তাঁর কাছে তাওবা করছি।",
+        english: "I seek forgiveness from Allah the Almighty, there is no god but He, the Ever-Living, the Self-Subsisting, and I repent to Him.",
+        transliteration: "Astaghfirullāhal-'Aẓīm alladhī lā ilāha illā Huwal-Ḥayyul-Qayyūmu wa atūbu ilayh",
+        transliterationBn: "আস্তাগফিরুল্লাহিল আযীম আল্লাযী লা ইলাহা ইল্লা হুওয়াল হাইয়ুল কাইয়ূমু ওয়া আতূবু ইলাইহ",
+        referenceBn: "তিরমিযী ৩৫৭৭",
+        referenceEn: "Tirmidhi 3577"
+      },
+      {
+        id: "tawbah-dua",
+        titleBn: "তাওবার দোয়া",
+        titleEn: "Dua for Repentance",
+        arabic: "رَبِّ اغْفِرْ لِي وَتُبْ عَلَيَّ إِنَّكَ أَنْتَ التَّوَّابُ الرَّحِيمُ",
+        bengali: "হে আমার রব! আমাকে ক্ষমা করুন এবং আমার তাওবা কবুল করুন। নিশ্চয়ই আপনি তাওবা কবুলকারী, পরম দয়ালু।",
+        english: "My Lord, forgive me and accept my repentance. Indeed, You are the Acceptor of Repentance, the Most Merciful.",
+        transliteration: "Rabbighfir lī wa tub 'alayya innaka Antat-Tawwābur-Raḥīm",
+        transliterationBn: "রাব্বিগফির লী ওয়া তুব আলাইয়া ইন্নাকা আনতাত তাওয়াবুর রাহীম",
+        referenceBn: "তিরমিযী ৩৪৩৪",
+        referenceEn: "Tirmidhi 3434"
+      },
+      {
+        id: "istighfar-100-times",
+        titleBn: "১০০ বার ইস্তিগফার",
+        titleEn: "Istighfar 100 Times Daily",
+        arabic: "أَسْتَغْفِرُ اللَّهَ وَأَتُوبُ إِلَيْهِ",
+        bengali: "আমি আল্লাহর কাছে ক্ষমা চাই এবং তাঁর কাছে তাওবা করি। (দৈনিক ১০০ বার)",
+        english: "I seek forgiveness from Allah and repent to Him. (100 times daily)",
+        transliteration: "Astaghfirullāha wa atūbu ilayh",
+        transliterationBn: "আস্তাগফিরুল্লাহা ওয়া আতূবু ইলাইহ",
+        referenceBn: "সহীহ বুখারী ৬৩০৭",
+        referenceEn: "Sahih Bukhari 6307"
+      }
+    ]
+  },
+
+  // ============ রিযক ও বরকত - Rizq & Barakah ============
+  {
+    id: "rizq-barakah",
+    nameEnglish: "Rizq & Barakah",
+    nameBengali: "রিযক ও বরকত",
+    icon: "Gem",
+    duas: [
+      {
+        id: "rizq-halal",
+        titleBn: "হালাল রিযকের দোয়া",
+        titleEn: "Dua for Halal Sustenance",
+        arabic: "اللَّهُمَّ اكْفِنِي بِحَلَالِكَ عَنْ حَرَامِكَ وَأَغْنِنِي بِفَضْلِكَ عَمَّنْ سِوَاكَ",
+        bengali: "হে আল্লাহ! আমাকে তোমার হালাল দিয়ে হারাম থেকে বাঁচাও এবং তোমার অনুগ্রহে তুমি ছাড়া অন্যদের থেকে অমুখাপেক্ষী করো।",
+        english: "O Allah, suffice me with what You have made lawful instead of what You have made unlawful, and make me independent by Your grace from all besides You.",
+        transliteration: "Allāhummak-finī bi ḥalālika 'an ḥarāmika wa aghninī bi faḍlika 'amman siwāk",
+        transliterationBn: "আল্লাহুম্মাকফিনী বিহালালিকা আন হারামিকা ওয়া আগনিনী বিফাদলিকা আম্মান সিওয়াক",
+        referenceBn: "তিরমিযী ৩৫৬৩",
+        referenceEn: "Tirmidhi 3563"
+      },
+      {
+        id: "barakah-wealth",
+        titleBn: "সম্পদে বরকতের দোয়া",
+        titleEn: "Dua for Barakah in Wealth",
+        arabic: "اللَّهُمَّ بَارِكْ لَنَا فِيمَا رَزَقْتَنَا وَقِنَا عَذَابَ النَّارِ",
+        bengali: "হে আল্লাহ! তুমি আমাদের যে রিযক দিয়েছ তাতে বরকত দাও এবং আমাদের জাহান্নামের আযাব থেকে রক্ষা করো।",
+        english: "O Allah, bless us in what You have provided for us and protect us from the punishment of the Fire.",
+        transliteration: "Allāhumma bārik lanā fīmā razaqtanā wa qinā 'adhāban-nār",
+        transliterationBn: "আল্লাহুম্মা বারিক লানা ফীমা রাযাক্বতানা ওয়া ক্বিনা আযাবান নার",
+        referenceBn: "সহীহ মুসলিম ২০৩৪",
+        referenceEn: "Sahih Muslim 2034"
+      },
+      {
+        id: "debt-relief",
+        titleBn: "ঋণ মুক্তির দোয়া",
+        titleEn: "Dua for Relief from Debt",
+        arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ وَأَعُوذُ بِكَ مِنَ الْعَجْزِ وَالْكَسَلِ وَأَعُوذُ بِكَ مِنَ الْجُبْنِ وَالْبُخْلِ وَأَعُوذُ بِكَ مِنْ غَلَبَةِ الدَّيْنِ وَقَهْرِ الرِّجَالِ",
+        bengali: "হে আল্লাহ! আমি তোমার কাছে দুশ্চিন্তা ও দুঃখ থেকে আশ্রয় চাই, অক্ষমতা ও অলসতা থেকে আশ্রয় চাই, কাপুরুষতা ও কৃপণতা থেকে আশ্রয় চাই এবং ঋণের বোঝা ও মানুষের দমন থেকে আশ্রয় চাই।",
+        english: "O Allah, I seek refuge in You from worry and grief, from incapacity and laziness, from cowardice and miserliness, and from being overcome by debt and overpowered by men.",
+        transliteration: "Allāhumma innī a'ūdhu bika minal-hammi wal-ḥazani wa a'ūdhu bika minal-'ajzi wal-kasali wa a'ūdhu bika minal-jubni wal-bukhli wa a'ūdhu bika min ghalabatid-dayni wa qahrir-rijāl",
+        transliterationBn: "আল্লাহুম্মা ইন্নী আঊযু বিকা মিনাল হাম্মি ওয়াল হাযানি ওয়া আঊযু বিকা মিনাল আজযি ওয়াল কাসালি ওয়া আঊযু বিকা মিনাল জুবনি ওয়াল বুখলি ওয়া আঊযু বিকা মিন গালাবাতিদ দাইনি ওয়া ক্বাহরির রিজাল",
+        referenceBn: "সহীহ বুখারী ৬৩৬৯",
+        referenceEn: "Sahih Bukhari 6369"
+      },
+      {
+        id: "increase-rizq",
+        titleBn: "রিযক বৃদ্ধির দোয়া",
+        titleEn: "Dua to Increase Sustenance",
+        arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ عِلْمًا نَافِعًا وَرِزْقًا طَيِّبًا وَعَمَلًا مُتَقَبَّلًا",
+        bengali: "হে আল্লাহ! আমি তোমার কাছে উপকারী জ্ঞান, পবিত্র রিযক এবং কবুলযোগ্য আমল প্রার্থনা করি।",
+        english: "O Allah, I ask You for beneficial knowledge, good sustenance, and accepted deeds.",
+        transliteration: "Allāhumma innī as'aluka 'ilman nāfi'an wa rizqan ṭayyiban wa 'amalan mutaqabbala",
+        transliterationBn: "আল্লাহুম্মা ইন্নী আসআলুকা ইলমান নাফিআন ওয়া রিযক্বান তাইয়িবান ওয়া আমালান মুতাক্বাব্বালা",
+        referenceBn: "ইবনে মাজাহ ৯২৫",
+        referenceEn: "Ibn Majah 925"
+      }
+    ]
+  },
+
+  // ============ সুরক্ষা ও নিরাপত্তা - Protection & Safety ============
+  {
+    id: "protection-safety",
+    nameEnglish: "Protection & Safety",
+    nameBengali: "সুরক্ষা ও নিরাপত্তা",
+    icon: "ShieldCheck",
+    duas: [
+      {
+        id: "ayatul-kursi-protection",
+        titleBn: "আয়াতুল কুরসী (সুরক্ষার জন্য)",
+        titleEn: "Ayatul Kursi (For Protection)",
+        arabic: "اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ لَهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ مَنْ ذَا الَّذِي يَشْفَعُ عِنْدَهُ إِلَّا بِإِذْنِهِ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ وَلَا يُحِيطُونَ بِشَيْءٍ مِنْ عِلْمِهِ إِلَّا بِمَا شَاءَ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ وَلَا يَئُودُهُ حِفْظُهُمَا وَهُوَ الْعَلِيُّ الْعَظِيمُ",
+        bengali: "আল্লাহ, তিনি ছাড়া কোন ইলাহ নেই। তিনি চিরজীবী, সর্বসত্তার ধারক। তাঁকে তন্দ্রা বা নিদ্রা স্পর্শ করে না। আকাশ ও পৃথিবীতে যা কিছু আছে সব তাঁর। কে আছে যে তাঁর অনুমতি ছাড়া সুপারিশ করবে? তাদের সামনে ও পেছনে যা আছে তা তিনি জানেন। তাঁর জ্ঞানের কোন কিছুকে তারা পরিবেষ্টন করতে পারে না, তবে তিনি যতটুকু চান। তাঁর কুরসী আকাশ ও পৃথিবীকে পরিব্যাপ্ত করে আছে এবং এদের রক্ষণাবেক্ষণ তাঁকে ক্লান্ত করে না। তিনি সর্বোচ্চ, মহান।",
+        english: "Allah! There is no god but He, the Ever-Living, the Self-Subsisting. Neither slumber nor sleep overtakes Him. To Him belongs whatever is in the heavens and whatever is on the earth. Who can intercede with Him except by His permission? He knows what is before them and what is behind them, and they encompass nothing of His knowledge except what He wills. His Kursi extends over the heavens and the earth, and their preservation does not tire Him. And He is the Most High, the Most Great.",
+        transliteration: "Allāhu lā ilāha illā Huwal-Ḥayyul-Qayyūm...",
+        transliterationBn: "আল্লাহু লা ইলাহা ইল্লা হুওয়াল হাইয়ুল ক্বাইয়ূম...",
+        referenceBn: "সূরা আল-বাকারা ২:২৫৫",
+        referenceEn: "Surah Al-Baqarah 2:255"
+      },
+      {
+        id: "evil-eye-protection",
+        titleBn: "বদ নজর থেকে সুরক্ষার দোয়া",
+        titleEn: "Protection from Evil Eye",
+        arabic: "أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ",
+        bengali: "আমি আল্লাহর পরিপূর্ণ বাণীসমূহের মাধ্যমে তাঁর সৃষ্টির সকল অনিষ্ট থেকে আশ্রয় চাই।",
+        english: "I seek refuge in the perfect words of Allah from the evil of what He has created.",
+        transliteration: "A'ūdhu bikalimātillāhit-tāmmāti min sharri mā khalaq",
+        transliterationBn: "আঊযু বিকালিমাতিল্লাহিত তাম্মাতি মিন শাররি মা খালাক্ব",
+        referenceBn: "সহীহ মুসলিম ২৭০৮",
+        referenceEn: "Sahih Muslim 2708"
+      },
+      {
+        id: "morning-protection",
+        titleBn: "সকালের সুরক্ষার দোয়া",
+        titleEn: "Morning Protection Dua",
+        arabic: "بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ وَهُوَ السَّمِيعُ الْعَلِيمُ",
+        bengali: "আল্লাহর নামে, যাঁর নামের সাথে আকাশ ও পৃথিবীর কোন কিছুই ক্ষতি করতে পারে না এবং তিনি সর্বশ্রোতা, সর্বজ্ঞ। (সকাল-সন্ধ্যা ৩ বার)",
+        english: "In the name of Allah, with whose name nothing in the earth or the heavens can cause harm, and He is the All-Hearing, the All-Knowing. (3 times morning & evening)",
+        transliteration: "Bismillāhilladhī lā yaḍurru ma'asmihi shay'un fil-arḍi wa lā fis-samā'i wa Huwas-Samī'ul-'Alīm",
+        transliterationBn: "বিসমিল্লাহিল্লাযী লা ইয়াদুররু মাআসমিহী শাইউন ফিল আরদি ওয়া লা ফিস সামাই ওয়া হুওয়াস সামীউল আলীম",
+        referenceBn: "তিরমিযী ৩৩৮৮",
+        referenceEn: "Tirmidhi 3388"
+      },
+      {
+        id: "protection-family",
+        titleBn: "পরিবারের সুরক্ষার দোয়া",
+        titleEn: "Protection for Family",
+        arabic: "أُعِيذُكُمَا بِكَلِمَاتِ اللَّهِ التَّامَّةِ مِنْ كُلِّ شَيْطَانٍ وَهَامَّةٍ وَمِنْ كُلِّ عَيْنٍ لَامَّةٍ",
+        bengali: "আমি তোমাদেরকে আল্লাহর পরিপূর্ণ বাণীর মাধ্যমে প্রতিটি শয়তান, বিষাক্ত প্রাণী এবং প্রতিটি ক্ষতিকর দৃষ্টি থেকে আশ্রয় দিচ্ছি।",
+        english: "I seek protection for you both in the perfect words of Allah from every devil and every poisonous creature, and from every evil eye.",
+        transliteration: "U'īdhukumā bi kalimātillāhit-tāmmati min kulli shayṭānin wa hāmmatin wa min kulli 'aynin lāmmah",
+        transliterationBn: "উঈযুকুমা বিকালিমাতিল্লাহিত তাম্মাতি মিন কুল্লি শাইতানিন ওয়া হাম্মাতিন ওয়া মিন কুল্লি আইনিন লাম্মাহ",
+        referenceBn: "সহীহ বুখারী ৩৩৭১",
+        referenceEn: "Sahih Bukhari 3371"
+      }
+    ]
+  },
+
+  // ============ জান্নাতের দোয়া - Duas for Jannah ============
+  {
+    id: "jannah-akhirah",
+    nameEnglish: "Duas for Jannah & Akhirah",
+    nameBengali: "জান্নাত ও আখিরাতের দোয়া",
+    icon: "Crown",
+    duas: [
+      {
+        id: "jannah-firdaws",
+        titleBn: "জান্নাতুল ফিরদাউসের দোয়া",
+        titleEn: "Dua for Jannatul Firdaws",
+        arabic: "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْجَنَّةَ وَأَعُوذُ بِكَ مِنَ النَّارِ",
+        bengali: "হে আল্লাহ! আমি তোমার কাছে জান্নাত প্রার্থনা করি এবং জাহান্নাম থেকে আশ্রয় চাই।",
+        english: "O Allah, I ask You for Paradise and seek refuge in You from the Fire.",
+        transliteration: "Allāhumma innī as'alukal-Jannata wa a'ūdhu bika minan-Nār",
+        transliterationBn: "আল্লাহুম্মা ইন্নী আসআলুকাল জান্নাতা ওয়া আঊযু বিকা মিনান নার",
+        referenceBn: "আবু দাউদ ৭৯২",
+        referenceEn: "Abu Dawud 792"
+      },
+      {
+        id: "rabbana-dunya-akhirah",
+        titleBn: "দুনিয়া ও আখিরাতের দোয়া",
+        titleEn: "Dua for This World & Hereafter",
+        arabic: "رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ",
+        bengali: "হে আমাদের রব! আমাদের দুনিয়াতে কল্যাণ দাও এবং আখিরাতেও কল্যাণ দাও এবং আমাদের জাহান্নামের আযাব থেকে রক্ষা করো।",
+        english: "Our Lord, give us good in this world and good in the Hereafter, and protect us from the punishment of the Fire.",
+        transliteration: "Rabbanā ātinā fid-dunyā ḥasanatan wa fil-ākhirati ḥasanatan wa qinā 'adhāban-Nār",
+        transliterationBn: "রাব্বানা আতিনা ফিদ দুনিয়া হাসানাতান ওয়া ফিল আখিরাতি হাসানাতান ওয়া ক্বিনা আযাবান নার",
+        referenceBn: "সূরা আল-বাকারা ২:২০১",
+        referenceEn: "Surah Al-Baqarah 2:201"
+      },
+      {
+        id: "grave-protection",
+        titleBn: "কবরের আযাব থেকে সুরক্ষা",
+        titleEn: "Protection from Grave Punishment",
+        arabic: "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنْ عَذَابِ الْقَبْرِ وَمِنْ عَذَابِ جَهَنَّمَ وَمِنْ فِتْنَةِ الْمَحْيَا وَالْمَمَاتِ وَمِنْ شَرِّ فِتْنَةِ الْمَسِيحِ الدَّجَّالِ",
+        bengali: "হে আল্লাহ! আমি তোমার কাছে কবরের আযাব থেকে, জাহান্নামের আযাব থেকে, জীবন ও মৃত্যুর ফিতনা থেকে এবং মাসীহ দাজ্জালের ফিতনার অনিষ্ট থেকে আশ্রয় চাই।",
+        english: "O Allah, I seek refuge in You from the punishment of the grave, from the punishment of Hellfire, from the trials of life and death, and from the evil of the trial of the False Messiah.",
+        transliteration: "Allāhumma innī a'ūdhu bika min 'adhābil-qabri wa min 'adhābi Jahannam wa min fitnatil-maḥyā wal-mamāti wa min sharri fitnatil-masīḥid-Dajjāl",
+        transliterationBn: "আল্লাহুম্মা ইন্নী আঊযু বিকা মিন আযাবিল ক্বাবরি ওয়া মিন আযাবি জাহান্নাম ওয়া মিন ফিতনাতিল মাহইয়া ওয়াল মামাতি ওয়া মিন শাররি ফিতনাতিল মাসীহিদ দাজ্জাল",
+        referenceBn: "সহীহ বুখারী ১৩৭৭",
+        referenceEn: "Sahih Bukhari 1377"
+      },
+      {
+        id: "husn-khatimah",
+        titleBn: "হুসনে খাতেমার দোয়া",
+        titleEn: "Dua for Good Ending",
+        arabic: "اللَّهُمَّ اجْعَلْ خَيْرَ عُمُرِي آخِرَهُ وَخَيْرَ عَمَلِي خَوَاتِمَهُ وَخَيْرَ أَيَّامِي يَوْمَ أَلْقَاكَ",
+        bengali: "হে আল্লাহ! আমার জীবনের শেষ সময়কে সর্বোত্তম করো, আমার আমলের শেষ পরিণতিকে সর্বোত্তম করো এবং আমার সর্বোত্তম দিন হোক সেই দিন যেদিন আমি তোমার সাথে সাক্ষাৎ করবো।",
+        english: "O Allah, make the best of my life its end, and the best of my deeds their conclusion, and the best of my days the day I meet You.",
+        transliteration: "Allāhummaj'al khayra 'umurī ākhirahu wa khayra 'amalī khawātimahu wa khayra ayyāmī yawma alqāk",
+        transliterationBn: "আল্লাহুম্মাজআল খাইরা উমুরী আখিরাহু ওয়া খাইরা আমালী খাওয়াতিমাহু ওয়া খাইরা আইয়ামী ইয়াওমা আলক্বাক",
+        referenceBn: "মুসতাদরাক হাকেম",
+        referenceEn: "Mustadrak al-Hakim"
+      }
+    ]
   }
 ];
