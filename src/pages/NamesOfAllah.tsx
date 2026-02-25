@@ -36,7 +36,7 @@ const NamesOfAllah = ({ language, arabicFont = "amiri" }: NamesOfAllahProps) => 
     <div className="min-h-screen bg-background pb-4">
       {/* Header */}
       <div className="sticky top-0 z-20 bg-background/95 backdrop-blur-md border-b border-border">
-        <div className="max-w-7xl mx-auto px-4 py-3 sm:py-4">
+        <div className="max-w-6xl mx-auto px-3 sm:px-4 md:px-6 py-3 sm:py-4">
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-xl bg-gradient-to-br from-sky-500 to-blue-600 text-white shadow-md shrink-0">
               <Sparkles className="h-5 w-5 sm:h-6 sm:w-6" />
@@ -87,7 +87,7 @@ const NamesOfAllah = ({ language, arabicFont = "amiri" }: NamesOfAllahProps) => 
       </div>
 
       {/* Names Grid */}
-      <div className="max-w-7xl mx-auto px-4 py-4 sm:py-6">
+      <div className="max-w-6xl mx-auto px-3 sm:px-4 md:px-6 py-4 sm:py-6">
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
           {filteredNames.map((name) => (
             <button
