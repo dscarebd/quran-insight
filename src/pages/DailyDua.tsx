@@ -148,7 +148,7 @@ const DailyDuaPage = ({ language, arabicFont = "amiri" }: DailyDuaPageProps) => 
                 language === "bn" && "font-bengali"
               )}>
                 {language === "bn" 
-                  ? `${dailyDuaCategories.length}টি বিভাগ • ${totalDuas}টি দোয়া` 
+                  ? `${formatNumber(dailyDuaCategories.length, language)}টি বিভাগ • ${formatNumber(totalDuas, language)}টি দোয়া` 
                   : `${dailyDuaCategories.length} categories • ${totalDuas} duas`}
               </p>
             </div>
