@@ -101,12 +101,12 @@ const SurahList = ({ language }: SurahListProps) => {
                   <TabsTrigger value="surah" className={cn("gap-2", language === "bn" && "font-bengali")}>
                     <Book className="h-4 w-4" />
                     {language === "bn" ? "সূরা" : "Surah"}
-                    <span className="text-xs text-muted-foreground">(114)</span>
+                    <span className="text-xs text-muted-foreground">({formatNumber(114, language)})</span>
                   </TabsTrigger>
                   <TabsTrigger value="para" className={cn("gap-2", language === "bn" && "font-bengali")}>
                     <Layers className="h-4 w-4" />
                     {language === "bn" ? "পারা" : "Para"}
-                    <span className="text-xs text-muted-foreground">(30)</span>
+                    <span className="text-xs text-muted-foreground">({formatNumber(30, language)})</span>
                   </TabsTrigger>
                 </TabsList>
                 
