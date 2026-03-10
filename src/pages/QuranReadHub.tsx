@@ -63,7 +63,10 @@ const QuranReadHub = ({ language }: QuranReadHubProps) => {
         {/* Read in the App Card */}
         <section className="animate-fade-in">
           <button
-            onClick={() => navigate(`/read/${lastReadPage}`)}
+            onClick={() => lastReadVerse
+              ? navigate(`/read/${lastReadVerse.pageNum}?verse=${lastReadVerse.surahNumber}:${lastReadVerse.verseNumber}`)
+              : navigate(`/read/${lastReadPage}`)
+            }
             className="w-full flex items-center gap-2 sm:gap-3 p-3 sm:p-4 bg-card border border-border shadow-lg rounded-xl sm:rounded-2xl transition-all duration-300 group overflow-hidden hover:shadow-md hover:-translate-y-1 text-left"
           >
             <div className="flex h-10 w-10 sm:h-11 sm:w-11 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary transition-all duration-300">
@@ -74,17 +77,34 @@ const QuranReadHub = ({ language }: QuranReadHubProps) => {
                 "text-xs font-medium text-muted-foreground truncate uppercase tracking-wide",
                 isBn && "font-bengali normal-case tracking-normal"
               )}>
-                {isBn ? "মাসহাফ পাঠক" : "Mushaf Reader"}
+                {surahInfo
+                  ? (isBn ? "পড়া চালিয়ে যান" : "Continue Reading")
+                  : (isBn ? "মাসহাফ পাঠক" : "Mushaf Reader")}
               </p>
               <p className={cn(
                 "font-semibold text-foreground truncate text-sm sm:text-base leading-tight",
                 isBn && "font-bengali"
               )}>
-                {isBn ? "অ্যাপে পড়ুন" : "Read in the App"}
+                {surahInfo && lastReadVerse ? (
+                  <>
+                    {isBn ? surahInfo.nameBengali : surahInfo.nameEnglish}
+                    <span className="text-muted-foreground font-normal text-xs sm:text-sm">
+                      {" · "}
+                      {isBn ? "আয়াত" : "Verse"}{" "}
+                      {isBn
+                        ? lastReadVerse.verseNumber.toString().split("").map(d => "০১২৩৪৫৬৭৮৯"[parseInt(d)]).join("")
+                        : lastReadVerse.verseNumber}
+                    </span>
+                  </>
+                ) : (
+                  isBn ? "অ্যাপে পড়ুন" : "Read in the App"
+                )}
               </p>
-              <p className={cn("text-muted-foreground font-normal text-xs truncate mt-0.5", isBn && "font-bengali")}>
-                {isBn ? "হিফয মাসহাফ সহ সম্পূর্ণ কুরআন" : "Full Quran with Hifz Mushaf"}
-              </p>
+              {!surahInfo && (
+                <p className={cn("text-muted-foreground font-normal text-xs truncate mt-0.5", isBn && "font-bengali")}>
+                  {isBn ? "হিফয মাসহাফ সহ সম্পূর্ণ কুরআন" : "Full Quran with Hifz Mushaf"}
+                </p>
+              )}
             </div>
             <div className="flex h-9 w-9 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground group-hover:scale-110 transition-all duration-300">
               <ChevronRight className="h-4 w-4 sm:h-5 sm:w-5" />
