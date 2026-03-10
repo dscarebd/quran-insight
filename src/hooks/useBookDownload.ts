@@ -50,68 +50,64 @@ export const useBookDownload = () => {
     }));
 
     try {
-      const response = await fetch(pdfUrl);
-      
-      if (!response.ok) {
-        throw new Error(`Failed to download: ${response.status}`);
-      }
+      return await new Promise<boolean>((resolve) => {
+        const xhr = new XMLHttpRequest();
+        xhr.responseType = "blob";
 
-      const contentLength = response.headers.get("content-length");
-      const total = contentLength ? parseInt(contentLength, 10) : (fileSizeMb ? Math.round(fileSizeMb * 1024 * 1024) : 0);
+        xhr.onprogress = (event) => {
+          let progress: number;
+          if (event.lengthComputable && event.total > 0) {
+            progress = Math.min(Math.round((event.loaded / event.total) * 100), 99);
+          } else if (fileSizeMb && fileSizeMb > 0) {
+            const estimatedTotal = fileSizeMb * 1024 * 1024;
+            progress = Math.min(Math.round((event.loaded / estimatedTotal) * 100), 99);
+          } else {
+            // Indeterminate: estimate based on loaded bytes (assume ~10MB)
+            const assumedTotal = 10 * 1024 * 1024;
+            progress = Math.min(Math.round((event.loaded / assumedTotal) * 90), 90);
+          }
+          setDownloads(prev => new Map(prev).set(bookId, {
+            bookId,
+            progress,
+            isDownloading: true
+          }));
+        };
 
-      if (!response.body) {
-        throw new Error("No response body");
-      }
+        xhr.onload = async () => {
+          if (xhr.status >= 200 && xhr.status < 300) {
+            const blob = xhr.response as Blob;
+            await savePDFToCache(bookId, blob);
+            setCachedBooks(prev => new Set([...prev, bookId]));
+            setDownloads(prev => {
+              const newMap = new Map(prev);
+              newMap.delete(bookId);
+              return newMap;
+            });
+            resolve(true);
+          } else {
+            console.error("Download failed with status:", xhr.status);
+            setDownloads(prev => {
+              const newMap = new Map(prev);
+              newMap.delete(bookId);
+              return newMap;
+            });
+            resolve(false);
+          }
+        };
 
-      const reader = response.body.getReader();
-      const chunks: Uint8Array[] = [];
-      let loaded = 0;
-      let chunkCount = 0;
+        xhr.onerror = () => {
+          console.error("Download network error");
+          setDownloads(prev => {
+            const newMap = new Map(prev);
+            newMap.delete(bookId);
+            return newMap;
+          });
+          resolve(false);
+        };
 
-      while (true) {
-        const { done, value } = await reader.read();
-        
-        if (done) break;
-        
-        chunks.push(value);
-        loaded += value.length;
-        chunkCount++;
-
-        let progress: number;
-        if (total > 0) {
-          progress = Math.min(Math.round((loaded / total) * 100), 99);
-        } else {
-          // Indeterminate: asymptotically approach 90%
-          progress = Math.min(Math.round(90 * (1 - Math.exp(-chunkCount / 20))), 90);
-        }
-        setDownloads(prev => new Map(prev).set(bookId, {
-          bookId,
-          progress,
-          isDownloading: true
-        }));
-      }
-
-      // Combine chunks into blob
-      const combinedArray = new Uint8Array(loaded);
-      let offset = 0;
-      for (const chunk of chunks) {
-        combinedArray.set(chunk, offset);
-        offset += chunk.length;
-      }
-      const blob = new Blob([combinedArray], { type: "application/pdf" });
-      
-      // Save to IndexedDB
-      await savePDFToCache(bookId, blob);
-      
-      // Update state
-      setCachedBooks(prev => new Set([...prev, bookId]));
-      setDownloads(prev => {
-        const newMap = new Map(prev);
-        newMap.delete(bookId);
-        return newMap;
+        xhr.open("GET", pdfUrl);
+        xhr.send();
       });
-
-      return true;
     } catch (error) {
       console.error("Download error:", error);
       setDownloads(prev => {
