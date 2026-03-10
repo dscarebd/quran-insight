@@ -30,6 +30,24 @@ const QuranReadHub = ({ language }: QuranReadHubProps) => {
   const lastReadPage = localStorage.getItem("quran-last-read-page") || "1";
   const isBn = language === "bn";
 
+  // Parse last read verse info
+  const lastReadVerse = (() => {
+    try {
+      const raw = localStorage.getItem("quran-last-read-verse");
+      if (!raw) return null;
+      const parts = raw.split("-");
+      if (parts.length < 3) return null;
+      return {
+        pageNum: parseInt(parts[0]),
+        surahNumber: parseInt(parts[1]),
+        verseNumber: parseInt(parts[2]),
+      };
+    } catch {
+      return null;
+    }
+  })();
+  const surahInfo = lastReadVerse ? surahs.find((s) => s.number === lastReadVerse.surahNumber) : null;
+
   const currentDownload = selectedBook ? getDownloadProgress(selectedBook.id) : undefined;
 
   const handleDownload = async (book: PDFBook) => {
