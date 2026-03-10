@@ -260,7 +260,8 @@ export const PDFViewer = ({
       </div>
 
       {/* PDF content */}
-      <div className="flex-1 overflow-auto flex justify-center p-4">
+      <div className="flex-1 overflow-auto p-4">
+        <div className="min-w-fit flex justify-center">
         {isLoading && (
           <div className="flex items-center justify-center h-full">
             <Loader2 className="h-8 w-8 animate-spin text-primary" />
@@ -296,6 +297,7 @@ export const PDFViewer = ({
             />
           </Document>
         )}
+        </div>
       </div>
 
       {/* Bottom progress bar */}
