@@ -692,7 +692,7 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
                     <h2 className={cn("text-sm font-bold text-primary mb-0.5", language === 'bn' && 'font-bengali')}>
                       {language === 'bn' ? currentPrayer.nameBn : currentPrayer.name}
                     </h2>
-                    <p className={cn("text-[11px] text-muted-foreground mb-3", language === 'bn' && 'font-bengali')}>
+                    <p className={cn("text-[11px] text-muted-foreground mb-2", language === 'bn' && 'font-bengali')}>
                       {language === 'bn' ? 'ওয়াক্ত শেষ হবে' : 'Waqt ends in'}
                     </p>
                   </>
@@ -701,45 +701,15 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
                     <h2 className={cn("text-sm font-bold text-primary mb-0.5", language === 'bn' && 'font-bengali')}>
                       {language === 'bn' ? nextPrayer.nameBn : nextPrayer.name}
                     </h2>
-                    <p className={cn("text-[11px] text-muted-foreground mb-3", language === 'bn' && 'font-bengali')}>
+                    <p className={cn("text-[11px] text-muted-foreground mb-2", language === 'bn' && 'font-bengali')}>
                       {language === 'bn' ? 'পরবর্তী নামাজ' : 'Next Prayer'}
                     </p>
                   </>
                 ) : null}
 
-                {/* Circular Progress - 3D embossed style */}
-                <div className="relative w-44 h-44 mb-2">
-                  {/* Outer glow ring */}
-                  <div className="absolute inset-0 rounded-full border-2 border-primary/20" />
-                  {/* Inner shadow ring for 3D depth */}
-                  <div 
-                    className="absolute inset-2 rounded-full bg-card"
-                    style={{ boxShadow: 'inset 0 4px 15px hsl(var(--foreground) / 0.15), inset 0 -2px 8px hsl(var(--primary) / 0.1), 0 2px 10px hsl(var(--foreground) / 0.08)' }}
-                  />
-                  <svg className="absolute inset-2 w-[calc(100%-16px)] h-[calc(100%-16px)] -rotate-90" viewBox="0 0 144 144">
-                    {/* Background track */}
-                    <circle cx="72" cy="72" r={circleRadius} fill="none" stroke="hsl(var(--muted))" strokeWidth="7" strokeOpacity="0.5" />
-                    {/* Progress arc */}
-                    <circle
-                      cx="72" cy="72" r={circleRadius}
-                      fill="none"
-                      stroke="hsl(var(--primary))"
-                      strokeWidth="7"
-                      strokeLinecap="round"
-                      strokeDasharray={circumference}
-                      strokeDashoffset={strokeDashoffset}
-                      className="transition-all duration-1000"
-                      style={{ filter: 'drop-shadow(0 0 4px hsl(var(--primary) / 0.4))' }}
-                    />
-                    {/* Indicator dot at progress end */}
-                  </svg>
-                  {/* Countdown text in center */}
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <span className={cn("text-xl font-bold tabular-nums tracking-wider", countdownDisplay.isUrgent ? "text-destructive" : "text-primary")}>
-                      {countdownDisplay.h}:{countdownDisplay.m}:{countdownDisplay.s}
-                    </span>
-                  </div>
-                </div>
+                <span className={cn("text-3xl font-bold tabular-nums tracking-wider", countdownDisplay.isUrgent ? "text-destructive" : "text-primary")}>
+                  {countdownDisplay.h}:{countdownDisplay.m}:{countdownDisplay.s}
+                </span>
               </div>
 
               {/* Right: Prayer Times List */}
