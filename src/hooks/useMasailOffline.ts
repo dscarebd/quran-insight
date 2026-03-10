@@ -58,8 +58,8 @@ export const useMasailOffline = (): UseMasailOfflineResult => {
   useEffect(() => {
     const handleOnline = () => {
       setIsOffline(false);
-      // Trigger incremental sync when coming back online
-      syncNewMasail();
+      // Trigger incremental sync when coming back online (once per day)
+      if (shouldSyncToday()) syncNewMasail();
     };
     const handleOffline = () => setIsOffline(true);
 
