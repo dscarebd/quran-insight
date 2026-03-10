@@ -779,20 +779,20 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
         {/* Bottom Cards: Sehri & Iftar (only during Ramadan) */}
         {prayerTimes && (
           <div className="grid grid-cols-3 gap-3">
-            <div className="rounded-xl bg-primary/15 p-4 text-center">
-              <p className="text-lg font-bold text-primary">{formatTimeShort(prayerTimes.fajr.start)}</p>
+            <div className="rounded-xl bg-primary/15 p-3 text-center">
+              <p className="text-sm font-bold text-primary">{formatTimeShort(prayerTimes.fajr.start)}</p>
               <p className={cn("text-xs text-muted-foreground", language === 'bn' && 'font-bengali')}>
                 {language === 'bn' ? 'সেহরি শেষ' : 'Sehri ends'}
               </p>
             </div>
-            <div className="rounded-xl bg-primary/15 p-4 text-center">
-              <p className="text-lg font-bold text-primary">{formatTimeShort(prayerTimes.maghrib.start)}</p>
+            <div className="rounded-xl bg-primary/15 p-3 text-center">
+              <p className="text-sm font-bold text-primary">{formatTimeShort(prayerTimes.maghrib.start)}</p>
               <p className={cn("text-xs text-muted-foreground", language === 'bn' && 'font-bengali')}>
                 {language === 'bn' ? 'ইফতার শুরু' : 'Iftar starts'}
               </p>
             </div>
-            <div className="rounded-xl bg-primary/15 p-4 text-center">
-              <p className="text-lg font-bold text-primary tabular-nums">
+            <div className="rounded-xl bg-primary/15 p-3 text-center">
+              <p className="text-sm font-bold text-primary tabular-nums">
                 {iftarCountdown.passed
                   ? (language === 'bn' ? 'ইফতার হয়েছে' : 'Iftar passed')
                   : `${iftarCountdown.h}:${iftarCountdown.m}:${iftarCountdown.s}`
