@@ -23,7 +23,7 @@ interface QuranReadHubProps {
 const QuranReadHub = ({ language }: QuranReadHubProps) => {
   const navigate = useNavigate();
   const { data: books, isLoading } = useBookLibrary();
-  const { downloadBook, isBookCached, getDownloadProgress, downloads } = useBookDownload();
+  const { downloadBook, isBookCached, getDownloadProgress } = useBookDownload();
   const [selectedBook, setSelectedBook] = useState<PDFBook | null>(null);
 
   const lastReadPage = localStorage.getItem("quran-last-read-page") || "1";
