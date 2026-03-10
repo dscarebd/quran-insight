@@ -3,11 +3,13 @@
 import { Verse } from "@/data/verses";
 
 const DB_NAME = "quraninsight-offline";
-const DB_VERSION = 3; // Upgraded from 2 to add duas store
+const DB_VERSION = 4; // Upgraded from 3 to add stories store
 const VERSES_STORE = "verses";
 const HADITHS_STORE = "hadiths";
 const MASAIL_STORE = "masail";
 const DUAS_STORE = "duas";
+const STORIES_STORE = "stories";
+const STORY_CATEGORIES_STORE = "story_categories";
 const META_STORE = "metadata";
 
 export interface LocalHadith {
