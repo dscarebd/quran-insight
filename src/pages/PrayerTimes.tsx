@@ -686,29 +686,29 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
           <CardContent className="p-0">
             <div className="grid grid-cols-1 md:grid-cols-2">
               {/* Left: Countdown Circle */}
-              <div className="flex flex-col items-center justify-center p-6 md:p-8 md:border-r border-border">
+              <div className="flex flex-col items-center justify-center p-4 md:p-6 md:border-r border-border">
                 {currentPrayer ? (
                   <>
-                    <h2 className={cn("text-xl font-bold text-primary mb-1", language === 'bn' && 'font-bengali')}>
+                    <h2 className={cn("text-base font-bold text-primary mb-1", language === 'bn' && 'font-bengali')}>
                       {language === 'bn' ? currentPrayer.nameBn : currentPrayer.name}
                     </h2>
-                    <p className={cn("text-xs text-muted-foreground mb-6", language === 'bn' && 'font-bengali')}>
+                    <p className={cn("text-xs text-muted-foreground mb-4", language === 'bn' && 'font-bengali')}>
                       {language === 'bn' ? 'ওয়াক্ত শেষ হবে' : 'Waqt ends in'}
                     </p>
                   </>
                 ) : nextPrayer ? (
                   <>
-                    <h2 className={cn("text-xl font-bold text-primary mb-1", language === 'bn' && 'font-bengali')}>
+                    <h2 className={cn("text-base font-bold text-primary mb-1", language === 'bn' && 'font-bengali')}>
                       {language === 'bn' ? nextPrayer.nameBn : nextPrayer.name}
                     </h2>
-                    <p className={cn("text-xs text-muted-foreground mb-6", language === 'bn' && 'font-bengali')}>
+                    <p className={cn("text-xs text-muted-foreground mb-4", language === 'bn' && 'font-bengali')}>
                       {language === 'bn' ? 'পরবর্তী নামাজ' : 'Next Prayer'}
                     </p>
                   </>
                 ) : null}
 
                 {/* Circular Progress - 3D embossed style */}
-                <div className="relative w-52 h-52 mb-4">
+                <div className="relative w-40 h-40 mb-3">
                   {/* Outer glow ring */}
                   <div className="absolute inset-0 rounded-full border-2 border-primary/20" />
                   {/* Inner shadow ring for 3D depth */}
@@ -716,15 +716,15 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
                     className="absolute inset-2 rounded-full bg-card"
                     style={{ boxShadow: 'inset 0 4px 15px hsl(var(--foreground) / 0.15), inset 0 -2px 8px hsl(var(--primary) / 0.1), 0 2px 10px hsl(var(--foreground) / 0.08)' }}
                   />
-                  <svg className="absolute inset-2 w-[calc(100%-16px)] h-[calc(100%-16px)] -rotate-90" viewBox="0 0 160 160">
+                  <svg className="absolute inset-2 w-[calc(100%-16px)] h-[calc(100%-16px)] -rotate-90" viewBox="0 0 130 130">
                     {/* Background track */}
-                    <circle cx="80" cy="80" r={circleRadius} fill="none" stroke="hsl(var(--muted))" strokeWidth="8" strokeOpacity="0.5" />
+                    <circle cx="65" cy="65" r={circleRadius} fill="none" stroke="hsl(var(--muted))" strokeWidth="7" strokeOpacity="0.5" />
                     {/* Progress arc */}
                     <circle
-                      cx="80" cy="80" r={circleRadius}
+                      cx="65" cy="65" r={circleRadius}
                       fill="none"
                       stroke="hsl(var(--primary))"
-                      strokeWidth="8"
+                      strokeWidth="7"
                       strokeLinecap="round"
                       strokeDasharray={circumference}
                       strokeDashoffset={strokeDashoffset}
@@ -735,7 +735,7 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
                   </svg>
                   {/* Countdown text in center */}
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <span className={cn("text-2xl font-bold tabular-nums tracking-wider", countdownDisplay.isUrgent ? "text-destructive" : "text-primary")}>
+                    <span className={cn("text-xl font-bold tabular-nums tracking-wider", countdownDisplay.isUrgent ? "text-destructive" : "text-primary")}>
                       {countdownDisplay.h}:{countdownDisplay.m}:{countdownDisplay.s}
                     </span>
                   </div>
