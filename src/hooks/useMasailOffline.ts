@@ -90,8 +90,8 @@ export const useMasailOffline = (): UseMasailOfflineResult => {
       
       console.log(`Loaded ${bundled.length} bundled masail`);
       
-      // Check for new masail in background if online
-      if (navigator.onLine) {
+      // Check for new masail in background if online and haven't synced today
+      if (navigator.onLine && shouldSyncToday()) {
         syncNewMasail();
       }
     } catch (error) {
