@@ -24,7 +24,7 @@ export const QuickAccessCards = ({ language }: QuickAccessCardsProps) => {
     {
       id: "masail",
       icon: HelpCircle,
-      labelEn: "Masail",
+      labelEn: "Mas'Ala",
       labelBn: "মাসআলা",
       descEn: "Rulings & Fatwas",
       descBn: "মাসআলা ও ফতোয়া",
