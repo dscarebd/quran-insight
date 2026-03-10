@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { BookOpen, BookText, ChevronRight, BookMarked, Star, Download, FileText } from "lucide-react";
+import { surahs } from "@/data/surahs";
 import { cn } from "@/lib/utils";
 import { Language } from "@/types/language";
 import { useBookLibrary, PDFBook } from "@/hooks/useBookLibrary";
