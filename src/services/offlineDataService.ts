@@ -39,6 +39,30 @@ export interface LocalMasail {
   updated_at: string;
 }
 
+export interface LocalStory {
+  id: string;
+  title_english: string;
+  title_bengali: string;
+  content_english: string;
+  content_bengali: string;
+  category: string;
+  cover_image_url: string | null;
+  author: string | null;
+  is_published: boolean;
+  display_order: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface LocalStoryCategory {
+  id: string;
+  name_english: string;
+  name_bengali: string;
+  slug: string;
+  display_order: number;
+  created_at: string;
+}
+
 export interface LocalDua {
   id: string;
   dua_id: string;
