@@ -1,18 +1,49 @@
 
 
 ## Problem
-The indicator dot on the countdown ring is tiny (`rx="6" ry="4"` ellipse) and barely visible, especially when it turns red. The user wants it to be more prominent and visually meaningful.
 
-## Plan
+The `fetch` + `ReadableStream` approach for tracking download progress doesn't work reliably because:
+1. React 18 batches state updates — rapid `setDownloads` calls inside the async loop get batched, so intermediate percentages never render
+2. CORS responses from the storage bucket may deliver all data in one or very few chunks, skipping from 0% straight to done
 
-**File: `src/pages/PrayerTimes.tsx` (lines 740-746)**
+## Solution
 
-Replace the small ellipse with a larger, more prominent circle indicator:
+Replace the `fetch` streaming approach with `XMLHttpRequest` which has a native `onprogress` event that fires on the main thread and reliably reports download progress. This is the proven, cross-browser method for tracking file download progress.
 
-1. Change `<ellipse rx="6" ry="4">` to `<circle r="7">` — a proper round dot, bigger and more visible
-2. Add a white inner stroke to give it a "button" look that pops against the track
-3. Increase the glow/shadow intensity so it stands out
-4. Remove the rotation transform (not needed for a circle)
+**File: `src/hooks/useBookDownload.ts`**
 
-The dot will remain color-aware: green (primary) normally, red (destructive) under 15 minutes.
+Replace the `fetch` + `reader.read()` loop with:
+
+```text
+const xhr = new XMLHttpRequest();
+xhr.responseType = "blob";
+
+xhr.onprogress = (event) => {
+  let progress: number;
+  if (event.lengthComputable) {
+    progress = Math.min(Math.round((event.loaded / event.total) * 100), 99);
+  } else if (fileSizeMb) {
+    const estimatedTotal = fileSizeMb * 1024 * 1024;
+    progress = Math.min(Math.round((event.loaded / estimatedTotal) * 100), 99);
+  } else {
+    // fallback indeterminate
+  }
+  setDownloads(prev => new Map(prev).set(bookId, { bookId, progress, isDownloading: true }));
+};
+
+xhr.onload = () => {
+  const blob = xhr.response;
+  savePDFToCache(bookId, blob).then(() => { ... });
+};
+
+xhr.open("GET", pdfUrl);
+xhr.send();
+```
+
+Key advantages:
+- `onprogress` fires on the UI thread at browser-controlled intervals — no React batching issues
+- `event.lengthComputable` / `event.loaded` / `event.total` work reliably even with CORS
+- No streaming API compatibility concerns
+
+No changes needed in `QuranReadHub.tsx` — the popup UI already reads from `getDownloadProgress()` and renders the `Progress` bar correctly.
 
