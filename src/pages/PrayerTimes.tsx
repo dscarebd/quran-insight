@@ -655,26 +655,26 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
       <div className="max-w-6xl mx-auto px-3 sm:px-4 md:px-6 py-3 space-y-3">
 
         {/* Hijri Date Header */}
-        <div className="rounded-2xl bg-gradient-to-r from-primary to-primary/70 p-3.5 text-primary-foreground">
+        <div className="rounded-xl bg-gradient-to-r from-primary to-primary/70 px-4 py-3 text-primary-foreground">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className={cn("text-lg font-bold", language === 'bn' && 'font-bengali')}>
+              <h1 className={cn("text-base font-bold", language === 'bn' && 'font-bengali')}>
                 {hijriDay} {hijriMonthName}
               </h1>
               <p className={cn("text-xs opacity-90", language === 'bn' && 'font-bengali')}>
                 {dayName} - {gregDate}
               </p>
             </div>
-            <div className="flex items-center gap-5">
+            <div className="flex items-center gap-4">
               <div className="text-center">
                 <Sunrise className="w-4 h-4 mx-auto mb-0.5 opacity-80" />
                 <p className="text-sm font-bold">{prayerTimes ? formatTimeShort(prayerTimes.sunrise) : '--:--'}</p>
-                <p className="text-[10px] opacity-70">{language === 'bn' ? 'সূর্যোদয়' : 'Sunrise'}</p>
+                <p className="text-[9px] opacity-70">{language === 'bn' ? 'সূর্যোদয়' : 'Sunrise'}</p>
               </div>
               <div className="text-center">
                 <Sunset className="w-4 h-4 mx-auto mb-0.5 opacity-80" />
                 <p className="text-sm font-bold">{prayerTimes ? formatTimeShort(prayerTimes.maghrib.start) : '--:--'}</p>
-                <p className="text-[10px] opacity-70">{language === 'bn' ? 'সূর্যাস্ত' : 'Sunset'}</p>
+                <p className="text-[9px] opacity-70">{language === 'bn' ? 'সূর্যাস্ত' : 'Sunset'}</p>
               </div>
             </div>
           </div>
