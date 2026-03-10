@@ -297,6 +297,7 @@ export const PDFViewer = ({
             />
           </Document>
         )}
+        </div>
       </div>
 
       {/* Bottom progress bar */}
