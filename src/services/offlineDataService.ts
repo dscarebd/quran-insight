@@ -3,11 +3,13 @@
 import { Verse } from "@/data/verses";
 
 const DB_NAME = "quraninsight-offline";
-const DB_VERSION = 3; // Upgraded from 2 to add duas store
+const DB_VERSION = 4; // Upgraded from 3 to add stories store
 const VERSES_STORE = "verses";
 const HADITHS_STORE = "hadiths";
 const MASAIL_STORE = "masail";
 const DUAS_STORE = "duas";
+const STORIES_STORE = "stories";
+const STORY_CATEGORIES_STORE = "story_categories";
 const META_STORE = "metadata";
 
 export interface LocalHadith {
@@ -35,6 +37,30 @@ export interface LocalMasail {
   source_url: string | null;
   created_at: string;
   updated_at: string;
+}
+
+export interface LocalStory {
+  id: string;
+  title_english: string;
+  title_bengali: string;
+  content_english: string;
+  content_bengali: string;
+  category: string;
+  cover_image_url: string | null;
+  author: string | null;
+  is_published: boolean;
+  display_order: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface LocalStoryCategory {
+  id: string;
+  name_english: string;
+  name_bengali: string;
+  slug: string;
+  display_order: number;
+  created_at: string;
 }
 
 export interface LocalDua {
@@ -108,6 +134,18 @@ const openDB = (): Promise<IDBDatabase> => {
         duasStore.createIndex("category_id", "category_id", { unique: false });
         duasStore.createIndex("dua_id", "dua_id", { unique: false });
         duasStore.createIndex("updated_at", "updated_at", { unique: false });
+      }
+
+      // Stories store
+      if (!database.objectStoreNames.contains(STORIES_STORE)) {
+        const storiesStore = database.createObjectStore(STORIES_STORE, { keyPath: "id" });
+        storiesStore.createIndex("category", "category", { unique: false });
+        storiesStore.createIndex("updated_at", "updated_at", { unique: false });
+      }
+
+      // Story categories store
+      if (!database.objectStoreNames.contains(STORY_CATEGORIES_STORE)) {
+        database.createObjectStore(STORY_CATEGORIES_STORE, { keyPath: "id" });
       }
 
       // Metadata store for sync status
@@ -486,5 +524,77 @@ export const clearDuasStore = async (): Promise<void> => {
 
     request.onerror = () => reject(request.error);
     request.onsuccess = () => resolve();
+  });
+};
+
+// Stories operations
+export const saveStories = async (storiesList: LocalStory[]): Promise<void> => {
+  const database = await openDB();
+  return new Promise((resolve, reject) => {
+    const transaction = database.transaction(STORIES_STORE, "readwrite");
+    const store = transaction.objectStore(STORIES_STORE);
+    storiesList.forEach(story => store.put(story));
+    transaction.oncomplete = () => resolve();
+    transaction.onerror = () => reject(transaction.error);
+  });
+};
+
+export const getAllStories = async (): Promise<LocalStory[]> => {
+  const database = await openDB();
+  return new Promise((resolve, reject) => {
+    const transaction = database.transaction(STORIES_STORE, "readonly");
+    const store = transaction.objectStore(STORIES_STORE);
+    const request = store.getAll();
+    request.onerror = () => reject(request.error);
+    request.onsuccess = () => resolve(request.result as LocalStory[]);
+  });
+};
+
+export const getStoryById = async (id: string): Promise<LocalStory | null> => {
+  const database = await openDB();
+  return new Promise((resolve, reject) => {
+    const transaction = database.transaction(STORIES_STORE, "readonly");
+    const store = transaction.objectStore(STORIES_STORE);
+    const request = store.get(id);
+    request.onerror = () => reject(request.error);
+    request.onsuccess = () => resolve(request.result || null);
+  });
+};
+
+export const getStoryCount = async (): Promise<number> => {
+  const database = await openDB();
+  return new Promise((resolve, reject) => {
+    const transaction = database.transaction(STORIES_STORE, "readonly");
+    const store = transaction.objectStore(STORIES_STORE);
+    const request = store.count();
+    request.onerror = () => reject(request.error);
+    request.onsuccess = () => resolve(request.result);
+  });
+};
+
+// Story Categories operations
+export const saveStoryCategories = async (categories: LocalStoryCategory[]): Promise<void> => {
+  const database = await openDB();
+  return new Promise((resolve, reject) => {
+    const transaction = database.transaction(STORY_CATEGORIES_STORE, "readwrite");
+    const store = transaction.objectStore(STORY_CATEGORIES_STORE);
+    categories.forEach(cat => store.put(cat));
+    transaction.oncomplete = () => resolve();
+    transaction.onerror = () => reject(transaction.error);
+  });
+};
+
+export const getAllStoryCategories = async (): Promise<LocalStoryCategory[]> => {
+  const database = await openDB();
+  return new Promise((resolve, reject) => {
+    const transaction = database.transaction(STORY_CATEGORIES_STORE, "readonly");
+    const store = transaction.objectStore(STORY_CATEGORIES_STORE);
+    const request = store.getAll();
+    request.onerror = () => reject(request.error);
+    request.onsuccess = () => {
+      const cats = request.result as LocalStoryCategory[];
+      cats.sort((a, b) => a.display_order - b.display_order);
+      resolve(cats);
+    };
   });
 };

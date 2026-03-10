@@ -1,13 +1,12 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
 import { Language } from "@/types/language";
 import { cn } from "@/lib/utils";
 import { ScrollText, User, ChevronRight, ChevronDown } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
-
+import { useStoriesOffline } from "@/hooks/useStoriesOffline";
+import OfflineIndicator from "@/components/OfflineIndicator";
 
 interface StoriesListProps {
   language: Language;
@@ -19,17 +18,15 @@ const StoriesList = ({ language }: StoriesListProps) => {
   const [activeCategory, setActiveCategory] = useState(searchParams.get("category") || "all");
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
-  const { data: dbCategories = [] } = useQuery({
-    queryKey: ["story-categories"],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from("story_categories")
-        .select("*")
-        .order("display_order", { ascending: true });
-      if (error) throw error;
-      return data;
-    },
-  });
+  const {
+    storiesList: stories,
+    categories: dbCategories,
+    loading: isLoading,
+    isOffline,
+    isSyncing,
+    lastSyncTime,
+    refresh,
+  } = useStoriesOffline();
 
   const CATEGORIES = [
     { id: "all", labelEn: "All", labelBn: "সকল" },
@@ -42,26 +39,12 @@ const StoriesList = ({ language }: StoriesListProps) => {
     return language === "bn" ? cat.labelBn : cat.labelEn;
   };
 
-  const { data: stories = [], isLoading } = useQuery({
-    queryKey: ["stories"],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from("stories")
-        .select("*")
-        .eq("is_published", true)
-        .order("display_order", { ascending: true })
-        .order("created_at", { ascending: false });
-      if (error) throw error;
-      return data;
-    },
-  });
-
   const filtered = useMemo(() => {
-    if (activeCategory === "all") return stories;
-    return stories.filter((s) => s.category === activeCategory);
+    // Filter published stories client-side
+    const published = stories.filter((s) => s.is_published);
+    if (activeCategory === "all") return published;
+    return published.filter((s) => s.category === activeCategory);
   }, [stories, activeCategory]);
-
-  // All stories use the same horizontal card layout
 
   return (
     <div className="flex-1 overflow-y-auto max-w-full">
@@ -82,6 +65,15 @@ const StoriesList = ({ language }: StoriesListProps) => {
               ? "নবীদের কাহিনী, ইতিহাস এবং শিক্ষামূলক গল্প"
               : "Stories of prophets, history, and moral lessons"}
           </p>
+          <div className="flex justify-center mt-3">
+            <OfflineIndicator
+              isOffline={isOffline}
+              isSyncing={isSyncing}
+              lastSyncTime={lastSyncTime}
+              onRefresh={refresh}
+              language={language}
+            />
+          </div>
         </div>
 
         {/* Category Filter - Dropdown on mobile, pills on sm+ */}
@@ -157,7 +149,6 @@ const StoriesList = ({ language }: StoriesListProps) => {
           </div>
         ) : (
           <div className="space-y-4">
-            {/* All stories in horizontal card layout */}
             {filtered.map((story) => {
               const title = language === "bn" ? story.title_bengali : story.title_english;
               const content = language === "bn" ? story.content_bengali : story.content_english;
@@ -168,7 +159,6 @@ const StoriesList = ({ language }: StoriesListProps) => {
                   className="w-full text-left group"
                 >
                   <div className="overflow-hidden rounded-xl bg-card border border-border transition-all duration-300 hover:shadow-card hover:-translate-y-0.5 flex flex-row">
-                    {/* Cover Image: full width on mobile, 1:1 square on sm+ */}
                     <div className="relative shrink-0 w-28 h-28 sm:w-36 sm:h-36 md:w-44 md:h-44 overflow-hidden">
                       {story.cover_image_url ? (
                         <img
@@ -183,7 +173,6 @@ const StoriesList = ({ language }: StoriesListProps) => {
                       )}
                     </div>
 
-                    {/* Details */}
                     <div className="flex-1 p-3 sm:p-4 flex flex-col justify-center min-w-0">
                       <Badge variant="outline" className={cn("w-fit mb-1.5 text-[10px] sm:text-xs hidden sm:inline-flex", language === "bn" && "font-bengali")}>
                         {getCategoryLabel(story.category)}
@@ -210,7 +199,6 @@ const StoriesList = ({ language }: StoriesListProps) => {
                       </div>
                     </div>
 
-                    {/* Arrow */}
                     <div className="hidden sm:flex items-center pr-4">
                       <ChevronRight className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
                     </div>
