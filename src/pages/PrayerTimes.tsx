@@ -514,7 +514,7 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
   }, [prayerTimes, currentPrayer, language]);
 
   // SVG circular progress
-  const circleRadius = 55;
+  const circleRadius = 62;
   const circumference = 2 * Math.PI * circleRadius;
   const strokeDashoffset = circumference - (countdownProgress / 100) * circumference;
 
