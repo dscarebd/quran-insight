@@ -250,7 +250,7 @@ export const QiblaCompass = ({ language }: QiblaCompassProps) => {
 
         {/* Qibla needle */}
         <div
-          className="absolute inset-0 flex items-center justify-center transition-transform duration-300 ease-out"
+          className="absolute inset-0 flex items-center justify-center transition-transform duration-300 ease-out will-change-transform"
           style={{ transform: `rotate(${needleRotation}deg)` }}
         >
           <svg viewBox="0 0 180 180" className="w-full h-full">
@@ -259,11 +259,18 @@ export const QiblaCompass = ({ language }: QiblaCompassProps) => {
             <circle cx="90" cy="90" r="5" fill="hsl(var(--primary))" />
             <circle cx="90" cy="90" r="2.5" fill="hsl(var(--primary-foreground))" />
           </svg>
+        </div>
+
+        {/* Kaaba icon - rotates to Qibla but stays upright */}
+        <div
+          className="absolute inset-0 transition-transform duration-300 ease-out pointer-events-none will-change-transform"
+          style={{ transform: `rotate(${needleRotation}deg)` }}
+        >
           <div
             className="absolute flex items-center justify-center"
-            style={{ top: 8, left: "50%", transform: "translateX(-50%)" }}
+            style={{ top: 4, left: "50%", transform: `translateX(-50%) rotate(${-needleRotation}deg)` }}
           >
-            <span className="text-base">🕋</span>
+            <span className="text-lg drop-shadow-md">🕋</span>
           </div>
         </div>
       </div>
