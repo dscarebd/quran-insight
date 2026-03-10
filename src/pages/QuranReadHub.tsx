@@ -1,10 +1,20 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { BookOpen, BookText, ChevronRight, BookMarked, Star } from "lucide-react";
+import { BookOpen, BookText, ChevronRight, BookMarked, Star, Download, FileText, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Language } from "@/types/language";
-import { useBookLibrary } from "@/hooks/useBookLibrary";
+import { useBookLibrary, PDFBook } from "@/hooks/useBookLibrary";
+import { useBookDownload } from "@/hooks/useBookDownload";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 interface QuranReadHubProps {
   language: Language;
@@ -13,10 +23,20 @@ interface QuranReadHubProps {
 const QuranReadHub = ({ language }: QuranReadHubProps) => {
   const navigate = useNavigate();
   const { data: books, isLoading } = useBookLibrary();
+  const { downloadBook, isBookCached, getDownloadProgress, downloads } = useBookDownload();
+  const [selectedBook, setSelectedBook] = useState<PDFBook | null>(null);
 
   const lastReadPage = localStorage.getItem("quran-last-read-page") || "1";
-
   const isBn = language === "bn";
+
+  const currentDownload = selectedBook ? getDownloadProgress(selectedBook.id) : undefined;
+
+  const handleDownload = async (book: PDFBook) => {
+    const success = await downloadBook(book.id, book.pdf_url);
+    if (success) {
+      // stays on dialog, now shows "Read" button
+    }
+  };
 
   return (
     <div className="min-h-screen bg-background pb-24">
@@ -84,10 +104,9 @@ const QuranReadHub = ({ language }: QuranReadHubProps) => {
               {books.map((book) => (
                 <button
                   key={book.id}
-                  onClick={() => navigate(`/read/pdf/${book.id}`)}
+                  onClick={() => setSelectedBook(book)}
                   className="overflow-hidden border border-border bg-card text-left hover:border-primary/50 active:scale-[0.97] transition-all shadow-sm hover:shadow-md"
                 >
-                  {/* Cover Image */}
                   <div className="relative w-full aspect-square bg-muted overflow-hidden">
                     {book.cover_image_url ? (
                       <img
@@ -108,9 +127,14 @@ const QuranReadHub = ({ language }: QuranReadHubProps) => {
                         </Badge>
                       </div>
                     )}
+                    {isBookCached(book.id) && (
+                      <div className="absolute bottom-1 left-1">
+                        <Badge variant="secondary" className="text-[9px] px-1 py-0 bg-green-500/90 text-white border-0">
+                          ✓
+                        </Badge>
+                      </div>
+                    )}
                   </div>
-
-                  {/* Book Info */}
                   <div className="p-1.5">
                     <p className={cn(
                       "text-xs font-semibold text-foreground leading-tight line-clamp-2",
@@ -125,6 +149,103 @@ const QuranReadHub = ({ language }: QuranReadHubProps) => {
           )}
         </section>
       </div>
+
+      {/* Book Detail Dialog */}
+      <Dialog open={!!selectedBook} onOpenChange={(open) => !open && setSelectedBook(null)}>
+        <DialogContent className="max-w-sm rounded-2xl p-0 overflow-hidden">
+          {selectedBook && (
+            <>
+              {/* Cover */}
+              <div className="w-full bg-muted flex items-center justify-center p-6">
+                {selectedBook.cover_image_url ? (
+                  <img
+                    src={selectedBook.cover_image_url}
+                    alt={isBn ? selectedBook.title_bengali : selectedBook.title_english}
+                    className="h-48 w-auto object-contain rounded-md shadow-lg"
+                  />
+                ) : (
+                  <div className="h-48 w-32 flex items-center justify-center rounded-md bg-primary/10">
+                    <BookText className="h-12 w-12 text-primary/40" />
+                  </div>
+                )}
+              </div>
+
+              {/* Details */}
+              <div className="px-5 pb-5 space-y-3">
+                <DialogHeader className="space-y-1">
+                  <DialogTitle className={cn("text-base leading-snug", isBn && "font-bengali")}>
+                    {isBn ? selectedBook.title_bengali : selectedBook.title_english}
+                  </DialogTitle>
+                  {(isBn ? selectedBook.title_english : selectedBook.title_bengali) && (
+                    <p className={cn("text-xs text-muted-foreground", !isBn && "font-bengali")}>
+                      {isBn ? selectedBook.title_english : selectedBook.title_bengali}
+                    </p>
+                  )}
+                </DialogHeader>
+
+                {/* Author */}
+                {(selectedBook.author_english || selectedBook.author_bengali) && (
+                  <p className={cn("text-xs text-muted-foreground", isBn && "font-bengali")}>
+                    {isBn ? selectedBook.author_bengali || selectedBook.author_english : selectedBook.author_english || selectedBook.author_bengali}
+                  </p>
+                )}
+
+                {/* Metadata chips */}
+                <div className="flex items-center gap-2 flex-wrap">
+                  {selectedBook.file_size_mb && (
+                    <Badge variant="secondary" className="text-xs gap-1">
+                      <Download className="h-3 w-3" />
+                      {selectedBook.file_size_mb} MB
+                    </Badge>
+                  )}
+                  {selectedBook.total_pages && (
+                    <Badge variant="secondary" className="text-xs gap-1">
+                      <FileText className="h-3 w-3" />
+                      {selectedBook.total_pages} {isBn ? "পৃষ্ঠা" : "Pages"}
+                    </Badge>
+                  )}
+                </div>
+
+                {/* Description */}
+                {(selectedBook.description_english || selectedBook.description_bengali) && (
+                  <p className={cn("text-xs text-muted-foreground line-clamp-3", isBn && "font-bengali")}>
+                    {isBn ? selectedBook.description_bengali || selectedBook.description_english : selectedBook.description_english || selectedBook.description_bengali}
+                  </p>
+                )}
+
+                {/* Download / Read buttons */}
+                {isBookCached(selectedBook.id) ? (
+                  <Button
+                    className="w-full"
+                    onClick={() => {
+                      navigate(`/read/pdf/${selectedBook.id}`);
+                      setSelectedBook(null);
+                    }}
+                  >
+                    <BookOpen className="h-4 w-4 mr-2" />
+                    {isBn ? "পড়ুন" : "Read"}
+                  </Button>
+                ) : currentDownload?.isDownloading ? (
+                  <div className="space-y-2">
+                    <Progress value={currentDownload.progress} className="h-2" />
+                    <p className="text-xs text-center text-muted-foreground">
+                      {isBn ? "ডাউনলোড হচ্ছে..." : "Downloading..."} {currentDownload.progress}%
+                    </p>
+                  </div>
+                ) : (
+                  <Button
+                    className="w-full"
+                    onClick={() => handleDownload(selectedBook)}
+                  >
+                    <Download className="h-4 w-4 mr-2" />
+                    {isBn ? "ডাউনলোড করুন" : "Download"}
+                  </Button>
+                )}
+              </div>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
