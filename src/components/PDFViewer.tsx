@@ -57,7 +57,9 @@ export const PDFViewer = ({
   }, [controlledPage]);
 
   const containerRef = useRef<HTMLDivElement>(null);
+  const pdfContentRef = useRef<HTMLDivElement>(null);
   const saveTimeoutRef = useRef<NodeJS.Timeout>();
+  const lastPinchDistRef = useRef<number | null>(null);
 
   // Create blob URL
   useEffect(() => {
