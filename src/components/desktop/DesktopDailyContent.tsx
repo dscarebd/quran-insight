@@ -283,7 +283,7 @@ export const DesktopDailyContent = ({ language }: DesktopDailyContentProps) => {
           {/* Translation */}
           <p className={cn(
             "mb-3 sm:mb-4 text-center text-scale-sm text-muted-foreground line-clamp-3",
-            language === "bn" && "font-bengali text-xs sm:text-sm"
+            language === "bn" && "font-bengali text-sm"
           )}>
             {language === "bn" ? hadith.bengali : hadith.english}
           </p>
