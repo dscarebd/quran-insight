@@ -652,7 +652,7 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
         )}
       </div>
 
-      <div className="max-w-6xl mx-auto px-3 sm:px-4 md:px-6 py-4 space-y-4">
+      <div className="max-w-6xl mx-auto px-3 sm:px-4 md:px-6 py-3 space-y-3">
 
         {/* Hijri Date Header */}
         <div className="rounded-2xl bg-gradient-to-r from-primary to-primary/70 p-5 text-primary-foreground">
