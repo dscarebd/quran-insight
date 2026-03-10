@@ -514,7 +514,7 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
   }, [prayerTimes, currentPrayer, language]);
 
   // SVG circular progress
-  const circleRadius = 55;
+  const circleRadius = 62;
   const circumference = 2 * Math.PI * circleRadius;
   const strokeDashoffset = circumference - (countdownProgress / 100) * circumference;
 
@@ -655,26 +655,26 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
       <div className="max-w-6xl mx-auto px-3 sm:px-4 md:px-6 py-3 space-y-3">
 
         {/* Hijri Date Header */}
-        <div className="rounded-2xl bg-gradient-to-r from-primary to-primary/70 p-3.5 text-primary-foreground">
+        <div className="rounded-xl bg-gradient-to-r from-primary to-primary/70 px-4 py-3 text-primary-foreground">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className={cn("text-lg font-bold", language === 'bn' && 'font-bengali')}>
+              <h1 className={cn("text-base font-bold", language === 'bn' && 'font-bengali')}>
                 {hijriDay} {hijriMonthName}
               </h1>
               <p className={cn("text-xs opacity-90", language === 'bn' && 'font-bengali')}>
                 {dayName} - {gregDate}
               </p>
             </div>
-            <div className="flex items-center gap-5">
+            <div className="flex items-center gap-4">
               <div className="text-center">
                 <Sunrise className="w-4 h-4 mx-auto mb-0.5 opacity-80" />
                 <p className="text-sm font-bold">{prayerTimes ? formatTimeShort(prayerTimes.sunrise) : '--:--'}</p>
-                <p className="text-[10px] opacity-70">{language === 'bn' ? 'সূর্যোদয়' : 'Sunrise'}</p>
+                <p className="text-[9px] opacity-70">{language === 'bn' ? 'সূর্যোদয়' : 'Sunrise'}</p>
               </div>
               <div className="text-center">
                 <Sunset className="w-4 h-4 mx-auto mb-0.5 opacity-80" />
                 <p className="text-sm font-bold">{prayerTimes ? formatTimeShort(prayerTimes.maghrib.start) : '--:--'}</p>
-                <p className="text-[10px] opacity-70">{language === 'bn' ? 'সূর্যাস্ত' : 'Sunset'}</p>
+                <p className="text-[9px] opacity-70">{language === 'bn' ? 'সূর্যাস্ত' : 'Sunset'}</p>
               </div>
             </div>
           </div>
@@ -686,29 +686,29 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
           <CardContent className="p-0">
             <div className="grid grid-cols-1 md:grid-cols-2">
               {/* Left: Countdown Circle */}
-              <div className="flex flex-col items-center justify-center p-4 md:p-6 md:border-r border-border">
+              <div className="flex flex-col items-center justify-center p-4 md:p-5 md:border-r border-border">
                 {currentPrayer ? (
                   <>
-                    <h2 className={cn("text-base font-bold text-primary mb-1", language === 'bn' && 'font-bengali')}>
+                    <h2 className={cn("text-sm font-bold text-primary mb-0.5", language === 'bn' && 'font-bengali')}>
                       {language === 'bn' ? currentPrayer.nameBn : currentPrayer.name}
                     </h2>
-                    <p className={cn("text-xs text-muted-foreground mb-4", language === 'bn' && 'font-bengali')}>
+                    <p className={cn("text-[11px] text-muted-foreground mb-3", language === 'bn' && 'font-bengali')}>
                       {language === 'bn' ? 'ওয়াক্ত শেষ হবে' : 'Waqt ends in'}
                     </p>
                   </>
                 ) : nextPrayer ? (
                   <>
-                    <h2 className={cn("text-base font-bold text-primary mb-1", language === 'bn' && 'font-bengali')}>
+                    <h2 className={cn("text-sm font-bold text-primary mb-0.5", language === 'bn' && 'font-bengali')}>
                       {language === 'bn' ? nextPrayer.nameBn : nextPrayer.name}
                     </h2>
-                    <p className={cn("text-xs text-muted-foreground mb-4", language === 'bn' && 'font-bengali')}>
+                    <p className={cn("text-[11px] text-muted-foreground mb-3", language === 'bn' && 'font-bengali')}>
                       {language === 'bn' ? 'পরবর্তী নামাজ' : 'Next Prayer'}
                     </p>
                   </>
                 ) : null}
 
                 {/* Circular Progress - 3D embossed style */}
-                <div className="relative w-40 h-40 mb-3">
+                <div className="relative w-44 h-44 mb-2">
                   {/* Outer glow ring */}
                   <div className="absolute inset-0 rounded-full border-2 border-primary/20" />
                   {/* Inner shadow ring for 3D depth */}
@@ -716,12 +716,12 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
                     className="absolute inset-2 rounded-full bg-card"
                     style={{ boxShadow: 'inset 0 4px 15px hsl(var(--foreground) / 0.15), inset 0 -2px 8px hsl(var(--primary) / 0.1), 0 2px 10px hsl(var(--foreground) / 0.08)' }}
                   />
-                  <svg className="absolute inset-2 w-[calc(100%-16px)] h-[calc(100%-16px)] -rotate-90" viewBox="0 0 130 130">
+                  <svg className="absolute inset-2 w-[calc(100%-16px)] h-[calc(100%-16px)] -rotate-90" viewBox="0 0 144 144">
                     {/* Background track */}
-                    <circle cx="65" cy="65" r={circleRadius} fill="none" stroke="hsl(var(--muted))" strokeWidth="7" strokeOpacity="0.5" />
+                    <circle cx="72" cy="72" r={circleRadius} fill="none" stroke="hsl(var(--muted))" strokeWidth="7" strokeOpacity="0.5" />
                     {/* Progress arc */}
                     <circle
-                      cx="65" cy="65" r={circleRadius}
+                      cx="72" cy="72" r={circleRadius}
                       fill="none"
                       stroke="hsl(var(--primary))"
                       strokeWidth="7"
@@ -748,7 +748,7 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
                   <div key={prayer.key}>
                     <div
                       className={cn(
-                        "flex items-center justify-between px-4 py-2.5 transition-colors",
+                        "flex items-center justify-between px-4 py-3 transition-colors",
                         prayer.isCurrent
                           ? "bg-gradient-to-r from-primary/20 to-primary/10"
                           : "hover:bg-muted/30"
