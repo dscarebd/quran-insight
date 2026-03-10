@@ -748,7 +748,7 @@ const PrayerTimesPage = ({ language }: PrayerTimesProps) => {
                   <div key={prayer.key}>
                     <div
                       className={cn(
-                        "flex items-center justify-between px-5 py-3.5 transition-colors",
+                        "flex items-center justify-between px-4 py-2.5 transition-colors",
                         prayer.isCurrent
                           ? "bg-gradient-to-r from-primary/20 to-primary/10"
                           : "hover:bg-muted/30"
