@@ -1,18 +1,24 @@
 
 
-## Problem
-The indicator dot on the countdown ring is tiny (`rx="6" ry="4"` ellipse) and barely visible, especially when it turns red. The user wants it to be more prominent and visually meaningful.
+## Plan: Reduce Prayer Times Page Content Sizes
 
-## Plan
+The Prayer Times page uses larger paddings, font sizes, and spacing compared to other pages. Here are the specific reductions:
 
-**File: `src/pages/PrayerTimes.tsx` (lines 740-746)**
+**File: `src/pages/PrayerTimes.tsx`**
 
-Replace the small ellipse with a larger, more prominent circle indicator:
+1. **Hijri Date Header** (line 658): Reduce padding `p-5` → `p-3.5`, title `text-2xl` → `text-lg`, sunrise/sunset time `text-lg` → `text-sm`, icon `w-5 h-5` → `w-4 h-4`
 
-1. Change `<ellipse rx="6" ry="4">` to `<circle r="7">` — a proper round dot, bigger and more visible
-2. Add a white inner stroke to give it a "button" look that pops against the track
-3. Increase the glow/shadow intensity so it stands out
-4. Remove the rotation transform (not needed for a circle)
+2. **Countdown Circle** (line 689-742): Reduce circle container `w-52 h-52` → `w-40 h-40`, padding `p-6 md:p-8` → `p-4 md:p-6`, countdown text `text-2xl` → `text-xl`, prayer name heading `text-xl` → `text-base`, margin `mb-6` → `mb-4`
 
-The dot will remain color-aware: green (primary) normally, red (destructive) under 15 minutes.
+3. **SVG circle radius**: Reduce from `70` → `55` (line 517), update viewBox dimensions accordingly
+
+4. **Sehri/Iftar cards** (line 782-805): Reduce `p-4` → `p-3`, time `text-lg` → `text-sm`
+
+5. **Prohibited Times card** (line 811): Already uses `text-sm`, keep as-is
+
+6. **Prayer list rows** (line 751): Reduce `px-5 py-3.5` → `px-4 py-2.5`
+
+7. **Main container** (line 655): Reduce `py-4 space-y-4` → `py-3 space-y-3`
+
+These changes will make the page feel more compact and consistent with the rest of the app.
 
