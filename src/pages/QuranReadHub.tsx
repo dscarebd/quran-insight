@@ -32,7 +32,7 @@ const QuranReadHub = ({ language }: QuranReadHubProps) => {
   const currentDownload = selectedBook ? getDownloadProgress(selectedBook.id) : undefined;
 
   const handleDownload = async (book: PDFBook) => {
-    const success = await downloadBook(book.id, book.pdf_url);
+    const success = await downloadBook(book.id, book.pdf_url, book.file_size_mb);
     if (success) {
       // stays on dialog, now shows "Read" button
     }

@@ -35,7 +35,7 @@ export const useBookDownload = () => {
     loadCachedBooks();
   }, []);
 
-  const downloadBook = useCallback(async (bookId: string, pdfUrl: string): Promise<boolean> => {
+  const downloadBook = useCallback(async (bookId: string, pdfUrl: string, fileSizeMb?: number | null): Promise<boolean> => {
     // Check if already cached
     if (await isPDFCached(bookId)) {
       setCachedBooks(prev => new Set([...prev, bookId]));
@@ -57,7 +57,7 @@ export const useBookDownload = () => {
       }
 
       const contentLength = response.headers.get("content-length");
-      const total = contentLength ? parseInt(contentLength, 10) : 0;
+      const total = contentLength ? parseInt(contentLength, 10) : (fileSizeMb ? Math.round(fileSizeMb * 1024 * 1024) : 0);
 
       if (!response.body) {
         throw new Error("No response body");
@@ -66,6 +66,7 @@ export const useBookDownload = () => {
       const reader = response.body.getReader();
       const chunks: Uint8Array[] = [];
       let loaded = 0;
+      let chunkCount = 0;
 
       while (true) {
         const { done, value } = await reader.read();
@@ -74,15 +75,20 @@ export const useBookDownload = () => {
         
         chunks.push(value);
         loaded += value.length;
+        chunkCount++;
 
+        let progress: number;
         if (total > 0) {
-          const progress = Math.round((loaded / total) * 100);
-          setDownloads(prev => new Map(prev).set(bookId, {
-            bookId,
-            progress,
-            isDownloading: true
-          }));
+          progress = Math.min(Math.round((loaded / total) * 100), 99);
+        } else {
+          // Indeterminate: asymptotically approach 90%
+          progress = Math.min(Math.round(90 * (1 - Math.exp(-chunkCount / 20))), 90);
         }
+        setDownloads(prev => new Map(prev).set(bookId, {
+          bookId,
+          progress,
+          isDownloading: true
+        }));
       }
 
       // Combine chunks into blob
