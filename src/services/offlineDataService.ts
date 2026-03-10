@@ -136,6 +136,18 @@ const openDB = (): Promise<IDBDatabase> => {
         duasStore.createIndex("updated_at", "updated_at", { unique: false });
       }
 
+      // Stories store
+      if (!database.objectStoreNames.contains(STORIES_STORE)) {
+        const storiesStore = database.createObjectStore(STORIES_STORE, { keyPath: "id" });
+        storiesStore.createIndex("category", "category", { unique: false });
+        storiesStore.createIndex("updated_at", "updated_at", { unique: false });
+      }
+
+      // Story categories store
+      if (!database.objectStoreNames.contains(STORY_CATEGORIES_STORE)) {
+        database.createObjectStore(STORY_CATEGORIES_STORE, { keyPath: "id" });
+      }
+
       // Metadata store for sync status
       if (!database.objectStoreNames.contains(META_STORE)) {
         database.createObjectStore(META_STORE, { keyPath: "key" });
