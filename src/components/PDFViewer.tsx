@@ -303,7 +303,7 @@ export const PDFViewer = ({
       </div>
 
       {/* PDF content */}
-      <div className="flex-1 overflow-auto p-4">
+      <div ref={pdfContentRef} className="flex-1 overflow-auto p-4 touch-none"  style={{ touchAction: 'pan-x pan-y' }}>
         <div className="min-w-fit flex justify-center">
         {isLoading && (
           <div className="flex items-center justify-center h-full">
