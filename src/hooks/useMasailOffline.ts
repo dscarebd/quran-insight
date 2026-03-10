@@ -30,6 +30,12 @@ export interface UseMasailOfflineResult {
 const MASAIL_SYNC_KEY = "last-masail-incremental-sync";
 const BUNDLED_MASAIL_DATE = "2026-01-09T06:17:10.826965+00:00"; // Date of bundled data export
 
+const shouldSyncToday = (): boolean => {
+  const last = localStorage.getItem(MASAIL_SYNC_KEY);
+  if (!last) return true;
+  return new Date(last).toDateString() !== new Date().toDateString();
+};
+
 export const useMasailOffline = (): UseMasailOfflineResult => {
   const [masailList, setMasailList] = useState<LocalMasail[]>([]);
   const [loading, setLoading] = useState(true);
