@@ -1,18 +1,28 @@
 
 
 ## Problem
-The indicator dot on the countdown ring is tiny (`rx="6" ry="4"` ellipse) and barely visible, especially when it turns red. The user wants it to be more prominent and visually meaningful.
+The progress bar stays at 0% because the server likely doesn't return a `Content-Length` header (common with Supabase Storage or CORS). The code only updates progress when `total > 0` (line 78), so without that header, progress never updates — it stays at 0% until done, then jumps to the "Read" button.
 
 ## Plan
 
-**File: `src/pages/PrayerTimes.tsx` (lines 740-746)**
+**File: `src/hooks/useBookDownload.ts`**
 
-Replace the small ellipse with a larger, more prominent circle indicator:
+Fix the progress tracking to work even without `Content-Length`:
 
-1. Change `<ellipse rx="6" ry="4">` to `<circle r="7">` — a proper round dot, bigger and more visible
-2. Add a white inner stroke to give it a "button" look that pops against the track
-3. Increase the glow/shadow intensity so it stands out
-4. Remove the rotation transform (not needed for a circle)
+1. When `total === 0` (no Content-Length header), estimate progress using the book's `file_size_mb` from the database (pass it as a parameter)
+2. If neither is available, show an indeterminate state by incrementing progress based on chunks received
+3. Update the `downloadBook` function signature to accept optional `fileSizeMb` parameter
 
-The dot will remain color-aware: green (primary) normally, red (destructive) under 15 minutes.
+**File: `src/pages/QuranReadHub.tsx`**
+
+1. Pass `selectedBook.file_size_mb` to `downloadBook()` so it can estimate progress
+2. When progress is indeterminate (no size info at all), show a pulsing/indeterminate progress bar instead of stuck 0%
+
+**Key change in `useBookDownload.ts`**:
+```text
+downloadBook(bookId, pdfUrl, fileSizeMb?)
+  - total = contentLength || (fileSizeMb * 1024 * 1024) || 0
+  - If total is still 0, use a simple chunk-counter approach
+    that increments progress gradually (never reaching 100% until done)
+```
 
