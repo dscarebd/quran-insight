@@ -57,7 +57,9 @@ export const PDFViewer = ({
   }, [controlledPage]);
 
   const containerRef = useRef<HTMLDivElement>(null);
+  const pdfContentRef = useRef<HTMLDivElement>(null);
   const saveTimeoutRef = useRef<NodeJS.Timeout>();
+  const lastPinchDistRef = useRef<number | null>(null);
 
   // Create blob URL
   useEffect(() => {
@@ -144,7 +146,48 @@ export const PDFViewer = ({
     return () => document.removeEventListener("fullscreenchange", handleFullscreenChange);
   }, []);
 
-  // Keyboard navigation
+  // Pinch-to-zoom
+  useEffect(() => {
+    const el = pdfContentRef.current;
+    if (!el) return;
+
+    const getDistance = (touches: TouchList) => {
+      const dx = touches[0].clientX - touches[1].clientX;
+      const dy = touches[0].clientY - touches[1].clientY;
+      return Math.sqrt(dx * dx + dy * dy);
+    };
+
+    const onTouchStart = (e: TouchEvent) => {
+      if (e.touches.length === 2) {
+        lastPinchDistRef.current = getDistance(e.touches);
+      }
+    };
+
+    const onTouchMove = (e: TouchEvent) => {
+      if (e.touches.length === 2 && lastPinchDistRef.current !== null) {
+        e.preventDefault();
+        const dist = getDistance(e.touches);
+        const delta = dist / lastPinchDistRef.current;
+        setScale(prev => Math.min(Math.max(prev * delta, 0.5), 3));
+        lastPinchDistRef.current = dist;
+      }
+    };
+
+    const onTouchEnd = () => {
+      lastPinchDistRef.current = null;
+    };
+
+    el.addEventListener("touchstart", onTouchStart, { passive: true });
+    el.addEventListener("touchmove", onTouchMove, { passive: false });
+    el.addEventListener("touchend", onTouchEnd, { passive: true });
+    return () => {
+      el.removeEventListener("touchstart", onTouchStart);
+      el.removeEventListener("touchmove", onTouchMove);
+      el.removeEventListener("touchend", onTouchEnd);
+    };
+  }, []);
+
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
@@ -260,7 +303,7 @@ export const PDFViewer = ({
       </div>
 
       {/* PDF content */}
-      <div className="flex-1 overflow-auto p-4">
+      <div ref={pdfContentRef} className="flex-1 overflow-auto p-4 touch-none"  style={{ touchAction: 'pan-x pan-y' }}>
         <div className="min-w-fit flex justify-center">
         {isLoading && (
           <div className="flex items-center justify-center h-full">
